@@ -1,0 +1,195 @@
+<div class="sidenav-container bz" [ngClass]="{ 'sidenav-hided' : isHided }">
+    @if (!isHided) {
+        <div class="sidenav bz ">
+            <div class="logo w-100 d-flex-ct ">
+                <img src="assets/images/logo.png" class="img" alt="" height="42px">
+            </div>
+            <div class="btn-group d-col-sb bz">
+                <div mat-list-item routerLink="/main/overview" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
+                    <div class="bz">
+                        <i class="material-icons">
+                            grid_view
+                        </i>
+                    </div>
+                    <div class="bz title">OVERVIEW</div>
+                </div>
+                <div mat-list-item routerLink="/main/performance" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
+                    <div class="bz">
+                        <i class="material-icons">
+                            speed
+                        </i>
+                    </div>
+                    <div class="bz title">PERFORMANCE</div>
+                </div>
+                <div mat-list-item routerLink="/main/trend" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
+                    <div class="bz">
+                        <i class="material-icons">
+                            signal_cellular_alt
+                        </i>
+                    </div>
+                    <div class="bz title">TRENDS</div>
+                </div>
+                <div mat-list-item routerLink="/main/billing" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
+                    <div class="bz">
+                        <i class="material-icons">
+                            receipt
+                        </i>
+                    </div>
+                    <div class="bz title">BILLINGS</div>
+                </div>
+                <div mat-list-item routerLink="/main/admin" routerLinkActive="active" class="btn-box logout bz" (click)="logOut()">
+                    <div class="bz">
+                        <i class="material-icons">
+                            logout
+                        </i>
+                    </div>
+                </div>
+            </div>
+            <div class="sidenav-search d-col bz">
+                <div class="search-topic w-100">
+                    <div>Plant List</div>
+                </div>
+                <div class="search-box input-group w-100 ">
+                    <input [(ngModel)]="seachText" required="" type="text" name="text" autocomplete="off" class="input bz w-100">
+                    <label class="user-label">SEARCH</label>
+                </div>
+                <div class="w-100 d-col-ed bz card-list" style="padding: 8px;">
+                    <div class="w-100 card bz" 
+                            [ngClass]="{ 'card-active': changeBgColor(item.id) }"
+                            (click)="changeNavState('site', item.id)" 
+                            [id]="item.id" 
+                            *ngFor="let item of zoneList().siteList | filtersite : seachText; index as i; trackBy: siteTrackBy">
+                        <i class="material-icons">factory</i>
+                        <div class="title">{{ 'SITE0' + i + ' : ' + item.name }}</div>
+                    </div>
+                </div>
+                <div class="dropdown-wrapper">
+                    <select class="site-selector" (change)="onSiteChange($event)">
+                        <option>NONE</option>
+                        <option *ngFor="let item of zoneList().siteList | filtersite : seachText; index as i; trackBy: siteTrackBy"
+                                [value]="item.id"
+                                [selected]="changeBgColor(item.id)">
+                            {{ 'SITE0' + i + ' : ' + item.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="copy">
+                © Authorize reserved by SAT Solutions
+            </div>
+        </div>
+    }
+    <div class="content bz" >
+        <div >
+            <div class="topnav d-flex-sb w-100">
+                <div class="d-flex" style="gap: 12px; color: var(--primary-txt); font-weight: 500; margin-left: 12px;"> 
+                     <div style="background-color: var(--secondary-bg-50); padding: 2px 8px; border-radius: 4px;" class="d-flex-ct bz">
+                        <img src="assets/images/client.png" class="img" alt="" height="36px">
+                    </div>
+                     <div>BOON RAWD CENTRAL <br> PV INFORMATION SYSTEM</div>
+                </div>
+                <div class="d-flex" style="gap: 16px;">
+                    <div class="user-logo d-flex-ct" style="margin-right: 24px;" (click)="changTheme()">
+                        @if (mode() === 'dark') {
+                            <i class="material-icons">nightlight</i>
+                        } @else {
+                            <i class="material-icons">light_mode</i>
+                        }
+                    </div>
+                    <div class="d-col-ed h-100">
+                        <div class="n-pm user">{{ user | uppercase}}</div>
+                        <div class="n-pm role">administrator</div>
+                    </div>
+                    <div class="user-logo-wrapper">
+                        <div class="user-logo d-flex-ct n-pm">
+                            <i class="material-icons">person</i>
+                        </div>
+                        <div class="user-tooltip">
+                            <button class="tooltip-btn d-flex-ct" (click)="openSettings()">
+                            <i class="material-icons">settings</i>
+                            SETTINGS
+                            </button>
+                            <button class="tooltip-btn d-flex-ct" (click)="logOut()">
+                            <i class="material-icons">logout</i>
+                            LOGOUT
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="pin d-flex-ct" (click)="toggleNavBarState()">
+                    @if (isHided) {
+                        <i class="material-icons icon">keyboard_double_arrow_right</i>
+                    } @else {
+                        <i class="material-icons icon">keyboard_double_arrow_left</i>
+                    }
+                </div>
+            </div>
+            @switch ((navState$ | async)?.name) {
+                @case ('site') {
+                    <head class="content-header hide d-flex-sb w-100" >
+                        <div class="d-flex h-100 w-100 bz">
+                            <a class="nav-link" routerLink="/main/layout" routerLinkActive="active">
+                                <i class="material-icons">solar_power</i>
+                                <div>OVERVIEW</div>
+                            </a>
+                            <a class="nav-link" routerLink="/main/visual" routerLinkActive="active">
+                                <i class="material-icons">dashboard</i>
+                                <div>DASHBOARD</div>
+                            </a>
+                            <!-- <a class="nav-link" routerLink="/main/dashboard" routerLinkActive="active">DASHBOARD2</a> -->
+                            <a class="nav-link" routerLink="/main/performance3" routerLinkActive="active">
+                                <i class="material-icons">speed</i>
+                                <div>PERFORMANCE</div>
+                            </a>
+                            <!-- <a class="nav-link" routerLink="/main/performance" routerLinkActive="active">PERFORMANCE</a> -->
+                            <a class="nav-link" routerLink="/main/realtime" routerLinkActive="active">
+                                <i class="material-icons">construction</i>
+                                <div>REALTIME</div>
+                            </a>
+                            <a class="nav-link" routerLink="/main/data" routerLinkActive="active">
+                                <i class="material-icons">account_tree</i>
+                                <div>DIAGRAM</div>
+                            </a>
+                            <a class="nav-link hide" routerLink="/main/charts" routerLinkActive="active">
+                                <i class="material-icons">area_chart</i>
+                                <div>CHARTS</div>
+                            </a>
+                            <a class="nav-link hide" routerLink="/main/events" routerLinkActive="active">
+                                <i class="material-icons">notifications_active</i>
+                                <div>EVENTS</div>
+                            </a>
+                            <a class="nav-link" routerLink="/main/reports" routerLinkActive="active">
+                                <i class="material-icons">description</i>
+                                <div>REPORTS</div>
+                            </a>
+                            <a class="nav-link" routerLink="/main/reportadmin" routerLinkActive="active">
+                                <i class="material-icons">description</i>
+                                <div>REPORT ADMIN</div>
+                            </a>
+                        </div>
+                        <div class=" h-100 bz">
+                            <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
+                        </div>
+                    </head>
+                }
+                @case ('zone') {
+                    <head class="content-header hide d-flex-sb w-100" >
+                        <div class="d-flex h-100 w-100 bz">
+                            <a class="nav-link" routerLink="/main/overview" routerLinkActive="active">OVERVIEW</a>
+                            <a class="nav-link" routerLink="/main/performance" routerLinkActive="active">PERFORMANCE</a>
+                            <a class="nav-link" routerLink="/main/trend" routerLinkActive="active">TRENDS</a>
+                            <a class="nav-link" routerLink="/main/billing" routerLinkActive="active">BILLINGS</a>
+                            <a class="nav-link" routerLink="/main/admin" routerLinkActive="active">BILLING ADMIN</a>
+                        </div>
+                        <div class=" h-100 bz">
+                            <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
+                        </div>
+                    </head>
+                }
+            }
+        </div>
+        <div class="content-box bz no-pm w-100">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

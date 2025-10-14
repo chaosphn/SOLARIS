@@ -1,0 +1,122 @@
+:host ::ng-deep {
+    .p-datepicker {
+        z-index: 9999 !important;
+    }
+
+    /* Input field inside the p-datepicker input wrapper */
+    .p-inputtext {
+        background-color: var(--primary-bg);
+        color: var(--primary-txt);
+        border-color: var(--border-color);
+    }
+
+    .p-inputtext::placeholder {
+        color: var(--secondary-txt);
+    }
+
+    .p-inputtext:enabled:hover {
+        border-color: var(--highlight);
+    }
+
+    .p-inputtext:enabled:focus {
+        border-color: var(--highlight);
+        box-shadow: 0 0 0 1px var(--highlight);
+    }
+
+    /* Overlay panel */
+    .p-datepicker {
+        background: var(--card-bg);
+        color: var(--primary-txt);
+        //border: 1px solid var(--border-color);
+    }
+
+    .p-datepicker .p-datepicker-header {
+        background: var(--primary-bg);
+        color: var(--primary-txt);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .p-datepicker .p-datepicker-prev,
+    .p-datepicker .p-datepicker-next {
+        color: var(--primary-txt);
+    }
+
+    .p-datepicker .p-datepicker-prev:hover,
+    .p-datepicker .p-datepicker-next:hover {
+        color: var(--highlight);
+    }
+
+    .p-datepicker .p-datepicker-title .p-datepicker-month,
+    .p-datepicker .p-datepicker-title .p-datepicker-year {
+        color: var(--primary-txt);
+    }
+
+    /* Calendar table */
+    .p-datepicker table {
+        color: var(--primary-txt);
+    }
+
+    .p-datepicker .p-datepicker-calendar th {
+        color: var(--secondary-txt);
+        border: 0;
+        background: transparent;
+    }
+
+    .p-datepicker .p-datepicker-calendar td {
+        border: 0;
+    }
+
+    .p-datepicker .p-datepicker-calendar td > span {
+        background: transparent;
+        color: var(--primary-txt);
+        border-radius: 6px;
+    }
+
+    .p-datepicker .p-datepicker-calendar td > span:hover {
+        background: var(--secondary-bg-50);
+    }
+
+    .p-datepicker .p-datepicker-calendar td.p-highlight > span {
+        background: var(--active-txt);
+        color: #000;
+    }
+
+    .p-datepicker .p-datepicker-calendar td.p-datepicker-today > span {
+        box-shadow: inset 0 0 0 1px var(--highlight);
+    }
+
+    /* Time picker section for showTime */
+    .p-timepicker {
+        border-top: 1px solid var(--border-color);
+        background: var(--primary-bg);
+    }
+
+    .p-timepicker button {
+        color: var(--primary-txt);
+    }
+
+    .p-timepicker button:hover {
+        color: var(--highlight);
+    }
+
+    .p-timepicker span {
+        color: var(--primary-txt);
+        background: transparent;
+    }
+
+    /* Footer/button bar */
+    .p-datepicker .p-datepicker-buttonbar {
+        border-top: 1px solid var(--border-color);
+        background: var(--primary-bg);
+    }
+
+    .p-datepicker .p-button {
+        background: var(--secondary-bg);
+        border-color: var(--border-color);
+        color: var(--primary-txt);
+    }
+
+    .p-datepicker .p-button:hover {
+        filter: brightness(1.05);
+    }
+}

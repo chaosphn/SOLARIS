@@ -1,0 +1,71 @@
+
+body {
+
+    --mdc-filled-text-field-container-color: #272B31;
+    --mat-datepicker-calendar-body-label-text-color: #bcd;
+    --mat-datepicker-calendar-period-button-icon-color: #bcd;
+    --mat-datepicker-calendar-navigation-button-icon-color: #bcd;
+    --mat-datepicker-calendar-header-divider-color: rgba(0, 0, 0, 0.12);
+    --mat-datepicker-calendar-header-text-color: #bcd;
+    --mat-datepicker-calendar-date-today-outline-color: rgba(0, 0, 0, 0.38);
+    --mat-datepicker-calendar-date-today-disabled-state-outline-color: rgba(0, 0, 0, 0.18);
+    --mat-datepicker-calendar-date-text-color: rgba(0, 0, 0, 0.87);
+    --mat-datepicker-calendar-date-outline-color: transparent;
+    --mat-datepicker-calendar-date-disabled-state-text-color: rgba(0, 0, 0, 0.38);
+    --mat-datepicker-calendar-date-preview-state-outline-color: rgba(0, 0, 0, 0.24);
+    --mat-datepicker-range-input-separator-color: rgba(0, 0, 0, 0.87);
+    --mat-datepicker-range-input-disabled-state-separator-color: rgba(0, 0, 0, 0.38);
+    --mat-datepicker-range-input-disabled-state-text-color: rgba(0, 0, 0, 0.38);
+    --mat-datepicker-calendar-container-background-color: white;
+    --mat-datepicker-calendar-container-text-color: rgba(0, 0, 0, 0.87);
+    --mat-datepicker-toggle-icon-color: #bcd;
+    --mat-optgroup-label-text-color: rgba(255, 0, 0, 0.87);
+    --mdc-filled-text-field-caret-color: #673ab7;
+    --mdc-filled-text-field-focus-active-indicator-color: #2e333900;
+    --mdc-filled-text-field-focus-label-text-color: #bcd;
+    //--mdc-filled-text-field-container-color: whitesmoke;
+    --mdc-filled-text-field-disabled-container-color: #bcd;
+    --mdc-filled-text-field-label-text-color: #bcd;
+    --mdc-filled-text-field-disabled-label-text-color: rgba(0, 0, 0, 0.38);
+    --mdc-filled-text-field-input-text-color: #bcd;
+    --mdc-filled-text-field-disabled-input-text-color: rgba(0, 0, 0, 0.38);
+    --mdc-filled-text-field-input-text-placeholder-color: rgba(0, 0, 0, 0.6);
+    --mdc-filled-text-field-active-indicator-color: rgba(0, 0, 0, 0.42);
+    --mdc-filled-text-field-disabled-active-indicator-color: rgba(0, 0, 0, 0.06);
+    --mdc-filled-text-field-hover-active-indicator-color: rgba(0, 0, 0, 0.1);
+    --mdc-outlined-text-field-caret-color: #b75d3a;
+    --mdc-outlined-text-field-focus-outline-color: #b73a3a;
+    --mdc-outlined-text-field-focus-label-text-color: rgba(103, 58, 183, 0.87);
+    --mdc-outlined-text-field-label-text-color: rgba(0, 0, 0, 0.6);
+    --mdc-outlined-text-field-disabled-label-text-color: rgba(0, 0, 0, 0.38);
+    --mdc-outlined-text-field-input-text-color: rgba(0, 0, 0, 0.87);
+    --mdc-outlined-text-field-disabled-input-text-color: rgba(0, 0, 0, 0.38);
+    --mdc-outlined-text-field-input-text-placeholder-color: rgba(0, 0, 0, 0.6);
+    --mdc-outlined-text-field-outline-color: rgba(0, 0, 0, 0.38);
+    --mdc-outlined-text-field-disabled-outline-color: rgba(0, 0, 0, 0.06);
+    --mdc-outlined-text-field-hover-outline-color: rgba(255, 0, 0, 0.87);
+    --mat-form-field-disabled-input-text-placeholder-color: rgba(0, 0, 0, 0.38);
+    --mdc-filled-text-field-container-shape: 4px;
+    --mat-form-field-container-height: 56px;
+    //--mat-form-field-filled-with-label-container-padding-top: 24px 
+    //--mat-form-field-filled-with-label-container-padding-bottom: 8px;
+    --mdc-filled-text-field-label-text-size: 15px;
+    --mat-select-trigger-text-size: 14px;
+    .mat-mdc-form-field-focus-overlay{
+        height: 56px;
+    }
+    
+    --mat-select-panel-background-color: #272B31;
+    --mat-select-enabled-trigger-text-color: #bcd;
+    --mat-select-disabled-trigger-text-color: #bcd;
+    --mat-select-placeholder-text-color: #bcd;
+    --mat-select-enabled-arrow-color: #bcd;
+    --mat-select-disabled-arrow-color: #bcd;
+    --mat-select-focused-arrow-color: #bcd;
+    --mat-option-selected-state-label-text-color: #bcd;
+    --mat-option-label-text-color: #bcd;
+    --mdc-filled-text-field-label-text-weight: 200;
+    --mat-select-trigger-text-weight: 200;
+    --mdc-filled-text-field-active-indicator-color: #272B31;
+}
+/* You can add global styles to this file, and also import other style files */

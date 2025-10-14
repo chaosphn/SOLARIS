@@ -1,0 +1,50 @@
+<div class="h-100 bz" [style.scale]="scale" [style.translate]=" ((1-scale)*100) + 'px 0'">
+    @switch (type) {
+        @case ('datetime') {
+            <p-datepicker
+                [(ngModel)]="selectedDate" 
+                (onSelect)="onDateSelect($event)"
+                [iconDisplay]="'input'" 
+                [showIcon]="true" 
+                size="small"
+                inputId="icondisplay" 
+                [hourFormat]="'24'" 
+                [showTime]="true"
+                dateFormat="dd/mm/yy"
+            ></p-datepicker>
+        }
+        @case ('month') {
+            <p-datepicker
+                [(ngModel)]="selectedDate" 
+                (onSelect)="onDateSelect($event)"
+                [iconDisplay]="'input'" 
+                [showIcon]="true" 
+                size="small"
+                inputId="icondisplay" 
+                view="month" dateFormat="mm/yy"
+            ></p-datepicker>
+        }
+        @case ('year') {
+            <p-datepicker
+                [(ngModel)]="selectedDate" 
+                (onSelect)="onDateSelect($event)"
+                [iconDisplay]="'input'" 
+                [showIcon]="true" 
+                size="small"
+                inputId="icondisplay" 
+                view="year" dateFormat="yy"
+            ></p-datepicker>
+        }
+        @default {
+            <p-datepicker
+                [(ngModel)]="selectedDate" 
+                (onSelect)="onDateSelect($event)"
+                [iconDisplay]="'input'" 
+                [showIcon]="true" 
+                size="small"
+                inputId="icondisplay" 
+                dateFormat="dd/mm/yy"
+            ></p-datepicker>
+        }
+    }
+</div>

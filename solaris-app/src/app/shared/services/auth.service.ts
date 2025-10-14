@@ -1,0 +1,63 @@
+import { inject, Injectable } from '@angular/core';
+import { HttpService } from './http.service';
+import { Router } from '@angular/router';
+import { AuthRespondModel } from '../models/auth.model';
+
+@Injectable({ providedIn: 'root' })
+export class AuthService {
+    private http = inject(HttpService);
+    private router = inject(Router);
+    private tokenKey = 'token';
+
+    isLoggedIn(): boolean {
+        return !!localStorage.getItem(this.tokenKey);
+    }
+
+    getToken(): string | null {
+        return localStorage.getItem(this.tokenKey);
+    }
+
+    async login(username: string, password: string) {
+        try {
+            const result: AuthRespondModel = await this.http.authentication(username, password);
+            if(result && result.Access.Token){
+                localStorage.setItem('token', result.Access.Token);
+                localStorage.setItem('refreshtoken', result?.Access?.RefreshToken??'');
+                localStorage.setItem('role', result?.Access?.Role??'');
+                localStorage.setItem('user', username);
+                let pageAccess = result.Access.Pages.map(x => {
+                    const key = Object.keys(x)[0];
+                    return x[key] ? key : null;
+                }).filter(x => x!=null);
+                localStorage.setItem('pages', JSON.stringify(pageAccess));
+                let siteList = result.Access.Sites??[];
+                localStorage.setItem('sites', JSON.stringify(siteList));
+                return {
+                    success: true,
+                    message: 'login success !'
+                }
+            } else {
+                return {
+                    success: false,
+                    message: 'username or password is incorrect !'
+                }
+            }
+        } catch (error: any) {
+            return {
+                success: false,
+                message: error?.message
+            }
+        }
+    }
+
+    logout() {
+        localStorage.clear();
+        this.router.navigate(['login']);
+    }
+
+    hasRole(role: string): boolean {
+        // ตัวอย่าง mock role
+        const userRoles = ['admin', 'user'];
+        return userRoles.includes(role);
+    }
+}
