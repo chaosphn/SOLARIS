@@ -16,5 +16,35 @@
 
   --color-gd1: #E4B61A;
   --color-gd2: #dfce61;
+
+  --header-bg1: #292B2F;
+  --header-bg2: #292B2F;
+  --header-txt: #F5F7FB;
   
+  --map-active: #FBE134;
+  --map-hover: #667079;
+  --map-bg: #2F363E;
+  --map-txt: #BBCCDD;
+}
+
+/* Tooltip theming for dark mode */
+.mat-tooltip {
+  background: var(--primary-bg);
+  color: var(--primary-txt);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  padding: 6px 10px;
+  font-size: 12px;
+  letter-spacing: .2px;
+}
+
+/* MDC-based tooltip (Angular Material v15+) */
+.mdc-tooltip .mdc-tooltip__surface {
+  background: var(--primary-bg);
+  color: var(--primary-txt);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  padding: 6px 10px;
+  font-size: 12px;
+  letter-spacing: .2px;
 }

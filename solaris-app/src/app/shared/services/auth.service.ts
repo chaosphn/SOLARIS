@@ -17,6 +17,22 @@ export class AuthService {
         return localStorage.getItem(this.tokenKey);
     }
 
+    getUser(): string | null {
+        return localStorage.getItem('user');
+    }
+
+    getRole(): string | null {
+        return localStorage.getItem('role');
+    }
+
+    getSites(): string[] | null {
+        return localStorage.getItem('sites') ? JSON.parse(localStorage.getItem('sites') || '[]') : [];
+    }
+
+    getPages(): string[] | null {
+        return localStorage.getItem('pages') ? JSON.parse(localStorage.getItem('pages') || '[]') : [];
+    }
+
     async login(username: string, password: string) {
         try {
             const result: AuthRespondModel = await this.http.authentication(username, password);
@@ -27,7 +43,7 @@ export class AuthService {
                 localStorage.setItem('user', username);
                 let pageAccess = result.Access.Pages.map(x => {
                     const key = Object.keys(x)[0];
-                    return x[key] ? key : null;
+                    return x[key] ? key.toLowerCase() : null;
                 }).filter(x => x!=null);
                 localStorage.setItem('pages', JSON.stringify(pageAccess));
                 let siteList = result.Access.Sites??[];

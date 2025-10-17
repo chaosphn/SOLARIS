@@ -51,9 +51,20 @@
         color: var(--primary-txt);
     }
 
+    .p-datepicker-calendar{
+        background-color: var(--primary-bg);
+        z-index: 9999 !important;
+    }
+
+    .p-datepicker-panel{
+        z-index: 9999 !important;
+        background-color: var(--primary-bg);
+    }
+
     /* Calendar table */
     .p-datepicker table {
         color: var(--primary-txt);
+        background-color: var(--primary-bg);
     }
 
     .p-datepicker .p-datepicker-calendar th {

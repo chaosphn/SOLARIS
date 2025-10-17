@@ -11,7 +11,7 @@ export class AppInitService {
     Timer: 60,
   };
 
-  defaultRoute: string = '/main';
+  defaultRoute: string = '/main/overview';
   
   constructor(private http: HttpClient) {}
   

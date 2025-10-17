@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { SiteModel, SiteStateModel, ZoneModel } from '../../../shared/models/config.model';
-import { NavbarStateModel } from '../../../shared/models/navigate.model';
+import { DateStateModel, NavbarStateModel } from '../../../shared/models/navigate.model';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../../../shared/services/auth.service';
 import { HttpService } from '../../../shared/services/http.service';
@@ -12,6 +12,8 @@ import { getNavState, getLastLocation } from '../../../store/selectors/nav.selec
 import { addState } from '../../../store/actions/nav.actions';
 import { setSite } from '../../../store/actions/site.actions';
 import { ThemeService } from '../../../shared/services/theme.service';
+import { getDateState } from '../../../store/selectors/date.selectors';
+import { setDate, setDateEnable } from '../../../store/actions/date.actions';
 
 @Component({
   selector: 'app-navbar',
@@ -21,6 +23,7 @@ import { ThemeService } from '../../../shared/services/theme.service';
 })
 export class Navbar implements OnInit {
   navState$: Observable<NavbarStateModel>;
+  dateState$: Observable<DateStateModel>;
 
   siteConfig = signal<SiteStateModel>({ name: '', number: 0, capacity: '', zoneList: [] });
   zoneList = signal<ZoneModel>({ title: '', number: 0, capacity: '', display: '', siteList: [] }); 
@@ -35,6 +38,8 @@ export class Navbar implements OnInit {
   timers: number = 10;
   mode = signal<'dark' | 'light'>('dark');
   date: Date = new Date();
+  enableDate: boolean = false;
+  enableSite: string[] = [];
 
   private auth =  inject(AuthService);
   private http =  inject(HttpService);
@@ -45,6 +50,11 @@ export class Navbar implements OnInit {
 
   constructor(){
     this.navState$ = this.store.select(getNavState);
+    this.dateState$ = this.store.select(getDateState);
+    this.dateState$.subscribe(state => {
+      this.date = state.date;
+      this.enableDate = state.enable;
+    });
     this.navState$.subscribe(state => {
       //console.log(state)
       this.currentNavState.set(state);
@@ -56,6 +66,13 @@ export class Navbar implements OnInit {
 
   ngOnInit(): void {
     this.user = localStorage.getItem('user') || '---';
+    const theme = localStorage.getItem('theme');
+    if(theme){
+      this.mode.set(theme as 'dark' | 'light');
+      this.theme.setTheme(this.mode() as 'dark' | 'light');
+    } else {
+      this.mode.set('dark');
+    }
     this.getSiteConfig();
   }
 
@@ -229,6 +246,7 @@ export class Navbar implements OnInit {
 
   onDateSelect(event: any) {
     this.date = event;
+    this.store.dispatch(setDate({ payload: this.date }));
   }
 
 }

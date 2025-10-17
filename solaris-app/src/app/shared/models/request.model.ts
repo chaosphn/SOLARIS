@@ -9,6 +9,29 @@ export interface RequestHistorianModel{
     Options: Option;
 }
 
+export interface RequestAtTimeModel{
+    Tags: string[];
+    TimeStamp: string;
+}
+
+export interface GroupRequestRealtimeModel{
+    Group: string;
+    Order: number;
+    Request: RequestRealtimeModel;
+}
+
+export interface GroupRequestAtTimeModel{
+    Group: string;
+    Order: number;
+    Request: RequestAtTimeModel[];
+}
+
+export interface GroupRequestHistorianModel{
+    Group: string;
+    Order: number;
+    Request: RequestHistorianModel[];
+}
+
 export interface RequestRealtime2Model{
    [name: string]: RequestRealtimeModel;
 }

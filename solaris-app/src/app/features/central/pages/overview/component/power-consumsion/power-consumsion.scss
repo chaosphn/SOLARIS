@@ -1,0 +1,37 @@
+.container{
+    row-gap: 16px;
+}
+
+.infomation{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+.box{
+    color: var(--secondary-txt);
+    font-weight: 500;
+    row-gap: 4px;
+    .title{
+        font-size: 12px;
+    }
+    .value{
+        color: var(--primary-txt);
+        font-size: 18px;
+    }
+    .unit{
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 1700px) {
+   
+}
+
+@media (max-width: 1200px) {
+   
+}
+
+@media (max-width: 768px) {
+    
+}

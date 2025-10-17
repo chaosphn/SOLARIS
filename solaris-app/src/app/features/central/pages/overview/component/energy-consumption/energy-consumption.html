@@ -1,0 +1,45 @@
+<div class="card-box w-100 h-100 bz" style="gap: 16px;">
+    <div class="chart-box w-100 bz">
+        @if (chartData()) {
+            <app-highchart [chartParameter]="chartData()"></app-highchart>
+        }
+    </div>
+    <div class="info-box w-100 bz">
+        <div class="info-item w-100">
+            <div class="label">TODAY PRODUCTION:</div>
+            <div class="value" [matTooltip]="getTooltip(today())" matTooltipPosition="above">
+                {{ today()?.Value?.toFixed(0)??'---' }}
+            </div>
+            <div class="unit">
+                {{ today()?.Unit??'---' }}
+            </div>
+        </div>
+        <div class="info-item w-100">
+            <div class="label">THIS MONTH:</div>
+            <div class="value " [matTooltip]="getTooltip(month())" matTooltipPosition="above">
+                {{ month()?.Value?.toFixed(0)??'---' }}
+            </div>
+            <div class="unit">
+                {{ month()?.Unit??'---' }}
+            </div>
+        </div>
+        <div class="info-item w-100">
+            <div class="label">THIS YEAR:</div>
+            <div class="value " [matTooltip]="getTooltip(year())" matTooltipPosition="above">
+                {{ year()?.Value?.toFixed(0)??'---' }}
+            </div>
+            <div class="unit ">
+                {{ year()?.Unit??'---' }}
+            </div>
+        </div>
+        <div class="info-item w-100">
+            <div class="label">LIFETIME:</div>
+            <div class="value " [matTooltip]="getTooltip(total())" matTooltipPosition="above">
+                {{ total()?.Value?.toFixed(0)??'---' }}
+            </div>
+            <div class="unit ">
+                {{ total()?.Unit??'---' }}
+            </div>
+        </div>
+    </div>
+</div>

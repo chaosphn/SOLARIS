@@ -1,0 +1,12 @@
+<div class="w-100 h-100 horizontal-content" [ngClass]="{'vertical-content': vertical}">
+    <div [chart]="chart" class="w-100 chart bz"></div>
+    <div class="status-list w-100 h-100 bz">
+        @for (status of statusData; track $index) {
+            <div class="status-item">
+                <span class="status-label">{{ status.label }}</span>
+                <span class="status-count" [style.color]="status.color">{{ status.count }}</span>
+                <span class="status-sites">Sites</span>
+            </div>
+        }
+    </div>
+</div>

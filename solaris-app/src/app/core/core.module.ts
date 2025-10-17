@@ -1,5 +1,5 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,6 +9,8 @@ import { NotFound } from './components/not-found/not-found';
 import { MaterialModule } from './module/material-module';
 import { AppStateModule } from '../store/app.state';
 import { ShareModule } from '../shared/shared.module';
+import { errorInterceptor } from './interceptors/error.interceptor';
+import { tokenInterceptor } from './interceptors/token.interceptor';
 
 
 
@@ -30,7 +32,9 @@ import { ShareModule } from '../shared/shared.module';
     providers: [
         DatePipe,
         DecimalPipe,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(
+          withInterceptors([tokenInterceptor, errorInterceptor])
+        ),
     ]
 })
 export class CoreModule {

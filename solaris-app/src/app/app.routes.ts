@@ -3,6 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NotFound } from './core/components/not-found/not-found';
 import { Login } from './core/components/login/login';
 import { Navbar } from './core/components/navbar/navbar';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
     {
@@ -28,22 +29,27 @@ export const routes: Routes = [
             },
             {
                 path: 'performance',
+                canActivate: [authGuard],
                 loadChildren: () => import('./features/central/pages/performance/performance-module').then(m => m.PerformanceModule)
             },
             {
                 path: 'trend',
+                canActivate: [authGuard],
                 loadChildren: () => import('./features/central/pages/trend/trend-module').then(m => m.TrendModule)
             },
             {
                 path: 'billing',
+                canActivate: [authGuard],
                 loadChildren: () => import('./features/central/pages/billing/billing-module').then(m => m.BillingModule)
             },
             {
                 path: 'admin',
+                canActivate: [authGuard],
                 loadChildren: () => import('./features/central/pages/admin/admin-module').then(m => m.AdminModule)
             },
             {
                 path: 'setting',
+                canActivate: [authGuard],
                 loadChildren: () => import('./features/central/pages/setting/setting-module').then(m => m.SettingModule)
             },
         ]

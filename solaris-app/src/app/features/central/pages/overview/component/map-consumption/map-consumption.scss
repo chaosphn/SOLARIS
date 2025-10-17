@@ -1,0 +1,243 @@
+.map-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-height: calc(100vh - 180px);
+    position: relative;
+}
+
+.map-svg{
+    max-height: 100%;
+    /* Typography tuning for SVG labels */
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    text{
+        font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-weight: 500;
+        font-size: 9.5px; /* slightly larger for readability */
+        letter-spacing: .2px;
+        fill: var(--map-txt);
+    }
+
+    /* Emphasize KPI numbers/units */
+    g[id*="Production"] text,
+    g[id*="power"] text{
+        fill: var(--map-txt);
+        font-weight: 600;
+    }
+
+    /* Region headers */
+    g[id*="PLANT"] text,
+    g[id*="PLANT:"] text{
+        fill: var(--map-txt);
+        font-weight: 600;
+        letter-spacing: .3px;
+    }
+}
+
+.half-map{
+    max-height: 100%;
+}
+
+.close-btn{
+    cursor: pointer;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary-txt);
+    background-color: var(--primary-bg);
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    .material-icons{
+        font-size: 16px;
+    }
+}
+
+.close-btn:hover{
+    background-color: var(--secondary-bg);
+}
+
+.map-detail{
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    height: 250px;
+    z-index: 50;
+}
+
+/* HTML detail panel (replaces previous SVG) */
+.detail-panel{
+    width: 100%;
+    background: var(--main-bg);
+    backdrop-filter: blur(4px);
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 24px rgba(0,0,0,.35);
+    padding: 10px 12px 12px 12px;
+}
+
+.panel-header{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    .accent-bar{
+        width: 3px;
+        height: 19px;
+        background: var(--highlight);
+        border-radius: 2px;
+    }
+    .title{
+        color: var(--primary-txt);
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: .2px;
+    }
+}
+
+.table{
+    display: grid;
+    grid-template-rows: auto 1fr;
+    background: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.thead, .tr{
+    display: grid;
+    grid-template-columns: 40px 140px 100px 80px 80px 80px 80px 80px 80px 80px 80px;
+    justify-items: center;
+    column-gap: 4px;
+    align-items: center;
+}
+
+.thead{
+    background: var(--card-bg);
+    color: var(--map-txt);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 10px 12px;
+    text-align: center;
+    .sub{
+        font-size: 8px;
+        margin-left: 4px;
+        opacity: .85;
+    }
+}
+
+.tbody{
+    display: flex;
+    flex-direction: column;
+    max-height: 170px;
+    overflow: auto;
+    text-align: center;
+}
+
+.tr{
+    color: var(--map-txt);
+    font-size: 11px;
+    padding: 8px 12px;
+    background: var(--card-bg);
+    border-top: 1px solid var(--border-color);
+}
+
+.tr:nth-child(even){
+    background: var(--secondary-bg-50);
+}
+
+.td{ white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.th-ind{
+    display: flex; align-items: center; gap: 8px;
+    .dot{ width: 10px; height: 10px; border-radius: 50%; background: var(--color-gd1); display: inline-block; }
+}
+
+@keyframes dash {
+    from {
+        stroke-dashoffset: 520;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes mapFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes regionFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Map group animation */
+#map {
+    animation: mapFadeIn 0.8s ease-in-out backwards;
+    animation-delay: 0.4s;
+}
+
+
+.tooltip {
+    //fill: none;
+    //stroke: url(#gradient);
+    //stroke-width: 5;
+    stroke-linecap: round;
+    transform-origin: 50% 50%;
+    stroke-dasharray: 520;
+    //stroke-dashoffset: calc(140 + 96);
+    animation: dash 2s ease-out forwards;
+}
+
+.chart-box{
+    min-height: 500px;
+}
+
+@media (max-width: 1700px) {
+    .map{
+        width: 300px;
+        overflow: visible;
+    }
+}
+
+
+@media (max-width: 1500px) {
+    .map{
+        width: 250px;
+        overflow: visible;
+    }
+}
+
+@media (max-width: 1200px) {
+    .map-detail{
+        position: absolute;
+        bottom: 40px;
+        left: 0;
+        height: 250px;
+        z-index: 50;
+    }
+}
+
+@media (max-width: 768px) {
+    
+}

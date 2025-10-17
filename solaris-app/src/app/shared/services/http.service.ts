@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AppInitService } from './app-init.service';
 import { Router } from '@angular/router';
-import { RequestHistorianModel, RequestRealtimeModel } from '../models/request.model';
+import { RequestAtTimeModel, RequestHistorianModel, RequestRealtimeModel } from '../models/request.model';
 import { firstValueFrom, map } from 'rxjs';
 import { AuthRespondModel } from '../models/auth.model';
 
@@ -17,6 +17,16 @@ export class HttpService {
 
 
     getRealtime(requests: RequestRealtimeModel) {
+        const body = requests;
+        return this.httpClient.post( this.appLoadService.config.UrlApi + 'getrealtime', body).pipe(
+            map((x: any) => {
+                
+                return x;
+            })
+        ).toPromise();
+    }
+
+    getAtTime(requests: RequestAtTimeModel[]) {
         const body = requests;
         return this.httpClient.post( this.appLoadService.config.UrlApi + 'getrealtime', body).pipe(
             map((x: any) => {

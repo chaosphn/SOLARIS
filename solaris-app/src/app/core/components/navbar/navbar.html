@@ -82,9 +82,9 @@
     <div class="content bz" >
         <div >
             <div class="topnav d-flex-sb w-100">
-                <div class="d-flex" style="gap: 12px; color: var(--primary-txt); font-weight: 500; margin-left: 12px;"> 
-                     <div style="background-color: var(--secondary-bg-50); padding: 2px 8px; border-radius: 4px;" class="d-flex-ct bz">
-                        <img src="assets/images/client.png" class="img" alt="" height="36px">
+                <div class="d-flex title"> 
+                     <div style="background-color: var(--secondary-bg-50); padding: 4px 8px; border-radius: 4px;" class="d-flex-ct bz">
+                        <img src="assets/images/client.png" class="img" alt="" height="32px">
                     </div>
                      <div>BOON RAWD CENTRAL <br> PV INFORMATION SYSTEM</div>
                 </div>
@@ -167,9 +167,11 @@
                                 <div>REPORT ADMIN</div>
                             </a>
                         </div>
-                        <div class=" h-100 bz">
-                            <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
-                        </div>
+                        @if (enableDate) {
+                            <div class=" h-100 bz">
+                                <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
+                            </div>
+                        } 
                     </head>
                 }
                 @case ('zone') {
@@ -181,9 +183,11 @@
                             <a class="nav-link" routerLink="/main/billing" routerLinkActive="active">BILLINGS</a>
                             <a class="nav-link" routerLink="/main/admin" routerLinkActive="active">BILLING ADMIN</a>
                         </div>
-                        <div class=" h-100 bz">
-                            <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
-                        </div>
+                        @if (enableDate) {
+                            <div class=" h-100 bz">
+                                <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
+                            </div>
+                        }
                     </head>
                 }
             }

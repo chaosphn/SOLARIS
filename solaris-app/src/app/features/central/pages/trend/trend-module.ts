@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { TrendRoutingModule } from './trend-routing-module';
 import { Trend } from './trend';
+import { ShareModule } from '../../../../shared/shared.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { Trend } from './trend';
   ],
   imports: [
     CommonModule,
-    TrendRoutingModule
+    TrendRoutingModule,
+    ShareModule
   ]
 })
 export class TrendModule { }

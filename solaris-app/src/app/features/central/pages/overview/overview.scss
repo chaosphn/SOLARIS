@@ -1,0 +1,118 @@
+.container{
+    padding: 16px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(11, 1fr);
+    grid-template-areas: 
+        "powerCard layoutCard layoutCard statusCard"
+        "powerCard layoutCard layoutCard statusCard"
+        "powerCard layoutCard layoutCard statusCard"
+        "powerCard layoutCard layoutCard produceCard"
+        "energyCard layoutCard layoutCard produceCard"
+        "energyCard layoutCard layoutCard produceCard"
+        "energyCard layoutCard layoutCard produceCard"
+        "energyCard layoutCard layoutCard sitesCard" 
+        "environmentCard layoutCard layoutCard sitesCard"
+        "environmentCard layoutCard layoutCard sitesCard"
+        "environmentCard layoutCard layoutCard sitesCard"
+    ;
+    grid-gap: 16px; 
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.powerCard { grid-area: powerCard; }
+.energyCard { grid-area: energyCard; }
+.environmentCard { grid-area: environmentCard; }
+.statusCard { grid-area: statusCard; }
+.produceCard { grid-area: produceCard; }
+.sitesCard { grid-area: sitesCard; }
+.layoutCard { grid-area: layoutCard; }
+
+.site-card{
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    .content{
+        flex: 1;
+        width: 10px;
+    }
+}
+
+/* Tablet and smaller screens */
+@media (max-width: 1200px) {
+    .container {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(18, auto);
+        grid-template-areas: 
+            "powerCard powerCard statusCard statusCard"
+            "powerCard powerCard environmentCard environmentCard"
+            "powerCard powerCard environmentCard environmentCard"
+            "powerCard powerCard environmentCard environmentCard"
+            "layoutCard layoutCard layoutCard layoutCard"
+            "layoutCard layoutCard layoutCard layoutCard"
+            "layoutCard layoutCard layoutCard layoutCard"
+            "layoutCard layoutCard layoutCard layoutCard"
+            "layoutCard layoutCard layoutCard layoutCard"
+            "layoutCard layoutCard layoutCard layoutCard"
+            "layoutCard layoutCard layoutCard layoutCard"
+            "layoutCard layoutCard layoutCard layoutCard"
+            "energyCard energyCard produceCard produceCard"
+            "energyCard energyCard produceCard produceCard"
+            "energyCard energyCard produceCard produceCard"
+            "energyCard energyCard produceCard produceCard"
+            "sitesCard sitesCard sitesCard sitesCard"
+            "sitesCard sitesCard sitesCard sitesCard"
+        ;
+        padding: 12px;
+        grid-gap: 12px;
+        height: 100%;
+        max-height: 92vh;
+        overflow-y: auto;
+    }
+    .powerCard { grid-area: powerCard; }
+    .energyCard { grid-area: energyCard; }
+    .environmentCard { grid-area: environmentCard; height: 180px; }
+    .statusCard { grid-area: statusCard; }
+    .produceCard { grid-area: produceCard; height: 250px; }
+    .sitesCard { grid-area: sitesCard; height: 250px;}
+    .layoutCard { grid-area: layoutCard; height: 500px; }
+}
+
+
+/* Mobile portrait */
+@media (max-width: 820px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "powerCard"
+            "statusCard"
+            "environmentCard"
+            "energyCard"
+            "produceCard"
+            "sitesCard"
+        ;
+        padding: 6px;
+        grid-gap: 6px;
+    }
+
+    .powerCard { height: 250px; }
+    .energyCard { height: 280px; }
+    .environmentCard { height: 200px; }
+    .statusCard { height: 100%; }
+    .produceCard { height: 250px; }
+    .sitesCard { min-height: 500px; }
+    .layoutCard { height: 100%; display: none; }
+    
+    .site-card{
+        margin-top: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        .content{
+            flex: 1;
+            width: 30px;
+            height: 150px;
+        }
+    }
+}

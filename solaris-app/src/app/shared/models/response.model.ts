@@ -1,7 +1,7 @@
 export interface ResponseRealtimeModel{
    Name: string;
    Unit: string;
-   Value: string;
+   Value: number;
    TimeStamp: string;
    Min: number;
    Max: number;
@@ -24,3 +24,6 @@ export interface DataRealtimeModel{
     [name:string]: ResponseRealtimeModel;
 }
 
+export interface DataHistorianModel{
+    [name:string]: ResponseHistorianModel;
+}

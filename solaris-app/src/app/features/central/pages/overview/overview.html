@@ -1,1 +1,103 @@
-<p>overview works!</p>
+<div class="container w-100 h-100 bz">
+    <div class="powerCard bz w-100 h-100">
+        <app-card-container [title]="'POWER GENARATION'">
+            <ng-template #container>
+                <app-power-consumsion
+                    [power]="dataRealtime()['POWER'] || {}"
+                    [yield]="dataRealtime()['YIELD'] || {}"
+                    [performance]="dataRealtime()['PR'] || {}"
+                    [capacity]="dataRealtime()['CAPACITY'] || {}"
+                ></app-power-consumsion>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="energyCard bz w-100 h-100">
+        <app-card-container [title]="'Energy production'">
+            <ng-template #container>
+                <div class="w-100 h-100">
+                    <app-energy-consumption
+                        [today]="dataRealtime()['TODAY'] || {}"
+                        [month]="dataRealtime()['MONTHLY'] || {}"
+                        [year]="dataRealtime()['YEARLY'] || {}"
+                        [total]="dataRealtime()['TOTAL'] || {}"
+                        [chartData]="dataChart()['CHART01']"
+                    ></app-energy-consumption>
+                </div>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="environmentCard bz w-100 h-100">
+        <app-card-container [title]="'environment'">
+            <ng-template #container>
+                <app-environment-card
+                    [reduction]="dataRealtime()['REDUCTION'] || {}"
+                    [credit]="dataRealtime()['CREDIT'] || {}"
+                    [tree]="dataRealtime()['TREE'] || {}"
+                    [oil]="dataRealtime()['OIL'] || {}"
+                ></app-environment-card>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="statusCard bz w-100 h-100">
+        <app-card-container [title]="'PLANT STATUS'">
+            <ng-template #container>
+                <div class="w-100 h-100 d-flex-ct">
+                    <app-piechart [vertical]="false" [statusData]="plantStatusData()"></app-piechart>
+                </div>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="produceCard bz w-100 h-100">
+        <app-card-container [title]="'Daily production'">
+            <ng-template #container>
+                <div class="chart-box w-100 h-100 bz" style="max-height: 90%; margin-top: 5%;">
+                    @if (dataChart() && dataChart()['CHART01']) {
+                        <app-highchart [chartParameter]="dataChart()['CHART01']"></app-highchart>
+                    }
+                </div>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="sitesCard bz w-100 h-100">
+        <app-card-container [title]="'plant GENARATION'">
+            <ng-template #container>
+                @if (siteList()) {
+                    <div class="site-card w-100 h-100 bz" >
+                        @for (item of siteList(); track $index) {
+                            <div class="content bz h-100">
+                                <app-stack-chart
+                                    [value]="dataRealtime()['POWER']?.Value?.toString() || '55'"
+                                    [maxVal]="dataRealtime()['POWER']?.Max || 100"
+                                    [unit]="dataRealtime()['POWER']?.Unit || 'kW'"
+                                    [activeColor]="'#D6AA19'"
+                                    [bgColor]="'#3B444D'"
+                                    [bdRadius]="'2px'"
+                                    [rangeVal]="20"
+                                    [label]="item.id"
+                                    [legend]="false"
+                                    [verLabel]="true"
+                                    [height]="70"
+                                ></app-stack-chart>
+                                
+                            </div>
+                        }
+                    </div>
+                }
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="layoutCard bz w-100 h-100">
+        <app-card-container [title]="'Map OVERVIEW'">
+            <ng-template #container>
+                <app-map-consumption 
+                    [zone]="zoneSelected()"
+                    [config]="mapConfig()"
+                    [data]="dataRealtime()"
+                    [sites]="siteList()"
+                    (selectZone)="onZoneChanges($event)"
+                    >
+                </app-map-consumption>
+            </ng-template>
+        </app-card-container>
+    </div>
+</div>

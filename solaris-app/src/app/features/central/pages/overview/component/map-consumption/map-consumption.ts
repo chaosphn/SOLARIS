@@ -1,0 +1,65 @@
+import { Component, EventEmitter, input, Output, signal } from '@angular/core';
+import { MapConfigModel } from '../../../../../../shared/models/svg.model';
+import { DataRealtimeModel } from '../../../../../../shared/models/response.model';
+import { SiteModel } from '../../../../../../shared/models/config.model';
+
+
+@Component({
+  selector: 'app-map-consumption',
+  standalone: false,
+  templateUrl: './map-consumption.html',
+  styleUrl: './map-consumption.scss'
+})
+export class MapConsumption {
+
+  showDetail = signal<boolean>(false);
+  zone = input<string>('');
+  config = input<MapConfigModel>();
+  data = input<DataRealtimeModel>();
+  sites = input<SiteModel[]>([]);
+  @Output() selectZone = new EventEmitter<string>();
+
+  selectedprovince: string = '';
+  hoverprovince: string | null = null;
+
+  mockRows = [
+    { indicator: '1M', code: 'SITE001', site: 'SITE ALPHA', province: 'BANGKOK', capacityMw: 6.0, powerKw: 3372, todayMWh: 32, irr: 742, pvTemp: 55.4, ambTemp: 36.1 },
+    { indicator: '1M', code: 'SITE002', site: 'SITE BETA', province: 'PATHUM THANI', capacityMw: 4.5, powerKw: 2890, todayMWh: 21, irr: 680, pvTemp: 53.2, ambTemp: 35.0 },
+    { indicator: '2M', code: 'SITE003', site: 'SITE GAMMA', province: 'AYUTTHAYA', capacityMw: 5.2, powerKw: 3055, todayMWh: 25, irr: 710, pvTemp: 54.1, ambTemp: 34.6 },
+    { indicator: '2M', code: 'SITE004', site: 'SITE DELTA', province: 'NONTHABURI', capacityMw: 3.8, powerKw: 2104, todayMWh: 18, irr: 600, pvTemp: 50.0, ambTemp: 33.8 },
+    { indicator: '3M', code: 'SITE005', site: 'SITE EPSILON', province: 'SARABURI', capacityMw: 2.9, powerKw: 1650, todayMWh: 12, irr: 520, pvTemp: 48.3, ambTemp: 32.5 },
+    { indicator: '3M', code: 'SITE006', site: 'SITE ZETA', province: 'LOPBURI', capacityMw: 7.1, powerKw: 3602, todayMWh: 34, irr: 755, pvTemp: 56.0, ambTemp: 36.5 }
+  ];
+
+  handleProvinceHover = (provinceId: string | null) => {
+    this.hoverprovince = provinceId;
+    //console.log(this.hoverprovince)
+  };
+
+  getProvinceStyle = (provinceId: string, idx: number) => {
+    const isHovered = this.hoverprovince === provinceId;
+   
+    if (isHovered) {
+      return {
+        fill: 'var(--map-hover)',
+        strokeWidth: '1.5',
+        cursor: 'pointer',
+      };
+    }  else {
+      return {
+        //fill: 'var(--map-bg)',
+        cursor: 'pointer'
+      };
+    }
+  };
+
+  getProviceBackground(provinceId: string, color: string){
+    const findProvince = this.sites().findIndex(x => x.location.toLowerCase() == provinceId.replaceAll(' ', '').toLowerCase());
+    return findProvince > -1 ? `${color}` : 'var(--map-bg)'
+  }
+
+  zoominSelectedZone(zone: string){
+    this.selectZone.emit(zone);
+  }
+
+}

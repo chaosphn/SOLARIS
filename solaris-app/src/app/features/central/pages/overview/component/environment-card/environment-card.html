@@ -1,0 +1,30 @@
+<div class="envi-container w-100 h-100 bz">
+   <div class="bz d-flex-ct">
+        <app-polygon-card  
+        [data]="reduction()"
+        [title]="'CO₂ REDUCTION'" 
+        [value]="reduction()?.Value?.toFixed(0)??''" 
+        [unit]="'kgCO₂'"></app-polygon-card>
+   </div>
+   <div class="bz d-flex-ct">
+        <app-polygon-card 
+        [data]="credit()"
+        [title]="'CO₂ CREDIT'" 
+        [value]="credit()?.Value?.toFixed(0)??''" 
+        [unit]="'tCO₂'"></app-polygon-card>
+    </div>
+    <div class="bz d-flex-ct">
+        <app-polygon-card 
+        [data]="tree()"
+        [title]="'TREE SAVING'" 
+        [value]="tree()?.Value?.toFixed(0)??''" 
+        [unit]="'Trees'"></app-polygon-card>
+   </div>
+   <div class="bz d-flex-ct">
+        <app-polygon-card 
+        [data]="oil()"
+        [title]="'OIL SAVING'" 
+        [value]="oil()?.Value?.toFixed(0)??''" 
+        [unit]="'Lites'"></app-polygon-card>
+    </div>
+</div>
