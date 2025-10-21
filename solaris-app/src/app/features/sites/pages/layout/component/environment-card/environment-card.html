@@ -1,0 +1,50 @@
+<div class="envi-container w-100 h-100 bz">
+   <div class="bz d-flex-ct">
+        <app-polygon-card 
+        [icon]="'solar_power'" 
+        [data]="item1()"
+        [title]="title1()" 
+        [value]="(item1()?.Value | number: '1.0-1') || '---'" 
+        [unit]="item1()?.Unit || ''"></app-polygon-card>
+   </div>
+   <div class="bz d-flex-ct">
+        <app-polygon-card 
+        [icon]="'thermostat'" 
+        [data]="item2()"
+        [title]="title2()" 
+        [value]="(item2()?.Value | number: '1.0-1') || '---'" 
+        [unit]="item2()?.Unit || ''"></app-polygon-card>
+    </div>
+    <div class="bz d-flex-ct">
+        <app-polygon-card 
+        [icon]="'thermostat'" 
+        [data]="item3()"
+        [title]="title3()" 
+        [value]="(item3()?.Value | number: '1.0-1') || '---'" 
+        [unit]="item3()?.Unit || ''"></app-polygon-card>
+   </div>
+   <div class="bz d-flex-ct">
+        <app-polygon-card 
+        [icon]="'solar_power'" 
+        [data]="item4()"
+        [title]="title4()" 
+        [value]="(item4()?.Value | number: '1.0-1') || '---'" 
+        [unit]="item4()?.Unit || ''"></app-polygon-card>
+    </div>
+    <div class="bz d-flex-ct">
+          <app-polygon-card 
+          [icon]="'air'" 
+          [data]="item5()"
+          [title]="title5()" 
+          [value]="(item5()?.Value | number: '1.0-1') || '---'" 
+          [unit]="item5()?.Unit || ''"></app-polygon-card>
+     </div>
+     <div class="bz d-flex-ct">
+          <app-polygon-card 
+          [icon]="'co2'" 
+          [data]="item6()"
+          [title]="title6()" 
+          [value]="(item6()?.Value | number: '1.0-1') || '---'" 
+          [unit]="item6()?.Unit || ''"></app-polygon-card>
+     </div>
+</div>

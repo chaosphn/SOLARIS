@@ -1,0 +1,47 @@
+.chart-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 8px;
+}
+
+.material-icons{
+    color: #818D98;
+    background-color: #3B444D;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.time-content{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    .time{
+        font-size: 10px;
+        font-weight: 500;
+        color: #818D98;
+        background-color: #3B444D;
+        padding: 2px 8px;
+        border: none;
+        cursor: pointer;
+        padding: 4px 8px;
+        transition: all 0.3s;
+        opacity: 0.6;
+    }
+
+    .time.active {
+        opacity: 1;
+        color: #19D6B4;
+        font-weight: 500;
+    }
+
+    .time:hover {
+        opacity: 1;
+    }
+}
+
+#chart{
+    min-height: 150px;
+}

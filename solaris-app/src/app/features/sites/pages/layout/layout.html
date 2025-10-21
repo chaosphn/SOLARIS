@@ -1,0 +1,63 @@
+<div class="w-100 h-100 container bz">
+    <div class="layoutCard bz">
+        <app-card-container [title]="'PLANT ‘ PV LAYOUT'">
+            <ng-template #container>
+                <app-panel-layout
+                    [dataRealtime]="dataRealtime()"
+                    [colors]="colorRange()"
+                    [panels]="panelList()"
+                ></app-panel-layout>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="powerCard bz" >
+       <app-card-container [title]="'POWER GENARATION'" >
+            <ng-template #container>
+               <app-power-consumption
+                [power]="dataRealtime()['POWER']"
+                [energy]="dataRealtime()['ENERGY']"
+                [yield]="dataRealtime()['YIELD']"
+                [performance]="dataRealtime()['PR']"
+                [chart]="dataChart()['CHART01']"
+               ></app-power-consumption>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="energyCard bz" >
+        <app-card-container [title]="'PLANT SUMMARY'" >
+            <ng-template #container>
+                <div class="energy-content w-100 h-100 bz" style="margin-top: 4px; row-gap: 8px;">
+                    <div class="w-100 h-100 bz d-flex-ct">
+                        <app-piechart [vertical]="true" [enable3D]="true" [statusData]="plantStatusData()"></app-piechart>
+                    </div>
+                    <div [id]="'SOLAR'" class="w-100 h-100 chart bz" style="max-height: 90%;">
+                        <app-highchart
+                            [chartParameter]="dataChart()['CHART02']">
+                        </app-highchart>
+                    </div>
+               </div>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="environmentCard bz" >
+        <app-card-container [title]="'ENVIRONMENT'" >
+            <ng-template #container>
+                <app-environment-card
+                    [title1]="'IRRADIANTION'"
+                    [title2]="'MODULE TEMP'"
+                    [title3]="'AMBIENT TEMP'"
+                    [title4]="'INSOLATION'"
+                    [title5]="'WIND SPEED'"
+                    [title6]="'CO₂ REDUCTION'"
+                    [item1]="dataRealtime()['PYRANO']"
+                    [item2]="dataRealtime()['PVTEMP']"
+                    [item3]="dataRealtime()['AMBTEMP']"
+                    [item4]="dataRealtime()['INSOLUTION']"
+                    [item5]="dataRealtime()['WIND']"
+                    [item6]="dataRealtime()['REDUCTION']"
+                >
+                </app-environment-card>
+            </ng-template>
+        </app-card-container>
+    </div>
+</div>

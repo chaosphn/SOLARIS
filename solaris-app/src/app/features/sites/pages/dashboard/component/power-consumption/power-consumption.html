@@ -1,0 +1,23 @@
+<div class="card-container w-100 h-100 bz">
+    <div class="progress w-100 h-100 bz">
+        <app-circle-progress 
+            [title]="title()"
+            [percent]="getPercentage()" 
+            [value]="value()" 
+            [unit]="unit()">
+        </app-circle-progress>
+    </div>
+    <div class="power-info-container w-100 h-100 bz">
+        <div class="info-section bz">
+            <div class="label">{{ title1() }}</div>
+            <div class="value">{{ value1() }}</div>
+            <div class="unit">{{ unit1() }}</div>
+        </div>
+        <div class="divider-line"></div>
+        <div class="info-section bz">
+            <div class="label">{{ title2() }}</div>
+            <div class="value">{{ value2() }}</div>
+            <div class="unit">{{ unit2() }}</div>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,9 @@ import { siteReducer } from './reducers/site.reducer';
 import { dateReducer } from './reducers/date.reducer';
 import { overviewReducer } from '../features/central/store/reducers/overview.reducer';
 import { trendReducer } from '../features/central/store/reducers/trend.reducer';
+import { performanceReducer } from '../features/central/store/reducers/performance.reducer';
+import { layoutReducer } from '../features/sites/store/reducers/layout.reducer';
+import { dashboardReducer } from '../features/sites/store/reducers/dashboard.reducer';
 
 
 @NgModule({
@@ -14,7 +17,10 @@ import { trendReducer } from '../features/central/store/reducers/trend.reducer';
       site: siteReducer,
       date: dateReducer,
       overview: overviewReducer,
-      trend: trendReducer 
+      trend: trendReducer ,
+      performance: performanceReducer,
+      layout: layoutReducer,
+      dashboard: dashboardReducer
     })
     // or for feature module:
     // StoreModule.forFeature('nav', navReducer)

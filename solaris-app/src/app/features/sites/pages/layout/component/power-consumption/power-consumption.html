@@ -1,0 +1,42 @@
+<div class="d-col w-100 h-100 bz" style="margin-top: 4px;">
+    <div class="power-consumption-container">
+        <div class="metrics-grid">
+            <!-- Active Power -->
+            <div class="metric-card">
+                <div class="metric-label">ACTIVE POWER</div>
+                <div class="metric-value">{{ power()?.Value | number: '1.0-0' }}</div>
+                <div class="metric-unit">{{ power()?.Unit || '-' }}</div>
+            </div>
+            
+            <!-- Production -->
+            <div class="metric-card">
+                <div class="metric-label">PRODUCTION</div>
+                <div class="metric-value">{{ energy()?.Value | number: '1.0-2' }}</div>
+                <div class="metric-unit">{{ energy()?.Unit || '-' }}</div>
+            </div>
+            
+            <!-- Today Yield -->
+            <div class="metric-card">
+                <div class="metric-label">TODAY YIELD</div>
+                <div class="metric-value">{{ yield()?.Value | number: '1.0-2' }}</div>
+                <div class="metric-unit">{{ yield()?.Unit || '-' }}</div>
+            </div>
+            
+            <!-- Performance -->
+            <div class="metric-card">
+                <div class="metric-label">PERFORMANCE</div>
+                <div class="metric-value">{{ performance()?.Value | number: '1.0-1' }}</div>
+                <div class="metric-unit">{{ performance()?.Unit || '-' }}</div>
+            </div>
+        </div>
+        
+        <div class="section-title">ENERGY PRODUCTION</div>
+    </div>
+    <div [id]="'SOLAR'" class="w-100 h-100 chart bz">
+        @if (chart()) {
+            <app-highchart
+                [chartParameter]="chart()">
+            </app-highchart>
+        }
+    </div>
+</div>

@@ -1,0 +1,109 @@
+<div class="w-100 h-100 container bz">
+    <div class="infoCard bz">
+        <app-card-container [title]="'PLANT INFOMATION'">
+            <ng-template #container>
+               
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="powerCard bz">
+        <app-card-container [title]="'POWER GENARATION'">
+            <ng-template #container>
+               <app-power-consumption
+                    [title]="'PR'"
+                    [value]="(dataRealtime()['PR']?.Value | number: '1.0-2') ?? ''"
+                    [unit]="'%'"
+                    [percent]="dataRealtime()['PR']"
+
+                    [title1]="'ACTIVE POWER'"
+                    [value1]="(dataRealtime()['POWER']?.Value | number: '1.0-1') ?? ''"
+                    [unit1]="'kW'"
+
+                    [title2]="'TODAY YIELD'"
+                    [value2]="(dataRealtime()['YIELD']?.Value | number: '1.0-1') ?? ''"
+                    [unit2]="'kWp/kWh'"
+               ></app-power-consumption>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="produceCard bz">
+        <app-card-container [title]="'ENERGY PRODUCTION'">
+            <ng-template #container>
+                <app-power-consumption
+                    [title]="'PRODUCE'"
+                    [value]="(dataRealtime()['TODAY']?.Value | number: '1.0-2') ?? ''"
+                    [unit]="dataRealtime()['TODAY']?.Unit || ''"
+                    [percent]="dataRealtime()['TODAY']"
+
+                    [title1]="'MONTHLY ENERGY'"
+                    [value1]="(dataRealtime()['MONTHLY']?.Value | number: '1.0-1') ?? ''"
+                    [unit1]="'MWh'"
+
+                    [title2]="'YEARLY ENEGY'"
+                    [value2]="(dataRealtime()['YEARLY']?.Value | number: '1.0-1') ?? ''"
+                    [unit2]="'MWh'"
+            ></app-power-consumption>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="weatherCard bz">
+        <app-card-container [title]="'WEATHER STATION'">
+            <ng-template #container>
+                <app-weather-station
+                    [icon1]="'solar_power'"
+                    [data1]="dataRealtime()['PVTEMP']"
+                    [color1]="'#867452'"
+
+                    [icon2]="'thermostat'"
+                    [data2]="dataRealtime()['AMBTEMP']"
+                    [color2]="'#974348'"
+
+                    [icon3]="'air'"
+                    [data3]="dataRealtime()['WIND']"
+                    [color3]="'#315093'"
+
+                    [icon4]="'co2'"
+                    [data4]="dataRealtime()['REDUCTION']"
+                    [color4]="'#248679'"
+
+                    [title1]="'IRRADIATION'"
+                    [value1]="(dataRealtime()['PYRANO']?.Value | number: '1.0-1') ?? ''"
+                    [unit1]="'W/m²'"
+
+                    [title2]="'INSOLUTION'"
+                    [value2]="(dataRealtime()['INSOLUTION']?.Value | number: '1.0-1') ?? ''"
+                    [unit2]="'kWh/m²'"
+                ></app-weather-station>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="solarCard bz">
+        <app-card-container [title]="'SOLAR PROFILE'">
+            <ng-template #container>
+               <app-chart-card
+                [name]="'CHART01'"
+                [chartData]="dataChart()['CHART01']"
+               >
+               </app-chart-card>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="energyCard bz">
+        <app-card-container [title]="'ENERGY SUMMARY'">
+            <ng-template #container>
+                <app-chart-card
+                    [name]="'CHART02'"
+                    [chartData]="dataChart()['CHART02']"
+                >
+                </app-chart-card>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="inverterCard bz">
+        <app-card-container [title]="'INVERTER EVALUATION'">
+            <ng-template #container>
+               
+            </ng-template>
+        </app-card-container>
+    </div>
+</div>

@@ -126,13 +126,13 @@
             </div>
             @switch ((navState$ | async)?.name) {
                 @case ('site') {
-                    <head class="content-header hide d-flex-sb w-100" >
+                    <head class="content-header hide1 d-flex-sb w-100 bz" >
                         <div class="d-flex h-100 w-100 bz">
                             <a class="nav-link" routerLink="/main/layout" routerLinkActive="active">
                                 <i class="material-icons">solar_power</i>
                                 <div>OVERVIEW</div>
                             </a>
-                            <a class="nav-link" routerLink="/main/visual" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/main/dashboard" routerLinkActive="active">
                                 <i class="material-icons">dashboard</i>
                                 <div>DASHBOARD</div>
                             </a>

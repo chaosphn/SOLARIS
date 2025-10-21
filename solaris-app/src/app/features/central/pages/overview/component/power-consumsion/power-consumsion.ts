@@ -19,7 +19,7 @@ export class PowerConsumsion {
   getPercentage(){
     let value = this.power()?.Value??0;
     let max = this.power()?.Max??100;
-    return 74;//(value/max)*100;
+    return (value/max)*100;
   }
 
   getTooltip(data: ResponseRealtimeModel | undefined): string {

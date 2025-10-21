@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { PerformanceRoutingModule } from './performance-routing-module';
 import { Performance } from './performance';
+import { ShareModule } from '../../../../shared/shared.module';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { Performance } from './performance';
   ],
   imports: [
     CommonModule,
+    ShareModule,
     PerformanceRoutingModule
   ]
 })

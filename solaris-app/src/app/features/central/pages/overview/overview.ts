@@ -50,9 +50,9 @@ export class Overview implements OnInit, OnDestroy {
   zoneSelected = signal<string>('overall');
   mapConfig = signal<MapConfigModel>({} as MapConfigModel);
   plantStatusData = signal<PlantStatusData[]>([
-    { label: 'RUNNING', count: 60, percentage: 60, color: '#10FDD3' },
-    { label: 'UNHEALTHY', count: 25, percentage: 25, color: '#DEB266' },
-    { label: 'NODATA', count: 15, percentage: 15, color: '#FF4F52' }
+    { label: 'RUNNING', count: 60, percentage: 60, color: '#10FDD3', unit: 'sites' },
+    { label: 'UNHEALTHY', count: 25, percentage: 25, color: '#DEB266', unit: 'sites' },
+    { label: 'NODATA', count: 15, percentage: 15, color: '#FF4F52', unit: 'sites' }
   ]);
 
   timers?: Subscription;
@@ -75,7 +75,6 @@ export class Overview implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(setDateEnable({ payload: true }));
     this.initPage();
   }
 
@@ -105,10 +104,6 @@ export class Overview implements OnInit, OnDestroy {
       this.startTimer(this.appInit.config.Timer * 60000);
     }
 
-    console.log(hasConfig)
-    console.log(this.dataRealtime())
-    console.log(this.dataChart())
-    console.log(this.siteList())
   }
 
   private async loadFromStoreIfExists(): Promise<boolean> {
@@ -258,6 +253,7 @@ export class Overview implements OnInit, OnDestroy {
     });
     if(req){
       const sortedReq = req.sort((a,b) => a.Order - b.Order);
+      this.requestHistorian.set(sortedReq);
       this.store.dispatch(OverviewActions.loadOverviewHistorianData({ requests: sortedReq }));
     }
   }
@@ -361,29 +357,38 @@ export class Overview implements OnInit, OnDestroy {
         const request = item.Request;
         const response:ResponseHistorianModel[] = await this.http.getHistorian(request);
         if(response){
-          this.dataChart.update( val => {
+          // สร้าง object ใหม่แทนการ update
+          this.dataChart.update(val => {
+            // Clone object เดิมก่อน
+            const newVal = { ...val };
+            
             let conf = this.config().chartConfig.find(x => x.name == item.Group);
             let series: SeriesOptionsType[] | SeriesLineOptions[] | SeriesAreaOptions[] | SeriesColumnOptions[] = []; 
             if(conf){
-              conf.tags.forEach( (x, index) => {                 
-                let data = response.find( d => d.Name == x.name );
+              conf.tags.forEach((x, index) => {                 
+                let data = response.find(d => d.Name == x.name);
                 if(data && data.records){
                   let res = this.chartOptions.getSeriesOptions(x.title, x.options, data);
                   series.push(res);
                 }
               })
-              val[item.Group] = {
+              console.log(item.Group, series, response);
+              
+              // สร้าง chart config object ใหม่
+              newVal[item.Group] = {
                 chart: this.chartOptions.getChartOptions(conf.chartOptions.chart),
                 title: this.chartOptions.getTitleOptions(conf.chartOptions.title),
                 xAxis: this.chartOptions.getXAxisoptions(conf.chartOptions.xAxis),
                 yAxis: this.chartOptions.getYAxisoptions(conf.chartOptions.yAxis),
                 legend: this.chartOptions.getLegendOptions(conf.chartOptions.legend),
                 plotOptions: this.chartOptions.getPlotOptions(conf.chartOptions.plotOptions),
-                series: series
-              }
+                series: [...series] // Clone array
+              };
             }
-            return val;
+            // Return object ใหม่ทั้งหมด
+            return newVal;
           });
+          
           response.map(data => {
             const conf = this.config().historianConfig.find(x => x.Group == item.Group)?.Tags.find(y => y.Tagname == data.Name);
             if (conf) {
@@ -397,6 +402,7 @@ export class Overview implements OnInit, OnDestroy {
         }
         return response;
       });
+      
       const res = await Promise.allSettled(result);
       if(res){
         this.store.dispatch(OverviewActions.loadOverviewChartDataSuccess({ data: this.dataChart() }));

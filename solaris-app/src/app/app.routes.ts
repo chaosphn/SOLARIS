@@ -52,6 +52,16 @@ export const routes: Routes = [
                 canActivate: [authGuard],
                 loadChildren: () => import('./features/central/pages/setting/setting-module').then(m => m.SettingModule)
             },
+            {
+                path: 'layout',
+                canActivate: [authGuard],
+                loadChildren: () => import('./features/sites/pages/layout/layout-module').then(m => m.LayoutModule)
+            },
+            {
+                path: 'dashboard',
+                canActivate: [authGuard],
+                loadChildren: () => import('./features/sites/pages/dashboard/dashboard-module').then(m => m.DashboardModule)
+            },
         ]
     },
 ];

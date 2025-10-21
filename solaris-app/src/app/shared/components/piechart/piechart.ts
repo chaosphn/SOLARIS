@@ -1,13 +1,16 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Chart } from 'angular-highcharts';
 import * as Highcharts from 'highcharts';
-import Highcharts3D from 'highcharts/highcharts-3d';
+import * as Highcharts3D from 'highcharts/highcharts-3d';
+Highcharts3D;
+
 
 export interface PlantStatusData {
   label: string;
   count: number;
   percentage: number;
   color: string;
+  unit: string;
 }
 
 @Component({
@@ -21,10 +24,10 @@ export class Piechart implements OnInit, OnChanges {
   
   Highcharts: typeof Highcharts = Highcharts; // Add this line
   chart?: Chart;
-  ref?: Highcharts.Chart;
+  ref?: Highcharts3D.default.Chart;
   @Input() vertical?: boolean = false;
   @Input() high?: number = 120;
-  @Input() enable3D?: boolean = false;
+  @Input() enable3D?: boolean = true;
   @Input() statusData: PlantStatusData[] = [];
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
@@ -62,7 +65,9 @@ export class Piechart implements OnInit, OnChanges {
         options3d: {
           enabled: this.enable3D,
           alpha: 45,
-          beta: 0
+          beta: 0,
+          depth: 20,
+          viewDistance: 25
         }
       },
       title: {
@@ -93,7 +98,7 @@ export class Piechart implements OnInit, OnChanges {
         pie: {
           allowPointSelect: true,
           innerSize: '60%',
-          depth: 20,
+          depth: this.enable3D ? 20 : 20,
           startAngle: -90,
           endAngle: 270,
           dataLabels: {

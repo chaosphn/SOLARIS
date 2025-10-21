@@ -1,0 +1,110 @@
+﻿{
+    "realtimeConfig": [
+      {
+        "Group": "energy",
+        "Order": 0,
+        "Tags": [
+          {
+            "Title": "J2301-1_ENERGY",
+            "Tagname": "J2301-1.SCADA1.TODAY_ENERGY"
+          },
+          {
+            "Title": "J2301-2_ENERGY",
+            "Tagname": "J2301-2.SCADA2.TODAY_ENERGY"
+          },
+          {
+            "Title": "J2301-3_ENERGY",
+            "Tagname": "J2301-3.SCADA3.TODAY_ENERGY"
+          },
+          {
+            "Title": "J2301-4_ENERGY",
+            "Tagname": "J2301-4.SCADA4.TODAY_ENERGY"
+          },
+          {
+            "Title": "J2301-5_ENERGY",
+            "Tagname": "J2301-5.SCADA5.TODAY_ENERGY"
+          }
+        ]
+      },
+      {
+        "Group": "yield",
+        "Order": 1,
+        "Tags": [
+          {
+            "Title": "J2301-1_YIELD",
+            "Tagname": "J2301-1.SCADA1.YIELD"
+          },
+          {
+            "Title": "J2301-2_YIELD",
+            "Tagname": "J2301-2.SCADA2.YIELD"
+          },
+          {
+            "Title": "J2301-3_YIELD",
+            "Tagname": "J2301-3.SCADA3.YIELD"
+          },
+          {
+            "Title": "J2301-4_YIELD",
+            "Tagname": "J2301-4.SCADA4.YIELD"
+          },
+          {
+            "Title": "J2301-5_YIELD",
+            "Tagname": "J2301-5.SCADA5.YIELD"
+          }
+        ]
+      },
+      {
+        "Group": "insolation",
+        "Order": 2,
+        "Tags": [
+          {
+            "Title": "J2301-1_INSO",
+            "Tagname": "J2301-1.SCADA1.PYRANO1"
+          },
+          {
+            "Title": "J2301-2_INSO",
+            "Tagname": "J2301-2.SCADA2.PYRANO1"
+          },
+          {
+            "Title": "J2301-3_INSO",
+            "Tagname": "J2301-3.SCADA3.PYRANO1"
+          },
+          {
+            "Title": "J2301-4_INSO",
+            "Tagname": "J2301-4.SCADA4.PYRANO1"
+          },
+          {
+            "Title": "J2301-5_INSO",
+            "Tagname": "J2301-5.SCADA5.PYRANO1"
+          }
+        ]
+      },
+      {
+        "Group": "performance",
+        "Order": 3,
+        "Tags": [
+          {
+            "Title": "J2301-1_PR",
+            "Tagname": "J2301-1.SCADA1.PR"
+          },
+          {
+            "Title": "J2301-2_PR",
+            "Tagname": "J2301-2.SCADA2.PR"
+          },
+          {
+            "Title": "J2301-3_PR",
+            "Tagname": "J2301-3.SCADA3.PR"
+          },
+          {
+            "Title": "J2301-4_PR",
+            "Tagname": "J2301-4.SCADA4.PR"
+          },
+          {
+            "Title": "J2301-5_PR",
+            "Tagname": "J2301-5.SCADA5.PR"
+          }
+        ]
+      }
+    ],
+    "historianConfig":[],
+    "chartConfig": []
+  }

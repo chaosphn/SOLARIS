@@ -1,0 +1,32 @@
+[
+    {
+        "title": "Excellent",
+        "color": "#005F60",
+        "minimum": 80,
+        "maximum": 100
+    },
+    {
+        "title": "Good",
+        "color": "#008083",
+        "minimum": 60,
+        "maximum": 80
+    },
+    {
+        "title": "Fair",
+        "color": "#249EA0",
+        "minimum": 40,
+        "maximum": 60
+    },
+    {
+        "title": "Poor",
+        "color": "#DEB266",
+        "minimum": 20,
+        "maximum": 40
+    },
+    {
+        "title": "Critical",
+        "color": "#FF4F52",
+        "minimum": 0,
+        "maximum": 20
+    }      
+]

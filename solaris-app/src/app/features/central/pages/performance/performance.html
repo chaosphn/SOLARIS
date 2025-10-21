@@ -1,1 +1,116 @@
-<p>performance works!</p>
+<div class="container w-100 h-100 bz">
+    <div class="row-grid w-100 bz">
+        <div class="row ">
+            <app-card-container [title]="'ENERGY'" >
+                <ng-template #container>
+                    @if (dataRealtime() && cardProperty()[0]) {
+                        <div class="w-100 h-100 bz d-flex item">
+                            @for (item of siteList(); track $index;) {
+                                <div class="content h-100">
+                                    <app-stack-chart
+                                    [value]="dataRealtime()[item.id+'_ENERGY']?.Value?.toString() || '0'"
+                                    [maxVal]="dataRealtime()[item.id+'_ENERGY']?.Max || 0"
+                                    [unit]="dataRealtime()[item.id+'_ENERGY']?.Unit || ''"
+                                    [activeColor]="cardProperty()[0].activeColor"
+                                    [bgColor]="cardProperty()[0].bgColor"
+                                    [bdRadius]="cardProperty()[0].bdRadius"
+                                    [rangeVal]="cardProperty()[0].rangeVal"
+                                    [label]="item.id"
+                                    [legend]="cardProperty()[0].legend"
+                                    [verLabel]="cardProperty()[0].verleLabel"
+                                    [height]="80"
+                                    ></app-stack-chart>
+                                
+                                </div>
+                            }
+                        </div>
+                    }
+                </ng-template>
+            </app-card-container>
+        </div>
+        <div class="row ">
+            <app-card-container [title]="'YIELD'" >
+                <ng-template #container>
+                    @if (dataRealtime() && cardProperty()[1]) {
+                        <div class="w-100 h-100 bz d-flex item">
+                            @for (item of siteList(); track $index;) {
+                                <div class="content h-100">
+                                    <app-stack-chart
+                                    [value]="dataRealtime()[item.id+'_YIELD']?.Value?.toString() || '0'"
+                                    [maxVal]="dataRealtime()[item.id+'_YIELD']?.Max || 0"
+                                    [unit]="dataRealtime()[item.id+'_YIELD']?.Unit || ''"
+                                    [activeColor]="cardProperty()[1].activeColor"
+                                    [bgColor]="cardProperty()[1].bgColor"
+                                    [bdRadius]="cardProperty()[1].bdRadius"
+                                    [rangeVal]="cardProperty()[1].rangeVal"
+                                    [label]="item.id"
+                                    [legend]="cardProperty()[1].legend"
+                                    [verLabel]="cardProperty()[1].verleLabel"
+                                    [height]="80"
+                                    ></app-stack-chart>
+                                
+                                </div>
+                            }
+                        </div>
+                    }
+                </ng-template>
+            </app-card-container>
+        </div>
+        <div class="row ">
+            <app-card-container [title]="'INSOLUTION'" >
+                <ng-template #container>
+                    @if (dataRealtime() && cardProperty()[2]) {
+                        <div class="w-100 h-100 bz d-flex item">
+                            @for (item of siteList(); track $index;) {
+                                <div class="content h-100">
+                                    <app-stack-chart
+                                    [value]="dataRealtime()[item.id+'_INSO']?.Value?.toString() || '0'"
+                                    [maxVal]="dataRealtime()[item.id+'_INSO']?.Max || 0"
+                                    [unit]="dataRealtime()[item.id+'_INSO']?.Unit || ''"
+                                    [activeColor]="cardProperty()[2].activeColor"
+                                    [bgColor]="cardProperty()[2].bgColor"
+                                    [bdRadius]="cardProperty()[2].bdRadius"
+                                    [rangeVal]="cardProperty()[2].rangeVal"
+                                    [label]="item.id"
+                                    [legend]="cardProperty()[2].legend"
+                                    [verLabel]="cardProperty()[2].verleLabel"
+                                    [height]="80"
+                                    ></app-stack-chart>
+                                
+                                </div>
+                            }
+                        </div>
+                    }
+                </ng-template>
+            </app-card-container>
+        </div>
+        <div class="row ">
+            <app-card-container [title]="'PERFORMANCE'" >
+                <ng-template #container>
+                    @if (dataRealtime() && cardProperty()[3]) {
+                        <div class="w-100 h-100 bz d-flex item">
+                            @for (item of siteList(); track $index;) {
+                                <div class="content h-100">
+                                    <app-stack-chart
+                                    [value]="dataRealtime()[item.id+'_PR']?.Value?.toString() || '0'"
+                                    [maxVal]="dataRealtime()[item.id+'_PR']?.Max || 0"
+                                    [unit]="dataRealtime()[item.id+'_PR']?.Unit || ''"
+                                    [activeColor]="cardProperty()[3].activeColor"
+                                    [bgColor]="cardProperty()[3].bgColor"
+                                    [bdRadius]="cardProperty()[3].bdRadius"
+                                    [rangeVal]="cardProperty()[3].rangeVal"
+                                    [label]="item.id"
+                                    [legend]="cardProperty()[3].legend"
+                                    [verLabel]="cardProperty()[3].verleLabel"
+                                    [height]="80"
+                                    ></app-stack-chart>
+                                
+                                </div>
+                            }
+                        </div>
+                    }
+                </ng-template>
+            </app-card-container>
+        </div>
+    </div> 
+</div>

@@ -52,6 +52,7 @@ export class Trend implements OnInit, OnDestroy {
   mapConfig = signal<MapConfigModel>({} as MapConfigModel);
   
   timers?: Subscription;
+  dateStateSubscription?: Subscription;
 
   date: Date = new Date();
 
@@ -71,7 +72,7 @@ export class Trend implements OnInit, OnDestroy {
       }
     });
     this.dateState$ = this.store.select(getDateState);
-    this.dateState$.subscribe(async(state) => {
+    this.dateStateSubscription = this.dateState$.subscribe(async(state) => {
       const stateDate = state.date.setHours(0,0,0,0);
       const pageDate = this.date.setHours(0,0,0,0);
       if(new Date(pageDate).getTime() != new Date(stateDate).getTime()){
@@ -92,6 +93,9 @@ export class Trend implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if(this.timers){
       this.timers.unsubscribe();
+    }
+    if(this.dateStateSubscription){
+      this.dateStateSubscription.unsubscribe();
     }
     this.store.dispatch(setDateEnable({ payload: false }));
   }

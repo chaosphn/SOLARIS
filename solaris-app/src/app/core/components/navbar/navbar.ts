@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
 import { SiteModel, SiteStateModel, ZoneModel } from '../../../shared/models/config.model';
 import { DateStateModel, NavbarStateModel } from '../../../shared/models/navigate.model';
 import { Observable, Subscription } from 'rxjs';
@@ -21,7 +21,7 @@ import { setDate, setDateEnable } from '../../../store/actions/date.actions';
   styleUrl: './navbar.scss',
   standalone: false
 })
-export class Navbar implements OnInit {
+export class Navbar implements OnInit, OnDestroy {
   navState$: Observable<NavbarStateModel>;
   dateState$: Observable<DateStateModel>;
 
@@ -34,6 +34,8 @@ export class Navbar implements OnInit {
   zoneSelected: string = 'OVERVIEW';
   user: string | undefined = '';
   sub1?: Subscription;
+  dateStateSubscription?: Subscription;
+  navStateSubscription?: Subscription;
   siteName: string = "";
   timers: number = 10;
   mode = signal<'dark' | 'light'>('dark');
@@ -51,11 +53,11 @@ export class Navbar implements OnInit {
   constructor(){
     this.navState$ = this.store.select(getNavState);
     this.dateState$ = this.store.select(getDateState);
-    this.dateState$.subscribe(state => {
+    this.dateStateSubscription = this.dateState$.subscribe(state => {
       this.date = state.date;
       this.enableDate = state.enable;
     });
-    this.navState$.subscribe(state => {
+    this.navStateSubscription = this.navState$.subscribe(state => {
       //console.log(state)
       this.currentNavState.set(state);
       if(!state.name && !state.location){
@@ -74,6 +76,18 @@ export class Navbar implements OnInit {
       this.mode.set('dark');
     }
     this.getSiteConfig();
+  }
+
+  ngOnDestroy(): void {
+    if(this.dateStateSubscription){
+      this.dateStateSubscription.unsubscribe();
+    }
+    if(this.navStateSubscription){
+      this.navStateSubscription.unsubscribe();
+    }
+    if(this.sub1){
+      this.sub1.unsubscribe();
+    }
   }
 
   async getSiteConfig(){

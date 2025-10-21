@@ -1,0 +1,37 @@
+<div class="card-container w-100 h-100 bz">
+    <div class="icon-box w-100 bz">
+        <div class="item bz" [style.background-color]="color1()">
+            <i class="icon material-icons" >{{ icon1() }}</i>
+            <div class="value">{{ data1()?.Value | number: '1.0-0'}}</div>
+            <div class="unit">{{ data1()?.Unit || '' }}</div>
+        </div>
+        <div class="item bz" [style.background-color]="color2()">
+            <i class="icon material-icons" >{{ icon2() }}</i>
+            <div class="value">{{ data2()?.Value | number: '1.0-0'}}</div>
+            <div class="unit">{{ data2()?.Unit || '' }}</div>
+        </div>
+        <div class="item bz" [style.background-color]="color3()">
+            <i class="icon material-icons" >{{ icon3() }}</i>
+            <div class="value">{{ data3()?.Value | number: '1.0-0'}}</div>
+            <div class="unit">{{ data3()?.Unit || '' }}</div>
+        </div>
+        <div class="item bz" [style.background-color]="color4()">
+            <i class="icon material-icons" >{{ icon4() }}</i>
+            <div class="value">{{ data4()?.Value | number: '1.0-0'}}</div>
+            <div class="unit">{{ data4()?.Unit || '' }}</div>
+        </div>
+    </div>
+    <div class="power-info-container w-100 h-100 bz">
+        <div class="info-section bz">
+            <div class="label">{{ title1() }}</div>
+            <div class="value">{{ value1() }}</div>
+            <div class="unit">{{ unit1() }}</div>
+        </div>
+        <div class="divider-line"></div>
+        <div class="info-section bz">
+            <div class="label">{{ title2() }}</div>
+            <div class="value">{{ value2() }}</div>
+            <div class="unit">{{ unit2() }}</div>
+        </div>
+    </div>
+</div>

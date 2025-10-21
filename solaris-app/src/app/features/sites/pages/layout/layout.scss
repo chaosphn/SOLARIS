@@ -1,0 +1,151 @@
+.container{
+    padding: 16px;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas: 
+        "layoutCard layoutCard layoutCard layoutCard layoutCard powerCard powerCard powerCard"
+        "layoutCard layoutCard layoutCard layoutCard layoutCard energyCard energyCard energyCard" 
+        "layoutCard layoutCard layoutCard layoutCard layoutCard environmentCard environmentCard environmentCard";
+    grid-gap: 16px; 
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.powerCard { grid-area: powerCard; }
+.energyCard { grid-area: energyCard; }
+.environmentCard { grid-area: environmentCard; }
+.layoutCard { grid-area: layoutCard; }
+
+.energy-content{
+    display: grid;
+    grid-template-columns: 1.25fr 2fr;
+}
+
+@media (max-width: 1700px) {
+    
+}
+
+@media (max-width: 1500px) {
+    .container{
+        padding: 16px;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        grid-template-areas: 
+            "layoutCard layoutCard layoutCard layoutCard powerCard powerCard powerCard powerCard"
+            "layoutCard layoutCard layoutCard layoutCard energyCard energyCard energyCard energyCard" 
+            "layoutCard layoutCard layoutCard layoutCard environmentCard environmentCard environmentCard environmentCard";
+        grid-gap: 16px; 
+        max-height: 100vh;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 1200px) {
+    .container{
+        padding: 16px;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: repeat(10, 1fr);
+        grid-template-areas: 
+            "layoutCard"
+            "layoutCard" 
+            "layoutCard"
+            "layoutCard" 
+            "powerCard"
+            "powerCard"
+            "energyCard"
+            "energyCard"
+            "environmentCard"
+            "environmentCard"
+        ;
+        grid-gap: 16px; 
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+    }
+    .layoutCard{
+        height: 500px;
+    }
+    .powerCard{
+        height: 250px;
+    }
+    .energyCard{
+        height: 250px;
+    }
+    .environmentCard{
+        height: 250px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .container{
+        padding: 16px;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: repeat(10, 1fr);
+        grid-template-areas: 
+            "layoutCard"
+            "layoutCard" 
+            "layoutCard"
+            "layoutCard" 
+            "powerCard"
+            "powerCard"
+            "energyCard"
+            "energyCard"
+            "environmentCard"
+            "environmentCard"
+        ;
+        grid-gap: 16px; 
+        max-height: calc(100vh - 220px);
+        overflow-y: auto;
+    }
+    .layoutCard{
+        height: 500px;
+    }
+    .powerCard{
+        height: 250px;
+    }
+    .energyCard{
+        height: 250px;
+    }
+    .environmentCard{
+        height: 250px;
+    }
+}
+
+@media (max-width: 500px) {
+    .container{
+        padding: 16px;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: repeat(10, 1fr);
+        grid-template-areas: 
+            "powerCard"
+            "powerCard"
+            "energyCard"
+            "energyCard"
+            "environmentCard"
+            "environmentCard"
+            "layoutCard"
+            "layoutCard" 
+            "layoutCard"
+            "layoutCard" 
+        ;
+        grid-gap: 16px; 
+        max-height: calc(100vh - 220px);
+        overflow-y: auto;
+    }
+    .layoutCard{
+        height: 500px;
+    }
+    .powerCard{
+        height: 250px;
+    }
+    .energyCard{
+        height: 250px;
+    }
+    .environmentCard{
+        height: 250px;
+    }
+}

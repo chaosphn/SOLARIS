@@ -10,7 +10,7 @@
     height: 42px;
     .material-icons{
         //color: whitesmoke;
-        font-size: 18px;
+        font-size: 24px;
     }
 }
 
@@ -30,5 +30,26 @@
         color: var(--secondary-txt);
         font-size: 12px;
         margin-left: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .info{
+        gap: 4px;
+        .title{
+            color: var(--secondary-txt);
+             font-size: 10px;
+             font-weight: 500;
+        }
+        .value{
+            color: var(--primary-txt);
+            font-weight: 500;
+            font-size: 16px;
+        }
+        .unit{
+            color: var(--secondary-txt);
+            font-size: 10px;
+            margin-left: 8px;
+        }
     }
 }

@@ -15,6 +15,8 @@ import { StackChart } from './components/stack-chart/stack-chart';
 import { Piechart } from './components/piechart/piechart';
 import { ChartModule } from 'angular-highcharts';
 import { Highchart } from './components/highchart/highchart';
+import { PanelLayout } from './components/panel-layout/panel-layout';
+import { ChartCard } from './components/chart-card/chart-card';
 
 
 
@@ -28,7 +30,9 @@ import { Highchart } from './components/highchart/highchart';
     PolygonCard,
     StackChart,
     Piechart,
-    Highchart
+    Highchart,
+    PanelLayout,
+    ChartCard
   ],
   imports: [
     CommonModule,
@@ -48,7 +52,9 @@ import { Highchart } from './components/highchart/highchart';
     PolygonCard,
     StackChart,
     Piechart,
-    Highchart
+    Highchart,
+    PanelLayout,
+    ChartCard
     
   ],
   providers: [
