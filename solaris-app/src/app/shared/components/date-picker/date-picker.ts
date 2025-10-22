@@ -16,14 +16,17 @@ export class DatePickers implements OnInit, OnChanges {
   @Output() selectDate = new EventEmitter<Date>();
 
   selectedDate: Date = new Date();
+  uniqueId: string = '';
   private dateTimeSrv = inject(Datetime);
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.initdate)
     this.selectedDate = this.initdate;
   }
 
   ngOnInit(): void {
     this.selectedDate = this.initdate;
+    this.uniqueId = `datepicker-${Math.random().toString(36).substr(2, 9)}`;
   }
 
   onDateSelect(event: any) {

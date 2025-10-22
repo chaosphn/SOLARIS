@@ -18,6 +18,7 @@ import { MapConfigModel } from '../../../../shared/models/svg.model';
 import { PlantStatusData } from '../../../../shared/components/piechart/piechart';
 import { setDateEnable } from '../../../../store/actions/date.actions';
 import { ColorRangeModel, PanelConfigModel } from '../../../../shared/models/panel.model';
+import { ChartPickerModel } from '../../../../shared/components/chart-card/chart-card';
 
 @Component({
   selector: 'app-dashboard',
@@ -61,6 +62,9 @@ export class Dashboard implements OnInit, OnDestroy {
   ]);
 
   timers?: Subscription;
+  navSub?: Subscription;
+
+  date: Date = new Date();
 
   private http = inject(HttpService);
   private store = inject(Store);
@@ -69,7 +73,7 @@ export class Dashboard implements OnInit, OnDestroy {
   private dateTimeSrv = inject(Datetime);
   constructor(){
     this.navState$ = this.store.select(getNavState);
-    this.navState$.subscribe(async (state) => {
+    this.navSub = this.navState$.subscribe(async (state) => {
       console.log(state.location)
       this.siteSelected.set(state.location);
       const res = await firstValueFrom(
@@ -81,6 +85,10 @@ export class Dashboard implements OnInit, OnDestroy {
     });
   }
 
+  onDateSelect(event: any) {
+    this.date = event;
+  }
+
   ngOnInit(): void {
     this.initPage();
   }
@@ -88,6 +96,9 @@ export class Dashboard implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if(this.timers){
       this.timers.unsubscribe();
+    }
+    if(this.navSub){
+      this.navSub.unsubscribe();
     }
   }
 
@@ -419,6 +430,10 @@ export class Dashboard implements OnInit, OnDestroy {
     await this.getRealtimeData();
     //await this.getAtTimeData();
     await this.getHistorianData();
+  }
+
+  async onChartUpdate(data: ChartPickerModel){
+    console.log(data)
   }
 
 }

@@ -83,6 +83,7 @@
                <app-chart-card
                 [name]="'CHART01'"
                 [chartData]="dataChart()['CHART01']"
+                (dateChange)="onChartUpdate($event)"
                >
                </app-chart-card>
             </ng-template>
@@ -91,18 +92,19 @@
     <div class="energyCard bz">
         <app-card-container [title]="'ENERGY SUMMARY'">
             <ng-template #container>
-                <app-chart-card
+                <!-- <app-chart-card
                     [name]="'CHART02'"
                     [chartData]="dataChart()['CHART02']"
+                    (dateChange)="onChartUpdate($event)"
                 >
-                </app-chart-card>
+                </app-chart-card> -->
             </ng-template>
         </app-card-container>
     </div>
     <div class="inverterCard bz">
         <app-card-container [title]="'INVERTER EVALUATION'">
             <ng-template #container>
-               
+            
             </ng-template>
         </app-card-container>
     </div>

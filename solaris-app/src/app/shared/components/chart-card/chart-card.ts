@@ -1,7 +1,13 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { ChartParameters } from '../../models/highchart.model';
 import { Datetime } from '../../services/datetime';
 import { ResponseHistorianModel } from '../../models/response.model';
+
+export interface ChartPickerModel{
+  name: string;
+  start: Date;
+  end: Date;
+}
 
 @Component({
   selector: 'app-chart-card',
@@ -13,16 +19,19 @@ export class ChartCard {
 
   name = input<string>('');
   chartData = input<ChartParameters>({} as ChartParameters);
+  dateChange = output<ChartPickerModel>();
   
   date: Date = new Date();
   mode: 'd' | 'w' | 'm' | 'y' = 'd';
+  uniqueId: string = `datepicker-${Math.random().toString(36).substr(2, 9)}`;
 
   private dateTimeSrv = inject(Datetime);
 
+
   captureChart(): void {
-    const chartElement = document.getElementById('chart');
+    const chartElement = document.getElementById(this.name());
     if (chartElement) {
-      this.captureElement(chartElement, 'chart');
+      this.captureElement(chartElement, this.name());
     }
   }
 
@@ -66,10 +75,37 @@ export class ChartCard {
 
   setTimeRange(range: 'd' | 'w' | 'm' | 'y') {
     this.mode = range;
+    this.emitDateChangeEvent();
   }
 
   onDateSelect(event: any) {
     this.date = event;
+    this.emitDateChangeEvent();
+  }
+
+  emitDateChangeEvent(){
+    let res: ChartPickerModel = {
+      name: this.name(),
+      start: new Date(),
+      end: new Date()
+    };
+    switch(this.mode) {
+      case 'd':
+        res.start = new Date(this.date.setHours(0,0,0,0));
+        res.end = new Date(this.date.setHours(23,59,59,0));
+        break;
+      case 'w':
+        break;
+      case 'm':
+        res.start = new Date(this.date.setDate(1));
+        res.end = new Date(this.date.setMonth(this.date.getMonth(), 1));
+        break;
+      case 'y':
+        res.start = new Date(this.date.setMonth(0, 1));
+        res.end = new Date(this.date.setFullYear( this.date.getFullYear()+1, 0, 1 ));
+        break;
+    }
+    this.dateChange.emit(res);
   }
 
 }

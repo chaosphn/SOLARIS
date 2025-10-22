@@ -167,7 +167,7 @@
                                 <div>REPORT ADMIN</div>
                             </a>
                         </div>
-                        @if (enableDate) {
+                        @if ((dateState$ | async)?.enable) {
                             <div class=" h-100 bz">
                                 <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
                             </div>
@@ -183,7 +183,7 @@
                             <a class="nav-link" routerLink="/main/billing" routerLinkActive="active">BILLINGS</a>
                             <a class="nav-link" routerLink="/main/admin" routerLinkActive="active">BILLING ADMIN</a>
                         </div>
-                        @if (enableDate) {
+                        @if ((dateState$ | async)?.enable) {
                             <div class=" h-100 bz">
                                 <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
                             </div>

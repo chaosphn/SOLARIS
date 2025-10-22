@@ -90,7 +90,7 @@
             "Options": {
               "Time": "",
               "Interval": 0,
-              "StartTime": "*-7d",
+              "StartTime": "*-2d",
               "EndTime": "NOW"
             }
           }

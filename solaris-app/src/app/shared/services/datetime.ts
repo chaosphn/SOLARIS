@@ -56,6 +56,7 @@ export class Datetime {
         return '';
       }
   }
+  
   getTime(period: string): string {
       const p = period.toLowerCase();
       if (p === 'boh') {

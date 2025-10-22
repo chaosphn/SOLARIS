@@ -78,8 +78,8 @@ export class Performance implements OnInit, OnDestroy {
       const pageDate = new Date().setHours(0,0,0,0);
       if(new Date(pageDate).getTime() != new Date(stateDate).getTime()){
         await this.getConfig();
-        this.getAttimeRequest();
-        await this.getAtTimeData();
+        // this.getAttimeRequest();
+        // await this.getAtTimeData();
       } else {
         await this.getConfig();
         this.getRealtimeRequest();

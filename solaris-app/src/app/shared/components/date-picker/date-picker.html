@@ -7,7 +7,7 @@
                 [iconDisplay]="'input'" 
                 [showIcon]="true" 
                 size="small"
-                inputId="icondisplay" 
+                [inputId]="uniqueId"
                 [hourFormat]="'24'" 
                 [showTime]="true"
                 [appendTo]="'body'"
@@ -21,7 +21,7 @@
                 [iconDisplay]="'input'" 
                 [showIcon]="true" 
                 size="small"
-                inputId="icondisplay" 
+                [inputId]="uniqueId" 
                 [appendTo]="'body'"
                 view="month" dateFormat="mm/yy"
             ></p-datepicker>
@@ -34,7 +34,7 @@
                 [showIcon]="true" 
                 size="small"
                 [appendTo]="'body'"
-                inputId="icondisplay" 
+                [inputId]="uniqueId"
                 view="year" dateFormat="yy"
             ></p-datepicker>
         }
@@ -46,7 +46,7 @@
                 [showIcon]="true" 
                 size="small"
                 [appendTo]="'body'"
-                inputId="icondisplay" 
+                [inputId]="uniqueId"
                 dateFormat="dd/mm/yy"
             ></p-datepicker>
         }

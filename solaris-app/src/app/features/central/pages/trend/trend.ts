@@ -4,7 +4,7 @@ import { HttpService } from '../../../../shared/services/http.service';
 import { Store } from '@ngrx/store';
 import { AppInitService } from '../../../../shared/services/app-init.service';
 import { Datetime } from '../../../../shared/services/datetime';
-import { firstValueFrom, Observable, Subscription, timer } from 'rxjs';
+import { firstValueFrom, Observable, Subscription, take, timer } from 'rxjs';
 import { DateStateModel, NavbarStateModel } from '../../../../shared/models/navigate.model';
 import { GroupRequestAtTimeModel, GroupRequestHistorianModel, GroupRequestRealtimeModel, RequestAtTimeModel } from '../../../../shared/models/request.model';
 import { DataHistorianModel, DataRealtimeModel, ResponseHistorianModel, ResponseRealtimeModel } from '../../../../shared/models/response.model';
@@ -18,6 +18,7 @@ import { MapConfigModel } from '../../../../shared/models/svg.model';
 import { PlantStatusData } from '../../../../shared/components/piechart/piechart';
 import { getDateState } from '../../../../store/selectors/date.selectors';
 import { setDateEnable } from '../../../../store/actions/date.actions';
+import { PageStateModel } from '../../../../shared/models/state.model';
 
 @Component({
   selector: 'app-trend',
@@ -34,6 +35,7 @@ export class Trend implements OnInit, OnDestroy {
     historianConfig: [],
     chartConfig: []
   });
+  configs: any = {};
 
   requestRealtime = signal<GroupRequestRealtimeModel[]>([]);
   requestAttime = signal<GroupRequestAtTimeModel[]>([]);
@@ -56,12 +58,14 @@ export class Trend implements OnInit, OnDestroy {
 
   date: Date = new Date();
 
+  oldStateDate: Date = new Date(this.date.setHours(0,0,0,0));
   private http = inject(HttpService);
   private store = inject(Store);
   private appInit = inject(AppInitService);
   private chartOptions = inject(ChartService);
   private dateTimeSrv = inject(Datetime);
   constructor(){
+    
     this.navState$ = this.store.select(getNavState);
     this.navState$.subscribe(async (state) => {
       const res = await firstValueFrom(
@@ -72,22 +76,34 @@ export class Trend implements OnInit, OnDestroy {
       }
     });
     this.dateState$ = this.store.select(getDateState);
-    this.dateStateSubscription = this.dateState$.subscribe(async(state) => {
-      const stateDate = state.date.setHours(0,0,0,0);
-      const pageDate = this.date.setHours(0,0,0,0);
-      if(new Date(pageDate).getTime() != new Date(stateDate).getTime()){
-        this.dataChart.set({ ...{} }); // Force new reference
-        this.responseHistorian.set([]);
-        this.date = new Date(stateDate);
-        this.getHistorianRequest();
-        await this.getHistorianData();
-      }
-    });
   }
 
   ngOnInit(): void {
     this.store.dispatch(setDateEnable({ payload: true }));
-    this.initPage();
+    //this.initPage();
+    this.dateStateSubscription = this.dateState$.subscribe(async(state) => {
+      if(this.oldStateDate.getTime() != state.date.getTime()){
+        const stateDate = state.date.setHours(0,0,0,0);
+        const pageDate = this.date.setHours(0,0,0,0);
+        this.oldStateDate = state.date;
+        if(new Date(pageDate).getTime() != new Date(stateDate).getTime()){
+          
+          this.date = new Date(stateDate);
+          const hasConfig = await this.loadFromStoreIfExists();
+          if(!hasConfig){
+            await this.getConfig();
+          }
+
+          this.getHistorianRequest();
+          await this.getHistorianData();
+
+        } else {
+          await this.initPage();
+        }
+      } else {
+        await this.initPage();
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -119,51 +135,54 @@ export class Trend implements OnInit, OnDestroy {
     }
   }
 
+
   private async loadFromStoreIfExists(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store.select(TrendSelectors.selectTrendState).subscribe(state => {
-        let hasData = false;
-        
-        // Check if config exists and load it
-        if (state.config && state.config.realtimeConfig.length > 0) {
-          this.config.set(state.config);
+      this.store.select(TrendSelectors.selectTrendState)
+        .pipe(take(1)) // เพิ่มบรรทัดนี้
+        .subscribe((state: PageStateModel) => {
+          console.log(state); // เรียกครั้งเดียว
+          
+          let hasData = false;
+          // Check if config exists and load it
+        if (state.config && state.config.historianConfig.length > 0) {
+          this.config.update(prev => state.config);
           hasData = true;
         }
         
         // Check if requests exist and load them
         if (state.req_realtime && state.req_realtime.length > 0) {
-          this.requestRealtime.set(state.req_realtime);
+          this.requestRealtime.update(prev => state.req_realtime);
           hasData = true;
         }
         
         if (state.req_attime && state.req_attime.length > 0) {
-          this.requestAttime.set(state.req_attime);
+          this.requestAttime.update(prev => state.req_attime);
           hasData = true;
         }
         
         if (state.req_historian && state.req_historian.length > 0) {
-          this.requestHistorian.set(state.req_historian);
+          this.requestHistorian.update(prev => state.req_historian);
           hasData = true;
         }
         
         // Check if data exists and load it
         if (state.data_realtime && Object.keys(state.data_realtime).length > 0) {
-          this.dataRealtime.set(state.data_realtime);
+          this.dataRealtime.update(prev => state.data_realtime);
           hasData = true;
         }
         
         if (state.data_historian && Object.keys(state.data_historian).length > 0) {
-          this.dataHistorian.set(state.data_historian);
+          this.dataHistorian.update(prev => state.data_historian);
           hasData = true;
         }
         
         if (state.data_chart && Object.keys(state.data_chart).length > 0) {
-          this.dataChart.set(state.data_chart);
+          this.dataChart.update(prev => state.data_chart);
           hasData = true;
         }
-        
-        resolve(hasData);
-      });
+          resolve(hasData);
+        });
     });
   }
 
@@ -306,6 +325,7 @@ export class Trend implements OnInit, OnDestroy {
           console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
           resolve(true);
         } else {
+          console.log(`Data is ${minutesDiff.toFixed(2)} minutes , not refresh`);
           resolve(false);
         }
       });
