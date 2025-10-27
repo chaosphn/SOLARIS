@@ -8,6 +8,7 @@ import { InfomationCard } from './component/infomation-card/infomation-card';
 import { InverterSummary } from './component/inverter-summary/inverter-summary';
 import { PowerConsumption } from './component/power-consumption/power-consumption';
 import { WeatherStation } from './component/weather-station/weather-station';
+import { DatePicker } from "primeng/datepicker";
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { WeatherStation } from './component/weather-station/weather-station';
   imports: [
     CommonModule,
     ShareModule,
-    DashboardRoutingModule
-  ]
+    DashboardRoutingModule,
+    DatePicker
+]
 })
 export class DashboardModule { }

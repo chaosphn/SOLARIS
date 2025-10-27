@@ -8,7 +8,7 @@ describe('Highchart', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Highchart]
+      declarations: [Highchart]
     })
     .compileComponents();
 

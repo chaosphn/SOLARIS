@@ -165,17 +165,22 @@ export class Navbar implements OnInit, OnDestroy {
   }
 
   changeNavState(state: string, name: string){
-    this.store.dispatch(addState({
-      payload: {
-        name: state,
-        location: name
-      }
-    }));
-
-    if(state == 'site'){
+    if(state == 'site' && this.currentNavState().name != 'site'){
+      this.store.dispatch(addState({
+        payload: {
+          name: state,
+          location: name
+        }
+      }));
       this.router.navigate(['/main/layout'])
     } else {
-      //this.router.navigate(['/main/overview'])
+      //this.router.navigate(['/main/overview']);
+      this.store.dispatch(addState({
+        payload: {
+          name: state,
+          location: name
+        }
+      }));
     }
   }
 

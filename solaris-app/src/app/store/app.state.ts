@@ -8,6 +8,7 @@ import { trendReducer } from '../features/central/store/reducers/trend.reducer';
 import { performanceReducer } from '../features/central/store/reducers/performance.reducer';
 import { layoutReducer } from '../features/sites/store/reducers/layout.reducer';
 import { dashboardReducer } from '../features/sites/store/reducers/dashboard.reducer';
+import { efficiencyReducer } from '../features/sites/store/reducers/performance.reducer';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { dashboardReducer } from '../features/sites/store/reducers/dashboard.red
       trend: trendReducer ,
       performance: performanceReducer,
       layout: layoutReducer,
-      dashboard: dashboardReducer
+      dashboard: dashboardReducer,
+      efficiency: efficiencyReducer
     })
     // or for feature module:
     // StoreModule.forFeature('nav', navReducer)

@@ -1,1 +1,80 @@
-<p>realtime works!</p>
+<div class="container-fluid bz w-100 h-100">
+    <div class="row-grid w-100 h-100 bz ">
+        <div class="row1 w-100 bz">
+            @for (item of tagsGroupConfig(); track $index; let i = $index) {
+                <span class="item bz" [ngClass]="item.Status ? 'active bz' : 'item bz'" (click)="selectGroup(item, i)">{{item.Name | uppercase}}</span>
+            }
+        </div>
+        @for (item of tagsGroupConfig(); track $index; let i = $index) {
+            <div [ngClass]="item.Status && item.Alias.length > 1 ? 'row2 w-100 bz' : 'hide'">
+                @for (x of item.Alias; track $index) {
+                    <span class="item bz" [ngClass]="x.status ? 'active bz' : 'item bz'" (click)="selectAlias(x, i)">{{x.name | uppercase}}</span>
+                }
+            </div>
+        }
+        <div class="table-group w-100 h-100 bz">
+            <div class="w-100 bz h-100 ref-box">
+                <table class="table bz w-100">
+                    <div class="header w-100 bz">
+                        @for (item of tableHeader(); track $index) {
+                            <div class="value bz " [style.width]="item.width" >
+                                <span class="title">{{item.title}}</span>
+                                @if (item.uom) {
+                                    <span class="unit">({{item.uom}})</span>
+                                }
+                                <div class="filter-box bz">
+                                    <app-filter-table 
+                                        [text]="item.name"
+                                        [isFilter]="false"
+                                        (resultSort)="sortDatatable($event)">
+                                    </app-filter-table>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="row-group w-100 h-100 bz brd">
+                        @for (item of tableData(); track $index) {
+                            <div class="row w-100 bz">
+                                @for (key of tableHeader(); track $index) {
+                                    <div class="value bz" [style.width]="key.width" >
+                                        @switch (item[key.name]?.Value.toString().trim().toLowerCase()) {
+                                            @case ('true') {
+                                                <span >
+                                                    @if (key.type == 'bad') {
+                                                        <i class="material-icons st-danger" >
+                                                            sentiment_dissatisfied
+                                                        </i>
+                                                    } @else {
+                                                        <i class="material-icons st-danger" >
+                                                            pause_circle_outline
+                                                        </i>
+                                                    }
+                                                </span>
+                                            }
+                                            @case ('false') {
+                                                <span >
+                                                    @if (key.type == 'bad') {
+                                                        <i class="material-icons st-normal" >
+                                                            sentiment_satisfied
+                                                        </i>
+                                                    } @else {
+                                                        <i class="material-icons st-normal" >
+                                                            play_circle_outline
+                                                        </i>
+                                                    }
+                                                </span>
+                                            }
+                                            @default {
+                                                <span >{{ item[key.name]?.Value | numberFomat: '1.0-1'}}</span>
+                                            }
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

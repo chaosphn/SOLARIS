@@ -2,7 +2,12 @@
     <div class="infoCard bz">
         <app-card-container [title]="'PLANT INFOMATION'">
             <ng-template #container>
-               
+                <app-infomation-card
+                    [site]="'SINGHA KAMEDA'"
+                    [location]="'พญาไท แขวงวังใหม่ เขตปทุมวัน กรุงเทพมหานคร 10400'"
+                    [capacity]="'1,1400 kWp'"
+                    [cod]="'16 September 2025'"
+                ></app-infomation-card>
             </ng-template>
         </app-card-container>
     </div>
@@ -92,19 +97,24 @@
     <div class="energyCard bz">
         <app-card-container [title]="'ENERGY SUMMARY'">
             <ng-template #container>
-                <!-- <app-chart-card
+                <app-chart-card
                     [name]="'CHART02'"
                     [chartData]="dataChart()['CHART02']"
                     (dateChange)="onChartUpdate($event)"
                 >
-                </app-chart-card> -->
+                </app-chart-card>
             </ng-template>
         </app-card-container>
     </div>
     <div class="inverterCard bz">
         <app-card-container [title]="'INVERTER EVALUATION'">
             <ng-template #container>
-            
+                <app-inverter-summary
+                    [data]="dataRealtime()"
+                    [property]="cardProperty()"
+                    [inverter]="inverterList()"
+                >
+                </app-inverter-summary>
             </ng-template>
         </app-card-container>
     </div>

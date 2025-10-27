@@ -8,7 +8,7 @@ describe('WeatherStation', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WeatherStation]
+      declarations: [WeatherStation]
     })
     .compileComponents();
 

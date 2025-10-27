@@ -8,7 +8,7 @@ describe('Piechart', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Piechart]
+      declarations: [Piechart]
     })
     .compileComponents();
 

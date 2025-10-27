@@ -411,11 +411,27 @@
     }
     
     .content-header {
-        padding: 0px 12px;
-        
+        padding: 6px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        flex: 1;
+        div {
+            justify-content: space-around;
+        }
         .nav-link {
-            padding: 8px 12px;
-            font-size: 11px;
+            padding: 6px 4px;
+            font-size: 9px;
+            
+            div {
+                display: none;
+            }
+            
+            .material-icons {
+                display: block;
+                font-size: 20px;
+            }
         }
     }
 }
@@ -516,16 +532,18 @@
     }
     
     .content-header {
-        padding: 8px;
+        padding: 6px;
         width: 100%;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
         flex: 1;
-        
+        div {
+            justify-content: space-around;
+        }
         .nav-link {
-            padding: 8px 6px;
-            font-size: 10px;
+            padding: 6px 4px;
+            font-size: 9px;
             
             div {
                 display: none;
@@ -533,7 +551,7 @@
             
             .material-icons {
                 display: block;
-                font-size: 18px;
+                font-size: 20px;
             }
         }
     }
@@ -583,7 +601,7 @@
 }
 
 // Mobile Portrait (320px - 480px)
-@media only screen and (min-width: 320px) and (max-width: 480px) {
+@media (max-width: 770px) {
     .sidenav-container {
         grid-template-columns: 1fr;
         row-gap: 4px;
@@ -827,19 +845,27 @@
         height: auto;
     }
 
-    .content-header{
-        padding: 10px;
+    .content-header {
+        padding: 6px;
         width: 100%;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
         flex: 1;
-        .nav-link{
-            div{
+        div {
+            justify-content: space-around;
+        }
+        .nav-link {
+            padding: 6px 4px;
+            font-size: 9px;
+            
+            div {
                 display: none;
             }
-            .material-icons{
+            
+            .material-icons {
                 display: block;
+                font-size: 20px;
             }
         }
     }

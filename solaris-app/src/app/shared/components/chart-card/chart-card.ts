@@ -1,7 +1,8 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, output, signal } from '@angular/core';
 import { ChartParameters } from '../../models/highchart.model';
 import { Datetime } from '../../services/datetime';
 import { ResponseHistorianModel } from '../../models/response.model';
+import { ExportXls } from '../../services/export-xls';
 
 export interface ChartPickerModel{
   name: string;
@@ -21,12 +22,74 @@ export class ChartCard {
   chartData = input<ChartParameters>({} as ChartParameters);
   dateChange = output<ChartPickerModel>();
   
+  chartItems = signal<ChartParameters>({} as ChartParameters);
   date: Date = new Date();
-  mode: 'd' | 'w' | 'm' | 'y' = 'd';
+  mode = signal<'d' | 'w' | 'm' | 'y'>('d');
   uniqueId: string = `datepicker-${Math.random().toString(36).substr(2, 9)}`;
 
   private dateTimeSrv = inject(Datetime);
+  private excelExportService = inject(ExportXls);
 
+  constructor(){
+    effect(() => {
+      if(this.chartData()){
+        switch(this.mode()){
+          case 'w':
+            this.chartItems.set({
+              ...this.chartData(),
+              xAxis: this.chartData().xAxis?.categories ? this.chartData().xAxis : {
+                ...this.chartData().xAxis,
+                tickInterval: 86400000,
+                labels: {
+                  ...this.chartData()?.xAxis?.labels,
+                  format: '{value:%a}'
+                }
+              }
+            });
+            break;
+          case 'm':
+            this.chartItems.set({
+              ...this.chartData(),
+              xAxis: this.chartData().xAxis?.categories ? this.chartData().xAxis : {
+                ...this.chartData().xAxis,
+                tickInterval: 604800000,
+                labels: {
+                  ...this.chartData()?.xAxis?.labels,
+                  format: '{value:%d}'
+                }
+              }
+            });
+            break;
+          case 'y':
+            this.chartItems.set({
+              ...this.chartData(),
+              xAxis: this.chartData().xAxis?.categories ? this.chartData().xAxis : {
+                ...this.chartData().xAxis,
+                tickInterval: 2678400000,
+                labels: {
+                  ...this.chartData()?.xAxis?.labels,
+                  format: '{value:%b}'
+                }
+              }
+            });
+            break;
+          default:
+            this.chartItems.set({
+              ...this.chartData(),
+              xAxis: this.chartData().xAxis?.categories ? this.chartData().xAxis : {
+                ...this.chartData().xAxis,
+                tickInterval: 7200000,
+                labels: {
+                  ...this.chartData()?.xAxis?.labels,
+                  format: '{value:%H}'
+                }
+              }
+            });
+            break;
+        }
+      }
+    })
+  }
 
   captureChart(): void {
     const chartElement = document.getElementById(this.name());
@@ -56,7 +119,6 @@ export class ChartCard {
   }
 
   exportAllToExcel(): void {
-    const date = this.dateTimeSrv.getDateTime1(new Date());
     const data: any[] = this.chartData()?.series || [];
     const res:ResponseHistorianModel[] = data.map((x: any) => {
       return {
@@ -69,12 +131,13 @@ export class ChartCard {
           TimeStamp: new Date(y[0]).toISOString()
         }))
       }
-    }) 
-    //this.excelExportService.exportToExcel(res, 'exported_data_'+date.slice(0,10));
+    });
+    const date = this.dateTimeSrv.getDateTime1(this.date);
+    this.excelExportService.exportToExcel(res, 'exported_data_'+date.slice(0,10));
   }
 
   setTimeRange(range: 'd' | 'w' | 'm' | 'y') {
-    this.mode = range;
+    this.mode.set(range);
     this.emitDateChangeEvent();
   }
 
@@ -89,20 +152,33 @@ export class ChartCard {
       start: new Date(),
       end: new Date()
     };
-    switch(this.mode) {
+    switch(this.mode()) {
       case 'd':
-        res.start = new Date(this.date.setHours(0,0,0,0));
-        res.end = new Date(this.date.setHours(23,59,59,0));
+        const dt = new Date(this.date);
+        res.start = new Date(dt.setHours(0,0,0,0));
+        res.end = new Date(dt.setHours(23,59,59,0));
         break;
       case 'w':
+        const dtw = new Date(this.date);
+        const first = dtw.getDate() - dtw.getDay();
+        const last = first + 6;
+        res.start = new Date(dtw.setDate(first));
+        res.start = new Date(res.start.setHours(0,0,0,0));
+        res.end = new Date(dtw.setDate(last));
+        res.end = new Date(res.end.setHours(23,59,59,0));
         break;
       case 'm':
-        res.start = new Date(this.date.setDate(1));
-        res.end = new Date(this.date.setMonth(this.date.getMonth(), 1));
+        const dt1 = new Date(this.date.setHours(0,0,0,0))
+        this.date = new Date(dt1.setDate(1));
+        res.start = this.date;
+        res.end = new Date(dt1.setMonth(this.date.getMonth()+1, 1));
+        res.end = new Date(res.end.setHours(23,59,59,0));
+        res.end = new Date(res.end.setDate(res.end.getDate()-1));
         break;
       case 'y':
-        res.start = new Date(this.date.setMonth(0, 1));
-        res.end = new Date(this.date.setFullYear( this.date.getFullYear()+1, 0, 1 ));
+        const dt2 = new Date(this.date.setHours(0,0,0,0))
+        res.start = new Date(dt2.setMonth(0, 1));
+        res.end = new Date(dt2.setFullYear( dt2.getFullYear()+1, 0, 1 ));
         break;
     }
     this.dateChange.emit(res);

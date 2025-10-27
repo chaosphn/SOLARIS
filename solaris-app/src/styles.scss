@@ -2,33 +2,33 @@
 body {
 
     --mdc-filled-text-field-container-color: #272B31;
-    --mat-datepicker-calendar-body-label-text-color: #bcd;
-    --mat-datepicker-calendar-period-button-icon-color: #bcd;
-    --mat-datepicker-calendar-navigation-button-icon-color: #bcd;
-    --mat-datepicker-calendar-header-divider-color: rgba(0, 0, 0, 0.12);
-    --mat-datepicker-calendar-header-text-color: #bcd;
-    --mat-datepicker-calendar-date-today-outline-color: rgba(0, 0, 0, 0.38);
+    --mat-datepicker-calendar-body-label-text-color: var(--primary-txt);
+    --mat-datepicker-calendar-period-button-icon-color: var(--primary-txt);
+    --mat-datepicker-calendar-navigation-button-icon-color: var(--primary-txt);
+    --mat-datepicker-calendar-header-divider-color: var(--primary-txt);
+    --mat-datepicker-calendar-header-text-color: var(--primary-txt);
+    --mat-datepicker-calendar-date-today-outline-color: var(--primary-txt);
     --mat-datepicker-calendar-date-today-disabled-state-outline-color: rgba(0, 0, 0, 0.18);
-    --mat-datepicker-calendar-date-text-color: rgba(0, 0, 0, 0.87);
+    --mat-datepicker-calendar-date-text-color: var(--secondary-txt);
     --mat-datepicker-calendar-date-outline-color: transparent;
-    --mat-datepicker-calendar-date-disabled-state-text-color: rgba(0, 0, 0, 0.38);
+    --mat-datepicker-calendar-date-disabled-state-text-color: var(--secondary-txt);
     --mat-datepicker-calendar-date-preview-state-outline-color: rgba(0, 0, 0, 0.24);
     --mat-datepicker-range-input-separator-color: rgba(0, 0, 0, 0.87);
     --mat-datepicker-range-input-disabled-state-separator-color: rgba(0, 0, 0, 0.38);
-    --mat-datepicker-range-input-disabled-state-text-color: rgba(0, 0, 0, 0.38);
-    --mat-datepicker-calendar-container-background-color: white;
-    --mat-datepicker-calendar-container-text-color: rgba(0, 0, 0, 0.87);
-    --mat-datepicker-toggle-icon-color: #bcd;
+    --mat-datepicker-range-input-disabled-state-text-color: var(--secondary-txt);
+    --mat-datepicker-calendar-container-background-color: var(--primary-bg);
+    --mat-datepicker-calendar-container-text-color: var(--secondary-txt);
+    --mat-datepicker-toggle-icon-color: var(--primary-txt);
     --mat-optgroup-label-text-color: rgba(255, 0, 0, 0.87);
     --mdc-filled-text-field-caret-color: #673ab7;
     --mdc-filled-text-field-focus-active-indicator-color: #2e333900;
-    --mdc-filled-text-field-focus-label-text-color: #bcd;
+    --mdc-filled-text-field-focus-label-text-color: var(--primary-txt);
     //--mdc-filled-text-field-container-color: whitesmoke;
-    --mdc-filled-text-field-disabled-container-color: #bcd;
-    --mdc-filled-text-field-label-text-color: #bcd;
-    --mdc-filled-text-field-disabled-label-text-color: rgba(0, 0, 0, 0.38);
-    --mdc-filled-text-field-input-text-color: #bcd;
-    --mdc-filled-text-field-disabled-input-text-color: rgba(0, 0, 0, 0.38);
+    --mdc-filled-text-field-disabled-container-color: var(--primary-txt);
+    --mdc-filled-text-field-label-text-color: var(--primary-txt);
+    --mdc-filled-text-field-disabled-label-text-color: var(--secondary-txt);
+    --mdc-filled-text-field-input-text-color: var(--primary-txt);
+    --mdc-filled-text-field-disabled-input-text-color: var(--secondary-txt);
     --mdc-filled-text-field-input-text-placeholder-color: rgba(0, 0, 0, 0.6);
     --mdc-filled-text-field-active-indicator-color: rgba(0, 0, 0, 0.42);
     --mdc-filled-text-field-disabled-active-indicator-color: rgba(0, 0, 0, 0.06);
@@ -37,14 +37,14 @@ body {
     --mdc-outlined-text-field-focus-outline-color: #b73a3a;
     --mdc-outlined-text-field-focus-label-text-color: rgba(103, 58, 183, 0.87);
     --mdc-outlined-text-field-label-text-color: rgba(0, 0, 0, 0.6);
-    --mdc-outlined-text-field-disabled-label-text-color: rgba(0, 0, 0, 0.38);
+    --mdc-outlined-text-field-disabled-label-text-color: var(--secondary-txt);
     --mdc-outlined-text-field-input-text-color: rgba(0, 0, 0, 0.87);
-    --mdc-outlined-text-field-disabled-input-text-color: rgba(0, 0, 0, 0.38);
+    --mdc-outlined-text-field-disabled-input-text-color: var(--secondary-txt);
     --mdc-outlined-text-field-input-text-placeholder-color: rgba(0, 0, 0, 0.6);
-    --mdc-outlined-text-field-outline-color: rgba(0, 0, 0, 0.38);
+    --mdc-outlined-text-field-outline-color: var(--secondary-txt);
     --mdc-outlined-text-field-disabled-outline-color: rgba(0, 0, 0, 0.06);
     --mdc-outlined-text-field-hover-outline-color: rgba(255, 0, 0, 0.87);
-    --mat-form-field-disabled-input-text-placeholder-color: rgba(0, 0, 0, 0.38);
+    --mat-form-field-disabled-input-text-placeholder-color: var(--secondary-txt);
     --mdc-filled-text-field-container-shape: 4px;
     --mat-form-field-container-height: 56px;
     //--mat-form-field-filled-with-label-container-padding-top: 24px 
@@ -56,149 +56,15 @@ body {
     }
     
     --mat-select-panel-background-color: #272B31;
-    --mat-select-enabled-trigger-text-color: #bcd;
-    --mat-select-disabled-trigger-text-color: #bcd;
-    --mat-select-placeholder-text-color: #bcd;
-    --mat-select-enabled-arrow-color: #bcd;
-    --mat-select-disabled-arrow-color: #bcd;
-    --mat-select-focused-arrow-color: #bcd;
-    --mat-option-selected-state-label-text-color: #bcd;
-    --mat-option-label-text-color: #bcd;
+    --mat-select-enabled-trigger-text-color: var(--primary-txt);
+    --mat-select-disabled-trigger-text-color: var(--primary-txt);
+    --mat-select-placeholder-text-color: var(--primary-txt);
+    --mat-select-enabled-arrow-color: var(--primary-txt);
+    --mat-select-disabled-arrow-color: var(--primary-txt);
+    --mat-select-focused-arrow-color: var(--primary-txt);
+    --mat-option-selected-state-label-text-color: var(--primary-txt);
+    --mat-option-label-text-color: var(--primary-txt);
     --mdc-filled-text-field-label-text-weight: 200;
     --mat-select-trigger-text-weight: 200;
     --mdc-filled-text-field-active-indicator-color: #272B31;
 }
-/* You can add global styles to this file, and also import other style files */
-
-    .p-datepicker {
-        z-index: 9999 !important;
-    }
-
-    /* Input field inside the p-datepicker input wrapper */
-    .p-inputtext {
-        background-color: var(--primary-bg);
-        color: var(--primary-txt);
-        border-color: var(--border-color);
-    }
-
-    .p-inputtext::placeholder {
-        color: var(--secondary-txt);
-    }
-
-    .p-inputtext:enabled:hover {
-        border-color: var(--highlight);
-    }
-
-    .p-inputtext:enabled:focus {
-        border-color: var(--highlight);
-        box-shadow: 0 0 0 1px var(--highlight);
-    }
-
-    /* Overlay panel */
-    .p-datepicker {
-        background: var(--card-bg);
-        color: var(--primary-txt);
-        //border: 1px solid var(--border-color);
-    }
-
-    .p-datepicker .p-datepicker-header {
-        background: var(--primary-bg);
-        color: var(--primary-txt);
-        border-bottom: 1px solid var(--border-color);
-    }
-
-    .p-datepicker .p-datepicker-prev,
-    .p-datepicker .p-datepicker-next {
-        color: var(--primary-txt);
-    }
-
-    .p-datepicker .p-datepicker-prev:hover,
-    .p-datepicker .p-datepicker-next:hover {
-        color: var(--highlight);
-    }
-
-    .p-datepicker .p-datepicker-title .p-datepicker-month,
-    .p-datepicker .p-datepicker-title .p-datepicker-year {
-        color: var(--primary-txt);
-    }
-
-    .p-datepicker-calendar{
-        background-color: var(--primary-bg);
-        z-index: 9999 !important;
-    }
-
-    .p-datepicker-panel{
-        z-index: 9999 !important;
-        background-color: var(--primary-bg);
-        transform: translateX(-50px) !important;
-    }
-
-    /* Calendar table */
-    .p-datepicker table {
-        color: var(--primary-txt);
-        background-color: var(--primary-bg);
-    }
-
-    .p-datepicker .p-datepicker-calendar th {
-        color: var(--secondary-txt);
-        border: 0;
-        background: transparent;
-    }
-
-    .p-datepicker .p-datepicker-calendar td {
-        border: 0;
-    }
-
-    .p-datepicker .p-datepicker-calendar td > span {
-        background: transparent;
-        color: var(--primary-txt);
-        border-radius: 6px;
-    }
-
-    .p-datepicker .p-datepicker-calendar td > span:hover {
-        background: var(--secondary-bg-50);
-    }
-
-    .p-datepicker .p-datepicker-calendar td.p-highlight > span {
-        background: var(--active-txt);
-        color: #000;
-    }
-
-    .p-datepicker .p-datepicker-calendar td.p-datepicker-today > span {
-        box-shadow: inset 0 0 0 1px var(--highlight);
-    }
-
-    /* Time picker section for showTime */
-    .p-timepicker {
-        border-top: 1px solid var(--border-color);
-        background: var(--primary-bg);
-    }
-
-    .p-timepicker button {
-        color: var(--primary-txt);
-    }
-
-    .p-timepicker button:hover {
-        color: var(--highlight);
-    }
-
-    .p-timepicker span {
-        color: var(--primary-txt);
-        background: transparent;
-    }
-
-    /* Footer/button bar */
-    .p-datepicker .p-datepicker-buttonbar {
-        border-top: 1px solid var(--border-color);
-        background: var(--primary-bg);
-    }
-
-    .p-datepicker .p-button {
-        background: var(--secondary-bg);
-        border-color: var(--border-color);
-        color: var(--primary-txt);
-    }
-
-    .p-datepicker .p-button:hover {
-        filter: brightness(1.05);
-    }

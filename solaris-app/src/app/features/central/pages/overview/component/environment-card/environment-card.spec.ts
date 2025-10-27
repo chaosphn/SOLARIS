@@ -8,7 +8,7 @@ describe('EnvironmentCard', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EnvironmentCard]
+      declarations: [EnvironmentCard]
     })
     .compileComponents();
 

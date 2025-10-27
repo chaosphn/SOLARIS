@@ -10,14 +10,19 @@
 }
 
 .material-icons{
-    color: #818D98;
-    background-color: #3B444D;
+    color: var(--primary-txt);
+    background-color: var(--secondary-bg-50);
     padding: 4px 8px;
     border-radius: 4px;
 }
 
 .time-container{
     height: 50px;
+    cursor: pointer;
+}
+
+.datepicker{
+    height: 40px;
 }
 
 .time-content{
@@ -27,19 +32,18 @@
     .time{
         font-size: 10px;
         font-weight: 500;
-        color: #818D98;
-        background-color: #3B444D;
-        padding: 2px 8px;
+        color: var(--primary-txt);
+        background-color: var(--secondary-bg-50);
         border: none;
         cursor: pointer;
-        padding: 4px 8px;
+        padding: 6px 8px;
         transition: all 0.3s;
         opacity: 0.6;
     }
 
     .time.active {
         opacity: 1;
-        color: #19D6B4;
+        color: var(--active-txt);
         font-weight: 500;
     }
 
@@ -52,4 +56,37 @@
     min-height: 150px;
     z-index: 0 !important;
     position: relative;
+}
+
+@media (max-width: 1700px) {
+		
+}
+
+@media (max-width: 1500px) {
+    .time-container{
+        justify-content: flex-end !important;
+    }
+    .icon-content{
+        display: none;
+    }
+    .datepicker{
+        overflow-x: hidden;
+    }
+    .time-box{
+        width: 200px;
+    }
+}
+
+@media (max-width: 1200px) {
+	.chart{
+        min-height: 120px;
+    }
+}
+
+@media (max-width: 900px) {
+		
+}
+
+@media (max-width: 500px) {
+		
 }

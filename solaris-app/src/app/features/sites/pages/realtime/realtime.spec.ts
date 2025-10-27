@@ -8,7 +8,7 @@ describe('Realtime', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Realtime]
+      declarations: [Realtime]
     })
     .compileComponents();
 

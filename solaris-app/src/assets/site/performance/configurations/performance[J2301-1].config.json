@@ -1,0 +1,835 @@
+﻿{
+    "realtimeConfig": [
+      {
+        "Group": "power",
+        "Order": 0,
+        "Tags": [
+          {
+            "Title": "POWER",
+            "Tagname": "J2301-1.SCADA1.POWER"
+          },
+          {
+            "Title": "PEAK",
+            "Tagname": "J2301-1.CALC.POWER_PEAK"
+          },
+          {
+            "Title": "CAPACITY",
+            "Tagname": "J2301-1.SCADA1.CAPACITY"
+          },
+          {
+            "Title": "YIELD",
+            "Tagname": "J2301-1.CALC.YIELD"
+          },
+          {
+            "Title": "PR",
+            "Tagname": "J2301-1.SCADA1.PR"
+          },
+          {
+            "Title": "OPR",
+            "Tagname": "J2301-1.CALC.OPR"
+          }
+        ]
+      },
+      {
+        "Group": "energy",
+        "Order": 1,
+        "Tags": [
+          {
+            "Title": "TODAY",
+            "Tagname": "J2301-1.SCADA1.TODAY_ENERGY"
+          },
+          {
+            "Title": "MONTHLY",
+            "Tagname": "J2301-1.SCADA1.MONTHLY_ENERGY"
+          },
+          {
+            "Title": "YEARLY",
+            "Tagname": "J2301-1.SCADA1.YEARLY_ENERGY"
+          },
+          {
+            "Title": "TOTAL",
+            "Tagname": "J2301-1.PQM1.WH"
+          }
+        ]
+      },
+      {
+        "Group": "enviroment",
+        "Order": 2,
+        "Tags": [
+          {
+            "Title": "PYRANO",
+            "Tagname": "J2301-1.SCADA1.PYRANO1"
+          },
+          {
+            "Title": "INSOLUTION",
+            "Tagname": "J2301-1.SCADA1.PYRANO2"
+          },
+          {
+            "Title": "AMBTEMP",
+            "Tagname": "J2301-1.SCADA1.AMBTEMP"
+          },
+          {
+            "Title": "PVTEMP",
+            "Tagname": "J2301-1.SCADA1.PVTEMP"
+          },
+          {
+            "Title": "WIND",
+            "Tagname": "J2301-1.SCADA1.WINDSPD"
+          },
+          {
+            "Title": "REDUCTION",
+            "Tagname": "J2301-1.SCADA1.THB_TODAY_ENERGY"
+          }
+        ]
+      }
+    ],
+    "historianConfig": [
+      {
+        "Group": "SOLAR",
+        "Order": 0,
+        "Tags": [
+          {
+            "Title": "CHART01_POWER",
+            "Tagname": "J2301-1.SCADA1.POWER",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "CHART01_IRR",
+            "Tagname": "J2301-1.SCADA1.PYRANO",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          }
+        ]
+      },
+      {
+        "Group": "PERFORMANCE",
+        "Order": 1,
+        "Tags": [
+          {
+            "Title": "PERFORMANCE_PR",
+            "Tagname": "J2301-1.SCADA1.PR",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "PERFORMANCE_INSO",
+            "Tagname": "J2301-1.SCADA1.PYRANO",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "PERFORMANCE_CAPACITY",
+            "Tagname": "J2301-1.SCADA1.CAPACITY",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "PERFORMANCE_AVAI",
+            "Tagname": "J2301-1.SCADA1.AVAI",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          }
+        ]
+      },
+      {
+        "Group": "PRODUCTION",
+        "Order": 2,
+        "Tags": [
+          {
+            "Title": "ENERGY",
+            "Tagname": "J2301-1.SCADA1.TODAY_ENERGY",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "*-7d",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "LOSS",
+            "Tagname": "J2301-1.SCADA1.MONTHLY_ENERGY",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "*-7d",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "EXPECTED",
+            "Tagname": "J2301-1.SCADA1.POWER",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "*-7d",
+              "EndTime": "NOW"
+            }
+          }
+        ]
+      },
+      {
+        "Group": "INVERTER",
+        "Order": 3,
+        "Tags": [
+          {
+            "Title": "INV01",
+            "Tagname": "J2301-1.INV011.WH_TODAY",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "INV02",
+            "Tagname": "J2301-1.INV012.WH_TODAY",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "INV03",
+            "Tagname": "J2301-1.INV021.WH_TODAY",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "INV04",
+            "Tagname": "J2301-1.INV022.WH_TODAY",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "INV05",
+            "Tagname": "J2301-1.INV031.WH_TODAY",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          }
+        ]
+      }
+      
+    ],
+    "chartConfig": [
+      {
+        "name": "SOLAR",
+        "tags": [
+          {
+            "name": "J2301-1.SCADA1.PYRANO",
+            "title": "PYRANO*W/m2",
+            "options": {
+              "yAxis": 0,
+              "type": "area",
+              "color": "#FF9B33",
+              "fillOpacity": 0.025
+            }
+          },
+          {
+            "name": "J2301-1.SCADA1.POWER",
+            "title": "POWER*kW",
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#3DB1FC",
+              "fillOpacity": 0.025
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart": {
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                  "y": -40,
+                  "verticalAlign": "bottom",
+                  "align": "right"
+                },
+                "theme": {
+                  "fill": "#FF9B33",
+                  "style": {
+                    "color": "white"
+                  },
+                  "states": {
+                    "hover": {
+                      "fill": "#FF9B33",
+                      "style": {
+                        "color": "white"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "backgroundColor": "none",
+            "animation": false,
+            "margin": [
+              10,
+              70,
+              30,
+              60
+            ],
+            "borderColor": "#2d3136",
+            "borderWidth": 0
+          },
+          "title": {},
+          "yAxis": [
+            {
+              "color": "#bcd",
+              "title": {
+                "text": "IRR (W/m2)",
+                "style": {
+                  "color": "#bcd"
+                },
+                "useHTML": true
+              },
+              "opposite": true,
+              "enabled": true,
+              "lineColor": "#bcd",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "#bcd"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "#2d3136",
+              "gridLineWidth": 1,
+              "max": 1600,
+              "tickInterval": 50,
+              "margin": 0,
+              "min": 0
+            },
+            {
+              "color": "#bcd",
+              "title": {
+                "text": "POWER (kW)",
+                "style": {
+                  "color": "#bcd"
+                },
+                "useHTML": true
+              },
+              "enabled": true,
+              "lineColor": "#bcd",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "#bcd"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "#2d3136",
+              "gridLineWidth": 0,
+              "max": 6000,
+              "tickInterval": 250,
+              "margin": 0,
+              "min": 0
+            }
+          ],
+          "xAxis": {
+            "type": "datetime",
+            "gridLineColor": "#2d3136",
+            "gridLineWidth": 1,
+            "tickInterval": 7200000,
+            "labels": {
+              "enabled": true,
+              "format": "{value:%H}",
+              "style": {
+                "color": "#bcd"
+              },
+              "useHTML": true
+            },
+            "crosshair": {
+              "color": "rgb(187, 204, 221)",
+              "dashStyle": "ShortDash"
+            },
+            "max": "t"
+          },
+          "legend": {},
+          "plotOptions": {}
+        }
+      },
+      {
+        "name": "PERFORMANCE",
+        "tags": [
+          {
+            "name": "J2301-1.SCADA1.PYRANO",
+            "title": "INSOLATION*Wh/m2",
+            "options": {
+              "yAxis": 0,
+              "type": "area",
+              "color": "#DEB266",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "J2301-1.SCADA1.PR",
+            "title": "PERFORMANCE*%",
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#10FDD3",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "J2301-1.SCADA1.CAPACITY",
+            "title": "CAPACITY*%",
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#FF4F52",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "J2301-1.SCADA1.AVAI",
+            "title": "AVAILABILITY*%",
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#346AE7",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart": {
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                  "y": -40,
+                  "verticalAlign": "bottom",
+                  "align": "right"
+                },
+                "theme": {
+                  "fill": "#FF9B33",
+                  "style": {
+                    "color": "white"
+                  },
+                  "states": {
+                    "hover": {
+                      "fill": "#FF9B33",
+                      "style": {
+                        "color": "white"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "backgroundColor": "none",
+            "animation": false,
+            "margin": [
+              20,
+              70,
+              30,
+              60
+            ],
+            "borderColor": "#2d3136",
+            "borderWidth": 0
+          },
+          "title": {},
+          "yAxis": [
+            {
+              "color": "#bcd",
+              "title": {
+                "text": "IRR (W/m2)",
+                "style": {
+                  "color": "#bcd"
+                },
+                "useHTML": true
+              },
+              "opposite": true,
+              "enabled": true,
+              "lineColor": "#bcd",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "#bcd"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "#2d3136",
+              "gridLineWidth": 1,
+              "max": 1600,
+              "tickInterval": 50,
+              "margin": 0,
+              "min": 0
+            },
+            {
+              "color": "#bcd",
+              "title": {
+                "text": "POWER (kW)",
+                "style": {
+                  "color": "#bcd"
+                },
+                "useHTML": true
+              },
+              "enabled": true,
+              "lineColor": "#bcd",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "#bcd"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "#2d3136",
+              "gridLineWidth": 0,
+              "margin": 0,
+              "min": 0
+            }
+          ],
+          "xAxis": {
+            "type": "datetime",
+            "gridLineColor": "#2d3136",
+            "gridLineWidth": 1,
+            "tickInterval": 7200000,
+            "labels": {
+              "enabled": true,
+              "format": "{value:%H}",
+              "style": {
+                "color": "#bcd"
+              },
+              "useHTML": true
+            },
+            "crosshair": {
+              "color": "rgb(187, 204, 221)",
+              "dashStyle": "ShortDash"
+            },
+            "max": "t"
+          },
+          "legend": {
+            "enabled": true,
+            "floating": true,
+            "align": "center",
+            "verticalAlign": "top",
+            "layout": "horizontal",
+            "y": -15
+          },
+          "plotOptions": {}
+        }
+      },
+      {
+        "name": "PRODUCTION",
+        "tags": [
+          {
+            "name": "J2301-1.SCADA1.POWER",
+            "title": "PRODUCE*kWh",
+            "options": {
+              "yAxis": 0,
+              "type": "column",
+              "color": "#249EA0",
+              "borderColor": "#249EA0",
+							"borderRadius": 0
+            }
+          },
+          {
+            "name": "J2301-1.SCADA1.MONTHLY_ENERGY",
+            "title": "LOSS*kWh",
+            "options": {
+              "yAxis": 0,
+              "type": "column",
+              "color": "#FF4F52",
+              "borderColor": "#FF4F52",
+							"borderRadius": 0
+            }
+          },
+          {
+            "name": "J2301-1.SCADA1.TODAY_ENERGY",
+            "title": "EXPECTED*kWh",
+            "options": {
+              "yAxis": 1,
+              "type": "line",
+              "color": "#FFDF6C",
+              "fillOpacity": 0.025
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart": {
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                  "y": -40,
+                  "verticalAlign": "bottom",
+                  "align": "right"
+                },
+                "theme": {
+                  "fill": "#FF9B33",
+                  "style": {
+                    "color": "white"
+                  },
+                  "states": {
+                    "hover": {
+                      "fill": "#FF9B33",
+                      "style": {
+                        "color": "white"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "backgroundColor": "none",
+            "animation": false,
+            "margin": [
+              10,
+              10,
+              30,
+              60
+            ],
+            "borderColor": "#2d3136",
+            "borderWidth": 0
+          },
+          "title": {},
+          "yAxis": [
+            {
+              "color": "#bcd",
+              "title": {
+                "text": "IRR (W/m2)",
+                "style": {
+                  "color": "#bcd"
+                },
+                "useHTML": true
+              },
+              "opposite": true,
+              "enabled": true,
+              "lineColor": "#bcd",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "#bcd"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "#2d3136",
+              "gridLineWidth": 1,
+              "margin": 0,
+              "min": 0
+            },
+            {
+              "color": "#bcd",
+              "title": {
+                "text": "POWER (kW)",
+                "style": {
+                  "color": "#bcd"
+                },
+                "useHTML": true
+              },
+              "enabled": true,
+              "lineColor": "#bcd",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "#bcd"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "#2d3136",
+              "gridLineWidth": 0,
+              "margin": 0,
+              "min": 0
+            }
+          ],
+          "xAxis": {
+            "type": "datetime",
+            "gridLineColor": "#2d3136",
+            "gridLineWidth": 1,
+            "tickInterval": 7200000,
+            "labels": {
+              "enabled": true,
+              "format": "{value:%H}",
+              "style": {
+                "color": "#bcd"
+              },
+              "useHTML": true
+            },
+            "crosshair": {
+              "color": "rgb(187, 204, 221)",
+              "dashStyle": "ShortDash"
+            },
+            "max": "t"
+          },
+          "legend": {},
+          "plotOptions": {}
+        }
+      },
+      {
+        "name": "INVERTER",
+        "tags": [
+          {
+            "name": "",
+            "title": "",
+            "options": {
+              "yAxis": 0,
+              "type": "column",
+              "color": "#FF9B33",
+              "fillOpacity": 0.025
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart": {
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                  "y": -40,
+                  "verticalAlign": "bottom",
+                  "align": "right"
+                },
+                "theme": {
+                  "fill": "#FF9B33",
+                  "style": {
+                    "color": "white"
+                  },
+                  "states": {
+                    "hover": {
+                      "fill": "#FF9B33",
+                      "style": {
+                        "color": "white"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "backgroundColor": "none",
+            "animation": false,
+            "margin": [
+              10,
+              10,
+              30,
+              60
+            ],
+            "borderColor": "#2d3136",
+            "borderWidth": 0
+          },
+          "title": {},
+          "yAxis": [
+            {
+              "color": "#bcd",
+              "title": {
+                "text": "IRR (W/m2)",
+                "style": {
+                  "color": "#bcd"
+                },
+                "useHTML": true
+              },
+              "enabled": true,
+              "lineColor": "#bcd",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "#bcd"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "#2d3136",
+              "gridLineWidth": 1,
+              "margin": 0,
+              "min": 0,
+              "plotLines": [{
+                "color": "#FF6B6B",
+                "width": 2,
+                "value": "averageValue",
+                "zIndex": 5,
+                "label": {
+                  "text": "AVG: {value} kWh",
+                  "align": "right",
+                  "style": {
+                    "color": "#FF6B6B",
+                    "fontSize": "10px"
+                  },
+                  "useHTML": true
+                }
+              }]
+            }
+          ],
+          "xAxis": {
+            "categories": ["INV01", "INV02", "INV03", "INV04", "INV05"],
+            "labels": {
+              "enabled": true,
+              "style": {
+                "color": "#bcd"
+              },
+              "useHTML": true
+            }
+          },
+          "legend": {
+            "enabled": false
+          },
+          "plotOptions": {
+            "column": {
+              "borderWidth": 0,
+              "borderRadius": 4,
+              "pointPadding": 0.1,
+              "groupPadding": 0.1,
+              "dataLabels": {
+                "enabled": false
+              },
+              "colorByPoint": true,
+              "colors": [
+                "#19D6B4"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }

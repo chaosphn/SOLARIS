@@ -8,7 +8,7 @@ describe('MapConsumption', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MapConsumption]
+      declarations: [MapConsumption]
     })
     .compileComponents();
 

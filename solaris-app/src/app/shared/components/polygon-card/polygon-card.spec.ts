@@ -8,7 +8,7 @@ describe('PolygonCard', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PolygonCard]
+      declarations: [PolygonCard]
     })
     .compileComponents();
 

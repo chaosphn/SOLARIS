@@ -81,6 +81,528 @@
             "Tagname": "J2301-1.SCADA1.THB_TODAY_ENERGY"
           }
         ]
+      },
+      {
+        "Group": "inverter",
+        "Order": 3,
+        "Tags": [
+          {
+            "Title":  "INV011_TODAY",
+            "Tagname":  "J2301-1.INV011.WH_TODAY"
+          },
+          {
+              "Title":  "INV012_TODAY",
+              "Tagname":  "J2301-1.INV012.WH_TODAY"
+          },
+          {
+              "Title":  "INV021_TODAY",
+              "Tagname":  "J2301-1.INV021.WH_TODAY"
+          },
+          {
+              "Title":  "INV022_TODAY",
+              "Tagname":  "J2301-1.INV022.WH_TODAY"
+          },
+          {
+              "Title":  "INV031_TODAY",
+              "Tagname":  "J2301-1.INV031.WH_TODAY"
+          },
+          {
+              "Title":  "INV032_TODAY",
+              "Tagname":  "J2301-1.INV032.WH_TODAY"
+          },
+          {
+              "Title":  "INV041_TODAY",
+              "Tagname":  "J2301-1.INV041.WH_TODAY"
+          },
+          {
+              "Title":  "INV042_TODAY",
+              "Tagname":  "J2301-1.INV042.WH_TODAY"
+          },
+          {
+              "Title":  "INV051_TODAY",
+              "Tagname":  "J2301-1.INV051.WH_TODAY"
+          },
+          {
+              "Title":  "INV052_TODAY",
+              "Tagname":  "J2301-1.INV052.WH_TODAY"
+          },
+          {
+              "Title":  "INV061_TODAY",
+              "Tagname":  "J2301-1.INV061.WH_TODAY"
+          },
+          {
+              "Title":  "INV062_TODAY",
+              "Tagname":  "J2301-1.INV062.WH_TODAY"
+          },
+          {
+            "Title": "INV111_TODAY",
+            "Tagname": "J2301-2.INV111.WH_TODAY"
+          },
+          {
+            "Title": "INV112_TODAY",
+            "Tagname": "J2301-2.INV112.WH_TODAY"
+          },
+          {
+            "Title": "INV121_TODAY",
+            "Tagname": "J2301-2.INV121.WH_TODAY"
+          },
+          {
+            "Title": "INV122_TODAY",
+            "Tagname": "J2301-2.INV122.WH_TODAY"
+          },
+          {
+            "Title": "INV131_TODAY",
+            "Tagname": "J2301-2.INV131.WH_TODAY"
+          },
+          {
+            "Title": "INV132_TODAY",
+            "Tagname": "J2301-2.INV132.WH_TODAY"
+          },
+          {
+            "Title": "INV141_TODAY",
+            "Tagname": "J2301-2.INV141.WH_TODAY"
+          },
+          {
+            "Title": "INV142_TODAY",
+            "Tagname": "J2301-2.INV142.WH_TODAY"
+          },
+          {
+            "Title": "INV151_TODAY",
+            "Tagname": "J2301-2.INV151.WH_TODAY"
+          },
+          {
+            "Title": "INV152_TODAY",
+            "Tagname": "J2301-2.INV152.WH_TODAY"
+          },
+          {
+            "Title": "INV161_TODAY",
+            "Tagname": "J2301-2.INV161.WH_TODAY"
+          },
+          {
+            "Title": "INV162_TODAY",
+            "Tagname": "J2301-2.INV162.WH_TODAY"
+          },
+          {
+            "Title": "INV171_TODAY",
+            "Tagname": "J2301-2.INV171.WH_TODAY"
+          },
+          {
+            "Title": "INV172_TODAY",
+            "Tagname": "J2301-2.INV172.WH_TODAY"
+          },
+          {
+            "Title": "INV181_TODAY",
+            "Tagname": "J2301-2.INV181.WH_TODAY"
+          },
+          {
+            "Title": "INV182_TODAY",
+            "Tagname": "J2301-2.INV182.WH_TODAY"
+          },
+          {
+            "Title": "INV071_TODAY",
+            "Tagname": "J2301-3.INV071.WH_TODAY"
+          },
+          {
+              "Title": "INV072_TODAY",
+              "Tagname": "J2301-3.INV072.WH_TODAY"
+          },
+          {
+              "Title": "INV081_TODAY",
+              "Tagname": "J2301-3.INV081.WH_TODAY"
+          },
+          {
+              "Title": "INV082_TODAY",
+              "Tagname": "J2301-3.INV082.WH_TODAY"
+          },
+          {
+              "Title": "INV091_TODAY",
+              "Tagname": "J2301-3.INV091.WH_TODAY"
+          },
+          {
+              "Title": "INV092_TODAY",
+              "Tagname": "J2301-3.INV092.WH_TODAY"
+          },
+          {
+              "Title": "INV101_TODAY",
+              "Tagname": "J2301-3.INV101.WH_TODAY"
+          },
+          {
+              "Title": "INV102_TODAY",
+              "Tagname": "J2301-3.INV102.WH_TODAY"
+          },
+          {
+              "Title": "INV191_TODAY",
+              "Tagname": "J2301-3.INV191.WH_TODAY"
+          },
+          {
+              "Title": "INV192_TODAY",
+              "Tagname": "J2301-3.INV192.WH_TODAY"
+          },
+          {
+              "Title": "INV201_TODAY",
+              "Tagname": "J2301-3.INV201.WH_TODAY"
+          },
+          {
+              "Title": "INV202_TODAY",
+              "Tagname": "J2301-3.INV202.WH_TODAY"
+          },
+          {
+              "Title": "INV211_TODAY",
+              "Tagname": "J2301-3.INV211.WH_TODAY"
+          },
+          {
+              "Title": "INV212_TODAY",
+              "Tagname": "J2301-3.INV212.WH_TODAY"
+          }
+        ]
+      },
+      {
+        "Group": "inverter_power",
+        "Order": 4,
+        "Tags": [
+          {
+            "Title":  "INV011_POWER",
+            "Tagname":  "J2301-1.INV011.WAC"
+          },
+          {
+              "Title":  "INV012_POWER",
+              "Tagname":  "J2301-1.INV012.WAC"
+          },
+          {
+              "Title":  "INV021_POWER",
+              "Tagname":  "J2301-1.INV021.WAC"
+          },
+          {
+              "Title":  "INV022_POWER",
+              "Tagname":  "J2301-1.INV022.WAC"
+          },
+          {
+              "Title":  "INV031_POWER",
+              "Tagname":  "J2301-1.INV031.WAC"
+          },
+          {
+              "Title":  "INV032_POWER",
+              "Tagname":  "J2301-1.INV032.WAC"
+          },
+          {
+              "Title":  "INV041_POWER",
+              "Tagname":  "J2301-1.INV041.WAC"
+          },
+          {
+              "Title":  "INV042_POWER",
+              "Tagname":  "J2301-1.INV042.WAC"
+          },
+          {
+              "Title":  "INV051_POWER",
+              "Tagname":  "J2301-1.INV051.WAC"
+          },
+          {
+              "Title":  "INV052_POWER",
+              "Tagname":  "J2301-1.INV052.WAC"
+          },
+          {
+              "Title":  "INV061_POWER",
+              "Tagname":  "J2301-1.INV061.WAC"
+          },
+          {
+              "Title":  "INV062_POWER",
+              "Tagname":  "J2301-1.INV062.WAC"
+          },
+          {
+            "Title": "INV111_POWER",
+            "Tagname": "J2301-2.INV111.WAC"
+          },
+          {
+            "Title": "INV112_POWER",
+            "Tagname": "J2301-2.INV112.WAC"
+          },
+          {
+            "Title": "INV121_POWER",
+            "Tagname": "J2301-2.INV121.WAC"
+          },
+          {
+            "Title": "INV122_POWER",
+            "Tagname": "J2301-2.INV122.WAC"
+          },
+          {
+            "Title": "INV131_POWER",
+            "Tagname": "J2301-2.INV131.WAC"
+          },
+          {
+            "Title": "INV132_POWER",
+            "Tagname": "J2301-2.INV132.WAC"
+          },
+          {
+            "Title": "INV141_POWER",
+            "Tagname": "J2301-2.INV141.WAC"
+          },
+          {
+            "Title": "INV142_POWER",
+            "Tagname": "J2301-2.INV142.WAC"
+          },
+          {
+            "Title": "INV151_POWER",
+            "Tagname": "J2301-2.INV151.WAC"
+          },
+          {
+            "Title": "INV152_POWER",
+            "Tagname": "J2301-2.INV152.WAC"
+          },
+          {
+            "Title": "INV161_POWER",
+            "Tagname": "J2301-2.INV161.WAC"
+          },
+          {
+            "Title": "INV162_POWER",
+            "Tagname": "J2301-2.INV162.WAC"
+          },
+          {
+            "Title": "INV171_POWER",
+            "Tagname": "J2301-2.INV171.WAC"
+          },
+          {
+            "Title": "INV172_POWER",
+            "Tagname": "J2301-2.INV172.WAC"
+          },
+          {
+            "Title": "INV181_POWER",
+            "Tagname": "J2301-2.INV181.WAC"
+          },
+          {
+            "Title": "INV182_POWER",
+            "Tagname": "J2301-2.INV182.WAC"
+          },
+          {
+            "Title": "INV071_POWER",
+            "Tagname": "J2301-3.INV071.WAC"
+          },
+          {
+              "Title": "INV072_POWER",
+              "Tagname": "J2301-3.INV072.WAC"
+          },
+          {
+              "Title": "INV081_POWER",
+              "Tagname": "J2301-3.INV081.WAC"
+          },
+          {
+              "Title": "INV082_POWER",
+              "Tagname": "J2301-3.INV082.WAC"
+          },
+          {
+              "Title": "INV091_POWER",
+              "Tagname": "J2301-3.INV091.WAC"
+          },
+          {
+              "Title": "INV092_POWER",
+              "Tagname": "J2301-3.INV092.WAC"
+          },
+          {
+              "Title": "INV101_POWER",
+              "Tagname": "J2301-3.INV101.WAC"
+          },
+          {
+              "Title": "INV102_POWER",
+              "Tagname": "J2301-3.INV102.WAC"
+          },
+          {
+              "Title": "INV191_POWER",
+              "Tagname": "J2301-3.INV191.WAC"
+          },
+          {
+              "Title": "INV192_POWER",
+              "Tagname": "J2301-3.INV192.WAC"
+          },
+          {
+              "Title": "INV201_POWER",
+              "Tagname": "J2301-3.INV201.WAC"
+          },
+          {
+              "Title": "INV202_POWER",
+              "Tagname": "J2301-3.INV202.WAC"
+          },
+          {
+              "Title": "INV211_POWER",
+              "Tagname": "J2301-3.INV211.WAC"
+          },
+          {
+              "Title": "INV212_POWER",
+              "Tagname": "J2301-3.INV212.WAC"
+          }
+        ]
+      },
+      {
+        "Group": "inverter_pr",
+        "Order": 5,
+        "Tags": [
+          {
+            "Title":  "INV011_PR",
+            "Tagname":  "J2301-1.INV011.EFF"
+          },
+          {
+              "Title":  "INV012_PR",
+              "Tagname":  "J2301-1.INV012.EFF"
+          },
+          {
+              "Title":  "INV021_PR",
+              "Tagname":  "J2301-1.INV021.EFF"
+          },
+          {
+              "Title":  "INV022_PR",
+              "Tagname":  "J2301-1.INV022.EFF"
+          },
+          {
+              "Title":  "INV031_PR",
+              "Tagname":  "J2301-1.INV031.EFF"
+          },
+          {
+              "Title":  "INV032_PR",
+              "Tagname":  "J2301-1.INV032.EFF"
+          },
+          {
+              "Title":  "INV041_PR",
+              "Tagname":  "J2301-1.INV041.EFF"
+          },
+          {
+              "Title":  "INV042_PR",
+              "Tagname":  "J2301-1.INV042.EFF"
+          },
+          {
+              "Title":  "INV051_PR",
+              "Tagname":  "J2301-1.INV051.EFF"
+          },
+          {
+              "Title":  "INV052_PR",
+              "Tagname":  "J2301-1.INV052.EFF"
+          },
+          {
+              "Title":  "INV061_PR",
+              "Tagname":  "J2301-1.INV061.EFF"
+          },
+          {
+              "Title":  "INV062_PR",
+              "Tagname":  "J2301-1.INV062.EFF"
+          },
+          {
+            "Title": "INV111_PR",
+            "Tagname": "J2301-2.INV111.EFF"
+          },
+          {
+            "Title": "INV112_PR",
+            "Tagname": "J2301-2.INV112.EFF"
+          },
+          {
+            "Title": "INV121_PR",
+            "Tagname": "J2301-2.INV121.EFF"
+          },
+          {
+            "Title": "INV122_PR",
+            "Tagname": "J2301-2.INV122.EFF"
+          },
+          {
+            "Title": "INV131_PR",
+            "Tagname": "J2301-2.INV131.EFF"
+          },
+          {
+            "Title": "INV132_PR",
+            "Tagname": "J2301-2.INV132.EFF"
+          },
+          {
+            "Title": "INV141_PR",
+            "Tagname": "J2301-2.INV141.EFF"
+          },
+          {
+            "Title": "INV142_PR",
+            "Tagname": "J2301-2.INV142.EFF"
+          },
+          {
+            "Title": "INV151_PR",
+            "Tagname": "J2301-2.INV151.EFF"
+          },
+          {
+            "Title": "INV152_PR",
+            "Tagname": "J2301-2.INV152.EFF"
+          },
+          {
+            "Title": "INV161_PR",
+            "Tagname": "J2301-2.INV161.EFF"
+          },
+          {
+            "Title": "INV162_PR",
+            "Tagname": "J2301-2.INV162.EFF"
+          },
+          {
+            "Title": "INV171_PR",
+            "Tagname": "J2301-2.INV171.EFF"
+          },
+          {
+            "Title": "INV172_PR",
+            "Tagname": "J2301-2.INV172.EFF"
+          },
+          {
+            "Title": "INV181_PR",
+            "Tagname": "J2301-2.INV181.EFF"
+          },
+          {
+            "Title": "INV182_PR",
+            "Tagname": "J2301-2.INV182.EFF"
+          },
+          {
+            "Title": "INV071_PR",
+            "Tagname": "J2301-3.INV071.EFF"
+          },
+          {
+              "Title": "INV072_PR",
+              "Tagname": "J2301-3.INV072.EFF"
+          },
+          {
+              "Title": "INV081_PR",
+              "Tagname": "J2301-3.INV081.EFF"
+          },
+          {
+              "Title": "INV082_PR",
+              "Tagname": "J2301-3.INV082.EFF"
+          },
+          {
+              "Title": "INV091_PR",
+              "Tagname": "J2301-3.INV091.EFF"
+          },
+          {
+              "Title": "INV092_PR",
+              "Tagname": "J2301-3.INV092.EFF"
+          },
+          {
+              "Title": "INV101_PR",
+              "Tagname": "J2301-3.INV101.EFF"
+          },
+          {
+              "Title": "INV102_PR",
+              "Tagname": "J2301-3.INV102.EFF"
+          },
+          {
+              "Title": "INV191_PR",
+              "Tagname": "J2301-3.INV191.EFF"
+          },
+          {
+              "Title": "INV192_PR",
+              "Tagname": "J2301-3.INV192.EFF"
+          },
+          {
+              "Title": "INV201_PR",
+              "Tagname": "J2301-3.INV201.EFF"
+          },
+          {
+              "Title": "INV202_PR",
+              "Tagname": "J2301-3.INV202.EFF"
+          },
+          {
+              "Title": "INV211_PR",
+              "Tagname": "J2301-3.INV211.EFF"
+          },
+          {
+              "Title": "INV212_PR",
+              "Tagname": "J2301-3.INV212.EFF"
+          }
+        ]
       }
     ],
     "historianConfig": [
@@ -180,7 +702,7 @@
               }
             },
             "backgroundColor": "none",
-            "animation": false,
+            "animation": true,
             "margin": [
               10,
               70,
@@ -311,7 +833,7 @@
               }
             },
             "backgroundColor": "none",
-            "animation": false,
+            "animation": true,
             "margin": [
               10,
               10,

@@ -1,4 +1,4 @@
-import { Component, inject, OnChanges, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnChanges, OnDestroy, OnInit, signal } from '@angular/core';
 import { GroupHistorianConfigModel, GroupReatimeConfigModel, HistorianConfig, PageConfigModel, RealtimeConfig, SiteModel } from '../../../../shared/models/config.model';
 import { HttpService } from '../../../../shared/services/http.service';
 import { Store } from '@ngrx/store';
@@ -6,7 +6,7 @@ import { AppInitService } from '../../../../shared/services/app-init.service';
 import { Datetime } from '../../../../shared/services/datetime';
 import { firstValueFrom, Observable, Subscription, timer } from 'rxjs';
 import { NavbarStateModel } from '../../../../shared/models/navigate.model';
-import { GroupRequestAtTimeModel, GroupRequestHistorianModel, GroupRequestRealtimeModel, RequestAtTimeModel } from '../../../../shared/models/request.model';
+import { GroupRequestAtTimeModel, GroupRequestHistorianModel, GroupRequestRealtimeModel, RequestAtTimeModel, RequestHistorianModel } from '../../../../shared/models/request.model';
 import { DataHistorianModel, DataRealtimeModel, ResponseHistorianModel, ResponseRealtimeModel } from '../../../../shared/models/response.model';
 import { ChartService } from '../../../../shared/services/chart.service';
 import { SeriesAreaOptions, SeriesColumnOptions, SeriesLineOptions, SeriesOptionsType } from 'highcharts';
@@ -52,6 +52,16 @@ export class Dashboard implements OnInit, OnDestroy {
 
   panelList = signal<PanelConfigModel[]>([]);
   colorRange = signal<ColorRangeModel[]>([]);
+  cardProperty = signal<any[]>([]);
+
+  inverterList = computed(() => {
+    if(!this.config() || this.config().realtimeConfig.length < 1){
+      return [];
+    }  else {
+      const findInv = this.config().realtimeConfig.find(x => x.Group.toLowerCase() === 'inverter');
+      return findInv ? findInv.Tags.map(x => x.Title.split('_')[0].toUpperCase()) : [];
+    }
+  })
 
   zoneSelected = signal<string>('overall');
   mapConfig = signal<MapConfigModel>({} as MapConfigModel);
@@ -81,7 +91,9 @@ export class Dashboard implements OnInit, OnDestroy {
       );
       if(res && res.siteList){
         this.siteList.set(res.siteList);
-      }
+      };
+      this.resetPage();
+      await this.initPage();
     });
   }
 
@@ -102,6 +114,26 @@ export class Dashboard implements OnInit, OnDestroy {
     }
   }
 
+  resetPage(){
+    this.config.set({
+      realtimeConfig: [],
+      historianConfig: [],
+      chartConfig: []
+    });
+    this.requestRealtime.set([]);
+    this.requestAttime.set([]);
+    this.requestHistorian.set([]);
+    this.responseRealtime.set([]);
+    this.responseHistorian.set([]);
+    this.dataChart.set({});
+    this.dataRealtime.set({});
+    this.dataHistorian.set({});
+    this.panelList.set([]);
+    this.colorRange.set([]);
+    //this.plantStatusData.set([]);
+    this.store.dispatch(DashboardActions.resetDashboardState());
+  }
+
   async initPage(){
     this.timers?.unsubscribe();
 
@@ -112,6 +144,8 @@ export class Dashboard implements OnInit, OnDestroy {
       await this.getConfig();
       this.store.dispatch(DashboardActions.loadDashboardConfigTimeStamp({ timestamp: new Date() }));
     }
+
+    await this.getCardConfig();
 
     this.getRequest();
     await this.getData();
@@ -180,6 +214,13 @@ export class Dashboard implements OnInit, OnDestroy {
     } catch (error) {
       console.error('Error fetching config', error);
       this.store.dispatch(DashboardActions.loadDashboardConfigFailure({ error: error as string }));
+    }
+  }
+
+  async getCardConfig(){
+    const config = await this.http.getConfig2(`assets/site/dashboard/property/property[${this.siteSelected()}].config.json`);
+    if (config) {
+      this.cardProperty.set(config);
     }
   }
 
@@ -433,7 +474,66 @@ export class Dashboard implements OnInit, OnDestroy {
   }
 
   async onChartUpdate(data: ChartPickerModel){
-    console.log(data)
+    console.log(data, this.requestHistorian())
+    const findRequest = this.requestHistorian().find(x => x.Group === data.name);
+    if(findRequest){
+      const req: RequestHistorianModel[] = findRequest.Request.map(x => {
+        return {
+          ...x,
+          Options: {
+            ...x.Options,
+            Time: '',
+            StartTime: this.dateTimeSrv.getDateTime1(data.start),
+            EndTime: this.dateTimeSrv.getDateTime1(data.end)
+          }
+        }
+      })
+      const response:ResponseHistorianModel[] = await this.http.getHistorian(req);
+      if(response){
+        // สร้าง object ใหม่แทนการ update
+        this.dataChart.update(val => {
+          // Clone object เดิมก่อน
+          const newVal = { ...val };
+          
+          let conf = this.config().chartConfig.find(x => x.name == findRequest.Group);
+          let series: SeriesOptionsType[] | SeriesLineOptions[] | SeriesAreaOptions[] | SeriesColumnOptions[] = []; 
+          if(conf){
+            conf.tags.forEach((x, index) => {                 
+              let data = response.find(d => d.Name == x.name);
+              if(data && data.records){
+                let res = this.chartOptions.getSeriesOptions(x.title, x.options, data);
+                series.push(res);
+              }
+            })
+            
+            // สร้าง chart config object ใหม่
+            newVal[findRequest.Group] = {
+              chart: this.chartOptions.getChartOptions(conf.chartOptions.chart),
+              title: this.chartOptions.getTitleOptions(conf.chartOptions.title),
+              xAxis: this.chartOptions.getXAxisoptions({}),
+              yAxis: this.chartOptions.getYAxisoptions(conf.chartOptions.yAxis),
+              legend: this.chartOptions.getLegendOptions(conf.chartOptions.legend),
+              plotOptions: this.chartOptions.getPlotOptions(conf.chartOptions.plotOptions),
+              series: [...series] // Clone array
+            };
+          }
+          // Return object ใหม่ทั้งหมด
+          return newVal;
+        });
+        
+        response.map(data => {
+          const conf = this.config().historianConfig.find(x => x.Group == findRequest.Group)?.Tags.find(y => y.Tagname == data.Name);
+          if (conf) {
+            this.dataHistorian.update(val => ({
+              ...val,
+              [conf.Title]: data
+            }));
+          }
+          this.responseHistorian.update(val => [...val, data]);
+        });
+      }
+    }
   }
 
+   
 }

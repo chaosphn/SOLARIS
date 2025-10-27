@@ -69,6 +69,7 @@ export class Layout implements OnInit, OnDestroy {
   private chartOptions = inject(ChartService);
   private dateTimeSrv = inject(Datetime);
   constructor(){
+    this.store.dispatch(setDateEnable({ payload: false }));
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {
       console.log(state.location)
@@ -79,6 +80,8 @@ export class Layout implements OnInit, OnDestroy {
       if(res && res.siteList){
         this.siteList.set(res.siteList);
       }
+      this.resetPage();
+      await this.initPage();
     });
   }
 
@@ -93,6 +96,26 @@ export class Layout implements OnInit, OnDestroy {
     if(this.navSub){
       this.navSub.unsubscribe();
     }
+  }
+
+  resetPage(){
+    this.config.set({
+      realtimeConfig: [],
+      historianConfig: [],
+      chartConfig: []
+    });
+    this.requestRealtime.set([]);
+    this.requestAttime.set([]);
+    this.requestHistorian.set([]);
+    this.responseRealtime.set([]);
+    this.responseHistorian.set([]);
+    this.dataChart.set({});
+    this.dataRealtime.set({});
+    this.dataHistorian.set({});
+    this.panelList.set([]);
+    this.colorRange.set([]);
+    //this.plantStatusData.set([]);
+    this.store.dispatch(LayoutActions.resetLayoutState());
   }
 
   async initPage(){

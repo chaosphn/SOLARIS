@@ -8,7 +8,7 @@ describe('StackChart', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StackChart]
+      declarations: [StackChart]
     })
     .compileComponents();
 

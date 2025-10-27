@@ -8,7 +8,7 @@ describe('Trend', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Trend]
+      declarations: [Trend]
     })
     .compileComponents();
 

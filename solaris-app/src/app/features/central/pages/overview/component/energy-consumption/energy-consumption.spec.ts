@@ -8,7 +8,7 @@ describe('EnergyConsumption', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EnergyConsumption]
+      declarations: [EnergyConsumption]
     })
     .compileComponents();
 

@@ -42,7 +42,9 @@
 }
 
 @media (max-width: 1500px) {
-
+    .inverterCard{
+        height: 350px !important;
+    }
 }
 
 @media (max-width: 1200px) {
@@ -62,6 +64,10 @@
         max-height: calc(100vh - 100px);
         overflow-y: auto;
     }
+
+    .inverterCard{
+        height: 600px !important;
+    }
 }
 
 @media (max-width: 800px) {
@@ -69,7 +75,7 @@
         padding: 16px;
         display: grid;
         grid-template-columns: repeat(1, 1fr);
-        grid-template-rows: repeat(7, min(200px));
+        grid-template-rows: repeat(7, min(225px));
         grid-template-areas: 
             "infoCard"
             "powerCard"

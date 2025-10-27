@@ -5,6 +5,9 @@ import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './app.routes';
 import { AppInitService } from './shared/services/app-init.service';
 import { PerformanceModule } from './features/central/pages/performance/performance-module';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { UrlSerializer } from '@angular/router';
+import { CustomUrlSerializer } from './shared/services/url-serialize';
 
 
 @NgModule({
@@ -23,7 +26,7 @@ import { PerformanceModule } from './features/central/pages/performance/performa
       useFactory: init_app,
       deps: [AppInitService],
       multi: true
-    },
+    }
   ],
   bootstrap: [App],
 })

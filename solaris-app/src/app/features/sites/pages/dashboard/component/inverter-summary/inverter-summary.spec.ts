@@ -8,7 +8,7 @@ describe('InverterSummary', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InverterSummary]
+      declarations: [InverterSummary]
     })
     .compileComponents();
 

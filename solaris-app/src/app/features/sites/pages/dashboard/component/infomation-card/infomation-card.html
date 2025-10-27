@@ -1,1 +1,43 @@
-<p>infomation-card works!</p>
+<div class="container w-100 h-100">
+    <div class="project-info-container">
+        <div class="info-row bz">
+            <div class="icon icon-map">
+                <i class="material-icons">domain</i>
+            </div>
+            <div class="info-content">
+            <span class="label">PROJECT :</span>
+            <span class="value">{{ site() }}</span>
+            </div>
+        </div>
+
+        <div class="info-row bz">
+            <div class="icon icon-map">
+                <i class="material-icons">location_on</i>
+            </div>
+            <div class="info-content">
+            <span class="label">LOCATION :</span>
+            <span class="value">{{ location() }}</span>
+            </div>
+        </div>
+
+        <div class="info-row bz">
+            <div class="icon icon-map">
+                <i class="material-icons">speed</i>
+            </div>
+            <div class="info-content">
+            <span class="label">CAPACITY :</span>
+            <span class="value">{{ capacity() }}</span>
+            </div>
+        </div>
+
+        <div class="info-row bz">
+            <div class="icon icon-map">
+                <i class="material-icons">timer</i>
+            </div>
+            <div class="info-content">
+            <span class="label">COD :</span>
+            <span class="value">{{ cod() }}</span>
+            </div>
+        </div>
+    </div>
+</div>

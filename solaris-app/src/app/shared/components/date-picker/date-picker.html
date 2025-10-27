@@ -1,54 +1,57 @@
-<div class="h-100 bz" [style.scale]="scale" [style.translate]=" ((1-scale)*100) + 'px 0'">
+<div class="h-100 bz date-picker-container" [style.scale]="scale" [style.translate]="((1-scale)*100) + 'px 0'">
     @switch (type) {
-        @case ('datetime') {
-            <p-datepicker
-                [(ngModel)]="selectedDate" 
-                (onSelect)="onDateSelect($event)"
-                [iconDisplay]="'input'" 
-                [showIcon]="true" 
-                size="small"
-                [inputId]="uniqueId"
-                [hourFormat]="'24'" 
-                [showTime]="true"
-                [appendTo]="'body'"
-                dateFormat="dd/mm/yy"
-            ></p-datepicker>
-        }
         @case ('month') {
-            <p-datepicker
-                [(ngModel)]="selectedDate" 
-                (onSelect)="onDateSelect($event)"
-                [iconDisplay]="'input'" 
-                [showIcon]="true" 
-                size="small"
-                [inputId]="uniqueId" 
-                [appendTo]="'body'"
-                view="month" dateFormat="mm/yy"
-            ></p-datepicker>
+            <mat-form-field class="date-field">
+                <input 
+                    matInput 
+                    [matDatepicker]="monthPicker"
+                    [(ngModel)]="selectedDate"
+                    [id]="uniqueId"
+                    readonly
+                />
+                <mat-datepicker-toggle matIconSuffix [for]="monthPicker"></mat-datepicker-toggle>
+                <mat-datepicker 
+                    #monthPicker 
+                    startView="multi-year"
+                    (monthSelected)="onMonthSelected($event, monthPicker)"
+                    panelClass="custom-datepicker-panel"
+                ></mat-datepicker>
+            </mat-form-field>
         }
         @case ('year') {
-            <p-datepicker
-                [(ngModel)]="selectedDate" 
-                (onSelect)="onDateSelect($event)"
-                [iconDisplay]="'input'" 
-                [showIcon]="true" 
-                size="small"
-                [appendTo]="'body'"
-                [inputId]="uniqueId"
-                view="year" dateFormat="yy"
-            ></p-datepicker>
+            <mat-form-field class="date-field">
+                <input 
+                    matInput 
+                    [matDatepicker]="yearPicker"
+                    [(ngModel)]="selectedDate"
+                    [id]="uniqueId"
+                    readonly
+                />
+                <mat-datepicker-toggle matIconSuffix [for]="yearPicker"></mat-datepicker-toggle>
+                <mat-datepicker 
+                    #yearPicker 
+                    startView="multi-year"
+                    (yearSelected)="onYearSelected($event, yearPicker)"
+                    panelClass="custom-datepicker-panel"
+                ></mat-datepicker>
+            </mat-form-field>
         }
         @default {
-            <p-datepicker
-                [(ngModel)]="selectedDate" 
-                (onSelect)="onDateSelect($event)"
-                [iconDisplay]="'input'" 
-                [showIcon]="true" 
-                size="small"
-                [appendTo]="'body'"
-                [inputId]="uniqueId"
-                dateFormat="dd/mm/yy"
-            ></p-datepicker>
+            <mat-form-field class="date-field" [style.--custom-height]="height + 'px'">
+                <input 
+                    matInput 
+                    [matDatepicker]="dayPicker"
+                    [(ngModel)]="selectedDate"
+                    (dateChange)="onDateSelect($event)"
+                    [id]="uniqueId"
+                    readonly
+                />
+                <mat-datepicker-toggle matIconSuffix [for]="dayPicker"></mat-datepicker-toggle>
+                <mat-datepicker 
+                    #dayPicker
+                    panelClass="custom-datepicker-panel"
+                ></mat-datepicker>
+            </mat-form-field>
         }
     }
 </div>

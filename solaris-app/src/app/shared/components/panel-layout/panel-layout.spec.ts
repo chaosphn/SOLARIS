@@ -8,7 +8,7 @@ describe('PanelLayout', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PanelLayout]
+      declarations: [PanelLayout]
     })
     .compileComponents();
 

@@ -62,6 +62,21 @@ export const routes: Routes = [
                 canActivate: [authGuard],
                 loadChildren: () => import('./features/sites/pages/dashboard/dashboard-module').then(m => m.DashboardModule)
             },
+            {
+                path: 'efficiency',
+                canActivate: [authGuard],
+                loadChildren: () => import('./features/sites/pages/performance/performance-module').then(m => m.PerformanceModule)
+            },
+            {
+                path: 'realtime',
+                canActivate: [authGuard],
+                loadChildren: () => import('./features/sites/pages/realtime/realtime-module').then(m => m.RealtimeModule)
+            },
+            {
+                path: 'charts',
+                canActivate: [authGuard],
+                loadChildren: () => import('./features/sites/pages/chart/chart-module').then(m => m.ChartModule)
+            },
         ]
     },
 ];

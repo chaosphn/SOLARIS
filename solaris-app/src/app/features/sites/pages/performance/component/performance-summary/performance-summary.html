@@ -1,0 +1,36 @@
+<div class="card-container w-100 h-100 bz">
+    <div class="progress w-100 h-100 bz">
+        <app-circle-progress 
+            [title]="title()"
+            [percent]="getPercentage()" 
+            [value]="value()" 
+            [unit]="unit()">
+        </app-circle-progress>
+    </div>
+    <div class="power-info-container w-100 h-100 bz">
+        <div class="info-section bz">
+            <div class="label">{{ title1() }}</div>
+            <div class="value">{{ value1() }}</div>
+            <div class="unit">{{ unit1() }}</div>
+            @if (title11()) {
+                <div class="tips d-flex">
+                    <div class="tip">{{ title11() }} :</div>
+                    <div class="tip-highlight">{{ value11() }} {{ unit11() }}</div>
+                </div>
+            }
+        </div>
+        <div class="divider-line"></div>
+        <div class="info-section bz">
+            <div class="label">{{ title2() }}</div>
+            <div class="value">{{ value2() }}</div>
+            <div class="unit">{{ unit2() }}</div>
+            @if (title21()) {
+                <div class="tips d-flex">
+                    <div class="tip">{{ title21() }} :</div>
+                    <div class="tip-highlight">{{ value21() }} {{ unit21() }}</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

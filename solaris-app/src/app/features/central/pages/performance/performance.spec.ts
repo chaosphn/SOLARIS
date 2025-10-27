@@ -8,7 +8,7 @@ describe('Performance', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Performance]
+      declarations: [Performance]
     })
     .compileComponents();
 

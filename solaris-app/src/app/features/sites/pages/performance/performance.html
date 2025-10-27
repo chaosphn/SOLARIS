@@ -1,1 +1,76 @@
-<p>performance works!</p>
+<div class="w-100 h-100 container bz">
+    <div class="infoCard bz">
+        <app-card-container [title]="'PERFORMANCE INDICATORS'">
+            <ng-template #container>
+                <app-performance-summary
+                    [title]="'PR'"
+                    [value]="(dataRealtime()['PR']?.Value | number: '1.0-2') ?? ''"
+                    [unit]="'%'"
+                    [percent]="dataRealtime()['PR']"
+
+                    [title1]="'PLANT CAPACITY'"
+                    [value1]="(dataRealtime()['PR']?.Value | number: '1.0-1') ?? ''"
+                    [unit1]="'%'"
+                    [title11]="'MONTHLY PERFORMANCE'"
+                    [value11]="(dataRealtime()['PR']?.Value | number: '1.0-1') ?? ''"
+                    [unit11]="'%'"
+
+                    [title2]="'AVAILABILITY'"
+                    [value2]="(dataRealtime()['YIELD']?.Value | number: '1.0-1') ?? ''"
+                    [unit2]="'%'"
+                    [title21]="'PLANT STATUS'"
+                    [value21]="(dataRealtime()['PR']?.Value | number: '1.0-1') ?? ''"
+                    [unit21]="''"
+                ></app-performance-summary>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="produceCard bz">
+        <app-card-container [title]="'INVERTER YIELD'">
+            <ng-template #container>
+                <app-chart-card
+                    [name]="'INVERTER'"
+                    [chartData]="dataChart()['INVERTER']"
+                    (dateChange)="onChartUpdate($event)"
+                >
+                </app-chart-card>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="solarCard bz">
+        <app-card-container [title]="'SOLAR PROFILE'">
+            <ng-template #container>
+               <app-chart-card
+                [name]="'SOLAR'"
+                [chartData]="dataChart()['SOLAR']"
+                (dateChange)="onChartUpdate($event)"
+               >
+               </app-chart-card>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="energyCard bz">
+        <app-card-container [title]="'PERFORMANCE EVALUATION'">
+            <ng-template #container>
+                <app-chart-card
+                    [name]="'PERFORMANCE'"
+                    [chartData]="dataChart()['PERFORMANCE']"
+                    (dateChange)="onChartUpdate($event)"
+                >
+                </app-chart-card>
+            </ng-template>
+        </app-card-container>
+    </div>
+    <div class="inverterCard bz">
+        <app-card-container [title]="'PRODUCTION ANALYSIS'">
+            <ng-template #container>
+                <app-chart-card
+                    [name]="'PRODUCTION'"
+                    [chartData]="dataChart()['PRODUCTION']"
+                    (dateChange)="onChartUpdate($event)"
+                >
+                </app-chart-card>
+            </ng-template>
+        </app-card-container>
+    </div>
+</div>

@@ -150,7 +150,7 @@
               }
             },
             "backgroundColor": "none",
-            "animation": false,
+            "animation": true,
             "margin": [
               10,
               70,
@@ -281,7 +281,7 @@
               }
             },
             "backgroundColor": "none",
-            "animation": false,
+            "animation": true,
             "margin": [
               10,
               10,

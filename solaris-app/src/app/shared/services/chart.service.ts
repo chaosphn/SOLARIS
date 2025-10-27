@@ -113,7 +113,7 @@ export class ChartService {
 
   getXAxisoptions(item: XAxisOptions | undefined, minDate?: string, maxDate?: string){
     if(item && Object.keys(item).length > 0){
-      if(item.max != undefined){
+      if(item.max != undefined && !item?.categories){
         const period = this.dateSer.parseDate(item.max.toString());
         //console.log(period)
         if(period.startTime && period.endTime){
@@ -160,6 +160,21 @@ export class ChartService {
         max: this.endDate,
       }
       return initXAxis;
+    } else if( item?.categories ){
+      const categoriesXais: XAxisOptions = {
+        categories: item.categories,
+        labels: {
+          enabled: item?.labels?.enabled || false,
+          style: item?.labels?.style || {
+            color: '#bcd',
+            fontSize: '10px'
+          },
+          useHTML: true
+        },
+        gridLineWidth: 0,
+        lineColor: item.lineColor || '#485057'
+      }
+      return categoriesXais;
     } else {
       if(minDate && maxDate){
         this.startDate = new Date(this.dateSer.getDateTime(minDate)).getTime() + 7 * 60 * 60 * 1000;
@@ -241,7 +256,8 @@ export class ChartService {
           color: i.color ,
           categories: i.categories ,
           visible: i.visible,
-          opposite: i.opposite
+          opposite: i.opposite,
+          plotLines: i.plotLines || undefined
         }
         initYAxis.push(i);
       })
@@ -281,13 +297,21 @@ export class ChartService {
         floating: item.floating || false,
         align: item.align || 'center',
         verticalAlign: item.verticalAlign || 'bottom',
-        x: item.x || 0,
-        y: item.y || 0,
+        x: item.x || undefined,
+        y: item.y || undefined,
         layout: item.layout || "vertical",
         itemStyle: item.itemStyle || {
           fontSize: '10px',
-          fontWeight: 'bold'
+          fontWeight: 'bold',
+          color: '#bcd'
         },
+        labelFormatter: item.labelFormatter || function() {
+          let d:any = this.options;
+          let color = d.color;
+          let s = '<div class="d-flex-sb w-100 b" style="width: 80px;" ><span class="bz chart-legend" style="color:'+ color +';font-weight:500">' + this.name.split("*")[0] + '</span> </div>';
+          return s;
+        },
+        useHTML: true,
       } 
       return initLegend;
     } else {
