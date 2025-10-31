@@ -24,6 +24,8 @@ import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/materia
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { NumberFomatPipe } from './pipes/number-fomat.pipe';
 import { FilterTable } from './components/filter-table/filter-table';
+import { TagContainer } from './components/tag-container/tag-container';
+import { DataTable } from './components/data-table/data-table';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -54,7 +56,9 @@ export const MY_DATE_FORMATS = {
     PanelLayout,
     ChartCard,
     TimeSelectComponent,
-    FilterTable
+    FilterTable,
+    TagContainer,
+    DataTable
   ],
   imports: [
     CommonModule,
@@ -81,7 +85,9 @@ export const MY_DATE_FORMATS = {
     PanelLayout,
     ChartCard,
     TimeSelectComponent,
-    FilterTable
+    FilterTable,
+    TagContainer,
+    DataTable
     
   ],
   providers: [

@@ -1,0 +1,1483 @@
+[
+  {
+      "name": "POWER METERS",
+      "equipments": [
+          {
+              "name": "PQM1"
+          }
+      ],
+      "parameters": [
+          {
+              "name": "MBFAIL",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1
+          },
+          {
+              "name": "W",
+              "scale": "W",
+              "uom": "kW",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "WH",
+              "scale": "WH",
+              "uom": "kWh",
+              "dp": 0,
+              "factor": 1
+          },
+          {
+              "name": "WH_TODAY",
+              "scale": "WH_TODAY",
+              "uom": "kWh",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "VAR",
+              "scale": "VAR",
+              "uom": "kvar",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "VARH",
+              "scale": "VARH",
+              "uom": "kVArh",
+              "dp": 0,
+              "factor": 1
+          },
+          {
+              "name": "V",
+              "scale": "V",
+              "uom": "V",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "V1",
+              "scale": "V",
+              "uom": "V",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "V2",
+              "scale": "V",
+              "uom": "V",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "V3",
+              "scale": "V",
+              "uom": "V",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "I",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "I1",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "I2",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "I3",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "HZ",
+              "scale": "HZ",
+              "uom": "Hz",
+              "dp": 2,
+              "factor": 1
+          },
+          {
+              "name": "PF",
+              "scale": "PF",
+              "dp": 2,
+              "factor": 1
+          }
+      ]
+  },
+  {
+      "name": "INVERTERS",
+      "equipments": [
+            {
+                "name": "ALL"
+            },
+          {
+              "name": "INV011"
+          },
+          {
+              "name": "INV012"
+          },
+          {
+              "name": "INV021"
+          },
+          {
+              "name": "INV022"
+          },
+          {
+              "name": "INV031"
+          },
+          {
+              "name": "INV032"
+          },
+          {
+              "name": "INV041"
+          },
+          {
+              "name": "INV042"
+          },
+          {
+              "name": "INV051"
+          },
+          {
+              "name": "INV052"
+          },
+          {
+              "name": "INV061"
+          },
+          {
+              "name": "INV062"
+          }
+      ],
+      "parameters": [
+          {
+              "name": "TXT",
+              "scale": "TXT",
+              "dp": 1,
+              "dataType": "string",
+              "factor": 1
+          },
+          {
+              "name": "WAC",
+              "scale": "WAC",
+              "uom": "kW",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "WH",
+              "scale": "WH",
+              "uom": "kWh",
+              "dp": 0,
+              "factor": 1
+          },
+          {
+              "name": "WH_TODAY",
+              "scale": "WH_TODAY",
+              "uom": "kWh",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "VAR",
+              "scale": "VAR",
+              "uom": "kvar",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "VACAB",
+              "scale": "VAC",
+              "uom": "V",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "VACBC",
+              "scale": "VAC",
+              "uom": "V",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "VACCA",
+              "scale": "VAC",
+              "uom": "V",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "IACA",
+              "scale": "IAC",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "IACB",
+              "scale": "IAC",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "IACC",
+              "scale": "IAC",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "EFF",
+              "scale": "EFF",
+              "uom": "%",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "HZ",
+              "scale": "HZ",
+              "uom": "Hz",
+              "dp": 2,
+              "factor": 1
+          },
+          {
+              "name": "PF",
+              "scale": "PF",
+              "dp": 2,
+              "factor": 1
+          },
+          {
+              "name": "WDC",
+              "scale": "WDC",
+              "uom": "kW",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "VDC",
+              "scale": "VDC",
+              "uom": "V",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "IDC",
+              "scale": "IDC",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "F_ACSURGE",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_AMBTEMP_OVR",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_COMM",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_DCBREAKER",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_DCREVS",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_DCSURGE",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_ENTRANCE",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_FIREDAMPR",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_GRID_REVSEQ",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_GRIDFREQ_AB",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_GRIDFREQ_HI",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_GRIDFREQ_LO",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_GRIDVOLT_AB",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_GRIDVOLT_HI",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_GRIDVOLT_LO",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_IDC_OVR",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_ISLPROT",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_NETW",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_OVERHEAT",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_OVERLOAD",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_PV_OVRVOLT",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_PVISO_AB",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_PVISO_AB2",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_REACT1_HITEMP",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_REACT1_HITEMP_P",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_REACT2_HITEMP",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_REACT2_HITEMP_P",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_REACTIV_COMP",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_SCRAM",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_SHORTCIRC",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_SMOKE",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_TFMR_HITEMP",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_TFMR_HITEMP_P",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_VDC_OVR",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "FAULT",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "X_ILOCK",
+              "scale": "STATUS",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 3,
+              "groupName": "STATUS"
+          },
+          {
+              "name": "X_ONGRID",
+              "scale": "STATUS",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 3,
+              "groupName": "STATUS"
+          },
+          {
+              "name": "X_REMOTE",
+              "scale": "STATUS",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 3,
+              "groupName": "STATUS"
+          },
+          {
+              "name": "X_SHUTDOW",
+              "scale": "STATUS",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 3,
+              "groupName": "STATUS"
+          },
+          {
+              "name": "X_STANDBY",
+              "scale": "STATUS",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 3,
+              "groupName": "STATUS"
+          },
+          {
+              "name": "RUN_TM",
+              "scale": "TIME",
+              "uom": "hour",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 3,
+              "groupName": "STATUS"
+          },
+          {
+              "name": "TEMP_CAB1",
+              "scale": "TEMP",
+              "uom": "°C",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 3,
+              "groupName": "STATUS"
+          },
+          {
+              "name": "TEMP_CAB2",
+              "scale": "TEMP",
+              "uom": "°C",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 3,
+              "groupName": "STATUS"
+          },
+          {
+              "name": "TEMP_IGBT1",
+              "scale": "TEMP",
+              "uom": "°C",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 3,
+              "groupName": "STATUS"
+          },
+          {
+              "name": "TEMP_IGBT2",
+              "scale": "TEMP",
+              "uom": "°C",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 3,
+              "groupName": "STATUS"
+          },
+          {
+              "name": "TEMP_IGBT3",
+              "scale": "TEMP",
+              "uom": "°C",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 3,
+              "groupName": "STATUS"
+          },
+          {
+              "name": "TEMP_REACT1",
+              "scale": "TEMP",
+              "uom": "°C",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 3,
+              "groupName": "STATUS"
+          },
+          {
+              "name": "TEMP_REACT2",
+              "scale": "TEMP",
+              "uom": "°C",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 3,
+              "groupName": "STATUS"
+          }
+      ]
+  },
+  {
+      "name": "COMBINERS",
+      "equipments": [
+            {
+                "name": "ALL",
+                "groupName": "PH01",
+                "groupOrder": 1
+            },
+            {
+                "name": "ALL",
+                "groupName": "PH02",
+                "groupOrder": 1
+            },
+            {
+                "name": "ALL",
+                "groupName": "PH03",
+                "groupOrder": 1
+            },
+            {
+                "name": "ALL",
+                "groupName": "PH04",
+                "groupOrder": 1
+            },
+            {
+                "name": "ALL",
+                "groupName": "PH05",
+                "groupOrder": 1
+            },
+            {
+                "name": "ALL",
+                "groupName": "PH06",
+                "groupOrder": 1
+            },
+          {
+              "name": "CBX0111",
+              "groupName": "PH01",
+              "groupOrder": 1
+          },
+          {
+              "name": "CBX0112",
+              "groupName": "PH01",
+              "groupOrder": 1
+          },
+          {
+              "name": "CBX0113",
+              "groupName": "PH01",
+              "groupOrder": 1
+          },
+          {
+              "name": "CBX0114",
+              "groupName": "PH01",
+              "groupOrder": 1
+          },
+          {
+              "name": "CBX0115",
+              "groupName": "PH01",
+              "groupOrder": 1
+          },
+          {
+              "name": "CBX0116",
+              "groupName": "PH01",
+              "groupOrder": 1
+          },
+          {
+              "name": "CBX0121",
+              "groupName": "PH01",
+              "groupOrder": 1
+          },
+          {
+              "name": "CBX0122",
+              "groupName": "PH01",
+              "groupOrder": 1
+          },
+          {
+              "name": "CBX0123",
+              "groupName": "PH01",
+              "groupOrder": 1
+          },
+          {
+              "name": "CBX0124",
+              "groupName": "PH01",
+              "groupOrder": 1
+          },
+          {
+              "name": "CBX0125",
+              "groupName": "PH01",
+              "groupOrder": 1
+          },
+          {
+              "name": "CBX0126",
+              "groupName": "PH01",
+              "groupOrder": 1
+          },
+          {
+              "name": "CBX0211",
+              "groupName": "PH02",
+              "groupOrder": 2
+          },
+          {
+              "name": "CBX0212",
+              "groupName": "PH02",
+              "groupOrder": 2
+          },
+          {
+              "name": "CBX0213",
+              "groupName": "PH02",
+              "groupOrder": 2
+          },
+          {
+              "name": "CBX0214",
+              "groupName": "PH02",
+              "groupOrder": 2
+          },
+          {
+              "name": "CBX0215",
+              "groupName": "PH02",
+              "groupOrder": 2
+          },
+          {
+              "name": "CBX0216",
+              "groupName": "PH02",
+              "groupOrder": 2
+          },
+          {
+              "name": "CBX0221",
+              "groupName": "PH02",
+              "groupOrder": 2
+          },
+          {
+              "name": "CBX0222",
+              "groupName": "PH02",
+              "groupOrder": 2
+          },
+          {
+              "name": "CBX0223",
+              "groupName": "PH02",
+              "groupOrder": 2
+          },
+          {
+              "name": "CBX0224",
+              "groupName": "PH02",
+              "groupOrder": 2
+          },
+          {
+              "name": "CBX0225",
+              "groupName": "PH02",
+              "groupOrder": 2
+          },
+          {
+              "name": "CBX0226",
+              "groupName": "PH02",
+              "groupOrder": 2
+          },
+          {
+              "name": "CBX0311",
+              "groupName": "PH03",
+              "groupOrder": 3
+          },
+          {
+              "name": "CBX0312",
+              "groupName": "PH03",
+              "groupOrder": 3
+          },
+          {
+              "name": "CBX0313",
+              "groupName": "PH03",
+              "groupOrder": 3
+          },
+          {
+              "name": "CBX0314",
+              "groupName": "PH03",
+              "groupOrder": 3
+          },
+          {
+              "name": "CBX0315",
+              "groupName": "PH03",
+              "groupOrder": 3
+          },
+          {
+              "name": "CBX0316",
+              "groupName": "PH03",
+              "groupOrder": 3
+          },
+          {
+              "name": "CBX0321",
+              "groupName": "PH03",
+              "groupOrder": 3
+          },
+          {
+              "name": "CBX0322",
+              "groupName": "PH03",
+              "groupOrder": 3
+          },
+          {
+              "name": "CBX0323",
+              "groupName": "PH03",
+              "groupOrder": 3
+          },
+          {
+              "name": "CBX0324",
+              "groupName": "PH03",
+              "groupOrder": 3
+          },
+          {
+              "name": "CBX0325",
+              "groupName": "PH03",
+              "groupOrder": 3
+          },
+          {
+              "name": "CBX0326",
+              "groupName": "PH03",
+              "groupOrder": 3
+          },
+          {
+              "name": "CBX0411",
+              "groupName": "PH04",
+              "groupOrder": 4
+          },
+          {
+              "name": "CBX0412",
+              "groupName": "PH04",
+              "groupOrder": 4
+          },
+          {
+              "name": "CBX0413",
+              "groupName": "PH04",
+              "groupOrder": 4
+          },
+          {
+              "name": "CBX0414",
+              "groupName": "PH04",
+              "groupOrder": 4
+          },
+          {
+              "name": "CBX0415",
+              "groupName": "PH04",
+              "groupOrder": 4
+          },
+          {
+              "name": "CBX0416",
+              "groupName": "PH04",
+              "groupOrder": 4
+          },
+          {
+              "name": "CBX0421",
+              "groupName": "PH04",
+              "groupOrder": 4
+          },
+          {
+              "name": "CBX0422",
+              "groupName": "PH04",
+              "groupOrder": 4
+          },
+          {
+              "name": "CBX0423",
+              "groupName": "PH04",
+              "groupOrder": 4
+          },
+          {
+              "name": "CBX0424",
+              "groupName": "PH04",
+              "groupOrder": 4
+          },
+          {
+              "name": "CBX0425",
+              "groupName": "PH04",
+              "groupOrder": 4
+          },
+          {
+              "name": "CBX0426",
+              "groupName": "PH04",
+              "groupOrder": 4
+          },
+          {
+              "name": "CBX0511",
+              "groupName": "PH05",
+              "groupOrder": 5
+          },
+          {
+              "name": "CBX0512",
+              "groupName": "PH05",
+              "groupOrder": 5
+          },
+          {
+              "name": "CBX0513",
+              "groupName": "PH05",
+              "groupOrder": 5
+          },
+          {
+              "name": "CBX0514",
+              "groupName": "PH05",
+              "groupOrder": 5
+          },
+          {
+              "name": "CBX0515",
+              "groupName": "PH05",
+              "groupOrder": 5
+          },
+          {
+              "name": "CBX0516",
+              "groupName": "PH05",
+              "groupOrder": 5
+          },
+          {
+              "name": "CBX0521",
+              "groupName": "PH05",
+              "groupOrder": 5
+          },
+          {
+              "name": "CBX0522",
+              "groupName": "PH05",
+              "groupOrder": 5
+          },
+          {
+              "name": "CBX0523",
+              "groupName": "PH05",
+              "groupOrder": 5
+          },
+          {
+              "name": "CBX0524",
+              "groupName": "PH05",
+              "groupOrder": 5
+          },
+          {
+              "name": "CBX0525",
+              "groupName": "PH05",
+              "groupOrder": 5
+          },
+          {
+              "name": "CBX0526",
+              "groupName": "PH05",
+              "groupOrder": 5
+          },
+          {
+              "name": "CBX0611",
+              "groupName": "PH06",
+              "groupOrder": 6
+          },
+          {
+              "name": "CBX0612",
+              "groupName": "PH06",
+              "groupOrder": 6
+          },
+          {
+              "name": "CBX0613",
+              "groupName": "PH06",
+              "groupOrder": 6
+          },
+          {
+              "name": "CBX0614",
+              "groupName": "PH06",
+              "groupOrder": 6
+          },
+          {
+              "name": "CBX0615",
+              "groupName": "PH06",
+              "groupOrder": 6
+          },
+          {
+              "name": "CBX0616",
+              "groupName": "PH06",
+              "groupOrder": 6
+          },
+          {
+              "name": "CBX0621",
+              "groupName": "PH06",
+              "groupOrder": 6
+          },
+          {
+              "name": "CBX0622",
+              "groupName": "PH06",
+              "groupOrder": 6
+          },
+          {
+              "name": "CBX0623",
+              "groupName": "PH06",
+              "groupOrder": 6
+          },
+          {
+              "name": "CBX0624",
+              "groupName": "PH06",
+              "groupOrder": 6
+          },
+          {
+              "name": "CBX0625",
+              "groupName": "PH06",
+              "groupOrder": 6
+          },
+          {
+              "name": "CBX0626",
+              "groupName": "PH06",
+              "groupOrder": 6
+          }
+      ],
+      "parameters": [
+          {
+              "name": "TXT",
+              "scale": "TXT",
+              "dp": 1,
+              "dataType": "string",
+              "factor": 1
+          },
+          {
+              "name": "WTOTAL",
+              "scale": "WTOTAL",
+              "uom": "kW",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "V",
+              "scale": "V",
+              "uom": "V",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "ITOTAL",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "F_COMM",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_NETW",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_OVER",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_REVRS",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_STRING",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "F_SURGE",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "FAULT",
+              "scale": "ALARM",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 2,
+              "groupName": "ALARMS"
+          },
+          {
+              "name": "TEMP",
+              "scale": "TEMP",
+              "uom": "°C",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 3,
+              "groupName": "STATUS"
+          },
+          {
+              "name": "CBON",
+              "scale": "STATUS",
+              "dp": 0,
+              "dataType": "boolean",
+              "factor": 1,
+              "groupOrder": 3,
+              "groupName": "STATUS"
+          },
+          {
+              "name": "SERROR",
+              "scale": "SERROR",
+              "dp": 0,
+              "factor": 1,
+              "groupOrder": 3,
+              "groupName": "STATUS"
+          },
+          {
+              "name": "I_EXP",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 4,
+              "groupName": "ARRAYS"
+          },
+          {
+              "name": "I01",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 4,
+              "groupName": "ARRAYS"
+          },
+          {
+              "name": "I02",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 4,
+              "groupName": "ARRAYS"
+          },
+          {
+              "name": "I03",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 4,
+              "groupName": "ARRAYS"
+          },
+          {
+              "name": "I04",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 4,
+              "groupName": "ARRAYS"
+          },
+          {
+              "name": "I05",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 4,
+              "groupName": "ARRAYS"
+          },
+          {
+              "name": "I06",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 4,
+              "groupName": "ARRAYS"
+          },
+          {
+              "name": "I07",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 4,
+              "groupName": "ARRAYS"
+          },
+          {
+              "name": "I08",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 4,
+              "groupName": "ARRAYS"
+          },
+          {
+              "name": "I09",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 4,
+              "groupName": "ARRAYS"
+          },
+          {
+              "name": "I10",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 4,
+              "groupName": "ARRAYS"
+          },
+          {
+              "name": "I11",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 4,
+              "groupName": "ARRAYS"
+          },
+          {
+              "name": "I12",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 4,
+              "groupName": "ARRAYS"
+          },
+          {
+              "name": "I13",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 4,
+              "groupName": "ARRAYS"
+          },
+          {
+              "name": "I14",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 4,
+              "groupName": "ARRAYS"
+          },
+          {
+              "name": "I15",
+              "scale": "I",
+              "uom": "A",
+              "dp": 1,
+              "factor": 1,
+              "groupOrder": 4,
+              "groupName": "ARRAYS"
+          }
+      ]
+  },
+  {
+      "name": "WEATHER",
+      "equipments": [
+          {
+              "name": "SCADA1"
+          }
+      ],
+      "parameters": [
+          {
+              "name": "PYRANO",
+              "scale": "PYRANO",
+              "uom": "W/m²",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "PYRANO1",
+              "scale": "PYRANO",
+              "uom": "W/m²",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "PYRANO2",
+              "scale": "PYRANO",
+              "uom": "W/m²",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "PVTEMP",
+              "scale": "TEMP",
+              "uom": "°C",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "PVTEMP1",
+              "scale": "TEMP",
+              "uom": "°C",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "PVTEMP2",
+              "scale": "TEMP",
+              "uom": "°C",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "AMBTEMP",
+              "scale": "TEMP",
+              "uom": "°C",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "WINDSPD",
+              "scale": "WINDSPD",
+              "uom": "m/s",
+              "dp": 1,
+              "factor": 1
+          }
+      ]
+  },
+  {
+      "name": "PLCS",
+      "equipments": [
+            {
+                "name": "ALL"
+            },
+            {
+                "name": "PHOUSE1"
+            },
+            {
+                "name": "PHOUSE2"
+            },
+            {
+                "name": "PHOUSE3"
+            },
+            {
+                "name": "PHOUSE4"
+            },
+            {
+                "name": "PHOUSE5"
+            },
+            {
+                "name": "PHOUSE6"
+            }
+      ],
+      "parameters": [
+          {
+              "name": "FAIL",
+              "scale": "ALARM",
+              "dp": 0,
+              "factor": 1
+          },
+          {
+              "name": "ERNO",
+              "scale": "ALARM",
+              "dp": 0,
+              "factor": 1
+          }
+      ]
+  }
+]

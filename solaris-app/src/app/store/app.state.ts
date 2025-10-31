@@ -9,6 +9,7 @@ import { performanceReducer } from '../features/central/store/reducers/performan
 import { layoutReducer } from '../features/sites/store/reducers/layout.reducer';
 import { dashboardReducer } from '../features/sites/store/reducers/dashboard.reducer';
 import { efficiencyReducer } from '../features/sites/store/reducers/performance.reducer';
+import { tagsReducer } from './reducers/tags.reducer';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { efficiencyReducer } from '../features/sites/store/reducers/performance.
     StoreModule.forRoot({ 
       nav: navReducer, 
       site: siteReducer,
+      tags: tagsReducer,
       date: dateReducer,
       overview: overviewReducer,
       trend: trendReducer ,

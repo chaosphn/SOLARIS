@@ -571,7 +571,8 @@
               "type": "column",
               "color": "#249EA0",
               "borderColor": "#249EA0",
-							"borderRadius": 0
+							"borderRadius": 0,
+              "showInLegend": true
             }
           },
           {
@@ -582,7 +583,8 @@
               "type": "column",
               "color": "#FF4F52",
               "borderColor": "#FF4F52",
-							"borderRadius": 0
+							"borderRadius": 0,
+              "showInLegend": true
             }
           },
           {
@@ -592,7 +594,8 @@
               "yAxis": 1,
               "type": "line",
               "color": "#FFDF6C",
-              "fillOpacity": 0.025
+              "fillOpacity": 0.025,
+              "showInLegend": true
             }
           }
         ],
@@ -625,8 +628,8 @@
             "backgroundColor": "none",
             "animation": false,
             "margin": [
-              10,
-              10,
+              20,
+              70,
               30,
               60
             ],
@@ -704,7 +707,14 @@
             },
             "max": "t"
           },
-          "legend": {},
+          "legend": {
+            "enabled": true,
+            "floating": true,
+            "align": "center",
+            "verticalAlign": "top",
+            "layout": "horizontal",
+            "y": -15
+          },
           "plotOptions": {}
         }
       },

@@ -76,6 +76,24 @@ export class PanelLayout {
       };
     }
   };
+
+  getPanelTransformStyle = (provinceId: string, group: string, position: string) => {
+    const isSelected = this.selectedString === provinceId || this.selectedGroup === group;
+    const isHovered = this.hoverString === provinceId;
+    if (isSelected) {
+      return {
+        transform: position,
+      };
+    } else if (isHovered) {
+      return {
+        transform: position + ' scale(1.05)',
+      };
+    } else {
+      return {
+        transform: position,
+      };
+    }
+  };
   
   getPanelColor(pr: number | undefined){
     if(pr && !isNaN(pr)){

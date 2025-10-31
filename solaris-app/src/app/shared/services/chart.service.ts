@@ -308,7 +308,11 @@ export class ChartService {
         labelFormatter: item.labelFormatter || function() {
           let d:any = this.options;
           let color = d.color;
-          let s = '<div class="d-flex-sb w-100 b" style="width: 80px;" ><span class="bz chart-legend" style="color:'+ color +';font-weight:500">' + this.name.split("*")[0] + '</span> </div>';
+          let s = '<div class="d-flex-sb w-100 b" style="width: 80px;" ><span class="bz chart-legend" style="color:'
+            + color 
+              +';font-weight:500">' 
+                  + this.name.split("*")[1] ? `${this.name.split("*")[0] } (${this.name.split("*")[1]})` : `${this.name.split("*")[0] }`
+                    + '</span> </div>';
           return s;
         },
         useHTML: true,
