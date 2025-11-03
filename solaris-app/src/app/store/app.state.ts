@@ -10,6 +10,7 @@ import { layoutReducer } from '../features/sites/store/reducers/layout.reducer';
 import { dashboardReducer } from '../features/sites/store/reducers/dashboard.reducer';
 import { efficiencyReducer } from '../features/sites/store/reducers/performance.reducer';
 import { tagsReducer } from './reducers/tags.reducer';
+import { diagramReducer } from '../features/sites/store/reducers/diagram.reducer';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { tagsReducer } from './reducers/tags.reducer';
       performance: performanceReducer,
       layout: layoutReducer,
       dashboard: dashboardReducer,
-      efficiency: efficiencyReducer
+      efficiency: efficiencyReducer,
+      diagram: diagramReducer
     })
     // or for feature module:
     // StoreModule.forFeature('nav', navReducer)

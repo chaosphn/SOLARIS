@@ -132,7 +132,7 @@ export class Performance implements OnInit, OnDestroy {
     this.panelList.set([]);
     this.colorRange.set([]);
     //this.plantStatusData.set([]);
-    this.store.dispatch(EfficiencyActions.resetEfficiencyState());
+    //this.store.dispatch(EfficiencyActions.resetEfficiencyState());
   }
 
   async initPage(){

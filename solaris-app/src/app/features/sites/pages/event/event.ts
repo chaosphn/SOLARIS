@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-event',
-  imports: [],
+  standalone: false,
   templateUrl: './event.html',
   styleUrl: './event.scss'
 })

@@ -36,10 +36,11 @@ export class TagContainer implements OnDestroy {
 
   constructor(){
     effect(() => {
-      if(this.tagConfig() || this.siteName()){
+      if(this.siteName()){
+        //console.log(this.tagConfig())
         const tagState: any = this.store.select(TagsSelectors.getTagsGroupWithName(this.siteName()))
           .subscribe((tag) => {
-            console.log(tag)
+            //console.log(tag)
             if(tag && tag.length > 0){
               this.tagsGroup.set(tag);
             } else {

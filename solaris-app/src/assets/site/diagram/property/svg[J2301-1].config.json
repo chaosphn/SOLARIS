@@ -1,0 +1,50 @@
+[
+	{
+		"name": "NORMAL",
+		"title": "DIAGRAM",
+		"textBinding": [
+			{
+				"value": "False",
+				"message": "RUNNING"
+			},
+			{
+				"value": "True",
+				"message": "SHUTDOWN"
+			}
+		],
+		"colorBinding": [
+			{
+				"value": "False",
+				"color": "normal"
+			},
+			{
+				"value": "True",
+				"color": "major"
+			}
+		]
+	},
+	{
+		"name": "SINGLE",
+		"title": "SINGLELINE",
+		"textBinding": [
+			{
+				"value": 0,
+				"message": "RUNNING"
+			},
+			{
+				"value": 1,
+				"message": "SHUTDOWN"
+			}
+		],
+		"colorBinding": [
+			{
+				"value": 0,
+				"color": "lime"
+			},
+			{
+				"value": 1,
+				"color": "red"
+			}
+		]
+	}
+]

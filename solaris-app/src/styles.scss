@@ -68,3 +68,19 @@ body {
     --mat-select-trigger-text-weight: 200;
     --mdc-filled-text-field-active-indicator-color: #272B31;
 }
+
+#major{
+    fill: red !important;
+}
+
+#minor{
+    fill: tomato !important;
+}
+
+#warnning{
+    fill: darkgoldenrod !important;
+}
+
+#normal{
+    fill: lime !important;
+}

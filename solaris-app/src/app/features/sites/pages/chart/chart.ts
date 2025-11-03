@@ -17,6 +17,7 @@ import { ChartService } from '../../../../shared/services/chart.service';
 import { ExportXls } from '../../../../shared/services/export-xls';
 import { Datetime } from '../../../../shared/services/datetime';
 import { getNavState } from '../../../../store/selectors/nav.selectors';
+import { resetTags } from '../../../../store/actions/tags.actions';
 
 @Component({
   selector: 'app-chart',
@@ -88,6 +89,7 @@ export class Chart implements OnInit, OnDestroy {
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {
       this.siteSelected.set(state.location);
+      //this.store.dispatch(resetTags());
       await this.initPage();
     });
   }
@@ -110,10 +112,16 @@ export class Chart implements OnInit, OnDestroy {
   }
 
   async getConfig(){
-    const config = await this.http.getConfig2(`assets/site/charts/configurations/charts[${this.siteSelected()}].config.json`);
-    this.chartConf = await this.http.getConfig2(`assets/site/charts/configurations/default.config.json`);
-    if(config){
-      this.configTest.set(config);
+    try {
+      const config = await this.http.getConfig2(`assets/site/charts/configurations/charts[${this.siteSelected()}].config.json`);
+      this.chartConf = await this.http.getConfig2(`assets/site/charts/configurations/default.config.json`);
+      if(config){
+        this.configTest.set(config);
+      } else {
+        this.configTest.set([]);
+      }
+    } catch (error) {
+      this.configTest.set([]);
     }
   }
 
@@ -328,6 +336,10 @@ export class Chart implements OnInit, OnDestroy {
                   lineColor: 'rgb(100,100,100)'
                 }
               }
+            },
+            tooltip: {
+              headerFormat: '<b>{series.name}</b><br>',
+              pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>Value: {point.y}'
             }
           };
         } else if(this.selectedOption.value === 'area') {
@@ -373,71 +385,6 @@ export class Chart implements OnInit, OnDestroy {
     }
   }
 
-  // updateCombinedChart(): void {
-  //   const allCharts = this.chartParameter();
-    
-  //   if(allCharts.length === 0) {
-  //     this.combinedChartParameter.set(null);
-  //     return;
-  //   }
-
-  //   // Combine all series from all charts
-  //   let combinedSeries: SeriesOptionsType[] = [];
-  //   let colorIndex = 0;
-
-  //   allCharts.forEach(chart => {
-  //     if(chart.series) {
-  //       chart.series.forEach(series => {
-  //         const combinedSeriesItem = {
-  //           ...series,
-  //           color: this.colorList[colorIndex % this.colorList.length]
-  //         };
-  //         combinedSeries.push(combinedSeriesItem);
-  //         colorIndex++;
-  //       });
-  //     }
-  //   });
-
-  //   // Create combined chart parameter
-  //   const combinedChart: ChartParameters = {
-  //     chart: this.chartOptions.getChartOptions(this.chartConf?.chartOptions.chart),
-  //     title: this.chartOptions.getTitleOptions(this.chartConf?.chartOptions.title),
-  //     xAxis: this.chartOptions.getXAxisoptions(this.chartConf?.chartOptions.xAxis),
-  //     yAxis: this.chartOptions.getYAxisoptions(this.chartConf?.chartOptions.yAxis),
-  //     legend: {
-  //       layout: "vertical",
-  //       align: "right",
-  //       verticalAlign: "top",
-  //       floating: true,
-  //       x: +40,
-  //       y: -20,
-  //       itemStyle:{
-  //         fontWeight: 'bolder',
-  //         fontSize: '12px'
-  //       },
-  //       labelFormatter: function() {
-  //         let d:any = this.options;
-  //         let color = d.color;
-  //         let lastValue = 0;
-  //         if(d.data[d.data.length - 1] && d.data[d.data.length - 1].length > 1){
-  //           lastValue = d.data[d.data.length - 1][1];
-  //           lastValue = parseInt(lastValue.toFixed(0));
-  //         }
-  //         let s = '<div class="d-flex-sb w-100 bz chart-legend-box" style="width: 170px; text-wrap: wrap;" ><span class="bz chart-legend" style="color:'+ color +';font-weight:500">' + this.name.split("*")[0] + '</span> <span class="bz chart-legend" style="padding-left:6px;font-weight:500;color:#bcd;"> ' + lastValue + '  ' + this.name.split("*")[1] + ' </span></div>';
-  //         return s;
-  //       },
-  //       itemWidth: 200,
-  //       useHTML: true,
-  //       borderColor: 'red',
-  //       symbolHeight: 0,
-  //       symbolWidth: 0
-  //     },
-  //     plotOptions: this.chartOptions.getPlotOptions(this.chartConf?.chartOptions.plotOptions),
-  //     series: combinedSeries
-  //   };
-
-  //   this.combinedChartParameter.set(combinedChart);
-  // }
 
   getRandomColor(): string {
     const minRGB = 1;
@@ -602,6 +549,10 @@ export class Chart implements OnInit, OnDestroy {
                   lineColor: 'rgb(100,100,100)'
                 }
               }
+            },
+            tooltip: {
+              headerFormat: '<b>{series.name}</b><br>',
+              pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>Value: {point.y}'
             }
           };
         } else if(this.selectedOption.value === 'area') {
@@ -770,6 +721,10 @@ export class Chart implements OnInit, OnDestroy {
               lineColor: 'rgb(100,100,100)'
             }
           }
+        },
+        tooltip: {
+          headerFormat: '<b>{series.name}</b><br>',
+          pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>Value: {point.y}'
         }
       };
     } else if(this.selectedOption.value === 'area') {

@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { AppInitService } from './app-init.service';
 import { Router } from '@angular/router';
 import { RequestAtTimeModel, RequestHistorianModel, RequestRealtimeModel } from '../models/request.model';
-import { firstValueFrom, map } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
 import { AuthRespondModel } from '../models/auth.model';
 
 @Injectable({
@@ -55,10 +55,10 @@ export class HttpService {
     }
     
 
-    getConfigFile(path: string): Promise<any> {
-        return this.httpClient.get<any>(path).toPromise();
+    async getConfigFile(path: string) {
+        const text = await this.httpClient.get(path, { responseType: 'text' }).toPromise();
+        return text;
     }
-
 
     async authentication(username: string, password: string) {
         const body = {

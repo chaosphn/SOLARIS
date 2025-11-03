@@ -12,3 +12,7 @@ export const updateTags = createAction(
   props<{ payload: TagsStateModel }>()
 );
 
+export const resetTags = createAction(
+  '[Tags] ResetTags'
+);
+

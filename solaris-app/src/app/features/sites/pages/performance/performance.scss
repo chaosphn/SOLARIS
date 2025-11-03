@@ -65,7 +65,7 @@
 
 @media (max-width: 800px) {
     .container{
-        padding: 16px;
+        padding: 8px;
         display: grid;
         grid-template-columns: repeat(1, 1fr);
         grid-template-rows: repeat(7, min(275px));
@@ -76,8 +76,9 @@
             "energyCard"
             "inverterCard"
         ;
-        grid-gap: 16px; 
+        grid-gap: 8px; 
         max-height: calc(100vh - 250px);
+        max-width: 100vw;
         overflow-y: auto;
     }
 }

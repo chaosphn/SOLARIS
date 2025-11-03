@@ -1,0 +1,59 @@
+<div class="modal-overlay" (click)="closeUserModal()">
+    <div class="modal-content user-modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>{{ editingUser ? 'Edit User' : 'Add New User' }}</h2>
+            <button class="close-btn" (click)="closeUserModal()">
+                <i class="material-icons">close</i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" [(ngModel)]="newUser.username" placeholder="Enter username" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" [(ngModel)]="newUser.password" placeholder="Enter password" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Role</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="role" value="user" [(ngModel)]="newUser.role">
+                        <span>User</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="role" value="administrator" [(ngModel)]="newUser.role">
+                        <span>Administrator</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="page-access-header">
+                    <label>Page Access</label>
+                    <div class="select-buttons">
+                        <button class="select-btn" (click)="selectAllPages()">Select All</button>
+                        <button class="select-btn" (click)="deselectAllPages()">Deselect All</button>
+                    </div>
+                </div>
+                <div class="checkbox-grid">
+                    <label class="checkbox-label" *ngFor="let page of availablePages">
+                        <input type="checkbox" 
+                                [checked]="hasPageAccess(page)"
+                                (change)="togglePageAccess(page)">
+                        <span>{{ page }}</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="closeUserModal()">CANCEL</button>
+            <button class="btn-primary" (click)="saveUser()">SAVE</button>
+        </div>
+    </div>
+</div>

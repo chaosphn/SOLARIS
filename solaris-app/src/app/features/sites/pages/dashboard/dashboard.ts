@@ -131,7 +131,7 @@ export class Dashboard implements OnInit, OnDestroy {
     this.panelList.set([]);
     this.colorRange.set([]);
     //this.plantStatusData.set([]);
-    this.store.dispatch(DashboardActions.resetDashboardState());
+    //this.store.dispatch(DashboardActions.resetDashboardState());
   }
 
   async initPage(){

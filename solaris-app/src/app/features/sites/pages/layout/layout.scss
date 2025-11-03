@@ -116,7 +116,7 @@
 
 @media (max-width: 500px) {
     .container{
-        padding: 16px;
+        padding: 8px;
         display: grid;
         grid-template-columns: repeat(1, 1fr);
         grid-template-rows: repeat(10, 1fr);
@@ -132,7 +132,7 @@
             "layoutCard"
             "layoutCard" 
         ;
-        grid-gap: 16px; 
+        grid-gap: 8px; 
         max-height: calc(100vh - 220px);
         overflow-y: auto;
     }

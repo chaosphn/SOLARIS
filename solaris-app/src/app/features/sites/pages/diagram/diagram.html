@@ -1,1 +1,16 @@
-<p>diagram works!</p>
+<div class="w-100 h-100 container bz">
+    <div class="btn-group">
+        @for (item of diagramList(); track $index) {
+            <button [ngClass]="{ 'active' : selectedDiagram().name === item.name}" class="btn" (click)="changeTabs(item)">{{ item.title }}</button>
+        }
+    </div>
+    <div class="infoCard w-100 h-100 bz">
+        <app-card-container [title]="'SYSTEM DIAGRAM'">
+            <ng-template #container>
+                <div class="contentBox d-flex-c w-100 bz">
+                    <div #svgContainer [innerHTML]="svgSafe()" class="content"></div>
+                </div>
+            </ng-template>
+        </app-card-container>
+    </div>
+</div>

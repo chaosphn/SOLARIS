@@ -14,6 +14,11 @@ import { setSite } from '../../../store/actions/site.actions';
 import { ThemeService } from '../../../shared/services/theme.service';
 import { getDateState } from '../../../store/selectors/date.selectors';
 import { setDate, setDateEnable } from '../../../store/actions/date.actions';
+import { resetLayoutState } from '../../../features/sites/store/actions/layout.action';
+import { resetDashboardState } from '../../../features/sites/store/actions/dashboard.action';
+import { resetEfficiencyState } from '../../../features/sites/store/actions/performance.action';
+import { resetDiagramState } from '../../../features/sites/store/actions/diagram.action';
+import { resetTags } from '../../../store/actions/tags.actions';
 
 @Component({
   selector: 'app-navbar',
@@ -172,9 +177,10 @@ export class Navbar implements OnInit, OnDestroy {
           location: name
         }
       }));
+      this.clearPageState();
       this.router.navigate(['/main/layout'])
     } else {
-      //this.router.navigate(['/main/overview']);
+      this.clearPageState();
       this.store.dispatch(addState({
         payload: {
           name: state,
@@ -182,6 +188,14 @@ export class Navbar implements OnInit, OnDestroy {
         }
       }));
     }
+  }
+
+  clearPageState(){
+    this.store.dispatch(resetLayoutState());
+    this.store.dispatch(resetDashboardState());
+    this.store.dispatch(resetEfficiencyState());
+    this.store.dispatch(resetDiagramState());
+    this.store.dispatch(resetTags());
   }
 
   onSiteChange(event: Event) {

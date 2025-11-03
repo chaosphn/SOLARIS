@@ -1,1 +1,80 @@
-<p>billing works!</p>
+<div class="container w-100 h-100 bz">
+    <div class="header d-flex-sb w-100 bz">
+        <div class="item-group d-flex">
+            <div class="dropdown-wrapper" #dropdownWrapper1>
+                <div class="custom-dropdown d-flex-ct bz h-100" 
+                    [class.active]="isDropdownOpen1"
+                    (click)="toggleDropdown1($event)">
+                    <div class="selected-option">
+                        @if (selectedReport && selectedReport.icon) {
+                            <span class="material-icons">{{ selectedReport.icon }}</span>
+                        }
+                        <span>{{ selectedReport?.label || 'Select Report' }}</span>
+                    </div>
+                    <span class="material-icons dropdown-arrow">keyboard_arrow_down</span>
+                </div>
+                <div class="dropdown-menu" [class.show]="isDropdownOpen1">
+                    @for (option of reportOptions(); track $index) {
+                        <div class="dropdown-item"
+                            [class.selected]="selectedReport?.value === option.value"
+                            [attr.data-value]="option.value"
+                            (click)="selectOption1($event, option)">
+                            <span class="material-icons">{{ option.icon }}</span>
+                            <span>{{ option.label }}</span>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="dropdown-wrapper" #dropdownWrapper2>
+                <div class="custom-dropdown d-flex-ct bz h-100" 
+                    [class.active]="isDropdownOpen2"
+                    (click)="toggleDropdown2($event)">
+                    <div class="selected-option">
+                        @if (selectedSite && selectedSite.icon) {
+                            <span class="material-icons">{{ selectedSite.icon }}</span>
+                        }
+                        <span>{{ selectedSite?.label || 'Select Site' }}</span>
+                    </div>
+                    <span class="material-icons dropdown-arrow">keyboard_arrow_down</span>
+                </div>
+                <div class="dropdown-menu" [class.show]="isDropdownOpen2">
+                    @for (option of siteOptions(); track $index) {
+                        <div class="dropdown-item"
+                            [class.selected]="selectedSite?.value === option.value"
+                            [attr.data-value]="option.value"
+                            (click)="selectOption2($event, option)">
+                            <span class="material-icons">{{ option.icon }}</span>
+                            <span>{{ option.label }}</span>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="datepicker bz">
+                @switch (mode()) {
+                    @case ('d') {
+                        <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="1"></app-date-picker>
+                    }
+                    @case ('w') {
+                        <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'datetime'" [scale]="1"></app-date-picker>
+                    }
+                    @case ('m') {
+                        <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'month'" [scale]="1"></app-date-picker>
+                    }
+                    @case ('y') {
+                        <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'year'" [scale]="1"></app-date-picker>
+                    }
+                }
+            </div>
+        </div>
+        <div class="btn-group d-flex">
+            <button class="submit d-flex-ct brd h-100" >VIEW</button>
+            <button class="submit d-flex-ct brd h-100" >DOWNLOAD</button>
+        </div>
+    </div>
+    <div class="content w-100 h-100 bz">
+        <pdf-viewer [className]="'pdf'" [src]="pdfurl()"
+                    [render-text]="true"
+                    [original-size]="false"
+        ></pdf-viewer>
+    </div>
+</div>

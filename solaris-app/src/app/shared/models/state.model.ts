@@ -3,6 +3,7 @@ import { GroupRequestAtTimeModel, GroupRequestHistorianModel, GroupRequestRealti
 import { DataHistorianModel, DataRealtimeModel } from "./response.model";
 
 export interface PageStateModel{
+    id?: string;
     config: PageConfigModel;
     req_realtime: GroupRequestRealtimeModel[];
     req_attime: GroupRequestAtTimeModel[];

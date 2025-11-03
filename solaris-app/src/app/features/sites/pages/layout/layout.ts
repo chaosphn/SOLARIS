@@ -115,7 +115,7 @@ export class Layout implements OnInit, OnDestroy {
     this.panelList.set([]);
     this.colorRange.set([]);
     //this.plantStatusData.set([]);
-    this.store.dispatch(LayoutActions.resetLayoutState());
+    //this.store.dispatch(LayoutActions.resetLayoutState());
   }
 
   async initPage(){

@@ -3,7 +3,7 @@ import { SiteModel, SiteStateModel, ZoneModel } from '../../shared/models/config
 
 export const selectSiteState = createFeatureSelector<SiteStateModel>('site');
 
-export const getAllConfig = createSelector(
+export const getAllConfig = () => createSelector(
   selectSiteState,
   (state: SiteStateModel) => state.zoneList
 );

@@ -141,6 +141,7 @@ export class Highchart  {
           let ts = isDate(dateTime) ? dateTime.toISOString().slice(0,16).replace("T"," ") : '---';
           let s = `<div class="chart-tooltip" style="margin-bottom:5px;"><div style="font-weight:500;color:#bcd;">${ts}</div></div>`;
           s += '<table style="font-size:11px">';
+          console.log(this.points)
           if ( this.points && this.points.length > 0) {
             this.points.forEach(p => {
               //console.log(p)
