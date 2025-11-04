@@ -10,13 +10,13 @@
     <div class="power-info-container w-100 h-100 bz">
         <div class="info-section bz">
             <div class="label">{{ title1() }}</div>
-            <div class="value">{{ value1() }}</div>
+            <div class="value" [matTooltip]="tooltipSrv.getTooltip(value1())" matTooltipPosition="above">{{ value1()?.Value | numberFomat: '1.0-1'}}</div>
             <div class="unit">{{ unit1() }}</div>
         </div>
         <div class="divider-line"></div>
         <div class="info-section bz">
             <div class="label">{{ title2() }}</div>
-            <div class="value">{{ value2() }}</div>
+            <div class="value" [matTooltip]="tooltipSrv.getTooltip(value2())" matTooltipPosition="above">{{ value2()?.Value | numberFomat: '1.0-1'}}</div>
             <div class="unit">{{ unit2() }}</div>
         </div>
     </div>

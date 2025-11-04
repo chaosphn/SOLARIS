@@ -43,6 +43,11 @@ export const routes: Routes = [
                 loadChildren: () => import('./features/central/pages/billing/billing-module').then(m => m.BillingModule)
             },
             {
+                path: 'reports',
+                canActivate: [authGuard],
+                loadChildren: () => import('./features/central/pages/reports/reports-module').then(m => m.ReportsModule)
+            },
+            {
                 path: 'admin',
                 canActivate: [authGuard],
                 loadChildren: () => import('./features/central/pages/admin/admin-module').then(m => m.AdminModule)

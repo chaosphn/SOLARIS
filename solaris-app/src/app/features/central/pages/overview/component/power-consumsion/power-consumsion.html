@@ -9,21 +9,21 @@
     <div class="infomation w-100">
         <div class="box d-col-c bz">
             <div class="title">YIELD</div>
-            <div class="value" [matTooltip]="getTooltip(yield())" matTooltipPosition="above">
+            <div class="value" [matTooltip]="tooltipSrv.getTooltip(yield())" matTooltipPosition="above">
                 {{ yield()?.Value?.toFixed(1)??'---' }}
             </div>
             <div class="unit">kWh/kWp</div>
         </div>
         <div class="box d-col-c bz">
             <div class="title">PR</div>
-            <div class="value" [matTooltip]="getTooltip(performance())" matTooltipPosition="above">
+            <div class="value" [matTooltip]="tooltipSrv.getTooltip(performance())" matTooltipPosition="above">
                 {{ performance()?.Value?.toFixed(1)??'---' }}
             </div>
             <div class="unit">%</div>
         </div>
         <div class="box d-col-c bz">
             <div class="title">CAPACITY</div>
-            <div class="value" [matTooltip]="getTooltip(capacity())" matTooltipPosition="above">
+            <div class="value" [matTooltip]="tooltipSrv.getTooltip(capacity())" matTooltipPosition="above">
                 {{ capacity()?.Value?.toFixed(1)??'---' }}
             </div>
             <div class="unit">%</div>

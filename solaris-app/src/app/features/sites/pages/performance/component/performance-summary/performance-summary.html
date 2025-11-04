@@ -10,24 +10,24 @@
     <div class="power-info-container w-100 h-100 bz">
         <div class="info-section bz">
             <div class="label">{{ title1() }}</div>
-            <div class="value">{{ value1() }}</div>
+            <div class="value" [matTooltip]="tooltipSrv.getTooltip(value1())" matTooltipPosition="above">{{ value1()?.Value | numberFomat: '1.0-1' }}</div>
             <div class="unit">{{ unit1() }}</div>
             @if (title11()) {
                 <div class="tips d-flex">
                     <div class="tip">{{ title11() }} :</div>
-                    <div class="tip-highlight">{{ value11() }} {{ unit11() }}</div>
+                    <div class="tip-highlight" [matTooltip]="tooltipSrv.getTooltip(value11())" matTooltipPosition="above">{{ value11()?.Value | numberFomat: '1.0-1' }} {{ unit11() }}</div>
                 </div>
             }
         </div>
         <div class="divider-line"></div>
         <div class="info-section bz">
             <div class="label">{{ title2() }}</div>
-            <div class="value">{{ value2() }}</div>
+            <div class="value" [matTooltip]="tooltipSrv.getTooltip(value2())" matTooltipPosition="above">{{ value2()?.Value | numberFomat: '1.0-1' }}</div>
             <div class="unit">{{ unit2() }}</div>
             @if (title21()) {
                 <div class="tips d-flex">
                     <div class="tip">{{ title21() }} :</div>
-                    <div class="tip-highlight">{{ value21() }} {{ unit21() }}</div>
+                    <div class="tip-highlight" [matTooltip]="tooltipSrv.getTooltip(value21())" matTooltipPosition="above">{{ value21()?.Value | numberFomat: '1.0-1' }} {{ unit21() }}</div>
                 </div>
             }
         </div>

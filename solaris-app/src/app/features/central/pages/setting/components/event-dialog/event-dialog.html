@@ -1,1 +1,57 @@
-<p>event-dialog works!</p>
+<div class="modal-overlay" (click)="closeAlarmModal()">
+    <div class="modal-content alarm-modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Create New Alarm</h2>
+            <button class="close-btn" (click)="closeAlarmModal()">
+                <i class="material-icons">close</i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Name</label>
+                <input [(ngModel)]="alarmData().name" placeholder="Enter alarm name" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea [(ngModel)]="alarmData().description" rows="2" placeholder="Enter description" class="form-control"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Message</label>
+                <textarea [(ngModel)]="alarmData().message" rows="3" placeholder="Enter message" class="form-control"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Expression</label>
+                <textarea [(ngModel)]="alarmData().expression" rows="2" placeholder="Enter expression" class="form-control"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Tag Sync</label>
+                <input [(ngModel)]="alarmData().tagSync" placeholder="Enter tag sync identifier" class="form-control">
+            </div>
+
+            <div class="destination-section">
+                <label class="section-label">📢 Destinations</label>
+                <div class="destination-checkboxes">
+                    <label [ngClass]="{ 'active-dest' : alarmData().destination.email }">
+                        <input type="checkbox" [(ngModel)]="alarmData().destination.email"> Email
+                    </label>
+                    <label [ngClass]="{ 'active-dest' : alarmData().destination.telegram }">
+                        <input type="checkbox" [(ngModel)]="alarmData().destination.telegram"> Telegram
+                    </label>
+                    <label [ngClass]="{ 'active-dest' : alarmData().destination.msteam }">
+                        <input type="checkbox" [(ngModel)]="alarmData().destination.msteam"> Microsoft Teams
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="closeAlarmModal()">CANCEL</button>
+            <button class="btn-primary" (click)="saveNewAlarm()">CREATE</button>
+        </div>
+    </div>
+</div>

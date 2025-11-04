@@ -18,6 +18,7 @@ import { setDateEnable } from '../../../../store/actions/date.actions';
 import { ColorRangeModel, PanelConfigModel } from '../../../../shared/models/panel.model';
 import { ChartPickerModel } from '../../../../shared/components/chart-card/chart-card';
 import { AliasList, RealtimeDataModel, TagParameter, TagsConfigList, TagsListConfig } from '../../../../shared/models/realtime.model';
+import { TooltipFormat } from '../../../../shared/services/tooltip-format';
 @Component({
   selector: 'app-realtime',
   standalone: false,
@@ -96,6 +97,8 @@ export class Realtime implements OnInit, OnDestroy {
   private appInit = inject(AppInitService);
   private chartOptions = inject(ChartService);
   private dateTimeSrv = inject(Datetime);
+  tooltipSrv = inject(TooltipFormat);
+
   constructor(){
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {

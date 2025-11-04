@@ -12,9 +12,9 @@
     padding: 20px;
 
     .modal-content {
-        background-color: #2F363E;
+        background-color: var(--card-bg);
         border-radius: 8px;
-        border: 1px solid #485057;
+        border: 1px solid var(--border-color);
         max-width: 600px;
         width: 100%;
         max-height: 90vh;
@@ -34,10 +34,10 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px 20px;
-            border-bottom: 1px solid #485057;
+            border-bottom: 1px solid var(--border-color);
 
             h2 {
-                color: #BBCCDD;
+                color: var(--primary-txt);
                 font-size: 18px;
                 font-weight: 500;
                 margin: 0;
@@ -46,7 +46,7 @@
             .close-btn {
                 background: none;
                 border: none;
-                color: #BBCCDD;
+                color: var(--primary-txt);
                 cursor: pointer;
                 padding: 4px;
                 display: flex;
@@ -71,7 +71,7 @@
 
                 label {
                     display: block;
-                    color: #BBCCDD;
+                    color: var(--primary-txt);
                     font-size: 14px;
                     font-weight: 500;
                     margin-bottom: 8px;
@@ -79,9 +79,9 @@
 
                 .form-control {
                     width: 100%;
-                    background-color: #3B444D;
-                    border: 1px solid #485057;
-                    color: whitesmoke;
+                    background-color: var(--primary-bg);
+                    border: 1px solid var(--border-color);
+                    color: var(--primary-txt);
                     padding: 10px 12px;
                     border-radius: 4px;
                     font-size: 14px;
@@ -89,7 +89,7 @@
                     transition: border-color 0.2s;
 
                     &:focus {
-                        border-color: #0DDDB9;
+                        border-color: var(--active-txt);
                     }
 
                     &[type="password"] {
@@ -110,7 +110,7 @@
                         display: flex;
                         align-items: center;
                         gap: 8px;
-                        color: #BBCCDD;
+                        color: var(--secondary-txt);
                         cursor: pointer;
 
                         input[type="radio"] {
@@ -132,9 +132,9 @@
                         gap: 8px;
 
                         .select-btn {
-                            background-color: #3B444D;
-                            color: #BBCCDD;
-                            border: 1px solid #485057;
+                            background-color: var(--primary-bg);
+                            color: var(--secondary-txt);
+                            border: 1px solid var(--border-color);
                             padding: 4px 12px;
                             border-radius: 4px;
                             font-size: 12px;
@@ -142,7 +142,8 @@
                             transition: all 0.2s;
 
                             &:hover {
-                                background-color: #485057;
+                                filter: brightness(125%);
+                                color: var(--primary-txt);
                             }
                         }
                     }
@@ -152,16 +153,16 @@
                     display: grid;
                     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
                     gap: 12px;
-                    background-color: #3B444D;
+                    background-color: var(--primary-bg);
                     padding: 16px;
                     border-radius: 4px;
-                    border: 1px solid #485057;
+                    border: 1px solid var(--border-color);
 
                     .checkbox-label {
                         display: flex;
                         align-items: center;
                         gap: 8px;
-                        color: #BBCCDD;
+                        color: var(--secondary-txt);
                         cursor: pointer;
 
                         input[type="checkbox"] {
@@ -169,38 +170,9 @@
                             height: 16px;
                             cursor: pointer;
                         }
-                    }
-                }
-            }
 
-            .destination-section {
-                border: 1px solid #485057;
-                border-radius: 8px;
-                background: #3B444D;
-                padding: 12px;
-
-                .section-label {
-                    font-weight: 500;
-                    margin-bottom: 12px;
-                    display: block;
-                    color: #BBCCDD;
-                }
-
-                .destination-checkboxes {
-                    display: flex;
-                    gap: 16px;
-
-                    label {
-                        display: flex;
-                        align-items: center;
-                        gap: 8px;
-                        color: #BBCCDD;
-                        cursor: pointer;
-
-                        input[type="checkbox"] {
-                            width: 16px;
-                            height: 16px;
-                            cursor: pointer;
+                        .active-page{
+                            color: var(--primary-txt) !important;
                         }
                     }
                 }
@@ -212,7 +184,7 @@
             justify-content: flex-end;
             gap: 12px;
             padding: 16px 20px;
-            border-top: 1px solid #485057;
+            border-top: 1px solid var(--border-color);
 
             button {
                 padding: 10px 20px;
@@ -224,22 +196,22 @@
                 border: none;
 
                 &.btn-secondary {
-                    background-color: #3B444D;
-                    color: #BBCCDD;
-                    border: 1px solid #485057;
+                    background-color: var(--secondary-bg-50);
+                    color: var(--primary-txt);
+                    border: 1px solid var(--border-color);
 
                     &:hover {
-                        background-color: #485057;
+                        filter: brightness(125%);
                     }
                 }
 
                 &.btn-primary {
-                    background-color: #ad8c51;
-                    color: whitesmoke;
-                    border: 1px solid #E7CD47;
+                    background-color: var(--btn-bg);
+                    color: var(--btn-color);
+                    border: 1px solid var(--btn-border);
 
                     &:hover {
-                        background-color: #c29d5a;
+                        filter: brightness(125%);
                         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
                     }
                 }

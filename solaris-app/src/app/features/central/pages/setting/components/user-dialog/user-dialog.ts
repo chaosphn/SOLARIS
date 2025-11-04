@@ -1,12 +1,5 @@
-import { Component } from '@angular/core';
-
-interface User {
-  id: number;
-  username: string;
-  password: string;
-  role: 'administrator' | 'user';
-  pageAccess: string[];
-}
+import { Component, input, OnInit, output } from '@angular/core';
+import { User } from '../../../../models/billing.model';
 
 @Component({
   selector: 'app-user-dialog',
@@ -14,28 +7,11 @@ interface User {
   templateUrl: './user-dialog.html',
   styleUrl: './user-dialog.scss'
 })
-export class UserDialog {
-  // User Management
-  users: User[] = [];
-  showUserModal: boolean = false;
-  editingUser: User | null = null;
-  newUser: User = this.getEmptyUser();
-  availablePages: string[] = [
-    'Central Overview',
-    'Central Performance',
-    'Trends',
-    'Overview',
-    'Dashboard',
-    'Performance',
-    'Realtime',
-    'Diagram',
-    'Charts',
-    'Events',
-    'Reports',
-    'Billings',
-    'Settings',
-    'Billing Admin'
-  ];
+export class UserDialog implements OnInit {
+  
+  userData = input<User>(this.getEmptyUser());
+  pageList = input<string[]>([]);
+  onClose = output();
 
   private nextUserId: number = 1;
 
@@ -46,37 +22,7 @@ export class UserDialog {
   }
 
   initializeMockData(): void {
-    // Mock users
-    this.users = [
-      {
-        id: this.nextUserId++,
-        username: 'admin',
-        password: 'admin123',
-        role: 'administrator',
-        pageAccess: ['Dashboard', 'Energy Monitoring', 'Reports', 'Settings', 'Alarm Management', 'User Management', 'Holiday Setting', 'Billing']
-      },
-      {
-        id: this.nextUserId++,
-        username: 'demouser',
-        password: '1234',
-        role: 'administrator',
-        pageAccess: ['Dashboard', 'Energy Monitoring', 'Reports', 'Settings', 'Alarm Management', 'User Management', 'Holiday Setting', 'Billing']
-      },
-      {
-        id: this.nextUserId++,
-        username: 'operator1',
-        password: 'op123',
-        role: 'user',
-        pageAccess: ['Dashboard', 'Energy Monitoring', 'Reports']
-      },
-      {
-        id: this.nextUserId++,
-        username: 'viewer',
-        password: 'view123',
-        role: 'user',
-        pageAccess: ['Dashboard', 'Reports']
-      }
-    ];
+    
   }
 
   // User Management Methods
@@ -90,82 +36,42 @@ export class UserDialog {
     };
   }
 
-  openAddUserModal(): void {
-    this.editingUser = null;
-    this.newUser = this.getEmptyUser();
-    this.showUserModal = true;
-  }
-
-  openEditUserModal(user: User): void {
-    this.editingUser = user;
-    this.newUser = { ...user, pageAccess: [...user.pageAccess] };
-    this.showUserModal = true;
-  }
-
   closeUserModal(): void {
-    this.showUserModal = false;
-    this.editingUser = null;
-    this.newUser = this.getEmptyUser();
+    this.onClose.emit();
   }
 
   togglePageAccess(page: string): void {
-    const index = this.newUser.pageAccess.indexOf(page);
+    const index = this.userData().pageAccess.indexOf(page);
     if (index > -1) {
-      this.newUser.pageAccess.splice(index, 1);
+      this.userData().pageAccess.splice(index, 1);
     } else {
-      this.newUser.pageAccess.push(page);
+      this.userData().pageAccess.push(page);
     }
   }
 
   hasPageAccess(page: string): boolean {
-    return this.newUser.pageAccess.includes(page);
+    return this.userData().pageAccess.includes(page);
   }
 
   selectAllPages(): void {
-    this.newUser.pageAccess = [...this.availablePages];
+    this.userData().pageAccess = [...this.pageList()];
   }
 
   deselectAllPages(): void {
-    this.newUser.pageAccess = [];
+    this.userData().pageAccess = [];
   }
 
   saveUser(): void {
-    if (!this.newUser.username.trim()) {
+    if (!this.userData().username.trim()) {
       alert('Please enter username');
       return;
     }
 
-    if (!this.newUser.password.trim()) {
+    if (!this.userData().password.trim()) {
       alert('Please enter password');
       return;
     }
 
-    if (this.editingUser) {
-      // Update existing user
-      const index = this.users.findIndex(u => u.id === this.editingUser!.id);
-      if (index > -1) {
-        this.users[index] = { ...this.newUser, id: this.editingUser.id };
-      }
-      alert('User updated successfully!');
-    } else {
-      // Add new user
-      this.newUser.id = this.nextUserId++;
-      this.users.push({ ...this.newUser });
-      alert('User added successfully!');
-    }
-
     this.closeUserModal();
-  }
-
-  deleteUser(id: number): void {
-    if (confirm('Are you sure you want to delete this user?')) {
-      this.users = this.users.filter(u => u.id !== id);
-      alert('User deleted successfully!');
-    }
-  }
-
-  saveUserChanges(): void {
-    console.log('Saving all user changes:', this.users);
-    alert('User changes saved successfully!');
   }
 }

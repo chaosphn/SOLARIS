@@ -1,6 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { ResponseRealtimeModel } from '../../../../../../shared/models/response.model';
 import { ChartParameters } from '../../../../../../shared/models/highchart.model';
+import { TooltipFormat } from '../../../../../../shared/services/tooltip-format';
 
 @Component({
   selector: 'app-power-consumption',
@@ -14,4 +15,7 @@ export class PowerConsumption {
   yield = input<ResponseRealtimeModel>();
   performance = input<ResponseRealtimeModel>();
   chart = input<ChartParameters>({} as ChartParameters);
+
+  tooltipSrv = inject(TooltipFormat);
+  
 }

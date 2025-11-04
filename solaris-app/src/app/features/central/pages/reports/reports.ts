@@ -9,13 +9,14 @@ import { getNavState } from '../../../../store/selectors/nav.selectors';
 import { getAllConfig, getZoneConfig } from '../../../../store/selectors/site.selectors';
 import { ReportConfigModel } from '../../../sites/models/report.model';
 
+
 @Component({
-  selector: 'app-billing',
+  selector: 'app-reports',
   standalone: false,
-  templateUrl: './billing.html',
-  styleUrl: './billing.scss'
+  templateUrl: './reports.html',
+  styleUrl: './reports.scss'
 })
-export class Billing implements OnInit, OnDestroy {
+export class Reports implements OnInit, OnDestroy {
 
   navState$: Observable<NavbarStateModel>;
   config = signal<ReportConfigModel[]>([]);

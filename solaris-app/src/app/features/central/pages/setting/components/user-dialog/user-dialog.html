@@ -1,7 +1,7 @@
 <div class="modal-overlay" (click)="closeUserModal()">
     <div class="modal-content user-modal" (click)="$event.stopPropagation()">
         <div class="modal-header">
-            <h2>{{ editingUser ? 'Edit User' : 'Add New User' }}</h2>
+            <h2>{{ userData().id > 0 ? 'Edit User' : 'Add New User' }}</h2>
             <button class="close-btn" (click)="closeUserModal()">
                 <i class="material-icons">close</i>
             </button>
@@ -10,23 +10,23 @@
         <div class="modal-body">
             <div class="form-group">
                 <label>Username</label>
-                <input type="text" [(ngModel)]="newUser.username" placeholder="Enter username" class="form-control">
+                <input type="text" [(ngModel)]="userData().username" placeholder="Enter username" class="form-control">
             </div>
 
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" [(ngModel)]="newUser.password" placeholder="Enter password" class="form-control">
+                <input type="password" [(ngModel)]="userData().password" placeholder="Enter password" class="form-control">
             </div>
 
             <div class="form-group">
                 <label>Role</label>
                 <div class="radio-group">
                     <label class="radio-label">
-                        <input type="radio" name="role" value="user" [(ngModel)]="newUser.role">
+                        <input type="radio" name="role" value="user" [(ngModel)]="userData().role">
                         <span>User</span>
                     </label>
                     <label class="radio-label">
-                        <input type="radio" name="role" value="administrator" [(ngModel)]="newUser.role">
+                        <input type="radio" name="role" value="administrator" [(ngModel)]="userData().role">
                         <span>Administrator</span>
                     </label>
                 </div>
@@ -41,12 +41,14 @@
                     </div>
                 </div>
                 <div class="checkbox-grid">
-                    <label class="checkbox-label" *ngFor="let page of availablePages">
-                        <input type="checkbox" 
-                                [checked]="hasPageAccess(page)"
-                                (change)="togglePageAccess(page)">
-                        <span>{{ page }}</span>
-                    </label>
+                    @for (page of pageList(); track $index) {
+                        <label class="checkbox-label" >
+                            <input type="checkbox" 
+                                    [checked]="hasPageAccess(page)"
+                                    (change)="togglePageAccess(page)">
+                            <span [ngClass]="{ 'active-page' : hasPageAccess(page) }">{{ page }}</span>
+                        </label>
+                    }
                 </div>
             </div>
         </div>

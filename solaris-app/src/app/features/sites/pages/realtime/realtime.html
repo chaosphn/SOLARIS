@@ -36,7 +36,7 @@
                         @for (item of tableData(); track $index) {
                             <div class="row w-100 bz">
                                 @for (key of tableHeader(); track $index) {
-                                    <div class="value bz" [style.width]="key.width" >
+                                    <div class="value bz" [style.width]="key.width" [matTooltip]="tooltipSrv.getTooltip(item[key.name])" matTooltipPosition="above">
                                         @switch (item[key.name]?.Value.toString().trim().toLowerCase()) {
                                             @case ('true') {
                                                 <span >

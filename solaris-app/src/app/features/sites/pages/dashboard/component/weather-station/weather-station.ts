@@ -1,5 +1,6 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { ResponseRealtimeModel } from '../../../../../../shared/models/response.model';
+import { TooltipFormat } from '../../../../../../shared/services/tooltip-format';
 
 @Component({
   selector: 'app-weather-station',
@@ -22,11 +23,13 @@ export class WeatherStation {
   color4 = input<string>('');
 
   title1 = input<string>('');
-  value1 = input<string>('');
+  value1 = input<ResponseRealtimeModel>();
   unit1 = input<string>('');
 
   title2 = input<string>('');
-  value2 = input<string>('');
+  value2 = input<ResponseRealtimeModel>();
   unit2 = input<string>('');
+
+   tooltipSrv = inject(TooltipFormat);
 }
 

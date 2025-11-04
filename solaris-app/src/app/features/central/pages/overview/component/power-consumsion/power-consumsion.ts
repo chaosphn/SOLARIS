@@ -1,5 +1,6 @@
-import { Component, input, Input } from '@angular/core';
+import { Component, inject, input, Input } from '@angular/core';
 import { ResponseRealtimeModel } from '../../../../../../shared/models/response.model';
+import { TooltipFormat } from '../../../../../../shared/services/tooltip-format';
 
 @Component({
   selector: 'app-power-consumsion',
@@ -11,6 +12,8 @@ export class PowerConsumsion {
   @Input() tagName: string = '';
   @Input() timestamp: string = '';
 
+  tooltipSrv = inject(TooltipFormat);
+
   performance = input<ResponseRealtimeModel>();
   yield = input<ResponseRealtimeModel>();
   capacity = input<ResponseRealtimeModel>();
@@ -20,12 +23,5 @@ export class PowerConsumsion {
     let value = this.power()?.Value??0;
     let max = this.power()?.Max??100;
     return (value/max)*100;
-  }
-
-  getTooltip(data: ResponseRealtimeModel | undefined): string {
-    const name = data?.Name || '';
-    const time = data?.TimeStamp || '';
-    if (name && time) { return `${name} • ${time}`; }
-    return name || time || '---';
   }
 }

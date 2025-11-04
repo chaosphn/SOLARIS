@@ -9,17 +9,17 @@
                     [percent]="dataRealtime()['PR']"
 
                     [title1]="'PLANT CAPACITY'"
-                    [value1]="(dataRealtime()['PR']?.Value | number: '1.0-1') ?? ''"
+                    [value1]="dataRealtime()['PR']"
                     [unit1]="'%'"
                     [title11]="'MONTHLY PERFORMANCE'"
-                    [value11]="(dataRealtime()['PR']?.Value | number: '1.0-1') ?? ''"
+                    [value11]="dataRealtime()['PR']"
                     [unit11]="'%'"
 
                     [title2]="'AVAILABILITY'"
-                    [value2]="(dataRealtime()['YIELD']?.Value | number: '1.0-1') ?? ''"
+                    [value2]="dataRealtime()['YIELD']"
                     [unit2]="'%'"
                     [title21]="'PLANT STATUS'"
-                    [value21]="(dataRealtime()['PR']?.Value | number: '1.0-1') ?? ''"
+                    [value21]="dataRealtime()['PR']"
                     [unit21]="''"
                 ></app-performance-summary>
             </ng-template>

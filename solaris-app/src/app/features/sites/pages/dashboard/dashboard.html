@@ -21,11 +21,11 @@
                     [percent]="dataRealtime()['PR']"
 
                     [title1]="'ACTIVE POWER'"
-                    [value1]="(dataRealtime()['POWER']?.Value | number: '1.0-1') ?? ''"
+                    [value1]="dataRealtime()['POWER']"
                     [unit1]="'kW'"
 
                     [title2]="'TODAY YIELD'"
-                    [value2]="(dataRealtime()['YIELD']?.Value | number: '1.0-1') ?? ''"
+                    [value2]="dataRealtime()['YIELD']"
                     [unit2]="'kWp/kWh'"
                ></app-power-consumption>
             </ng-template>
@@ -41,11 +41,11 @@
                     [percent]="dataRealtime()['TODAY']"
 
                     [title1]="'MONTHLY ENERGY'"
-                    [value1]="(dataRealtime()['MONTHLY']?.Value | number: '1.0-1') ?? ''"
+                    [value1]="dataRealtime()['MONTHLY']"
                     [unit1]="'MWh'"
 
                     [title2]="'YEARLY ENEGY'"
-                    [value2]="(dataRealtime()['YEARLY']?.Value | number: '1.0-1') ?? ''"
+                    [value2]="dataRealtime()['YEARLY']"
                     [unit2]="'MWh'"
             ></app-power-consumption>
             </ng-template>
@@ -72,11 +72,11 @@
                     [color4]="'#248679'"
 
                     [title1]="'IRRADIATION'"
-                    [value1]="(dataRealtime()['PYRANO']?.Value | number: '1.0-1') ?? ''"
+                    [value1]="dataRealtime()['PYRANO']"
                     [unit1]="'W/m²'"
 
                     [title2]="'INSOLUTION'"
-                    [value2]="(dataRealtime()['INSOLUTION']?.Value | number: '1.0-1') ?? ''"
+                    [value2]="dataRealtime()['INSOLUTION']"
                     [unit2]="'kWh/m²'"
                 ></app-weather-station>
             </ng-template>
