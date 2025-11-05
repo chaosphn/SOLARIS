@@ -37,3 +37,18 @@ export interface User {
   role: 'administrator' | 'user';
   pageAccess: string[];
 }
+
+export interface BillingConfigModel {
+  id: number;
+  siteName: string;
+  meterMode: 'normal' | 'tou';
+  energyCost?: number;
+  onpeakCost?: number;
+  offpeakCost?: number;
+  discountCost: number;
+  ftCost: number;
+  co2Ratio: number;
+  fuelRatio: number;
+  treeRatio: number;
+  emails: string;
+}

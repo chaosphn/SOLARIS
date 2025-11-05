@@ -1,1 +1,274 @@
-<p>admin works!</p>
+<div class="container">
+    <div class="content-box w-100 h-100 bz">
+        <div class="header d-flex-st w-100" style="gap: 8px;">
+            <div class="item" (click)="changeTabs('factor')" 
+                [ngClass]="{ 'item-active' : tabMode === 'factor' }">
+                    BILLING SETTING
+            </div>
+            <div class="item" (click)="changeTabs('holiday')"
+                [ngClass]="{ 'item-active' : tabMode === 'holiday' }">
+                    HOLIDAY SETTING
+            </div>
+        </div>
+        <div class="content w-100 h-100">
+            @switch (tabMode) {
+                @case ('factor') {
+                    <div class="report-box h-100 bz" style="margin-bottom: 16px;" >
+                        <div class="head bz">
+                            <div class="topic bz">BILLING FACTOR SETTING</div>
+                            <div class="btn-group">
+                                <button class="bz" (click)="openAddSiteModal()">ADD SITE CONFIG</button>
+                                <button class="bz" (click)="saveGlobalSettings()">SAVE CHANGE</button>
+                            </div>
+                        </div>
+
+                        <!-- Meter Mode Selection -->
+                        <div class="mode-selection">
+                            <label class="checkbox-label" [ngClass]="{ 'active' : meterMode === 'normal' }">
+                                <input type="radio" name="meterMode" value="normal" 
+                                    [(ngModel)]="meterMode" (change)="onMeterModeChange()">
+                                <span>Normal Meter</span>
+                            </label>
+                            <label class="checkbox-label" [ngClass]="{ 'active' : meterMode === 'tou' }">
+                                <input type="radio" name="meterMode" value="tou" 
+                                    [(ngModel)]="meterMode" (change)="onMeterModeChange()">
+                                <span>TOU Meter</span>
+                            </label>
+                        </div>
+
+                        <!-- Report Mode Selection -->
+                        <div class="mode-selection">
+                            <label class="checkbox-label" [ngClass]="{ 'active' : reportMode === 'manual' }">
+                                <input type="radio" name="reportMode" value="manual" 
+                                    [(ngModel)]="reportMode">
+                                <span>Manual Report</span>
+                            </label>
+                            <label class="checkbox-label" [ngClass]="{ 'active' : reportMode === 'auto' }">
+                                <input type="radio" name="reportMode" value="auto" 
+                                    [(ngModel)]="reportMode">
+                                <span>Auto Report</span>
+                            </label>
+                        </div>
+
+                        <div class="main">
+                            <div class="card-box w-100 d-flex">
+                                <!-- Normal Meter Fields -->
+                                <div class="card d-col-st" *ngIf="meterMode === 'normal'">
+                                    <div class="title">
+                                        <i class="material-icons" style="font-size: 16px;">settings</i>
+                                        ENERGY COST
+                                    </div>
+                                    <div class="text-field">
+                                        <input type="number" step="0.0001" [(ngModel)]="energyCost" />
+                                    </div>
+                                </div>
+
+                                <!-- TOU Meter Fields -->
+                                <div class="card d-col-st" *ngIf="meterMode === 'tou'">
+                                    <div class="title">
+                                        <i class="material-icons" style="font-size: 16px;">settings</i>
+                                        ONPEAK ENERGY COST
+                                    </div>
+                                    <div class="text-field">
+                                        <input type="number" step="0.0001" [(ngModel)]="onpeakCost" />
+                                    </div>
+                                </div>
+
+                                <div class="card d-col-st" *ngIf="meterMode === 'tou'">
+                                    <div class="title">
+                                        <i class="material-icons" style="font-size: 16px;">settings</i>
+                                        OFFPEAK ENERGY COST
+                                    </div>
+                                    <div class="text-field">
+                                        <input type="number" step="0.0001" [(ngModel)]="offpeakCost" />
+                                    </div>
+                                </div>
+
+                                <!-- Common Fields -->
+                                <div class="card d-col-st">
+                                    <div class="title">
+                                        <i class="material-icons" style="font-size: 16px;">settings</i>
+                                        DISCOUNT COST
+                                    </div>
+                                    <div class="text-field">
+                                        <input type="number" step="0.0001" [(ngModel)]="discountCost" />
+                                    </div>
+                                </div>
+
+                                <div class="card d-col-st">
+                                    <div class="title">
+                                        <i class="material-icons" style="font-size: 16px;">settings</i>
+                                        FT COST
+                                    </div>
+                                    <div class="text-field">
+                                        <input type="number" step="0.0001" [(ngModel)]="ftCost" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Report Schedule Card (visible only in auto mode) -->
+                            @if (reportMode === 'auto') {
+                                <div class="schedule-section">
+                                    <div class="card-box w-100 d-flex">
+                                        <div class="card d-col-st">
+                                            <div class="title">
+                                                <i class="material-icons" style="font-size: 16px;">date_range</i>
+                                                DAY OF MONTH
+                                            </div>
+                                            <div class="text-field">
+                                                <select [(ngModel)]="scheduleDayOfMonth" class="schedule-select">
+                                                    @for (day of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]; track $index) {
+                                                        <option [value]="day">
+                                                            Every {{ day }}{{ getDaySuffix(day) }} of month
+                                                        </option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="card d-col-st">
+                                            <div class="title">
+                                                <i class="material-icons" style="font-size: 16px;">access_time</i>
+                                                SCHEDULE TIME
+                                            </div>
+                                            <div class="text-field">
+                                                <input type="time" [(ngModel)]="scheduleTime" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            <!-- Global Email List Card -->
+                            <div class="email-section">
+                                <div class="card-box w-100">
+                                    <div class="card d-col-st email-card">
+                                        <div class="title">
+                                            <i class="material-icons" style="font-size: 16px;">email</i>
+                                            EMAILS LIST
+                                        </div>
+                                        <div class="text-field full-width">
+                                            <textarea [(ngModel)]="globalEmails" 
+                                                    class="email-textarea" 
+                                                    rows="3"
+                                                    placeholder="email1@example.com, email2@example.com, ..."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Site Configurations Table -->
+                        @if (siteConfigs.length > 0) {
+                            <div class="table-section" >
+                                <h3 class="table-title">Site Configurations</h3>
+                                <div class="table-wrapper">
+                                    <table class="config-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Site Name</th>
+                                                <th>Meter Mode</th>
+                                                <th>Energy Cost</th>
+                                                <th>Onpeak Cost</th>
+                                                <th>Offpeak Cost</th>
+                                                <th>Discount Cost</th>
+                                                <th>FT Cost</th>
+                                                <th>Email List</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (config of siteConfigs; track $index) {
+                                                <tr>
+                                                    <td>{{ config.siteName }}</td>
+                                                    <td>{{ config.meterMode === 'normal' ? 'Normal' : 'TOU' }}</td>
+                                                    <td>{{ config.meterMode === 'normal' ? config.energyCost : '-' }}</td>
+                                                    <td>{{ config.meterMode === 'tou' ? config.onpeakCost : '-' }}</td>
+                                                    <td>{{ config.meterMode === 'tou' ? config.offpeakCost : '-' }}</td>
+                                                    <td>{{ config.discountCost }}</td>
+                                                    <td>{{ config.ftCost }}</td>
+                                                    <td class="email-cell">{{ config.emails || '-' }}</td>
+                                                    <td class="action-cell">
+                                                        <button class="action-btn edit-btn" (click)="editSiteConfig(config)">
+                                                            <i class="material-icons">edit</i>
+                                                        </button>
+                                                        <button class="action-btn delete-btn" (click)="deleteSiteConfig(config.id)">
+                                                            <i class="material-icons">delete</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                @case ('holiday') {
+                    <div class="holiday-box h-100 bz">
+                        <div class="head bz">
+                            <div class="topic bz">HOLIDAY SETTING</div>
+                        </div>
+                        
+                        <div class="holiday-controls">
+                            <div class="control-row">
+                                <div class="control-label">Single Date:</div>
+                                <div class="control-input">
+                                    <input type="date" [(ngModel)]="selectedHolidayDate" (change)="selectedHolidayDate ? selectHolidayDate(selectedHolidayDate) : null" class="date-input">
+                                </div>
+                            </div>
+                            
+                            <div class="control-row d-flex-sb">
+                                <div class="d-flex control-row-range">
+                                    <div class="control-label">Date Range:</div>
+                                    <div class="control-input range-inputs">
+                                        <input type="date" [(ngModel)]="holidayStartDate" class="date-input" placeholder="Start Date">
+                                        <span class="range-separator">to</span>
+                                        <input type="date" [(ngModel)]="holidayEndDate" class="date-input" placeholder="End Date">
+                                    </div>
+                                    <button [id]="'btn-change'" class="btn-submit" style="margin-left: 16px;" (click)="setHolidays()">SUBMIT</button>
+                                </div>
+                                <button class="btn-submit btn-submit2" (click)="setHolidays()">SUBMIT</button>
+                                <button class="btn-submit" (click)="setHolidays()">SAVE CHANGE</button>
+                            </div>
+                        </div>
+
+                        <div class="holiday-grid">
+                            @for (m of monthArr; track $index) {
+                                <div class="month-card" >
+                                    <div class="month-header">
+                                        <span>{{ m.name }}</span>
+                                    </div>
+                                    <div class="holiday-chips">
+                                        @for (date of filterDateByMonth(m.no, holidayArr); track $index) {
+                                            <div class="chip-item" >
+                                                <span class="chip-date">{{ date | date: 'dd MMM yyyy' }}</span>
+                                                <button class="chip-remove" (click)="removeHoliday(date)">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </div>
+                                        }
+                                        @if (filterDateByMonth(m.no, holidayArr).length === 0) {
+                                            <div class="no-holidays" >
+                                                <span>No holidays</span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@if (showModal) {
+    <app-config-dialog
+        [siteConfig]="newSiteConfig"
+        (onSave)="saveModal($event)"
+        (onClose)="closeModal()"
+    ></app-config-dialog>
+}

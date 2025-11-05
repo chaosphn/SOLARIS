@@ -1,0 +1,108 @@
+<div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Add Site Configuration</h2>
+            <button class="close-btn" (click)="closeModal()">
+                <i class="material-icons">close</i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <!-- Site Selection -->
+            <div class="form-group">
+                <label>Select Site</label>
+                <select [(ngModel)]="siteConfig().siteName" class="form-control">
+                    <option value="">-- Select Site --</option>
+                    <option *ngFor="let site of availableSites" [value]="site">{{ site }}</option>
+                </select>
+            </div>
+
+            <!-- Meter Mode Selection -->
+            <div class="form-group">
+                <label>Meter Mode</label>
+                <div class="radio-group">
+                    <label class="checkbox-label" [ngClass]="{ 'active' : siteConfig().meterMode === 'normal' }">
+                        <input type="radio" name="siteMeterMode" value="normal" 
+                               [(ngModel)]="siteConfig().meterMode" (change)="onSiteConfigMeterModeChange()">
+                        <span>Normal Meter</span>
+                    </label>
+                    <label class="checkbox-label" [ngClass]="{ 'active' : siteConfig().meterMode === 'tou' }">
+                        <input type="radio" name="siteMeterMode" value="tou" 
+                               [(ngModel)]="siteConfig().meterMode" (change)="onSiteConfigMeterModeChange()">
+                        <span>TOU Meter</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Config Fields -->
+            <div class="card-box w-100 d-flex">
+                <!-- Normal Meter Fields -->
+                <div class="card d-col-st" *ngIf="siteConfig().meterMode === 'normal'">
+                    <div class="title">
+                        <i class="material-icons" style="font-size: 16px;">settings</i>
+                        ENERGY COST
+                    </div>
+                    <div class="text-field">
+                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().energyCost" />
+                    </div>
+                </div>
+
+                <!-- TOU Meter Fields -->
+                <div class="card d-col-st" *ngIf="siteConfig().meterMode === 'tou'">
+                    <div class="title">
+                        <i class="material-icons" style="font-size: 16px;">settings</i>
+                        ONPEAK ENERGY COST
+                    </div>
+                    <div class="text-field">
+                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().onpeakCost" />
+                    </div>
+                </div>
+
+                <div class="card d-col-st" *ngIf="siteConfig().meterMode === 'tou'">
+                    <div class="title">
+                        <i class="material-icons" style="font-size: 16px;">settings</i>
+                        OFFPEAK ENERGY COST
+                    </div>
+                    <div class="text-field">
+                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().offpeakCost" />
+                    </div>
+                </div>
+
+                <!-- Common Fields -->
+                <div class="card d-col-st">
+                    <div class="title">
+                        <i class="material-icons" style="font-size: 16px;">settings</i>
+                        DISCOUNT COST
+                    </div>
+                    <div class="text-field">
+                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().discountCost" />
+                    </div>
+                </div>
+
+                <div class="card d-col-st">
+                    <div class="title">
+                        <i class="material-icons" style="font-size: 16px;">settings</i>
+                        FT COST
+                    </div>
+                    <div class="text-field">
+                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().ftCost" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email List -->
+            <div class="form-group full-width">
+                <label>Email List (comma-separated)</label>
+                <textarea [(ngModel)]="siteConfig().emails" 
+                          class="form-control textarea" 
+                          rows="3"
+                          placeholder="email1@example.com, email2@example.com"></textarea>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="closeModal()">CANCEL</button>
+            <button class="btn-primary" (click)="saveSiteConfig()">SAVE</button>
+        </div>
+    </div>
+</div>
