@@ -51,6 +51,388 @@
             "Tagname": "J2301-1.SCADA1.THB_TODAY_ENERGY"
           }
         ]
+      },
+      {
+        "Group": "inverter01",
+        "Order": 3,
+        "Tags": [
+          {
+            "Title": "Rectangle_944",
+            "Tagname": "J2301-1.CBX0111.I01"
+          },
+          {
+            "Title": "Rectangle_945",
+            "Tagname": "J2301-1.CBX0111.I02"
+          },
+          {
+            "Title": "Rectangle_946",
+            "Tagname": "J2301-1.CBX0111.I03"
+          },
+          {
+            "Title": "Rectangle_947",
+            "Tagname": "J2301-1.CBX0111.I04"
+          },
+          {
+            "Title": "Rectangle_948",
+            "Tagname": "J2301-1.CBX0111.I05"
+          },
+          {
+            "Title": "Rectangle_949",
+            "Tagname": "J2301-1.CBX0111.I06"
+          },
+          {
+            "Title": "Rectangle_944_2",
+            "Tagname": "J2301-1.CBX0111.I07"
+          },
+          {
+            "Title": "Rectangle_945_2",
+            "Tagname": "J2301-1.CBX0111.I08"
+          },
+          {
+            "Title": "Rectangle_946_2",
+            "Tagname": "J2301-1.CBX0111.I09"
+          },
+          {
+            "Title": "Rectangle_947_2",
+            "Tagname": "J2301-1.CBX0111.I10"
+          },
+          {
+            "Title": "Rectangle_948_2",
+            "Tagname": "J2301-1.CBX0111.I11"
+          },
+          {
+            "Title": "Rectangle_949_2",
+            "Tagname": "J2301-1.CBX0111.I12"
+          },
+          {
+            "Title": "Rectangle_950",
+            "Tagname": "J2301-1.CBX0111.I13"
+          },
+          {
+            "Title": "Rectangle_951",
+            "Tagname": "J2301-1.CBX0111.I14"
+          },
+          {
+            "Title": "Rectangle_952",
+            "Tagname": "J2301-1.CBX0111.I15"
+          },
+          {
+            "Title": "Rectangle_953",
+            "Tagname": "J2301-1.CBX0112.I01"
+          },
+          {
+            "Title": "Rectangle_954",
+            "Tagname": "J2301-1.CBX0112.I02"
+          },
+          {
+            "Title": "Rectangle_955",
+            "Tagname": "J2301-1.CBX0112.I03"
+          },
+          {
+            "Title": "Rectangle_956",
+            "Tagname": "J2301-1.CBX0112.I04"
+          },
+          {
+            "Title": "Rectangle_944_3",
+            "Tagname": "J2301-1.CBX0112.I05"
+          },
+          {
+            "Title": "Rectangle_945_3",
+            "Tagname": "J2301-1.CBX0112.I06"
+          },
+          {
+            "Title": "Rectangle_946_3",
+            "Tagname": "J2301-1.CBX0112.I07"
+          },
+          {
+            "Title": "Rectangle_947_3",
+            "Tagname": "J2301-1.CBX0112.I08"
+          },
+          {
+            "Title": "Rectangle_948_3",
+            "Tagname": "J2301-1.CBX0112.I09"
+          },
+          {
+            "Title": "Rectangle_949_3",
+            "Tagname": "J2301-1.CBX0112.I10"
+          },
+          {
+            "Title": "Rectangle_950_2",
+            "Tagname": "J2301-1.CBX0112.I11"
+          },
+          {
+            "Title": "Rectangle_951_2",
+            "Tagname": "J2301-1.CBX0112.I12"
+          },
+          {
+            "Title": "Rectangle_952_2",
+            "Tagname": "J2301-1.CBX0112.I13"
+          },
+          {
+            "Title": "Rectangle_953_2",
+            "Tagname": "J2301-1.CBX0112.I14"
+          },
+          {
+            "Title": "Rectangle_954_2",
+            "Tagname": "J2301-1.CBX0112.I15"
+          },
+          {
+            "Title": "Rectangle_955_2",
+            "Tagname": "J2301-1.CBX0113.I01"
+          },
+          {
+            "Title": "Rectangle_956_2",
+            "Tagname": "J2301-1.CBX0113.I02"
+          },
+          {
+            "Title": "Rectangle_957",
+            "Tagname": "J2301-1.CBX0113.I03"
+          },
+          {
+            "Title": "Rectangle_958",
+            "Tagname": "J2301-1.CBX0113.I04"
+          },
+          {
+            "Title": "Rectangle_959",
+            "Tagname": "J2301-1.CBX0113.I05"
+          },
+          {
+            "Title": "Rectangle_960",
+            "Tagname": "J2301-1.CBX0113.I06"
+          },
+          {
+            "Title": "Rectangle_961",
+            "Tagname": "J2301-1.CBX0113.I07"
+          },
+          {
+            "Title": "Rectangle_962",
+            "Tagname": "J2301-1.CBX0113.I08"
+          },
+          {
+            "Title": "Rectangle_944_4",
+            "Tagname": "J2301-1.CBX0113.I09"
+          },
+          {
+            "Title": "Rectangle_945_4",
+            "Tagname": "J2301-1.CBX0113.I10"
+          },
+          {
+            "Title": "Rectangle_946_4",
+            "Tagname": "J2301-1.CBX0113.I11"
+          },
+          {
+            "Title": "Rectangle_947_4",
+            "Tagname": "J2301-1.CBX0113.I12"
+          },
+          {
+            "Title": "Rectangle_948_4",
+            "Tagname": "J2301-1.CBX0113.I13"
+          },
+          {
+            "Title": "Rectangle_949_4",
+            "Tagname": "J2301-1.CBX0113.I14"
+          },
+          {
+            "Title": "Rectangle_950_3",
+            "Tagname": "J2301-1.CBX0113.I15"
+          },
+          {
+            "Title": "Rectangle_951_3",
+            "Tagname": "J2301-1.CBX0114.I01"
+          },
+          {
+            "Title": "Rectangle_952_3",
+            "Tagname": "J2301-1.CBX0114.I02"
+          },
+          {
+            "Title": "Rectangle_953_3",
+            "Tagname": "J2301-1.CBX0114.I03"
+          },
+          {
+            "Title": "Rectangle_954_3",
+            "Tagname": "J2301-1.CBX0114.I04"
+          },
+          {
+            "Title": "Rectangle_955_3",
+            "Tagname": "J2301-1.CBX0114.I05"
+          },
+          {
+            "Title": "Rectangle_956_3",
+            "Tagname": "J2301-1.CBX0114.I06"
+          },
+          {
+            "Title": "Rectangle_957_2",
+            "Tagname": "J2301-1.CBX0114.I07"
+          },
+          {
+            "Title": "Rectangle_958_2",
+            "Tagname": "J2301-1.CBX0114.I08"
+          },
+          {
+            "Title": "Rectangle_959_2",
+            "Tagname": "J2301-1.CBX0114.I09"
+          },
+          {
+            "Title": "Rectangle_960_2",
+            "Tagname": "J2301-1.CBX0114.I10"
+          },
+          {
+            "Title": "Rectangle_961_2",
+            "Tagname": "J2301-1.CBX0114.I11"
+          },
+          {
+            "Title": "Rectangle_962_2",
+            "Tagname": "J2301-1.CBX0114.I12"
+          },
+          {
+            "Title": "Rectangle_963",
+            "Tagname": "J2301-1.CBX0114.I13"
+          },
+          {
+            "Title": "Rectangle_964",
+            "Tagname": "J2301-1.CBX0114.I14"
+          },
+          {
+            "Title": "Rectangle_965",
+            "Tagname": "J2301-1.CBX0114.I15"
+          },
+          {
+            "Title": "Rectangle_966",
+            "Tagname": "J2301-1.CBX0115.I01"
+          },
+          {
+            "Title": "Rectangle_944_5",
+            "Tagname": "J2301-1.CBX0115.I02"
+          },
+          {
+            "Title": "Rectangle_945_5",
+            "Tagname": "J2301-1.CBX0115.I03"
+          },
+          {
+            "Title": "Rectangle_946_5",
+            "Tagname": "J2301-1.CBX0115.I04"
+          },
+          {
+            "Title": "Rectangle_947_5",
+            "Tagname": "J2301-1.CBX0115.I05"
+          },
+          {
+            "Title": "Rectangle_948_5",
+            "Tagname": "J2301-1.CBX0115.I06"
+          },
+          {
+            "Title": "Rectangle_949_5",
+            "Tagname": "J2301-1.CBX0115.I07"
+          },
+          {
+            "Title": "Rectangle_950_4",
+            "Tagname": "J2301-1.CBX0115.I08"
+          },
+          {
+            "Title": "Rectangle_951_4",
+            "Tagname": "J2301-1.CBX0115.I09"
+          },
+          {
+            "Title": "Rectangle_952_4",
+            "Tagname": "J2301-1.CBX0115.I10"
+          },
+          {
+            "Title": "Rectangle_953_4",
+            "Tagname": "J2301-1.CBX0115.I11"
+          },
+          {
+            "Title": "Rectangle_954_4",
+            "Tagname": "J2301-1.CBX0115.I12"
+          },
+          {
+            "Title": "Rectangle_955_4",
+            "Tagname": "J2301-1.CBX0115.I13"
+          },
+          {
+            "Title": "Rectangle_956_4",
+            "Tagname": "J2301-1.CBX0115.I14"
+          },
+          {
+            "Title": "Rectangle_957_3",
+            "Tagname": "J2301-1.CBX0115.I15"
+          },
+          {
+            "Title": "Rectangle_958_3",
+            "Tagname": "J2301-1.CBX0116.I01"
+          },
+          {
+            "Title": "Rectangle_959_3",
+            "Tagname": "J2301-1.CBX0116.I02"
+          },
+          {
+            "Title": "Rectangle_960_3",
+            "Tagname": "J2301-1.CBX0116.I03"
+          },
+          {
+            "Title": "Rectangle_961_3",
+            "Tagname": "J2301-1.CBX0116.I04"
+          },
+          {
+            "Title": "Rectangle_962_3",
+            "Tagname": "J2301-1.CBX0116.I05"
+          },
+          {
+            "Title": "Rectangle_963_2",
+            "Tagname": "J2301-1.CBX0116.I06"
+          },
+          {
+            "Title": "Rectangle_964_2",
+            "Tagname": "J2301-1.CBX0116.I07"
+          },
+          {
+            "Title": "Rectangle_965_2",
+            "Tagname": "J2301-1.CBX0116.I08"
+          },
+          {
+            "Title": "Rectangle_955_5",
+            "Tagname": "J2301-1.CBX0116.I09"
+          },
+          {
+            "Title": "Rectangle_956_5",
+            "Tagname": "J2301-1.CBX0116.I10"
+          },
+          {
+            "Title": "Rectangle_957_4",
+            "Tagname": "J2301-1.CBX0116.I11"
+          },
+          {
+            "Title": "Rectangle_958_4",
+            "Tagname": "J2301-1.CBX0116.I12"
+          },
+          {
+            "Title": "Rectangle_959_4",
+            "Tagname": "J2301-1.CBX0116.I13"
+          },
+          {
+            "Title": "Rectangle_960_4",
+            "Tagname": "J2301-1.CBX0116.I14"
+          },
+          {
+            "Title": "Rectangle_961_4",
+            "Tagname": "J2301-1.CBX0116.I15"
+          },
+          {
+            "Title": "Rectangle_962_4",
+            "Tagname": "J2301-1.CBX0121.I01"
+          },
+          {
+            "Title": "Rectangle_963_3",
+            "Tagname": "J2301-1.CBX0121.I02"
+          },
+          {
+            "Title": "Rectangle_964_3",
+            "Tagname": "J2301-1.CBX0121.I03"
+          },
+          {
+            "Title": "Rectangle_965_3",
+            "Tagname": "J2301-1.CBX0121.I04"
+          }
+        ]
       }
     ],
     "historianConfig": [

@@ -2,7 +2,7 @@
     @if (!isHided) {
         <div class="sidenav bz ">
             <div class="logo w-100 d-flex-ct ">
-                <img src="assets/images/logo.png" class="img" alt="" height="42px">
+                <img src="assets/images/logo.png" class="img" alt="" height="42px" (click)="show()">
             </div>
             <div class="btn-group d-col-sb bz">
                 <div mat-list-item routerLink="/main/overview" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
@@ -189,6 +189,10 @@
                                 <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
                             </div>
                         }
+                        <div class="ai-btn">
+                            <i class="material-icons">auto_awesome</i>
+                            <div>Ask SolarisAI</div>
+                        </div>
                     </head>
                 }
             }
@@ -197,4 +201,5 @@
             <router-outlet></router-outlet>
         </div>
     </div>
+    <p-toast position="bottom-right" />
 </div>

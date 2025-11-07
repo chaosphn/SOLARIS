@@ -26,6 +26,8 @@ import { NumberFomatPipe } from './pipes/number-fomat.pipe';
 import { FilterTable } from './components/filter-table/filter-table';
 import { TagContainer } from './components/tag-container/tag-container';
 import { DataTable } from './components/data-table/data-table';
+import { MessageService } from 'primeng/api';
+import { Toast } from 'primeng/toast';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -58,7 +60,8 @@ export const MY_DATE_FORMATS = {
     TimeSelectComponent,
     FilterTable,
     TagContainer,
-    DataTable
+    DataTable,
+    
   ],
   imports: [
     CommonModule,
@@ -68,9 +71,11 @@ export const MY_DATE_FORMATS = {
     ChartModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    Toast, // Add Toast to imports instead
   ],
   exports: [
     MaterialModule,
+    Toast,
 
     FiltersitePipe,
     NumberFomatPipe,
@@ -91,6 +96,7 @@ export const MY_DATE_FORMATS = {
     
   ],
   providers: [
+    MessageService, // Add MessageService provider here
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {

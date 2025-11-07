@@ -10,6 +10,9 @@
                     @case ('d') {
                         <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.7"></app-date-picker>
                     }
+                    @case ('w') {
+                        <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.7"></app-date-picker>
+                    }
                     @case ('m') {
                         <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'month'" [scale]="0.7"></app-date-picker>
                     }

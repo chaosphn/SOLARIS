@@ -1,6 +1,7 @@
 import { Component, effect, input } from '@angular/core';
 import { ColorRangeModel, PanelConfigModel, PvGroupModel, PvPanelModel } from '../../models/panel.model';
 import { DataRealtimeModel } from '../../models/response.model';
+import { isNumber } from 'highcharts';
 
 @Component({
   selector: 'app-panel-layout',
@@ -28,7 +29,7 @@ export class PanelLayout {
       if(this.dataRealtime()){
         //console.log(this.dataRealtime())
         this.updatePanelData();
-        //console.log(this.displayPanel)
+        console.log(this.displayPanel)
       }
     });
   }
@@ -96,7 +97,7 @@ export class PanelLayout {
   };
   
   getPanelColor(pr: number | undefined){
-    if(pr && !isNaN(pr)){
+    if(pr != undefined && isNumber(pr)){
       const findColor = this.colors().find(x => pr >= x.minimum && pr < x.maximum);
       //console.log(pr, findColor?.color)
       return findColor?.color;
@@ -232,7 +233,7 @@ export class PanelLayout {
           acc = acc + (this.dataRealtime()[`${item.id}_${cur.id}`]?.Value??0)
           return acc; 
         }, 0)/item.panel.length;
-        //console.log(avg);
+        console.log(avg);
         const panels = item.panel.map(x => {
           let val = this.dataRealtime()[`${item.id}_${x.id}`]?.Value??0;
           return {

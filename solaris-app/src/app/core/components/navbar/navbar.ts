@@ -19,6 +19,10 @@ import { resetDashboardState } from '../../../features/sites/store/actions/dashb
 import { resetEfficiencyState } from '../../../features/sites/store/actions/performance.action';
 import { resetDiagramState } from '../../../features/sites/store/actions/diagram.action';
 import { resetTags } from '../../../store/actions/tags.actions';
+import { MessageService } from 'primeng/api';
+import { ToastStateModel } from '../../../shared/models/toast.model';
+import { getToastState } from '../../../store/selectors/toaster.selectors';
+
 
 @Component({
   selector: 'app-navbar',
@@ -29,6 +33,7 @@ import { resetTags } from '../../../store/actions/tags.actions';
 export class Navbar implements OnInit, OnDestroy {
   navState$: Observable<NavbarStateModel>;
   dateState$: Observable<DateStateModel>;
+  toastState$: Observable<ToastStateModel>;
 
   siteConfig = signal<SiteStateModel>({ name: '', number: 0, capacity: '', zoneList: [] });
   zoneList = signal<ZoneModel>({ title: '', number: 0, capacity: '', display: '', siteList: [] }); 
@@ -41,6 +46,7 @@ export class Navbar implements OnInit, OnDestroy {
   sub1?: Subscription;
   dateStateSubscription?: Subscription;
   navStateSubscription?: Subscription;
+  toastStateSubscription?: Subscription;
   siteName: string = "";
   timers: number = 10;
   mode = signal<'dark' | 'light'>('dark');
@@ -54,21 +60,46 @@ export class Navbar implements OnInit, OnDestroy {
   private appInit =  inject(AppInitService);
   private store = inject(Store);
   private theme = inject(ThemeService);
+  private messageService = inject(MessageService);
 
   constructor(){
     this.navState$ = this.store.select(getNavState);
     this.dateState$ = this.store.select(getDateState);
+    this.toastState$ = this.store.select(getToastState);
+
     this.dateStateSubscription = this.dateState$.subscribe(state => {
       this.date = state.date;
       this.enableDate = state.enable;
     });
     this.navStateSubscription = this.navState$.subscribe(state => {
-      //console.log(state)
       this.currentNavState.set(state);
       if(!state.name && !state.location){
         this.router.navigate(['/'])
       }
     });
+    this.toastStateSubscription = this.toastState$.subscribe(state => {
+      if(state && state.message){
+        switch (state?.message?.severity) {
+          case 'success':
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: state.message.detail });
+            break;
+          case 'info':
+            this.messageService.add({ severity: 'info', summary: 'Info', detail: state.message.detail });
+            break;
+          case 'warn':
+            this.messageService.add({ severity: 'warn', summary: 'Warn', detail: state.message.detail });
+            break;
+          case 'error':
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: state.message.detail });
+            break;
+          case 'secondary':
+            this.messageService.add({ severity: 'secondary', summary: 'Secondary', detail: state.message.detail });
+            break;
+          default:
+            break;
+        }
+      }
+    })
   }
 
   ngOnInit(): void {
@@ -93,6 +124,15 @@ export class Navbar implements OnInit, OnDestroy {
     if(this.sub1){
       this.sub1.unsubscribe();
     }
+  }
+
+  show() {
+    this.messageService.add({ 
+    severity: 'error', 
+    summary: 'Error', 
+    detail: 'Message Content', 
+    life: 3000 
+  });
   }
 
   async getSiteConfig(){

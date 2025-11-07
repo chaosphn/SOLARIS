@@ -11,6 +11,7 @@ import { dashboardReducer } from '../features/sites/store/reducers/dashboard.red
 import { efficiencyReducer } from '../features/sites/store/reducers/performance.reducer';
 import { tagsReducer } from './reducers/tags.reducer';
 import { diagramReducer } from '../features/sites/store/reducers/diagram.reducer';
+import { toastReducer } from './reducers/toaster.reducer';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { diagramReducer } from '../features/sites/store/reducers/diagram.reducer
       layout: layoutReducer,
       dashboard: dashboardReducer,
       efficiency: efficiencyReducer,
-      diagram: diagramReducer
+      diagram: diagramReducer,
+      toast: toastReducer
     })
     // or for feature module:
     // StoreModule.forFeature('nav', navReducer)

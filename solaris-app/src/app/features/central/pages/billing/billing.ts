@@ -8,6 +8,7 @@ import { Datetime } from '../../../../shared/services/datetime';
 import { getNavState } from '../../../../store/selectors/nav.selectors';
 import { getAllConfig, getZoneConfig } from '../../../../store/selectors/site.selectors';
 import { ReportConfigModel } from '../../../sites/models/report.model';
+import { sendMessage } from '../../../../store/actions/toaster.actions';
 
 @Component({
   selector: 'app-billing',
@@ -28,6 +29,8 @@ export class Billing implements OnInit, OnDestroy {
   navSub?: Subscription;
   pdfurl = signal<string>('');
   date: Date = new Date();
+  loading = signal<Boolean>(false);
+  loading2 = signal<Boolean>(false);
   
   isDropdownOpen1 = false;
   isDropdownOpen2 = false;
@@ -53,7 +56,7 @@ export class Billing implements OnInit, OnDestroy {
       }
     ))
     return res;
-  })
+  });
 
   private http = inject(HttpService);
   private store = inject(Store);
@@ -135,6 +138,54 @@ export class Billing implements OnInit, OnDestroy {
 
   onDateSelect(event: any) {
     this.date = event;
+  }
+
+  async selectReport() {
+    try {
+      this.loading.set(true);
+      this.pdfurl.update(prev => '');
+      if(this.selectedSite?.value){
+        await new Promise(resolve => setTimeout(resolve, 200));
+        const blob: any = await this.http.getBilling(this.selectedSite?.value, this.date.toISOString());
+        if (blob) {
+          this.pdfurl.set(URL.createObjectURL(blob));
+        } else {
+          this.store.dispatch(sendMessage({ 
+            payload: { type: 'error', text: 'No billings returned' }
+          }));
+        }
+      } else {
+        this.store.dispatch(sendMessage({ 
+          payload: { type: 'error', text: 'Please select site !' }
+        }));
+      };
+      this.loading.set(false);
+    } catch (error: any) {
+      this.store.dispatch(sendMessage({ 
+        payload: { type: 'error', text: error.message }
+      }));
+      this.loading.set(false);
+    }
+  }
+
+  async downloadReport() {
+    try {
+      this.loading2.set(true);
+      if(this.selectedSite?.value){
+        await new Promise(resolve => setTimeout(resolve, 200));
+        const blob: any = await this.http.downloadBilling(this.selectedSite?.value, this.date.toISOString());
+      } else {
+        this.store.dispatch(sendMessage({ 
+          payload: { type: 'error', text: 'Please select site !' }
+        }));
+      };
+      this.loading2.set(false);
+    } catch (error: any) {
+      this.store.dispatch(sendMessage({ 
+        payload: { type: 'error', text: error.message }
+      }));
+      this.loading2.set(false);
+    }
   }
 
 }

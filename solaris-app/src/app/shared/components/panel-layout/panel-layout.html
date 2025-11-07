@@ -12,7 +12,7 @@
                 @for (item of displayPanel.group; track $index; let i = $index) {
                     <g [id]="item.id"
                         [style]="getGroupStyle(item.id)"
-                        [attr.transform]="isSelectedGreoup(item.id) ? 'translate(0, -10)' : ''"
+                        [attr.transform]="isSelectedGreoup(item.id) ? 'translate(0, 0)' : ''"
                         >
                         @for (it of item.panel; track $index; let j = $index) {
                             <rect
@@ -80,7 +80,7 @@
                     <div class="performance-item">
                         <span class="indicator excellent" [style.background]="item.color"></span>
                         <span class="label">{{ item.title }}</span>
-                        <span class="count excellent">{{ item.value || '---' }}</span>
+                        <span class="count excellent" [style.color]="item.color">{{ item.value || '---' }}</span>
                     </div>
                 }
             </div>
