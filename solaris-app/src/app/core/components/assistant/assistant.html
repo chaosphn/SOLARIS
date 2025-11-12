@@ -1,0 +1,101 @@
+<div cdkDrag class="dialog-container" cdkDrag>
+   <div class="dialog-container" >
+        <!-- Header -->
+        <div class="dialog-header" cdkDragHandle>
+            <div class="logo bz w-100 d-flex-ct">
+                <img src="../../../../assets/images/logo.png" height="40" />
+            </div>
+            <button class="close-btn" (click)="close()">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            </button>
+        </div>
+
+        <!-- Content -->
+        <div class="dialog-content">
+            <div class="disclaimer">
+                <p>
+                    This is a generative AI chatbot. By interacting with it, you agree to MongoDB's 
+                    <a href="#" class="link">Terms of Use</a> and 
+                    <a href="#" class="link">Acceptable Use Policy</a>.
+                </p>
+                <p>
+                    To learn more about how we use your data, please see our 
+                    <a href="#" class="link">Data Usage Policy</a>.
+                </p>
+                <p class="powered-by">
+                    Powered by <a href="#" class="link">Atlas Vector Search</a>
+                </p>
+            </div>
+
+            @if (chatMessages().length == 0) {
+                <div class="welcome-section">
+                    <div class="logo-circle">
+                        <img src="../../../../assets/images/solaris.png" height="40" />
+                    </div>
+                    <div class="welcome-text">Welcome to Solaris AI</div>
+                </div>
+
+                <div class="suggested-prompts">
+                    <div class="prompts-label">Suggested Prompts</div>
+                    <button class="prompt-btn" *ngFor="let prompt of suggestedPrompts" (click)="selectPrompt(prompt)">
+                        {{ prompt }}
+                    </button>
+                </div>
+            } @else {
+                <div class="w-100 h-100 d-col bz" style="row-gap: 16px;">
+                    @for (item of chatMessages(); track $index) {
+                        @if(item.role === 'question'){
+                            <div class="w-100 h-100 bz d-flex-st" style="align-items: end; gap: 8px;">
+                                <div class="logo-circle">
+                                    <img src="../../../../assets/images/solaris.png" height="40" />
+                                </div>
+                                <div class="message-text bz h-100">{{ item.message }}</div>
+                            </div>
+                        } @else {
+                            <div class="w-100 h-100 bz d-flex-ed" style="align-items: end; gap: 8px;">
+                                <div class="message-text bz h-100">{{ item.message }}</div>
+                                <div class="logo-circle">
+                                    <i class="material-icons">person</i>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                @if(loading() == true){
+                    <div class="w-100 h-100 bz d-flex-ed" style="align-items: end; gap: 8px;">
+                        <div class="message-text bz h-100">loading.............</div>
+                        <div class="logo-circle">
+                            <i class="material-icons">person</i>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+            <div class="input-container">
+            <span class="sparkle-icon">✨</span>
+            <input 
+                type="text" 
+                [(ngModel)]="userInput"
+                (keyup.enter)="sendMessage()"
+                placeholder="Type your question..."
+                class="message-input"
+            />
+            <button class="send-btn" (click)="sendMessage()" [disabled]="!userInput.trim()">
+                <span>Enter</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 3L13 8L8 13M13 8H3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+            </div>
+            <div class="input-footer">
+            Our chatbot can make mistakes, so double-check important info.
+            <span class="char-count">{{ userInput.length }} / 3000</span>
+            </div>
+        </div>
+    </div>
+</div>

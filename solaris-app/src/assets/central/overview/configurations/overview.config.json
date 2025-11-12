@@ -75,8 +75,26 @@
         ]
       },
       {
+        "Group": "plant-status",
+        "Order": 4,
+        "Tags": [
+          {
+            "Title": "RUNNING",
+            "Tagname": "J2301-1.SCADA1.PYRANO1"
+          },
+          {
+            "Title": "UNHEALTHY",
+            "Tagname": "J2301-1.SCADA1.AMBTEMP"
+          },
+          {
+            "Title": "NODATA",
+            "Tagname": "J2301-1.SCADA1.PVTEMP"
+          }
+        ]
+      },
+      {
         "Group": "map",
-        "Order": 3,
+        "Order": 5,
         "Tags": [
           {
             "Title": "N_POWER",
@@ -155,6 +173,22 @@
             }
           }
         ]
+      },
+      {
+        "Group": "CHART02",
+        "Order": 0,
+        "Tags": [
+          {
+            "Title": "TODAY_ENERGY",
+            "Tagname": "J2301-1.SCADA1.TODAY_ENERGY",
+            "Options": {
+              "Time": "",
+              "Interval": 0,
+              "StartTime": "*-2d",
+              "EndTime": "NOW"
+            }
+          }
+        ]
       }
       
     ],
@@ -167,9 +201,10 @@
             "title": "PYRANO*W/m2",
             "options": {
               "yAxis": 0,
-              "type": "area",
-              "color": "#FF9B33",
-              "fillOpacity": 0.025
+              "type": "column",
+              "color": "#ffbe33",
+              "borderColor": "#FF9B33",
+							"borderRadius": 0
             }
           },
           {
@@ -177,9 +212,10 @@
             "title": "POWER*kW",
             "options": {
               "yAxis": 1,
-              "type": "area",
-              "color": "#3DB1FC",
-              "fillOpacity": 0.025
+              "type": "column",
+              "color": "#3ddffc",
+              "borderColor": "#3DB1FC",
+							"borderRadius": 0
             }
           }
         ],
@@ -213,9 +249,9 @@
             "animation": false,
             "margin": [
               10,
-              70,
+              10,
               30,
-              60
+              10
             ],
             "borderColor": "#2d3136",
             "borderWidth": 0
@@ -225,17 +261,17 @@
             {
               "color": "#bcd",
               "title": {
-                "text": "IRR (W/m2)",
+                "text": "",
                 "style": {
                   "color": "#bcd"
                 },
                 "useHTML": true
               },
               "opposite": true,
-              "enabled": true,
+              "enabled": false,
               "lineColor": "#bcd",
               "labels": {
-                "enabled": true,
+                "enabled": false,
                 "style": {
                   "color": "#bcd"
                 },
@@ -244,24 +280,22 @@
               "lineWidth": 0,
               "gridLineColor": "#2d3136",
               "gridLineWidth": 1,
-              "max": 1600,
-              "tickInterval": 50,
               "margin": 0,
               "min": 0
             },
             {
               "color": "#bcd",
               "title": {
-                "text": "POWER (kW)",
+                "text": "",
                 "style": {
                   "color": "#bcd"
                 },
                 "useHTML": true
               },
-              "enabled": true,
+              "enabled": false,
               "lineColor": "#bcd",
               "labels": {
-                "enabled": true,
+                "enabled": false,
                 "style": {
                   "color": "#bcd"
                 },
@@ -270,8 +304,6 @@
               "lineWidth": 0,
               "gridLineColor": "#2d3136",
               "gridLineWidth": 0,
-              "max": 6000,
-              "tickInterval": 250,
               "margin": 0,
               "min": 0
             }
@@ -294,6 +326,108 @@
               "dashStyle": "ShortDash"
             },
             "max": "t"
+          },
+          "legend": {},
+          "plotOptions": {}
+        }
+      },
+      {
+        "name": "CHART02",
+        "tags": [
+          {
+            "name": "J2301-1.SCADA1.TODAY_ENERGY",
+            "title": "PRODUCE*kWh",
+            "options": {
+              "yAxis": 0,
+              "type": "column",
+              "color": "#FFDF6C",
+              "borderColor": "#E4B61A",
+							"borderRadius": 0
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart": {
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                  "y": -40,
+                  "verticalAlign": "bottom",
+                  "align": "right"
+                },
+                "theme": {
+                  "fill": "#FF9B33",
+                  "style": {
+                    "color": "white"
+                  },
+                  "states": {
+                    "hover": {
+                      "fill": "#FF9B33",
+                      "style": {
+                        "color": "white"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "backgroundColor": "none",
+            "animation": true,
+            "margin": [
+              10,
+              10,
+              30,
+              60
+            ],
+            "borderColor": "#2d3136",
+            "borderWidth": 0
+          },
+          "title": {},
+          "yAxis": [
+            {
+              "color": "#bcd",
+              "title": {
+                "text": "PRODUCTION (kWh)",
+                "style": {
+                  "color": "#bcd"
+                },
+                "useHTML": true
+              },
+              "enabled": true,
+              "lineColor": "#bcd",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "#bcd"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "#2d3136",
+              "gridLineWidth": 0,
+              "tickInterval": 35,
+              "margin": 0,
+              "min": 0
+            }
+          ],
+          "xAxis": {
+            "type": "datetime",
+            "gridLineColor": "#2d3136",
+            "gridLineWidth": 1,
+            "tickInterval": 86400000,
+            "labels": {
+              "enabled": true,
+              "format": "{value:%a}",
+              "style": {
+                "color": "#bcd"
+              },
+              "useHTML": true
+            },
+            "crosshair": {
+              "color": "rgb(187, 204, 221)",
+              "dashStyle": "ShortDash"
+            }
           },
           "legend": {},
           "plotOptions": {}

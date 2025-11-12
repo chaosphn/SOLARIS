@@ -7,7 +7,7 @@
         "stroke": "#FF4747",
         "stroke-width": "0.682958",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "North"
       },
       {
         "id": "TH.PY",
@@ -16,7 +16,7 @@
         "stroke": "#FF4747",
         "stroke-width": "0.682958",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "North"
       },
       {
         "id": "TH.UD",
@@ -25,7 +25,7 @@
         "stroke": "#FF4747",
         "stroke-width": "0.682958",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "North"
       },
       {
         "id": "TH.MH",
@@ -34,7 +34,7 @@
         "stroke": "#FF4747",
         "stroke-width": "0.682958",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "North"
       },
       {
         "id": "TH.CR",
@@ -43,7 +43,7 @@
         "stroke": "#FF4747",
         "stroke-width": "0.682958",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "North"
       },
       {
         "id": "TH.CM",
@@ -52,7 +52,7 @@
         "stroke": "#FF4747",
         "stroke-width": "0.682958",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "North"
       },
       {
         "id": "TH.LN",
@@ -61,7 +61,7 @@
         "stroke": "#FF4747",
         "stroke-width": "0.682958",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "North"
       },
       {
         "id": "TH.NA",
@@ -70,7 +70,7 @@
         "stroke": "#FF4747",
         "stroke-width": "0.682958",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "North"
       },
       {
         "id": "TH.LG",
@@ -79,7 +79,7 @@
         "stroke": "#FF4747",
         "stroke-width": "0.682958",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "North"
       }
     ]
 }

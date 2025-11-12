@@ -28,16 +28,14 @@
                         <rect id="Rectangle 941" x="0.474343" y="8.47434" width="157.482" height="63.5619" rx="3.3204" fill="#2F363E" stroke="#FF4747" stroke-width="0.948685"/>
                         <g id="Group 632642">
                         <g id="Group 632641">
-                        <text id="PLANT: 15 Sites" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="9.48633" y="21.4848">PLANT: 15 Sites</tspan></text>
-                        <text id="( 555 kWp)" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="86.3301" y="21.4848">( 555 kWp)</tspan></text>
+                        <text id="PLANT: 15 Sites" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="9.48633" y="21.4848">PLANT: {{getProvinceNum('north')}} Sites</tspan></text>
+                        <text id="( 555 kWp)" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="86.3301" y="21.4848">( {{getProvinceCap('north')}} MWp )</tspan></text>
                         </g>
                         <g id="Production : 2,555 kWh">
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="101.549" y="64.1801">kWh</tspan></text>
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="9.4873" y="64.1801">PRODUCTION : 2,555 </tspan></text>
+                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="9.4873" y="64.1801">PRODUCTION : {{ this.data()?.[`N_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
                         </g>
                         <g id="power : 555 kW">
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="67.548" y="39.5121">kW</tspan></text>
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="9.4873" y="39.5121">POWER : 555 </tspan></text>
+                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="9.4873" y="39.5121">POWER : {{ this.data()?.[`N_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
                         </g>
                         <path class="tooltip" id="linex1" d="M0 48.8438H158L223 81.7109" stroke="#FF4747" stroke-width="1.89737"/>
                         </g>
@@ -48,16 +46,14 @@
                         <rect id="Rectangle 941_2" x="580.877" y="73.4743" width="157.482" height="63.5619" rx="3.3204" fill="#2F363E" stroke="#FF843F" stroke-width="0.948685"/>
                         <g id="Group 632642_2">
                         <g id="Group 632641_2">
-                        <text id="PLANT: 15 Sites_2" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="589.889" y="86.4809">PLANT: 15 Sites</tspan></text>
-                        <text id="( 555 kWp)_2" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="666.732" y="86.4809">( 555 kWp)</tspan></text>
+                        <text id="PLANT: 15 Sites_2" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="589.889" y="86.4809">PLANT:  {{getProvinceNum('northeast')}} Sites</tspan></text>
+                        <text id="( 555 kWp)_2" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="666.732" y="86.4809">( {{getProvinceCap('northeast')}} MWp )</tspan></text>
                         </g>
                         <g id="Production : 2,555 kWh_2">
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="681.951" y="129.176">kWh</tspan></text>
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="589.89" y="129.176">PRODUCTION : 2,555 </tspan></text>
+                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="589.89" y="129.176">PRODUCTION : {{ this.data()?.[`NE_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
                         </g>
                         <g id="power : 555 kW_2">
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="647.95" y="104.508">kW</tspan></text>
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="589.89" y="104.508">POWER : 555 </tspan></text>
+                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="589.89" y="104.508">POWER : {{ this.data()?.[`NE_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
                         </g>
                         <path class="tooltip" id="linex2" d="M503 171.242L581.5 112.84H738.833" stroke="#FF843F" stroke-width="1.89737"/>
                         </g>
@@ -68,16 +64,14 @@
                         <rect id="Rectangle 941_3" x="32.4743" y="318.474" width="157.482" height="63.5619" rx="3.3204" fill="#2F363E" stroke="#5F82FF" stroke-width="0.948685"/>
                         <g id="Group 632642_3">
                         <g id="Group 632641_3">
-                        <text id="PLANT: 15 Sites_3" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="41.4863" y="331.496">PLANT: 15 Sites</tspan></text>
-                        <text id="( 555 kWp)_3" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="118.33" y="331.496">( 555 kWp)</tspan></text>
+                        <text id="PLANT: 15 Sites_3" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="41.4863" y="331.496">PLANT:  {{getProvinceNum('west')}} Sites</tspan></text>
+                        <text id="( 555 kWp)_3" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="118.33" y="331.496">( {{getProvinceCap('west')}} MWp )</tspan></text>
                         </g>
                         <g id="Production : 2,555 kWh_3">
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="133.549" y="374.18">kWh</tspan></text>
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="41.4873" y="374.18">PRODUCTION : 2,555 </tspan></text>
+                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="41.4873" y="374.18">PRODUCTION : {{ this.data()?.[`W_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
                         </g>
                         <g id="power : 555 kW_3">
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="99.548" y="349.516">kW</tspan></text>
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="41.4873" y="349.516">POWER : 555 </tspan></text>
+                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="41.4873" y="349.516">POWER : {{ this.data()?.[`W_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
                         </g>
                         <path class="tooltip" id="Line 54" d="M32 357.852H189.841L249 321.5" stroke="#5F82FF" stroke-width="1.89737"/>
                         </g>
@@ -88,16 +82,14 @@
                         <rect id="Rectangle 941_4" x="395.933" y="453.092" width="157.482" height="63.5619" rx="3.3204" fill="#2F363E" stroke="#248997" stroke-width="0.948685"/>
                         <g id="Group 632642_4">
                         <g id="Group 632641_4">
-                        <text id="PLANT: 15 Sites_4" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="404.945" y="466.106">PLANT: 15 Sites</tspan></text>
-                        <text id="( 555 kWp)_4" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="481.789" y="466.106">( 555 kWp)</tspan></text>
+                        <text id="PLANT: 15 Sites_4" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="404.945" y="466.106">PLANT:  {{getProvinceNum('central')}} Sites</tspan></text>
+                        <text id="( 555 kWp)_4" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="481.789" y="466.106">( {{getProvinceCap('central')}} MWp )</tspan></text>
                         </g>
                         <g id="Production : 2,555 kWh_4">
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="497.008" y="508.801">kWh</tspan></text>
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="404.946" y="508.801">PRODUCTION : 2,555 </tspan></text>
+                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="404.946" y="508.801">PRODUCTION : {{ this.data()?.[`C_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
                         </g>
                         <g id="power : 555 kW_4">
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="463.007" y="484.133">kW</tspan></text>
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="404.946" y="484.133">POWER : 555 </tspan></text>
+                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="404.946" y="484.133">POWER : {{ this.data()?.[`C_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
                         </g>
                         <path class="tooltip" id="Line 54_2" d="M330 353.5L395.85 492.467H553.889" stroke="#248997" stroke-width="1.89737"/>
                         </g>
@@ -108,16 +100,14 @@
                         <rect id="Rectangle 941_5" x="532.621" y="332.474" width="157.482" height="63.5619" rx="3.3204" fill="#2F363E" stroke="#7BB046" stroke-width="0.948685"/>
                         <g id="Group 632642_5">
                         <g id="Group 632641_5">
-                        <text id="PLANT: 15 Sites_5" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="541.634" y="345.493">PLANT: 15 Sites</tspan></text>
-                        <text id="( 555 kWp)_5" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="618.478" y="345.493">( 555 kWp)</tspan></text>
+                        <text id="PLANT: 15 Sites_5" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="541.634" y="345.493">PLANT:  {{getProvinceNum('east')}} Sites</tspan></text>
+                        <text id="( 555 kWp)_5" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="618.478" y="345.493">( {{getProvinceCap('east')}} MWp )</tspan></text>
                         </g>
                         <g id="Production : 2,555 kWh_5">
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="633.695" y="388.184">kWh</tspan></text>
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="541.634" y="388.184">PRODUCTION : 2,555 </tspan></text>
+                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="541.634" y="388.184">PRODUCTION : {{ this.data()?.[`E_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
                         </g>
                         <g id="power : 555 kW_5">
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="599.694" y="363.516">kW</tspan></text>
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="541.634" y="363.516">POWER : 555 </tspan></text>
+                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="541.634" y="363.516">POWER : {{ this.data()?.[`E_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
                         </g>
                         <path class="tooltip" id="linex3" d="M413 371.852L690.577 371.852" stroke="#7BB046" stroke-width="1.89737"/>
                         </g>
@@ -128,16 +118,14 @@
                         <rect id="Rectangle 941_6" x="63.4743" y="674.271" width="157.482" height="63.5619" rx="3.3204" fill="#2F363E" stroke="#289F7C" stroke-width="0.948685"/>
                         <g id="Group 632642_6">
                         <g id="Group 632641_6">
-                        <text id="PLANT: 15 Sites_6" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="72.4873" y="687.286">PLANT: 15 Sites</tspan></text>
-                        <text id="( 555 kWp)_6" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="149.331" y="687.286">( 555 kWp)</tspan></text>
+                        <text id="PLANT: 15 Sites_6" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="72.4873" y="687.286">PLANT:  {{getProvinceNum('south')}} Sites</tspan></text>
+                        <text id="( 555 kWp)_6" fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="149.331" y="687.286">( {{getProvinceCap('south')}} MWp )</tspan></text>
                         </g>
                         <g id="Production : 2,555 kWh_6">
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="164.549" y="729.973">kWh</tspan></text>
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="72.4873" y="729.973">PRODUCTION : 2,555 </tspan></text>
+                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="72.4873" y="729.973">PRODUCTION : {{ this.data()?.[`S_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
                         </g>
                         <g id="power : 555 kW_6">
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="130.548" y="705.309">kW</tspan></text>
-                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="72.4873" y="705.309">POWER : 555 </tspan></text>
+                        <text fill="#BBCCDD" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="72.4873" y="705.309">POWER : {{ this.data()?.[`S_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
                         </g>
                         <path class="tooltip" id="linex5" d="M63 713.645H220.732L269.732 652" stroke="#289F7C" stroke-width="1.89737"/>
                         </g>
@@ -153,7 +141,7 @@
             <div>BACK</div>
         </div>
         <div class="map-detail w-100 h-100 bz">
-            <div class="detail-panel">
+            <div class="detail-panel ">
                 <div class="panel-header">
                     <div class="accent-bar"></div>
                     <div class="title">THAILAND / {{ zone() | uppercase }}</div>
@@ -172,16 +160,16 @@
                         <div class="th th-amb">AMBTEMP<br>(C°)</div>
                     </div>
                     <div class="tbody">
-                        @for (row of mockRows; track row.code) {
+                        @for (row of sitesSummary(); track row.code) {
                             <div class="tr">
                                 <div class="td th-xx">{{ row.indicator }}</div>
                                 <!-- <div class="td th-code">{{ row.code }}</div> -->
                                 <div class="td th-site">{{ row.site }}</div>
                                 <div class="td th-province">{{ row.province }}</div>
-                                <div class="td th-capacity">{{ row.capacityMw | number:'1.2-2' }}</div>
-                                <div class="td th-power">{{ row.powerKw | number }}</div>
-                                <div class="td th-today">{{ row.todayMWh | number }}</div>
-                                <div class="td th-irr">{{ row.irr | number }}</div>
+                                <div class="td th-capacity">{{ row.capacityMw | numberFomat : '1.2-2' }}</div>
+                                <div class="td th-power">{{ row.powerKw | numberFomat : '1.2-2' }}</div>
+                                <div class="td th-today">{{ row.todayMWh | numberFomat : '1.2-2' }}</div>
+                                <div class="td th-irr">{{ row.irr | numberFomat : '1.2-2' }}</div>
                                 <div class="td th-pv">{{ row.pvTemp }}</div>
                                 <div class="td th-amb">{{ row.ambTemp }}</div>
                             </div>

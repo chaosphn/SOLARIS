@@ -373,6 +373,32 @@
     display: none;
 }
 
+.site-selector {
+    width: 100%;
+    font-size: 13px;
+    border: 1px solid var(--secondary-bg-50);
+    background-color: var(--secondary-bg-50);
+    color: var(--primary-txt);
+    padding: 8px 16px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    option {
+        width: 100%;
+        border: 1px solid var(--primary-bg) !important;
+        background-color: var(--primary-bg) !important;
+        color: var(--secondary-txt);
+    }
+}
+
+.site-selector option:checked,
+.site-selector option:hover {
+    background-color: var(--secondary-bg) !important;
+    color: var(--primary-txt) !important;
+}
+
 .user-logo-wrapper {
   position: relative;
   cursor: pointer;
@@ -639,31 +665,9 @@
     
     .dropdown-wrapper {
         width: 100%;
-        padding: 6px;
+        //padding: 6px;
         display: block;
         box-sizing: border-box;
-    }
-    
-    .site-selector {
-        width: 100%;
-        font-size: 13px;
-        color: var(--primary-txt);
-        background-color: var(--secondary-bg-50);
-        padding: 14px 10px;
-        border-radius: 4px;
-        outline: none;
-        cursor: pointer;
-    }
-    
-    .site-selector option {
-        background-color: var(--secondary-bg-50);
-        color: var(--primary-txt);
-    }
-    
-    .site-selector option:checked,
-    .site-selector option:hover {
-        background-color: var(--secondary-bg-50);
-        color: var(--primary-txt);
     }
 }
 
@@ -808,27 +812,6 @@
         box-sizing: border-box;
     }
     
-    .site-selector {
-        width: 100%;
-        font-size: 12px;
-        color: var(--primary-txt);
-        background-color: var(--secondary-bg-50);
-        padding: 12px 8px;
-        border-radius: 4px;
-        outline: none;
-        cursor: pointer;
-    }
-    
-    .site-selector option {
-        background-color: var(--secondary-bg-50);
-        color: var(--primary-txt);
-    }
-    
-    .site-selector option:checked,
-    .site-selector option:hover {
-        background-color: var(--secondary-bg-50);
-        color: var(--primary-txt);
-    }
 }
 
 // Enhanced Mobile (max-width: 770px) - Original breakpoint with improvements
@@ -958,25 +941,4 @@
         box-sizing: border-box;
     }
 
-    .site-selector {
-        width: 100%;
-        font-size: 14px;
-        color: var(--primary-txt);
-        background-color: var(--secondary-bg-50);
-        padding: 16px 12px;
-        border-radius: 4px;
-        outline: none;
-        cursor: pointer;
-    }
-
-    .site-selector option {
-        background-color: var(--secondary-bg-50);
-        color: var(--primary-txt);
-    }
-
-    .site-selector option:checked,
-    .site-selector option:hover {
-        background-color: var(--secondary-bg-50);
-        color: var(--primary-txt);
-    }
 }

@@ -7,7 +7,7 @@
         "stroke": "#5F82FF",
         "stroke-width": "0.395063",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "West"
       },
       {
         "id": "TH.KN",
@@ -16,7 +16,7 @@
         "stroke": "#5F82FF",
         "stroke-width": "0.395063",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "West"
       },
       {
         "id": "TH.TK",
@@ -25,7 +25,7 @@
         "stroke": "#5F82FF",
         "stroke-width": "0.395063",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "West"
       },
       {
         "id": "TH.PK",
@@ -34,7 +34,7 @@
         "stroke": "#5F82FF",
         "stroke-width": "0.395063",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "West"
       },
       {
         "id": "TH.RT",
@@ -43,7 +43,7 @@
         "stroke": "#5F82FF",
         "stroke-width": "0.395063",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "West"
       }
     ]
 }

@@ -76,24 +76,30 @@ export class Performance implements OnInit, OnDestroy {
       this.timers?.unsubscribe();
       const stateDate = state.date.setHours(0,0,0,0);
       const pageDate = new Date().setHours(0,0,0,0);
+      this.dataRealtime.set({});
       if(new Date(pageDate).getTime() != new Date(stateDate).getTime()){
+        this.date = state.date;
         await this.getConfig();
-        // this.getAttimeRequest();
-        // await this.getAtTimeData();
+        await this.getCardConfig();
+        this.getAttimeRequest2();
+        await this.getAtTimeData();
       } else {
-        await this.getConfig();
-        this.getRealtimeRequest();
-        await this.getRealtimeData();
-        if(this.appInit.config.Timer){
-          this.startTimer(this.appInit.config.Timer * 60000);
+        this.date = state.date;
+        const oldData = await firstValueFrom(
+          this.store.select(PerformanceSelectors.selectPerformanceAtTimeRequests)
+        );
+        if(oldData.filter(x => x.Request.length > 0).length > 0){
+          console.log(oldData)
+          this.store.dispatch(PerformanceActions.resetPerformanceState())
         }
-      }
+        await this.initPage();
+      };
     });
   }
 
   ngOnInit(): void {
     this.store.dispatch(setDateEnable({ payload: true }));
-    this.initPage();
+    //this.initPage();
   }
 
   ngOnDestroy(): void {
@@ -181,7 +187,7 @@ export class Performance implements OnInit, OnDestroy {
       const path = this.date.getDate() == new Date().getDate() ? 
         `assets/central/performance/configurations/performance.config.json` :
         `assets/central/performance/configurations/performance2.config.json` ;
-      const config = await this.http.getConfig2(path);
+      const config = await this.http.getConfig2(`assets/central/performance/configurations/performance.config.json`);
       if (config) {
         this.config.set(config);
         this.store.dispatch(PerformanceActions.loadPerformanceConfigSuccess({ config }));
@@ -254,6 +260,29 @@ export class Performance implements OnInit, OnDestroy {
     if(req){
       const sortedReq = req.sort((a,b) => a.Order - b.Order);
       this.requestAttime.set(sortedReq);
+      this.store.dispatch(PerformanceActions.loadPerformanceAtTimeData({ requests: sortedReq }));
+    }
+  }
+
+  getAttimeRequest2(){
+    const ts = this.date.setHours(23,0,0);
+    const req: GroupRequestAtTimeModel[] = this.config().realtimeConfig.map((item: GroupReatimeConfigModel) => {
+      const rq: RequestAtTimeModel[] = [
+        {
+          Tags: item.Tags.filter(x => !x.Timestamp).map(y => y.Tagname),
+          TimeStamp: this.dateTimeSrv.getDateTime1(new Date(ts))
+        }
+      ];
+      return {
+        Group: item.Group,
+        Order: item.Order,
+        Request: rq
+      }
+    });
+    if(req){
+      const sortedReq = req.sort((a,b) => a.Order - b.Order);
+      this.requestAttime.set(sortedReq);
+      console.log(this.requestAttime())
       this.store.dispatch(PerformanceActions.loadPerformanceAtTimeData({ requests: sortedReq }));
     }
   }
@@ -355,27 +384,46 @@ export class Performance implements OnInit, OnDestroy {
 
   async getAtTimeData(){
     if (this.requestAttime() && this.requestAttime().length > 0) {
-      const result = this.requestAttime().map(async(item) => {
-        const request = item.Request;
-        const response:ResponseRealtimeModel[] = await this.http.getAtTime(request);
-        if(response){
-          response.map(data => {
-            const conf = this.config().realtimeConfig.find(x => x.Group == item.Group)?.Tags.find(y => y.Tagname == data.Name && y.Timestamp);
-            if (conf) {
-              this.dataRealtime.update(val => ({
-                ...val,
-                [conf.Title]: data
-              }));
-            }
-            this.responseRealtime.update(val => [...val, data]);
-          });
-        }
-        return response;
-      });
-      const res = await Promise.allSettled(result);
-      if (res) {
-        this.store.dispatch(PerformanceActions.loadPerformanceRealtimeDataSuccess({ data: this.dataRealtime() }));
+      for await (const req of this.requestAttime()) {
+        const result = req.Request.map(async(item) => {
+          const request = item;
+          const response:ResponseHistorianModel[] = await this.http.getAtTime([request]);
+          if(response){
+            response.map(data => {
+              const conf = this.config().realtimeConfig.find(x => x.Group == req.Group)?.Tags.find(y => y.Tagname == data.Name);
+              if (conf) {
+                const datas: ResponseRealtimeModel = {
+                  Name: data.Name,
+                  Min: data.Min,
+                  Max: data.Max,
+                  Unit: data.Unit,
+                  Value: data.records ? parseFloat(data.records[0].Value) : 0,
+                  TimeStamp:  data.records ? data.records[0].TimeStamp : '',
+                };
+                this.dataRealtime.update(val => ({
+                  ...val,
+                  [conf.Title]: datas
+                }));
+              };
+              this.responseRealtime.update(val => {
+                  const datas: ResponseRealtimeModel = {
+                    Name: data.Name,
+                    Min: data.Min,
+                    Max: data.Max,
+                    Unit: data.Unit,
+                    Value: data.records ? parseFloat(data.records[0].Value) : 0,
+                    TimeStamp:  data.records ? data.records[0].TimeStamp : '',
+                  };
+                  const newVal = [...val, datas];
+                  return newVal;
+              });
+            });
+          }
+          return response;
+        });
+        const res = await Promise.allSettled(result);
       }
+      this.store.dispatch(PerformanceActions.loadPerformanceRealtimeDataSuccess({ data: this.dataRealtime() }));
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, inject, OnChanges, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnChanges, OnDestroy, OnInit, signal } from '@angular/core';
 import { GroupHistorianConfigModel, GroupReatimeConfigModel, HistorianConfig, PageConfigModel, RealtimeConfig, SiteModel } from '../../../../shared/models/config.model';
 import { HttpService } from '../../../../shared/services/http.service';
 import { Store } from '@ngrx/store';
@@ -49,11 +49,21 @@ export class Overview implements OnInit, OnDestroy {
 
   zoneSelected = signal<string>('overall');
   mapConfig = signal<MapConfigModel>({} as MapConfigModel);
-  plantStatusData = signal<PlantStatusData[]>([
-    { label: 'RUNNING', count: 60, percentage: 60, color: '#10FDD3', unit: 'sites' },
-    { label: 'UNHEALTHY', count: 25, percentage: 25, color: '#DEB266', unit: 'sites' },
-    { label: 'NODATA', count: 15, percentage: 15, color: '#FF4F52', unit: 'sites' }
-  ]);
+  plantStatusData = computed(() => {
+    if(this.dataRealtime()){
+      const pr1 = ((this.dataRealtime()['RUNNING']?.Value || 0)/this.siteList().length)*100;
+      const pr2 = ((this.dataRealtime()['UNHEALTHY']?.Value || 0)/this.siteList().length)*100;
+      const pr3 = ((this.dataRealtime()['NODATA']?.Value || 0)/this.siteList().length)*100;
+      const data: PlantStatusData[] = [
+        { label: 'RUNNING', count: this.dataRealtime()['RUNNING']?.Value || 0, percentage: pr1, color: '#10FDD3', unit: 'Sites' },
+        { label: 'UNHEALTHY', count: this.dataRealtime()['UNHEALTHY']?.Value || 0, percentage: pr2, color: '#DEB266', unit: 'Sites' },
+        { label: 'NODATA', count: this.dataRealtime()['NODATA']?.Value || 0, percentage: pr3, color: '#FF4F52', unit: 'Sites' }
+      ];
+      return data;
+    } else {
+      return [];
+    }
+  });
 
   timers?: Subscription;
 
@@ -63,6 +73,21 @@ export class Overview implements OnInit, OnDestroy {
   private chartOptions = inject(ChartService);
   private dateTimeSrv = inject(Datetime);
   constructor(){
+    effect(() => {
+      if(this.dataRealtime()){
+        const pr1 = ((this.dataRealtime()['RUNNING']?.Value || 0)/this.siteList().length)*100;
+        const pr2 = ((this.dataRealtime()['UNHEALTHY']?.Value || 0)/this.siteList().length)*100;
+        const pr3 = ((this.dataRealtime()['NODATA']?.Value || 0)/this.siteList().length)*100;
+        const data: PlantStatusData[] = [
+          { label: 'RUNNING', count: this.dataRealtime()['RUNNING']?.Value || 0, percentage: pr1, color: '#10FDD3', unit: 'sites' },
+          { label: 'UNHEALTHY', count: this.dataRealtime()['UNHEALTHY']?.Value || 0, percentage: pr2, color: '#DEB266', unit: 'sites' },
+          { label: 'NODATA', count: this.dataRealtime()['NODATA']?.Value || 0, percentage: pr3, color: '#FF4F52', unit: 'sites' }
+        ];
+        return data;
+      } else {
+        return [];
+      }
+    })
     this.navState$ = this.store.select(getNavState);
     this.navState$.subscribe(async (state) => {
       const res = await firstValueFrom(
@@ -327,27 +352,27 @@ export class Overview implements OnInit, OnDestroy {
 
   async getAtTimeData(){
     if (this.requestAttime() && this.requestAttime().length > 0) {
-      const result = this.requestAttime().map(async(item) => {
-        const request = item.Request;
-        const response:ResponseRealtimeModel[] = await this.http.getAtTime(request);
-        if(response){
-          response.map(data => {
-            const conf = this.config().realtimeConfig.find(x => x.Group == item.Group)?.Tags.find(y => y.Tagname == data.Name && y.Timestamp);
-            if (conf) {
-              this.dataRealtime.update(val => ({
-                ...val,
-                [conf.Title]: data
-              }));
-            }
-            this.responseRealtime.update(val => [...val, data]);
-          });
-        }
-        return response;
-      });
-      const res = await Promise.allSettled(result);
-      if (res) {
-        this.store.dispatch(OverviewActions.loadOverviewRealtimeDataSuccess({ data: this.dataRealtime() }));
+      for await (const req of this.requestAttime()) {
+        const result = req.Request.map(async(item) => {
+          const request = item;
+          const response:ResponseRealtimeModel[] = await this.http.getAtTime([request]);
+          if(response){
+            response.map(data => {
+              const conf = this.config().realtimeConfig.find(x => x.Group == req.Group)?.Tags.find(y => y.Tagname == data.Name && y.Timestamp);
+              if (conf) {
+                this.dataRealtime.update(val => ({
+                  ...val,
+                  [conf.Title]: data
+                }));
+              }
+              this.responseRealtime.update(val => [...val, data]);
+            });
+          }
+          return response;
+        });
+        const res = await Promise.allSettled(result);
       }
+      this.store.dispatch(OverviewActions.loadOverviewRealtimeDataSuccess({ data: this.dataRealtime() }));
     }
   }
 

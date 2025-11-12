@@ -12,7 +12,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.status === 401) {
         router.navigate(['/login']);
       } else if (error.status === 403) {
-        router.navigate(['/forbidden']);
+        router.navigate(['/login']);
       } else if (error.status >= 500) {
         router.navigate(['/server-error']);
       }

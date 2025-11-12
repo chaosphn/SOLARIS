@@ -98,9 +98,23 @@ export class Trend implements OnInit, OnDestroy {
           await this.getHistorianData();
 
         } else {
+          console.log('xxxx')
           await this.initPage();
         }
       } else {
+        console.log('yyyy');
+        const oldData = await firstValueFrom(
+          this.store.select(TrendSelectors.selectTrendHistorianRequests)
+        );
+        if(oldData && oldData.length > 0){
+          const reqDate = oldData[0].Request[0].Options?.StartTime;
+          if( reqDate 
+            && new Date(reqDate) 
+            && new Date(reqDate).getTime() != new Date(this.date.setHours(0,0,0,0)).getTime()
+          ){
+            this.store.dispatch(TrendActions.resetTrendState());
+          }
+        }
         await this.initPage();
       }
     });

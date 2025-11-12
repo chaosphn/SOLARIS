@@ -7,7 +7,7 @@
         "stroke": "#289F7C",
         "stroke-width": "0.372961",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "South"
       },
       {
         "id": "TH.ST",
@@ -15,8 +15,8 @@
         "fill": "#2F363E",
         "stroke": "#289F7C",
         "stroke-width": "0.372961",
-        "name": "Unknow",
-        "zone": "Unknow"
+        "name": "SURATTHANI",
+        "zone": "South"
       },
       {
         "id": "TH.KR",
@@ -25,7 +25,7 @@
         "stroke": "#289F7C",
         "stroke-width": "0.372961",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "South"
       },
       {
         "id": "TH.SA",
@@ -34,7 +34,7 @@
         "stroke": "#289F7C",
         "stroke-width": "0.372961",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "South"
       },
       {
         "id": "TH.TG",
@@ -43,7 +43,7 @@
         "stroke": "#289F7C",
         "stroke-width": "0.372961",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "South"
       },
       {
         "id": "TH.PL",
@@ -52,7 +52,7 @@
         "stroke": "#289F7C",
         "stroke-width": "0.372961",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "South"
       },
       {
         "id": "TH.NW",
@@ -61,7 +61,7 @@
         "stroke": "#289F7C",
         "stroke-width": "0.372961",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "South"
       },
       {
         "id": "TH.PI",
@@ -70,7 +70,7 @@
         "stroke": "#289F7C",
         "stroke-width": "0.372961",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "South"
       },
       {
         "id": "TH.RN",
@@ -79,7 +79,7 @@
         "stroke": "#289F7C",
         "stroke-width": "0.372961",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "South"
       },
       {
         "id": "TH.NT",
@@ -88,7 +88,7 @@
         "stroke": "#289F7C",
         "stroke-width": "0.372961",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "South"
       },
       {
         "id": "TH.SG",
@@ -97,7 +97,7 @@
         "stroke": "#289F7C",
         "stroke-width": "0.372961",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "South"
       },
       {
         "id": "TH.PU",
@@ -106,7 +106,7 @@
         "stroke": "#289F7C",
         "stroke-width": "0.372961",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "South"
       },
       {
         "id": "TH.CP",
@@ -115,7 +115,7 @@
         "stroke": "#289F7C",
         "stroke-width": "0.372961",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "South"
       },
       {
         "id": "TH.YL",
@@ -124,7 +124,7 @@
         "stroke": "#289F7C",
         "stroke-width": "0.372961",
         "name": "Unknow",
-        "zone": "Unknow"
+        "zone": "South"
       }
     ]
 }

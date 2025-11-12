@@ -11,11 +11,18 @@ import { AppStateModule } from '../store/app.state';
 import { ShareModule } from '../shared/shared.module';
 import { errorInterceptor } from './interceptors/error.interceptor';
 import { tokenInterceptor } from './interceptors/token.interceptor';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { PortalModule } from '@angular/cdk/portal';
+import { Assistant } from './components/assistant/assistant';
 
 
 
 @NgModule({
     imports: [
+        DragDropModule,
+        OverlayModule,
+        PortalModule,
         CommonModule,
         RouterModule,
         FormsModule,
@@ -27,7 +34,8 @@ import { tokenInterceptor } from './interceptors/token.interceptor';
     declarations: [
         Login,
         Navbar,
-        NotFound
+        NotFound,
+        Assistant
     ],
     providers: [
         DatePipe,

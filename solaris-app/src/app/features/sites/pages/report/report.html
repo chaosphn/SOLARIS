@@ -67,14 +67,17 @@
             </div>
         </div>
         <div class="btn-group d-flex">
-            <button class="submit d-flex-ct brd h-100" >VIEW</button>
-            <button class="submit d-flex-ct brd h-100" >DOWNLOAD</button>
+            <button class="submit d-flex-ct brd h-100" (click)="selectReport()">{{ loading() ? 'LOADING...' : 'VIEW' }}</button>
+            <button class="submit d-flex-ct brd h-100" (click)="downloadReport()">{{ loading2() ? 'LOADING...' : 'DOWNLOAD' }}</button>
         </div>
     </div>
     <div class="content w-100 h-100 bz">
-        <!-- <pdf-viewer [className]="'pdf'" [src]="pdfurl()"
-                    [render-text]="true"
-                    [original-size]="false"
-        ></pdf-viewer> -->
+        @if(pdfurl().length > 0){
+            <pdf-viewer [className]="'pdf bz'" [src]="pdfurl()"
+                [render-text]="true"
+                [original-size]="false"
+                style="width: 850px; height: 100% !important;"
+            ></pdf-viewer>
+        }
     </div>
 </div>

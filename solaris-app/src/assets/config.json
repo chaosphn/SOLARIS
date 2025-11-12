@@ -1,5 +1,5 @@
 {
-    "UrlApi": "http://61.91.33.94:41253/",
-    "UrlApiAuthen": "http://61.91.33.94:41253/",
+    "UrlApi": "http://localhost:5127/",
+    "UrlApiAuthen": "http://localhost:5127/",
     "Timer": 5
 }

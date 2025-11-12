@@ -81,8 +81,8 @@ export class Piechart implements OnInit, OnChanges {
           const point: any = this;
           return `<div style="text-align: center;">
             <div style="font-weight: 500; color: ${point.color}; font-size: 14px;">${point.name}</div>
-            <div style="color: #BBCCDD; font-size: 12px; margin-top: 3px;">${point.count} sites</div>
-            <div style="color: #BBCCDD; font-size: 12px; margin-top: 3px;">${point.percentage.toFixed(0)}%</div>
+            <div style="color: #BBCCDD; font-size: 12px; margin-top: 3px;">${point.count.toFixed(0)} item</div>
+            <div style="color: #BBCCDD; font-size: 12px; margin-top: 3px;">${point.percentage.toFixed(2)}%</div>
           </div>`;
         },
         useHTML: true,

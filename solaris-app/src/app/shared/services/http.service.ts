@@ -27,8 +27,13 @@ export class HttpService {
     }
 
     getAtTime(requests: RequestAtTimeModel[]) {
-        const body = requests;
-        return this.httpClient.post( this.appLoadService.config.UrlApi + 'getrealtime', body).pipe(
+        const body = {
+            Tags: requests[0].Tags,
+            Options: {
+                StartTime: requests[0].TimeStamp
+            }
+        };
+        return this.httpClient.post( this.appLoadService.config.UrlApi + 'getattime', body).pipe(
             map((x: any) => {
                 
                 return x;
@@ -85,16 +90,87 @@ export class HttpService {
         return res;
     }
 
-    async getReport(name: string) {
-        const res = await this.httpClient.get(name, {
-            responseType: 'blob' // ✅ ไม่ต้อง cast เป็น 'json'
-        }).toPromise();
+    async getAssistantMessage(qst: string, data: any) {
+        try {
+            const body = {
+                Question: qst,
+                Datas: data
+            };
+            const res = await this.httpClient.post(
+                'http://localhost:4040/api/chat', 
+                body
+            ).toPromise();
 
-        if (!res) {
-            throw new Error('No blob returned from server');
+            if (!res) {
+                throw new Error('No file returned from server');
+            }
+
+            return res;
+        } catch (error) {
+            throw new Error('No file returned from server');
+        }
+    }
+
+    async getReport(id: string, type: string, timestamp: string) {
+        try {
+            const body = {
+                Type: type,
+                ProjectId: id,
+                Timestamp: timestamp
+            };
+            const res = await this.httpClient.post(
+                'http://localhost:4040/api/genReport', 
+                body,
+                { responseType: 'blob' }
+            ).toPromise();
+
+            if (!res) {
+                throw new Error('No file returned from server');
+            }
+
+            return res;
+        } catch (error) {
+            throw new Error('No file returned from server');
+        }
+    }
+
+    async downloadReport(id: string, type: string, timestamp: string) {
+        try {
+            const body = {
+                Type: type,
+                ProjectId: id,
+                Timestamp: timestamp
+            };
+            const res = await this.httpClient.post(
+                'http://localhost:4040/api/genReport', 
+                body,
+                { responseType: 'blob' }
+            ).toPromise();
+
+            if (!res) {
+                throw new Error('No file returned from server');
+            }
+
+            let blob: Blob = new Blob([res], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+            
+            // Create a temporary link element
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'report.pdf';
+            a.target = '_blank'; // Open in a new tab
+            document.body.appendChild(a);
+            
+            // Trigger the download
+            a.click();
+            
+            // Clean up
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            throw new Error('No file returned from server');
         }
 
-        return res;
     }
 
     async getBilling(id: string, timestamp: string) {
@@ -155,43 +231,6 @@ export class HttpService {
             throw new Error('No file returned from server');
         }
 
-    }
-
-    async downloadReport(name: string, type: string) {
-        try {
-            const res = await this.httpClient.get(name, {
-                responseType: 'blob' // ✅ ไม่ต้อง cast เป็น 'json'
-            }).toPromise();
-
-            if (!res) {
-                throw new Error('No blob returned from server');
-            }
-            
-            // Create a blob URL for the PDF content
-            let blob: Blob = new Blob([res], { type: 'application/pdf' });
-            if(type == "EXCEL"){
-                blob = new Blob([res], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-            }
-            const url = window.URL.createObjectURL(blob);
-            
-            // Create a temporary link element
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = name.split('/')[2]; // Specify the file name
-            a.target = '_blank'; // Open in a new tab
-            document.body.appendChild(a);
-            
-            // Trigger the download
-            a.click();
-            
-            // Clean up
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-            
-        } catch (error) {
-            console.error('Error downloading report:', error);
-            // Handle errors, if any
-        }
     }
     
 }

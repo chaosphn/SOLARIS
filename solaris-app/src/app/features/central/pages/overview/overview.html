@@ -51,8 +51,8 @@
         <app-card-container [title]="'Daily production'">
             <ng-template #container>
                 <div class="chart-box w-100 h-100 bz" style="max-height: 90%; margin-top: 5%;">
-                    @if (dataChart() && dataChart()['CHART01']) {
-                        <app-highchart [chartParameter]="dataChart()['CHART01']"></app-highchart>
+                    @if (dataChart() && dataChart()['CHART02']) {
+                        <app-highchart [chartParameter]="dataChart()['CHART02']"></app-highchart>
                     }
                 </div>
             </ng-template>

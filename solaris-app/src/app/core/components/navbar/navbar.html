@@ -154,7 +154,7 @@
                                 <i class="material-icons">area_chart</i>
                                 <div>CHARTS</div>
                             </a>
-                            <a class="nav-link hide" routerLink="/main/events" routerLinkActive="active">
+                            <a class="nav-link hide" routerLink="/main/event" routerLinkActive="active">
                                 <i class="material-icons">notifications_active</i>
                                 <div>EVENTS</div>
                             </a>
@@ -162,7 +162,7 @@
                                 <i class="material-icons">description</i>
                                 <div>REPORTS</div>
                             </a>
-                            <a class="nav-link" routerLink="/main/reportadmin" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/main/report-admin" routerLinkActive="active">
                                 <i class="material-icons">description</i>
                                 <div>REPORT ADMIN</div>
                             </a>
@@ -189,10 +189,10 @@
                                 <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
                             </div>
                         }
-                        <div class="ai-btn">
+                        <!-- <div class="ai-btn" (click)="openDialog()">
                             <i class="material-icons">auto_awesome</i>
                             <div>Ask SolarisAI</div>
-                        </div>
+                        </div> -->
                     </head>
                 }
             }

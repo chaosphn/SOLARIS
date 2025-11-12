@@ -23,6 +23,7 @@ export const routes: Routes = [
         path: 'main',
         component: Navbar,
         children: [
+            // Centralize Pages
             {
                 path: 'overview',
                 loadChildren: () => import('./features/central/pages/overview/overview-module').then(m => m.OverviewModule)
@@ -57,6 +58,8 @@ export const routes: Routes = [
                 canActivate: [authGuard],
                 loadChildren: () => import('./features/central/pages/setting/setting-module').then(m => m.SettingModule)
             },
+
+            // Plant Ifomation Pages
             {
                 path: 'layout',
                 canActivate: [authGuard],
@@ -88,9 +91,19 @@ export const routes: Routes = [
                 loadChildren: () => import('./features/sites/pages/chart/chart-module').then(m => m.ChartModule)
             },
             {
+                path: 'event',
+                canActivate: [authGuard],
+                loadChildren: () => import('./features/sites/pages/event/event-module').then(m => m.EventModule)
+            },
+            {
                 path: 'report',
                 canActivate: [authGuard],
                 loadChildren: () => import('./features/sites/pages/report/report-module').then(m => m.ReportModule)
+            },
+            {
+                path: 'report-admin',
+                canActivate: [authGuard],
+                loadChildren: () => import('./features/sites/pages/report-admin/report-admin-module').then(m => m.ReportAdminModule)
             },
         ]
     },

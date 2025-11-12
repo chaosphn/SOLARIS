@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, Output, signal } from '@angular/core';
+import { Component, effect, EventEmitter, input, Output, signal } from '@angular/core';
 import { MapConfigModel } from '../../../../../../shared/models/svg.model';
 import { DataRealtimeModel } from '../../../../../../shared/models/response.model';
 import { SiteModel } from '../../../../../../shared/models/config.model';
@@ -17,10 +17,35 @@ export class MapConsumption {
   config = input<MapConfigModel>();
   data = input<DataRealtimeModel>();
   sites = input<SiteModel[]>([]);
+  sitesSummary = signal<any[]>([]);
   @Output() selectZone = new EventEmitter<string>();
 
   selectedprovince: string = '';
   hoverprovince: string | null = null;
+
+  constructor(){
+    effect(() => {
+      if(this.sites() && this.config()?.map){
+        //console.log(this.sites(), this.config())
+        const pvnInZone = this.config()?.map.map(x => x.name.replace(/\s+/g, "").toLowerCase()) || [];
+        if(pvnInZone){
+          const siteData = this.sites().filter(x => pvnInZone.includes(x.location.toLowerCase())).map(x => ({
+            indicator: this.data()?.[`${x.id}_POWER`]?.TimeStamp || '---', 
+            code: x.id, 
+            site: x.name, 
+            province: x.location, 
+            capacityMw: x.capacity, 
+            powerKw: this.data()?.[`${x.id}_POWER`]?.Value || '---', 
+            todayMWh: this.data()?.[`${x.id}_ENERGY`]?.Value || '---', 
+            irr: this.data()?.[`${x.id}_PYRONO`]?.Value || '---', 
+            pvTemp: this.data()?.[`${x.id}_PVTEMP`]?.Value || '---', 
+            ambTemp: this.data()?.[`${x.id}_AMBTEMP`]?.Value || '---'
+          }));
+          this.sitesSummary.set(siteData);
+        }
+      }
+    })
+  }
 
   mockRows = [
     { indicator: '1M', code: 'SITE001', site: 'SITE ALPHA', province: 'BANGKOK', capacityMw: 6.0, powerKw: 3372, todayMWh: 32, irr: 742, pvTemp: 55.4, ambTemp: 36.1 },
@@ -54,12 +79,42 @@ export class MapConsumption {
   };
 
   getProviceBackground(provinceId: string, color: string){
-    const findProvince = this.sites().findIndex(x => x.location.toLowerCase() == provinceId.replaceAll(' ', '').toLowerCase());
+    const pvnName = provinceId.replace(/\s+/g, "").toLowerCase();
+    const findProvince = this.sites().findIndex(x => x.location.toLowerCase() == pvnName);
     return findProvince > -1 ? `${color}` : 'var(--map-bg)'
   }
 
   zoominSelectedZone(zone: string){
     this.selectZone.emit(zone);
+  }
+
+  getProvinceNum(name: string){
+    if(!this.config()?.map){
+      return 0;
+    }
+    const pvnInZone = this.config()?.map.filter(x => x.zone.toLowerCase() == name).map(x => x.name.replaceAll(' ', '').toLowerCase()) || [];
+    if(pvnInZone){
+      return this.sites().filter(x => pvnInZone.includes(x.location.toLowerCase())).length
+    } else {
+      return 0
+    }; 
+  }
+
+  getProvinceCap(name: string){
+    if(!this.config()?.map){
+      return 0;
+    }
+    const pvnInZone = this.config()?.map.filter(x => x.zone.toLowerCase() == name).map(x => x.name.replaceAll(' ', '').toLowerCase()) || [];
+    if(pvnInZone){
+      return this.sites().filter(x => pvnInZone.includes(x.location.toLowerCase())).reduce((acc, cur) => {
+        if(cur && cur.capacity){
+          acc = acc + parseFloat(cur.capacity);
+        }
+        return acc;
+      }, 0).toFixed(2);
+    } else {
+      return 0
+    }; 
   }
 
 }

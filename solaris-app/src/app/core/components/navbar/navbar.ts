@@ -22,6 +22,7 @@ import { resetTags } from '../../../store/actions/tags.actions';
 import { MessageService } from 'primeng/api';
 import { ToastStateModel } from '../../../shared/models/toast.model';
 import { getToastState } from '../../../store/selectors/toaster.selectors';
+import { FloatingDialogService } from '../../../shared/pipes/floating-dialog.service';
 
 
 @Component({
@@ -61,6 +62,7 @@ export class Navbar implements OnInit, OnDestroy {
   private store = inject(Store);
   private theme = inject(ThemeService);
   private messageService = inject(MessageService);
+  private dialog = inject(FloatingDialogService);
 
   constructor(){
     this.navState$ = this.store.select(getNavState);
@@ -321,5 +323,10 @@ export class Navbar implements OnInit, OnDestroy {
     this.date = event;
     this.store.dispatch(setDate({ payload: this.date }));
   }
+
+  openDialog() {
+    this.dialog.open();
+  }
+
 
 }

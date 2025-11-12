@@ -1,4 +1,4 @@
-import { Component, inject, OnChanges, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnChanges, OnDestroy, OnInit, signal } from '@angular/core';
 import { GroupHistorianConfigModel, GroupReatimeConfigModel, HistorianConfig, PageConfigModel, RealtimeConfig, SiteModel } from '../../../../shared/models/config.model';
 import { HttpService } from '../../../../shared/services/http.service';
 import { Store } from '@ngrx/store';
@@ -54,11 +54,21 @@ export class Layout implements OnInit, OnDestroy {
 
   zoneSelected = signal<string>('overall');
   mapConfig = signal<MapConfigModel>({} as MapConfigModel);
-  plantStatusData = signal<PlantStatusData[]>([
-    { label: 'INV NORMAL', count: 60, percentage: 60, color: '#10FDD3', unit: 'unit' },
-    { label: 'INV ERROR', count: 25, percentage: 25, color: '#DEB266', unit: 'unit' },
-    { label: 'INV FCOM', count: 15, percentage: 15, color: '#FF4F52', unit: 'unit' }
-  ]);
+  plantStatusData = computed(() => {
+    if(this.dataRealtime()){
+      const pr1 = ((this.dataRealtime()['RUNNING']?.Value || 0)/100)*100;
+      const pr2 = ((this.dataRealtime()['UNHEALTHY']?.Value || 0)/100)*100;
+      const pr3 = ((this.dataRealtime()['NODATA']?.Value || 0)/100)*100;
+      const data: PlantStatusData[] = [
+        { label: 'INV NORMAL', count: this.dataRealtime()['RUNNING']?.Value || 0, percentage: pr1, color: '#10FDD3', unit: 'Unit' },
+        { label: 'INV ERROR', count: this.dataRealtime()['UNHEALTHY']?.Value || 0, percentage: pr2, color: '#DEB266', unit: 'Unit' },
+        { label: 'INV FCOM', count: this.dataRealtime()['NODATA']?.Value || 0, percentage: pr3, color: '#FF4F52', unit: 'Unit' }
+      ];
+      return data;
+    } else {
+      return [];
+    }
+  });
 
   timers?: Subscription;
   navSub?: Subscription;
@@ -369,27 +379,28 @@ export class Layout implements OnInit, OnDestroy {
 
   async getAtTimeData(){
     if (this.requestAttime() && this.requestAttime().length > 0) {
-      const result = this.requestAttime().map(async(item) => {
-        const request = item.Request;
-        const response:ResponseRealtimeModel[] = await this.http.getAtTime(request);
-        if(response){
-          response.map(data => {
-            const conf = this.config().realtimeConfig.find(x => x.Group == item.Group)?.Tags.find(y => y.Tagname == data.Name && y.Timestamp);
-            if (conf) {
-              this.dataRealtime.update(val => ({
-                ...val,
-                [conf.Title]: data
-              }));
-            }
-            this.responseRealtime.update(val => [...val, data]);
-          });
-        }
-        return response;
-      });
-      const res = await Promise.allSettled(result);
-      if (res) {
-        this.store.dispatch(LayoutActions.loadLayoutRealtimeDataSuccess({ data: this.dataRealtime() }));
+      for await (const req of this.requestAttime()) {
+        const result = req.Request.map(async(item) => {
+          const request = item;
+          const response:ResponseRealtimeModel[] = await this.http.getAtTime([request]);
+          if(response){
+            response.map(data => {
+              const conf = this.config().realtimeConfig.find(x => x.Group == req.Group)?.Tags.find(y => y.Tagname == data.Name && y.Timestamp);
+              if (conf) {
+                this.dataRealtime.update(val => ({
+                  ...val,
+                  [conf.Title]: data
+                }));
+              }
+              this.responseRealtime.update(val => [...val, data]);
+            });
+          }
+          return response;
+        });
+        const res = await Promise.allSettled(result);
       }
+      this.store.dispatch(LayoutActions.loadLayoutRealtimeDataSuccess({ data: this.dataRealtime() }));
+      
     }
   }
 

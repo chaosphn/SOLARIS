@@ -53,8 +53,26 @@
         ]
       },
       {
-        "Group": "inverter01",
+        "Group": "status",
         "Order": 3,
+        "Tags": [
+          {
+            "Title": "RUNNING",
+            "Tagname": "J2301-1.SCADA1.PYRANO1"
+          },
+          {
+            "Title": "UNHEALTHY",
+            "Tagname": "J2301-1.SCADA1.AMBTEMP"
+          },
+          {
+            "Title": "NODATA",
+            "Tagname": "J2301-1.SCADA1.PVTEMP"
+          }
+        ]
+      },
+      {
+        "Group": "inverter01",
+        "Order": 4,
         "Tags": [
           {
             "Title": "Rectangle_944",

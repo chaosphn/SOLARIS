@@ -376,27 +376,28 @@ export class Performance implements OnInit, OnDestroy {
 
   async getAtTimeData(){
     if (this.requestAttime() && this.requestAttime().length > 0) {
-      const result = this.requestAttime().map(async(item) => {
-        const request = item.Request;
-        const response:ResponseRealtimeModel[] = await this.http.getAtTime(request);
-        if(response){
-          response.map(data => {
-            const conf = this.config().realtimeConfig.find(x => x.Group == item.Group)?.Tags.find(y => y.Tagname == data.Name && y.Timestamp);
-            if (conf) {
-              this.dataRealtime.update(val => ({
-                ...val,
-                [conf.Title]: data
-              }));
-            }
-            this.responseRealtime.update(val => [...val, data]);
-          });
-        }
-        return response;
-      });
-      const res = await Promise.allSettled(result);
-      if (res) {
-        this.store.dispatch(EfficiencyActions.loadEfficiencyRealtimeDataSuccess({ data: this.dataRealtime() }));
+      for await (const req of this.requestAttime()) {
+        const result = req.Request.map(async(item) => {
+          const request = item;
+          const response:ResponseRealtimeModel[] = await this.http.getAtTime([request]);
+          if(response){
+            response.map(data => {
+              const conf = this.config().realtimeConfig.find(x => x.Group == req.Group)?.Tags.find(y => y.Tagname == data.Name && y.Timestamp);
+              if (conf) {
+                this.dataRealtime.update(val => ({
+                  ...val,
+                  [conf.Title]: data
+                }));
+              }
+              this.responseRealtime.update(val => [...val, data]);
+            });
+          }
+          return response;
+        });
+        const res = await Promise.allSettled(result);
       }
+      this.store.dispatch(EfficiencyActions.loadEfficiencyRealtimeDataSuccess({ data: this.dataRealtime() }));
+      
     }
   }
 

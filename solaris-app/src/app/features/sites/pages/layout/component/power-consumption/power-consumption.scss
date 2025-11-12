@@ -3,9 +3,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  transform: scale(0.95);
 }
 
 .metrics-grid {
@@ -13,8 +12,8 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 549px;
-  margin-bottom: 20px;
+  //max-width: 549px;
+  //margin-bottom: 10px;
 }
 
 .metric-card {
@@ -63,6 +62,7 @@
   margin-top: 10px;
   align-self: flex-start;
 }
+
 
 // Responsive adjustments
 @media (max-width: 768px) {

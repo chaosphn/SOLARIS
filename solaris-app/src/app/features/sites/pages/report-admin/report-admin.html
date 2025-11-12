@@ -1,0 +1,173 @@
+<div class="container">
+    <div class="content w-100 h-100">
+        <div class="report-box h-100 bz" style="margin-bottom: 16px;" *ngIf="tabMode === 'report'">
+            <div class="head bz">
+                <div class="topic bz">REPORT SETTING</div>
+                <div class="btn-group">
+                    <button class="bz" (click)="openAddSiteModal()">ADD SITE CONFIG</button>
+                    <button class="bz" (click)="saveGlobalSettings()">SAVE CHANGE</button>
+                </div>
+            </div>
+
+            <!-- Report Mode Selection -->
+            <!-- <div class="mode-selection">
+                <label class="checkbox-label">
+                    <input type="radio" name="reportMode" value="manual" 
+                            [(ngModel)]="reportMode" (change)="onReportModeChange()">
+                    <span>Manual Report</span>
+                </label>
+                <label class="checkbox-label">
+                    <input type="radio" name="reportMode" value="auto" 
+                            [(ngModel)]="reportMode" (change)="onReportModeChange()">
+                    <span>Auto Report</span>
+                </label>
+            </div> -->
+
+            <div class="main">
+                <!-- Report Schedule Card (visible only in auto mode) -->
+                <!-- <div class="schedule-section" *ngIf="reportMode === 'auto'">
+                    <div class="section-title">
+                        <i class="material-icons">schedule</i>
+                        <span>SCHEDULE CONFIGURATION</span>
+                    </div>
+                    <div class="card-box w-100 d-flex">
+                        <div class="card d-col-st">
+                            <div class="title">
+                                <i class="material-icons" style="font-size: 16px;">date_range</i>
+                                DAY OF MONTH
+                            </div>
+                            <div class="text-field">
+                                <select [(ngModel)]="scheduleDayOfMonth" class="schedule-select">
+                                    <option *ngFor="let day of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]" [value]="day">
+                                        Every {{ day }}{{ getDaySuffix(day) }} of month
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="card d-col-st">
+                            <div class="title">
+                                <i class="material-icons" style="font-size: 16px;">access_time</i>
+                                SCHEDULE TIME
+                            </div>
+                            <div class="text-field">
+                                <input type="time" [(ngModel)]="scheduleTime" />
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- Global Email List Card -->
+                <div class="email-section">
+                    <div class="section-title">
+                        <i class="material-icons">email</i>
+                        <span>EMAIL RECIPIENTS</span>
+                    </div>
+                    <div class="card-box w-100">
+                        <div class="card d-col-st email-card">
+                            <div class="title">
+                                <i class="material-icons" style="font-size: 16px;">group</i>
+                                DEFAULT EMAIL LIST
+                            </div>
+                            <div class="text-field full-width">
+                                <textarea [(ngModel)]="globalEmails" 
+                                            class="email-textarea" 
+                                            rows="4"
+                                            placeholder="Enter email addresses separated by commas&#10;Example: user1@example.com, user2@example.com, user3@example.com"></textarea>
+                            </div>
+                            <div class="email-hint">
+                                <i class="material-icons">info</i>
+                                <span>These emails will be used as default recipients for all sites unless overridden.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Site Configurations Table -->
+            <div class="table-section" *ngIf="siteConfigs.length > 0">
+                <h3 class="table-title">Site-Specific Email Configuration</h3>
+                <div class="table-wrapper">
+                    <table class="config-table">
+                        <thead>
+                            <tr>
+                                <th>Site Name</th>
+                                <th>Email List</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let config of siteConfigs">
+                                <td>
+                                    <div class="site-name">
+                                        <i class="material-icons">location_on</i>
+                                        {{ config.siteName }}
+                                    </div>
+                                </td>
+                                <td class="email-cell">
+                                    <span *ngIf="config.emails" class="email-content">{{ config.emails }}</span>
+                                    <span *ngIf="!config.emails" class="email-default">Using default emails</span>
+                                </td>
+                                <td class="action-cell">
+                                    <button class="action-btn edit-btn" (click)="editSiteConfig(config)" title="Edit">
+                                        <i class="material-icons">edit</i>
+                                    </button>
+                                    <button class="action-btn delete-btn" (click)="deleteSiteConfig(config.id)" title="Delete">
+                                        <i class="material-icons">delete</i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Add Site Config -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>{{ newSiteConfig.id ? 'Edit' : 'Add' }} Site Email Configuration</h2>
+            <button class="close-btn" (click)="closeModal()">
+                <i class="material-icons">close</i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <!-- Site Selection -->
+            <div class="form-group">
+                <label>
+                    <i class="material-icons label-icon">location_on</i>
+                    Select Site
+                </label>
+                <select [(ngModel)]="newSiteConfig.siteName" class="form-control">
+                    <option value="">-- Select Site --</option>
+                    <option *ngFor="let site of availableSites" [value]="site">{{ site }}</option>
+                </select>
+            </div>
+
+            <!-- Email List -->
+            <div class="form-group full-width">
+                <label>
+                    <i class="material-icons label-icon">email</i>
+                    Email List (comma-separated)
+                </label>
+                <textarea [(ngModel)]="newSiteConfig.emails" 
+                          class="form-control textarea" 
+                          rows="5"
+                          placeholder="Enter email addresses separated by commas&#10;Example: admin@example.com, manager@example.com&#10;&#10;Leave empty to use default email list"></textarea>
+                <div class="form-hint">
+                    <i class="material-icons">info</i>
+                    <span>If left empty, the default email list will be used for this site.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="closeModal()">CANCEL</button>
+            <button class="btn-primary" (click)="saveSiteConfig()">SAVE</button>
+        </div>
+    </div>
+</div>

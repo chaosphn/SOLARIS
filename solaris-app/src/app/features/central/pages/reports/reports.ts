@@ -8,6 +8,7 @@ import { Datetime } from '../../../../shared/services/datetime';
 import { getNavState } from '../../../../store/selectors/nav.selectors';
 import { getAllConfig, getZoneConfig } from '../../../../store/selectors/site.selectors';
 import { ReportConfigModel } from '../../../sites/models/report.model';
+import { sendMessage } from '../../../../store/actions/toaster.actions';
 
 
 @Component({
@@ -29,6 +30,8 @@ export class Reports implements OnInit, OnDestroy {
   navSub?: Subscription;
   pdfurl = signal<string>('');
   date: Date = new Date();
+  loading = signal<Boolean>(false);
+  loading2 = signal<Boolean>(false);
   
   isDropdownOpen1 = false;
   isDropdownOpen2 = false;
@@ -136,6 +139,62 @@ export class Reports implements OnInit, OnDestroy {
 
   onDateSelect(event: any) {
     this.date = event;
+  }
+
+  async selectReport() {
+    try {
+      this.loading.set(true);
+      this.pdfurl.update(prev => '');
+      if(this.validateSelection()){
+        await new Promise(resolve => setTimeout(resolve, 200));
+        const blob: any = await this.http.getReport(this.selectedSite?.value??'', this.selectedReport?.value??'', this.date.toISOString());
+      if (blob) {
+          this.pdfurl.set(URL.createObjectURL(blob));
+        } else {
+          this.store.dispatch(sendMessage({ 
+            payload: { type: 'error', text: 'No Report returned' }
+          }));
+        }
+      };
+      this.loading.set(false);
+    } catch (error: any) {
+      this.store.dispatch(sendMessage({ 
+        payload: { type: 'error', text: error.message }
+      }));
+      this.loading.set(false);
+    }
+  }
+  
+  async downloadReport() {
+    try {
+      this.loading2.set(true);
+      if(this.validateSelection()){
+        await new Promise(resolve => setTimeout(resolve, 200));
+        const blob: any = await this.http.downloadReport(this.selectedSite?.value??'', this.selectedReport?.value??'', this.date.toISOString());
+      } 
+      this.loading2.set(false);
+    } catch (error: any) {
+      this.store.dispatch(sendMessage({ 
+        payload: { type: 'error', text: error.message }
+      }));
+      this.loading2.set(false);
+    }
+  }
+
+  validateSelection(){
+    if(!this.selectedReport?.value){
+      this.store.dispatch(sendMessage({ 
+        payload: { type: 'error', text: 'Please report type !' }
+      }));
+      return false;
+    } else if(!this.selectedSite?.value){
+      this.store.dispatch(sendMessage({ 
+        payload: { type: 'error', text: 'Please select site !' }
+      }));
+      return false;
+    } else {
+      return true;
+    }
   }
 
 }
