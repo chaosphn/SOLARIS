@@ -87,6 +87,7 @@
             <ng-template #container>
                <app-chart-card
                 [name]="'CHART01'"
+                [isLoading]="loadingChart()"
                 [chartData]="dataChart()['CHART01']"
                 (dateChange)="onChartUpdate($event)"
                >
@@ -99,6 +100,7 @@
             <ng-template #container>
                 <app-chart-card
                     [name]="'CHART02'"
+                    [isLoading]="loadingChart()"
                     [chartData]="dataChart()['CHART02']"
                     (dateChange)="onChartUpdate($event)"
                 >

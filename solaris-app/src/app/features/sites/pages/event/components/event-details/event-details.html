@@ -1,18 +1,23 @@
 <div class="container w-100 h-100 bz">
 
     <div class="card-box w-100 bz">
-        <div class="title w-100">NAME</div>
-        <div class="value bz w-100">WeatherStation Com Fail</div>
+        <div class="title w-100">EQUIPMENT</div>
+        <div class="value bz w-100">{{ event().equipment || '---' }}</div>
+    </div>
+
+    <div class="card-box w-100 bz">
+        <div class="title w-100">ASSET</div>
+        <div class="value bz w-100">{{ event().asset || '---' }}</div>
     </div>
     
     <div class="card-box w-100 bz">
         <div class="title w-100">TIMESTAMP</div>
-        <div class="value bz w-100">20-April-2025 13:49:00</div>
+        <div class="value bz w-100">{{ event().timestamp || '---' }}</div>
     </div>
 
     <div class="card-box w-100 bz">
         <div class="title w-100">MESSAGE</div>
-        <div class="value bz w-100">Weather Station connection lost</div>
+        <div class="value bz w-100">{{ event().message || '---' }}</div>
     </div>
 
     <div class="card-box w-100 bz">

@@ -28,6 +28,7 @@ import { TagContainer } from './components/tag-container/tag-container';
 import { DataTable } from './components/data-table/data-table';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
+import { SkeletonBox } from './components/skeleton-box/skeleton-box';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -61,6 +62,7 @@ export const MY_DATE_FORMATS = {
     FilterTable,
     TagContainer,
     DataTable,
+    SkeletonBox
     
   ],
   imports: [
@@ -92,7 +94,8 @@ export const MY_DATE_FORMATS = {
     TimeSelectComponent,
     FilterTable,
     TagContainer,
-    DataTable
+    DataTable,
+    SkeletonBox
     
   ],
   providers: [

@@ -52,10 +52,33 @@
     }
 }
 
+.icon-box{
+    background-color: var(--secondary-bg-50);
+    padding: 4px 8px;
+    border-radius: 4px;
+    .material-icons{
+        color: var(--primary-txt);
+        background: none;
+        padding: 0px;
+        border-radius: 0px;
+    }
+}
+
 .chart{
     min-height: 150px;
     z-index: 0 !important;
     position: relative;
+}
+.spinner {
+    animation: spin 2s linear infinite;
+}
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @media (max-width: 1700px) {
@@ -90,3 +113,4 @@
 @media (max-width: 500px) {
 		
 }
+

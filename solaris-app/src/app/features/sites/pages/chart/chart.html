@@ -48,46 +48,54 @@
                     </button>
                 </div>
             </section>
-            @switch (selectedOption.value) {
-                @case ('data-table') {
-                    <div class="tables-group h-100 w-100 bz" >
-                        <div class="table bz h-100">
-                            @if (responseHistorian().length > 0) {
-                                <app-data-table [data]="responseHistorian()"></app-data-table>
+            @if(isLoadingChart){
+                <div class="tables-group h-100 w-100 bz" >
+                    <div class="w-100 h-100 ">
+                        <app-skeleton-box></app-skeleton-box>
+                    </div>
+                </div>
+            } @else {
+                @switch (selectedOption.value) {
+                    @case ('data-table') {
+                        <div class="tables-group h-100 w-100 bz" >
+                            <div class="table bz h-100">
+                                @if (responseHistorian().length > 0) {
+                                    <app-data-table [data]="responseHistorian()"></app-data-table>
+                                }
+                            </div>
+                        </div>
+                    }
+                    @default {
+                        <div class="chart-group w-100 bz" [id]="'combined-chart'">
+                            <!-- Combined Chart View -->
+                            @if (isCombinedChart && combinedChartParameter()) {
+                                <div class="w-100 bz chart-box h-100" >
+                                    <div class="chart w-100 h-100 bz" >
+                                        <ng-container>
+                                            <app-highchart [chartParameter]="combinedChartParameter()!" id="combined-chart">
+                                            </app-highchart>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            }
+                            
+                            <!-- Individual Charts View -->
+                            @if (!isCombinedChart) {
+                                <ng-container >
+                                    @for (item of chartParameter(); track $index; let i = $index) {
+                                        <div class="w-100 bz chart-box h-100">
+                                            <div class="chart w-100 h-100 bz" >
+                                                <ng-container>
+                                                    <app-highchart [chartParameter]="item" [id]="'chart-' + i">
+                                                    </app-highchart>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    }
+                                </ng-container>
                             }
                         </div>
-                    </div>
-                }
-                @default {
-                    <div class="chart-group w-100 bz" [id]="'combined-chart'">
-                        <!-- Combined Chart View -->
-                        @if (isCombinedChart && combinedChartParameter()) {
-                            <div class="w-100 bz chart-box h-100" >
-                                <div class="chart w-100 h-100 bz" >
-                                    <ng-container>
-                                        <app-highchart [chartParameter]="combinedChartParameter()!" id="combined-chart">
-                                        </app-highchart>
-                                    </ng-container>
-                                </div>
-                            </div>
-                        }
-                        
-                        <!-- Individual Charts View -->
-                        @if (!isCombinedChart) {
-                            <ng-container >
-                                @for (item of chartParameter(); track $index; let i = $index) {
-                                    <div class="w-100 bz chart-box h-100">
-                                        <div class="chart w-100 h-100 bz" >
-                                            <ng-container>
-                                                <app-highchart [chartParameter]="item" [id]="'chart-' + i">
-                                                </app-highchart>
-                                            </ng-container>
-                                        </div>
-                                    </div>
-                                }
-                            </ng-container>
-                        }
-                    </div>
+                    }
                 }
             }
         </div>
@@ -97,6 +105,7 @@
                     [tagConfig]="configTest()"
                     [siteName]="siteSelected()"
                     (emitResponse)="emitResponse($event)"
+                    (isLoading)="onLoadingData($event)"
                     (clrDatas)="clearData()">
                 </app-tag-container>
             </ng-container>

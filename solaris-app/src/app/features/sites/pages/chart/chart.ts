@@ -53,6 +53,7 @@ export class Chart implements OnInit, OnDestroy {
   isChange: boolean = false;
   chartTag: DisplayTag[] = [];
   isCombinedChart: boolean = false;
+  isLoadingChart: boolean = false;
   
   colorList: string[] = [
     '#15BBC2', '#278EFF', '#9945F5', '#F143AA', '#FF9059'
@@ -219,6 +220,7 @@ export class Chart implements OnInit, OnDestroy {
   }
 
   emitResponse(res: ResponseHistorianModel[]){
+    this.isCombinedChart = false;
     this.responseHistorian.update(val => {
       return [...val, ...res]
     });
@@ -434,6 +436,10 @@ export class Chart implements OnInit, OnDestroy {
         cmp.ref.container.addEventListener('mouseout', () => this.hideTooltips());
       }
     });
+  }
+
+  onLoadingData(event: boolean): void {
+    this.isLoadingChart = event;
   }
 
   private syncTooltip(e: MouseEvent | TouchEvent, sourceChart: Highcharts.Chart) {

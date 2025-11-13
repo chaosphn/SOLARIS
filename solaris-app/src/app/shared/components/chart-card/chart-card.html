@@ -1,8 +1,21 @@
 <div class="chart-container w-100 h-100 bz">
     <div class="d-flex-sb time-container w-100 bz">
-        <div class="icon-content">
-           <i class="material-icons" style="font-size: 16px;" (click)="captureChart()">camera_alt</i>
-           <i class="material-icons" style="font-size: 16px; margin-left: 8px;" (click)="exportAllToExcel()">save</i>
+        <div class="icon-content d-flex">
+           @if (loadingImg()) {
+            <div class="icon-box d-flex-ct">
+                <i class="material-icons spinner" style="font-size: 16px;" >refresh</i>
+            </div>
+           } @else {
+            <i class="material-icons" style="font-size: 16px;" (click)="captureChart()">camera_alt</i>
+           }
+
+           @if (loadingData()) {
+            <div class="icon-box d-flex-ct">
+                <i class="material-icons spinner" style="font-size: 16px;" >refresh</i>
+            </div>
+           } @else {
+             <i class="material-icons" style="font-size: 16px; margin-left: 8px;" (click)="exportAllToExcel()">save</i>
+           }
         </div>
         <div class="time-content">
             <div class="datepicker bz">
@@ -30,6 +43,10 @@
         </div>
     </div>
     <div [id]="name()" class="chart w-100 bz">
-      <app-highchart [chartParameter]="chartItems()"></app-highchart>
+      @if(isLoading() === name()){
+        <app-skeleton-box></app-skeleton-box>
+      } @else if(chartItems()) {
+        <app-highchart [chartParameter]="chartItems()"></app-highchart>
+      }
     </div>
 </div>

@@ -1,0 +1,65 @@
+﻿[
+  {
+    "name": "Status",
+    "opened": false,
+    "item": [
+      {
+        "value": "active",
+        "label": "Active",
+        "icon": "play_circle"
+      },
+      {
+        "value": "inactive",
+        "label": "Inactive",
+        "icon": "stop_circle"
+      }
+    ]
+  },
+  {
+    "name": "Type",
+    "opened": false,
+    "item": [
+      {
+        "value": "event",
+        "label": "Event",
+        "icon": "error_outline"
+      },
+      {
+        "value": "warning",
+        "label": "Warning",
+        "icon": "warning_amber"
+      },
+      {
+        "value": "minor",
+        "label": "Minor Error",
+        "icon": "notification_important"
+      },
+      {
+        "value": "major ",
+        "label": "MAjor Error",
+        "icon": "dangerous"
+      }
+    ]
+  },
+  {
+    "name": "Equipment",
+    "opened": false,
+    "item": [
+      {
+        "value": "INVERTER",
+        "label": "Inverters",
+        "icon": "construction"
+      },
+      {
+        "value": "METERS",
+        "label": "Power Merters",
+        "icon": "construction"
+      },
+      {
+        "value": "WEATHER",
+        "label": "Weather Station",
+        "icon": "construction"
+      }
+    ]
+  }
+]

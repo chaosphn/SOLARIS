@@ -59,8 +59,9 @@
     }
 }
 
-@media only screen and (max-width: 500px) {
+@media (max-width: 500px) {
     .container{
+        padding: 8px;
         overflow-y: auto;
         height: calc(100vh - 300px);
     }

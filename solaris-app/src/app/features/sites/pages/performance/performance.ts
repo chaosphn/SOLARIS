@@ -64,6 +64,7 @@ export class Performance implements OnInit, OnDestroy {
     }
   })
 
+  loadingChart = signal<string>('');
   zoneSelected = signal<string>('overall');
   mapConfig = signal<MapConfigModel>({} as MapConfigModel);
   plantStatusData = signal<PlantStatusData[]>([
@@ -563,6 +564,7 @@ export class Performance implements OnInit, OnDestroy {
     //console.log(data, this.requestHistorian())
     const findRequest = this.requestHistorian().find(x => x.Group === data.name);
     if(findRequest){
+      this.loadingChart.set(data.name);
       const req: RequestHistorianModel[] = findRequest.Request.map(x => {
         return {
           ...x,
@@ -706,6 +708,7 @@ export class Performance implements OnInit, OnDestroy {
           this.responseHistorian.update(val => [...val, data]);
         });
       }
+      this.loadingChart.set('');
     }
   }
 

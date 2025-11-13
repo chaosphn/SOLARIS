@@ -21,11 +21,17 @@ export class ChartCard {
   name = input<string>('');
   chartData = input<ChartParameters>({} as ChartParameters);
   dateChange = output<ChartPickerModel>();
+
+  isLoading = input<string>('');
   
   chartItems = signal<ChartParameters>({} as ChartParameters);
   date: Date = new Date();
   mode = signal<'d' | 'w' | 'm' | 'y'>('d');
   uniqueId: string = `datepicker-${Math.random().toString(36).substr(2, 9)}`;
+
+  loadingImg = signal<boolean>(false);
+  loadingData = signal<boolean>(false);
+  loadingChart = signal<boolean>(false);
 
   private dateTimeSrv = inject(Datetime);
   private excelExportService = inject(ExportXls);
@@ -87,15 +93,23 @@ export class ChartCard {
             });
             break;
         }
+      } else {
+        this.chartItems.update(prev => {
+          return {} as ChartParameters;
+        });
+        console.log('YYYYY')
       }
     })
   }
 
   captureChart(): void {
+    this.loadingImg.set(true);
     const chartElement = document.getElementById(this.name());
     if (chartElement) {
       this.captureElement(chartElement, this.name());
-    }
+    } else {
+      this.loadingImg.set(false);
+    };
   }
 
   private captureElement(element: HTMLElement, filename: string): void {
@@ -112,13 +126,16 @@ export class ChartCard {
         link.download = `${filename}_${date.slice(0, 10)}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
+        this.loadingImg.set(false);
       }).catch((err: any) => {
         console.error('Error capturing chart:', err);
+        this.loadingImg.set(false);
       });
     });
   }
 
   exportAllToExcel(): void {
+    this.loadingData.set(true);
     const data: any[] = this.chartData()?.series || [];
     const res:ResponseHistorianModel[] = data.map((x: any) => {
       return {
@@ -134,6 +151,7 @@ export class ChartCard {
     });
     const date = this.dateTimeSrv.getDateTime1(this.date);
     this.excelExportService.exportToExcel(res, 'exported_data_'+date.slice(0,10));
+    this.loadingData.set(false);
   }
 
   setTimeRange(range: 'd' | 'w' | 'm' | 'y') {

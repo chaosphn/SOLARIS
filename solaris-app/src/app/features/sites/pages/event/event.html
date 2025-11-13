@@ -1,30 +1,32 @@
 <div class="container w-100 h-100 bz">
     <div class="header d-flex-sb w-100 bz">
         <div class="item-group d-flex">
-            <div class="dropdown-wrapper" #dropdownWrapper1>
-                <div class="custom-dropdown d-flex-ct bz h-100" 
-                    [class.active]="isDropdownOpen1"
-                    (click)="toggleDropdown1($event)">
-                    <div class="selected-option">
-                        @if (selectedReport && selectedReport.icon) {
-                            <span class="material-icons">{{ selectedReport.icon }}</span>
-                        }
-                        <span>{{ selectedReport?.label || 'Select Report' }}</span>
-                    </div>
-                    <span class="material-icons dropdown-arrow">keyboard_arrow_down</span>
-                </div>
-                <div class="dropdown-menu" [class.show]="isDropdownOpen1">
-                    @for (option of reportOptions(); track $index) {
-                        <div class="dropdown-item"
-                            [class.selected]="selectedReport?.value === option.value"
-                            [attr.data-value]="option.value"
-                            (click)="selectOption1($event, option)">
-                            <span class="material-icons">{{ option.icon }}</span>
-                            <span>{{ option.label }}</span>
+            @for (item of config(); track $index) {
+                <div class="dropdown-wrapper" [id]="$index">
+                    <div class="custom-dropdown d-flex-ct bz h-100" 
+                        [class.active]="item.opened"
+                        (click)="toggleDropdown($event , item)">
+                        <div class="selected-option">
+                            @if (item?.selectedItem && item?.selectedItem?.icon) {
+                                <span class="material-icons">{{ item?.selectedItem?.icon }}</span>
+                            }
+                            <span>{{ item?.selectedItem?.label || item.name }}</span>
                         </div>
-                    }
+                        <span class="material-icons dropdown-arrow">keyboard_arrow_down</span>
+                    </div>
+                    <div class="dropdown-menu" [class.show]="item.opened">
+                        @for (option of item.item; track $index) {
+                            <div class="dropdown-item"
+                                [class.selected]="item?.selectedItem?.value === option.value"
+                                [attr.data-value]="option.value"
+                                (click)="selectOption($event, option, item)">
+                                <span class="material-icons">{{ option.icon }}</span>
+                                <span>{{ option.label }}</span>
+                            </div>
+                        }
+                    </div>
                 </div>
-            </div>
+            }
             <div class="datepicker bz">
                 @switch (mode()) {
                     @case ('d') {
@@ -48,18 +50,79 @@
         </div>
     </div>
     <div class="content w-100 h-100 bz">
-        <div class="data-table w-100 h-100 bz"></div>
+        <div class="data-table w-100 h-100 bz">
+            <div class="main">
+                <div class="table-wrapper">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>STATUE</th>
+                                <th>TYPE</th>
+                                <th>TIMESTAMP</th>
+                                <th>EQUIPMENT</th>
+                                <th>ASSET</th>
+                                <th>ACTION</th>
+                                <th>MESSAGE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (item of eventList(); track $index) {
+                                <tr >
+                                    <td>
+                                        @if(item.status === "active"){
+                                            <i class="material-icons minor">play_circle</i>
+                                        }  
+                                        @if(item.status === "inactive") {
+                                            <i class="material-icons event">stop_circle</i>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if(item.type === "event"){
+                                            <i class="material-icons event">error_outline</i>
+                                        }  
+                                        @if(item.type === "warning") {
+                                            <i class="material-icons warn">warning_amber</i>
+                                        }
+                                        @if(item.type === "minor"){
+                                            <i class="material-icons minor">notification_important</i>
+                                        }  
+                                        @if(item.type === "major") {
+                                            <i class="material-icons major">dangerous</i>
+                                        }
+                                    </td>
+                                    <td>{{ item.timestamp }}</td>
+                                    <td>{{ item.equipment }}</td>
+                                    <td>{{ item.asset }}</td>
+                                    <td (click)="onRowSelect(item)">
+                                        @if(item.action === "muted"){
+                                            <i class="material-icons ">visibility_off</i>
+                                        }  
+                                        @if(item.action === "unmute") {
+                                            <i class="material-icons active">visibility</i>
+                                        }
+                                    </td>
+                                    <td>{{ item.message }}</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         <div class="data-summary w-100 h-100 bz">
-            <app-card-container [title]="'SUMMARY'">
-                <ng-template #container>
-                    <app-event-consumption></app-event-consumption>
-                </ng-template>
-            </app-card-container>
-            <!-- <app-card-container [title]="'DETAILS'">
-                <ng-template #container>
-                    <app-event-details></app-event-details>
-                </ng-template>
-            </app-card-container> -->
+            @if(selectedEvent()){
+                <app-card-container [title]="'DETAILS'">
+                    <ng-template #container>
+                        <app-event-details [event]="selectedEvent()"></app-event-details>
+                    </ng-template>
+                </app-card-container>
+            } @else {
+                <app-card-container [title]="'SUMMARY'">
+                    <ng-template #container>
+                        <app-event-consumption [events]="eventList()"></app-event-consumption>
+                    </ng-template>
+                </app-card-container>
+            }
         </div>
     </div>
 </div>

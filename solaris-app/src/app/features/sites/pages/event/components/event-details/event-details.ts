@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 
 @Component({
   selector: 'app-event-details',
@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './event-details.scss'
 })
 export class EventDetails {
-
+  event = input<any>();
 }

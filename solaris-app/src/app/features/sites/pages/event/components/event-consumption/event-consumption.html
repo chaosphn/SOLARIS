@@ -5,38 +5,42 @@
                 <div>EVENTS</div>
                 <i class="material-icons event">error_outline</i>
             </div>
-            <div class="w-100 value event">15</div>
+            <div class="w-100 value event">{{ eventCount() }}</div>
         </div>
         <div class="d-col card bz">
             <div class="d-flex-sb w-100">
                 <div>WARNNING</div>
                 <i class="material-icons warn">warning_amber</i>
             </div>
-            <div class="w-100 value warn">15</div>
+            <div class="w-100 value warn">{{ warnCount() }}</div>
         </div>
         <div class="d-col card bz">
             <div class="d-flex-sb w-100">
                 <div>MINOR ERR</div>
                 <i class="material-icons minor">notification_important</i>
             </div>
-            <div class="w-100 value minor">15</div>
+            <div class="w-100 value minor">{{ minorCount() }}</div>
         </div>
         <div class="d-col card bz">
             <div class="d-flex-sb w-100">
                 <div>MAJOR ERR</div>
                 <i class="material-icons major">dangerous</i>
             </div>
-            <div class="w-100 value major">15</div>
+            <div class="w-100 value major">{{ majorCount() }}</div>
         </div>
     </div>
     <div class="chart-box w-100 bz">
         <div class="title w-100">ERROR AND WARNNING LOG COUNT</div>
-        <div class="chart bz w-100"></div>
+        <div class="chart bz w-100">
+            @if(chartParameter()){
+                <app-highchart [chartParameter]="chartParameter()"></app-highchart>
+            }
+        </div>
     </div>
 
     <div class="chart-box w-100 bz">
         <div class="title w-100">EQUIPMENT ERROR AND WARNNING</div>
-        <div class="w-100 d-flex-ct bz brd">
+        <div class="w-100 d-flex-ct bz">
             <app-piechart [vertical]="true" [enable3D]="true" [statusData]="plantStatusData()"></app-piechart>
         </div>
     </div>

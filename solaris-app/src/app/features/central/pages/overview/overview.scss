@@ -17,6 +17,7 @@
         "environmentCard layoutCard layoutCard sitesCard"
     ;
     grid-gap: 16px; 
+    height: calc(100vh - 104px);
     max-height: 100vh;
     overflow-y: auto;
 }

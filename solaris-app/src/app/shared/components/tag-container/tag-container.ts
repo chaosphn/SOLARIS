@@ -28,6 +28,7 @@ export class TagContainer implements OnDestroy {
   tagsGroupStatus = signal<boolean>(true);
   @Output() clrDatas = new EventEmitter();
   @Output() emitResponse = new EventEmitter();
+  @Output() isLoading = new EventEmitter();
   tagsGroup = signal<GroupTags[]>([]);
 
   private dateTime = inject(Datetime);
@@ -266,12 +267,14 @@ export class TagContainer implements OnDestroy {
    
     req.forEach( async item => {
       this.btnLoadingState.set(true);
+      this.isLoading.emit(true);
       await this.http.getHistorian(item)
       .then(response => response)
       .then(data => {
         const rawData: ResponseHistorianModel[] = data;
         this.emitResponse.emit(rawData);
         this.btnLoadingState.set(false);
+        this.isLoading.emit(false);
         return data;
       })
       .catch( err => console.log(err));

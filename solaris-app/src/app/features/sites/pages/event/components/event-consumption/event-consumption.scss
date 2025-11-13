@@ -21,7 +21,7 @@
     padding: 12px;
     color: var(--secondary-txt);
     background-color: var(--primary-bg); 
-    border-radius: 4px;
+    border-radius: 2px;
     .material-icons{
         font-size: 18px;
     }
@@ -37,7 +37,7 @@
 .chart-box{
     padding: 12px;
     background-color: var(--primary-bg); 
-    border-radius: 4px;
+    border-radius: 2px;
     .title{
         font-size: 12px;
         margin-bottom: 12px;
@@ -54,7 +54,7 @@
 }
 
 .warn {
-    color: #DEB266 !important;
+    color: #ffe348 !important;
 }
 
 .minor {
@@ -63,4 +63,10 @@
 
 .major {
     color: crimson !important;
+}
+
+@media (max-width: 1200px) {
+    .container{
+        height: 100%;
+    }
 }

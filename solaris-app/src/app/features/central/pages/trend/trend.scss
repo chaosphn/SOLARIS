@@ -213,9 +213,10 @@
     }
 }
 
-@media only screen and (max-width: 500px) {
+@media (max-width: 500px) {
     
     .container{
+        padding: 8px;
         max-height: 100%;
         height: calc(100vh - 300px);
         overflow-y: auto;
@@ -265,6 +266,6 @@
 
     .item{
         width: 100%;
-        height: 150px;
+        height: 200px;
     }
 }

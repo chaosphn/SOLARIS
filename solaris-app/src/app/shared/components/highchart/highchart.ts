@@ -26,6 +26,8 @@ export class Highchart  {
     effect(() => {
       if( this.chartParameter() && this.chartParameter()?.series && this.chartParameter()?.yAxis != undefined  && this.chartParameter()?.chart && this.chartParameter()?.xAxis ){
         this.init();
+      } else {
+        this.chart = undefined;
       }
     });
   }
@@ -141,10 +143,8 @@ export class Highchart  {
           let ts = isDate(dateTime) ? dateTime.toISOString().slice(0,16).replace("T"," ") : '---';
           let s = `<div class="chart-tooltip" style="margin-bottom:5px;"><div style="font-weight:500;color:#bcd;">${ts}</div></div>`;
           s += '<table style="font-size:11px">';
-          console.log(this.points)
           if ( this.points && this.points.length > 0) {
             this.points.forEach(p => {
-              //console.log(p)
               let unit = p.series.name.split("*")[1]??'';
               if(dateTime.toString() == 'Invalid Date' || dateTime.getFullYear() < 2000 || dateTime.getFullYear() > 3000)
               { 
