@@ -37,7 +37,7 @@
 	},
 	{
 		"title": "AVAIABILITY",
-		"prefix": "AVAI_TODAY",
+		"prefix": "AVAI",
 		"minVal": 0,
 		"maxVal": 30,
 		"activeColor": "#FF4F52",

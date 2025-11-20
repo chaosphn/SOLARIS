@@ -148,12 +148,12 @@ export class Highchart  {
               let unit = p.series.name.split("*")[1]??'';
               if(dateTime.toString() == 'Invalid Date' || dateTime.getFullYear() < 2000 || dateTime.getFullYear() > 3000)
               { 
-                if(p.y && p.x){
+                if(p.y != null && p.x){
                   s += '<tr><td class="chart-tooltip" style="color:' + p.color + ';font-weight:500">' + p.x + '</td> <td class="chart-tooltip" style="padding-left:6px;font-weight:500;color: ' + p.color + '"> ' + +(p.y).toFixed(2) + '</td></tr>';
                 }
               }
               else{
-                if(p.y && p.x){
+                if(p.y != null && p.x){
                   s += '<tr><td class="chart-tooltip" style="color:' + p.color + ';font-weight:500">' + p.series.name.split("*")[0] + ' :' + '</td> <td class="chart-tooltip" style="padding-left:6px;font-weight:500;color: ' + p.color + '"> ' +(p.y).toFixed(2) + ' ' + unit + ' </td></tr>';
                 }
               }
@@ -186,11 +186,6 @@ export class Highchart  {
         this.ref = ref;
       });
     }
-    // setTimeout(() => {
-    //   chart.addPoint(6, 0, false);
-    // }, 2000);
-
-    //chart.ref$.subscribe(//console.log);
   }
 
 }

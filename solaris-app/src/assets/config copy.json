@@ -1,0 +1,5 @@
+{
+    "UrlApi": "http://localhost:5127/",
+    "UrlApiAuthen": "http://localhost:5127/",
+    "Timer": 5
+}

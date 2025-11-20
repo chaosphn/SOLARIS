@@ -2,6 +2,7 @@ import { Component, effect, input } from '@angular/core';
 import { ColorRangeModel, PanelConfigModel, PvGroupModel, PvPanelModel } from '../../models/panel.model';
 import { DataRealtimeModel } from '../../models/response.model';
 import { isNumber } from 'highcharts';
+import { opacity } from 'html2canvas/dist/types/css/property-descriptors/opacity';
 
 @Component({
   selector: 'app-panel-layout',
@@ -60,7 +61,7 @@ export class PanelLayout {
       return {
         fill: 'var(--highlight)',
         stroke: 'white',
-        strokeWidth: '1.5',
+        strokeWidth: '2',
         cursor: 'pointer',
       };
     } else if (isHovered) {
@@ -72,7 +73,10 @@ export class PanelLayout {
       };
     } else {
       return {
-        //fill: '#005F60',
+        // fill: 'var(--map-bg)',
+        // strokeWidth: '5',
+        opacity: 0.9,
+        strokeWidth: '1',
         cursor: 'pointer'
       };
     }
@@ -96,18 +100,63 @@ export class PanelLayout {
     }
   };
   
+  getGradientId(percentage: number | undefined): string {
+    if(percentage != undefined && isNumber(percentage)){
+      let findColor;
+      
+      if(percentage > 100) {
+        // หาสีที่มี maximum สูงสุด
+        findColor = this.colors().reduce((max, current) => 
+          current.maximum > max.maximum ? current : max
+        );
+      } else {
+        findColor = this.colors().find(x => percentage >= x.minimum && percentage < x.maximum);
+      }
+      
+      return findColor ? `gradient-${findColor.title.toLowerCase()}` : 'gradient-default';
+    }
+    return 'gradient-default';
+  }
+
   getPanelColor(pr: number | undefined){
     if(pr != undefined && isNumber(pr)){
-      const findColor = this.colors().find(x => pr >= x.minimum && pr < x.maximum);
-      //console.log(pr, findColor?.color)
-      return findColor?.color;
+      const gradientId = this.getGradientId(pr);
+      return `url(#${gradientId})`;
+      // let findColor;
+      // if(pr > 100) {
+      //   const res = this.colors().reduce((max, current) => 
+      //     current.maximum > max.maximum ? current : max
+      //   );
+      //   return res.color;
+      // } else {
+      //   const res = this.colors().find(x => pr >= x.minimum && pr < x.maximum);
+      //   return res ? res.color : 'var(--map-bg)';
+      // }
     } else {
-      return 'var(--secondary-bg)';
+      return 'var(--map-bg)';
     }
   }
 
+    getPanelStrokeColor(pr: number | undefined){
+      if(pr != undefined && isNumber(pr)){
+        let findColor;
+        if(pr > 100) {
+          const res = this.colors().reduce((max, current) => 
+            current.maximum > max.maximum ? current : max
+          );
+          return res.color;
+        } else {
+          const res = this.colors().find(x => pr >= x.minimum && pr < x.maximum);
+          return res ? res.color : 'var(--map-bg)';
+        }
+      } else {
+        return 'var(--map-bg)';
+      }
+    }
+
+
   getLabel(inv: string, str: string) {
-    return `${inv} : STRING ${str.replaceAll('STR', '')}`.toUpperCase();
+    return `${inv} : STRING ${str.split('_').find(x => x.includes('STR'))?.replaceAll('STR', '')} : ${this.dataRealtime()[str]?.Value} kW`;
   }
 
   isSelectedGreoup(id: string) {
@@ -230,12 +279,12 @@ export class PanelLayout {
     this.displayPanel = { ...this.displayPanel,
       group: this.displayPanel?.group.map(item => {
         const avg = item.panel.reduce((acc: number, cur:PvPanelModel) => { 
-          acc = acc + (this.dataRealtime()[`${item.id}_${cur.id}`]?.Value??0)
+          acc = acc + (this.dataRealtime()[`${cur.id}`]?.Value??0)
           return acc; 
         }, 0)/item.panel.length;
         console.log(avg);
         const panels = item.panel.map(x => {
-          let val = this.dataRealtime()[`${item.id}_${x.id}`]?.Value??0;
+          let val = this.dataRealtime()[`${x.id}`]?.Value??0;
           return {
             ...x,
             average: avg??0,

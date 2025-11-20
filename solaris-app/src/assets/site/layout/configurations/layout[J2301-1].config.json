@@ -1,745 +1,871 @@
 ﻿{
-    "realtimeConfig": [
-      {
-        "Group": "power",
-        "Order": 0,
-        "Tags": [
-          {
-            "Title": "POWER",
-            "Tagname": "J2301-1.SCADA1.POWER"
-          },
-          {
-            "Title": "ENERGY",
-            "Tagname": "J2301-1.SCADA1.TODAY_ENERGY"
-          },
-          {
-            "Title": "YIELD",
-            "Tagname": "J2301-1.CALC.YIELD"
-          },
-          {
-            "Title": "PR",
-            "Tagname": "J2301-1.SCADA1.PR"
+  "realtimeConfig": [
+    {
+      "Group": "power",
+      "Order": 0,
+      "Tags": [
+        {
+          "Title": "POWER",
+          "Tagname": "J2301-1.SCADA1.POWER"
+        },
+        {
+          "Title": "ENERGY",
+          "Tagname": "J2301-1.SCADA1.TODAY_ENERGY"
+        },
+        {
+          "Title": "YIELD",
+          "Tagname": "J2301-1.CALC.YIELD"
+        },
+        {
+          "Title": "PR",
+          "Tagname": "J2301-1.SCADA1.PR"
+        }
+      ]
+    },
+    {
+      "Group": "enviroment",
+      "Order": 2,
+      "Tags": [
+        {
+          "Title": "PYRANO",
+          "Tagname": "J2301-1.SCADA1.PYRANO1"
+        },
+        {
+          "Title": "INSOLUTION",
+          "Tagname": "J2301-1.SCADA1.PYRANO2"
+        },
+        {
+          "Title": "AMBTEMP",
+          "Tagname": "J2301-1.SCADA1.AMBTEMP"
+        },
+        {
+          "Title": "PVTEMP",
+          "Tagname": "J2301-1.SCADA1.PVTEMP"
+        },
+        {
+          "Title": "WIND",
+          "Tagname": "J2301-1.SCADA1.WINDSPD"
+        },
+        {
+          "Title": "REDUCTION",
+          "Tagname": "J2301-1.SCADA1.THB_TODAY_ENERGY"
+        }
+      ]
+    },
+    {
+      "Group": "status",
+      "Order": 3,
+      "Tags": [
+        {
+          "Title": "RUNNING",
+          "Tagname": "J2301-1.SCADA1.PYRANO1"
+        },
+        {
+          "Title": "UNHEALTHY",
+          "Tagname": "J2301-1.SCADA1.AMBTEMP"
+        },
+        {
+          "Title": "NODATA",
+          "Tagname": "J2301-1.SCADA1.PVTEMP"
+        }
+      ]
+    },
+    {
+      "Group": "inverter01",
+      "Order": 4,
+      "Tags": [
+        {
+          "Title": "INV011_POWER",
+          "Tagname": "J2301-1.INV011.WAC"
+        },
+        {
+          "Title": "INV011_ENERGY",
+          "Tagname": "J2301-1.INV011.WH_TODAY"
+        },
+        {
+          "Title": "INV011_PR",
+          "Tagname": "J2301-1.INV011.EFF"
+        },
+        {
+          "Title": "INV011_STR06",
+          "Tagname": "J2301-1.CBX0116.WTOTAL"
+        },
+        {
+          "Title": "INV011_STR05",
+          "Tagname": "J2301-1.CBX0115.WTOTAL"
+        },
+        {
+          "Title": "INV011_STR04",
+          "Tagname": "J2301-1.CBX0114.WTOTAL"
+        },
+        {
+          "Title": "INV011_STR03",
+          "Tagname": "J2301-1.CBX0113.WTOTAL"
+        },
+        {
+          "Title": "INV011_STR02",
+          "Tagname": "J2301-1.CBX0112.WTOTAL"
+        },
+        {
+          "Title": "INV011_STR01",
+          "Tagname": "J2301-1.CBX0111.WTOTAL"
+        }
+      ]
+    },
+    {
+      "Group": "inverter02",
+      "Order": 5,
+      "Tags": [
+        {
+          "Title": "INV012_POWER",
+          "Tagname": "J2301-1.INV012.WAC"
+        },
+        {
+          "Title": "INV012_ENERGY",
+          "Tagname": "J2301-1.INV012.WH_TODAY"
+        },
+        {
+          "Title": "INV012_PR",
+          "Tagname": "J2301-1.INV012.EFF"
+        },
+        {
+          "Title": "INV012_STR06",
+          "Tagname": "J2301-1.CBX0126.WTOTAL"
+        },
+        {
+          "Title": "INV012_STR05",
+          "Tagname": "J2301-1.CBX0125.WTOTAL"
+        },
+        {
+          "Title": "INV012_STR04",
+          "Tagname": "J2301-1.CBX0124.WTOTAL"
+        },
+        {
+          "Title": "INV012_STR03",
+          "Tagname": "J2301-1.CBX0123.WTOTAL"
+        },
+        {
+          "Title": "INV012_STR02",
+          "Tagname": "J2301-1.CBX0122.WTOTAL"
+        },
+        {
+          "Title": "INV012_STR01",
+          "Tagname": "J2301-1.CBX0121.WTOTAL"
+        }
+      ]
+    },
+
+    {
+      "Group": "inverter03",
+      "Order": 6,
+      "Tags": [
+        {
+          "Title": "INV021_POWER",
+          "Tagname": "J2301-1.INV021.WAC"
+        },
+        {
+          "Title": "INV021_ENERGY",
+          "Tagname": "J2301-1.INV021.WH_TODAY"
+        },
+        {
+          "Title": "INV021_PR",
+          "Tagname": "J2301-1.INV021.EFF"
+        },
+        {
+          "Title": "INV021_STR06",
+          "Tagname": "J2301-1.CBX0216.WTOTAL"
+        },
+        {
+          "Title": "INV021_STR05",
+          "Tagname": "J2301-1.CBX0215.WTOTAL"
+        },
+        {
+          "Title": "INV021_STR04",
+          "Tagname": "J2301-1.CBX0214.WTOTAL"
+        },
+        {
+          "Title": "INV021_STR03",
+          "Tagname": "J2301-1.CBX0213.WTOTAL"
+        },
+        {
+          "Title": "INV021_STR02",
+          "Tagname": "J2301-1.CBX0212.WTOTAL"
+        },
+        {
+          "Title": "INV021_STR01",
+          "Tagname": "J2301-1.CBX0211.WTOTAL"
+        }
+      ]
+    },
+    {
+      "Group": "inverter04",
+      "Order": 7,
+      "Tags": [
+        {
+          "Title": "INV022_POWER",
+          "Tagname": "J2301-1.INV022.WAC"
+        },
+        {
+          "Title": "INV022_ENERGY",
+          "Tagname": "J2301-1.INV022.WH_TODAY"
+        },
+        {
+          "Title": "INV022_PR",
+          "Tagname": "J2301-1.INV022.EFF"
+        },
+        {
+          "Title": "INV022_STR06",
+          "Tagname": "J2301-1.CBX0226.WTOTAL"
+        },
+        {
+          "Title": "INV022_STR05",
+          "Tagname": "J2301-1.CBX0225.WTOTAL"
+        },
+        {
+          "Title": "INV022_STR04",
+          "Tagname": "J2301-1.CBX0224.WTOTAL"
+        },
+        {
+          "Title": "INV022_STR03",
+          "Tagname": "J2301-1.CBX0223.WTOTAL"
+        },
+        {
+          "Title": "INV022_STR02",
+          "Tagname": "J2301-1.CBX0222.WTOTAL"
+        },
+        {
+          "Title": "INV022_STR01",
+          "Tagname": "J2301-1.CBX0221.WTOTAL"
+        }
+      ]
+    },
+
+    {
+      "Group": "inverter05",
+      "Order": 8,
+      "Tags": [
+        {
+          "Title": "INV031_POWER",
+          "Tagname": "J2301-1.INV031.WAC"
+        },
+        {
+          "Title": "INV031_ENERGY",
+          "Tagname": "J2301-1.INV031.WH_TODAY"
+        },
+        {
+          "Title": "INV031_PR",
+          "Tagname": "J2301-1.INV031.EFF"
+        },
+        {
+          "Title": "INV031_STR06",
+          "Tagname": "J2301-1.CBX0316.WTOTAL"
+        },
+        {
+          "Title": "INV031_STR05",
+          "Tagname": "J2301-1.CBX0315.WTOTAL"
+        },
+        {
+          "Title": "INV031_STR04",
+          "Tagname": "J2301-1.CBX0314.WTOTAL"
+        },
+        {
+          "Title": "INV031_STR03",
+          "Tagname": "J2301-1.CBX0313.WTOTAL"
+        },
+        {
+          "Title": "INV031_STR02",
+          "Tagname": "J2301-1.CBX0312.WTOTAL"
+        },
+        {
+          "Title": "INV031_STR01",
+          "Tagname": "J2301-1.CBX0311.WTOTAL"
+        }
+      ]
+    },
+    {
+      "Group": "inverter06",
+      "Order": 9,
+      "Tags": [
+        {
+          "Title": "INV032_POWER",
+          "Tagname": "J2301-1.INV032.WAC"
+        },
+        {
+          "Title": "INV032_ENERGY",
+          "Tagname": "J2301-1.INV032.WH_TODAY"
+        },
+        {
+          "Title": "INV032_PR",
+          "Tagname": "J2301-1.INV032.EFF"
+        },
+        {
+          "Title": "INV032_STR06",
+          "Tagname": "J2301-1.CBX0326.WTOTAL"
+        },
+        {
+          "Title": "INV032_STR05",
+          "Tagname": "J2301-1.CBX0325.WTOTAL"
+        },
+        {
+          "Title": "INV032_STR04",
+          "Tagname": "J2301-1.CBX0324.WTOTAL"
+        },
+        {
+          "Title": "INV032_STR03",
+          "Tagname": "J2301-1.CBX0323.WTOTAL"
+        },
+        {
+          "Title": "INV032_STR02",
+          "Tagname": "J2301-1.CBX0322.WTOTAL"
+        },
+        {
+          "Title": "INV032_STR01",
+          "Tagname": "J2301-1.CBX0321.WTOTAL"
+        }
+      ]
+    },
+
+    {
+      "Group": "inverter07",
+      "Order": 10,
+      "Tags": [
+        {
+          "Title": "INV041_POWER",
+          "Tagname": "J2301-1.INV041.WAC"
+        },
+        {
+          "Title": "INV041_ENERGY",
+          "Tagname": "J2301-1.INV041.WH_TODAY"
+        },
+        {
+          "Title": "INV041_PR",
+          "Tagname": "J2301-1.INV041.EFF"
+        },
+        {
+          "Title": "INV041_STR06",
+          "Tagname": "J2301-1.CBX0416.WTOTAL"
+        },
+        {
+          "Title": "INV041_STR05",
+          "Tagname": "J2301-1.CBX0415.WTOTAL"
+        },
+        {
+          "Title": "INV041_STR04",
+          "Tagname": "J2301-1.CBX0414.WTOTAL"
+        },
+        {
+          "Title": "INV041_STR03",
+          "Tagname": "J2301-1.CBX0413.WTOTAL"
+        },
+        {
+          "Title": "INV041_STR02",
+          "Tagname": "J2301-1.CBX0412.WTOTAL"
+        },
+        {
+          "Title": "INV041_STR01",
+          "Tagname": "J2301-1.CBX0411.WTOTAL"
+        }
+      ]
+    },
+    {
+      "Group": "inverter08",
+      "Order": 11,
+      "Tags": [
+        {
+          "Title": "INV042_POWER",
+          "Tagname": "J2301-1.INV042.WAC"
+        },
+        {
+          "Title": "INV042_ENERGY",
+          "Tagname": "J2301-1.INV042.WH_TODAY"
+        },
+        {
+          "Title": "INV042_PR",
+          "Tagname": "J2301-1.INV042.EFF"
+        },
+        {
+          "Title": "INV042_STR06",
+          "Tagname": "J2301-1.CBX0426.WTOTAL"
+        },
+        {
+          "Title": "INV042_STR05",
+          "Tagname": "J2301-1.CBX0425.WTOTAL"
+        },
+        {
+          "Title": "INV042_STR04",
+          "Tagname": "J2301-1.CBX0424.WTOTAL"
+        },
+        {
+          "Title": "INV042_STR03",
+          "Tagname": "J2301-1.CBX0423.WTOTAL"
+        },
+        {
+          "Title": "INV042_STR02",
+          "Tagname": "J2301-1.CBX0422.WTOTAL"
+        },
+        {
+          "Title": "INV042_STR01",
+          "Tagname": "J2301-1.CBX0421.WTOTAL"
+        }
+      ]
+    },
+
+    {
+      "Group": "inverter09",
+      "Order": 12,
+      "Tags": [
+        {
+          "Title": "INV051_POWER",
+          "Tagname": "J2301-1.INV051.WAC"
+        },
+        {
+          "Title": "INV051_ENERGY",
+          "Tagname": "J2301-1.INV051.WH_TODAY"
+        },
+        {
+          "Title": "INV051_PR",
+          "Tagname": "J2301-1.INV051.EFF"
+        },
+        {
+          "Title": "INV051_STR06",
+          "Tagname": "J2301-1.CBX0516.WTOTAL"
+        },
+        {
+          "Title": "INV051_STR05",
+          "Tagname": "J2301-1.CBX0515.WTOTAL"
+        },
+        {
+          "Title": "INV051_STR04",
+          "Tagname": "J2301-1.CBX0514.WTOTAL"
+        },
+        {
+          "Title": "INV051_STR03",
+          "Tagname": "J2301-1.CBX0513.WTOTAL"
+        },
+        {
+          "Title": "INV051_STR02",
+          "Tagname": "J2301-1.CBX0512.WTOTAL"
+        },
+        {
+          "Title": "INV051_STR01",
+          "Tagname": "J2301-1.CBX0511.WTOTAL"
+        }
+      ]
+    },
+    {
+      "Group": "inverter10",
+      "Order": 13,
+      "Tags": [
+        {
+          "Title": "INV052_POWER",
+          "Tagname": "J2301-1.INV052.WAC"
+        },
+        {
+          "Title": "INV052_ENERGY",
+          "Tagname": "J2301-1.INV052.WH_TODAY"
+        },
+        {
+          "Title": "INV052_PR",
+          "Tagname": "J2301-1.INV052.EFF"
+        },
+        {
+          "Title": "INV052_STR06",
+          "Tagname": "J2301-1.CBX0526.WTOTAL"
+        },
+        {
+          "Title": "INV052_STR05",
+          "Tagname": "J2301-1.CBX0525.WTOTAL"
+        },
+        {
+          "Title": "INV052_STR04",
+          "Tagname": "J2301-1.CBX0524.WTOTAL"
+        },
+        {
+          "Title": "INV052_STR03",
+          "Tagname": "J2301-1.CBX0523.WTOTAL"
+        },
+        {
+          "Title": "INV052_STR02",
+          "Tagname": "J2301-1.CBX0522.WTOTAL"
+        },
+        {
+          "Title": "INV052_STR01",
+          "Tagname": "J2301-1.CBX0521.WTOTAL"
+        }
+      ]
+    },
+
+    {
+      "Group": "inverter11",
+      "Order": 14,
+      "Tags": [
+        {
+          "Title": "INV061_POWER",
+          "Tagname": "J2301-1.INV061.WAC"
+        },
+        {
+          "Title": "INV061_ENERGY",
+          "Tagname": "J2301-1.INV061.WH_TODAY"
+        },
+        {
+          "Title": "INV061_PR",
+          "Tagname": "J2301-1.INV061.EFF"
+        },
+        {
+          "Title": "INV061_STR06",
+          "Tagname": "J2301-1.CBX0616.WTOTAL"
+        },
+        {
+          "Title": "INV061_STR05",
+          "Tagname": "J2301-1.CBX0615.WTOTAL"
+        },
+        {
+          "Title": "INV061_STR04",
+          "Tagname": "J2301-1.CBX0614.WTOTAL"
+        },
+        {
+          "Title": "INV061_STR03",
+          "Tagname": "J2301-1.CBX0613.WTOTAL"
+        },
+        {
+          "Title": "INV061_STR02",
+          "Tagname": "J2301-1.CBX0612.WTOTAL"
+        },
+        {
+          "Title": "INV061_STR01",
+          "Tagname": "J2301-1.CBX0611.WTOTAL"
+        }
+      ]
+    },
+    {
+      "Group": "inverter12",
+      "Order": 15,
+      "Tags": [
+        {
+          "Title": "INV062_POWER",
+          "Tagname": "J2301-1.INV062.WAC"
+        },
+        {
+          "Title": "INV062_ENERGY",
+          "Tagname": "J2301-1.INV062.WH_TODAY"
+        },
+        {
+          "Title": "INV062_PR",
+          "Tagname": "J2301-1.INV062.EFF"
+        },
+        {
+          "Title": "INV062_STR06",
+          "Tagname": "J2301-1.CBX0626.WTOTAL"
+        },
+        {
+          "Title": "INV062_STR05",
+          "Tagname": "J2301-1.CBX0625.WTOTAL"
+        },
+        {
+          "Title": "INV062_STR04",
+          "Tagname": "J2301-1.CBX0624.WTOTAL"
+        },
+        {
+          "Title": "INV062_STR03",
+          "Tagname": "J2301-1.CBX0623.WTOTAL"
+        },
+        {
+          "Title": "INV062_STR02",
+          "Tagname": "J2301-1.CBX0622.WTOTAL"
+        },
+        {
+          "Title": "INV062_STR01",
+          "Tagname": "J2301-1.CBX0621.WTOTAL"
+        }
+      ]
+    }
+  ],
+  "historianConfig": [
+    {
+      "Group": "CHART01",
+      "Order": 0,
+      "Tags": [
+        {
+          "Title": "CHART01_POWER",
+          "Tagname": "J2301-1.SCADA1.POWER",
+          "Options": {
+            "Time": "t",
+            "Interval": 0,
+            "StartTime": "MIDN",
+            "EndTime": "NOW"
           }
-        ]
-      },
-      {
-        "Group": "enviroment",
-        "Order": 2,
-        "Tags": [
-          {
-            "Title": "PYRANO",
-            "Tagname": "J2301-1.SCADA1.PYRANO1"
-          },
-          {
-            "Title": "INSOLUTION",
-            "Tagname": "J2301-1.SCADA1.PYRANO2"
-          },
-          {
-            "Title": "AMBTEMP",
-            "Tagname": "J2301-1.SCADA1.AMBTEMP"
-          },
-          {
-            "Title": "PVTEMP",
-            "Tagname": "J2301-1.SCADA1.PVTEMP"
-          },
-          {
-            "Title": "WIND",
-            "Tagname": "J2301-1.SCADA1.WINDSPD"
-          },
-          {
-            "Title": "REDUCTION",
-            "Tagname": "J2301-1.SCADA1.THB_TODAY_ENERGY"
+        },
+        {
+          "Title": "CHART01_IRR",
+          "Tagname": "J2301-1.SCADA1.PYRANO",
+          "Options": {
+            "Time": "t",
+            "Interval": 0,
+            "StartTime": "MIDN",
+            "EndTime": "NOW"
           }
-        ]
-      },
-      {
-        "Group": "status",
-        "Order": 3,
-        "Tags": [
-          {
-            "Title": "RUNNING",
-            "Tagname": "J2301-1.SCADA1.PYRANO1"
-          },
-          {
-            "Title": "UNHEALTHY",
-            "Tagname": "J2301-1.SCADA1.AMBTEMP"
-          },
-          {
-            "Title": "NODATA",
-            "Tagname": "J2301-1.SCADA1.PVTEMP"
+        }
+      ]
+    },
+    {
+      "Group": "CHART02",
+      "Order": 0,
+      "Tags": [
+        {
+          "Title": "TODAY_ENERGY",
+          "Tagname": "J2301-1.SCADA1.TODAY_ENERGY",
+          "Options": {
+            "Time": "",
+            "Interval": 0,
+            "StartTime": "*-2d",
+            "EndTime": "NOW"
           }
-        ]
-      },
-      {
-        "Group": "inverter01",
-        "Order": 4,
-        "Tags": [
-          {
-            "Title": "Rectangle_944",
-            "Tagname": "J2301-1.CBX0111.I01"
-          },
-          {
-            "Title": "Rectangle_945",
-            "Tagname": "J2301-1.CBX0111.I02"
-          },
-          {
-            "Title": "Rectangle_946",
-            "Tagname": "J2301-1.CBX0111.I03"
-          },
-          {
-            "Title": "Rectangle_947",
-            "Tagname": "J2301-1.CBX0111.I04"
-          },
-          {
-            "Title": "Rectangle_948",
-            "Tagname": "J2301-1.CBX0111.I05"
-          },
-          {
-            "Title": "Rectangle_949",
-            "Tagname": "J2301-1.CBX0111.I06"
-          },
-          {
-            "Title": "Rectangle_944_2",
-            "Tagname": "J2301-1.CBX0111.I07"
-          },
-          {
-            "Title": "Rectangle_945_2",
-            "Tagname": "J2301-1.CBX0111.I08"
-          },
-          {
-            "Title": "Rectangle_946_2",
-            "Tagname": "J2301-1.CBX0111.I09"
-          },
-          {
-            "Title": "Rectangle_947_2",
-            "Tagname": "J2301-1.CBX0111.I10"
-          },
-          {
-            "Title": "Rectangle_948_2",
-            "Tagname": "J2301-1.CBX0111.I11"
-          },
-          {
-            "Title": "Rectangle_949_2",
-            "Tagname": "J2301-1.CBX0111.I12"
-          },
-          {
-            "Title": "Rectangle_950",
-            "Tagname": "J2301-1.CBX0111.I13"
-          },
-          {
-            "Title": "Rectangle_951",
-            "Tagname": "J2301-1.CBX0111.I14"
-          },
-          {
-            "Title": "Rectangle_952",
-            "Tagname": "J2301-1.CBX0111.I15"
-          },
-          {
-            "Title": "Rectangle_953",
-            "Tagname": "J2301-1.CBX0112.I01"
-          },
-          {
-            "Title": "Rectangle_954",
-            "Tagname": "J2301-1.CBX0112.I02"
-          },
-          {
-            "Title": "Rectangle_955",
-            "Tagname": "J2301-1.CBX0112.I03"
-          },
-          {
-            "Title": "Rectangle_956",
-            "Tagname": "J2301-1.CBX0112.I04"
-          },
-          {
-            "Title": "Rectangle_944_3",
-            "Tagname": "J2301-1.CBX0112.I05"
-          },
-          {
-            "Title": "Rectangle_945_3",
-            "Tagname": "J2301-1.CBX0112.I06"
-          },
-          {
-            "Title": "Rectangle_946_3",
-            "Tagname": "J2301-1.CBX0112.I07"
-          },
-          {
-            "Title": "Rectangle_947_3",
-            "Tagname": "J2301-1.CBX0112.I08"
-          },
-          {
-            "Title": "Rectangle_948_3",
-            "Tagname": "J2301-1.CBX0112.I09"
-          },
-          {
-            "Title": "Rectangle_949_3",
-            "Tagname": "J2301-1.CBX0112.I10"
-          },
-          {
-            "Title": "Rectangle_950_2",
-            "Tagname": "J2301-1.CBX0112.I11"
-          },
-          {
-            "Title": "Rectangle_951_2",
-            "Tagname": "J2301-1.CBX0112.I12"
-          },
-          {
-            "Title": "Rectangle_952_2",
-            "Tagname": "J2301-1.CBX0112.I13"
-          },
-          {
-            "Title": "Rectangle_953_2",
-            "Tagname": "J2301-1.CBX0112.I14"
-          },
-          {
-            "Title": "Rectangle_954_2",
-            "Tagname": "J2301-1.CBX0112.I15"
-          },
-          {
-            "Title": "Rectangle_955_2",
-            "Tagname": "J2301-1.CBX0113.I01"
-          },
-          {
-            "Title": "Rectangle_956_2",
-            "Tagname": "J2301-1.CBX0113.I02"
-          },
-          {
-            "Title": "Rectangle_957",
-            "Tagname": "J2301-1.CBX0113.I03"
-          },
-          {
-            "Title": "Rectangle_958",
-            "Tagname": "J2301-1.CBX0113.I04"
-          },
-          {
-            "Title": "Rectangle_959",
-            "Tagname": "J2301-1.CBX0113.I05"
-          },
-          {
-            "Title": "Rectangle_960",
-            "Tagname": "J2301-1.CBX0113.I06"
-          },
-          {
-            "Title": "Rectangle_961",
-            "Tagname": "J2301-1.CBX0113.I07"
-          },
-          {
-            "Title": "Rectangle_962",
-            "Tagname": "J2301-1.CBX0113.I08"
-          },
-          {
-            "Title": "Rectangle_944_4",
-            "Tagname": "J2301-1.CBX0113.I09"
-          },
-          {
-            "Title": "Rectangle_945_4",
-            "Tagname": "J2301-1.CBX0113.I10"
-          },
-          {
-            "Title": "Rectangle_946_4",
-            "Tagname": "J2301-1.CBX0113.I11"
-          },
-          {
-            "Title": "Rectangle_947_4",
-            "Tagname": "J2301-1.CBX0113.I12"
-          },
-          {
-            "Title": "Rectangle_948_4",
-            "Tagname": "J2301-1.CBX0113.I13"
-          },
-          {
-            "Title": "Rectangle_949_4",
-            "Tagname": "J2301-1.CBX0113.I14"
-          },
-          {
-            "Title": "Rectangle_950_3",
-            "Tagname": "J2301-1.CBX0113.I15"
-          },
-          {
-            "Title": "Rectangle_951_3",
-            "Tagname": "J2301-1.CBX0114.I01"
-          },
-          {
-            "Title": "Rectangle_952_3",
-            "Tagname": "J2301-1.CBX0114.I02"
-          },
-          {
-            "Title": "Rectangle_953_3",
-            "Tagname": "J2301-1.CBX0114.I03"
-          },
-          {
-            "Title": "Rectangle_954_3",
-            "Tagname": "J2301-1.CBX0114.I04"
-          },
-          {
-            "Title": "Rectangle_955_3",
-            "Tagname": "J2301-1.CBX0114.I05"
-          },
-          {
-            "Title": "Rectangle_956_3",
-            "Tagname": "J2301-1.CBX0114.I06"
-          },
-          {
-            "Title": "Rectangle_957_2",
-            "Tagname": "J2301-1.CBX0114.I07"
-          },
-          {
-            "Title": "Rectangle_958_2",
-            "Tagname": "J2301-1.CBX0114.I08"
-          },
-          {
-            "Title": "Rectangle_959_2",
-            "Tagname": "J2301-1.CBX0114.I09"
-          },
-          {
-            "Title": "Rectangle_960_2",
-            "Tagname": "J2301-1.CBX0114.I10"
-          },
-          {
-            "Title": "Rectangle_961_2",
-            "Tagname": "J2301-1.CBX0114.I11"
-          },
-          {
-            "Title": "Rectangle_962_2",
-            "Tagname": "J2301-1.CBX0114.I12"
-          },
-          {
-            "Title": "Rectangle_963",
-            "Tagname": "J2301-1.CBX0114.I13"
-          },
-          {
-            "Title": "Rectangle_964",
-            "Tagname": "J2301-1.CBX0114.I14"
-          },
-          {
-            "Title": "Rectangle_965",
-            "Tagname": "J2301-1.CBX0114.I15"
-          },
-          {
-            "Title": "Rectangle_966",
-            "Tagname": "J2301-1.CBX0115.I01"
-          },
-          {
-            "Title": "Rectangle_944_5",
-            "Tagname": "J2301-1.CBX0115.I02"
-          },
-          {
-            "Title": "Rectangle_945_5",
-            "Tagname": "J2301-1.CBX0115.I03"
-          },
-          {
-            "Title": "Rectangle_946_5",
-            "Tagname": "J2301-1.CBX0115.I04"
-          },
-          {
-            "Title": "Rectangle_947_5",
-            "Tagname": "J2301-1.CBX0115.I05"
-          },
-          {
-            "Title": "Rectangle_948_5",
-            "Tagname": "J2301-1.CBX0115.I06"
-          },
-          {
-            "Title": "Rectangle_949_5",
-            "Tagname": "J2301-1.CBX0115.I07"
-          },
-          {
-            "Title": "Rectangle_950_4",
-            "Tagname": "J2301-1.CBX0115.I08"
-          },
-          {
-            "Title": "Rectangle_951_4",
-            "Tagname": "J2301-1.CBX0115.I09"
-          },
-          {
-            "Title": "Rectangle_952_4",
-            "Tagname": "J2301-1.CBX0115.I10"
-          },
-          {
-            "Title": "Rectangle_953_4",
-            "Tagname": "J2301-1.CBX0115.I11"
-          },
-          {
-            "Title": "Rectangle_954_4",
-            "Tagname": "J2301-1.CBX0115.I12"
-          },
-          {
-            "Title": "Rectangle_955_4",
-            "Tagname": "J2301-1.CBX0115.I13"
-          },
-          {
-            "Title": "Rectangle_956_4",
-            "Tagname": "J2301-1.CBX0115.I14"
-          },
-          {
-            "Title": "Rectangle_957_3",
-            "Tagname": "J2301-1.CBX0115.I15"
-          },
-          {
-            "Title": "Rectangle_958_3",
-            "Tagname": "J2301-1.CBX0116.I01"
-          },
-          {
-            "Title": "Rectangle_959_3",
-            "Tagname": "J2301-1.CBX0116.I02"
-          },
-          {
-            "Title": "Rectangle_960_3",
-            "Tagname": "J2301-1.CBX0116.I03"
-          },
-          {
-            "Title": "Rectangle_961_3",
-            "Tagname": "J2301-1.CBX0116.I04"
-          },
-          {
-            "Title": "Rectangle_962_3",
-            "Tagname": "J2301-1.CBX0116.I05"
-          },
-          {
-            "Title": "Rectangle_963_2",
-            "Tagname": "J2301-1.CBX0116.I06"
-          },
-          {
-            "Title": "Rectangle_964_2",
-            "Tagname": "J2301-1.CBX0116.I07"
-          },
-          {
-            "Title": "Rectangle_965_2",
-            "Tagname": "J2301-1.CBX0116.I08"
-          },
-          {
-            "Title": "Rectangle_955_5",
-            "Tagname": "J2301-1.CBX0116.I09"
-          },
-          {
-            "Title": "Rectangle_956_5",
-            "Tagname": "J2301-1.CBX0116.I10"
-          },
-          {
-            "Title": "Rectangle_957_4",
-            "Tagname": "J2301-1.CBX0116.I11"
-          },
-          {
-            "Title": "Rectangle_958_4",
-            "Tagname": "J2301-1.CBX0116.I12"
-          },
-          {
-            "Title": "Rectangle_959_4",
-            "Tagname": "J2301-1.CBX0116.I13"
-          },
-          {
-            "Title": "Rectangle_960_4",
-            "Tagname": "J2301-1.CBX0116.I14"
-          },
-          {
-            "Title": "Rectangle_961_4",
-            "Tagname": "J2301-1.CBX0116.I15"
-          },
-          {
-            "Title": "Rectangle_962_4",
-            "Tagname": "J2301-1.CBX0121.I01"
-          },
-          {
-            "Title": "Rectangle_963_3",
-            "Tagname": "J2301-1.CBX0121.I02"
-          },
-          {
-            "Title": "Rectangle_964_3",
-            "Tagname": "J2301-1.CBX0121.I03"
-          },
-          {
-            "Title": "Rectangle_965_3",
-            "Tagname": "J2301-1.CBX0121.I04"
+        }
+      ]
+    }
+  ],
+  "chartConfig": [
+    {
+      "name": "CHART01",
+      "tags": [
+        {
+          "name": "J2301-1.SCADA1.PYRANO",
+          "title": "PYRANO*W/m2",
+          "options": {
+            "yAxis": 0,
+            "type": "area",
+            "color": "#FF9B33",
+            "fillOpacity": 0.025
           }
-        ]
-      }
-    ],
-    "historianConfig": [
-      {
-        "Group": "CHART01",
-        "Order": 0,
-        "Tags": [
-          {
-            "Title": "CHART01_POWER",
-            "Tagname": "J2301-1.SCADA1.POWER",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          },
-          {
-            "Title": "CHART01_IRR",
-            "Tagname": "J2301-1.SCADA1.PYRANO",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
+        },
+        {
+          "name": "J2301-1.SCADA1.POWER",
+          "title": "POWER*kW",
+          "options": {
+            "yAxis": 1,
+            "type": "area",
+            "color": "#3DB1FC",
+            "fillOpacity": 0.025
           }
-        ]
-      },
-      {
-        "Group": "CHART02",
-        "Order": 0,
-        "Tags": [
-          {
-            "Title": "TODAY_ENERGY",
-            "Tagname": "J2301-1.SCADA1.TODAY_ENERGY",
-            "Options": {
-              "Time": "",
-              "Interval": 0,
-              "StartTime": "*-2d",
-              "EndTime": "NOW"
-            }
-          }
-        ]
-      }
-      
-    ],
-    "chartConfig": [
-      {
-        "name": "CHART01",
-        "tags": [
-          {
-            "name": "J2301-1.SCADA1.PYRANO",
-            "title": "PYRANO*W/m2",
-            "options": {
-              "yAxis": 0,
-              "type": "area",
-              "color": "#FF9B33",
-              "fillOpacity": 0.025
-            }
-          },
-          {
-            "name": "J2301-1.SCADA1.POWER",
-            "title": "POWER*kW",
-            "options": {
-              "yAxis": 1,
-              "type": "area",
-              "color": "#3DB1FC",
-              "fillOpacity": 0.025
-            }
-          }
-        ],
-        "chartOptions": {
-          "chart": {
-            "zooming": {
-              "type": "x",
-              "resetButton": {
-                "position": {
-                  "y": -40,
-                  "verticalAlign": "bottom",
-                  "align": "right"
+        }
+      ],
+      "chartOptions": {
+        "chart": {
+          "zooming": {
+            "type": "x",
+            "resetButton": {
+              "position": {
+                "y": -40,
+                "verticalAlign": "bottom",
+                "align": "right"
+              },
+              "theme": {
+                "fill": "#FF9B33",
+                "style": {
+                  "color": "white"
                 },
-                "theme": {
-                  "fill": "#FF9B33",
-                  "style": {
-                    "color": "white"
-                  },
-                  "states": {
-                    "hover": {
-                      "fill": "#FF9B33",
-                      "style": {
-                        "color": "white"
-                      }
+                "states": {
+                  "hover": {
+                    "fill": "#FF9B33",
+                    "style": {
+                      "color": "white"
                     }
                   }
                 }
               }
-            },
-            "backgroundColor": "none",
-            "animation": true,
-            "margin": [
-              10,
-              70,
-              30,
-              60
-            ],
-            "borderColor": "#2d3136",
-            "borderWidth": 0
-          },
-          "title": {},
-          "yAxis": [
-            {
-              "color": "#bcd",
-              "title": {
-                "text": "IRR (W/m2)",
-                "style": {
-                  "color": "#bcd"
-                },
-                "useHTML": true
-              },
-              "opposite": true,
-              "enabled": true,
-              "lineColor": "#bcd",
-              "labels": {
-                "enabled": true,
-                "style": {
-                  "color": "#bcd"
-                },
-                "useHTML": true
-              },
-              "lineWidth": 0,
-              "gridLineColor": "#2d3136",
-              "gridLineWidth": 1,
-              "max": 1600,
-              "tickInterval": 50,
-              "margin": 0,
-              "min": 0
-            },
-            {
-              "color": "#bcd",
-              "title": {
-                "text": "POWER (kW)",
-                "style": {
-                  "color": "#bcd"
-                },
-                "useHTML": true
-              },
-              "enabled": true,
-              "lineColor": "#bcd",
-              "labels": {
-                "enabled": true,
-                "style": {
-                  "color": "#bcd"
-                },
-                "useHTML": true
-              },
-              "lineWidth": 0,
-              "gridLineColor": "#2d3136",
-              "gridLineWidth": 0,
-              "max": 6000,
-              "tickInterval": 250,
-              "margin": 0,
-              "min": 0
             }
+          },
+          "backgroundColor": "none",
+          "animation": true,
+          "margin": [
+            10,
+            70,
+            30,
+            60
           ],
-          "xAxis": {
-            "type": "datetime",
-            "gridLineColor": "#2d3136",
-            "gridLineWidth": 1,
-            "tickInterval": 7200000,
-            "labels": {
-              "enabled": true,
-              "format": "{value:%H}",
+          "borderColor": "#2d3136",
+          "borderWidth": 0
+        },
+        "title": {},
+        "yAxis": [
+          {
+            "color": "#bcd",
+            "title": {
+              "text": "IRR (W/m2)",
               "style": {
                 "color": "#bcd"
               },
               "useHTML": true
             },
-            "crosshair": {
-              "color": "rgb(187, 204, 221)",
-              "dashStyle": "ShortDash"
-            },
-            "max": "t"
-          },
-          "legend": {},
-          "plotOptions": {}
-        }
-      },
-      {
-        "name": "CHART02",
-        "tags": [
-          {
-            "name": "J2301-1.SCADA1.TODAY_ENERGY",
-            "title": "PRODUCE*kWh",
-            "options": {
-              "yAxis": 0,
-              "type": "column",
-              "color": "#FFDF6C",
-              "borderColor": "#E4B61A",
-							"borderRadius": 0
-            }
-          }
-        ],
-        "chartOptions": {
-          "chart": {
-            "zooming": {
-              "type": "x",
-              "resetButton": {
-                "position": {
-                  "y": -40,
-                  "verticalAlign": "bottom",
-                  "align": "right"
-                },
-                "theme": {
-                  "fill": "#FF9B33",
-                  "style": {
-                    "color": "white"
-                  },
-                  "states": {
-                    "hover": {
-                      "fill": "#FF9B33",
-                      "style": {
-                        "color": "white"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "backgroundColor": "none",
-            "animation": true,
-            "margin": [
-              10,
-              10,
-              30,
-              60
-            ],
-            "borderColor": "#2d3136",
-            "borderWidth": 0
-          },
-          "title": {},
-          "yAxis": [
-            {
-              "color": "#bcd",
-              "title": {
-                "text": "PRODUCTION (kWh)",
-                "style": {
-                  "color": "#bcd"
-                },
-                "useHTML": true
-              },
-              "enabled": true,
-              "lineColor": "#bcd",
-              "labels": {
-                "enabled": true,
-                "style": {
-                  "color": "#bcd"
-                },
-                "useHTML": true
-              },
-              "lineWidth": 0,
-              "gridLineColor": "#2d3136",
-              "gridLineWidth": 0,
-              "tickInterval": 35,
-              "margin": 0,
-              "min": 0
-            }
-          ],
-          "xAxis": {
-            "type": "datetime",
-            "gridLineColor": "#2d3136",
-            "gridLineWidth": 1,
-            "tickInterval": 86400000,
+            "opposite": true,
+            "enabled": true,
+            "lineColor": "#bcd",
             "labels": {
               "enabled": true,
-              "format": "{value:%a}",
               "style": {
                 "color": "#bcd"
               },
               "useHTML": true
             },
-            "crosshair": {
-              "color": "rgb(187, 204, 221)",
-              "dashStyle": "ShortDash"
+            "lineWidth": 0,
+            "gridLineColor": "#2d3136",
+            "gridLineWidth": 1,
+            "max": 1600,
+            "tickInterval": 50,
+            "margin": 0,
+            "min": 0
+          },
+          {
+            "color": "#bcd",
+            "title": {
+              "text": "POWER (kW)",
+              "style": {
+                "color": "#bcd"
+              },
+              "useHTML": true
+            },
+            "enabled": true,
+            "lineColor": "#bcd",
+            "labels": {
+              "enabled": true,
+              "style": {
+                "color": "#bcd"
+              },
+              "useHTML": true
+            },
+            "lineWidth": 0,
+            "gridLineColor": "#2d3136",
+            "gridLineWidth": 0,
+            "max": 6000,
+            "tickInterval": 250,
+            "margin": 0,
+            "min": 0
+          }
+        ],
+        "xAxis": {
+          "type": "datetime",
+          "gridLineColor": "#2d3136",
+          "gridLineWidth": 1,
+          "tickInterval": 7200000,
+          "labels": {
+            "enabled": true,
+            "format": "{value:%H}",
+            "style": {
+              "color": "#bcd"
+            },
+            "useHTML": true
+          },
+          "crosshair": {
+            "color": "rgb(187, 204, 221)",
+            "dashStyle": "ShortDash"
+          },
+          "max": "t"
+        },
+        "legend": {},
+        "plotOptions": {}
+      }
+    },
+    {
+      "name": "CHART02",
+      "tags": [
+        {
+          "name": "J2301-1.SCADA1.TODAY_ENERGY",
+          "title": "PRODUCE*kWh",
+          "options": {
+            "yAxis": 0,
+            "type": "column",
+            "color": "#FFDF6C",
+            "borderColor": "#E4B61A",
+            "borderRadius": 0
+          }
+        }
+      ],
+      "chartOptions": {
+        "chart": {
+          "zooming": {
+            "type": "x",
+            "resetButton": {
+              "position": {
+                "y": -40,
+                "verticalAlign": "bottom",
+                "align": "right"
+              },
+              "theme": {
+                "fill": "#FF9B33",
+                "style": {
+                  "color": "white"
+                },
+                "states": {
+                  "hover": {
+                    "fill": "#FF9B33",
+                    "style": {
+                      "color": "white"
+                    }
+                  }
+                }
+              }
             }
           },
-          "legend": {},
-          "plotOptions": {}
-        }
+          "backgroundColor": "none",
+          "animation": true,
+          "margin": [
+            10,
+            10,
+            30,
+            60
+          ],
+          "borderColor": "#2d3136",
+          "borderWidth": 0
+        },
+        "title": {},
+        "yAxis": [
+          {
+            "color": "#bcd",
+            "title": {
+              "text": "PRODUCTION (kWh)",
+              "style": {
+                "color": "#bcd"
+              },
+              "useHTML": true
+            },
+            "enabled": true,
+            "lineColor": "#bcd",
+            "labels": {
+              "enabled": true,
+              "style": {
+                "color": "#bcd"
+              },
+              "useHTML": true
+            },
+            "lineWidth": 0,
+            "gridLineColor": "#2d3136",
+            "gridLineWidth": 0,
+            "tickInterval": 35,
+            "margin": 0,
+            "min": 0
+          }
+        ],
+        "xAxis": {
+          "type": "datetime",
+          "gridLineColor": "#2d3136",
+          "gridLineWidth": 1,
+          "tickInterval": 86400000,
+          "labels": {
+            "enabled": true,
+            "format": "{value:%a}",
+            "style": {
+              "color": "#bcd"
+            },
+            "useHTML": true
+          },
+          "crosshair": {
+            "color": "rgb(187, 204, 221)",
+            "dashStyle": "ShortDash"
+          }
+        },
+        "legend": {},
+        "plotOptions": {}
       }
-    ]
-  }
+    }
+  ]
+}

@@ -430,6 +430,7 @@ export class Chart implements OnInit, OnDestroy {
 
   private addSyncEvents() {
     this.charts.forEach(cmp => {
+      console.log(cmp)
       if (cmp.ref) {
         cmp.ref.container.addEventListener('mousemove', e => this.syncTooltip(e, cmp.ref!));
         cmp.ref.container.addEventListener('touchmove', e => this.syncTooltip(e, cmp.ref!));

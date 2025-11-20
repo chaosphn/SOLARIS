@@ -1,31 +1,31 @@
 [
     {
         "title": "Excellent",
-        "color": "#005F60",
+        "color": "#248997",
         "minimum": 80,
         "maximum": 200
     },
     {
         "title": "Good",
-        "color": "#008083",
+        "color": "#289F7C",
         "minimum": 60,
         "maximum": 80
     },
     {
         "title": "Fair",
-        "color": "#249EA0",
+        "color": "#7BB046",
         "minimum": 40,
         "maximum": 60
     },
     {
         "title": "Poor",
-        "color": "#DEB266",
+        "color": "#FF843F",
         "minimum": 20,
         "maximum": 40
     },
     {
         "title": "Critical",
-        "color": "#FF4F52",
+        "color": "#FF4747",
         "minimum": 0,
         "maximum": 20
     }      

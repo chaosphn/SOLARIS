@@ -193,6 +193,41 @@
               "factor": 1
           },
           {
+              "name": "LOSS",
+              "scale": "LOSS",
+              "uom": "kWh",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "YIELD",
+              "scale": "YIELD",
+              "uom": "kWh/kWp",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "DOWNTIME",
+              "scale": "DOWNTIME",
+              "uom": "",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "RUNTIME",
+              "scale": "RUNTIME",
+              "uom": "",
+              "dp": 1,
+              "factor": 1
+          },
+          {
+              "name": "AVAI",
+              "scale": "AVAI",
+              "uom": "%",
+              "dp": 1,
+              "factor": 1
+          },
+          {
               "name": "VAR",
               "scale": "VAR",
               "uom": "kvar",

@@ -603,6 +603,180 @@
               "Tagname": "J2301-3.INV212.EFF"
           }
         ]
+      },
+      {
+        "Group": "inverter_avai",
+        "Order": 6,
+        "Tags": [
+          {
+            "Title":  "INV011_AVAI",
+            "Tagname":  "J2301-1.INV011.AVAI"
+          },
+          {
+              "Title":  "INV012_AVAI",
+              "Tagname":  "J2301-1.INV012.AVAI"
+          },
+          {
+              "Title":  "INV021_AVAI",
+              "Tagname":  "J2301-1.INV021.AVAI"
+          },
+          {
+              "Title":  "INV022_AVAI",
+              "Tagname":  "J2301-1.INV022.AVAI"
+          },
+          {
+              "Title":  "INV031_AVAI",
+              "Tagname":  "J2301-1.INV031.AVAI"
+          },
+          {
+              "Title":  "INV032_AVAI",
+              "Tagname":  "J2301-1.INV032.AVAI"
+          },
+          {
+              "Title":  "INV041_AVAI",
+              "Tagname":  "J2301-1.INV041.AVAI"
+          },
+          {
+              "Title":  "INV042_AVAI",
+              "Tagname":  "J2301-1.INV042.AVAI"
+          },
+          {
+              "Title":  "INV051_AVAI",
+              "Tagname":  "J2301-1.INV051.AVAI"
+          },
+          {
+              "Title":  "INV052_AVAI",
+              "Tagname":  "J2301-1.INV052.AVAI"
+          },
+          {
+              "Title":  "INV061_AVAI",
+              "Tagname":  "J2301-1.INV061.AVAI"
+          },
+          {
+              "Title":  "INV062_AVAI",
+              "Tagname":  "J2301-1.INV062.AVAI"
+          },
+          {
+            "Title": "INV111_AVAI",
+            "Tagname": "J2301-2.INV111.AVAI"
+          },
+          {
+            "Title": "INV112_AVAI",
+            "Tagname": "J2301-2.INV112.AVAI"
+          },
+          {
+            "Title": "INV121_AVAI",
+            "Tagname": "J2301-2.INV121.AVAI"
+          },
+          {
+            "Title": "INV122_AVAI",
+            "Tagname": "J2301-2.INV122.AVAI"
+          },
+          {
+            "Title": "INV131_AVAI",
+            "Tagname": "J2301-2.INV131.AVAI"
+          },
+          {
+            "Title": "INV132_AVAI",
+            "Tagname": "J2301-2.INV132.AVAI"
+          },
+          {
+            "Title": "INV141_AVAI",
+            "Tagname": "J2301-2.INV141.AVAI"
+          },
+          {
+            "Title": "INV142_AVAI",
+            "Tagname": "J2301-2.INV142.AVAI"
+          },
+          {
+            "Title": "INV151_AVAI",
+            "Tagname": "J2301-2.INV151.AVAI"
+          },
+          {
+            "Title": "INV152_AVAI",
+            "Tagname": "J2301-2.INV152.AVAI"
+          },
+          {
+            "Title": "INV161_AVAI",
+            "Tagname": "J2301-2.INV161.AVAI"
+          },
+          {
+            "Title": "INV162_AVAI",
+            "Tagname": "J2301-2.INV162.AVAI"
+          },
+          {
+            "Title": "INV171_AVAI",
+            "Tagname": "J2301-2.INV171.AVAI"
+          },
+          {
+            "Title": "INV172_AVAI",
+            "Tagname": "J2301-2.INV172.AVAI"
+          },
+          {
+            "Title": "INV181_AVAI",
+            "Tagname": "J2301-2.INV181.AVAI"
+          },
+          {
+            "Title": "INV182_AVAI",
+            "Tagname": "J2301-2.INV182.AVAI"
+          },
+          {
+            "Title": "INV071_AVAI",
+            "Tagname": "J2301-3.INV071.AVAI"
+          },
+          {
+              "Title": "INV072_AVAI",
+              "Tagname": "J2301-3.INV072.AVAI"
+          },
+          {
+              "Title": "INV081_AVAI",
+              "Tagname": "J2301-3.INV081.AVAI"
+          },
+          {
+              "Title": "INV082_AVAI",
+              "Tagname": "J2301-3.INV082.AVAI"
+          },
+          {
+              "Title": "INV091_AVAI",
+              "Tagname": "J2301-3.INV091.AVAI"
+          },
+          {
+              "Title": "INV092_AVAI",
+              "Tagname": "J2301-3.INV092.AVAI"
+          },
+          {
+              "Title": "INV101_AVAI",
+              "Tagname": "J2301-3.INV101.AVAI"
+          },
+          {
+              "Title": "INV102_AVAI",
+              "Tagname": "J2301-3.INV102.AVAI"
+          },
+          {
+              "Title": "INV191_AVAI",
+              "Tagname": "J2301-3.INV191.AVAI"
+          },
+          {
+              "Title": "INV192_AVAI",
+              "Tagname": "J2301-3.INV192.AVAI"
+          },
+          {
+              "Title": "INV201_AVAI",
+              "Tagname": "J2301-3.INV201.AVAI"
+          },
+          {
+              "Title": "INV202_AVAI",
+              "Tagname": "J2301-3.INV202.AVAI"
+          },
+          {
+              "Title": "INV211_AVAI",
+              "Tagname": "J2301-3.INV211.AVAI"
+          },
+          {
+              "Title": "INV212_AVAI",
+              "Tagname": "J2301-3.INV212.AVAI"
+          }
+        ]
       }
     ],
     "historianConfig": [
