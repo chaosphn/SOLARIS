@@ -19,10 +19,10 @@ export class Assistant {
   isOpen = false;
   userInput = '';
   suggestedPrompts = [
-    'Get started with MongoDB',
-    'How do I register for Atlas?',
-    'How do you deploy a free cluster in Atlas?',
-    'Why should I use Atlas Search?'
+    'ช่วย list plant id มาให้หน่อยสิ',
+    'ช่วยหาค่าล่าสุดของ J2301-1.INV011.EFF และ J2301-1.INV012.EFF ใน J2301-1 ให้หน่อยสิ',
+    'ช่วยลิส tag ของ INV011 ใน J2301-1 ให้หน่อยสิว่ามี metric อะไรบ้าง',
+    'ช่วยสรุปค่า J2301-1.INV021.WH_TODAY ย้อนหลัง 2 วันมาให้หน่อยสิ'
   ];
   chatMessages = signal<ChatMessageModel[]>([]);
   loading = signal<Boolean>(false);
@@ -45,17 +45,18 @@ export class Assistant {
         role: 'question',
         message: this.userInput.trim()
       }
+      this.userInput = '';
       this.chatMessages.update(prev => [...prev, chat]);
       this.loading.set(true);
       const res: any = await this.httpService.getAssistantMessage(
         chat.message,
         null
       );
-      if(res && res.answer.text){
+      if(res && res.answer){
         this.loading.set(false);
         this.chatMessages.update(prev => [...prev, {
           role: 'answer',
-          message: res.answer.text
+          message: JSON.parse(res.answer).summary
         }]);
       } else {
         this.loading.set(false);

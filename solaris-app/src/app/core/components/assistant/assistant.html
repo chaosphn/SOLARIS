@@ -51,11 +51,17 @@
                                 <div class="logo-circle">
                                     <img src="../../../../assets/images/solaris.png" height="40" />
                                 </div>
-                                <div class="message-text bz h-100">{{ item.message }}</div>
+                               <div class="message-text bz h-100">
+                                    <pre style="white-space: pre-wrap;">{{ item.message }}</pre>
+                                </div>
+
                             </div>
                         } @else {
                             <div class="w-100 h-100 bz d-flex-ed" style="align-items: end; gap: 8px;">
-                                <div class="message-text bz h-100">{{ item.message }}</div>
+                                <div class="message-text bz h-100">
+                                    <pre style="white-space: pre-wrap;">{{ item.message }}</pre>
+                                </div>
+
                                 <div class="logo-circle">
                                     <i class="material-icons">person</i>
                                 </div>

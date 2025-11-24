@@ -97,7 +97,7 @@ export class HttpService {
                 Datas: data
             };
             const res = await this.httpClient.post(
-                'http://localhost:4040/api/chat', 
+                'http://localhost:4040/api/ask', 
                 body
             ).toPromise();
 

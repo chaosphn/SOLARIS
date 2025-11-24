@@ -18,7 +18,7 @@ export class ExportXls {
       data[0].records.forEach((item, index)=> {
         const row = [item.TimeStamp];
         data.forEach( x => {
-          row.push(x.records[index].Value);
+          row.push(x.records[index]?.Value??'-');
         });
         rows.push(row);
       })

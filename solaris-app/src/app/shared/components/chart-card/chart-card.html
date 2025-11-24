@@ -11,7 +11,7 @@
 
            @if (loadingData()) {
             <div class="icon-box d-flex-ct">
-                <i class="material-icons spinner" style="font-size: 16px;" >refresh</i>
+                <i class="material-icons spinner" style="font-size: 16px; margin-left: 8px;" >refresh</i>
             </div>
            } @else {
              <i class="material-icons" style="font-size: 16px; margin-left: 8px;" (click)="exportAllToExcel()">save</i>
