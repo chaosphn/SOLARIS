@@ -154,7 +154,7 @@
         "Tags": [
           {
             "Title": "CHART01_POWER",
-            "Tagname": "J2301-1.SCADA1.POWER",
+            "Tagname": "J2301-1.CALC.WH_HOUR",
             "Options": {
               "Time": "t",
               "Interval": 0,
@@ -164,7 +164,7 @@
           },
           {
             "Title": "CHART01_IRR",
-            "Tagname": "J2301-1.SCADA1.PYRANO",
+            "Tagname": "J2301-1.CALC.WH_HOUR_EXPECT",
             "Options": {
               "Time": "t",
               "Interval": 0,
@@ -180,11 +180,11 @@
         "Tags": [
           {
             "Title": "TODAY_ENERGY",
-            "Tagname": "J2301-1.SCADA1.TODAY_ENERGY",
+            "Tagname": "J2301-1.CALC.WH_DAY",
             "Options": {
               "Time": "",
               "Interval": 0,
-              "StartTime": "*-2d",
+              "StartTime": "*-7d",
               "EndTime": "NOW"
             }
           }
@@ -197,8 +197,8 @@
         "name": "CHART01",
         "tags": [
           {
-            "name": "J2301-1.SCADA1.PYRANO",
-            "title": "PYRANO*W/m2",
+            "name": "J2301-1.CALC.WH_HOUR_EXPECT",
+            "title": "EXPECTED*kWh",
             "options": {
               "yAxis": 0,
               "type": "column",
@@ -208,8 +208,8 @@
             }
           },
           {
-            "name": "J2301-1.SCADA1.POWER",
-            "title": "POWER*kW",
+            "name": "J2301-1.CALC.WH_HOUR",
+            "title": "PRODUCE*kWh",
             "options": {
               "yAxis": 1,
               "type": "column",
@@ -335,7 +335,7 @@
         "name": "CHART02",
         "tags": [
           {
-            "name": "J2301-1.SCADA1.TODAY_ENERGY",
+            "name": "J2301-1.CALC.WH_DAY",
             "title": "PRODUCE*kWh",
             "options": {
               "yAxis": 0,

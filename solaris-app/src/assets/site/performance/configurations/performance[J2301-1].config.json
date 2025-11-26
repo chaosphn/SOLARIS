@@ -162,7 +162,7 @@
         "Tags": [
           {
             "Title": "ENERGY",
-            "Tagname": "J2301-1.SCADA1.TODAY_ENERGY",
+            "Tagname": "J2301-1.CALC.WH_HOUR",
             "Options": {
               "Time": "t",
               "Interval": 0,
@@ -172,7 +172,7 @@
           },
           {
             "Title": "LOSS",
-            "Tagname": "J2301-1.SCADA1.MONTHLY_ENERGY",
+            "Tagname": "J2301-1.CALC.WH_HOUR_LOSS",
             "Options": {
               "Time": "t",
               "Interval": 0,
@@ -182,7 +182,7 @@
           },
           {
             "Title": "EXPECTED",
-            "Tagname": "J2301-1.SCADA1.POWER",
+            "Tagname": "J2301-1.CALC.WH_HOUR_EXPECT",
             "Options": {
               "Time": "t",
               "Interval": 0,
@@ -469,9 +469,9 @@
             "animation": false,
             "margin": [
               20,
-              70,
+              10,
               30,
-              60
+              50
             ],
             "borderColor": "#2d3136",
             "borderWidth": 0
@@ -481,7 +481,7 @@
             {
               "color": "#bcd",
               "title": {
-                "text": "IRR (W/m2)",
+                "text": "",
                 "style": {
                   "color": "#bcd"
                 },
@@ -508,7 +508,7 @@
             {
               "color": "#bcd",
               "title": {
-                "text": "POWER (kW)",
+                "text": "",
                 "style": {
                   "color": "#bcd"
                 },
@@ -564,7 +564,7 @@
         "name": "PRODUCTION",
         "tags": [
           {
-            "name": "J2301-1.SCADA1.POWER",
+            "name": "J2301-1.CALC.WH_HOUR",
             "title": "PRODUCE*kWh",
             "options": {
               "yAxis": 0,
@@ -576,7 +576,7 @@
             }
           },
           {
-            "name": "J2301-1.SCADA1.MONTHLY_ENERGY",
+            "name": "J2301-1.CALC.WH_HOUR_LOSS",
             "title": "LOSS*kWh",
             "options": {
               "yAxis": 0,
@@ -588,7 +588,7 @@
             }
           },
           {
-            "name": "J2301-1.SCADA1.TODAY_ENERGY",
+            "name": "J2301-1.CALC.WH_HOUR_EXPECT",
             "title": "EXPECTED*kWh",
             "options": {
               "yAxis": 1,
@@ -629,7 +629,7 @@
             "animation": false,
             "margin": [
               20,
-              70,
+              10,
               30,
               60
             ],
@@ -641,7 +641,7 @@
             {
               "color": "#bcd",
               "title": {
-                "text": "IRR (W/m2)",
+                "text": "",
                 "style": {
                   "color": "#bcd"
                 },
@@ -666,7 +666,7 @@
             {
               "color": "#bcd",
               "title": {
-                "text": "POWER (kW)",
+                "text": "ENERGY (kWh)",
                 "style": {
                   "color": "#bcd"
                 },
@@ -715,7 +715,16 @@
             "layout": "horizontal",
             "y": -15
           },
-          "plotOptions": {}
+          "plotOptions": {
+            "series": {
+              "lineWidth": 1,
+              "marker": {
+                "enabled": true,
+                "radius": 5,
+                "symbol": "rectangle"
+              }
+            }
+          }
         }
       },
       {
@@ -774,7 +783,7 @@
             {
               "color": "#bcd",
               "title": {
-                "text": "IRR (W/m2)",
+                "text": "PRODUCE (kWh)",
                 "style": {
                   "color": "#bcd"
                 },

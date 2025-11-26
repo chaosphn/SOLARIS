@@ -36,6 +36,7 @@ export interface User {
   password: string;
   role: 'administrator' | 'user';
   pageAccess: string[];
+  siteAccess: string[];
 }
 
 export interface BillingConfigModel {

@@ -1,7 +1,7 @@
 [
 	{
 		"minVal": 0,
-		"maxVal": 4500,
+		"maxVal": 300,
 		"activeColor": "#19D6B4",
 		"bgColor": "#3B444D",
 		"bdRadius": "0px",

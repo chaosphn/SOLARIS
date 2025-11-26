@@ -30,6 +30,7 @@
                                             <th>Username</th>
                                             <th>Role</th>
                                             <th>Page Access</th>
+                                            <th>Site Access</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -47,6 +48,15 @@
                                                         @for (page of user.pageAccess; track $index) {
                                                             <span class="page-badge">
                                                                 {{ page }}
+                                                            </span>
+                                                        }
+                                                    </div>
+                                                </td>
+                                                <td class="page-access-cell">
+                                                    <div class="page-badges">
+                                                        @for (page of user.siteAccess; track $index) {
+                                                            <span class="page-badge">
+                                                                {{ getSiteNameById(page) }}
                                                             </span>
                                                         }
                                                     </div>

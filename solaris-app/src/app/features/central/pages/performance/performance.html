@@ -9,7 +9,7 @@
                                 <div class="content h-100">
                                     <app-stack-chart
                                     [value]="dataRealtime()[item.id+'_ENERGY']?.Value?.toString() || '0'"
-                                    [maxVal]="dataRealtime()[item.id+'_ENERGY']?.Max || 0"
+                                    [maxVal]="300"
                                     [unit]="dataRealtime()[item.id+'_ENERGY']?.Unit || ''"
                                     [activeColor]="cardProperty()[0].activeColor"
                                     [bgColor]="cardProperty()[0].bgColor"
@@ -37,7 +37,7 @@
                                 <div class="content h-100">
                                     <app-stack-chart
                                     [value]="dataRealtime()[item.id+'_YIELD']?.Value?.toString() || '0'"
-                                    [maxVal]="dataRealtime()[item.id+'_YIELD']?.Max || 0"
+                                    [maxVal]="100"
                                     [unit]="dataRealtime()[item.id+'_YIELD']?.Unit || ''"
                                     [activeColor]="cardProperty()[1].activeColor"
                                     [bgColor]="cardProperty()[1].bgColor"

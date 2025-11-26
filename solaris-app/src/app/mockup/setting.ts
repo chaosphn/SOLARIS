@@ -6,28 +6,32 @@ export const ExampleUsers: User[] = [
     username: 'admin',
     password: 'admin123',
     role: 'administrator',
-    pageAccess: ['Dashboard', 'Energy Monitoring', 'Reports', 'Settings', 'Alarm Management', 'User Management', 'Holiday Setting', 'Billing']
+    pageAccess: ['Dashboard', 'Energy Monitoring', 'Reports', 'Settings', 'Alarm Management', 'User Management', 'Holiday Setting', 'Billing'],
+    siteAccess: ['J2301-1', 'J2301-2', 'J2301-3', 'J2301-4', 'J2301-5']
     },
     {
     id: 1,
     username: 'demouser',
     password: '1234',
     role: 'administrator',
-    pageAccess: ['Dashboard', 'Energy Monitoring', 'Reports', 'Settings', 'Alarm Management', 'User Management', 'Holiday Setting', 'Billing']
+    pageAccess: ['Dashboard', 'Energy Monitoring', 'Reports', 'Settings', 'Alarm Management', 'User Management', 'Holiday Setting', 'Billing'],
+    siteAccess: ['J2301-1', 'J2301-2', 'J2301-3', 'J2301-4', 'J2301-5']
     },
     {
     id: 2,
     username: 'operator1',
     password: 'op123',
     role: 'user',
-    pageAccess: ['Dashboard', 'Energy Monitoring', 'Reports']
+    pageAccess: ['Dashboard', 'Energy Monitoring', 'Reports'],
+    siteAccess: ['J2301-1', 'J2301-2', 'J2301-3', 'J2301-4', 'J2301-5']
     },
     {
     id: 3,
     username: 'viewer',
     password: 'view123',
     role: 'user',
-    pageAccess: ['Dashboard', 'Reports']
+    pageAccess: ['Dashboard', 'Reports'],
+    siteAccess: ['J2301-1', 'J2301-2', 'J2301-3', 'J2301-4', 'J2301-5']
     }
 ];
 

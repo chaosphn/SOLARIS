@@ -1,5 +1,8 @@
-import { Component, input, OnInit, output } from '@angular/core';
+import { Component, inject, input, OnInit, output, signal } from '@angular/core';
 import { User } from '../../../../models/billing.model';
+import { SiteModel } from '../../../../../../shared/models/config.model';
+import { Store } from '@ngrx/store';
+import { getZoneConfig } from '../../../../../../store/selectors/site.selectors';
 
 @Component({
   selector: 'app-user-dialog',
@@ -15,9 +18,17 @@ export class UserDialog implements OnInit {
 
   private nextUserId: number = 1;
 
-  constructor(){}
+  siteList = signal<SiteModel[]>([]);
+  private store = inject(Store);
+  constructor() {
+  }
 
   ngOnInit(): void {
+    this.store.select(getZoneConfig('CENTRAL1')).subscribe(zone => {
+      if (zone) {
+        this.siteList.set(zone.siteList);
+      }
+    });
     this.initializeMockData();
   }
 
@@ -32,7 +43,8 @@ export class UserDialog implements OnInit {
       username: '',
       password: '',
       role: 'user',
-      pageAccess: []
+      pageAccess: [],
+      siteAccess: []
     };
   }
 
@@ -59,6 +71,27 @@ export class UserDialog implements OnInit {
 
   deselectAllPages(): void {
     this.userData().pageAccess = [];
+  }
+
+  toggleSiteAccess(site: string): void {
+    const index = this.userData().siteAccess.indexOf(site);
+    if (index > -1) {
+      this.userData().siteAccess.splice(index, 1);
+    } else {
+      this.userData().siteAccess.push(site);
+    }
+  }
+
+  hasSiteAccess(site: string): boolean {
+    return this.userData().siteAccess.includes(site);
+  }
+
+  selectAllSites(): void {
+    this.userData().siteAccess = [...this.siteList().map(site => site.id)];
+  }
+
+  deselectAllSites(): void {
+    this.userData().siteAccess = [];
   }
 
   saveUser(): void {

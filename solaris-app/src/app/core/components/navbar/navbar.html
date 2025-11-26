@@ -162,16 +162,16 @@
                                 <i class="material-icons">description</i>
                                 <div>REPORTS</div>
                             </a>
-                            <a class="nav-link" routerLink="/main/report-admin" routerLinkActive="active">
-                                <i class="material-icons">description</i>
-                                <div>REPORT ADMIN</div>
-                            </a>
                         </div>
                         @if ((dateState$ | async)?.enable) {
                             <div class=" h-100 bz">
                                 <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
                             </div>
                         } 
+                        <div class="ai-btn" (click)="openDialog()">
+                            <i class="material-icons">auto_awesome</i>
+                            <div>Ask SolarisAI</div>
+                        </div>
                     </head>
                 }
                 @case ('zone') {
@@ -183,6 +183,7 @@
                             <a class="nav-link" routerLink="/main/reports" routerLinkActive="active">REPORTS</a>
                             <a class="nav-link" routerLink="/main/billing" routerLinkActive="active">BILLINGS</a>
                             <a class="nav-link" routerLink="/main/admin" routerLinkActive="active">BILLING ADMIN</a>
+                            <a class="nav-link" routerLink="/main/report-admin" routerLinkActive="active">REPORT ADMIN</a>
                         </div>
                         @if ((dateState$ | async)?.enable) {
                             <div class=" h-100 bz">

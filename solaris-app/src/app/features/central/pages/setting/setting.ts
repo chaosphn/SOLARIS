@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { AlarmTag, NotificationConfig, User } from '../../models/billing.model';
 import { ExampleAlarmTags, ExampleNotification, ExampleUsers } from '../../../../mockup/setting';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { SiteModel, SiteStateModel } from '../../../../shared/models/config.model';
+import { getSiteConfig, getZoneConfig, selectSiteState } from '../../../../store/selectors/site.selectors';
 
 @Component({
   selector: 'app-setting',
@@ -66,7 +70,18 @@ export class Setting implements OnInit {
 
   tabMode: 'user' | 'alarm' = 'user';
 
+  siteList = signal<SiteModel[]>([]);
+  private store = inject(Store);
+  constructor() {
+  }
+
   ngOnInit(): void {
+    this.store.select(getZoneConfig('CENTRAL1')).subscribe(zone => {
+      if (zone) {
+        this.siteList.set(zone.siteList);
+      }
+    });
+    console.log(this.siteList());
     this.initializeMockData();
   }
 
@@ -90,7 +105,8 @@ export class Setting implements OnInit {
       username: '',
       password: '',
       role: 'user',
-      pageAccess: []
+      pageAccess: [],
+      siteAccess: []
     };
   }
 
@@ -143,6 +159,12 @@ export class Setting implements OnInit {
         email: false
       }
     };
+  }
+
+
+  getSiteNameById(siteId: string): string {
+    const site = this.siteList().find(s => s.id === siteId);
+    return site ? site.name : siteId;
   }
 
   toggleAccordion(index: number): void {

@@ -27,7 +27,8 @@
             @if (title21()) {
                 <div class="tips d-flex">
                     <div class="tip">{{ title21() }} :</div>
-                    <div class="tip-highlight" [matTooltip]="tooltipSrv.getTooltip(value21())" matTooltipPosition="above">{{ value21()?.Value | numberFomat: '1.0-1' }} {{ unit21() }}</div>
+                    <!-- <div class="tip-highlight" [matTooltip]="tooltipSrv.getTooltip(value21())" matTooltipPosition="above">{{ value21()?.Value | numberFomat: '1.0-1' }} {{ unit21() }}</div> -->
+                     <div class="tip-highlight" [matTooltip]="tooltipSrv.getTooltip(value21())" matTooltipPosition="above">{{ 'RUNNING' }} </div>
                 </div>
             }
         </div>

@@ -812,7 +812,7 @@
         "Tags": [
           {
             "Title": "TODAY_ENERGY",
-            "Tagname": "J2301-1.SCADA1.TODAY_ENERGY",
+            "Tagname": "J2301-1.CALC.WH_HOUR",
             "Options": {
               "Time": "t",
               "Interval": 0,
@@ -830,7 +830,7 @@
         "tags": [
           {
             "name": "J2301-1.SCADA1.PYRANO",
-            "title": "PYRANO*W/m2",
+            "title": "PYRANO*W/m²",
             "options": {
               "yAxis": 0,
               "type": "area",
@@ -969,7 +969,7 @@
         "name": "CHART02",
         "tags": [
           {
-            "name": "J2301-1.SCADA1.TODAY_ENERGY",
+            "name": "J2301-1.CALC.WH_HOUR",
             "title": "PRODUCE*kWh",
             "options": {
               "yAxis": 0,
@@ -1022,7 +1022,7 @@
             {
               "color": "#bcd",
               "title": {
-                "text": "POWER (kW)",
+                "text": "PRODUCE (kWh)",
                 "style": {
                   "color": "#bcd"
                 },

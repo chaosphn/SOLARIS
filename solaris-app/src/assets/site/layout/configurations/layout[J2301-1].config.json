@@ -613,11 +613,11 @@
       "Tags": [
         {
           "Title": "TODAY_ENERGY",
-          "Tagname": "J2301-1.SCADA1.TODAY_ENERGY",
+          "Tagname": "J2301-1.CALC.WH_DAY",
           "Options": {
             "Time": "",
             "Interval": 0,
-            "StartTime": "*-2d",
+            "StartTime": "*-7d",
             "EndTime": "NOW"
           }
         }
@@ -769,7 +769,7 @@
       "name": "CHART02",
       "tags": [
         {
-          "name": "J2301-1.SCADA1.TODAY_ENERGY",
+          "name": "J2301-1.CALC.WH_DAY",
           "title": "PRODUCE*kWh",
           "options": {
             "yAxis": 0,
