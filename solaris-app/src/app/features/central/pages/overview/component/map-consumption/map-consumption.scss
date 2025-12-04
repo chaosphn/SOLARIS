@@ -114,14 +114,14 @@
 
 .thead, .tr{
     display: grid;
-    grid-template-columns: 40px 140px 100px 80px 80px 80px 80px 80px 80px 80px 80px;
+    grid-template-columns: 40px 140px 100px 60px 80px 80px 70px 70px 70px;
     justify-items: center;
     column-gap: 4px;
     align-items: center;
 }
 
 .thead{
-    background: var(--card-bg);
+    background: var(--thead-bg);
     color: var(--map-txt);
     font-size: 10px;
     font-weight: 600;
@@ -137,7 +137,8 @@
 .tbody{
     display: flex;
     flex-direction: column;
-    max-height: 170px;
+    height: 190px;
+    max-height: 190px;
     overflow: auto;
     text-align: center;
 }

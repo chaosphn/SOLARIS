@@ -55,8 +55,8 @@ export class Overview implements OnInit, OnDestroy {
       const pr2 = ((this.dataRealtime()['UNHEALTHY']?.Value || 0)/this.siteList().length)*100;
       const pr3 = ((this.dataRealtime()['NODATA']?.Value || 0)/this.siteList().length)*100;
       const data: PlantStatusData[] = [
-        { label: 'RUNNING', count: this.dataRealtime()['RUNNING']?.Value || 0, percentage: pr1, color: '#10FDD3', unit: 'Sites' },
-        { label: 'UNHEALTHY', count: this.dataRealtime()['UNHEALTHY']?.Value || 0, percentage: pr2, color: '#DEB266', unit: 'Sites' },
+        { label: 'RUNNING', count: this.dataRealtime()['RUNNING']?.Value || 0, percentage: pr1, color: '#00E396', unit: 'Sites' },
+        { label: 'UNHEALTHY', count: this.dataRealtime()['UNHEALTHY']?.Value || 0, percentage: pr2, color: '#FEB019', unit: 'Sites' },
         { label: 'NODATA', count: this.dataRealtime()['NODATA']?.Value || 0, percentage: pr3, color: '#FF4F52', unit: 'Sites' }
       ];
       return data;
@@ -79,8 +79,8 @@ export class Overview implements OnInit, OnDestroy {
         const pr2 = ((this.dataRealtime()['UNHEALTHY']?.Value || 0)/this.siteList().length)*100;
         const pr3 = ((this.dataRealtime()['NODATA']?.Value || 0)/this.siteList().length)*100;
         const data: PlantStatusData[] = [
-          { label: 'RUNNING', count: this.dataRealtime()['RUNNING']?.Value || 0, percentage: pr1, color: '#10FDD3', unit: 'sites' },
-          { label: 'UNHEALTHY', count: this.dataRealtime()['UNHEALTHY']?.Value || 0, percentage: pr2, color: '#DEB266', unit: 'sites' },
+          { label: 'RUNNING', count: this.dataRealtime()['RUNNING']?.Value || 0, percentage: pr1, color: '#00E396', unit: 'sites' },
+          { label: 'UNHEALTHY', count: this.dataRealtime()['UNHEALTHY']?.Value || 0, percentage: pr2, color: '#FEB019', unit: 'sites' },
           { label: 'NODATA', count: this.dataRealtime()['NODATA']?.Value || 0, percentage: pr3, color: '#FF4F52', unit: 'sites' }
         ];
         return data;

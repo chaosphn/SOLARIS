@@ -12,7 +12,7 @@ export class TooltipFormat {
   getTooltip(data: ResponseRealtimeModel | undefined): string {
     const name = data?.Name || '';
     const time = data?.TimeStamp || '';
-    if (name && time) { return `${name} • ${this.dateSrv.getDateTime1(time)}`; }
+    if (name && time) { return `${name}\n${this.dateSrv.getDateTime1(time)}`; }
     return name || time || '---';
   }
 

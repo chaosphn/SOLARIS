@@ -48,7 +48,7 @@ export class ChartService {
         borderRadius: item.borderRadius || undefined,
         animation: item.animation || false,
         margin: item.margin || [0,0,0,0,],
-        borderColor: item.borderColor || '#2d3136',
+        borderColor: item.borderColor || 'var(--chart-brd)',
         borderWidth: item.borderWidth,
       }
       //console.log(item)
@@ -82,7 +82,7 @@ export class ChartService {
         backgroundColor: 'none',
         animation: false,
         margin: [0,0,0,0,],
-        borderColor: '#2d3136',
+        borderColor: 'var(--chart-brd)',
         borderWidth: 1
       }
       return defaultChart;
@@ -154,6 +154,7 @@ export class ChartService {
         lineColor: item.lineColor ,
         lineWidth: item.lineWidth ,
         tickInterval: item.tickInterval,
+        tickColor: item.tickColor,
         categories: item.categories ,
         crosshair: item.crosshair ,
         min: this.startDate ,
@@ -166,13 +167,13 @@ export class ChartService {
         labels: {
           enabled: item?.labels?.enabled || false,
           style: item?.labels?.style || {
-            color: '#bcd',
+            color: 'var(--chart-txt)',
             fontSize: '10px'
           },
           useHTML: true
         },
         gridLineWidth: 0,
-        lineColor: item.lineColor || '#485057'
+        lineColor: item.lineColor || 'var(--chart-brd)'
       }
       return categoriesXais;
     } else {
@@ -182,18 +183,20 @@ export class ChartService {
       }
       const defaultXAxis: XAxisOptions = {
         type: "datetime",
-        gridLineColor: "#2d3136",
+        tickColor: "var(--chart-brd)",
+        lineColor: "var(--chart-brd)",
+        gridLineColor: "var(--chart-brd)",
         gridLineWidth: 0,
         labels: {
             enabled: true,
             format: "{value:%H:%M}",
             style: {
-                color: "#bcd"
+                color: "var(--chart-txt)"
             },
             useHTML: true
         },
         crosshair: {
-            color: "rgb(187, 204, 221)",
+            color: "var(--chart-brd)",
             dashStyle: "ShortDash"
         }
       }
@@ -210,6 +213,7 @@ export class ChartService {
         labels: item.labels,
         lineColor: item.lineColor ,
         lineWidth: item.lineWidth ,
+        tickColor: item.tickColor,
         tickInterval: item.tickInterval,
         categories: item.categories ,
         crosshair: item.crosshair ,
@@ -220,13 +224,13 @@ export class ChartService {
     } else {
       const defaultXAxis: XAxisOptions = {
         type: 'datetime',
-        gridLineColor: '#2d3136',
+        gridLineColor: 'var(--chart-brd)',
         gridLineWidth: 1,
         labels: {
           enabled: true,
           format: '{value:%H:%M}',
         },
-        //lineColor: '#2d3136',
+        //lineColor: 'var(--chart-brd)',
         //lineWidth: 1,
         //categories: [],
         crosshair: true,
@@ -265,15 +269,15 @@ export class ChartService {
     } else {
       const defaultYAxis: YAxisOptions[] = [];
       defaultYAxis[0] = {
-        borderColor: '#2d3136',
+        borderColor: 'var(--chart-brd)',
         borderWidth: 1,
         enabled: false,
-        lineColor: '#2d3136',
+        lineColor: 'var(--chart-brd)',
         labels: {
           enabled: false
         },
         lineWidth: 1,
-        gridLineColor: '#2d3136',
+        gridLineColor: 'var(--chart-brd)',
         gridLineWidth: 1,
         min: 0,
         max: undefined,
@@ -303,7 +307,7 @@ export class ChartService {
         itemStyle: item.itemStyle || {
           fontSize: '10px',
           fontWeight: 'bold',
-          color: '#bcd'
+          color: 'var(--chart-txt)'
         },
         labelFormatter: item.labelFormatter || function() {
           let d:any = this.options;
@@ -339,7 +343,7 @@ export class ChartService {
             lastValue = parseInt(lastValue.toFixed(0));
           }
           //let s = `<div style="margin-bottom:5px;"><div style="font-weight:500;color:#6DDBEB;"></div></div>`;
-          let s = '<div class="d-flex-sb w-100 b" style="width: 80px;" ><span class="bz chart-legend" style="color:'+ color +';font-weight:500">' + this.name.split("*")[0] + '</span> <span class="bz chart-legend" style="padding-left:6px;font-weight:500;color:#bcd;"> ' + lastValue + '  ' + this.name.split("*")[1] + ' </span></div>';
+          let s = '<div class="d-flex-sb w-100 b" style="width: 80px;" ><span class="bz chart-legend" style="color:'+ color +';font-weight:500">' + this.name.split("*")[0] + '</span> <span class="bz chart-legend" style="padding-left:6px;font-weight:500;color:var(--chart-txt);"> ' + lastValue + '  ' + this.name.split("*")[1] + ' </span></div>';
           return s;
         },
         itemWidth: 150,
@@ -478,7 +482,7 @@ export class ChartService {
   getTooltipOptions(){
     const TooltipOptions: TooltipOptions = {
       formatter: function () {
-        let s = `<div style="margin-bottom:5px;"><div class="chart-tooltip" style="font-weight:500;color:#bcd;">${this.x}</div></div>`;
+        let s = `<div style="margin-bottom:5px;"><div class="chart-tooltip" style="font-weight:500;color:var(--chart-txt);">${this.x}</div></div>`;
         s += '<table style="font-size:11px">';
         if ( this.points && this.points.length > 0) {
           this.points.forEach(p => {

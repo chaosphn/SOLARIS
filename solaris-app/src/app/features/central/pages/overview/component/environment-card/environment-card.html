@@ -2,7 +2,8 @@
    <div class="bz d-flex-ct">
         <app-polygon-card  
         [data]="reduction()"
-        [title]="'CO₂ REDUCTION'" 
+        [title]="'CO₂ REDUCTION'"
+        [icon]="'filter_drama'" 
         [value]="reduction()?.Value?.toFixed(0)??''" 
         [unit]="'kgCO₂'"></app-polygon-card>
    </div>
@@ -10,6 +11,7 @@
         <app-polygon-card 
         [data]="credit()"
         [title]="'CO₂ CREDIT'" 
+        [icon]="'filter_drama'" 
         [value]="credit()?.Value?.toFixed(0)??''" 
         [unit]="'tCO₂'"></app-polygon-card>
     </div>
@@ -17,13 +19,15 @@
         <app-polygon-card 
         [data]="tree()"
         [title]="'TREE SAVING'" 
+        [icon]="'forest'"
         [value]="tree()?.Value?.toFixed(0)??''" 
         [unit]="'Trees'"></app-polygon-card>
    </div>
    <div class="bz d-flex-ct">
         <app-polygon-card 
         [data]="oil()"
-        [title]="'OIL SAVING'" 
+        [title]="'OIL SAVING'"
+        [icon]="'oil_barrel'" 
         [value]="oil()?.Value?.toFixed(0)??''" 
         [unit]="'Lites'"></app-polygon-card>
     </div>

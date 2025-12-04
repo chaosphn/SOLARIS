@@ -18,7 +18,7 @@
 
         /* Input field */
         .mat-mdc-input-element {
-            color: var(--primary-txt);
+            color: var(--primary-txt) !important;
             caret-color: var(--highlight);
         }
 
@@ -26,6 +26,7 @@
         .mat-mdc-input-element::placeholder {
             color: var(--secondary-txt);
         }
+
 
         /* Outline border */
         .mat-mdc-notch-piece {

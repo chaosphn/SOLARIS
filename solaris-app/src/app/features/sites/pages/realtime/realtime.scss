@@ -30,7 +30,7 @@
         cursor: pointer;
     }
     .item:hover{
-        filter: brightness(150%);
+        filter: brightness(125%);
         background: var(--primary-bg-50);
         //color: var(--primary-txt);
         //background-color: #a1a1a11c;
@@ -106,10 +106,14 @@
     .row{
         display: flex;
         .value{
+            cursor: pointer;
             color: var(--row-txt);
             font-size: 0.75rem;
             text-align: center;
             padding: 6px 0px;
+        }
+        .value:hover{
+            background-color: var(--secondary-bg-50);
         }
     }
     .row:nth-child(even){
@@ -214,7 +218,7 @@
             align-items: center;
             .value{
                 width: 6rem !important;
-                color: #bcd;
+                color: var(--primary-txt);
                 font-size: 1.1rem !important;
                 padding: 18px 0px !important;
             }
@@ -287,7 +291,7 @@
         .row{
             align-items: center;
             .value{
-                color: #bcd;
+                color: var(--primary-txt);
                 font-size: 0.85rem;
                 padding: 12px 0px;
             }
@@ -357,7 +361,7 @@
         .row{
             align-items: center;
             .value{
-                color: #bcd;
+                color: var(--primary-txt);
                 font-size: 0.65rem;
                 padding: 6px 0px;
             }
@@ -431,7 +435,7 @@
         .row{
             align-items: center;
             .value{
-                color: #bcd;
+                color: var(--primary-txt);
                 font-size: 0.65rem;
                 padding: 3px 0px;
             }

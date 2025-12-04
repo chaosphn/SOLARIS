@@ -81,13 +81,12 @@ export class Piechart implements OnInit, OnChanges {
           const point: any = this;
           return `<div style="text-align: center;">
             <div style="font-weight: 500; color: ${point.color}; font-size: 14px;">${point.name}</div>
-            <div style="color: #BBCCDD; font-size: 12px; margin-top: 3px;">${point.count.toFixed(0)} item</div>
-            <div style="color: #BBCCDD; font-size: 12px; margin-top: 3px;">${point.percentage.toFixed(2)}%</div>
+            <div style="color: var(--primary-txt); font-size: 12px; margin-top: 3px;">${point.count.toFixed(0)} item</div>
+            <div style="color: var(--primary-txt); font-size: 12px; margin-top: 3px;">${point.percentage.toFixed(2)}%</div>
           </div>`;
         },
         useHTML: true,
-        backgroundColor: '#1C2125',
-        borderColor: '#2a2e33',
+        backgroundColor: 'var(--chart-tlp)',
         borderRadius: 8,
         shadow: false,
         style: {

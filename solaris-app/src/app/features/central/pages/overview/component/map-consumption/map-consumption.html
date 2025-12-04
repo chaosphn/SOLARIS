@@ -144,7 +144,7 @@
             <div class="detail-panel ">
                 <div class="panel-header">
                     <div class="accent-bar"></div>
-                    <div class="title">THAILAND / {{ zone() | uppercase }}</div>
+                    <div class="title">THAILAND / {{ zone() | uppercase }} ( {{sitesSummary().length}} )</div>
                 </div>
                 <div class="table">
                     <div class="thead">
@@ -159,7 +159,7 @@
                         <div class="th th-pv">PVTEMP<br>(C°)</div>
                         <div class="th th-amb">AMBTEMP<br>(C°)</div>
                     </div>
-                    <div class="tbody">
+                    <div class="tbody bz">
                         @for (row of sitesSummary(); track row.code) {
                             <div class="tr">
                                 <div class="td th-xx" >{{ row.indicator }}</div>

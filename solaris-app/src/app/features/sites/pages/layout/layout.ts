@@ -60,8 +60,8 @@ export class Layout implements OnInit, OnDestroy {
       const pr2 = ((this.dataRealtime()['UNHEALTHY']?.Value || 0)/100)*100;
       const pr3 = ((this.dataRealtime()['NODATA']?.Value || 0)/100)*100;
       const data: PlantStatusData[] = [
-        { label: 'INV NORMAL', count: this.dataRealtime()['RUNNING']?.Value || 0, percentage: pr1, color: '#10FDD3', unit: 'Unit' },
-        { label: 'INV ERROR', count: this.dataRealtime()['UNHEALTHY']?.Value || 0, percentage: pr2, color: '#DEB266', unit: 'Unit' },
+        { label: 'INV NORMAL', count: this.dataRealtime()['RUNNING']?.Value || 0, percentage: pr1, color: '#00E396', unit: 'Unit' },
+        { label: 'INV ERROR', count: this.dataRealtime()['UNHEALTHY']?.Value || 0, percentage: pr2, color: '#FEB019', unit: 'Unit' },
         { label: 'INV FCOM', count: this.dataRealtime()['NODATA']?.Value || 0, percentage: pr3, color: '#FF4F52', unit: 'Unit' }
       ];
       return data;

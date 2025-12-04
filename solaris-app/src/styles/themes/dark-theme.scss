@@ -41,6 +41,17 @@
   --btn-color: #F5F7FB;
 
   --stack-bg: #3B444D;
+
+  --chart-brd: #2d3136;
+  --chart-txt: #667079;
+  --chart-tlp: #2c3239;
+
+  --srch-bg: #3e454b8a;
+  --srch-txt: #667079;
+  --srch-hover-bg: #6670794f;
+  --srch-hover-txt: #F5F7FB;
+  --srch-focus-bg: #485057;
+  --srch-focus-txt: #F5F7FB;
 }
 
 /* Tooltip theming for dark mode */
@@ -52,6 +63,7 @@
   padding: 6px 10px;
   font-size: 12px;
   letter-spacing: .2px;
+  white-space: pre-line;
 }
 
 /* MDC-based tooltip (Angular Material v15+) */

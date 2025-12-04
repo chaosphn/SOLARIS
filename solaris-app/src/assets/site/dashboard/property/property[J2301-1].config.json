@@ -5,9 +5,9 @@
 		"minVal": 0,
 		"maxVal": 4500,
 		"activeColor": "#19D6B4",
-		"bgColor": "#3B444D",
+		"bgColor": "var(--stack-bg)",
 		"bdRadius": "0px",
-		"rangeVal": 25,
+		"rangeVal": 15,
 		"verleLabel": true,
 		"legend": false
 	},
@@ -17,9 +17,9 @@
 		"minVal": 0,
 		"maxVal": 1300,
 		"activeColor": "#DEB266",
-		"bgColor": "#3B444D",
+		"bgColor": "var(--stack-bg)",
 		"bdRadius": "0px",
-		"rangeVal": 25,
+		"rangeVal": 15,
 		"verleLabel": true,
 		"legend": false
 	},
@@ -29,9 +29,9 @@
 		"minVal": 0,
 		"maxVal": 30,
 		"activeColor": "#346AE7",
-		"bgColor": "#3B444D",
+		"bgColor": "var(--stack-bg)",
 		"bdRadius": "0px",
-		"rangeVal": 25,
+		"rangeVal": 15,
 		"verleLabel": true,
 		"legend": false
 	},
@@ -41,9 +41,9 @@
 		"minVal": 0,
 		"maxVal": 30,
 		"activeColor": "#FF4F52",
-		"bgColor": "#3B444D",
+		"bgColor": "var(--stack-bg)",
 		"bdRadius": "0px",
-		"rangeVal": 25,
+		"rangeVal": 15,
 		"verleLabel": true,
 		"legend": false
 	}

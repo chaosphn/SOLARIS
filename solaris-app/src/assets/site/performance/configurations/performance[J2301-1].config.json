@@ -261,7 +261,7 @@
               "yAxis": 0,
               "type": "area",
               "color": "#FF9B33",
-              "fillOpacity": 0.025
+              "fillOpacity": 0.125
             }
           },
           {
@@ -271,7 +271,7 @@
               "yAxis": 1,
               "type": "area",
               "color": "#3DB1FC",
-              "fillOpacity": 0.025
+              "fillOpacity": 0.125
             }
           }
         ],
@@ -309,32 +309,32 @@
               30,
               60
             ],
-            "borderColor": "#2d3136",
+            "borderColor": "var(--chart-brd)",
             "borderWidth": 0
           },
           "title": {},
           "yAxis": [
             {
-              "color": "#bcd",
+              "color": "var(--chart-txt)",
               "title": {
                 "text": "IRR (W/m2)",
                 "style": {
-                  "color": "#bcd"
+                  "color": "var(--chart-txt)"
                 },
                 "useHTML": true
               },
               "opposite": true,
               "enabled": true,
-              "lineColor": "#bcd",
+              "lineColor": "var(--chart-brd)",
               "labels": {
                 "enabled": true,
                 "style": {
-                  "color": "#bcd"
+                  "color": "var(--chart-txt)"
                 },
                 "useHTML": true
               },
               "lineWidth": 0,
-              "gridLineColor": "#2d3136",
+              "gridLineColor": "var(--chart-brd)",
               "gridLineWidth": 1,
               "max": 1600,
               "tickInterval": 50,
@@ -342,25 +342,25 @@
               "min": 0
             },
             {
-              "color": "#bcd",
+              "color": "var(--chart-txt)",
               "title": {
                 "text": "POWER (kW)",
                 "style": {
-                  "color": "#bcd"
+                  "color": "var(--chart-txt)"
                 },
                 "useHTML": true
               },
               "enabled": true,
-              "lineColor": "#bcd",
+              "lineColor": "var(--chart-brd)",
               "labels": {
                 "enabled": true,
                 "style": {
-                  "color": "#bcd"
+                  "color": "var(--chart-txt)"
                 },
                 "useHTML": true
               },
               "lineWidth": 0,
-              "gridLineColor": "#2d3136",
+              "gridLineColor": "var(--chart-brd)",
               "gridLineWidth": 0,
               "max": 6000,
               "tickInterval": 250,
@@ -370,19 +370,19 @@
           ],
           "xAxis": {
             "type": "datetime",
-            "gridLineColor": "#2d3136",
+            "gridLineColor": "var(--chart-brd)",
             "gridLineWidth": 1,
             "tickInterval": 7200000,
             "labels": {
               "enabled": true,
               "format": "{value:%H}",
               "style": {
-                "color": "#bcd"
+                "color": "var(--chart-txt)"
               },
               "useHTML": true
             },
             "crosshair": {
-              "color": "rgb(187, 204, 221)",
+              "color": "var(--chart-txt)",
               "dashStyle": "ShortDash"
             },
             "max": "t"
@@ -473,32 +473,32 @@
               30,
               50
             ],
-            "borderColor": "#2d3136",
+            "borderColor": "var(--chart-brd)",
             "borderWidth": 0
           },
           "title": {},
           "yAxis": [
             {
-              "color": "#bcd",
+              "color": "var(--chart-txt)",
               "title": {
                 "text": "",
                 "style": {
-                  "color": "#bcd"
+                  "color": "var(--chart-txt)"
                 },
                 "useHTML": true
               },
               "opposite": true,
               "enabled": true,
-              "lineColor": "#bcd",
+              "lineColor": "var(--chart-brd)",
               "labels": {
                 "enabled": true,
                 "style": {
-                  "color": "#bcd"
+                  "color": "var(--chart-txt)"
                 },
                 "useHTML": true
               },
               "lineWidth": 0,
-              "gridLineColor": "#2d3136",
+              "gridLineColor": "var(--chart-brd)",
               "gridLineWidth": 1,
               "max": 1600,
               "tickInterval": 50,
@@ -506,25 +506,25 @@
               "min": 0
             },
             {
-              "color": "#bcd",
+              "color": "var(--chart-txt)",
               "title": {
                 "text": "",
                 "style": {
-                  "color": "#bcd"
+                  "color": "var(--chart-txt)"
                 },
                 "useHTML": true
               },
               "enabled": true,
-              "lineColor": "#bcd",
+              "lineColor": "var(--chart-brd)",
               "labels": {
                 "enabled": true,
                 "style": {
-                  "color": "#bcd"
+                  "color": "var(--chart-txt)"
                 },
                 "useHTML": true
               },
               "lineWidth": 0,
-              "gridLineColor": "#2d3136",
+              "gridLineColor": "var(--chart-brd)",
               "gridLineWidth": 0,
               "margin": 0,
               "min": 0
@@ -532,19 +532,19 @@
           ],
           "xAxis": {
             "type": "datetime",
-            "gridLineColor": "#2d3136",
+            "gridLineColor": "var(--chart-brd)",
             "gridLineWidth": 1,
             "tickInterval": 7200000,
             "labels": {
               "enabled": true,
               "format": "{value:%H}",
               "style": {
-                "color": "#bcd"
+                "color": "var(--chart-txt)"
               },
               "useHTML": true
             },
             "crosshair": {
-              "color": "rgb(187, 204, 221)",
+              "color": "var(--chart-txt)",
               "dashStyle": "ShortDash"
             },
             "max": "t"
@@ -633,56 +633,56 @@
               30,
               60
             ],
-            "borderColor": "#2d3136",
+            "borderColor": "var(--chart-brd)",
             "borderWidth": 0
           },
           "title": {},
           "yAxis": [
             {
-              "color": "#bcd",
+              "color": "var(--chart-txt)",
               "title": {
                 "text": "",
                 "style": {
-                  "color": "#bcd"
+                  "color": "var(--chart-txt)"
                 },
                 "useHTML": true
               },
               "opposite": true,
               "enabled": true,
-              "lineColor": "#bcd",
+              "lineColor": "var(--chart-brd)",
               "labels": {
                 "enabled": true,
                 "style": {
-                  "color": "#bcd"
+                  "color": "var(--chart-txt)"
                 },
                 "useHTML": true
               },
               "lineWidth": 0,
-              "gridLineColor": "#2d3136",
+              "gridLineColor": "var(--chart-brd)",
               "gridLineWidth": 1,
               "margin": 0,
               "min": 0
             },
             {
-              "color": "#bcd",
+              "color": "var(--chart-txt)",
               "title": {
                 "text": "ENERGY (kWh)",
                 "style": {
-                  "color": "#bcd"
+                  "color": "var(--chart-txt)"
                 },
                 "useHTML": true
               },
               "enabled": true,
-              "lineColor": "#bcd",
+              "lineColor": "var(--chart-brd)",
               "labels": {
                 "enabled": true,
                 "style": {
-                  "color": "#bcd"
+                  "color": "var(--chart-txt)"
                 },
                 "useHTML": true
               },
               "lineWidth": 0,
-              "gridLineColor": "#2d3136",
+              "gridLineColor": "var(--chart-brd)",
               "gridLineWidth": 0,
               "margin": 0,
               "min": 0
@@ -690,19 +690,19 @@
           ],
           "xAxis": {
             "type": "datetime",
-            "gridLineColor": "#2d3136",
+            "gridLineColor": "var(--chart-brd)",
             "gridLineWidth": 1,
             "tickInterval": 7200000,
             "labels": {
               "enabled": true,
               "format": "{value:%H}",
               "style": {
-                "color": "#bcd"
+                "color": "var(--chart-txt)"
               },
               "useHTML": true
             },
             "crosshair": {
-              "color": "rgb(187, 204, 221)",
+              "color": "var(--chart-txt)",
               "dashStyle": "ShortDash"
             },
             "max": "t"
@@ -775,31 +775,31 @@
               30,
               60
             ],
-            "borderColor": "#2d3136",
+            "borderColor": "var(--chart-brd)",
             "borderWidth": 0
           },
           "title": {},
           "yAxis": [
             {
-              "color": "#bcd",
+              "color": "var(--chart-txt)",
               "title": {
                 "text": "PRODUCE (kWh)",
                 "style": {
-                  "color": "#bcd"
+                  "color": "var(--chart-txt)"
                 },
                 "useHTML": true
               },
               "enabled": true,
-              "lineColor": "#bcd",
+              "lineColor": "var(--chart-brd)",
               "labels": {
                 "enabled": true,
                 "style": {
-                  "color": "#bcd"
+                  "color": "var(--chart-txt)"
                 },
                 "useHTML": true
               },
               "lineWidth": 0,
-              "gridLineColor": "#2d3136",
+              "gridLineColor": "var(--chart-brd)",
               "gridLineWidth": 1,
               "margin": 0,
               "min": 0,
@@ -825,7 +825,7 @@
             "labels": {
               "enabled": true,
               "style": {
-                "color": "#bcd"
+                "color": "var(--chart-txt)"
               },
               "useHTML": true
             }

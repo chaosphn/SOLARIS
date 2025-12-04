@@ -24,7 +24,7 @@
             top: 2px;
             left: 2px;
             font-size: 22px;
-            color: var(--primary-txt);
+            color: #F5F7FB;
         }
         .value{
             position: absolute;
@@ -33,14 +33,14 @@
             transform: translate(-50%, -50%);
             font-size: 20px;
             font-weight: 500;
-            color: var(--primary-txt);
+            color: #F5F7FB;
         }
         .unit{
             position: absolute;
             bottom: 2px;
             right: 4px;
             font-size: 12px;
-            color: var(--primary-txt);
+            color: #F5F7FB;
         }
     }
 }
@@ -77,7 +77,7 @@
     }
 
     .unit {
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 500;
       color: var(--secondary-txt);
       display: inline-block;

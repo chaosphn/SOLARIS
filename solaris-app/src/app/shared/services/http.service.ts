@@ -119,7 +119,7 @@ export class HttpService {
                 Timestamp: timestamp
             };
             const res = await this.httpClient.post(
-                'http://localhost:4040/api/genReport', 
+                'http://localhost:4040/api/genreport', 
                 body,
                 { responseType: 'blob' }
             ).toPromise();
@@ -142,7 +142,7 @@ export class HttpService {
                 Timestamp: timestamp
             };
             const res = await this.httpClient.post(
-                'http://localhost:4040/api/genReport', 
+                'http://localhost:4040/api/genreport', 
                 body,
                 { responseType: 'blob' }
             ).toPromise();

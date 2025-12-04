@@ -53,6 +53,8 @@ export class MapConsumption {
     { indicator: '2M', code: 'SITE003', site: 'SITE GAMMA', province: 'AYUTTHAYA', capacityMw: 5.2, powerKw: 3055, todayMWh: 25, irr: 710, pvTemp: 54.1, ambTemp: 34.6 },
     { indicator: '2M', code: 'SITE004', site: 'SITE DELTA', province: 'NONTHABURI', capacityMw: 3.8, powerKw: 2104, todayMWh: 18, irr: 600, pvTemp: 50.0, ambTemp: 33.8 },
     { indicator: '3M', code: 'SITE005', site: 'SITE EPSILON', province: 'SARABURI', capacityMw: 2.9, powerKw: 1650, todayMWh: 12, irr: 520, pvTemp: 48.3, ambTemp: 32.5 },
+    { indicator: '3M', code: 'SITE006', site: 'SITE ZETA', province: 'LOPBURI', capacityMw: 7.1, powerKw: 3602, todayMWh: 34, irr: 755, pvTemp: 56.0, ambTemp: 36.5 },
+    { indicator: '3M', code: 'SITE005', site: 'SITE EPSILON', province: 'SARABURI', capacityMw: 2.9, powerKw: 1650, todayMWh: 12, irr: 520, pvTemp: 48.3, ambTemp: 32.5 },
     { indicator: '3M', code: 'SITE006', site: 'SITE ZETA', province: 'LOPBURI', capacityMw: 7.1, powerKw: 3602, todayMWh: 34, irr: 755, pvTemp: 56.0, ambTemp: 36.5 }
   ];
 

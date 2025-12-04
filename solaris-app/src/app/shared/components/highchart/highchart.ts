@@ -141,7 +141,7 @@ export class Highchart  {
           let minFormat = ('0' +dateTime.getMinutes()).slice(-2);
           let timeStamp = (dateTime.getFullYear() > 1500) ? `${dateFormat}-${montnFormat}-${yearFormat} ${hourFormat}:${minFormat}` : '';
           let ts = isDate(dateTime) ? dateTime.toISOString().slice(0,16).replace("T"," ") : '---';
-          let s = `<div class="chart-tooltip" style="margin-bottom:5px;"><div style="font-weight:500;color:#bcd;">${ts}</div></div>`;
+          let s = `<div class="chart-tooltip" style="margin-bottom:5px;"><div style="font-weight:500;color:var(--primary-txt);">${ts}</div></div>`;
           s += '<table style="font-size:11px">';
           if ( this.points && this.points.length > 0) {
             this.points.forEach(p => {
@@ -169,10 +169,7 @@ export class Highchart  {
         headerFormat: '',
         shadow: false,
         shape: 'rect',
-        backgroundColor: '#1C2125',
-        // borderColor: 'red',
-        // borderRadius: 2,
-        // borderWidth: 1
+        backgroundColor: 'var(--chart-tlp)',
       },
       plotOptions: this.chartParameter()?.plotOptions,
       responsive: this.chartParameter()?.responsive || {},
