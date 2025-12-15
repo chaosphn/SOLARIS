@@ -156,7 +156,12 @@ export class ChartService {
         tickInterval: item.tickInterval,
         tickColor: item.tickColor,
         categories: item.categories ,
-        crosshair: item.crosshair ,
+        crosshair: {
+          color: 'var(--chart-brd)',
+          width: 2,
+          dashStyle: 'Solid',
+          zIndex: 100
+        },
         min: this.startDate ,
         max: this.endDate,
       }
@@ -197,7 +202,9 @@ export class ChartService {
         },
         crosshair: {
             color: "var(--chart-brd)",
-            dashStyle: "ShortDash"
+            width: 2,
+            dashStyle: "Solid",
+            zIndex: 100
         }
       }
       return defaultXAxis;
@@ -216,7 +223,12 @@ export class ChartService {
         tickColor: item.tickColor,
         tickInterval: item.tickInterval,
         categories: item.categories ,
-        crosshair: item.crosshair ,
+        crosshair: {
+          color: 'var(--chart-brd)',
+          width: 2,
+          dashStyle: 'Solid',
+          zIndex: 100
+        },
         min: item.min,
         max: item.max,
       }
@@ -230,12 +242,12 @@ export class ChartService {
           enabled: true,
           format: '{value:%H:%M}',
         },
-        //lineColor: 'var(--chart-brd)',
-        //lineWidth: 1,
-        //categories: [],
-        crosshair: true,
-        //min: this.startDate,
-        //max: this.endDate,
+        crosshair: {
+          color: 'var(--chart-brd)',
+          width: 2,
+          dashStyle: 'Solid',
+          zIndex: 100
+        },
       }
       return defaultXAxis;
     }

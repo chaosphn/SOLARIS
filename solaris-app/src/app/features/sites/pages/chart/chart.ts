@@ -432,9 +432,16 @@ export class Chart implements OnInit, OnDestroy {
     this.charts.forEach(cmp => {
       console.log(cmp)
       if (cmp.ref) {
-        cmp.ref.container.addEventListener('mousemove', e => this.syncTooltip(e, cmp.ref!));
-        cmp.ref.container.addEventListener('touchmove', e => this.syncTooltip(e, cmp.ref!));
-        cmp.ref.container.addEventListener('mouseout', () => this.hideTooltips());
+        // ลบ old event listeners ก่อนเพิ่มตัวใหม่
+        cmp.ref.container.removeEventListener('mousemove', this.syncTooltipBound);
+        cmp.ref.container.removeEventListener('mouseleave', this.hideSyncTooltipBound);
+        
+        // เพิ่ม event listeners ใหม่
+        cmp.ref.container.addEventListener('mousemove', (e) => this.syncTooltip(e, cmp.ref!));
+        cmp.ref.container.addEventListener('mouseleave', () => this.hideTooltips());
+        cmp.ref.container.addEventListener('touchstart', (e) => this.syncTooltip(e, cmp.ref!));
+        cmp.ref.container.addEventListener('touchmove', (e) => this.syncTooltip(e, cmp.ref!));
+        cmp.ref.container.addEventListener('touchend', () => this.hideTooltips());
       }
     });
   }
@@ -443,26 +450,67 @@ export class Chart implements OnInit, OnDestroy {
     this.isLoadingChart = event;
   }
 
+  private syncTooltipBound = (e: MouseEvent | TouchEvent) => {};
+  private hideSyncTooltipBound = () => {};
+
   private syncTooltip(e: MouseEvent | TouchEvent, sourceChart: Highcharts.Chart) {
     const event = (sourceChart.pointer.normalize(e) as any);
-
-    this.charts.forEach(cmp => {
-      const chart = cmp.ref;
-      if (chart && chart !== sourceChart) {
-        const point = chart.series[0].searchPoint(event, true);
-        if (point) {
-          point.onMouseOver();
-          point.series.chart.tooltip.refresh(point);
+    
+    // ใช้ RequestAnimationFrame เพื่อให้ sync smooth
+    requestAnimationFrame(() => {
+      this.charts.forEach(cmp => {
+        const chart = cmp.ref;
+        if (chart && chart !== sourceChart && chart.series && chart.series.length > 0) {
+          try {
+            // ค้นหา point จาก series แรก
+            const point = chart.series[0].searchPoint(event, true);
+            if (point) {
+              // ปรับปรุง tooltip เพื่อให้ sync กับ source chart
+              const pointsAtX: any[] = [];
+              
+              // เก็บ points ทั้งหมดที่มี x value เดียวกัน
+              chart.series.forEach(series => {
+                const p = series.searchPoint(event, true);
+                if (p) {
+                  pointsAtX.push(p);
+                }
+              });
+              
+              if (pointsAtX.length > 0) {
+                // แสดง tooltip พร้อม points ทั้งหมด
+                chart.tooltip.refresh(pointsAtX);
+                // แสดง crosshair บน x-axis
+                if(chart.xAxis && chart.xAxis[0]) {
+                  chart.xAxis[0].drawCrosshair(event);
+                }
+              }
+            } else {
+              // ซ่อน tooltip ถ้าไม่มี point
+              chart.tooltip.hide();
+              if(chart.xAxis && chart.xAxis[0]) {
+                chart.xAxis[0].hideCrosshair();
+              }
+            }
+          } catch (err) {
+            // Handle error silently
+            console.debug('Sync tooltip error:', err);
+          }
         }
-      }
+      });
     });
   }
 
   private hideTooltips() {
     this.charts.forEach(cmp => {
       if (cmp.ref) {
-        cmp.ref.tooltip.hide();
-        cmp.ref.xAxis[0].hideCrosshair();
+        try {
+          cmp.ref.tooltip.hide();
+          if(cmp.ref.xAxis && cmp.ref.xAxis[0]) {
+            cmp.ref.xAxis[0].hideCrosshair();
+          }
+        } catch (err) {
+          console.debug('Hide tooltip error:', err);
+        }
       }
     });
   }
