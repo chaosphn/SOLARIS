@@ -6,8 +6,8 @@
         "fill": "#2F363E",
         "stroke": "#7BB046",
         "strokewidth": "0.55",
-        "name": "Chai Nat",
-        "zone": "Central"
+        "name": "Chanthaburi",
+        "zone": "East"
       },
       {
         "id": "TH.4255",
@@ -16,7 +16,7 @@
         "stroke": "white",
         "strokewidth": "0.55",
         "name": "Unknown",
-        "zone": "Unknown"
+        "zone": "South"
       },
       {
         "id": "TH.PG",
@@ -24,7 +24,7 @@
         "fill": "#2F363E",
         "stroke": "#289F7C",
         "strokewidth": "0.55",
-        "name": "Phang Nga",
+        "name": "Phangnga",
         "zone": "South"
       },
       {
@@ -33,7 +33,7 @@
         "fill": "#2F363E",
         "stroke": "#289F7C",
         "strokewidth": "0.55",
-        "name": "Songkhla",
+        "name": "SuratThani",
         "zone": "South"
       },
       {
@@ -88,7 +88,7 @@
         "stroke": "#248997",
         "strokewidth": "0.55",
         "name": "Phitsanulok",
-        "zone": "North"
+        "zone": "Central"
       },
       {
         "id": "TH.KP",
@@ -97,7 +97,7 @@
         "stroke": "#248997",
         "strokewidth": "0.55",
         "name": "Kamphaeng Phet",
-        "zone": "North"
+        "zone": "Central"
       },
       {
         "id": "TH.PC",
@@ -105,8 +105,8 @@
         "fill": "#2F363E",
         "stroke": "#248997",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Phichit",
+        "zone": "Central"
       },
       {
         "id": "TH.SH",
@@ -114,8 +114,8 @@
         "fill": "#2F363E",
         "stroke": "#248997",
         "strokewidth": "0.55",
-        "name": "Sukhothai",
-        "zone": "North"
+        "name": "Suphan Buri",
+        "zone": "Central"
       },
       {
         "id": "TH.AT",
@@ -123,8 +123,8 @@
         "fill": "#2F363E",
         "stroke": "#248997",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "AngThong",
+        "zone": "Central"
       },
       {
         "id": "TH.LB",
@@ -132,8 +132,8 @@
         "fill": "#2F363E",
         "stroke": "#248997",
         "strokewidth": "0.55",
-        "name": "Lampang",
-        "zone": "North"
+        "name": "Lop Buri",
+        "zone": "Central"
       },
       {
         "id": "TH.PA",
@@ -141,8 +141,8 @@
         "fill": "#2F363E",
         "stroke": "#248997",
         "strokewidth": "0.55",
-        "name": "Phrae",
-        "zone": "North"
+        "name": "Phra Nakhon Si Ayutthaya",
+        "zone": "Central"
       },
       {
         "id": "TH.NP",
@@ -159,8 +159,8 @@
         "fill": "#2F363E",
         "stroke": "#248997",
         "strokewidth": "0.55",
-        "name": "Sa Kaeo",
-        "zone": "East"
+        "name": "Sing Buri",
+        "zone": "Central"
       },
       {
         "id": "TH.CN",
@@ -168,8 +168,8 @@
         "fill": "#2F363E",
         "stroke": "#248997",
         "strokewidth": "0.55",
-        "name": "Chiang Mai",
-        "zone": "North"
+        "name": "Chai Nat",
+        "zone": "Central"
       },
       {
         "id": "TH.BM",
@@ -186,8 +186,8 @@
         "fill": "#2F363E",
         "stroke": "#248997",
         "strokewidth": "0.55",
-        "name": "Phrae",
-        "zone": "North"
+        "name": "Pathum Thani",
+        "zone": "Central"
       },
       {
         "id": "TH.NO",
@@ -195,8 +195,8 @@
         "fill": "#2F363E",
         "stroke": "#248997",
         "strokewidth": "0.55",
-        "name": "Nong Khai",
-        "zone": "Northeast"
+        "name": "Nonthaburi",
+        "zone": "Central"
       },
       {
         "id": "TH.SP",
@@ -204,7 +204,7 @@
         "fill": "#2F363E",
         "stroke": "#248997",
         "strokewidth": "0.55",
-        "name": "Suphan Buri",
+        "name": "Samut Prakan",
         "zone": "Central"
       },
       {
@@ -285,8 +285,8 @@
         "fill": "#2F363E",
         "stroke": "#248997",
         "strokewidth": "0.55",
-        "name": "Phitsanulok",
-        "zone": "North"
+        "name": "Phetchabun",
+        "zone": "Central"
       },
       {
         "id": "TH.KL",
@@ -303,8 +303,8 @@
         "fill": "#2F363E",
         "stroke": "#248997",
         "strokewidth": "0.55",
-        "name": "Surat Thani",
-        "zone": "South"
+        "name": "Saraburi",
+        "zone": "Central"
       },
       {
         "id": "TH.NR",
@@ -348,8 +348,8 @@
         "fill": "#2F363E",
         "stroke": "#FF843F",
         "strokewidth": "0.55",
-        "name": "Nakhon Sawan",
-        "zone": "Central"
+        "name": "Nong Khai",
+        "zone": "Northeast"
       },
       {
         "id": "TH.AC",
@@ -357,8 +357,8 @@
         "fill": "#2F363E",
         "stroke": "#FF843F",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Amnat Charoen",
+        "zone": "Northeast"
       },
       {
         "id": "TH.MD",
@@ -366,8 +366,8 @@
         "fill": "#2F363E",
         "stroke": "#FF843F",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Mukdahan",
+        "zone": "Northeast"
       },
       {
         "id": "TH.SN",
@@ -375,8 +375,8 @@
         "fill": "#2F363E",
         "stroke": "#FF843F",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Sakon Nakhon",
+        "zone": "Northeast"
       },
       {
         "id": "TH.NW",
@@ -384,8 +384,8 @@
         "fill": "#2F363E",
         "stroke": "#289F7C",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Narathiwat",
+        "zone": "South"
       },
       {
         "id": "TH.PI",
@@ -393,8 +393,8 @@
         "fill": "#2F363E",
         "stroke": "#289F7C",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Pattani",
+        "zone": "South"
       },
       {
         "id": "TH.RN",
@@ -402,8 +402,8 @@
         "fill": "#2F363E",
         "stroke": "#289F7C",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Ranong",
+        "zone": "South"
       },
       {
         "id": "TH.NT",
@@ -411,8 +411,8 @@
         "fill": "#2F363E",
         "stroke": "#289F7C",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Nakhon Si Thammarat",
+        "zone": "South"
       },
       {
         "id": "TH.SG",
@@ -420,8 +420,8 @@
         "fill": "#2F363E",
         "stroke": "#289F7C",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Songkhla",
+        "zone": "South"
       },
       {
         "id": "TH.PR",
@@ -429,8 +429,8 @@
         "fill": "#2F363E",
         "stroke": "#FF4747",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Phrae",
+        "zone": "North"
       },
       {
         "id": "TH.PY",
@@ -438,8 +438,8 @@
         "fill": "#2F363E",
         "stroke": "#FF4747",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Phayao",
+        "zone": "North"
       },
       {
         "id": "TH.SO",
@@ -447,8 +447,8 @@
         "fill": "#2F363E",
         "stroke": "#248997",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Sukhothai",
+        "zone": "Central"
       },
       {
         "id": "TH.UD",
@@ -456,8 +456,8 @@
         "fill": "#2F363E",
         "stroke": "#FF4747",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Uttaradit",
+        "zone": "North"
       },
       {
         "id": "TH.KN",
@@ -465,8 +465,8 @@
         "fill": "#2F363E",
         "stroke": "#5F82FF",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Kanchanaburi",
+        "zone": "West"
       },
       {
         "id": "TH.TK",
@@ -474,8 +474,8 @@
         "fill": "#2F363E",
         "stroke": "#5F82FF",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Tak",
+        "zone": "West"
       },
       {
         "id": "TH.UT",
@@ -483,8 +483,8 @@
         "fill": "#2F363E",
         "stroke": "#248997",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Uthai Thani",
+        "zone": "Central"
       },
       {
         "id": "TH.NS",
@@ -492,8 +492,8 @@
         "fill": "#2F363E",
         "stroke": "#248997",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Nakhon Sawan",
+        "zone": "Central"
       },
       {
         "id": "TH.PK",
@@ -501,8 +501,8 @@
         "fill": "#2F363E",
         "stroke": "#5F82FF",
         "strokewidth": "0.55",
-        "name": "Phuket",
-        "zone": "South"
+        "name": "Prachuap Khiri Khan",
+        "zone": "West"
       },
       {
         "id": "TH.UR",
@@ -510,8 +510,8 @@
         "fill": "#2F363E",
         "stroke": "#FF843F",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Ubon Ratchathani",
+        "zone": "Northeast"
       },
       {
         "id": "TH.SK",
@@ -519,8 +519,8 @@
         "fill": "#2F363E",
         "stroke": "#7BB046",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Sa Kaeo",
+        "zone": "East"
       },
       {
         "id": "TH.RY",
@@ -528,8 +528,8 @@
         "fill": "#2F363E",
         "stroke": "#7BB046",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Rayong",
+        "zone": "East"
       },
       {
         "id": "TH.CY",
@@ -537,8 +537,8 @@
         "fill": "#2F363E",
         "stroke": "#FF843F",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Chaiyaphum",
+        "zone": "Northeast"
       },
       {
         "id": "TH.SU",
@@ -546,8 +546,8 @@
         "fill": "#2F363E",
         "stroke": "#FF843F",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Surin",
+        "zone": "Northeast"
       },
       {
         "id": "TH.NF",
@@ -555,8 +555,8 @@
         "fill": "#2F363E",
         "stroke": "#FF843F",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Nakhon Phanom",
+        "zone": "Northeast"
       },
       {
         "id": "TH.BK",
@@ -564,8 +564,8 @@
         "fill": "#2F363E",
         "stroke": "#FF843F",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Bueng Kan",
+        "zone": "Northeast"
       },
       {
         "id": "TH.MH",
@@ -573,8 +573,8 @@
         "fill": "#2F363E",
         "stroke": "#FF4747",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Mae Hong Son",
+        "zone": "North"
       },
       {
         "id": "TH.PU",
@@ -582,8 +582,8 @@
         "fill": "#2F363E",
         "stroke": "#289F7C",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Phuket",
+        "zone": "South"
       },
       {
         "id": "TH.CP",
@@ -591,8 +591,8 @@
         "fill": "#2F363E",
         "stroke": "#289F7C",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Chumphon",
+        "zone": "South"
       },
       {
         "id": "TH.YL",
@@ -600,8 +600,8 @@
         "fill": "#2F363E",
         "stroke": "#289F7C",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Yala",
+        "zone": "South"
       },
       {
         "id": "TH.CR",
@@ -609,8 +609,8 @@
         "fill": "#2F363E",
         "stroke": "#FF4747",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Chiang Rai",
+        "zone": "North"
       },
       {
         "id": "TH.CM",
@@ -618,8 +618,8 @@
         "fill": "#2F363E",
         "stroke": "#FF4747",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Chiang Mai",
+        "zone": "North"
       },
       {
         "id": "TH.LN",
@@ -627,8 +627,8 @@
         "fill": "#2F363E",
         "stroke": "#FF4747",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Lamphun",
+        "zone": "North"
       },
       {
         "id": "TH.NA",
@@ -636,8 +636,8 @@
         "fill": "#2F363E",
         "stroke": "#FF4747",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Nan",
+        "zone": "North"
       },
       {
         "id": "TH.LG",
@@ -645,8 +645,8 @@
         "fill": "#2F363E",
         "stroke": "#FF4747",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Lampang",
+        "zone": "North"
       },
       {
         "id": "TH.PB",
@@ -654,8 +654,8 @@
         "fill": "#2F363E",
         "stroke": "#7BB046",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Prachin Buri",
+        "zone": "East"
       },
       {
         "id": "TH.RT",
@@ -663,8 +663,8 @@
         "fill": "#2F363E",
         "stroke": "#5F82FF",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Ratchaburi",
+        "zone": "West"
       },
       {
         "id": "TH.YS",
@@ -672,8 +672,8 @@
         "fill": "#2F363E",
         "stroke": "#FF843F",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Yasothon",
+        "zone": "Northeast"
       },
       {
         "id": "TH.MS",
@@ -681,8 +681,8 @@
         "fill": "#2F363E",
         "stroke": "#FF843F",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Maha Sarakham",
+        "zone": "Northeast"
       },
       {
         "id": "TH.UN",
@@ -690,8 +690,8 @@
         "fill": "#2F363E",
         "stroke": "#FF843F",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Udon Thani",
+        "zone": "Northeast"
       },
       {
         "id": "TH.NB",
@@ -699,8 +699,8 @@
         "fill": "#2F363E",
         "stroke": "#FF843F",
         "strokewidth": "0.55",
-        "name": "Unknown",
-        "zone": "Unknown"
+        "name": "Nong Bua Lam Phu",
+        "zone": "Northeast"
       }
     ]
   }

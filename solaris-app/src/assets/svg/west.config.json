@@ -6,7 +6,7 @@
         "fill": "#2F363E",
         "stroke": "#5F82FF",
         "stroke-width": "0.395063",
-        "name": "Unknow",
+        "name": "Phetchaburi",
         "zone": "West"
       },
       {
@@ -15,7 +15,7 @@
         "fill": "#2F363E",
         "stroke": "#5F82FF",
         "stroke-width": "0.395063",
-        "name": "Unknow",
+        "name": "Kanchanaburi",
         "zone": "West"
       },
       {
@@ -24,7 +24,7 @@
         "fill": "#2F363E",
         "stroke": "#5F82FF",
         "stroke-width": "0.395063",
-        "name": "Unknow",
+        "name": "Tak",
         "zone": "West"
       },
       {
@@ -33,7 +33,7 @@
         "fill": "#2F363E",
         "stroke": "#5F82FF",
         "stroke-width": "0.395063",
-        "name": "Unknow",
+        "name": "Prachuap Khiri Khan",
         "zone": "West"
       },
       {
@@ -42,7 +42,7 @@
         "fill": "#2F363E",
         "stroke": "#5F82FF",
         "stroke-width": "0.395063",
-        "name": "Unknow",
+        "name": "Ratchaburi",
         "zone": "West"
       }
     ]

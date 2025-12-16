@@ -13,7 +13,7 @@
 					"id": "J2301-1",
 					"name": "SINGHA KAMEDA",
 					"project": "SPP6",
-					"location": "SAMUTPRAKARN",
+					"location": "SAMUT PRAKAN",
 					"capacity": "1.14",
 					"invtype": "CENTRAL"
 				},
@@ -21,7 +21,7 @@
 					"id": "J2301-2",
 					"name": "VARA FOOD PHASE1",
 					"project": "SPP6",
-					"location": "NAKHONPATHOM",
+					"location": "NAKHON PATHOM",
 					"capacity": "0.993",
 					"invtype": "CENTRAL"
 				},
@@ -45,7 +45,7 @@
 					"id": "J2301-5",
 					"name": "VARA FOOD PHASE2",
 					"project": "SPP6",
-					"location": "NAKHONPATHOM",
+					"location": "NAKHON PATHOM",
 					"capacity": "0.999",
 					"invtype": "CENTRAL"
 				},
@@ -61,7 +61,7 @@
 					"id": "COOP08",
 					"name": "SRB",
 					"project": "AIQ",
-					"location": "AYUTTHAYA",
+					"location": "Phra Nakhon Si Ayutthaya",
 					"capacity": "1.485",
 					"invtype": "CENTRAL"
 				},
@@ -77,7 +77,7 @@
 					"id": "COOP11",
 					"name": "KKB FACTORY",
 					"project": "IQE",
-					"location": "SINGBURI",
+					"location": "SING BURI",
 					"capacity": "1.495",
 					"invtype": "CENTRAL"
 				},
@@ -85,7 +85,7 @@
 					"id": "COOP12",
 					"name": "SBC",
 					"project": "IQE",
-					"location": "NAKHONPATHOM",
+					"location": "NAKHON PATHOM",
 					"capacity": "1.501",
 					"invtype": "CENTRAL"
 				}

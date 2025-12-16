@@ -81,9 +81,13 @@ export class MapConsumption {
   };
 
   getProviceBackground(provinceId: string, color: string){
-    const pvnName = provinceId.replace(/\s+/g, "").toLowerCase();
-    const findProvince = this.sites().findIndex(x => x.location.toLowerCase() == pvnName);
-    return findProvince > -1 ? `${color}` : 'var(--map-bg)'
+    if(provinceId === 'Unknown'){
+      return 'red';
+    }
+    const pvnName = provinceId.replaceAll(" ", "").toLowerCase();
+    const findProvince = this.sites().find(x => x.location.replaceAll(" ", "").toLowerCase() === pvnName);
+    //console.log(pvnName, findProvince?.location);
+    return findProvince ? `${color}` : 'var(--map-bg)'
   }
 
   zoominSelectedZone(zone: string){
@@ -96,7 +100,7 @@ export class MapConsumption {
     }
     const pvnInZone = this.config()?.map.filter(x => x.zone.toLowerCase() == name).map(x => x.name.replaceAll(' ', '').toLowerCase()) || [];
     if(pvnInZone){
-      return this.sites().filter(x => pvnInZone.includes(x.location.toLowerCase())).length
+      return this.sites().filter(x => pvnInZone.includes(x.location.replaceAll(" ", "").toLowerCase())).length
     } else {
       return 0
     }; 
@@ -108,7 +112,7 @@ export class MapConsumption {
     }
     const pvnInZone = this.config()?.map.filter(x => x.zone.toLowerCase() == name).map(x => x.name.replaceAll(' ', '').toLowerCase()) || [];
     if(pvnInZone){
-      return this.sites().filter(x => pvnInZone.includes(x.location.toLowerCase())).reduce((acc, cur) => {
+      return this.sites().filter(x => pvnInZone.includes(x.location.replaceAll(" ", "").toLowerCase())).reduce((acc, cur) => {
         if(cur && cur.capacity){
           acc = acc + parseFloat(cur.capacity);
         }
