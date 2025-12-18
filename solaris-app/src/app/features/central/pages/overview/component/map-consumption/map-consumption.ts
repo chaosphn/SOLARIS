@@ -27,9 +27,9 @@ export class MapConsumption {
     effect(() => {
       if(this.sites() && this.config()?.map){
         //console.log(this.sites(), this.config())
-        const pvnInZone = this.config()?.map.map(x => x.name.replace(/\s+/g, "").toLowerCase()) || [];
+        const pvnInZone = this.config()?.map.map(x => x.name.replaceAll(" ", "").toLowerCase()) || [];
         if(pvnInZone){
-          const siteData = this.sites().filter(x => pvnInZone.includes(x.location.toLowerCase())).map(x => ({
+          const siteData = this.sites().filter(x => pvnInZone.includes(x.location.replaceAll(" ", "").toLowerCase())).map(x => ({
             indicator: this.data()?.[`${x.id}_POWER`]?.TimeStamp || '1M', 
             code: x.id, 
             site: x.name, 

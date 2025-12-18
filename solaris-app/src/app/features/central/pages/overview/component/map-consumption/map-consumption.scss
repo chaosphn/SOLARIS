@@ -147,12 +147,12 @@
     color: var(--map-txt);
     font-size: 11px;
     padding: 8px 12px;
-    background: var(--card-bg);
+    //background: var(--card-bg);
     border-top: 1px solid var(--border-color);
 }
 
 .tr:nth-child(even){
-    background: var(--secondary-bg-50);
+    //background: var(--secondary-bg-50);
 }
 
 .td{ white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
