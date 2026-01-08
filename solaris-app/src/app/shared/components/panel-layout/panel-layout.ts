@@ -156,7 +156,7 @@ export class PanelLayout {
 
 
   getLabel(inv: string, str: string) {
-    return `${inv} : STRING ${str.split('_').find(x => x.includes('STR'))?.replaceAll('STR', '')} : ${this.dataRealtime()[str]?.Value} kW`;
+    return `${inv} : STRING ${str.split('_').find(x => x.includes('STR'))?.replaceAll('STR', '')} : ${this.dataRealtime()[str]?.Value} A`;
   }
 
   isSelectedGreoup(id: string) {

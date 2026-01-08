@@ -7,9 +7,10 @@ import { Datetime } from '../../services/datetime';
   selector: 'app-data-table',
   standalone: false,
   templateUrl: './data-table.html',
-  styleUrl: './data-table.scss'
+  styleUrl: './data-table.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DataTable {
+export class DataTable implements OnChanges {
 
   data = input([], {
     transform: (val:ResponseHistorianModel[]) => val.filter(x => x.records.length > 1).sort((a,b)=> a.Name.localeCompare(b.Name)),
@@ -27,11 +28,51 @@ export class DataTable {
   private excelExportService = inject(ExportXls);
   private dateTimeSrv = inject(Datetime);
   constructor(){
-    effect(() => {
-      console.log(this.data())
-      this.dataTable.set([]);
+    // effect(() => {
+    //   console.log(this.data())
+    //   const data = this.data();
+    //   if(data.length === 0) return; // Don't process if data is empty
+      
+    //   //this.dataTable.set([]);
+    //   this.dataTable.set(
+    //     data.map(function(item){
+    //       return {
+    //         Name: item.Name,
+    //         Min: item.Min,
+    //         Max: item.Max,
+    //         Unit: item.Unit,
+    //         records: item.records.slice(0,20)
+    //       }
+    //     })
+    //   );
+    //   const lenght = data[0].records.length/this.tableRange;
+    //   this.pageList = Array(Math.ceil(lenght)).fill(0).map((_, i) => (i+1).toString());
+    //   this.recordHeader = [];
+    //   this.dataTable().forEach(item => {
+    //     let findName = this.recordHeader.find(x => x.name == item.Name.split(".")[1]);
+    //     if(findName){
+    //       findName.count = findName.count + 1;
+    //     } else {
+    //       this.recordHeader.push({
+    //         name: item.Name.split(".")[1],
+    //         count: 1
+    //       })
+    //     }
+    //   });
+
+    //   this.tableRange = 20;
+    //   this.pageNumber = "1";
+    // })
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.data())
+      const data = this.data();
+      if(data.length === 0) return; // Don't process if data is empty
+      
+      //this.dataTable.set([]);
       this.dataTable.set(
-        this.data().map(function(item){
+        data.map(function(item){
           return {
             Name: item.Name,
             Min: item.Min,
@@ -41,7 +82,7 @@ export class DataTable {
           }
         })
       );
-      const lenght = this.data()[0].records.length/this.tableRange;
+      const lenght = data[0].records.length/this.tableRange;
       this.pageList = Array(Math.ceil(lenght)).fill(0).map((_, i) => (i+1).toString());
       this.recordHeader = [];
       this.dataTable().forEach(item => {
@@ -58,7 +99,6 @@ export class DataTable {
 
       this.tableRange = 20;
       this.pageNumber = "1";
-    })
   }
 
   getNumber(val: any) {
@@ -134,7 +174,7 @@ export class DataTable {
   }
 
   getForwardRange(){
-    if(parseInt(this.pageNumber) <= this.pageList.length - 1){
+    if(parseInt(this.pageNumber) < this.pageList.length){
       const pg = parseInt(this.pageNumber) + 1;
       this.pageNumber = pg.toString();
       const en = pg * this.tableRange;

@@ -13,7 +13,7 @@ import { SeriesAreaOptions, SeriesColumnOptions, SeriesLineOptions, SeriesOption
 import * as DashboardActions from '../../store/actions/dashboard.action';
 import * as DashboardSelectors from '../../store/selectors/dashboard.selector';
 import { getNavState } from '../../../../store/selectors/nav.selectors';
-import { getZoneConfig } from '../../../../store/selectors/site.selectors';
+import { getSiteConfig, getZoneConfig } from '../../../../store/selectors/site.selectors';
 import { MapConfigModel } from '../../../../shared/models/svg.model';
 import { PlantStatusData } from '../../../../shared/components/piechart/piechart';
 import { setDateEnable } from '../../../../store/actions/date.actions';
@@ -48,6 +48,7 @@ export class Dashboard implements OnInit, OnDestroy {
   dataHistorian = signal<DataHistorianModel>({});
 
   siteList = signal<SiteModel[]>([]);
+  siteInfomation = signal<SiteModel>({} as SiteModel);
   siteSelected = signal<string>('');
 
   panelList = signal<PanelConfigModel[]>([]);
@@ -88,10 +89,10 @@ export class Dashboard implements OnInit, OnDestroy {
       console.log(state.location)
       this.siteSelected.set(state.location);
       const res = await firstValueFrom(
-        this.store.select(getZoneConfig(state.location))
+        this.store.select(getSiteConfig(state.location))
       );
-      if(res && res.siteList){
-        this.siteList.set(res.siteList);
+      if(res){
+        this.siteInfomation.set(res);
       };
       this.resetPage();
       await this.initPage();
@@ -138,7 +139,6 @@ export class Dashboard implements OnInit, OnDestroy {
   async initPage(){
     this.timers?.unsubscribe();
 
-    // Check if data exists in store first
     const hasConfig = await this.loadFromStoreIfExists();
     
     if (!hasConfig) {
