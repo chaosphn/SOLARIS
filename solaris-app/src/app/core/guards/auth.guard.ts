@@ -1,34 +1,55 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
+import { Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { PermissionDialog } from '../../shared/components/permission-dialog/permission-dialog';
 
 
-export const authGuard: CanActivateFn = (route, state) => {
-  const authService = inject(AuthService);
-  const router = inject(Router);
-  const sites = authService.getSites();
-  const pages = authService.getPages()??[];
-  const page = route.url[0].path.split('/')[1];
+@Injectable({
+  providedIn: 'root'
+})
+export class PermissionGuard implements CanActivate {
+  constructor(
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
 
-  if (!authService.isLoggedIn()) {
-    router.navigate(['/login']);
-    return false;
+  canActivate(route: ActivatedRouteSnapshot): boolean {
+    const routingUrl = route.url[0].path;
+    const userPermissions = this.getUserPermissions(); // ดึงสิทธิ์ของ user
+    console.log(routingUrl, userPermissions)
+
+    if (!userPermissions || userPermissions.length === 0) {
+      this.router.navigate(['/login']);
+      return false;
+    }
+
+    if(userPermissions.includes(routingUrl)){
+      return true;
+    }
+
+    // this.dialog.open(PermissionDialog, {
+    //   width: '480px',
+    //   disableClose: false,
+    //   panelClass: 'permission-dialog-panel',
+    //   data: {
+    //     routePath: routingUrl || 'ไม่ทราบ',
+    //     requiredPermission: routingUrl,
+    //     message: 'You do not have permission to access this page'
+    //   }
+    // });
+
+    return true;
   }
 
-  //if(pages.includes(page.toLowerCase())){
-  //  return true;
-  //} else {
-  //  router.navigate(['/main/overview']);
-  //  return false;
-  //}
-  
-
-  // ตัวอย่าง role-based
-  //const requiredRole = route.data?.['role'];
-  //if (requiredRole && !authService.hasRole(requiredRole)) {
-  //  router.navigate(['/forbidden']);
-  //  return false;
-  //}
-
-  return true;
-};
+  private getUserPermissions(): string[] {
+    // ตัวอย่าง: ดึงสิทธิ์จาก localStorage, service, หรือ state management
+    const pageStr = localStorage.getItem('pages');
+    if (pageStr) {
+      const pages = JSON.parse(pageStr);
+      return pages || [];
+    }
+    return [];
+  }
+}

@@ -89,7 +89,7 @@
     height: 100vh;
     //background: var(--card-bg) !important;
     display: grid;
-    grid-template-columns: 300px calc(100% - 300px);
+    grid-template-columns: 275px calc(100% - 275px);
     position: relative;
 }
 
@@ -105,7 +105,7 @@
 }
 
 .sidenav{
-    width: 300px;
+    width: 275px;
     height: 100vh;
     box-sizing: border-box;
     display: grid;
@@ -445,11 +445,11 @@
 // Tablet Landscape (768px - 1024px)
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
     .sidenav-container {
-        grid-template-columns: 280px calc(100% - 280px);
+        grid-template-columns: 220px calc(100% - 220px);
     }
     
     .sidenav {
-        width: 280px;
+        width: 220px;
     }
     
     .btn-group {

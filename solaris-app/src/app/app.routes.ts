@@ -3,17 +3,13 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NotFound } from './core/components/not-found/not-found';
 import { Login } from './core/components/login/login';
 import { Navbar } from './core/components/navbar/navbar';
-import { authGuard } from './core/guards/auth.guard';
+import { PermissionGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
     {
         path: '',
         redirectTo: '/main/overview',
         pathMatch: 'full'
-    },
-    {
-        path: 'not-found',
-        component: NotFound
     },
     {
         path: 'login',
@@ -30,83 +26,91 @@ export const routes: Routes = [
             },
             {
                 path: 'performance',
-                canActivate: [authGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/performance/performance-module').then(m => m.PerformanceModule)
             },
             {
                 path: 'trend',
-                canActivate: [authGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/trend/trend-module').then(m => m.TrendModule)
             },
             {
                 path: 'billing',
-                canActivate: [authGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/billing/billing-module').then(m => m.BillingModule)
             },
             {
                 path: 'reports',
-                canActivate: [authGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/reports/reports-module').then(m => m.ReportsModule)
             },
             {
                 path: 'admin',
-                canActivate: [authGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/admin/admin-module').then(m => m.AdminModule)
             },
             {
                 path: 'setting',
-                canActivate: [authGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/setting/setting-module').then(m => m.SettingModule)
             },
 
             // Plant Ifomation Pages
             {
                 path: 'layout',
-                canActivate: [authGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/sites/pages/layout/layout-module').then(m => m.LayoutModule)
             },
             {
                 path: 'dashboard',
-                canActivate: [authGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/sites/pages/dashboard/dashboard-module').then(m => m.DashboardModule)
             },
             {
                 path: 'efficiency',
-                canActivate: [authGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/sites/pages/performance/performance-module').then(m => m.PerformanceModule)
             },
             {
                 path: 'realtime',
-                canActivate: [authGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/sites/pages/realtime/realtime-module').then(m => m.RealtimeModule)
             },
             {
                 path: 'diagram',
-                canActivate: [authGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/sites/pages/diagram/diagram-module').then(m => m.DiagramModule)
             },
             {
                 path: 'charts',
-                canActivate: [authGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/sites/pages/chart/chart-module').then(m => m.ChartModule)
             },
             {
                 path: 'event',
-                canActivate: [authGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/sites/pages/event/event-module').then(m => m.EventModule)
             },
             {
                 path: 'report',
-                canActivate: [authGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/sites/pages/report/report-module').then(m => m.ReportModule)
             },
             {
                 path: 'report-admin',
-                canActivate: [authGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/sites/pages/report-admin/report-admin-module').then(m => m.ReportAdminModule)
             },
         ]
     },
+    {
+        path: 'notfound',
+        component: NotFound
+    },
+    {
+        path: '**',
+        redirectTo: '/notfound'
+    }
 ];
 
 @NgModule({
