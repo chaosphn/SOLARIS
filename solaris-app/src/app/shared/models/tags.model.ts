@@ -19,7 +19,7 @@ export interface ResponseTagsModel{
     Group: string;
     Unit: string; 
     Scan: number;
-    Datatype: string;
+    DataType: string;
     Alarm: number;
     Min: number;
     Max: number;
@@ -87,4 +87,9 @@ export interface ParameterItem{
 export interface TagsStateModel{
     name: string;
     tags: GroupTags[]
+}
+
+export interface TagRequestModel{
+    pointsource: string;
+    cal: number;
 }

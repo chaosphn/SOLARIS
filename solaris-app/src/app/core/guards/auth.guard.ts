@@ -40,7 +40,7 @@ export class PermissionGuard implements CanActivate {
     //   }
     // });
 
-    return true;
+    return true;//false;
   }
 
   private getUserPermissions(): string[] {

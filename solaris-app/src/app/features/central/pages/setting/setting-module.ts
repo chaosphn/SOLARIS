@@ -19,7 +19,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     ShareModule,
-    SettingRoutingModule
+    SettingRoutingModule,
   ]
 })
 export class SettingModule { }

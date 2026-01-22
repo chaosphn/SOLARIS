@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { SiteModel, SiteStateModel } from '../../../../shared/models/config.model';
 import { getSiteConfig, getZoneConfig, selectSiteState } from '../../../../store/selectors/site.selectors';
+import { FloatingDialogService } from '../../../../shared/pipes/floating-dialog.service';
 
 @Component({
   selector: 'app-setting',
@@ -72,6 +73,7 @@ export class Setting implements OnInit {
 
   siteList = signal<SiteModel[]>([]);
   private store = inject(Store);
+  private dialog = inject(FloatingDialogService);
   constructor() {
   }
 
@@ -252,6 +254,10 @@ export class Setting implements OnInit {
   removeEmailAddress(email: string): void {
     this.notificationConfig.email.address = 
       this.notificationConfig.email.address.filter(addr => addr !== email);
+  }
+
+  openDialog() {
+    this.dialog.open('tag-dialog');
   }
 
 }

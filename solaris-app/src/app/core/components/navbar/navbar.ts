@@ -325,7 +325,7 @@ export class Navbar implements OnInit, OnDestroy {
   }
 
   openDialog() {
-    this.dialog.open();
+    this.dialog.open('assistant');
   }
 
 

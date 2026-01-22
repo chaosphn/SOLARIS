@@ -23,12 +23,17 @@ import { TimeSelectComponent } from './components/time-select/time-select.compon
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { NumberFomatPipe } from './pipes/number-fomat.pipe';
+import { FilterTablePipe } from './pipes/filter-table-pipe';
 import { FilterTable } from './components/filter-table/filter-table';
 import { TagContainer } from './components/tag-container/tag-container';
 import { DataTable } from './components/data-table/data-table';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
 import { SkeletonBox } from './components/skeleton-box/skeleton-box';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { PortalModule } from '@angular/cdk/portal';
+import { TagDialog } from './components/tag-dialog/tag-dialog';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -48,6 +53,7 @@ export const MY_DATE_FORMATS = {
   declarations: [
     FiltersitePipe,
     NumberFomatPipe,
+    FilterTablePipe,
 
     DatePickers,
     CardContainer,
@@ -62,18 +68,23 @@ export const MY_DATE_FORMATS = {
     FilterTable,
     TagContainer,
     DataTable,
-    SkeletonBox
+    SkeletonBox,
+    TagDialog
     
   ],
   imports: [
-    CommonModule,
-    MaterialModule,
     FormsModule,
+    CommonModule,
+    DragDropModule,
+    OverlayModule,
+    PortalModule,
+    MaterialModule,
     DatePickerModule,
     ChartModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    Toast, // Add Toast to imports instead
+    Toast,
+
   ],
   exports: [
     MaterialModule,
@@ -81,6 +92,7 @@ export const MY_DATE_FORMATS = {
 
     FiltersitePipe,
     NumberFomatPipe,
+    FilterTablePipe,
 
     DatePickers,
     CardContainer,
@@ -95,7 +107,8 @@ export const MY_DATE_FORMATS = {
     FilterTable,
     TagContainer,
     DataTable,
-    SkeletonBox
+    SkeletonBox,
+    TagDialog
     
   ],
   providers: [

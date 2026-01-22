@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { RequestAtTimeModel, RequestHistorianModel, RequestRealtimeModel } from '../models/request.model';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { AuthRespondModel } from '../models/auth.model';
+import { ResponseTagsModel } from '../models/tags.model';
 
 @Injectable({
     providedIn: 'root'
@@ -85,6 +86,19 @@ export class HttpService {
         ////console.log(body)
         const res = await firstValueFrom(
             this.httpClient.post(this.appLoadService.config.UrlApiAuthen + 'refreshtoken', body)
+        );
+        
+        return res;
+    }
+
+    async getTagConfigByPointSource(pointsource: string) {
+        const body = {
+            pointsource : pointsource,
+            cal : 2
+        };
+        ////console.log(body)
+        const res = await firstValueFrom(
+            this.httpClient.post(this.appLoadService.config.UrlApiAuthen + 'getags', body)
         );
         
         return res;
