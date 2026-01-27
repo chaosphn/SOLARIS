@@ -10,10 +10,10 @@
                     HOLIDAY SETTING
             </div>
         </div>
-        <div class="content w-100 h-100">
+        <div class="content w-100 h-100 bz">
             @switch (tabMode) {
                 @case ('factor') {
-                    <div class="report-box h-100 bz" style="margin-bottom: 16px;" >
+                    <div class="report-box h-100 bz">
                         <div class="head bz">
                             <div class="topic bz">BILLING FACTOR SETTING</div>
                             <div class="btn-group">
@@ -138,6 +138,24 @@
                                     </div>
                                 </div>
                             }
+
+                            <!-- Approver Email Card -->
+                            <div class="email-section">
+                                <div class="card-box w-100">
+                                    <div class="card d-col-st email-card">
+                                        <div class="title">
+                                            <i class="material-icons" style="font-size: 16px;">email</i>
+                                            APPROVER EMAIL
+                                        </div>
+                                        <div class="text-field full-width">
+                                            <textarea [(ngModel)]="approveEmails" 
+                                                    class="email-textarea" 
+                                                    rows="1"
+                                                    placeholder="email1@example.com"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <!-- Global Email List Card -->
                             <div class="email-section">

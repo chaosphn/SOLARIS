@@ -15,6 +15,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 import { Assistant } from './components/assistant/assistant';
+import { BillingUpload } from './components/billing-upload/billing-upload';
 
 
 
@@ -35,7 +36,8 @@ import { Assistant } from './components/assistant/assistant';
         Login,
         Navbar,
         NotFound,
-        Assistant
+        Assistant,
+        BillingUpload
     ],
     providers: [
         DatePipe,

@@ -13,6 +13,7 @@ export class Admin implements OnInit {
   reportMode: 'auto' | 'manual' = 'manual';
   scheduleDayOfMonth: number = 1;
   scheduleTime: string = '10:00';
+  approveEmails: string = '';
   globalEmails: string = '';
   energyCost: number = 2.95;
   onpeakCost: number = 4.1839;

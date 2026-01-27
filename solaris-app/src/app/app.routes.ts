@@ -4,6 +4,7 @@ import { NotFound } from './core/components/not-found/not-found';
 import { Login } from './core/components/login/login';
 import { Navbar } from './core/components/navbar/navbar';
 import { PermissionGuard } from './core/guards/auth.guard';
+import { BillingUpload } from './core/components/billing-upload/billing-upload';
 
 export const routes: Routes = [
     {
@@ -35,7 +36,7 @@ export const routes: Routes = [
                 loadChildren: () => import('./features/central/pages/trend/trend-module').then(m => m.TrendModule)
             },
             {
-                path: 'billing',
+                path: 'billing/:id',
                 canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/billing/billing-module').then(m => m.BillingModule)
             },
@@ -102,6 +103,14 @@ export const routes: Routes = [
                 loadChildren: () => import('./features/sites/pages/report-admin/report-admin-module').then(m => m.ReportAdminModule)
             },
         ]
+    },
+    {
+        path: 'billing/:id',
+        loadChildren: () => import('./features/central/pages/billing/billing-module').then(m => m.BillingModule)
+    },
+    {
+        path: 'billing-upload/:id',
+        component: BillingUpload,
     },
     {
         path: 'notfound',

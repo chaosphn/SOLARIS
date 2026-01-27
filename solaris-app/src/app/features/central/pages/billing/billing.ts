@@ -9,6 +9,7 @@ import { getNavState } from '../../../../store/selectors/nav.selectors';
 import { getAllConfig, getZoneConfig } from '../../../../store/selectors/site.selectors';
 import { ReportConfigModel } from '../../../sites/models/report.model';
 import { sendMessage } from '../../../../store/actions/toaster.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-billing',
@@ -58,9 +59,12 @@ export class Billing implements OnInit, OnDestroy {
     return res;
   });
 
+  sessionId = signal<string>('');
+
   private http = inject(HttpService);
   private store = inject(Store);
   private dateTimeSrv = inject(Datetime);
+  private router = inject(Router);
 
   constructor(){
     this.navState$ = this.store.select(getNavState);
@@ -79,6 +83,10 @@ export class Billing implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getConfig();
+    console.log(this.router.url);
+    const urlParts = this.router.url.split('/');
+    const sessionId = urlParts[urlParts.length - 1];
+    this.sessionId.set(sessionId);
     console.log(this.siteOptions(), this.siteList())
   }
 
@@ -88,7 +96,7 @@ export class Billing implements OnInit, OnDestroy {
 
   async getConfig(){
     try {
-      const config = await this.http.getConfig2(`assets/site/reports/configurations/reports.config.json`);
+      const config = await this.http.getConfig2(`assets/central/reports/configurations/reports.config.json`);
       if(config){
         this.config.set(config);
       } else {
@@ -146,7 +154,7 @@ export class Billing implements OnInit, OnDestroy {
       this.pdfurl.update(prev => '');
       if(this.selectedSite?.value){
         await new Promise(resolve => setTimeout(resolve, 200));
-        const blob: any = await this.http.getBilling(this.selectedSite?.value, this.date.toISOString());
+        const blob: any = await this.http.getBilling(this.selectedSite?.value, this.date.toISOString(), this.selectedReport?.value);
         if (blob) {
           this.pdfurl.set(URL.createObjectURL(blob));
         } else {

@@ -187,11 +187,12 @@ export class HttpService {
 
     }
 
-    async getBilling(id: string, timestamp: string) {
+    async getBilling(id: string, timestamp: string, type?: string) {
         try {
             const body = {
                 ProjectId: id,
-                Timestamp: timestamp
+                Timestamp: timestamp,
+                Type: type
             };
             const res = await this.httpClient.post(
                 'http://localhost:4040/api/genbilling', 
