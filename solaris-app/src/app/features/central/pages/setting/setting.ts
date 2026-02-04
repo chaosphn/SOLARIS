@@ -6,6 +6,11 @@ import { Observable } from 'rxjs';
 import { SiteModel, SiteStateModel } from '../../../../shared/models/config.model';
 import { getSiteConfig, getZoneConfig, selectSiteState } from '../../../../store/selectors/site.selectors';
 import { FloatingDialogService } from '../../../../shared/pipes/floating-dialog.service';
+import { UserDataModel } from '../../../../shared/models/user.model';
+import { HttpService } from '../../../../shared/services/http.service';
+import { PageDataModel } from '../../../../shared/models/page.model';
+import { PagesService } from '../../../../shared/services/pages.service';
+import { sendMessage } from '../../../../store/actions/toaster.actions';
 
 @Component({
   selector: 'app-setting',
@@ -15,32 +20,18 @@ import { FloatingDialogService } from '../../../../shared/pipes/floating-dialog.
 })
 export class Setting implements OnInit {
   // User Management
-  users: User[] = [];
+  users: UserDataModel[] = [];
   showUserModal: boolean = false;
-  editingUser: User | null = null;
-  newUser: User = this.getEmptyUser();
-  availablePages: string[] = [
-    'Central Overview',
-    'Central Performance',
-    'Trends',
-    'Overview',
-    'Dashboard',
-    'Performance',
-    'Realtime',
-    'Diagram',
-    'Charts',
-    'Events',
-    'Reports',
-    'Billings',
-    'Settings',
-    'Billing Admin'
-  ];
+  editingUser: UserDataModel | null = null;
+  newUser: UserDataModel = this.getEmptyUser();
 
   // Alarm Management
   editedTags: AlarmTag[] = [];
   expandedIndex: number = -1;
   showAlarmModal: boolean = false;
   newAlarmTag: AlarmTag = this.getEmptyAlarmTag();
+
+  availablePages: PageDataModel[] = [];
 
   // Notification Configuration
   notificationConfig: NotificationConfig = {
@@ -74,6 +65,8 @@ export class Setting implements OnInit {
   siteList = signal<SiteModel[]>([]);
   private store = inject(Store);
   private dialog = inject(FloatingDialogService);
+  private service = inject(HttpService);
+  private pgService = inject(PagesService);
   constructor() {
   }
 
@@ -83,32 +76,34 @@ export class Setting implements OnInit {
         this.siteList.set(zone.siteList);
       }
     });
-    console.log(this.siteList());
-    this.initializeMockData();
+    this.editedTags = ExampleAlarmTags;
+    this.notificationConfig = ExampleNotification;
+    this.initializeUserData();
   }
 
   changeTabs(name: 'user' | 'alarm'){
     this.tabMode = name;
   }
 
-  initializeMockData(): void {
-    // Mock users
-    this.users = ExampleUsers;
-    // Mock alarm tags
-    this.editedTags = ExampleAlarmTags;
-    // Mock notification config
-    this.notificationConfig = ExampleNotification;
+  async initializeUserData() {
+    const result = await this.service.getUserConfig();
+    if (result) {
+      this.users = result;
+    };
+    this.availablePages = this.pgService.getPageList();
   }
 
   // User Management Methods
-  getEmptyUser(): User {
+  getEmptyUser(): UserDataModel {
     return {
-      id: 0,
+      _id: '',
       username: '',
       password: '',
-      role: 'user',
+      Group: '',
       pageAccess: [],
-      siteAccess: []
+      siteAccess: [],
+      firstName: '',
+      lastName: ''
     };
   }
 
@@ -118,7 +113,7 @@ export class Setting implements OnInit {
     this.showUserModal = true;
   }
 
-  openEditUserModal(user: User): void {
+  openEditUserModal(user: UserDataModel): void {
     this.editingUser = user;
     this.newUser = { ...user, pageAccess: [...user.pageAccess] };
     this.showUserModal = true;
@@ -129,17 +124,23 @@ export class Setting implements OnInit {
     alert('User changes saved successfully!');
   }
 
-  deleteUser(id: number): void {
+  async deleteUser(id: string): Promise<void> {
     if (confirm('Are you sure you want to delete this user?')) {
-      this.users = this.users.filter(u => u.id !== id);
-      alert('User deleted successfully!');
+      const response = await this.service.deleteUserConfig(id);
+      if (response && response.success) {
+        this.store.dispatch(sendMessage({ payload: { text: 'User deleted successfully', type: 'success' } }));
+      } else {
+        this.store.dispatch(sendMessage({ payload: { text: 'Failed to delete user', type: 'error' } }));
+      }
+      await this.initializeUserData();
     }
   }
 
-  closeUserModal(): void {
+  async closeUserModal(): Promise<void> {
     this.showUserModal = false;
     this.editingUser = null;
     this.newUser = this.getEmptyUser();
+    await this.initializeUserData();
   }
 
   setDisplayItem(key: keyof NotificationConfig) {
@@ -167,6 +168,11 @@ export class Setting implements OnInit {
   getSiteNameById(siteId: string): string {
     const site = this.siteList().find(s => s.id === siteId);
     return site ? site.name : siteId;
+  }
+
+  getPageNameById(pageId: string): string {
+    const page = this.availablePages.flatMap(p => p.page).find(p => p.path === pageId);
+    return page ? page.name : pageId;
   }
 
   toggleAccordion(index: number): void {

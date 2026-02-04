@@ -1,5 +1,5 @@
 {
     "UrlApi": "http://61.91.33.94:41253/",
-    "UrlApiAuthen": "http://61.91.33.94:41253/",
+    "UrlApiAuthen": "http://192.168.24.111:4126/",
     "Timer": 5
 }

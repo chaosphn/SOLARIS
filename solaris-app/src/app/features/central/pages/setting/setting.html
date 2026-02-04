@@ -39,15 +39,15 @@
                                             <tr>
                                                 <td>{{ user.username }}</td>
                                                 <td>
-                                                    <span class="role-badge" [class.admin]="user.role === 'administrator'">
-                                                        {{ user.role }}
+                                                    <span class="role-badge" [class.admin]="user.Group === 'administrator'">
+                                                        {{ user.Group }}
                                                     </span>
                                                 </td>
                                                 <td class="page-access-cell">
                                                     <div class="page-badges">
                                                         @for (page of user.pageAccess; track $index) {
                                                             <span class="page-badge">
-                                                                {{ page }}
+                                                                {{ getPageNameById(page) }}
                                                             </span>
                                                         }
                                                     </div>
@@ -65,7 +65,7 @@
                                                     <button class="action-btn edit-btn" (click)="openEditUserModal(user)">
                                                         <i class="material-icons">edit</i>
                                                     </button>
-                                                    <button class="action-btn delete-btn" (click)="deleteUser(user.id)">
+                                                    <button class="action-btn delete-btn" (click)="deleteUser(user._id)">
                                                         <i class="material-icons">delete</i>
                                                     </button>
                                                 </td>
@@ -322,6 +322,7 @@
 
 @if (showUserModal) {
     <app-user-dialog
+        [userList]="users"
         [userData]="newUser"
         [pageList]="availablePages"
         (onClose)="closeUserModal()"

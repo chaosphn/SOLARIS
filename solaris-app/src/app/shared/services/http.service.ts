@@ -6,6 +6,8 @@ import { RequestAtTimeModel, RequestHistorianModel, RequestRealtimeModel } from 
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { AuthRespondModel } from '../models/auth.model';
 import { ResponseTagsModel } from '../models/tags.model';
+import { AddUserRequestModel, ChnagePasswordRequestModel, UpdateUserRequestModel, UserDataModel, UserRespondModel } from '../models/user.model';
+import { BillingSessionModel } from '../models/billing.model';
 
 @Injectable({
     providedIn: 'root'
@@ -247,5 +249,115 @@ export class HttpService {
         }
 
     }
+
+    async approveBilling(id: string, timestamp: string, site: string) {
+        try {
+            const body = {
+                siteId: site,
+                timestamp: timestamp,
+                sesseionId: id    
+            };
+            const res = await this.httpClient.post<any>(
+                'http://localhost:4040/api/approvebilling', 
+                body
+            ).toPromise();
+
+            if (!res) {
+                throw new Error('No billing approved from server');
+            }
+
+            return res;
+        } catch (error) {
+            throw new Error('No billing approved from server');
+        }
+
+    }
+
+    async uploadBilling(file: File, sesseionId: string, sietId: string) {
+        try {
+            if (!file) {
+                throw new Error('No file provided for upload');
+            }
+
+            const formData = new FormData();
+            formData.append('file', file, file.name);
+
+            // server expects session id in query string as `sesseionId`
+            const url = `http://localhost:4040/api/uploadbilling?sesseionId=${encodeURIComponent(sesseionId)}&siteId=${encodeURIComponent(sietId)}`;
+            const res = await this.httpClient.post(url, formData).toPromise();
+
+            if (!res) {
+                throw new Error('Upload failed or no response from server');
+            }
+
+            return res;
+        } catch (error: any) {
+            throw new Error(error?.message || 'Upload failed');
+        }
+
+    }
+
+    async getBillingSessionData(id: string) {
+        try {
+            const body = {
+                sessionId: id    
+            };
+            const res = await this.httpClient.post<BillingSessionModel | any>(
+                'http://localhost:4040/api/getsession', 
+                body
+            ).toPromise();
+
+            if (!res) {
+                throw new Error('No session data returned from server');
+            }
+
+            return res;
+        } catch (error) {
+            throw new Error('No session data returned from server');
+        }
+
+    }
+
+    async getUserConfig() {
+        const res = await firstValueFrom(
+            this.httpClient.post<UserDataModel[]>(this.appLoadService.config.UrlApiAuthen + 'getuser', {})
+        );
+        
+        return res;
+    };
+
+    async addUserConfig(body: AddUserRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<UserRespondModel>(this.appLoadService.config.UrlApiAuthen + 'adduser', body)
+        );
+        
+        return res;
+    };
+
+    async updateUserConfig(body: UpdateUserRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<UserRespondModel>(this.appLoadService.config.UrlApiAuthen + 'edituser', body)
+        );
+        
+        return res;
+    };
+
+    async deleteUserConfig(userId: string) {
+        const body = {
+            _id: userId
+        };
+        const res = await firstValueFrom(
+            this.httpClient.post<UserRespondModel>(this.appLoadService.config.UrlApiAuthen + 'deluser', body)
+        );
+        return res;
+    }
+
+    async updatePassword(body: ChnagePasswordRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<UserRespondModel>(this.appLoadService.config.UrlApiAuthen + 'chgpass', body)
+        );
+        
+        return res;
+    };
     
 }

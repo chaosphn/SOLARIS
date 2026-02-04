@@ -10,6 +10,7 @@ import { getAllConfig, getZoneConfig } from '../../../../store/selectors/site.se
 import { ReportConfigModel } from '../../../sites/models/report.model';
 import { sendMessage } from '../../../../store/actions/toaster.actions';
 import { Router } from '@angular/router';
+import { BillingSessionModel } from '../../../../shared/models/billing.model';
 
 @Component({
   selector: 'app-billing',
@@ -60,6 +61,7 @@ export class Billing implements OnInit, OnDestroy {
   });
 
   sessionId = signal<string>('');
+  sessionData = signal<BillingSessionModel | null>(null);
 
   private http = inject(HttpService);
   private store = inject(Store);
@@ -87,6 +89,9 @@ export class Billing implements OnInit, OnDestroy {
     const urlParts = this.router.url.split('/');
     const sessionId = urlParts[urlParts.length - 1];
     this.sessionId.set(sessionId);
+    if(sessionId !== 'viewer'){
+      this.getSessionData();
+    }
     console.log(this.siteOptions(), this.siteList())
   }
 
@@ -105,6 +110,24 @@ export class Billing implements OnInit, OnDestroy {
     } catch (error) {
     }
   }
+
+  async getSessionData(){
+    try {
+      const data: BillingSessionModel = await this.http.getBillingSessionData(this.sessionId());
+      if(data && data.site){
+        this.sessionData.set(data);
+        this.date = new Date(data.timestamp);
+        const findSite = this.siteOptions().find(x => x.value === data.site);
+        if(findSite){
+          this.selectedSite = findSite;
+        }
+      } else {
+        this.sessionData.set(null);
+      }
+    } catch (error) {
+      this.sessionData.set(null);
+    } 
+  };
 
   toggleDropdown1(event: Event): void {
     event.stopPropagation();
@@ -195,6 +218,39 @@ export class Billing implements OnInit, OnDestroy {
       this.loading2.set(false);
     }
   }
+
+  async approveBillingData() {
+    try {
+      if(!this.siteSelected && !this.selectedSite?.value){
+        this.store.dispatch(sendMessage({ 
+          payload: { type: 'error', text: 'Please select site !' }
+        }));
+      }
+
+      if(!this.sessionData){
+        this.store.dispatch(sendMessage({ 
+          payload: { type: 'error', text: 'No data for this bill !' }
+        }));
+      }
+      const ts = this.date.toISOString();
+      const sietId = this.selectedSite?.value || '';
+      const result = await this.http.approveBilling(this.sessionId(), ts, sietId);
+      if(result && result?.StatusCode === "Approve Billing Success"){
+        this.store.dispatch(sendMessage({ 
+          payload: { type: 'info', text: result?.Message }
+        }));
+      } else {
+        this.store.dispatch(sendMessage({ 
+          payload: { type: 'error', text: result?.Message || 'Billing approval failed !' }
+        }));
+      }
+
+    } catch (error: any) {
+      this.store.dispatch(sendMessage({ 
+        payload: { type: 'error', text: error.message }
+      }));
+    }
+  };
 
 }
 

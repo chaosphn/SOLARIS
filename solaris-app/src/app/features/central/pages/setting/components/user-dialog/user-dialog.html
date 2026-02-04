@@ -1,7 +1,7 @@
 <div class="modal-overlay" (click)="closeUserModal()">
     <div class="modal-content user-modal" (click)="$event.stopPropagation()">
         <div class="modal-header">
-            <h2>{{ userData().id > 0 ? 'Edit User' : 'Add New User' }}</h2>
+            <h2>{{ userData()._id.length > 0 ? 'Edit User' : 'Add New User' }}</h2>
             <button class="close-btn" (click)="closeUserModal()">
                 <i class="material-icons">close</i>
             </button>
@@ -13,20 +13,39 @@
                 <input type="text" [(ngModel)]="userData().username" placeholder="Enter username" class="form-control">
             </div>
 
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" [(ngModel)]="userData().password" placeholder="Enter password" class="form-control">
-            </div>
+            @if (userData()._id.length === 0) {
+                 <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" [(ngModel)]="userData().password" placeholder="Enter password" class="form-control">
+                </div>
+            } @else {
+                <div class="form-row" style="display:flex; gap:8px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>New Password</label>
+                        <input type="password" [(ngModel)]="newPassword" placeholder="Enter new password" class="form-control">
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>Confirm New Password</label>
+                        <input type="password" [(ngModel)]="confirmPassword" placeholder="Confirm new password" class="form-control">
+                    </div>
+                </div>
+                <!-- <div *ngIf="newPassword && confirmPassword && newPassword !== confirmPassword" class="text-danger small">
+                    New password and confirmation do not match.
+                </div> -->
+                <div class="modal-footer">
+                    <button class="btn-primary" (click)="chnagePassword(confirmPassword, newPassword)">Change Password</button>
+                </div>
+            }
 
             <div class="form-group">
                 <label>Role</label>
                 <div class="radio-group">
                     <label class="radio-label">
-                        <input type="radio" name="role" value="user" [(ngModel)]="userData().role">
+                        <input type="radio" name="role" value="user" [(ngModel)]="userData().Group">
                         <span>User</span>
                     </label>
                     <label class="radio-label">
-                        <input type="radio" name="role" value="administrator" [(ngModel)]="userData().role">
+                        <input type="radio" name="role" value="administrator" [(ngModel)]="userData().Group">
                         <span>Administrator</span>
                     </label>
                 </div>
@@ -40,13 +59,29 @@
                         <button class="select-btn" (click)="deselectAllPages()">Deselect All</button>
                     </div>
                 </div>
+                <div class="w-100 pb-2" [style]="{ padding: '8px 0' }">
+                    Central Management Pages
+                </div>
                 <div class="checkbox-grid-user">
-                    @for (page of pageList(); track $index) {
+                    @for (page of pageList()[0].page; track $index) {
                         <label class="checkbox-label" >
                             <input type="checkbox" 
-                                    [checked]="hasPageAccess(page)"
-                                    (change)="togglePageAccess(page)">
-                            <span [ngClass]="{ 'active-page' : hasPageAccess(page) }">{{ page }}</span>
+                                    [checked]="hasPageAccess(page.path)"
+                                    (change)="togglePageAccess(page.path)">
+                            <span [ngClass]="{ 'active-page' : hasPageAccess(page.path) }">{{ page.name }}</span>
+                        </label>
+                    }
+                </div>
+                <div class="w-100 pb-2" [style]="{ padding: '8px 0' }">
+                    Site Management Pages
+                </div>
+                <div class="checkbox-grid-user">
+                    @for (page of pageList()[1].page; track $index) {
+                        <label class="checkbox-label" >
+                            <input type="checkbox" 
+                                    [checked]="hasPageAccess(page.path)"
+                                    (change)="togglePageAccess(page.path)">
+                            <span [ngClass]="{ 'active-page' : hasPageAccess(page.path) }">{{ page.name }}</span>
                         </label>
                     }
                 </div>
@@ -75,7 +110,7 @@
 
         <div class="modal-footer">
             <button class="btn-secondary" (click)="closeUserModal()">CANCEL</button>
-            <button class="btn-primary" (click)="saveUser()">SAVE</button>
+            <button class="btn-primary" (click)="this.userData()._id ? editUserSubmit() : addUserSubmit()">SAVE</button>
         </div>
     </div>
 </div>

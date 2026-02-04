@@ -3,6 +3,10 @@ import { User } from '../../../../models/billing.model';
 import { SiteModel } from '../../../../../../shared/models/config.model';
 import { Store } from '@ngrx/store';
 import { getZoneConfig } from '../../../../../../store/selectors/site.selectors';
+import { ChnagePasswordRequestModel, UserDataModel } from '../../../../../../shared/models/user.model';
+import { PageDataModel } from '../../../../../../shared/models/page.model';
+import { HttpService } from '../../../../../../shared/services/http.service';
+import { sendMessage } from '../../../../../../store/actions/toaster.actions';
 
 @Component({
   selector: 'app-user-dialog',
@@ -12,14 +16,18 @@ import { getZoneConfig } from '../../../../../../store/selectors/site.selectors'
 })
 export class UserDialog implements OnInit {
   
-  userData = input<User>(this.getEmptyUser());
-  pageList = input<string[]>([]);
+  userList = input<UserDataModel[]>([]);
+  userData = input<UserDataModel>(this.getEmptyUser());
+  pageList = input<PageDataModel[]>([]);
+  newPassword: string = '';
+  confirmPassword: string = '';
   onClose = output();
 
   private nextUserId: number = 1;
 
   siteList = signal<SiteModel[]>([]);
   private store = inject(Store);
+  private service = inject(HttpService);
   constructor() {
   }
 
@@ -37,14 +45,16 @@ export class UserDialog implements OnInit {
   }
 
   // User Management Methods
-  getEmptyUser(): User {
+  getEmptyUser(): UserDataModel {
     return {
-      id: 0,
+      _id: '',
       username: '',
       password: '',
-      role: 'user',
+      Group: 'user',
       pageAccess: [],
-      siteAccess: []
+      siteAccess: [],
+      firstName: '',
+      lastName: ''
     };
   }
 
@@ -66,7 +76,7 @@ export class UserDialog implements OnInit {
   }
 
   selectAllPages(): void {
-    this.userData().pageAccess = [...this.pageList()];
+    this.userData().pageAccess = this.pageList().flatMap(page => page.page.map(p => p.path));
   }
 
   deselectAllPages(): void {
@@ -94,7 +104,30 @@ export class UserDialog implements OnInit {
     this.userData().siteAccess = [];
   }
 
-  saveUser(): void {
+  async chnagePassword(oldPassword: string, newPassword: string) {
+    if (!oldPassword.trim()) {
+      this.store.dispatch(sendMessage({ payload: { text: 'Please enter old password', type: 'warn' } }));
+      return;
+    }
+    if (!newPassword.trim()) {
+      this.store.dispatch(sendMessage({ payload: { text: 'Please enter new password', type: 'warn' } }));
+      return;
+    }
+
+    const body: ChnagePasswordRequestModel = {
+      _id: this.userData()._id,
+      oldpassword: oldPassword,
+      newpassword: newPassword
+    };
+    const response = await this.service.updatePassword(body);
+    if (response && response.success) {
+      this.store.dispatch(sendMessage({ payload: { text: 'Password changed successfully', type: 'success' } }));
+    } else {
+      this.store.dispatch(sendMessage({ payload: { text: 'Failed to change password', type: 'error' } }));
+    }
+  };
+
+  async saveUser() {
     if (!this.userData().username.trim()) {
       alert('Please enter username');
       return;
@@ -107,4 +140,80 @@ export class UserDialog implements OnInit {
 
     this.closeUserModal();
   }
+
+  async addUserSubmit() {
+    if(!this.userData()._id) {
+      if (!this.userData().password.trim()) {
+        this.store.dispatch(sendMessage({ payload: { text: 'Please enter password', type: 'warn' } }));
+        return;
+      }
+      if (!this.userData().username.trim()) {
+        this.store.dispatch(sendMessage({ payload: { text: 'Please enter username', type: 'warn' } }));
+        return;
+      }
+      if (!this.userData().Group.trim()) {
+        this.store.dispatch(sendMessage({ payload: { text: 'Please select role', type: 'warn' } }));
+        return;
+      }
+      if (this.userData().pageAccess.length === 0) {
+        this.store.dispatch(sendMessage({ payload: { text: 'Please select page access', type: 'warn' } }));
+        return;
+      }
+      if(this.userList().findIndex(u => u.username === this.userData().username) !== -1) {
+        this.store.dispatch(sendMessage({ payload: { text: 'User already exists', type: 'warn' } }));
+        return;
+      }
+
+      const body = {
+        username: this.userData().username,
+        password: this.userData().password,
+        Group: this.userData().Group,
+        pageAccess: this.userData().pageAccess,
+        siteAccess: this.userData().siteAccess,
+        firstName: this.userData().firstName,
+        lastName: this.userData().lastName
+      };
+      const response = await this.service.addUserConfig(body);
+      if (response && response.success) {
+        this.store.dispatch(sendMessage({ payload: { text: 'User added successfully', type: 'success' } }));
+        this.closeUserModal();
+      } else {
+        this.store.dispatch(sendMessage({ payload: { text: 'Failed to add user', type: 'error' } }));
+      }
+    }
+  }
+
+  async editUserSubmit() {
+    if(this.userData()._id) {
+      if (!this.userData().username.trim()) {
+        this.store.dispatch(sendMessage({ payload: { text: 'Please enter username', type: 'error' } }));
+        return;
+      }
+      if(this.userList().findIndex(u => u.username === this.userData().username) !== -1) {
+        this.store.dispatch(sendMessage({ payload: { text: 'User already exists', type: 'warn' } }));
+        return;
+      }
+      
+      const body = {
+        _id: this.userData()._id,
+        username: this.userData().username,
+        password: this.userData().password,
+        Group: this.userData().Group,
+        pageAccess: this.userData().pageAccess,
+        siteAccess: this.userData().siteAccess,
+        firstName: this.userData().firstName,
+        lastName: this.userData().lastName
+      };
+      const response = await this.service.updateUserConfig(body);
+      if (response && response.success) {
+        this.store.dispatch(sendMessage({ payload: { text: 'User updated successfully', type: 'success' } }));
+        this.closeUserModal();
+      } else {
+        this.store.dispatch(sendMessage({ payload: { text: 'Failed to update user', type: 'error' } }));
+      }
+    }
+  }
+
+
+
 }

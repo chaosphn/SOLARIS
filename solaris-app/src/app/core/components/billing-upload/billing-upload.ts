@@ -1,9 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { HttpService } from '../../../shared/services/http.service';
 import { Store } from '@ngrx/store';
 import { sendMessage } from '../../../store/actions/toaster.actions';
+import { BillingSessionModel } from '../../../shared/models/billing.model';
 
 @Component({
   selector: 'app-billing-upload',
@@ -18,6 +19,7 @@ export class BillingUpload implements OnInit {
   private store = inject(Store);
 
   billingId: string = '';
+  sessionData = signal<BillingSessionModel | null>(null);
   uploadedFile: File | null = null;
   isDragOver: boolean = false;
   isUploading: boolean = false;
@@ -30,8 +32,22 @@ export class BillingUpload implements OnInit {
     const currentUrl = this.router.url;
     const segments = currentUrl.split('/');
     this.billingId = segments[segments.length - 1];
+    this.getSessionData();
     console.log('Billing Upload ID:', this.billingId);
   }
+
+  async getSessionData(){
+    try {
+      const data: BillingSessionModel = await this.http.getBillingSessionData(this.billingId);
+      if(data && data.site){
+        this.sessionData.set(data);
+      } else {
+        this.sessionData.set(null);
+      }
+    } catch (error) {
+      this.sessionData.set(null);
+    } 
+  };
 
   goBack(): void {
     this.router.navigate(['/']);
@@ -122,11 +138,11 @@ export class BillingUpload implements OnInit {
 
     try {
       // Simulate upload - Replace with actual API call
-      await this.uploadFileToServer(this.uploadedFile);
-      
+      const result = await this.http.uploadBilling(this.uploadedFile, this.billingId, this.sessionData()?.site || '');
+      console.log(result);
       alert('File uploaded successfully!');
       this.uploadedFile = null;
-      this.goBack();
+      //this.goBack();
     } catch (error) {
       console.error('Upload error:', error);
       alert('Failed to upload file. Please try again.');

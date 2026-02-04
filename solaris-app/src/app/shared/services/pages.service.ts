@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
+import { PageDataModel } from '../models/page.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PagesService {
-  private defaultPage = 'overview';
-  private pageList = [
+  private defaultPage = 'main';
+  private pageList: PageDataModel[] = [
     {
       level: 'central',
       page: [ 
-        { name: 'Central Overview', path: 'overview' }, { name: 'Central Performance', path: 'performance' }, { name: 'Central Trends', path: 'trend' }, { name: 'Billings', path: 'billing' }
-        ,{ name: 'Central Report', path: 'reports' }, { name: 'Billing Admin', path: 'admin' }, { name: 'Report Admin', path: 'report-admin' }, { name: 'Settings', path: 'setting' }
+        { name: 'Overview', path: 'overview' }, { name: 'Performance', path: 'performance' }, { name: 'Trends', path: 'trend' }, { name: 'Billings', path: 'billing' }
+        ,{ name: 'Report', path: 'reports' }, { name: 'Billing Admin', path: 'admin' }, { name: 'Report Admin', path: 'report-admin' }, { name: 'Settings', path: 'setting' }
       ]
     },
     {
       level: 'site',
       page: [ 
-        { name: 'Site Overview', path: 'layout' }, { name: 'Dashboard', path: 'dashboard' }, { name: 'Performance', path: 'efficiency' }
+        { name: 'Overview', path: 'layout' }, { name: 'Dashboard', path: 'dashboard' }, { name: 'Performance', path: 'efficiency' }
         ,{ name: 'Realtime', path: 'realtime' }, { name: 'Diagram', path: 'diagram' }, { name: 'Charts', path: 'charts' }
         ,{ name: 'Events', path: 'event' }, { name: 'Report', path: 'report' }
       ]
