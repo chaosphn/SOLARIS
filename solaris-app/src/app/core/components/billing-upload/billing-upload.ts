@@ -143,9 +143,11 @@ export class BillingUpload implements OnInit {
       alert('File uploaded successfully!');
       this.uploadedFile = null;
       //this.goBack();
+      this.isUploading = false;
     } catch (error) {
       console.error('Upload error:', error);
       alert('Failed to upload file. Please try again.');
+      this.isUploading = false;
     } finally {
       this.isUploading = false;
     }
