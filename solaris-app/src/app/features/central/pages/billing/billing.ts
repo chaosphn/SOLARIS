@@ -178,8 +178,15 @@ export class Billing implements OnInit, OnDestroy {
       if(this.selectedSite?.value){
         await new Promise(resolve => setTimeout(resolve, 200));
         const blob: any = await this.http.getBilling(this.selectedSite?.value, this.date.toISOString(), this.selectedReport?.value);
-        if (blob) {
-          this.pdfurl.set(URL.createObjectURL(blob));
+        if(blob && blob.session){
+          this.sessionId.set(blob.session);
+        }
+        if (blob && blob.data) {
+          // const bb = new Blob()
+          // this.pdfurl.set(URL.createObjectURL(blob.data));
+          const byteArray = new Uint8Array(blob.data.data);
+          const pdfBlob = new Blob([byteArray], { type: 'application/pdf' });
+          this.pdfurl.set(URL.createObjectURL(pdfBlob));
         } else {
           this.store.dispatch(sendMessage({ 
             payload: { type: 'error', text: 'No billings returned' }
@@ -204,7 +211,7 @@ export class Billing implements OnInit, OnDestroy {
       this.loading2.set(true);
       if(this.selectedSite?.value){
         await new Promise(resolve => setTimeout(resolve, 200));
-        const blob: any = await this.http.downloadBilling(this.selectedSite?.value, this.date.toISOString());
+        const blob: any = await this.http.downloadBilling(this.selectedSite?.value, this.date.toISOString(), this.selectedReport?.value);
       } else {
         this.store.dispatch(sendMessage({ 
           payload: { type: 'error', text: 'Please select site !' }

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AppInitService } from './app-init.service';
 import { Router } from '@angular/router';
@@ -198,37 +198,36 @@ export class HttpService {
             };
             const res = await this.httpClient.post(
                 'http://localhost:4040/api/genbilling', 
-                body,
-                { responseType: 'blob' }
+                body
             ).toPromise();
-
             if (!res) {
                 throw new Error('No file returned from server');
             }
-
+            //console.log(res)
             return res;
         } catch (error) {
             throw new Error('No file returned from server');
         }
     }
 
-    async downloadBilling(id: string, timestamp: string) {
+    async downloadBilling(id: string, timestamp: string, type?: string) {
         try {
             const body = {
                 ProjectId: id,
-                Timestamp: timestamp
+                Timestamp: timestamp,
+                Type: type
             };
-            const res = await this.httpClient.post(
+            const res = await this.httpClient.post<any>(
                 'http://localhost:4040/api/genbilling', 
-                body,
-                { responseType: 'blob' }
+                body
             ).toPromise();
 
             if (!res) {
                 throw new Error('No file returned from server');
             }
 
-            let blob: Blob = new Blob([res], { type: 'application/pdf' });
+            const byteArray = new Uint8Array(res.data.data);
+            let blob: Blob = new Blob([byteArray], { type: 'application/pdf' });
             const url = window.URL.createObjectURL(blob);
             
             // Create a temporary link element
