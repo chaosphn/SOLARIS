@@ -146,8 +146,31 @@ export class TagContainer implements OnDestroy {
   }
 
   selectParameter(item: any, value: any){
-    //console.log(this.tagsGroup())
-    return item.status = value.currentTarget.checked;
+    const checked = value.currentTarget.checked;
+    // update the nested parameters/alias immutably to avoid mutating read-only objects
+    const updated = this.tagsGroup().map(group => {
+      const newParameters = group.parameters.map(param => {
+        // if parameter has aliases, either the param itself or one of its aliases might match
+        if(param.alias && param.alias.length > 0){
+          if(param.name === item.name){
+            return {...param, status: checked};
+          }
+          const aliasIndex = param.alias.findIndex(a => a.name === item.name);
+          if(aliasIndex > -1){
+            const newAlias = param.alias.map(a => a.name === item.name ? {...a, status: checked} : a);
+            return {...param, alias: newAlias};
+          }
+          return param;
+        } else {
+          if(param.name === item.name){
+            return {...param, status: checked};
+          }
+          return param;
+        }
+      });
+      return {...group, parameters: newParameters};
+    });
+    this.tagsGroup.set(updated);
   }
 
   ckeckParamStatus(name: string){

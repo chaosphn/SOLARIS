@@ -69,8 +69,8 @@
             </div>
         </div>
         <div class="btn-group d-flex">
-            @if (sessionId() !== 'viewer' || true) {
-                <button class="submit d-flex-ct brd h-100" (click)="approveBillingData()">{{ loading() ? 'SENDING...' : 'SEND EMAIL' }}</button>
+            @if (sessionId().length > 0 && sessionId() !== 'viewer') {
+                <button class="submit d-flex-ct brd h-100" (click)="approveBillingData()">{{ loading() ? 'SENDING...' : 'APPROVE & SEND' }}</button>
             }
             <button class="submit d-flex-ct brd h-100" (click)="selectReport()">{{ loading() ? 'LOADING...' : 'VIEW' }}</button>
             <button class="submit d-flex-ct brd h-100" (click)="downloadReport()">{{ loading2() ? 'LOADING...' : 'DOWNLOAD' }}</button>
