@@ -33,6 +33,7 @@ export class Billing implements OnInit, OnDestroy {
   date: Date = new Date();
   loading = signal<Boolean>(false);
   loading2 = signal<Boolean>(false);
+  loading3 = signal<Boolean>(false);
   
   isDropdownOpen1 = false;
   isDropdownOpen2 = false;
@@ -228,6 +229,7 @@ export class Billing implements OnInit, OnDestroy {
 
   async approveBillingData() {
     try {
+      this.loading3.set(true);
       if(!this.siteSelected && !this.selectedSite?.value){
         this.store.dispatch(sendMessage({ 
           payload: { type: 'error', text: 'Please select site !' }
@@ -251,11 +253,12 @@ export class Billing implements OnInit, OnDestroy {
           payload: { type: 'error', text: result?.Message || 'Billing approval failed !' }
         }));
       }
-
+      this.loading3.set(false);
     } catch (error: any) {
       this.store.dispatch(sendMessage({ 
         payload: { type: 'error', text: error.message }
       }));
+      this.loading3.set(false);
     }
   };
 
