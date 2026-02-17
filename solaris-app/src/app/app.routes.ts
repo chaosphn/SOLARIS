@@ -36,6 +36,11 @@ export const routes: Routes = [
                 loadChildren: () => import('./features/central/pages/trend/trend-module').then(m => m.TrendModule)
             },
             {
+                path: 'tabular',
+                canActivate: [PermissionGuard],
+                loadChildren: () => import('./features/central/pages/tabular/tabular-module').then(m => m.TabularModule)
+            },
+            {
                 path: 'billing/:id',
                 canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/billing/billing-module').then(m => m.BillingModule)

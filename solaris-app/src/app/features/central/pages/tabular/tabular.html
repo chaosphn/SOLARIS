@@ -1,0 +1,114 @@
+<div class="container w-100 h-100 bz">
+    <div class="table-content h-100 " >
+        <table class="tablebox w-100 ">
+            <tr class="header ">
+                <th class=" title gray">i 
+                    <div class="filter-box brd">
+                        <!-- <app-filter-box></app-filter-box> -->
+                    </div>
+                </th>
+                <th class=" title gray">
+                    <!-- <div class="filter-box bz">
+                        <app-filter-box [Response]="responseRealtime()"
+                        [text]="''"
+                        ></app-filter-box>
+                    </div> -->
+                    <i class="material-icons gray" >
+                        visibility
+                    </i>
+                    <div class="filter-box bz">
+                    </div>
+                </th>
+                <th class=" title gray">CODE
+                    <div class="filter-box bz">
+            
+                    </div>
+                </th>
+                <th class=" title gray">SITE
+                    <div class="filter-box bz">
+                       
+                    </div>
+                </th>
+                <th class=" title gray">PROVINCE
+                    <div class="filter-box bz">
+                        
+                    </div>
+                </th>
+                <th class=" title gray">CAPACITY <br> (MWp)
+                    <div class="filter-box bz">
+                        
+                    </div>
+                </th>
+                <th class=" title gray">POWER <br>(kW)
+                    <div class="filter-box bz">
+                        
+                    </div>
+                </th>
+                <th class=" title gray">TODAY <br>(MWh)
+                    <div class="filter-box bz">
+                        
+                    </div>
+                </th>
+                <th class=" title gray">PR <br>(%)
+                    <div class="filter-box bz">
+                       
+                    </div>
+                </th>
+                <th class=" title gray">OPR <br>(%)
+                    <div class="filter-box bz">
+                        
+                       
+                    </div>
+                </th>
+                <th class=" title gray">YIELD MTD <br>(kWh/kWp)
+                    <div class="filter-box bz">
+                        
+                    </div>
+                </th>
+                <th class=" title gray">YIELD YTD <br>(kWh/kWp)
+                    <div class="filter-box bz">
+                        
+                    </div>
+                </th>
+                <th class=" title gray">IRR <br>(W/m<sup>2</sup>)
+                    <div class="filter-box bz">
+                        
+                    </div>
+                </th>
+                <th class=" title gray">PVTEMP <br>(C&deg;)
+                    <div class="filter-box bz">
+                        
+                    </div>
+                </th>
+                <th class=" title gray">AMBTEMP <br>(C&deg;)
+                    <div class="filter-box bz">
+                       
+                    </div>
+                </th>
+            </tr>
+            @for (item of tableData(); track $index) {
+                <tr class="row " >
+                    <td class=" value d-flex-ct"> 
+                        <div class="icon-box d-flex-ct st-danger">
+                            <i class="material-icons" >close</i>
+                        </div>
+                    </td>
+                    <td class=" value" [ngClass]="getLastSeen(item.SEEN)" >{{item.SEEN | lastseen: date}}</td>
+                    <td class=" value gray">{{item.Id}}</td>
+                    <td class=" value gray">{{item.Name}}</td>
+                    <td class=" value gray">{{item.Province}}</td>
+                    <td class=" value gray">{{item.Capacity}}</td>
+                    <td class=" value gray">{{item.POWER | numberFomat: '1.0-0'}}</td>
+                    <td class=" value gray">{{item.ENERGY | numberFomat: '1.0-0'}}</td>
+                    <td class=" value gray">{{item.PR | numberFomat: '1.0-1'}}</td>
+                    <td class=" value gray">{{item.OPR | numberFomat: '1.0-1'}}</td>
+                    <td class=" value gray">{{item.MTD | numberFomat: '1.0-0'}}</td>
+                    <td class=" value gray">{{item.YTD | numberFomat: '1.0-0'}}</td>
+                    <td class=" value gray">{{item.IRR | numberFomat: '1.0-0'}}</td>
+                    <td class=" value gray">{{item.PV | numberFomat: '1.0-1'}}</td>
+                    <td class=" value gray">{{item.AMB | numberFomat: '1.0-1'}}</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

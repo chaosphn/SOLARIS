@@ -1,0 +1,374 @@
+﻿{
+    "realtimeConfig": [
+      {
+        "Group": "power",
+        "Order": 0,
+        "Tags": [
+          {
+            "Title": "J2301-1_POWER",
+            "Tagname": "J2301-1.INV011.WAC"
+          },
+          {
+            "Title": "J2301-2_POWER",
+            "Tagname": "J2301-1.INV012.WAC"
+          },
+          {
+            "Title": "J2301-3_POWER",
+            "Tagname": "J2301-1.INV021.WAC"
+          },
+          {
+            "Title": "J2301-4_POWER",
+            "Tagname": "J2301-1.INV022.WAC"
+          },
+          {
+            "Title": "J2301-5_POWER",
+            "Tagname": "J2301-1.INV031.WAC"
+          },
+          {
+            "Title": "COOP02_POWER",
+            "Tagname": "J2301-1.INV032.WAC"
+          },
+          {
+            "Title": "COOP08_POWER",
+            "Tagname": "J2301-1.INV041.WAC"
+          },
+          {
+            "Title": "COOP10_POWER",
+            "Tagname": "J2301-1.INV042.WAC"
+          },
+          {
+            "Title": "COOP11_POWER",
+            "Tagname": "J2301-1.INV051.WAC"
+          },
+          {
+            "Title": "COOP12_POWER",
+            "Tagname": "J2301-1.INV052.WAC"
+          }
+        ]
+      },
+      {
+        "Group": "energy",
+        "Order": 0,
+        "Tags": [
+          {
+            "Title": "J2301-1_ENERGY",
+            "Tagname": "J2301-1.INV011.WH_TODAY"
+          },
+          {
+            "Title": "J2301-2_ENERGY",
+            "Tagname": "J2301-1.INV012.WH_TODAY"
+          },
+          {
+            "Title": "J2301-3_ENERGY",
+            "Tagname": "J2301-1.INV021.WH_TODAY"
+          },
+          {
+            "Title": "J2301-4_ENERGY",
+            "Tagname": "J2301-1.INV022.WH_TODAY"
+          },
+          {
+            "Title": "J2301-5_ENERGY",
+            "Tagname": "J2301-1.INV031.WH_TODAY"
+          },
+          {
+            "Title": "COOP02_ENERGY",
+            "Tagname": "J2301-1.INV032.WH_TODAY"
+          },
+          {
+            "Title": "COOP08_ENERGY",
+            "Tagname": "J2301-1.INV041.WH_TODAY"
+          },
+          {
+            "Title": "COOP10_ENERGY",
+            "Tagname": "J2301-1.INV042.WH_TODAY"
+          },
+          {
+            "Title": "COOP11_ENERGY",
+            "Tagname": "J2301-1.INV051.WH_TODAY"
+          },
+          {
+            "Title": "COOP12_ENERGY",
+            "Tagname": "J2301-1.INV052.WH_TODAY"
+          }
+        ]
+      },
+      {
+        "Group": "yield",
+        "Order": 1,
+        "Tags": [
+          {
+            "Title": "J2301-1_YIELD",
+            "Tagname": "J2301-1.INV011.TEMP_REACT2"
+          },
+          {
+            "Title": "J2301-2_YIELD",
+            "Tagname": "J2301-1.INV012.TEMP_REACT2"
+          },
+          {
+            "Title": "J2301-3_YIELD",
+            "Tagname": "J2301-1.INV021.TEMP_REACT2"
+          },
+          {
+            "Title": "J2301-4_YIELD",
+            "Tagname": "J2301-1.INV022.TEMP_REACT2"
+          },
+          {
+            "Title": "J2301-5_YIELD",
+            "Tagname": "J2301-1.INV031.TEMP_REACT2"
+          },
+          {
+            "Title": "COOP02_YIELD",
+            "Tagname": "J2301-1.INV032.TEMP_REACT2"
+          },
+          {
+            "Title": "COOP08_YIELD",
+            "Tagname": "J2301-1.INV041.TEMP_REACT2"
+          },
+          {
+            "Title": "COOP10_YIELD",
+            "Tagname": "J2301-1.INV042.TEMP_REACT2"
+          },
+          {
+            "Title": "COOP11_YIELD",
+            "Tagname": "J2301-1.INV051.TEMP_REACT2"
+          },
+          {
+            "Title": "COOP12_YIELD",
+            "Tagname": "J2301-1.INV052.TEMP_REACT2"
+          }
+        ]
+      },
+      {
+        "Group": "performance",
+        "Order": 3,
+        "Tags": [
+          {
+            "Title": "J2301-1_PR",
+            "Tagname": "J2301-1.SCADA1.PR"
+          },
+          {
+            "Title": "J2301-2_PR",
+            "Tagname": "J2301-2.SCADA2.PR"
+          },
+          {
+            "Title": "J2301-3_PR",
+            "Tagname": "J2301-3.SCADA3.PR"
+          },
+          {
+            "Title": "J2301-4_PR",
+            "Tagname": "J2301-4.SCADA4.PR"
+          },
+          {
+            "Title": "J2301-5_PR",
+            "Tagname": "J2301-5.SCADA5.PR"
+          },
+          {
+            "Title": "COOP02_PR",
+            "Tagname": "J502.SCADA.PR"
+          },
+          {
+            "Title": "COOP08_PR",
+            "Tagname": "J1102.SCADA.PR"
+          },
+          {
+            "Title": "COOP10_PR",
+            "Tagname": "J402.SCADA.PR"
+          },
+          {
+            "Title": "COOP11_PR",
+            "Tagname": "J403.SCADA.PR"
+          },
+          {
+            "Title": "COOP12_PR",
+            "Tagname": "J406.SCADA.PR"
+          }
+        ]
+      },
+      {
+        "Group": "operformance",
+        "Order": 3,
+        "Tags": [
+          {
+            "Title": "J2301-1_OPR",
+            "Tagname": "J2301-1.SCADA1.OPR"
+          },
+          {
+            "Title": "J2301-2_OPR",
+            "Tagname": "J2301-2.SCADA2.OPR"
+          },
+          {
+            "Title": "J2301-3_OPR",
+            "Tagname": "J2301-3.SCADA3.OPR"
+          },
+          {
+            "Title": "J2301-4_OPR",
+            "Tagname": "J2301-4.SCADA4.OPR"
+          },
+          {
+            "Title": "J2301-5_OPR",
+            "Tagname": "J2301-5.SCADA5.OPR"
+          },
+          {
+            "Title": "COOP02_OPR",
+            "Tagname": "J502.SCADA.OPR"
+          },
+          {
+            "Title": "COOP08_OPR",
+            "Tagname": "J1102.SCADA.OPR"
+          },
+          {
+            "Title": "COOP10_OPR",
+            "Tagname": "J402.SCADA.OPR"
+          },
+          {
+            "Title": "COOP11_OPR",
+            "Tagname": "J403.SCADA.OPR"
+          },
+          {
+            "Title": "COOP12_OPR",
+            "Tagname": "J406.SCADA.OPR"
+          }
+        ]
+      },
+      {
+        "Group": "irradiance",
+        "Order": 2,
+        "Tags": [
+          {
+            "Title": "J2301-1_IRR",
+            "Tagname": "J2301-1.SCADA1.PYRANO1"
+          },
+          {
+            "Title": "J2301-2_IRR",
+            "Tagname": "J2301-2.SCADA2.PYRANO1"
+          },
+          {
+            "Title": "J2301-3_IRR",
+            "Tagname": "J2301-3.SCADA3.PYRANO1"
+          },
+          {
+            "Title": "J2301-4_IRR",
+            "Tagname": "J2301-4.SCADA4.PYRANO1"
+          },
+          {
+            "Title": "J2301-5_IRR",
+            "Tagname": "J2301-5.SCADA5.PYRANO1"
+          },
+          {
+            "Title": "COOP02_IRR",
+            "Tagname": "J502.SCADA.PYRANO1"
+          },
+          {
+            "Title": "COOP08_IRR",
+            "Tagname": "J1102.SCADA.PYRANO1"
+          },
+          {
+            "Title": "COOP10_IRR",
+            "Tagname": "J402.SCADA.PYRANO1"
+          },
+          {
+            "Title": "COOP11_IRR",
+            "Tagname": "J403.SCADA.PYRANO1"
+          },
+          {
+            "Title": "COOP12_IRR",
+            "Tagname": "J406.SCADA.PYRANO1"
+          }
+        ]
+      },
+      {
+        "Group": "pvtemp",
+        "Order": 2,
+        "Tags": [
+          {
+            "Title": "J2301-1_PV",
+            "Tagname": "J2301-1.SCADA1.PVTEMP1"
+          },
+          {
+            "Title": "J2301-2_PV",
+            "Tagname": "J2301-2.SCADA2.PVTEMP1"
+          },
+          {
+            "Title": "J2301-3_PV",
+            "Tagname": "J2301-3.SCADA3.PVTEMP1"
+          },
+          {
+            "Title": "J2301-4_PV",
+            "Tagname": "J2301-4.SCADA4.PVTEMP1"
+          },
+          {
+            "Title": "J2301-5_PV",
+            "Tagname": "J2301-5.SCADA5.PVTEMP1"
+          },
+          {
+            "Title": "COOP02_PV",
+            "Tagname": "J502.SCADA.PVTEMP1"
+          },
+          {
+            "Title": "COOP08_PV",
+            "Tagname": "J1102.SCADA.PVTEMP1"
+          },
+          {
+            "Title": "COOP10_PV",
+            "Tagname": "J402.SCADA.PVTEMP1"
+          },
+          {
+            "Title": "COOP11_PV",
+            "Tagname": "J403.SCADA.PVTEMP1"
+          },
+          {
+            "Title": "COOP12_PV",
+            "Tagname": "J406.SCADA.PVTEMP1"
+          }
+        ]
+      },
+      {
+        "Group": "amnient",
+        "Order": 2,
+        "Tags": [
+          {
+            "Title": "J2301-1_AMB",
+            "Tagname": "J2301-1.SCADA1.AMBTEMP1"
+          },
+          {
+            "Title": "J2301-2_AMB",
+            "Tagname": "J2301-2.SCADA2.AMBTEMP1"
+          },
+          {
+            "Title": "J2301-3_AMB",
+            "Tagname": "J2301-3.SCADA3.AMBTEMP1"
+          },
+          {
+            "Title": "J2301-4_AMB",
+            "Tagname": "J2301-4.SCADA4.AMBTEMP1"
+          },
+          {
+            "Title": "J2301-5_AMB",
+            "Tagname": "J2301-5.SCADA5.AMBTEMP1"
+          },
+          {
+            "Title": "COOP02_AMB",
+            "Tagname": "J502.SCADA.AMBTEMP1"
+          },
+          {
+            "Title": "COOP08_AMB",
+            "Tagname": "J1102.SCADA.AMBTEMP1"
+          },
+          {
+            "Title": "COOP10_AMB",
+            "Tagname": "J402.SCADA.AMBTEMP1"
+          },
+          {
+            "Title": "COOP11_AMB",
+            "Tagname": "J403.SCADA.AMBTEMP1"
+          },
+          {
+            "Title": "COOP12_AMB",
+            "Tagname": "J406.SCADA.AMBTEMP1"
+          }
+        ]
+      }
+    ],
+    "historianConfig":[],
+    "chartConfig": []
+  }
