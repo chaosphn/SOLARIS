@@ -1,63 +1,143 @@
 ﻿{
     "realtimeConfig": [
       {
-        "Group": "power",
+        "Group": "PQMMERTER",
         "Order": 0,
         "Tags": [
           {
-            "Title": "POWER",
-            "Tagname": "J2301-1.SCADA1.POWER"
+            "Title": "PQM_W",
+            "Tagname": "J2301-1.PQM1.W"
           },
           {
-            "Title": "PEAK",
-            "Tagname": "J2301-1.CALC.POWER_PEAK"
-          },
-          {
-            "Title": "CAPACITY",
-            "Tagname": "J2301-1.SCADA1.CAPACITY"
-          },
-          {
-            "Title": "YIELD",
-            "Tagname": "J2301-1.CALC.YIELD"
-          },
-          {
-            "Title": "PR",
+            "Title": "PQM_EFF",
             "Tagname": "J2301-1.SCADA1.PR"
           },
           {
-            "Title": "OPR",
-            "Tagname": "J2301-1.CALC.OPR"
+            "Title": "PQM_WH",
+            "Tagname": "J2301-1.PQM1.WH_TODAY"
+          },
+          {
+            "Title": "PQM_COM",
+            "Tagname": "J2301-1.PQM1.MBFAIL"
           }
         ]
       },
       {
-        "Group": "energy",
-        "Order": 1,
+        "Group": "emi01",
+        "Order": 0,
         "Tags": [
           {
-            "Title": "TODAY",
-            "Tagname": "J2301-1.SCADA1.TODAY_ENERGY"
+            "Title": "M01_W",
+            "Tagname": "J2301-1.PQM1.W"
           },
           {
-            "Title": "MONTHLY",
-            "Tagname": "J2301-1.SCADA1.MONTHLY_ENERGY"
+            "Title": "M01_I",
+            "Tagname": "J2301-1.PQM1.I"
           },
           {
-            "Title": "YEARLY",
-            "Tagname": "J2301-1.SCADA1.YEARLY_ENERGY"
+            "Title": "M01_WH",
+            "Tagname": "J2301-1.PQM1.WH_TODAY"
           },
           {
-            "Title": "TOTAL",
-            "Tagname": "J2301-1.PQM1.WH"
+            "Title": "M01_COM",
+            "Tagname": "J2301-1.PQM1.MBFAIL"
           }
         ]
       },
       {
-        "Group": "enviroment",
+        "Group": "emi02",
+        "Order": 0,
+        "Tags": [
+          {
+            "Title": "M02_W",
+            "Tagname": "J2301-2.PQM2.W"
+          },
+          {
+            "Title": "M02_I",
+            "Tagname": "J2301-2.PQM2.I"
+          },
+          {
+            "Title": "M02_WH",
+            "Tagname": "J2301-2.PQM2.WH_TODAY"
+          },
+          {
+            "Title": "M02_COM",
+            "Tagname": "J2301-2.PQM2.MBFAIL"
+          }
+        ]
+      },
+      {
+        "Group": "emi03",
+        "Order": 0,
+        "Tags": [
+          {
+            "Title": "M03_W",
+            "Tagname": "J2301-3.PQM3.W"
+          },
+          {
+            "Title": "M03_I",
+            "Tagname": "J2301-3.PQM3.I"
+          },
+          {
+            "Title": "M03_WH",
+            "Tagname": "J2301-3.PQM3.WH_TODAY"
+          },
+          {
+            "Title": "M03_COM",
+            "Tagname": "J2301-3.PQM3.MBFAIL"
+          }
+        ]
+      },
+      {
+        "Group": "emi04",
+        "Order": 0,
+        "Tags": [
+          {
+            "Title": "M04_W",
+            "Tagname": "J2301-4.PQM4.W"
+          },
+          {
+            "Title": "M04_I",
+            "Tagname": "J2301-4.PQM4.I"
+          },
+          {
+            "Title": "M04_WH",
+            "Tagname": "J2301-4.PQM4.WH_TODAY"
+          },
+          {
+            "Title": "M04_COM",
+            "Tagname": "J2301-4.PQM4.MBFAIL"
+          }
+        ]
+      },
+      {
+        "Group": "emi05",
+        "Order": 0,
+        "Tags": [
+          {
+            "Title": "M05_W",
+            "Tagname": "J2301-5.PQM5.W"
+          },
+          {
+            "Title": "M05_I",
+            "Tagname": "J2301-5.PQM5.I"
+          },
+          {
+            "Title": "M05_WH",
+            "Tagname": "J2301-5.PQM5.WH_TODAY"
+          },
+          {
+            "Title": "M05_COM",
+            "Tagname": "J2301-5.PQM5.MBFAIL"
+          }
+        ]
+      },
+      {
+        "Group": "WEATHER",
         "Order": 2,
         "Tags": [
           {
-            "Title": "PYRANO",
+            "Title": "WX01_IRR",
             "Tagname": "J2301-1.SCADA1.PYRANO1"
           },
           {
@@ -65,194 +145,16 @@
             "Tagname": "J2301-1.SCADA1.PYRANO2"
           },
           {
-            "Title": "AMBTEMP",
+            "Title": "WX01_AMB",
             "Tagname": "J2301-1.SCADA1.AMBTEMP"
           },
           {
-            "Title": "PVTEMP",
+            "Title": "WX01_PV",
             "Tagname": "J2301-1.SCADA1.PVTEMP"
           },
           {
-            "Title": "WIND",
+            "Title": "WX01_WSPD",
             "Tagname": "J2301-1.SCADA1.WINDSPD"
-          },
-          {
-            "Title": "REDUCTION",
-            "Tagname": "J2301-1.SCADA1.THB_TODAY_ENERGY"
-          }
-        ]
-      },
-      {
-        "Group": "inverter",
-        "Order": 3,
-        "Tags": [
-          {
-            "Title":  "INV011_TODAY",
-            "Tagname":  "J2301-1.INV011.WH_TODAY"
-          },
-          {
-              "Title":  "INV012_TODAY",
-              "Tagname":  "J2301-1.INV012.WH_TODAY"
-          },
-          {
-              "Title":  "INV021_TODAY",
-              "Tagname":  "J2301-1.INV021.WH_TODAY"
-          },
-          {
-              "Title":  "INV022_TODAY",
-              "Tagname":  "J2301-1.INV022.WH_TODAY"
-          },
-          {
-              "Title":  "INV031_TODAY",
-              "Tagname":  "J2301-1.INV031.WH_TODAY"
-          },
-          {
-              "Title":  "INV032_TODAY",
-              "Tagname":  "J2301-1.INV032.WH_TODAY"
-          },
-          {
-              "Title":  "INV041_TODAY",
-              "Tagname":  "J2301-1.INV041.WH_TODAY"
-          },
-          {
-              "Title":  "INV042_TODAY",
-              "Tagname":  "J2301-1.INV042.WH_TODAY"
-          },
-          {
-              "Title":  "INV051_TODAY",
-              "Tagname":  "J2301-1.INV051.WH_TODAY"
-          },
-          {
-              "Title":  "INV052_TODAY",
-              "Tagname":  "J2301-1.INV052.WH_TODAY"
-          },
-          {
-              "Title":  "INV061_TODAY",
-              "Tagname":  "J2301-1.INV061.WH_TODAY"
-          },
-          {
-              "Title":  "INV062_TODAY",
-              "Tagname":  "J2301-1.INV062.WH_TODAY"
-          },
-          {
-            "Title": "INV111_TODAY",
-            "Tagname": "J2301-2.INV111.WH_TODAY"
-          },
-          {
-            "Title": "INV112_TODAY",
-            "Tagname": "J2301-2.INV112.WH_TODAY"
-          },
-          {
-            "Title": "INV121_TODAY",
-            "Tagname": "J2301-2.INV121.WH_TODAY"
-          },
-          {
-            "Title": "INV122_TODAY",
-            "Tagname": "J2301-2.INV122.WH_TODAY"
-          },
-          {
-            "Title": "INV131_TODAY",
-            "Tagname": "J2301-2.INV131.WH_TODAY"
-          },
-          {
-            "Title": "INV132_TODAY",
-            "Tagname": "J2301-2.INV132.WH_TODAY"
-          },
-          {
-            "Title": "INV141_TODAY",
-            "Tagname": "J2301-2.INV141.WH_TODAY"
-          },
-          {
-            "Title": "INV142_TODAY",
-            "Tagname": "J2301-2.INV142.WH_TODAY"
-          },
-          {
-            "Title": "INV151_TODAY",
-            "Tagname": "J2301-2.INV151.WH_TODAY"
-          },
-          {
-            "Title": "INV152_TODAY",
-            "Tagname": "J2301-2.INV152.WH_TODAY"
-          },
-          {
-            "Title": "INV161_TODAY",
-            "Tagname": "J2301-2.INV161.WH_TODAY"
-          },
-          {
-            "Title": "INV162_TODAY",
-            "Tagname": "J2301-2.INV162.WH_TODAY"
-          },
-          {
-            "Title": "INV171_TODAY",
-            "Tagname": "J2301-2.INV171.WH_TODAY"
-          },
-          {
-            "Title": "INV172_TODAY",
-            "Tagname": "J2301-2.INV172.WH_TODAY"
-          },
-          {
-            "Title": "INV181_TODAY",
-            "Tagname": "J2301-2.INV181.WH_TODAY"
-          },
-          {
-            "Title": "INV182_TODAY",
-            "Tagname": "J2301-2.INV182.WH_TODAY"
-          },
-          {
-            "Title": "INV071_TODAY",
-            "Tagname": "J2301-3.INV071.WH_TODAY"
-          },
-          {
-              "Title": "INV072_TODAY",
-              "Tagname": "J2301-3.INV072.WH_TODAY"
-          },
-          {
-              "Title": "INV081_TODAY",
-              "Tagname": "J2301-3.INV081.WH_TODAY"
-          },
-          {
-              "Title": "INV082_TODAY",
-              "Tagname": "J2301-3.INV082.WH_TODAY"
-          },
-          {
-              "Title": "INV091_TODAY",
-              "Tagname": "J2301-3.INV091.WH_TODAY"
-          },
-          {
-              "Title": "INV092_TODAY",
-              "Tagname": "J2301-3.INV092.WH_TODAY"
-          },
-          {
-              "Title": "INV101_TODAY",
-              "Tagname": "J2301-3.INV101.WH_TODAY"
-          },
-          {
-              "Title": "INV102_TODAY",
-              "Tagname": "J2301-3.INV102.WH_TODAY"
-          },
-          {
-              "Title": "INV191_TODAY",
-              "Tagname": "J2301-3.INV191.WH_TODAY"
-          },
-          {
-              "Title": "INV192_TODAY",
-              "Tagname": "J2301-3.INV192.WH_TODAY"
-          },
-          {
-              "Title": "INV201_TODAY",
-              "Tagname": "J2301-3.INV201.WH_TODAY"
-          },
-          {
-              "Title": "INV202_TODAY",
-              "Tagname": "J2301-3.INV202.WH_TODAY"
-          },
-          {
-              "Title": "INV211_TODAY",
-              "Tagname": "J2301-3.INV211.WH_TODAY"
-          },
-          {
-              "Title": "INV212_TODAY",
-              "Tagname": "J2301-3.INV212.WH_TODAY"
           }
         ]
       },
@@ -261,520 +163,458 @@
         "Order": 4,
         "Tags": [
           {
-            "Title":  "INV011_POWER",
+            "Title":  "INV01_PW",
             "Tagname":  "J2301-1.INV011.WAC"
           },
           {
-              "Title":  "INV012_POWER",
+              "Title":  "INV02_PW",
               "Tagname":  "J2301-1.INV012.WAC"
           },
           {
-              "Title":  "INV021_POWER",
+              "Title":  "INV03_PW",
               "Tagname":  "J2301-1.INV021.WAC"
           },
           {
-              "Title":  "INV022_POWER",
+              "Title":  "INV04_PW",
               "Tagname":  "J2301-1.INV022.WAC"
           },
           {
-              "Title":  "INV031_POWER",
+              "Title":  "INV05_PW",
               "Tagname":  "J2301-1.INV031.WAC"
           },
           {
-              "Title":  "INV032_POWER",
+              "Title":  "INV06_PW",
               "Tagname":  "J2301-1.INV032.WAC"
           },
           {
-              "Title":  "INV041_POWER",
+              "Title":  "INV07_PW",
               "Tagname":  "J2301-1.INV041.WAC"
           },
           {
-              "Title":  "INV042_POWER",
+              "Title":  "INV08_PW",
               "Tagname":  "J2301-1.INV042.WAC"
           },
           {
-              "Title":  "INV051_POWER",
+              "Title":  "INV09_PW",
               "Tagname":  "J2301-1.INV051.WAC"
           },
           {
-              "Title":  "INV052_POWER",
+              "Title":  "INV10_PW",
               "Tagname":  "J2301-1.INV052.WAC"
           },
           {
-              "Title":  "INV061_POWER",
+              "Title":  "INV11_PW",
               "Tagname":  "J2301-1.INV061.WAC"
           },
           {
-              "Title":  "INV062_POWER",
+              "Title":  "INV12_PW",
               "Tagname":  "J2301-1.INV062.WAC"
           },
           {
-            "Title": "INV111_POWER",
+            "Title": "INV13_PW",
             "Tagname": "J2301-2.INV111.WAC"
           },
           {
-            "Title": "INV112_POWER",
+            "Title": "INV14_PW",
             "Tagname": "J2301-2.INV112.WAC"
           },
           {
-            "Title": "INV121_POWER",
+            "Title": "INV15_PW",
             "Tagname": "J2301-2.INV121.WAC"
           },
           {
-            "Title": "INV122_POWER",
+            "Title": "INV16_PW",
             "Tagname": "J2301-2.INV122.WAC"
           },
           {
-            "Title": "INV131_POWER",
+            "Title": "INV17_PW",
             "Tagname": "J2301-2.INV131.WAC"
           },
           {
-            "Title": "INV132_POWER",
+            "Title": "INV18_PW",
             "Tagname": "J2301-2.INV132.WAC"
           },
           {
-            "Title": "INV141_POWER",
+            "Title": "INV18_PW",
             "Tagname": "J2301-2.INV141.WAC"
           },
           {
-            "Title": "INV142_POWER",
+            "Title": "INV19_PW",
             "Tagname": "J2301-2.INV142.WAC"
           },
           {
-            "Title": "INV151_POWER",
+            "Title": "INV20_PW",
             "Tagname": "J2301-2.INV151.WAC"
           },
           {
-            "Title": "INV152_POWER",
+            "Title": "INV21_PW",
             "Tagname": "J2301-2.INV152.WAC"
           },
           {
-            "Title": "INV161_POWER",
+            "Title": "INV22_PW",
             "Tagname": "J2301-2.INV161.WAC"
           },
           {
-            "Title": "INV162_POWER",
+            "Title": "INV23_PW",
             "Tagname": "J2301-2.INV162.WAC"
           },
           {
-            "Title": "INV171_POWER",
+            "Title": "INV24_PW",
             "Tagname": "J2301-2.INV171.WAC"
           },
           {
-            "Title": "INV172_POWER",
+            "Title": "INV25_PW",
             "Tagname": "J2301-2.INV172.WAC"
           },
           {
-            "Title": "INV181_POWER",
+            "Title": "INV26_PW",
             "Tagname": "J2301-2.INV181.WAC"
           },
           {
-            "Title": "INV182_POWER",
+            "Title": "INV27_PW",
             "Tagname": "J2301-2.INV182.WAC"
-          },
-          {
-            "Title": "INV071_POWER",
-            "Tagname": "J2301-3.INV071.WAC"
-          },
-          {
-              "Title": "INV072_POWER",
-              "Tagname": "J2301-3.INV072.WAC"
-          },
-          {
-              "Title": "INV081_POWER",
-              "Tagname": "J2301-3.INV081.WAC"
-          },
-          {
-              "Title": "INV082_POWER",
-              "Tagname": "J2301-3.INV082.WAC"
-          },
-          {
-              "Title": "INV091_POWER",
-              "Tagname": "J2301-3.INV091.WAC"
-          },
-          {
-              "Title": "INV092_POWER",
-              "Tagname": "J2301-3.INV092.WAC"
-          },
-          {
-              "Title": "INV101_POWER",
-              "Tagname": "J2301-3.INV101.WAC"
-          },
-          {
-              "Title": "INV102_POWER",
-              "Tagname": "J2301-3.INV102.WAC"
-          },
-          {
-              "Title": "INV191_POWER",
-              "Tagname": "J2301-3.INV191.WAC"
-          },
-          {
-              "Title": "INV192_POWER",
-              "Tagname": "J2301-3.INV192.WAC"
-          },
-          {
-              "Title": "INV201_POWER",
-              "Tagname": "J2301-3.INV201.WAC"
-          },
-          {
-              "Title": "INV202_POWER",
-              "Tagname": "J2301-3.INV202.WAC"
-          },
-          {
-              "Title": "INV211_POWER",
-              "Tagname": "J2301-3.INV211.WAC"
-          },
-          {
-              "Title": "INV212_POWER",
-              "Tagname": "J2301-3.INV212.WAC"
           }
         ]
       },
       {
-        "Group": "inverter_pr",
-        "Order": 5,
+        "Group": "inverter_eff",
+        "Order": 4,
         "Tags": [
           {
-            "Title":  "INV011_PR",
+            "Title":  "INV01_EFF",
             "Tagname":  "J2301-1.INV011.EFF"
           },
           {
-              "Title":  "INV012_PR",
+              "Title":  "INV02_EFF",
               "Tagname":  "J2301-1.INV012.EFF"
           },
           {
-              "Title":  "INV021_PR",
+              "Title":  "INV03_EFF",
               "Tagname":  "J2301-1.INV021.EFF"
           },
           {
-              "Title":  "INV022_PR",
+              "Title":  "INV04_EFF",
               "Tagname":  "J2301-1.INV022.EFF"
           },
           {
-              "Title":  "INV031_PR",
+              "Title":  "INV05_EFF",
               "Tagname":  "J2301-1.INV031.EFF"
           },
           {
-              "Title":  "INV032_PR",
+              "Title":  "INV06_EFF",
               "Tagname":  "J2301-1.INV032.EFF"
           },
           {
-              "Title":  "INV041_PR",
+              "Title":  "INV07_EFF",
               "Tagname":  "J2301-1.INV041.EFF"
           },
           {
-              "Title":  "INV042_PR",
+              "Title":  "INV08_EFF",
               "Tagname":  "J2301-1.INV042.EFF"
           },
           {
-              "Title":  "INV051_PR",
+              "Title":  "INV09_EFF",
               "Tagname":  "J2301-1.INV051.EFF"
           },
           {
-              "Title":  "INV052_PR",
+              "Title":  "INV10_EFF",
               "Tagname":  "J2301-1.INV052.EFF"
           },
           {
-              "Title":  "INV061_PR",
+              "Title":  "INV11_EFF",
               "Tagname":  "J2301-1.INV061.EFF"
           },
           {
-              "Title":  "INV062_PR",
+              "Title":  "INV12_EFF",
               "Tagname":  "J2301-1.INV062.EFF"
           },
           {
-            "Title": "INV111_PR",
+            "Title": "INV13_EFF",
             "Tagname": "J2301-2.INV111.EFF"
           },
           {
-            "Title": "INV112_PR",
+            "Title": "INV14_EFF",
             "Tagname": "J2301-2.INV112.EFF"
           },
           {
-            "Title": "INV121_PR",
+            "Title": "INV15_EFF",
             "Tagname": "J2301-2.INV121.EFF"
           },
           {
-            "Title": "INV122_PR",
+            "Title": "INV16_EFF",
             "Tagname": "J2301-2.INV122.EFF"
           },
           {
-            "Title": "INV131_PR",
+            "Title": "INV17_EFF",
             "Tagname": "J2301-2.INV131.EFF"
           },
           {
-            "Title": "INV132_PR",
+            "Title": "INV18_EFF",
             "Tagname": "J2301-2.INV132.EFF"
           },
           {
-            "Title": "INV141_PR",
-            "Tagname": "J2301-2.INV141.EFF"
-          },
-          {
-            "Title": "INV142_PR",
+            "Title": "INV19_EFF",
             "Tagname": "J2301-2.INV142.EFF"
           },
           {
-            "Title": "INV151_PR",
+            "Title": "INV20_EFF",
             "Tagname": "J2301-2.INV151.EFF"
           },
           {
-            "Title": "INV152_PR",
+            "Title": "INV21_EFF",
             "Tagname": "J2301-2.INV152.EFF"
           },
           {
-            "Title": "INV161_PR",
+            "Title": "INV22_EFF",
             "Tagname": "J2301-2.INV161.EFF"
           },
           {
-            "Title": "INV162_PR",
+            "Title": "INV23_EFF",
             "Tagname": "J2301-2.INV162.EFF"
           },
           {
-            "Title": "INV171_PR",
+            "Title": "INV24_EFF",
             "Tagname": "J2301-2.INV171.EFF"
           },
           {
-            "Title": "INV172_PR",
+            "Title": "INV25_EFF",
             "Tagname": "J2301-2.INV172.EFF"
           },
           {
-            "Title": "INV181_PR",
+            "Title": "INV26_EFF",
             "Tagname": "J2301-2.INV181.EFF"
           },
           {
-            "Title": "INV182_PR",
+            "Title": "INV27_EFF",
             "Tagname": "J2301-2.INV182.EFF"
-          },
-          {
-            "Title": "INV071_PR",
-            "Tagname": "J2301-3.INV071.EFF"
-          },
-          {
-              "Title": "INV072_PR",
-              "Tagname": "J2301-3.INV072.EFF"
-          },
-          {
-              "Title": "INV081_PR",
-              "Tagname": "J2301-3.INV081.EFF"
-          },
-          {
-              "Title": "INV082_PR",
-              "Tagname": "J2301-3.INV082.EFF"
-          },
-          {
-              "Title": "INV091_PR",
-              "Tagname": "J2301-3.INV091.EFF"
-          },
-          {
-              "Title": "INV092_PR",
-              "Tagname": "J2301-3.INV092.EFF"
-          },
-          {
-              "Title": "INV101_PR",
-              "Tagname": "J2301-3.INV101.EFF"
-          },
-          {
-              "Title": "INV102_PR",
-              "Tagname": "J2301-3.INV102.EFF"
-          },
-          {
-              "Title": "INV191_PR",
-              "Tagname": "J2301-3.INV191.EFF"
-          },
-          {
-              "Title": "INV192_PR",
-              "Tagname": "J2301-3.INV192.EFF"
-          },
-          {
-              "Title": "INV201_PR",
-              "Tagname": "J2301-3.INV201.EFF"
-          },
-          {
-              "Title": "INV202_PR",
-              "Tagname": "J2301-3.INV202.EFF"
-          },
-          {
-              "Title": "INV211_PR",
-              "Tagname": "J2301-3.INV211.EFF"
-          },
-          {
-              "Title": "INV212_PR",
-              "Tagname": "J2301-3.INV212.EFF"
           }
         ]
       },
       {
-        "Group": "inverter_fcom",
-        "Order": 6,
+        "Group": "inverter_temp",
+        "Order": 4,
         "Tags": [
           {
-            "Title":  "INV011_COM",
+            "Title":  "INV01_TMP",
+            "Tagname":  "J2301-1.INV011.TEMP_IGBT1"
+          },
+          {
+              "Title":  "INV02_TMP",
+              "Tagname":  "J2301-1.INV012.TEMP_IGBT1"
+          },
+          {
+              "Title":  "INV03_TMP",
+              "Tagname":  "J2301-1.INV021.TEMP_IGBT1"
+          },
+          {
+              "Title":  "INV04_TMP",
+              "Tagname":  "J2301-1.INV022.TEMP_IGBT1"
+          },
+          {
+              "Title":  "INV05_TMP",
+              "Tagname":  "J2301-1.INV031.TEMP_IGBT1"
+          },
+          {
+              "Title":  "INV06_TMP",
+              "Tagname":  "J2301-1.INV032.TEMP_IGBT1"
+          },
+          {
+              "Title":  "INV07_TMP",
+              "Tagname":  "J2301-1.INV041.TEMP_IGBT1"
+          },
+          {
+              "Title":  "INV08_TMP",
+              "Tagname":  "J2301-1.INV042.TEMP_IGBT1"
+          },
+          {
+              "Title":  "INV09_TMP",
+              "Tagname":  "J2301-1.INV051.TEMP_IGBT1"
+          },
+          {
+              "Title":  "INV10_TMP",
+              "Tagname":  "J2301-1.INV052.TEMP_IGBT1"
+          },
+          {
+              "Title":  "INV11_TMP",
+              "Tagname":  "J2301-1.INV061.TEMP_IGBT1"
+          },
+          {
+              "Title":  "INV12_TMP",
+              "Tagname":  "J2301-1.INV062.TEMP_IGBT1"
+          },
+          {
+            "Title": "INV13_TMP",
+            "Tagname": "J2301-2.INV111.TEMP_IGBT1"
+          },
+          {
+            "Title": "INV14_TMP",
+            "Tagname": "J2301-2.INV112.TEMP_IGBT1"
+          },
+          {
+            "Title": "INV15_TMP",
+            "Tagname": "J2301-2.INV121.TEMP_IGBT1"
+          },
+          {
+            "Title": "INV16_TMP",
+            "Tagname": "J2301-2.INV122.TEMP_IGBT1"
+          },
+          {
+            "Title": "INV17_TMP",
+            "Tagname": "J2301-2.INV131.TEMP_IGBT1"
+          },
+          {
+            "Title": "INV18_TMP",
+            "Tagname": "J2301-2.INV141.TEMP_IGBT1"
+          },
+          {
+            "Title": "INV19_TMP",
+            "Tagname": "J2301-2.INV142.TEMP_IGBT1"
+          },
+          {
+            "Title": "INV20_TMP",
+            "Tagname": "J2301-2.INV151.TEMP_IGBT1"
+          },
+          {
+            "Title": "INV21_TMP",
+            "Tagname": "J2301-2.INV152.TEMP_IGBT1"
+          },
+          {
+            "Title": "INV22_TMP",
+            "Tagname": "J2301-2.INV161.TEMP_IGBT1"
+          },
+          {
+            "Title": "INV23_TMP",
+            "Tagname": "J2301-2.INV162.TEMP_IGBT1"
+          },
+          {
+            "Title": "INV24_TMP",
+            "Tagname": "J2301-2.INV171.TEMP_IGBT1"
+          },
+          {
+            "Title": "INV25_TMP",
+            "Tagname": "J2301-2.INV172.TEMP_IGBT1"
+          },
+          {
+            "Title": "INV26_TMP",
+            "Tagname": "J2301-2.INV181.TEMP_IGBT1"
+          },
+          {
+            "Title": "INV27_TMP",
+            "Tagname": "J2301-2.INV182.TEMP_IGBT1"
+          }
+        ]
+      },
+      {
+        "Group": "inverter_comm",
+        "Order": 4,
+        "Tags": [
+          {
+            "Title":  "INV01_COM",
             "Tagname":  "J2301-1.INV011.F_COMM"
           },
           {
-              "Title":  "INV012_COM",
+              "Title":  "INV02_COM",
               "Tagname":  "J2301-1.INV012.F_COMM"
           },
           {
-              "Title":  "INV021_COM",
+              "Title":  "INV03_COM",
               "Tagname":  "J2301-1.INV021.F_COMM"
           },
           {
-              "Title":  "INV022_COM",
+              "Title":  "INV04_COM",
               "Tagname":  "J2301-1.INV022.F_COMM"
           },
           {
-              "Title":  "INV031_COM",
+              "Title":  "INV05_COM",
               "Tagname":  "J2301-1.INV031.F_COMM"
           },
           {
-              "Title":  "INV032_COM",
+              "Title":  "INV06_COM",
               "Tagname":  "J2301-1.INV032.F_COMM"
           },
           {
-              "Title":  "INV041_COM",
+              "Title":  "INV07_COM",
               "Tagname":  "J2301-1.INV041.F_COMM"
           },
           {
-              "Title":  "INV042_COM",
+              "Title":  "INV08_COM",
               "Tagname":  "J2301-1.INV042.F_COMM"
           },
           {
-              "Title":  "INV051_COM",
+              "Title":  "INV09_COM",
               "Tagname":  "J2301-1.INV051.F_COMM"
           },
           {
-              "Title":  "INV052_COM",
+              "Title":  "INV10_COM",
               "Tagname":  "J2301-1.INV052.F_COMM"
           },
           {
-              "Title":  "INV061_COM",
+              "Title":  "INV11_COM",
               "Tagname":  "J2301-1.INV061.F_COMM"
           },
           {
-              "Title":  "INV062_COM",
+              "Title":  "INV12_COM",
               "Tagname":  "J2301-1.INV062.F_COMM"
           },
           {
-            "Title": "INV111_COM",
+            "Title": "INV13_COM",
             "Tagname": "J2301-2.INV111.F_COMM"
           },
           {
-            "Title": "INV112_COM",
+            "Title": "INV14_COM",
             "Tagname": "J2301-2.INV112.F_COMM"
           },
           {
-            "Title": "INV121_COM",
+            "Title": "INV15_COM",
             "Tagname": "J2301-2.INV121.F_COMM"
           },
           {
-            "Title": "INV122_COM",
+            "Title": "INV16_COM",
             "Tagname": "J2301-2.INV122.F_COMM"
           },
           {
-            "Title": "INV131_COM",
+            "Title": "INV17_COM",
             "Tagname": "J2301-2.INV131.F_COMM"
           },
           {
-            "Title": "INV132_COM",
-            "Tagname": "J2301-2.INV132.F_COMM"
-          },
-          {
-            "Title": "INV141_COM",
+            "Title": "INV18_COM",
             "Tagname": "J2301-2.INV141.F_COMM"
           },
           {
-            "Title": "INV142_COM",
+            "Title": "INV19_COM",
             "Tagname": "J2301-2.INV142.F_COMM"
           },
           {
-            "Title": "INV151_COM",
+            "Title": "INV20_COM",
             "Tagname": "J2301-2.INV151.F_COMM"
           },
           {
-            "Title": "INV152_COM",
+            "Title": "INV21_COM",
             "Tagname": "J2301-2.INV152.F_COMM"
           },
           {
-            "Title": "INV161_COM",
+            "Title": "INV22_COM",
             "Tagname": "J2301-2.INV161.F_COMM"
           },
           {
-            "Title": "INV162_COM",
+            "Title": "INV23_COM",
             "Tagname": "J2301-2.INV162.F_COMM"
           },
           {
-            "Title": "INV171_COM",
+            "Title": "INV24_COM",
             "Tagname": "J2301-2.INV171.F_COMM"
           },
           {
-            "Title": "INV172_COM",
+            "Title": "INV25_COM",
             "Tagname": "J2301-2.INV172.F_COMM"
           },
           {
-            "Title": "INV181_COM",
+            "Title": "INV26_COM",
             "Tagname": "J2301-2.INV181.F_COMM"
           },
           {
-            "Title": "INV182_COM",
+            "Title": "INV27_COM",
             "Tagname": "J2301-2.INV182.F_COMM"
-          },
-          {
-            "Title": "INV071_COM",
-            "Tagname": "J2301-3.INV071.F_COMM"
-          },
-          {
-              "Title": "INV072_COM",
-              "Tagname": "J2301-3.INV072.F_COMM"
-          },
-          {
-              "Title": "INV081_COM",
-              "Tagname": "J2301-3.INV081.F_COMM"
-          },
-          {
-              "Title": "INV082_COM",
-              "Tagname": "J2301-3.INV082.F_COMM"
-          },
-          {
-              "Title": "INV091_COM",
-              "Tagname": "J2301-3.INV091.F_COMM"
-          },
-          {
-              "Title": "INV092_COM",
-              "Tagname": "J2301-3.INV092.F_COMM"
-          },
-          {
-              "Title": "INV101_COM",
-              "Tagname": "J2301-3.INV101.F_COMM"
-          },
-          {
-              "Title": "INV102_COM",
-              "Tagname": "J2301-3.INV102.F_COMM"
-          },
-          {
-              "Title": "INV191_COM",
-              "Tagname": "J2301-3.INV191.F_COMM"
-          },
-          {
-              "Title": "INV192_COM",
-              "Tagname": "J2301-3.INV192.F_COMM"
-          },
-          {
-              "Title": "INV201_COM",
-              "Tagname": "J2301-3.INV201.F_COMM"
-          },
-          {
-              "Title": "INV202_COM",
-              "Tagname": "J2301-3.INV202.F_COMM"
-          },
-          {
-              "Title": "INV211_COM",
-              "Tagname": "J2301-3.INV211.F_COMM"
-          },
-          {
-              "Title": "INV212_COM",
-              "Tagname": "J2301-3.INV212.F_COMM"
           }
         ]
       }

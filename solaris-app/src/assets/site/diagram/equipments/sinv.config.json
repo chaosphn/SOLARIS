@@ -1,0 +1,136 @@
+
+{
+    "Name": "String Inverter",
+    "Type": "inverter",
+    "Parameter": [
+        { "Title": "ALARM", "Name": "ALARM", "Description": "Active alarm code", "Unit": "-", "Group": "Status" },
+        { "Title": "DSTATUS", "Name": "DSTATUS", "Description": "Inverter operating status", "Unit": "-", "Group": "Status" },
+        { "Title": "ISTATUS", "Name": "ISTATUS", "Description": "Inverter internal status flag", "Unit": "-", "Group": "Status" },
+        { "Title": "RUN", "Name": "RUN", "Description": "Inverter run state (Start/Stop)", "Unit": "-", "Group": "Status" },
+
+        { "Title": "WAC", "Name": "WAC", "Description": "Active power output", "Unit": "kW", "Group": "Major" },
+        { "Title": "WH_TODAY", "Name": "WH_TODAY", "Description": "Daily energy production", "Unit": "kWh", "Group": "Major" },
+        { "Title": "EFF", "Name": "EFF", "Description": "Inverter conversion efficiency", "Unit": "%", "Group": "Major" },
+        { "Title": "TEMP_INT", "Name": "TEMP_IGBT1", "Description": "Internal inverter temperature", "Unit": "°C", "Group": "Major" },
+
+        { "Title": "I01", "Name": "I01", "Description": "PV string 1 input current", "Unit": "A", "Group": "PV Input" },
+        { "Title": "I02", "Name": "I02", "Description": "PV string 2 input current", "Unit": "A", "Group": "PV Input" },
+        { "Title": "I03", "Name": "I03", "Description": "PV string 3 input current", "Unit": "A", "Group": "PV Input" },
+        { "Title": "I04", "Name": "I04", "Description": "PV string 4 input current", "Unit": "A", "Group": "PV Input" },
+        { "Title": "I05", "Name": "I05", "Description": "PV string 5 input current", "Unit": "A", "Group": "PV Input" },
+        { "Title": "I06", "Name": "I06", "Description": "PV string 6 input current", "Unit": "A", "Group": "PV Input" },
+        { "Title": "I07", "Name": "I07", "Description": "PV string 7 input current", "Unit": "A", "Group": "PV Input" },
+        { "Title": "I08", "Name": "I08", "Description": "PV string 8 input current", "Unit": "A", "Group": "PV Input" },
+
+        { "Title": "V01", "Name": "V01", "Description": "PV string 1 input voltage", "Unit": "V", "Group": "PV Input" },
+        { "Title": "V02", "Name": "V02", "Description": "PV string 2 input voltage", "Unit": "V", "Group": "PV Input" },
+        { "Title": "V03", "Name": "V03", "Description": "PV string 3 input voltage", "Unit": "V", "Group": "PV Input" },
+        { "Title": "V04", "Name": "V04", "Description": "PV string 4 input voltage", "Unit": "V", "Group": "PV Input" },
+        { "Title": "V05", "Name": "V05", "Description": "PV string 5 input voltage", "Unit": "V", "Group": "PV Input" },
+        { "Title": "V06", "Name": "V06", "Description": "PV string 6 input voltage", "Unit": "V", "Group": "PV Input" },
+        { "Title": "V07", "Name": "V07", "Description": "PV string 7 input voltage", "Unit": "V", "Group": "PV Input" },
+        { "Title": "V08", "Name": "V08", "Description": "PV string 8 input voltage", "Unit": "V", "Group": "PV Input" },
+
+        { "Title": "IDC", "Name": "IDC", "Description": "Total DC input current", "Unit": "A", "Group": "DC Side" },
+        { "Title": "VDC", "Name": "VDC", "Description": "DC bus voltage", "Unit": "V", "Group": "DC Side" },
+        { "Title": "WDC", "Name": "WDC", "Description": "DC input power", "Unit": "kW", "Group": "DC Side" },
+
+        { "Title": "IAC", "Name": "IAC", "Description": "Total grid output current", "Unit": "A", "Group": "Grid Output" },
+        { "Title": "IACA", "Name": "IACA", "Description": "Grid phase A current", "Unit": "A", "Group": "Grid Output" },
+        { "Title": "IACB", "Name": "IACB", "Description": "Grid phase B current", "Unit": "A", "Group": "Grid Output" },
+        { "Title": "IACC", "Name": "IACC","Description": "Grid phase C current", "Unit": "A", "Group": "Grid Output" },
+
+        { "Title": "VAC", "Name": "VAC", "Description": "Average grid voltage", "Unit": "V", "Group": "Grid Output" },
+        { "Title": "VACA", "Name": "VACAB", "Description": "Grid phase A voltage", "Unit": "V", "Group": "Grid Output" },
+        { "Title": "VACB", "Name": "VACBC", "Description": "Grid phase B voltage", "Unit": "V", "Group": "Grid Output" },
+        { "Title": "VACC", "Name": "VACCA", "Description": "Grid phase C voltage", "Unit": "V", "Group": "Grid Output" },
+
+        { "Title": "WAC", "Name": "WAC", "Description": "Active power output", "Unit": "kW", "Group": "Grid Output" },
+        { "Title": "VAR", "Name": "VAR", "Description": "Reactive power output", "Unit": "kvar", "Group": "Grid Output" },
+        { "Title": "PF", "Name": "PF", "Description": "Power factor", "Unit": "-", "Group": "Grid Output" },
+        { "Title": "HZ", "Name": "HZ", "Description": "Grid frequency", "Unit": "Hz", "Group": "Grid Output" }
+    ],
+    "Historical": [
+        {
+            "Title": "Production",
+            "Name": "x1",
+            "Tags": [
+                {
+                    "Name": "WAC",
+                    "Axis": 0,
+                    "Type": "line",
+                    "Color": "#FF9B33",
+                    "Opacity": 0.125
+                },
+                {
+                    "Name": "WH_TODAY",
+                    "Axis": 1,
+                    "Type": "area",
+                    "Color": "#278EFF",
+                    "Opacity": 0.125
+                }
+            ]
+        },
+        {
+            "Title": "Grid Electrical",
+            "Name": "x2",
+            "Tags": [
+                {
+                    "Name": "VACA",
+                    "Axis": 0,
+                    "Type": "line",
+                    "Color": "#F143AA",
+                    "Opacity": 0.125
+                },
+                {
+                    "Name": "VACB",
+                    "Axis": 0,
+                    "Type": "line",
+                    "Color": "#6766FF",
+                    "Opacity": 0.125
+                },
+                {
+                    "Name": "VACC",
+                    "Axis": 0,
+                    "Type": "line",
+                    "Color": "#9945F5",
+                    "Opacity": 0.125
+                },
+                {
+                    "Name": "HZ",
+                    "Axis": 1,
+                    "Type": "line",
+                    "Color": "#3DB1FC",
+                    "Opacity": 0.125
+                }
+            ]
+        },
+        {
+            "Title": "Performance",
+            "Name": "x3",
+            "Tags": [
+                {
+                    "Name": "WDC",
+                    "Axis": 0,
+                    "Type": "line",
+                    "Color": "#F7F156",
+                    "Opacity": 0.125
+                },
+                {
+                    "Name": "WAC",
+                    "Axis": 0,
+                    "Type": "line",
+                    "Color": "#B2F76D",
+                    "Opacity": 0.125
+                },
+                {
+                    "Name": "EFF",
+                    "Axis": 1,
+                    "Type": "line",
+                    "Color": "#F143AA",
+                    "Opacity": 0.125
+                }
+            ]
+        }
+    ]
+}

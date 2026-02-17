@@ -100,7 +100,7 @@ export class HttpService {
         };
         ////console.log(body)
         const res = await firstValueFrom(
-            this.httpClient.post(this.appLoadService.config.UrlApiAuthen + 'getags', body)
+            this.httpClient.post(this.appLoadService.config.UrlApi + 'getags', body)
         );
         
         return res;

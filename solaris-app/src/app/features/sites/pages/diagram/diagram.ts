@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, OnChanges, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, ElementRef, inject, OnChanges, OnDestroy, OnInit, signal, ViewChild, viewChild } from '@angular/core';
 import { GroupHistorianConfigModel, GroupReatimeConfigModel, HistorianConfig, PageConfigModel, RealtimeConfig, SiteModel } from '../../../../shared/models/config.model';
 import { HttpService } from '../../../../shared/services/http.service';
 import { Store } from '@ngrx/store';
@@ -9,7 +9,7 @@ import { NavbarStateModel } from '../../../../shared/models/navigate.model';
 import { GroupRequestAtTimeModel, GroupRequestHistorianModel, GroupRequestRealtimeModel, RequestAtTimeModel, RequestHistorianModel } from '../../../../shared/models/request.model';
 import { DataHistorianModel, DataRealtimeModel, ResponseHistorianModel, ResponseRealtimeModel } from '../../../../shared/models/response.model';
 import { ChartService } from '../../../../shared/services/chart.service';
-import { SeriesAreaOptions, SeriesColumnOptions, SeriesLineOptions, SeriesOptionsType } from 'highcharts';
+import { isString, SeriesAreaOptions, SeriesColumnOptions, SeriesLineOptions, SeriesOptionsType } from 'highcharts';
 import * as DiagramActions from '../../store/actions/diagram.action';
 import * as DiagramSelectors from '../../store/selectors/diagram.selector';
 import { getNavState } from '../../../../store/selectors/nav.selectors';
@@ -21,6 +21,11 @@ import { ColorRangeModel, PanelConfigModel } from '../../../../shared/models/pan
 import { ChartPickerModel } from '../../../../shared/components/chart-card/chart-card';
 import { DiagramConfigModel } from '../../models/diagram.model';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { MatDialog } from '@angular/material/dialog';
+import { sendMessage } from '../../../../store/actions/toaster.actions';
+import { DeviceConfigModel } from '../../../../shared/models/device.model';
+import { InverterDialog } from '../../../../shared/components/inverter-dialog/inverter-dialog';
+import { MeterDialog } from '../../../../shared/components/meter-dialog/meter-dialog';
 
 
 @Component({
@@ -57,6 +62,8 @@ export class Diagram implements OnInit, OnDestroy {
   selectedDiagram = signal<DiagramConfigModel>({} as DiagramConfigModel);
   svgSafe = signal<SafeHtml>('');
   private svgTemplate = signal<string>('');
+  @ViewChild('svgContainer', { static: false }) 
+  svgContainer!: ElementRef;
 
   zoneSelected = signal<string>('overall');
 
@@ -71,6 +78,7 @@ export class Diagram implements OnInit, OnDestroy {
   private appInit = inject(AppInitService);
   private dateTimeSrv = inject(Datetime);
   private sanitizer = inject(DomSanitizer);
+  private dialog = inject(MatDialog);
 
   constructor(){
     this.navState$ = this.store.select(getNavState);
@@ -278,7 +286,74 @@ export class Diagram implements OnInit, OnDestroy {
     
     // Sanitize and update
     this.svgSafe.set(this.sanitizer.bypassSecurityTrustHtml(processedSvg));
+
+    requestAnimationFrame(() => {
+      this.centerAllMsgText();
+      this.bindSvgClickEvents();  
+    });
   }
+
+ private centerAllMsgText() {
+    if (!this.svgContainer) return;
+
+    const root: HTMLElement = this.svgContainer.nativeElement;
+
+    // หาเฉพาะ group ที่มี rectangle message box
+    const groups = root.querySelectorAll('g');
+
+    groups.forEach((group: any) => {
+
+      const rect = group.querySelector('rect');
+      const tspan = group.querySelector('tspan');
+
+      if (!rect || !tspan) return;
+
+      // filter เฉพาะกล่อง message (สูง 16.25)
+      const h = rect.getAttribute('height');
+      if (h !== '16.25') return;
+
+      const x = parseFloat(rect.getAttribute('x'));
+      const y = parseFloat(rect.getAttribute('y'));
+      const w = parseFloat(rect.getAttribute('width'));
+      const height = parseFloat(rect.getAttribute('height'));
+
+      const cx = x + w / 2;
+      const cy = y + height / 2;
+
+      // 🔥 สำคัญ — ต้อง set ที่ tspan
+      tspan.setAttribute('x', cx.toString());
+      tspan.setAttribute('y', cy.toString());
+
+      const text = tspan.parentElement;
+
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('dominant-baseline', 'middle');
+    });
+  }
+
+  private bindSvgClickEvents() {
+    if (!this.svgContainer) return;
+
+    const root: HTMLElement = this.svgContainer.nativeElement;
+
+    const nodes = root.querySelectorAll('[data-click]');
+
+    nodes.forEach((el: any) => {
+
+      el.style.cursor = 'pointer';
+
+      el.onclick = () => {
+        const val = el.getAttribute('data-click');
+        if (!val) return;
+
+        const [deviceId, deviceType] = val.split(',');
+
+        this.handleOpenDialog(deviceId, deviceType);
+      };
+    });
+  }
+
+
   
   private getReplacementValue(expression: string): string {
     //console.log('Processing expression:', expression);
@@ -304,14 +379,27 @@ export class Diagram implements OnInit, OnDestroy {
       
       switch (property) {
         case 'Value':
-          let value = tagData.Value;
-          if (typeof value === 'string' && !isNaN(parseFloat(value))) {
-            return parseFloat(value).toFixed(1);
-          }
-          if (typeof value === 'string' || typeof value === 'boolean') {
+          const value = tagData.Value;
+
+          if (typeof value === 'string') {
+            const num = Number(value.replace(/,/g, ''));
+
+            if (Number.isFinite(num)) {
+              return num.toFixed(1);
+            }
+
             return value;
           }
-          return value.toFixed(1) || 'unknow';
+
+          if (typeof value === 'number') {
+            return value.toFixed(1);
+          }
+
+          if (typeof value === 'boolean') {
+            return value.toString();
+          }
+
+          return 'unknow';
         case 'Msg':
           let val = tagData.Value;
           const mapVal = this.selectedDiagram().textBinding.find(x => x.value == val)?.message??undefined;
@@ -340,6 +428,16 @@ export class Diagram implements OnInit, OnDestroy {
     } else {
       return "---";
     }
+  }
+
+  tranfromMessage(msg: string){
+    const lng = msg.length;
+    let result = msg;
+    for (let index = 0; result.length <= 20; index++) {
+      result = '-' + result + '-';
+    }
+    console.log(result, lng)
+    return result;
   }
 
   getRequest(){
@@ -505,5 +603,56 @@ export class Diagram implements OnInit, OnDestroy {
     this.selectedDiagram.set(item);
     this.loadSvgFile();
   }
+
+  async handleOpenDialog(deviceId: string, deviceType: string){
+    if(!deviceId){
+      this.store.dispatch(sendMessage({ 
+        payload: { type: 'error', text: 'No Device ID' }
+      }));
+    }
+
+    if(!deviceType){
+      this.store.dispatch(sendMessage({ 
+        payload: { type: 'error', text: 'No Device Type' }
+      }));
+    }
+
+    const config: DeviceConfigModel = await this.http.getConfig2(`assets/site/diagram/equipments/${deviceType}.config.json`);
+    if (config) {
+      switch (config.Type) {
+        case 'inverter':
+          this.dialog.open(InverterDialog, {
+            width: '1000px',
+            maxWidth: '100vw',  
+            disableClose: false,
+            data: {
+              siteId: this.siteSelected(),
+              deviceId: deviceId,
+              deviceConfig: config
+            }
+          });
+          break;
+        case 'meter':
+          this.dialog.open(MeterDialog, {
+            width: '1000px',
+            maxWidth: '100vw',   
+            disableClose: false,
+            data: {
+              siteId: this.siteSelected(),
+              deviceId: deviceId,
+              deviceConfig: config
+            }
+          });
+          break;
+        default:
+          break;
+      }
+    }
+
+  }
   
+}
+
+interface TagData {
+  Value: string | number | boolean | null | undefined;
 }

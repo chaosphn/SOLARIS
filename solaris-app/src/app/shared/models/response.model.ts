@@ -1,7 +1,7 @@
 export interface ResponseRealtimeModel{
    Name: string;
    Unit: string;
-   Value: number;
+   Value: any;
    TimeStamp: string;
    Min: number;
    Max: number;

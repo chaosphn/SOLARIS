@@ -12,6 +12,7 @@ import { efficiencyReducer } from '../features/sites/store/reducers/performance.
 import { tagsReducer } from './reducers/tags.reducer';
 import { diagramReducer } from '../features/sites/store/reducers/diagram.reducer';
 import { toastReducer } from './reducers/toaster.reducer';
+import { tabularReducer } from '../features/central/store/reducers/tabular.reducer';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { toastReducer } from './reducers/toaster.reducer';
       overview: overviewReducer,
       trend: trendReducer ,
       performance: performanceReducer,
+      tabular: tabularReducer,
       layout: layoutReducer,
       dashboard: dashboardReducer,
       efficiency: efficiencyReducer,

@@ -34,6 +34,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 import { TagDialog } from './components/tag-dialog/tag-dialog';
+import { InverterDialog } from './components/inverter-dialog/inverter-dialog';
+import { MeterDialog } from './components/meter-dialog/meter-dialog';
+import { LastseenPipe } from './pipes/lastseen.pipe';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -54,6 +57,7 @@ export const MY_DATE_FORMATS = {
     FiltersitePipe,
     NumberFomatPipe,
     FilterTablePipe,
+    LastseenPipe,
 
     DatePickers,
     CardContainer,
@@ -69,7 +73,9 @@ export const MY_DATE_FORMATS = {
     TagContainer,
     DataTable,
     SkeletonBox,
-    TagDialog
+    TagDialog,
+    InverterDialog,
+    MeterDialog
     
   ],
   imports: [
@@ -93,6 +99,7 @@ export const MY_DATE_FORMATS = {
     FiltersitePipe,
     NumberFomatPipe,
     FilterTablePipe,
+    LastseenPipe,
 
     DatePickers,
     CardContainer,
@@ -108,7 +115,9 @@ export const MY_DATE_FORMATS = {
     TagContainer,
     DataTable,
     SkeletonBox,
-    TagDialog
+    TagDialog,
+    InverterDialog,
+    MeterDialog
     
   ],
   providers: [

@@ -1,7 +1,8 @@
 [
+	
 	{
-		"name": "NORMAL",
-		"title": "DIAGRAM",
+		"name": "OVERALL",
+		"title": "OVERALL",
 		"textBinding": [
 			{
 				"value": "False",
@@ -13,6 +14,14 @@
 			}
 		],
 		"colorBinding": [
+			{
+				"value": 0,
+				"color": "red"
+			},
+			{
+				"value": 1,
+				"color": "red"
+			},
 			{
 				"value": "False",
 				"color": "normal"
@@ -24,26 +33,66 @@
 		]
 	},
 	{
-		"name": "SINGLE",
-		"title": "SINGLELINE",
+		"name": "SUB3",
+		"title": "SUB 3",
 		"textBinding": [
 			{
-				"value": 0,
+				"value": "False",
 				"message": "RUNNING"
 			},
 			{
-				"value": 1,
+				"value": "True",
 				"message": "SHUTDOWN"
 			}
 		],
 		"colorBinding": [
 			{
 				"value": 0,
-				"color": "lime"
+				"color": "red"
 			},
 			{
 				"value": 1,
 				"color": "red"
+			},
+			{
+				"value": "False",
+				"color": "normal"
+			},
+			{
+				"value": "True",
+				"color": "major"
+			}
+		]
+	},
+	{
+		"name": "SUB2",
+		"title": "SUB 2",
+		"textBinding": [
+			{
+				"value": "False",
+				"message": "RUNNING"
+			},
+			{
+				"value": "True",
+				"message": "SHUTDOWN"
+			}
+		],
+		"colorBinding": [
+			{
+				"value": 0,
+				"color": "red"
+			},
+			{
+				"value": 1,
+				"color": "red"
+			},
+			{
+				"value": "False",
+				"color": "normal"
+			},
+			{
+				"value": "True",
+				"color": "major"
 			}
 		]
 	}
