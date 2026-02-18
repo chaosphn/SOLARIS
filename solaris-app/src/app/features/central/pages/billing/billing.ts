@@ -115,10 +115,10 @@ export class Billing implements OnInit, OnDestroy {
   async getSessionData(){
     try {
       const data: BillingSessionModel = await this.http.getBillingSessionData(this.sessionId());
-      if(data && data.site){
+      if(data && data.siteId){
         this.sessionData.set(data);
         this.date = new Date(data.timestamp);
-        const findSite = this.siteOptions().find(x => x.value === data.site);
+        const findSite = this.siteOptions().find(x => x.value === data.siteId);
         if(findSite){
           this.selectedSite = findSite;
         }
