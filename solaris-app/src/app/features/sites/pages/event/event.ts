@@ -10,6 +10,7 @@ import { getNavState } from '../../../../store/selectors/nav.selectors';
 import { getAllConfig, getZoneConfig } from '../../../../store/selectors/site.selectors';
 import { sendMessage } from '../../../../store/actions/toaster.actions';
 import { ExampleEvents } from '../../../../mockup/event';
+import { EventDataModel, EventRequestModel, FilterEventRequestModel } from '../../models/event.model';
 
 @Component({
   selector: 'app-event',
@@ -33,8 +34,9 @@ export class Events implements OnInit, OnDestroy {
   loading = signal<Boolean>(false);
   loading2 = signal<Boolean>(false);
 
-  eventList = signal<any[]>(ExampleEvents);
-  selectedEvent = signal<any>(null);
+  eventList = signal<EventDataModel[]>([]);
+  selectedEvent = signal<EventDataModel>({} as EventDataModel);
+  selectedOptions: any = {};
 
   private http = inject(HttpService);
   private store = inject(Store);
@@ -57,10 +59,33 @@ export class Events implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getConfig();
+    this.getAlarmEventData();
   }
 
   ngOnDestroy(): void {
     
+  }
+
+  async getAlarmEventData(){
+    const dt = this.date.setHours(0,0,0,0);
+    const st = new Date(dt).toISOString();
+    const en = new Date(dt).setDate(this.date.getDate() + 1);
+    const request: EventRequestModel = {
+      StartTime: st,
+      EndTime: new Date(en).toISOString()
+    }
+
+    const result = await this.http.getAlarmEventData(request);
+    if(result){
+      this.eventList.set(result.map(x => {
+        return {
+          ...x,
+          Action: 'muted'
+        }
+      }));
+    } else {
+      this.eventList.set([]);
+    }
   }
 
   async getConfig(){
@@ -85,16 +110,23 @@ export class Events implements OnInit, OnDestroy {
     event.stopPropagation();
     item.selectedItem = option;
     item.opened = false;
+    if(this.selectedOptions[item.name] && this.selectedOptions[item.name].value === option.value){
+      delete this.selectedOptions[item.name];
+      item.selectedItem = undefined;
+    } else {
+      this.selectedOptions[item.name] = option;
+    }
     return item;
   }
 
-  onDateSelect(event: any) {
+  async onDateSelect(event: any) {
     this.date = event;
+    //await this.getAlarmEventData();
   }
 
-  onRowSelect(data: any){
-    if(this.selectedEvent() && this.selectedEvent().timestamp == data.timestamp){
-      this.selectedEvent.set(null);
+  onRowSelect(data: EventDataModel){
+    if(this.selectedEvent() && this.selectedEvent().ID == data.ID){
+      this.selectedEvent.set({} as EventDataModel);
     } else {
       this.selectedEvent.set(data);
     }
@@ -102,10 +134,37 @@ export class Events implements OnInit, OnDestroy {
       return prev.map(x => {
         return {
           ...x,
-          action: this.selectedEvent() && this.selectedEvent().timestamp === x.timestamp ? 'unmute' : 'muted'
+          Action: this.selectedEvent() && this.selectedEvent().ID === x.ID ? 'unmute' : 'muted'
         }
       })
     });
+  }
+
+  async onSelectEvent() {
+    const dt = this.date.setHours(0,0,0,0);
+    const st = new Date(dt).toISOString();
+    const en = new Date(dt).setDate(this.date.getDate() + 1);
+    console.log('Selected Event:', this.selectedOptions);
+    const request: FilterEventRequestModel = {
+      StartTime: st,
+      EndTime: new Date(en).toISOString(),
+      Type: this.selectedOptions['Type']?.value || undefined,
+      Level: this.selectedOptions['Level']?.value || undefined,
+      Equipments: this.selectedOptions['Equipment']?.value || undefined,
+      Assets: undefined
+    };
+
+    const result = await this.http.getFilteredAlarmEventData(request);
+    if(result){
+      this.eventList.set(result.map(x => {
+        return {
+          ...x,
+          Action: 'muted'
+        }
+      }));
+    } else {
+      this.eventList.set([]);
+    }
   }
 
 }

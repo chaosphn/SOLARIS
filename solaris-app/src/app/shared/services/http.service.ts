@@ -8,6 +8,9 @@ import { AuthRespondModel } from '../models/auth.model';
 import { ResponseTagsModel } from '../models/tags.model';
 import { AddUserRequestModel, ChnagePasswordRequestModel, UpdateUserRequestModel, UserDataModel, UserRespondModel } from '../models/user.model';
 import { BillingSessionModel } from '../models/billing.model';
+import { BillingConfigModel, BillingConfigResponseModel, BillingResponseModel, CreateBillingRequestModel, DeleteBillingRequestModel, UpdateBillingRequestModel } from '../../features/central/models/billing.model';
+import { CreateReportRequestModel, DeleteReportRequestModel, ReportConfigResponseModel, ReportResponseModel, UpdateReportRequestModel } from '../../features/central/models/report.model';
+import { AddNotificationConfigModel, DeleteNotificationConfigModel, EventConfigModel, EventConfigResponseModel, EventDataModel, EventRequestModel, EventSummaryModel, ExpressionParseResultModel, FilterEventRequestModel, NotificationConfigModel, UpdateNotificationConfigModel } from '../../features/sites/models/event.model';
 
 @Injectable({
     providedIn: 'root'
@@ -113,7 +116,7 @@ export class HttpService {
                 Datas: data
             };
             const res = await this.httpClient.post(
-                'http://localhost:4040/api/ask', 
+                `${this.appLoadService.config.UrlApiBilling}ask`, 
                 body
             ).toPromise();
 
@@ -135,7 +138,7 @@ export class HttpService {
                 Timestamp: timestamp
             };
             const res = await this.httpClient.post(
-                'http://localhost:4040/api/genreport', 
+                `${this.appLoadService.config.UrlApiBilling}genreport`,
                 body,
                 { responseType: 'blob' }
             ).toPromise();
@@ -158,7 +161,7 @@ export class HttpService {
                 Timestamp: timestamp
             };
             const res = await this.httpClient.post(
-                'http://localhost:4040/api/genreport', 
+                `${this.appLoadService.config.UrlApiBilling}genreport`,
                 body,
                 { responseType: 'blob' }
             ).toPromise();
@@ -189,6 +192,27 @@ export class HttpService {
 
     }
 
+    async generateBilling(id: string, timestamp: string, type?: string) {
+        try {
+            const body = {
+                ProjectId: id,
+                Timestamp: timestamp,
+                Type: type
+            };
+            const res = await this.httpClient.post(
+                `${this.appLoadService.config.UrlApiBilling}genbill`,
+                body
+            ).toPromise();
+            if (!res) {
+                throw new Error('No file returned from server');
+            }
+            //console.log(res)
+            return res;
+        } catch (error) {
+            throw new Error('No file returned from server');
+        }
+    }
+
     async getBilling(id: string, timestamp: string, type?: string) {
         try {
             const body = {
@@ -197,7 +221,7 @@ export class HttpService {
                 Type: type
             };
             const res = await this.httpClient.post(
-                'http://localhost:4040/api/genbilling', 
+                `${this.appLoadService.config.UrlApiBilling}getbill`,
                 body
             ).toPromise();
             if (!res) {
@@ -218,7 +242,7 @@ export class HttpService {
                 Type: type
             };
             const res = await this.httpClient.post<any>(
-                'http://localhost:4040/api/genbilling', 
+                `${this.appLoadService.config.UrlApiBilling}getbill`,
                 body
             ).toPromise();
 
@@ -257,7 +281,7 @@ export class HttpService {
                 sesseionId: id    
             };
             const res = await this.httpClient.post<any>(
-                'http://localhost:4040/api/approvebilling', 
+                `${this.appLoadService.config.UrlApiBilling}approvebill`,
                 body
             ).toPromise();
 
@@ -282,7 +306,7 @@ export class HttpService {
             formData.append('file', file, file.name);
 
             // server expects session id in query string as `sesseionId`
-            const url = `http://localhost:4040/api/uploadbilling?sesseionId=${encodeURIComponent(sesseionId)}&siteId=${encodeURIComponent(sietId)}`;
+            const url = `${this.appLoadService.config.UrlApiBilling}uploadbill?sesseionId=${encodeURIComponent(sesseionId)}&siteId=${encodeURIComponent(sietId)}`;
             const res = await this.httpClient.post(url, formData).toPromise();
 
             if (!res) {
@@ -302,7 +326,7 @@ export class HttpService {
                 sessionId: id    
             };
             const res = await this.httpClient.post<BillingSessionModel | any>(
-                'http://localhost:4040/api/getsession', 
+                `${this.appLoadService.config.UrlApiBilling}getsession`,
                 body
             ).toPromise();
 
@@ -316,6 +340,71 @@ export class HttpService {
         }
 
     }
+
+    async getBillingConfig() {
+        const res = await firstValueFrom(
+            this.httpClient.get<BillingConfigResponseModel>(this.appLoadService.config.UrlApiBilling + 'billing/get')
+        );
+        
+        return res;
+    };
+
+    async addBillingConfig(body: CreateBillingRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billing/set', body)
+        );
+        
+        return res;
+    };
+
+    async updateBillingConfig(body: UpdateBillingRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billing/update', body)
+        );
+        
+        return res;
+    };
+
+    async deleteBillingConfig(body: DeleteBillingRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billing/delete', body)
+        );
+        
+        return res;
+    };
+
+    async getReportConfig() {
+        const res = await firstValueFrom(
+            this.httpClient.get<ReportConfigResponseModel>(this.appLoadService.config.UrlApiBilling + 'report/get')
+        );
+        
+        return res;
+    };
+
+    async addReportConfig(body: CreateReportRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<ReportResponseModel>(this.appLoadService.config.UrlApiBilling + 'report/set', body)
+        );
+        
+        return res;
+    };
+
+    async updateReportConfig(body: UpdateReportRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<ReportResponseModel>(this.appLoadService.config.UrlApiBilling + 'report/update', body)
+        );
+        
+        return res;
+    };
+
+    async deleteReportConfig(body: DeleteReportRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<ReportResponseModel>(this.appLoadService.config.UrlApiBilling + 'report/delete', body)
+        );
+        
+        return res;
+    };
+
 
     async getUserConfig() {
         const res = await firstValueFrom(
@@ -358,5 +447,91 @@ export class HttpService {
         
         return res;
     };
+
+    async getAlarmEventData(request: EventRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<EventDataModel[]>(this.appLoadService.config.UrlApiNotification + 'event/data', request)
+        );
+        
+        return res;
+    };
     
+    async getFilteredAlarmEventData(request: FilterEventRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<EventDataModel[]>(this.appLoadService.config.UrlApiNotification + 'event/filter', request)
+        );
+        
+        return res;
+    };
+
+    async getSummaryAlarmEventData(request: EventRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<EventSummaryModel[]>(this.appLoadService.config.UrlApiNotification + 'event/summary', request)
+        );
+        
+        return res;
+    };
+
+
+    async getAlarmEventConfig() {
+        const res = await firstValueFrom(
+            this.httpClient.get<EventConfigModel[] | any>(this.appLoadService.config.UrlApiNotification + 'event/gettag')
+        );
+        
+        return res;
+    };
+
+    async setAlarmEventConfig(request: EventConfigModel[]) {
+        const res = await firstValueFrom(
+            this.httpClient.post<EventConfigResponseModel>(this.appLoadService.config.UrlApiNotification + 'event/settag', request)
+        );
+        
+        return res;
+    };
+
+
+    async getNotificationConfig() {
+        const res = await firstValueFrom(
+            this.httpClient.get<NotificationConfigModel[] | any>(this.appLoadService.config.UrlApiNotification + 'config/notification')
+        );
+        
+        return res;
+    };
+
+    async addNotificationConfig(request: AddNotificationConfigModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<EventConfigResponseModel>(this.appLoadService.config.UrlApiNotification + 'config/notification', request)
+        );
+        
+        return res;
+    };
+
+    async updateNotificationConfig(request: UpdateNotificationConfigModel) {
+        const res = await firstValueFrom(
+            this.httpClient.put<EventConfigResponseModel>(this.appLoadService.config.UrlApiNotification + 'config/notification', request)
+        );
+        
+        return res;
+    };
+
+    async deleteNotificationConfig(request: DeleteNotificationConfigModel) {
+        const res = await firstValueFrom(
+            this.httpClient.delete<EventConfigResponseModel>(this.appLoadService.config.UrlApiNotification + 'config/notification', {
+                body: request 
+            })
+        );
+        
+        return res;
+    };
+
+    async parseExpression(expr: string) {
+        const request = {
+            expression: expr
+        };
+        const res = await firstValueFrom(
+            this.httpClient.post<ExpressionParseResultModel>(this.appLoadService.config.UrlApiNotification + 'calc/expression', request)
+        );
+        
+        return res;
+    };
 }

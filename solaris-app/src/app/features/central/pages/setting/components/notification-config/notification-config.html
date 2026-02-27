@@ -1,0 +1,265 @@
+<div class="notification-box bz">
+  <div class="head bz">
+    <div class="topic bz">NOTIFICATION CONFIGURATION</div>
+    <div class="btn-group d-flex" style="gap: 8px">
+      <button class="bz" (click)="openNewNotificationModal()">NEW CHANNEL</button>
+      <button class="bz" (click)="saveChanges()">SAVE CHANGE</button>
+    </div>
+  </div>
+
+  <!-- Notification Channels Table -->
+  <div class="main">
+    <div class="table-wrapper">
+      <table class="notification-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (notificationConfig().length === 0) {
+            <tr>
+              <td colspan="4" class="empty-row">No notification channel configured</td>
+            </tr>
+          }
+          @for (noti of notificationConfig(); track noti.id; let i = $index) {
+            <tr [class.selected-row]="editingIndex === i">
+              <td>
+                <span class="noti-icon">{{ getNotiIcon(noti.type) }}</span>
+                {{ noti.name || '—' }}
+              </td>
+              <td>
+                <span class="type-badge" [attr.data-type]="noti.type">
+                  {{ noti.type }}
+                </span>
+              </td>
+              <td>
+                <span class="enable-badge" [class.active]="noti.enable">
+                  {{ noti.enable ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+              <td class="action-cell">
+                <button class="action-btn edit-btn" (click)="openEditModal(i)" matTooltip="Edit Channel">
+                  <i class="material-icons">edit</i>
+                </button>
+                <button class="action-btn delete-btn" (click)="deleteChannel(i)" matTooltip="Delete Channel">
+                  <i class="material-icons">delete</i>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Edit / New Notification Modal -->
+@if (showModal) {
+  <div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <span>{{ editingIndex >= 0 ? 'EDIT CHANNEL' : 'NEW CHANNEL' }}</span>
+        <button class="close-btn" (click)="closeModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- Section: Basic Info -->
+        <div class="section-title">Basic Info</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Channel Name</label>
+            <input [(ngModel)]="newNotiForm.Name" placeholder="e.g. Team Alert" />
+          </div>
+          <div class="form-group">
+            <label>Type</label>
+            <select [(ngModel)]="newNotiForm.Type" (ngModelChange)="onTypeChange()">
+              <option value="telegram">Telegram</option>
+              <option value="line">Line</option>
+              <option value="email">Email</option>
+              <option value="msteam">MS Teams</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group toggle-group">
+          <label>Enable Channel</label>
+          <label class="toggle-switch">
+            <input type="checkbox" [(ngModel)]="newNotiForm.Enable" />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <!-- Section: Config (dynamic by type) -->
+        <div class="section-title">Configuration</div>
+
+        <!-- Telegram -->
+        @if (newNotiForm.Type === 'telegram') {
+          <div class="form-group">
+            <label>Access Token</label>
+            <input [(ngModel)]="telegramConfig.accessToken" placeholder="Bot access token" />
+          </div>
+          <div class="form-group">
+            <label>User Group (Chat IDs)</label>
+            <div class="tag-input-area">
+              @for (id of telegramConfig.userGroup; track id; let i = $index) {
+                <span class="tag-chip">
+                  {{ id }}
+                  <button class="chip-remove" (click)="removeTelegramId(i)">×</button>
+                </span>
+              }
+              <input
+                class="inline-input"
+                [(ngModel)]="newTelegramChatId"
+                placeholder="Add Chat ID..."
+                (keydown.enter)="addTelegramId()"
+              />
+            </div>
+          </div>
+        }
+
+        <!-- Line -->
+        @if (newNotiForm.Type === 'line') {
+          <div class="form-row">
+            <div class="form-group">
+              <label>Access Token</label>
+              <input [(ngModel)]="lineConfig.accessToken" placeholder="Line access token" />
+            </div>
+            <div class="form-group">
+              <label>Secret</label>
+              <input [(ngModel)]="lineConfig.secret" placeholder="Line channel secret" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>User Group (User IDs)</label>
+            <div class="tag-input-area">
+              @for (id of lineConfig.userGroup; track id; let i = $index) {
+                <span class="tag-chip">
+                  {{ id }}
+                  <button class="chip-remove" (click)="removeLineId(i)">×</button>
+                </span>
+              }
+              <input
+                class="inline-input"
+                [(ngModel)]="newLineUserId"
+                placeholder="Add User ID..."
+                (keydown.enter)="addLineId()"
+              />
+            </div>
+          </div>
+        }
+
+        <!-- Email -->
+        @if (newNotiForm.Type === 'email') {
+          <div class="form-row">
+            <div class="form-group">
+              <label>Host</label>
+              <input [(ngModel)]="emailConfig.host" placeholder="e.g. smtp.gmail.com" />
+            </div>
+            <div class="form-group">
+              <label>Port</label>
+              <input type="number" [(ngModel)]="emailConfig.port" placeholder="e.g. 587" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Username</label>
+              <input [(ngModel)]="emailConfig.username" placeholder="SMTP username" />
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" [(ngModel)]="emailConfig.password" placeholder="SMTP password" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>From Address</label>
+              <input [(ngModel)]="emailConfig.fromAddress" placeholder="sender@example.com" />
+            </div>
+            <div class="form-group toggle-group">
+              <label>Secure (TLS)</label>
+              <label class="toggle-switch">
+                <input type="checkbox" [(ngModel)]="emailConfig.secure" />
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>To Address</label>
+            <div class="tag-input-area">
+              @for (addr of emailConfig.toAddress; track addr; let i = $index) {
+                <span class="tag-chip">
+                  {{ addr }}
+                  <button class="chip-remove" (click)="removeToAddress(i)">×</button>
+                </span>
+              }
+              <input
+                class="inline-input"
+                [(ngModel)]="newToAddress"
+                placeholder="Add email..."
+                (keydown.enter)="addToAddress()"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>CC Address</label>
+              <div class="tag-input-area">
+                @for (addr of emailConfig.ccAddress; track addr; let i = $index) {
+                  <span class="tag-chip">
+                    {{ addr }}
+                    <button class="chip-remove" (click)="removeCcAddress(i)">×</button>
+                  </span>
+                }
+                <input
+                  class="inline-input"
+                  [(ngModel)]="newCcAddress"
+                  placeholder="Add CC..."
+                  (keydown.enter)="addCcAddress()"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>BCC Address</label>
+              <div class="tag-input-area">
+                @for (addr of emailConfig.bccAddress; track addr; let i = $index) {
+                  <span class="tag-chip">
+                    {{ addr }}
+                    <button class="chip-remove" (click)="removeBccAddress(i)">×</button>
+                  </span>
+                }
+                <input
+                  class="inline-input"
+                  [(ngModel)]="newBccAddress"
+                  placeholder="Add BCC..."
+                  (keydown.enter)="addBccAddress()"
+                />
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- MS Teams -->
+        @if (newNotiForm.Type === 'msteam') {
+          <div class="form-group">
+            <label>Webhook URL</label>
+            <input [(ngModel)]="msteamConfig.webhookUrl" placeholder="https://outlook.office.com/webhook/..." />
+          </div>
+        }
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeModal()">Cancel</button>
+        <button class="btn-save" (click)="saveChannel()">
+          {{ editingIndex >= 0 ? 'Update' : 'Add Channel' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

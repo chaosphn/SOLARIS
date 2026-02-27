@@ -50,7 +50,7 @@ export class Piechart implements OnInit, OnChanges {
     // เตรียมข้อมูลสำหรับ Highcharts
     const chartData = this.statusData.map(item => ({
       name: item.label,
-      x: item.percentage*5,
+      x: item.percentage,
       y: item.percentage,
       color: item.color,
       count: item.count
@@ -62,13 +62,13 @@ export class Piechart implements OnInit, OnChanges {
         backgroundColor: 'transparent',
         height: this.high,
         margin: [0, 0, 0 , 0],
-        options3d: {
-          enabled: this.enable3D,
-          alpha: 45,
-          beta: 0,
-          depth: 20,
-          viewDistance: 25
-        }
+        // options3d: {
+        //   enabled: this.enable3D,
+        //   alpha: 45,
+        //   beta: 0,
+        //   depth: 20,
+        //   viewDistance: 25
+        // }
       },
       title: {
         text: undefined
@@ -98,8 +98,8 @@ export class Piechart implements OnInit, OnChanges {
           allowPointSelect: true,
           innerSize: '60%',
           depth: this.enable3D ? 20 : 20,
-          startAngle: -90,
-          endAngle: 270,
+          startAngle: 0,
+          endAngle: 360,
           dataLabels: {
             enabled: false,
             distance: 10

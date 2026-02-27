@@ -72,6 +72,8 @@ export class Layout implements OnInit, OnDestroy {
 
   timers?: Subscription;
   navSub?: Subscription;
+  storeSub?: Subscription;
+  storeSub2?: Subscription;
 
   private http = inject(HttpService);
   private store = inject(Store);
@@ -105,6 +107,12 @@ export class Layout implements OnInit, OnDestroy {
     }
     if(this.navSub){
       this.navSub.unsubscribe();
+    }
+    if(this.storeSub){
+      this.storeSub.unsubscribe();
+    }
+    if(this.storeSub2){
+      this.storeSub2.unsubscribe();
     }
   }
 
@@ -153,7 +161,7 @@ export class Layout implements OnInit, OnDestroy {
 
   private async loadFromStoreIfExists(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store.select(LayoutSelectors.selectLayoutState).subscribe(state => {
+      this.storeSub = this.store.select(LayoutSelectors.selectLayoutState).subscribe(state => {
         let hasData = false;
         
         // Check if config exists and load it
@@ -328,7 +336,7 @@ export class Layout implements OnInit, OnDestroy {
 
   private async shouldRefreshData(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store.select(LayoutSelectors.selectLayoutTimestamp).subscribe(timestamp => {
+      this.storeSub2 = this.store.select(LayoutSelectors.selectLayoutTimestamp).subscribe(timestamp => {
         if (!timestamp) {
           resolve(true); // No timestamp means first time, should refresh
           return;

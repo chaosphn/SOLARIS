@@ -75,6 +75,8 @@ export class Performance implements OnInit, OnDestroy {
 
   timers?: Subscription;
   navSub?: Subscription;
+  storeSub?: Subscription;
+  storeSub2?: Subscription;
 
   date: Date = new Date();
 
@@ -113,6 +115,12 @@ export class Performance implements OnInit, OnDestroy {
     }
     if(this.navSub){
       this.navSub.unsubscribe();
+    }
+    if(this.storeSub){
+      this.storeSub.unsubscribe();
+    }
+    if(this.storeSub2){
+      this.storeSub2.unsubscribe();
     }
   }
 
@@ -158,7 +166,7 @@ export class Performance implements OnInit, OnDestroy {
 
   private async loadFromStoreIfExists(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store.select(EfficiencySelectors.selectEfficiencyState).subscribe(state => {
+      this.storeSub = this.store.select(EfficiencySelectors.selectEfficiencyState).subscribe(state => {
         let hasData = false;
         
         // Check if config exists and load it
@@ -326,7 +334,7 @@ export class Performance implements OnInit, OnDestroy {
 
   private async shouldRefreshData(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store.select(EfficiencySelectors.selectEfficiencyTimestamp).subscribe(timestamp => {
+      this.storeSub2 = this.store.select(EfficiencySelectors.selectEfficiencyTimestamp).subscribe(timestamp => {
         if (!timestamp) {
           resolve(true); // No timestamp means first time, should refresh
           return;
@@ -412,7 +420,6 @@ export class Performance implements OnInit, OnDestroy {
           this.dataChart.update(val => {
             // Clone object เดิมก่อน
             const newVal = { ...val };
-            
             let conf = this.config().chartConfig.find(x => x.name == item.Group);
             let series: SeriesOptionsType[] | SeriesLineOptions[] | SeriesAreaOptions[] | SeriesColumnOptions[] | any[] = []; 
             if(conf){
@@ -426,7 +433,7 @@ export class Performance implements OnInit, OnDestroy {
                     const resData = response.find(d => d.Name == tag?.Tagname)?.records || [];
                     const value = resData[resData.length - 1];
                     if(value?.Value){
-                      return parseFloat(value.Value.replaceAll(',', ''));
+                      return value.Value;
                     } else {
                       return 0;
                     };
@@ -442,7 +449,6 @@ export class Performance implements OnInit, OnDestroy {
                   }
                 });
               }
-              //console.log(item.Group, series, response);
               
               // สร้าง chart config object ใหม่
               newVal[item.Group] = {

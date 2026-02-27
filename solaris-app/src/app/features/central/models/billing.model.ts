@@ -34,22 +34,53 @@ export interface User {
   id: number;
   username: string;
   password: string;
-  role: 'administrator' | 'user';
+  role: 'administrator' | 'user' ;
   pageAccess: string[];
   siteAccess: string[];
 }
 
 export interface BillingConfigModel {
   id: number;
-  siteName: string;
-  meterMode: 'normal' | 'tou';
-  energyCost?: number;
-  onpeakCost?: number;
-  offpeakCost?: number;
-  discountCost: number;
-  ftCost: number;
-  co2Ratio: number;
-  fuelRatio: number;
-  treeRatio: number;
-  emails: string;
+  siteId: string;
+  meterType: 'normal' | 'tou';
+  billingMode: 'auto' | 'manual';
+  energyCost: number;
+  onpeakCost: number;
+  offpeakCost: number;
+  discountRate: number;
+  ftRate: number;
+  scheduleDate: string;
+  scheduleTime: string;
+  approvedBy: string;
+  approvedCc: string;
+  approvedBcc: string;
+  receivedBy: string;
+  receivedCc: string;
+  receivedBcc: string;
+  createdAt?: string;
+  updatedAt?: string;
+  createdBy?: string;
+  updatedBy?: string;
+}
+
+export interface CreateBillingRequestModel extends Omit<BillingConfigModel, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'>{
+
+}
+
+export interface UpdateBillingRequestModel extends Omit<BillingConfigModel, 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'>{
+
+}
+
+export interface DeleteBillingRequestModel extends Pick<BillingConfigModel, 'id'>{
+
+}
+
+export interface BillingResponseModel {
+  StatusCode: string;
+  Message: string;
+}
+
+export interface BillingConfigResponseModel {
+  status: string;
+  data: BillingConfigModel[];
 }

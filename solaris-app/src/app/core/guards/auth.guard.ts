@@ -21,6 +21,10 @@ export class PermissionGuard implements CanActivate {
     console.log(routingUrl, userPermissions)
 
     if (!userPermissions || userPermissions.length === 0) {
+      const rt: any = route;
+      const fullUrl: any = rt['_routerState']?.url;
+      console.log(fullUrl)
+      sessionStorage.setItem('navigate', fullUrl);
       this.router.navigate(['/login']);
       return false;
     }
@@ -39,8 +43,8 @@ export class PermissionGuard implements CanActivate {
     //     message: 'You do not have permission to access this page'
     //   }
     // });
-
-    return true;//false;
+    sessionStorage.removeItem('navigate');
+    return true//false;
   }
 
   private getUserPermissions(): string[] {

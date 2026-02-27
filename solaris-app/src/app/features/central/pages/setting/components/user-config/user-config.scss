@@ -1,0 +1,161 @@
+// User Box Styles
+.user-box {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 24px;
+
+    .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .topic {
+            border-left: 4px solid var(--highlight);
+            border-left-width: 3px;
+            padding: 0px 0px 0px 8px;
+            color: var(--primary-txt);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+
+            button {
+                font-size: 14px;
+                padding: 8px 12px;
+                border: 1px solid var(--btn-border);
+                background-color: var(--btn-bg);
+                color: var(--btn-color);
+                border-radius: 4px;
+                cursor: pointer;
+                transition: all 0.2s;
+
+                &:hover {
+                    filter: brightness(120%);
+                    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+                }
+            }
+        }
+    }
+
+    .user-table-wrapper {
+        overflow-x: auto;
+        border-radius: 4px;
+        border: 1px solid var(--border-color);
+
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--primary-bg);
+
+            thead {
+                background: var(--thead-bg);
+
+                tr th {
+                    padding: 12px;
+                    text-align: left;
+                    color: var(--primary-txt);
+                    font-size: 14px;
+                    font-weight: 500;
+                    border-bottom: 1px solid var(--border-color);
+                }
+            }
+
+            tbody {
+                tr {
+                    border-bottom: 1px solid var(--border-color);
+                    transition: background-color 0.2s;
+
+                    &:hover {
+                        filter: brightness(125%);
+                        background-color: var(--primary-bg);
+                    }
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+
+                    td {
+                        padding: 12px;
+                        color: var(--primary-txt);
+                        font-size: 14px;
+
+                        .role-badge {
+                            display: inline-block;
+                            padding: 4px 12px;
+                            border-radius: 12px;
+                            background-color: #4A90E2;
+                            color: var(--primary-txt);
+                            font-size: 12px;
+                            font-weight: 500;
+
+                            &.admin {
+                                background-color: #E74C3C;
+                            }
+                        }
+
+                        &.page-access-cell {
+                            max-width: 400px;
+
+                            .page-badges {
+                                display: flex;
+                                flex-wrap: wrap;
+                                gap: 6px;
+
+                                .page-badge {
+                                    display: inline-block;
+                                    padding: 3px 8px;
+                                    border-radius: 8px;
+                                    background-color: var(--secondary-bg-50);
+                                    color: var(--primary-txt);
+                                    font-size: 11px;
+                                }
+                            }
+                        }
+
+                        &.action-cell {
+                            display: flex;
+                            gap: 8px;
+
+                            .action-btn {
+                                padding: 6px;
+                                border: none;
+                                border-radius: 4px;
+                                cursor: pointer;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                transition: all 0.2s;
+
+                                i {
+                                    font-size: 18px;
+                                }
+
+                                &.edit-btn {
+                                    background-color: #4A90E2;
+                                    color: var(--primary-txt);
+
+                                    &:hover {
+                                        background-color: #5FA3F5;
+                                    }
+                                }
+
+                                &.delete-btn {
+                                    background-color: #E74C3C;
+                                    color: var(--primary-txt);
+
+                                    &:hover {
+                                        background-color: #F25C4C;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
 import { SiteModel, SiteStateModel, ZoneModel } from '../../../shared/models/config.model';
 import { DateStateModel, NavbarStateModel } from '../../../shared/models/navigate.model';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, timer } from 'rxjs';
 import { AuthService } from '../../../shared/services/auth.service';
 import { HttpService } from '../../../shared/services/http.service';
 import { Router } from '@angular/router';
@@ -23,6 +23,7 @@ import { MessageService } from 'primeng/api';
 import { ToastStateModel } from '../../../shared/models/toast.model';
 import { getToastState } from '../../../store/selectors/toaster.selectors';
 import { FloatingDialogService } from '../../../shared/pipes/floating-dialog.service';
+import { EventSummaryModel } from '../../../features/sites/models/event.model';
 
 
 @Component({
@@ -48,12 +49,14 @@ export class Navbar implements OnInit, OnDestroy {
   dateStateSubscription?: Subscription;
   navStateSubscription?: Subscription;
   toastStateSubscription?: Subscription;
+  timerSubscription?: Subscription;
   siteName: string = "";
   timers: number = 10;
   mode = signal<'dark' | 'light'>('dark');
   date: Date = new Date();
   enableDate: boolean = false;
   enableSite: string[] = [];
+  eventSummary = signal<EventSummaryModel[]>([]);
 
   private auth =  inject(AuthService);
   private http =  inject(HttpService);
@@ -115,6 +118,10 @@ export class Navbar implements OnInit, OnDestroy {
       this.mode.set('dark');
     }
     this.getSiteConfig();
+    this.getEventSummary();
+    if(this.appInit.config.Timer){
+      this.startTimer(this.appInit.config.Timer * 60000);
+    }
   }
 
   ngOnDestroy(): void {
@@ -127,15 +134,31 @@ export class Navbar implements OnInit, OnDestroy {
     if(this.sub1){
       this.sub1.unsubscribe();
     }
+    if(this.timerSubscription){
+      this.timerSubscription.unsubscribe();
+    }
   }
 
   show() {
     this.messageService.add({ 
-    severity: 'error', 
-    summary: 'Error', 
-    detail: 'Message Content', 
-    life: 3000 
-  });
+      severity: 'error', 
+      summary: 'Error', 
+      detail: 'Message Content', 
+      life: 3000 
+    });
+  }
+
+  async getEventSummary(){
+    const request = {
+      StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000).toISOString(),
+      EndTime: new Date().toISOString()
+    }
+    const result = await this.http.getSummaryAlarmEventData(request);
+    if(result.length > 0){
+      this.eventSummary.set(result);
+    } else {
+      this.eventSummary.set([]);
+    }
   }
 
   async getSiteConfig(){
@@ -163,12 +186,37 @@ export class Navbar implements OnInit, OnDestroy {
     }
   }
 
+  startTimer(dueTimer: number) {
+    this.timerSubscription = timer(dueTimer, dueTimer).subscribe(x => {
+      this.getEventSummary();
+    });
+  }
+
   logOut(){
     this.auth.logout();
   }
 
   openSettings(){
     this.router.navigate(['/main/setting'])
+  }
+
+  getPlantStatus(pointSource: string){
+    const summary = this.eventSummary().find(x => x.PointSource === pointSource);
+    if(summary){
+      if(summary.Major > 0){
+        return 'major-icon'; 
+      } else if(summary.Minor > 0){
+        return 'minor-icon';
+      } else if(summary.Warning > 0){
+        return 'warning-icon';
+      } else if(summary.Info > 0){
+        return 'hide-icon';
+      } else {
+        return 'hide-icon';
+      }
+    } else {
+      return 'hide-icon';
+    } 
   }
 
   getZoneSelected(name: any){

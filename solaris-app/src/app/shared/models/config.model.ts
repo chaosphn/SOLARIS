@@ -1,6 +1,8 @@
 export interface ConfigModel{
     UrlApi?: string;
     UrlApiAuthen?: string;
+    UrlApiBilling?: string;
+    UrlApiNotification?: string;
     Timer?: number;
 }
 

@@ -70,6 +70,8 @@ export class Diagram implements OnInit, OnDestroy {
   timers?: Subscription;
   navSub?: Subscription;
   svgSub?: Subscription;
+  storeSub?: Subscription;
+  storeSub2?: Subscription;
 
   date: Date = new Date();
 
@@ -117,6 +119,12 @@ export class Diagram implements OnInit, OnDestroy {
     if(this.navSub){
       this.navSub.unsubscribe();
     }
+    if(this.storeSub){
+      this.storeSub.unsubscribe();
+    }
+    if(this.storeSub2){
+      this.storeSub2.unsubscribe();
+    }
   }
 
   resetPage(){
@@ -160,7 +168,7 @@ export class Diagram implements OnInit, OnDestroy {
 
   private async loadFromStoreIfExists(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store.select(DiagramSelectors.selectDiagramState).subscribe(state => {
+      this.storeSub = this.store.select(DiagramSelectors.selectDiagramState).subscribe(state => {
         let hasData = false;
         
         // Check if config exists and load it
@@ -512,7 +520,7 @@ export class Diagram implements OnInit, OnDestroy {
 
   private async shouldRefreshData(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store.select(DiagramSelectors.selectDiagramTimestamp).subscribe(timestamp => {
+      this.storeSub2 = this.store.select(DiagramSelectors.selectDiagramTimestamp).subscribe(timestamp => {
         if (!timestamp) {
           resolve(true); // No timestamp means first time, should refresh
           return;

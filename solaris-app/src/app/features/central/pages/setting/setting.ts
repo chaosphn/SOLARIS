@@ -60,7 +60,7 @@ export class Setting implements OnInit {
   private nextUserId: number = 1;
   private nextAlarmId: number = 1;
 
-  tabMode: 'user' | 'alarm' = 'user';
+  tabMode: 'user' | 'notification' | 'alarm' = 'user';
 
   siteList = signal<SiteModel[]>([]);
   private store = inject(Store);
@@ -81,7 +81,7 @@ export class Setting implements OnInit {
     this.initializeUserData();
   }
 
-  changeTabs(name: 'user' | 'alarm'){
+  changeTabs(name: 'user' | 'notification' | 'alarm'): void {
     this.tabMode = name;
   }
 
@@ -113,7 +113,8 @@ export class Setting implements OnInit {
     this.showUserModal = true;
   }
 
-  openEditUserModal(user: UserDataModel): void {
+  openEditUserModal(user: UserDataModel | any): void {
+    console.log('Editing user:', user);
     this.editingUser = user;
     this.newUser = { ...user, pageAccess: [...user.pageAccess] };
     this.showUserModal = true;
@@ -124,7 +125,8 @@ export class Setting implements OnInit {
     alert('User changes saved successfully!');
   }
 
-  async deleteUser(id: string): Promise<void> {
+  async deleteUser(id: string | any): Promise<void> {
+    console.log('Deleting user with id:', id);
     if (confirm('Are you sure you want to delete this user?')) {
       const response = await this.service.deleteUserConfig(id);
       if (response && response.success) {

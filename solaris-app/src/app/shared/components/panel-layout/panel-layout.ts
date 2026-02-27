@@ -101,21 +101,29 @@ export class PanelLayout {
   };
   
   getGradientId(percentage: number | undefined): string {
-    if(percentage != undefined && isNumber(percentage)){
-      let findColor;
-      
-      if(percentage > 100) {
-        // หาสีที่มี maximum สูงสุด
-        findColor = this.colors().reduce((max, current) => 
-          current.maximum > max.maximum ? current : max
-        );
-      } else {
-        findColor = this.colors().find(x => percentage >= x.minimum && percentage < x.maximum);
-      }
-      
-      return findColor ? `gradient-${findColor.title.toLowerCase()}` : 'gradient-default';
+    const colors = this.colors();
+
+    if (percentage == null || !isNumber(percentage) || !colors?.length) {
+      return 'gradient-default';
     }
-    return 'gradient-default';
+
+    let findColor;
+
+    if (percentage > 100) {
+      // ใส่ initial value ป้องกัน reduce crash
+      findColor = colors.reduce((max, current) =>
+        current.maximum > max.maximum ? current : max,
+        colors[0]
+      );
+    } else {
+      findColor = colors.find(
+        x => percentage >= x.minimum && percentage < x.maximum
+      );
+    }
+
+    return findColor
+      ? `gradient-${findColor.title.toLowerCase()}`
+      : 'gradient-default';
   }
 
   getPanelColor(pr: number | undefined){
@@ -137,24 +145,27 @@ export class PanelLayout {
     }
   }
 
-    getPanelStrokeColor(pr: number | undefined){
-      if(pr != undefined && isNumber(pr)){
-        let findColor;
-        if(pr > 100) {
-          const res = this.colors().reduce((max, current) => 
-            current.maximum > max.maximum ? current : max
-          );
-          return res.color;
-        } else {
-          const res = this.colors().find(x => pr >= x.minimum && pr < x.maximum);
-          return res ? res.color : 'var(--map-bg)';
-        }
-      } else {
-        return 'var(--map-bg)';
-      }
+  getPanelStrokeColor(pr: number | undefined) {
+    const colors = this.colors();
+
+    // กัน undefined / NaN / array ว่าง
+    if (pr == null || !isNumber(pr) || !colors?.length) {
+      return 'var(--map-bg)';
     }
 
+    if (pr > 100) {
+      const res = colors.reduce(
+        (max, current) =>
+          current.maximum > max.maximum ? current : max,
+        colors[0] // 👈 สำคัญมาก
+      );
+      return res.color;
+    }
 
+    const res = colors.find(x => pr >= x.minimum && pr < x.maximum);
+    return res ? res.color : 'var(--map-bg)';
+  }
+  
   getLabel(inv: string, str: string) {
     return `${inv} : STRING ${str.split('_').find(x => x.includes('STR'))?.replaceAll('STR', '')} : ${this.dataRealtime()[str]?.Value} A`;
   }

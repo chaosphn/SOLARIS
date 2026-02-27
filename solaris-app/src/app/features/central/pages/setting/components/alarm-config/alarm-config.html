@@ -1,0 +1,260 @@
+<div class="alarm-box bz">
+  <div class="head bz">
+    <div class="topic bz">ALARM CONFIGURATION</div>
+    <div class="btn-group d-flex" style="gap: 8px">
+      <button class="bz" (click)="openDialog()">TAG BROWSE</button>
+      <button class="bz" (click)="openNewAlarmModal()">NEW ALARM</button>
+      <button class="bz" (click)="confirmSaveChanges()">SAVE CHANGE</button>
+    </div>
+  </div>
+
+  <!-- Alarm Tags Table -->
+  <div class="main">
+    <div class="table-wrapper">
+      <table class="alarm-table">
+        <thead>
+          <tr>
+            <th>PointSource</th>
+            <th>Equipment</th>
+            <th>Asset</th>
+            <th>Message</th>
+            <th>Level</th>
+            <th>Expression</th>
+            <th>Schedule</th>
+            <th>Enable</th>
+            <th>Notifications</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (editedTags().length === 0) {
+            <tr>
+              <td colspan="8" class="empty-row">No alarm configured</td>
+            </tr>
+          }
+          @for (tag of editedTags(); track $index; let i = $index) {
+            <tr [class.selected-row]="editingIndex === i">
+                <td>
+                    <span class="tag-icon">🔗</span>
+                    {{ getSiteNameById(tag.PointSource) || '—' }}
+              <td>
+                <span class="tag-icon">🏷️</span>
+                {{ tag.Equipment || '—' }}
+              </td>
+              <td>{{ tag.Asset || '—' }}</td>
+              <td class="message-cell">{{ tag.Message || '—' }}</td>
+              <td>
+                <span class="level-badge" [attr.data-level]="tag.Level">
+                  {{ tag.Level }}
+                </span>
+              </td>
+              <td class="expression-cell">
+                <span class="expression-text">{{ tag.Expression || '—' }}</span>
+              </td>
+              <td>{{ tag.Schedule || '—' }}</td>
+              <td>
+                <span class="enable-badge" [class.active]="tag.Enable">
+                  {{ tag.Enable ? 'ON' : 'OFF' }}
+                </span>
+              </td>
+              <td>
+                <span class="enable-badge" [class.active]="tag.EnableEmail">
+                  {{ tag.EnableEmail ? 'ON' : 'OFF' }}
+                </span>
+              </td>
+              <td class="action-cell">
+                <button class="action-btn edit-btn"  matTooltip="Duplicate Tag" (click)="copyTag(i)">
+                  <i class="material-icons">content_copy</i>
+                </button>
+                <button class="action-btn edit-btn" (click)="openEditModal(i)" matTooltip="Edit Tag">
+                  <i class="material-icons">edit</i>
+                </button>
+                <button class="action-btn delete-btn" (click)="deleteTag(i)" matTooltip="Delete Tag">
+                  <i class="material-icons">delete</i>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Edit / New Alarm Modal -->
+@if (showAlarmModal) {
+  <div class="modal-backdrop" (click)="closeAlarmModal()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <span>{{ editingIndex >= 0 ? 'EDIT ALARM' : 'NEW ALARM' }}</span>
+        <button class="close-btn" (click)="closeAlarmModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- Section: Basic Info -->
+        <div class="section-title">Basic Info</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Equipment</label>
+            <input [(ngModel)]="newAlarmTag.Equipment" placeholder="e.g. Inverter" />
+          </div>
+          <div class="form-group">
+            <label>Asset</label>
+            <input [(ngModel)]="newAlarmTag.Asset" placeholder="e.g. INV001" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Message</label>
+          <textarea [(ngModel)]="newAlarmTag.Message" rows="2" placeholder="Alarm message"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Location</label>
+            <input [(ngModel)]="newAlarmTag.Location" placeholder="e.g. Site A" />
+          </div>
+          <div class="form-group">
+            <label>Point Source</label>
+            <input [(ngModel)]="newAlarmTag.PointSource" placeholder="e.g. SCADA1" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Level</label>
+            <select [(ngModel)]="newAlarmTag.Level">
+              <option value="Major">Major</option>
+              <option value="Minor">Minor</option>
+              <option value="Warning">Warning</option>
+              <option value="Info">Info</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Type</label>
+            <select [(ngModel)]="newAlarmTag.Type">
+              <option value="alarm">Alarm</option>
+              <option value="event">Event</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Section: Trigger -->
+        <div class="section-title">Trigger</div>
+
+        <div class="form-group">
+          <label>Expression</label>
+          <textarea [(ngModel)]="newAlarmTag.Expression" rows="3" placeholder="IF REAL('...') > 0 THEN 'TRUE' ELSE 'FALSE'"></textarea>
+          @if (newAlarmTag.Expression.length > 0) {
+            <button class="btn-expression-parse" (click)="parseExpressionData(newAlarmTag.Expression)">
+              <i class="material-icons">play_arrow</i>
+              Parse Expression
+            </button>
+          }
+          @if (exPressionResult) {
+            <div class="expression-result-box">
+              <span class="result-icon">✓</span>
+              <div class="result-text">
+                <span class="result-label">Expression Result</span>
+                <span class="result-value">{{ exPressionResult.value || 'Can not parse expression' }}</span>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Schedule (Cron)</label>
+            <input [(ngModel)]="newAlarmTag.Schedule" placeholder="e.g. * * * * *" />
+          </div>
+          <div class="form-group">
+            <label>Trigger Alarm (Count)</label>
+            <input type="number" [(ngModel)]="newAlarmTag.TriggerCounter" placeholder="0" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Group</label>
+            <input type="number" [(ngModel)]="newAlarmTag.Group" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label>Order</label>
+            <input type="number" [(ngModel)]="newAlarmTag.Order" placeholder="0" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Tag Sync</label>
+          <input [(ngModel)]="newAlarmTag.TagSync" placeholder="Tag sync identifier" />
+        </div>
+
+        <!-- Section: Email -->
+        <div class="section-title">Email</div>
+
+        <div class="form-row">
+          <div class="form-group toggle-group">
+            <label class="">Enable Alarm</label>
+            <label class="toggle-switch ">
+              <input type="checkbox" [(ngModel)]="newAlarmTag.Enable" />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="form-group toggle-group">
+            <label>Enable Notifications</label>
+            <label class="toggle-switch">
+              <input type="checkbox" [(ngModel)]="newAlarmTag.EnableEmail" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        @if (newAlarmTag.EnableEmail) {
+          <!-- Section: Notifications -->
+          <div class="section-title">Notifications</div>
+
+          <div class="noti-list">
+            @if (notificationConfig.length === 0) {
+              <div class="noti-empty">No notification channels configured</div>
+            }
+            @for (noti of notificationConfig; track noti.id) {
+              <div
+                class="noti-item"
+                [class.selected]="isNotiSelected(noti.id)"
+                (click)="toggleNoti(noti.id)"
+              >
+                <span class="noti-type-icon">{{ getNotiIcon(noti.type) }}</span>
+                <div class="noti-info">
+                  <span class="noti-name">{{ noti.name }}</span>
+                  <span class="noti-type">{{ noti.type }}</span>
+                </div>
+                <span class="noti-status" [class.enabled]="noti.enable">
+                  {{ noti.enable ? 'Active' : 'Inactive' }}
+                </span>
+                <span class="noti-check">
+                  <i class="material-icons">{{ isNotiSelected(noti.id) ? 'check_box' : 'check_box_outline_blank' }}</i>
+                </span>
+              </div>
+            }
+          </div>
+        }
+
+        @if (newAlarmTag.Notifications.length > 0) {
+          <div class="selected-count">
+            ✅ Selected {{ newAlarmTag.Notifications.length }} channel(s)
+          </div>
+        }
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeAlarmModal()">Cancel</button>
+        <button class="btn-save" (click)="saveNewAlarm()">
+          {{ editingIndex >= 0 ? 'Update' : 'Add Alarm' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

@@ -1,6 +1,6 @@
 <div class="container">
     <div class="content w-100 h-100">
-        <div class="report-box h-100 bz" style="margin-bottom: 16px;" *ngIf="tabMode === 'report'">
+        <div class="report-box h-100 bz" style="margin-bottom: 16px;">
             <div class="head bz">
                 <div class="topic bz">REPORT SETTING</div>
                 <div class="btn-group">
@@ -70,7 +70,7 @@
                                 DEFAULT EMAIL LIST
                             </div>
                             <div class="text-field full-width">
-                                <textarea [(ngModel)]="globalEmails" 
+                                <textarea [(ngModel)]="globalConfig().receivedBy" 
                                             class="email-textarea" 
                                             rows="4"
                                             placeholder="Enter email addresses separated by commas&#10;Example: user1@example.com, user2@example.com, user3@example.com"></textarea>
@@ -85,89 +85,98 @@
             </div>
 
             <!-- Site Configurations Table -->
-            <div class="table-section" *ngIf="siteConfigs.length > 0">
-                <h3 class="table-title">Site-Specific Email Configuration</h3>
-                <div class="table-wrapper">
-                    <table class="config-table">
-                        <thead>
-                            <tr>
-                                <th>Site Name</th>
-                                <th>Email List</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let config of siteConfigs">
-                                <td>
-                                    <div class="site-name">
-                                        <i class="material-icons">location_on</i>
-                                        {{ config.siteName }}
-                                    </div>
-                                </td>
-                                <td class="email-cell">
-                                    <span *ngIf="config.emails" class="email-content">{{ config.emails }}</span>
-                                    <span *ngIf="!config.emails" class="email-default">Using default emails</span>
-                                </td>
-                                <td class="action-cell">
-                                    <button class="action-btn edit-btn" (click)="editSiteConfig(config)" title="Edit">
-                                        <i class="material-icons">edit</i>
-                                    </button>
-                                    <button class="action-btn delete-btn" (click)="deleteSiteConfig(config.id)" title="Delete">
-                                        <i class="material-icons">delete</i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            @if (siteConfigs().length > 0) {
+                <div class="table-section" >
+                    <h3 class="table-title">Site-Specific Email Configuration</h3>
+                    <div class="table-wrapper">
+                        <table class="config-table">
+                            <thead>
+                                <tr>
+                                    <th>Site Name</th>
+                                    <th>Email List</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let config of siteConfigs()">
+                                    <td>
+                                        <div class="site-name bz">
+                                            <i class="material-icons bz">location_on</i>
+                                            {{ getSiteName(config.siteId) }}
+                                        </div>
+                                    </td>
+                                    <td class="email-cell">
+                                        @if (config.receivedBy) {
+                                            <span class="email-content">{{ config.receivedBy }}</span>
+                                        } @else {
+                                            <span class="email-default">Using default emails</span>
+                                        }
+                                    </td>
+                                    <td class="action-cell">
+                                        <button class="action-btn edit-btn" (click)="editSiteConfig(config)" title="Edit">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                        <button class="action-btn delete-btn" (click)="deleteSiteConfig(config.id)" title="Delete">
+                                            <i class="material-icons">delete</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     </div>
 </div>
 
 <!-- Modal for Add Site Config -->
-<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-            <h2>{{ newSiteConfig.id ? 'Edit' : 'Add' }} Site Email Configuration</h2>
-            <button class="close-btn" (click)="closeModal()">
-                <i class="material-icons">close</i>
-            </button>
-        </div>
-
-        <div class="modal-body">
-            <!-- Site Selection -->
-            <div class="form-group">
-                <label>
-                    <i class="material-icons label-icon">location_on</i>
-                    Select Site
-                </label>
-                <select [(ngModel)]="newSiteConfig.siteName" class="form-control">
-                    <option value="">-- Select Site --</option>
-                    <option *ngFor="let site of availableSites" [value]="site">{{ site }}</option>
-                </select>
+@if (showModal) {
+    <div class="modal-overlay" (click)="closeModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <h2>{{ newSiteConfig.id ? 'Edit' : 'Add' }} Site Email Configuration</h2>
+                <button class="close-btn" (click)="closeModal()">
+                    <i class="material-icons">close</i>
+                </button>
             </div>
 
-            <!-- Email List -->
-            <div class="form-group full-width">
-                <label>
-                    <i class="material-icons label-icon">email</i>
-                    Email List (comma-separated)
-                </label>
-                <textarea [(ngModel)]="newSiteConfig.emails" 
-                          class="form-control textarea" 
-                          rows="5"
-                          placeholder="Enter email addresses separated by commas&#10;Example: admin@example.com, manager@example.com&#10;&#10;Leave empty to use default email list"></textarea>
-                <div class="form-hint">
-                    <i class="material-icons">info</i>
-                    <span>If left empty, the default email list will be used for this site.</span>
+            <div class="modal-body">
+                <!-- Site Selection -->
+                <div class="form-group">
+                    <label>
+                        <i class="material-icons label-icon">location_on</i>
+                        Select Site
+                    </label>
+                    <select [(ngModel)]="newSiteConfig.siteId" class="form-control">
+                        <option value="">-- Select Site --</option>
+                        @for (site of siteList(); track $index) {
+                            <option [value]="site.id">{{ site.name }}</option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Email List -->
+                <div class="form-group full-width">
+                    <label>
+                        <i class="material-icons label-icon">email</i>
+                        Email List (comma-separated)
+                    </label>
+                    <textarea [(ngModel)]="newSiteConfig.receivedBy" 
+                            class="form-control textarea" 
+                            rows="5"
+                            placeholder="Enter email addresses separated by commas&#10;Example: admin@example.com, manager@example.com&#10;&#10;Leave empty to use default email list"></textarea>
+                    <div class="form-hint">
+                        <i class="material-icons">info</i>
+                        <span>If left empty, the default email list will be used for this site.</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="modal-footer">
-            <button class="btn-secondary" (click)="closeModal()">CANCEL</button>
-            <button class="btn-primary" (click)="saveSiteConfig()">SAVE</button>
+            <div class="modal-footer">
+                <button class="btn-secondary" (click)="closeModal()">CANCEL</button>
+                <button class="btn-primary" (click)="saveSiteConfig()">SAVE</button>
+            </div>
         </div>
     </div>
-</div>
+}

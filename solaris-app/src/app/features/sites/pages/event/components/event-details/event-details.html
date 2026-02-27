@@ -2,27 +2,47 @@
 
     <div class="card-box w-100 bz">
         <div class="title w-100">EQUIPMENT</div>
-        <div class="value bz w-100">{{ event().equipment || '---' }}</div>
+        <div class="value bz w-100">{{ event()?.Group || '---' }}</div>
     </div>
 
     <div class="card-box w-100 bz">
         <div class="title w-100">ASSET</div>
-        <div class="value bz w-100">{{ event().asset || '---' }}</div>
+        <div class="value bz w-100">{{ event()?.Item || '---' }}</div>
     </div>
-    
-    <div class="card-box w-100 bz">
-        <div class="title w-100">TIMESTAMP</div>
-        <div class="value bz w-100">{{ event().timestamp || '---' }}</div>
-    </div>
+
+    @if (event()?.Type === 'event') {
+        <div class="card-box w-100 bz">
+            <div class="title w-100">TIMESTAMP</div>
+            <div class="value bz w-100">{{ event()?.StartTime || '---' }}</div>
+        </div>
+    } @else { 
+        <div class="card-box w-100 bz">
+            <div class="title w-100">STARTTIME</div>
+            <div class="value bz w-100">{{ event()?.StartTime || '---' }}</div>
+        </div>
+        <div class="card-box w-100 bz">
+            <div class="title w-100">ENDTIME</div>
+            <div class="value bz w-100">{{ event()?.EndTime || '---' }}</div>
+        </div>
+    }
 
     <div class="card-box w-100 bz">
         <div class="title w-100">MESSAGE</div>
-        <div class="value bz w-100">{{ event().message || '---' }}</div>
+        <div class="value bz w-100">{{ event()?.Message || '---' }}</div>
     </div>
 
     <div class="card-box w-100 bz">
         <div class="title w-100">CONDITION</div>
-        <div class="value bz w-100">{{"STX01.CALC.INSOLATION > 1000 AND STX01.CALC.CAPACITY < 10 "}}</div>
+        <div class="value bz w-100">{{ event()?.Condition || '---' }}</div>
+    </div>
+
+    <div class="chart-box w-100 bz">
+        <div class="title w-100">CHART DATA</div>
+        <div class="chart bz w-100">
+            @if(chartParameter()){
+                <app-highchart [chartParameter]="chartParameter()"></app-highchart>
+            }
+        </div>
     </div>
 
 </div>

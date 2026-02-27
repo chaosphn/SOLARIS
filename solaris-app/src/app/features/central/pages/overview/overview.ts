@@ -66,6 +66,8 @@ export class Overview implements OnInit, OnDestroy {
   });
 
   timers?: Subscription;
+  storeSub?: Subscription;
+  storeSub2?: Subscription;
 
   private http = inject(HttpService);
   private store = inject(Store);
@@ -107,6 +109,12 @@ export class Overview implements OnInit, OnDestroy {
     if(this.timers){
       this.timers.unsubscribe();
     }
+    if(this.storeSub){
+      this.storeSub.unsubscribe();
+    }
+    if(this.storeSub2){
+      this.storeSub2.unsubscribe();
+    }
   }
 
   async initPage(){
@@ -133,7 +141,7 @@ export class Overview implements OnInit, OnDestroy {
 
   private async loadFromStoreIfExists(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store.select(OverviewSelectors.selectOverviewState).subscribe(state => {
+      this.storeSub = this.store.select(OverviewSelectors.selectOverviewState).subscribe(state => {
         let hasData = false;
         
         // Check if config exists and load it
@@ -301,7 +309,7 @@ export class Overview implements OnInit, OnDestroy {
 
   private async shouldRefreshData(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store.select(OverviewSelectors.selectOverviewTimestamp).subscribe(timestamp => {
+      this.storeSub2 = this.store.select(OverviewSelectors.selectOverviewTimestamp).subscribe(timestamp => {
         if (!timestamp) {
           resolve(true); // No timestamp means first time, should refresh
           return;

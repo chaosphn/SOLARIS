@@ -111,10 +111,12 @@ export const routes: Routes = [
     },
     {
         path: 'billing/:id',
+        canActivate: [PermissionGuard],
         loadChildren: () => import('./features/central/pages/billing/billing-module').then(m => m.BillingModule)
     },
     {
         path: 'billing-upload/:id',
+        canActivate: [PermissionGuard],
         component: BillingUpload,
     },
     {

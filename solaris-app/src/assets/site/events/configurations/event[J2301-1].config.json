@@ -1,42 +1,42 @@
 ﻿[
   {
-    "name": "Status",
+    "name": "Type",
     "opened": false,
     "item": [
       {
-        "value": "active",
-        "label": "Active",
+        "value": "alarm",
+        "label": "Alarm",
         "icon": "play_circle"
       },
       {
-        "value": "inactive",
-        "label": "Inactive",
+        "value": "event",
+        "label": "Event",
         "icon": "stop_circle"
       }
     ]
   },
   {
-    "name": "Type",
+    "name": "Level",
     "opened": false,
     "item": [
       {
-        "value": "event",
-        "label": "Event",
+        "value": "Info",
+        "label": "Info",
         "icon": "error_outline"
       },
       {
-        "value": "warning",
+        "value": "Warning",
         "label": "Warning",
         "icon": "warning_amber"
       },
       {
-        "value": "minor",
+        "value": "Minor",
         "label": "Minor Error",
         "icon": "notification_important"
       },
       {
-        "value": "major ",
-        "label": "MAjor Error",
+        "value": "Major",
+        "label": "Major Error",
         "icon": "dangerous"
       }
     ]

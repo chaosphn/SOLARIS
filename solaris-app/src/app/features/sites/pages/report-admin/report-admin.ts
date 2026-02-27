@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { CreateReportRequestModel, DeleteReportRequestModel, ReportConfigModel, UpdateReportRequestModel } from '../../../central/models/report.model';
+import { HttpService } from '../../../../shared/services/http.service';
+import { Store } from '@ngrx/store';
+import { sendMessage } from '../../../../store/actions/toaster.actions';
+import { firstValueFrom } from 'rxjs';
+import { getAllConfig } from '../../../../store/selectors/site.selectors';
+import { SiteModel } from '../../../../shared/models/config.model';
 
 @Component({
   selector: 'app-report-admin',
@@ -7,227 +14,205 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './report-admin.scss'
 })
 export class ReportAdmin implements OnInit {
-  reportMode: 'auto' | 'manual' = 'manual';
-  scheduleDayOfMonth: number = 1;
-  scheduleTime: string = '10:00';
-  globalEmails: string = '';
+  
 
-  // Modal for add site config
   showModal: boolean = false;
-  
-  // Site config form
-  newSiteConfig: SiteConfig = this.getEmptySiteConfig();
-  
-  // Available sites (mock data)
-  availableSites: string[] = [
-    'Site 01 - Solar Rooftop Singha Kameda',
-    'Site 02 - Solar Rooftop Vara Food Phase1',
-    'Site 03 - Solar Rooftop PSC Starch',
-    'Site 04 - Solar Rooftop Singha Park Chiangrai',
-    'Site 05 - Solar Rooftop Vara Food Phase2',
-    'Site 06 - Solar Rooftop SRB',
-    'Site 07 - Solar Rooftop WNB2',
-    'Site 08 - Solar Rooftop KKB Factory',
-    'Site 09 - Solar Rooftop BAB',
-    'Site 10 - Solar Rooftop SBC'
-  ];
+  globalConfig = signal<ReportConfigModel>({} as ReportConfigModel);
+  siteConfigs = signal<ReportConfigModel[]>([]);
+  newSiteConfig: ReportConfigModel = this.getEmptySiteConfig();
+  siteList = signal<SiteModel[]>([]);
 
-  // Site configurations list
-  siteConfigs: SiteConfig[] = [];
 
-  private nextId: number = 1;
+  private httpSrv = inject(HttpService);
+  private store = inject(Store);
 
-  // Holiday Settings
-  selectedHolidayDate: Date | null = null;
-  holidayStartDate: Date | null = null;
-  holidayEndDate: Date | null = null;
-  holidayArr: Date[] = [];
-  removable: boolean = true;
-
-  tabMode: 'report' | 'holiday' = 'report';
-
-  monthArr = [
-    { no: 1, name: 'January' },
-    { no: 2, name: 'February' },
-    { no: 3, name: 'March' },
-    { no: 4, name: 'April' },
-    { no: 5, name: 'May' },
-    { no: 6, name: 'June' },
-    { no: 7, name: 'July' },
-    { no: 8, name: 'August' },
-    { no: 9, name: 'September' },
-    { no: 10, name: 'October' },
-    { no: 11, name: 'November' },
-    { no: 12, name: 'December' }
-  ];
 
   ngOnInit(): void {
-    // Initialize with mock holiday data
-    console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
-    this.holidayArr = [
-      new Date(2025, 0, 1),  // Jan 1 - New Year
-      new Date(2025, 1, 14), // Feb 14 - Valentine's Day
-      new Date(2025, 3, 6),  // Apr 6 - Chakri Day
-      new Date(2025, 3, 13), // Apr 13 - Songkran
-      new Date(2025, 3, 14), // Apr 14 - Songkran
-      new Date(2025, 3, 15), // Apr 15 - Songkran
-      new Date(2025, 4, 1),  // May 1 - Labour Day
-      new Date(2025, 4, 5),  // May 5 - Coronation Day
-      new Date(2025, 6, 28), // Jul 28 - King's Birthday
-      new Date(2025, 7, 12), // Aug 12 - Queen's Birthday
-      new Date(2025, 9, 13), // Oct 13 - King Bhumibol Day
-      new Date(2025, 9, 23), // Oct 23 - Chulalongkorn Day
-      new Date(2025, 11, 5), // Dec 5 - King Bhumibol Birthday
-      new Date(2025, 11, 10), // Dec 10 - Constitution Day
-      new Date(2025, 11, 31)  // Dec 31 - New Year's Eve
-    ];
+    this.getReportConfigData();
+    this.getSiteListData();
   }
 
-  changeTabs(name: 'report' | 'holiday'): void {
-    this.tabMode = name;
+  async getReportConfigData(){
+    const result = await this.httpSrv.getReportConfig();
+    if(result && result.status === 'success'){
+      const global = result.data.find(x => x.siteId === 'global');
+      if(global){
+        this.globalConfig.set(global);
+      }
+      const sites = result.data.filter(x => x.siteId !== 'global');
+      if(sites){
+        this.siteConfigs.set(sites);
+      }
+    }
   }
 
-  getEmptySiteConfig(): SiteConfig {
-    return {
-      id: 0,
-      siteName: '',
-      emails: ''
+  async getSiteListData(){
+    const res = await firstValueFrom(
+      this.store.select(getAllConfig())
+    );
+    if(res && res[0]){
+      //console.log(res)
+      this.siteList.set(res[0].siteList);
     };
   }
 
-  onReportModeChange(): void {
-    console.log('Report mode changed to:', this.reportMode);
+  getEmptySiteConfig(): ReportConfigModel {
+    return {
+      id: 0,
+      siteId: '',
+      receivedBy: '',
+      receivedCc: '',
+      receivedBcc: ''
+    };
   }
 
-  saveGlobalSettings(): void {
-    console.log('Saving global settings:', {
-      reportMode: this.reportMode,
-      scheduleDayOfMonth: this.scheduleDayOfMonth,
-      scheduleTime: this.scheduleTime,
-      globalEmails: this.globalEmails
-    });
-    // Add your save logic here (e.g., API call)
-    alert('Report settings saved successfully!');
-  }
+  
 
   openAddSiteModal(): void {
     this.showModal = true;
     this.newSiteConfig = this.getEmptySiteConfig();
   }
 
-  closeModal(): void {
+  async closeModal() {
     this.showModal = false;
     this.newSiteConfig = this.getEmptySiteConfig();
+    await this.getReportConfigData();
   }
 
-  saveSiteConfig(): void {
-    if (!this.newSiteConfig.siteName) {
-      alert('Please select a site');
-      return;
+  async saveSiteConfig() {
+    
+    if (!this.newSiteConfig.receivedBy) {
+      return this.sendMessageToState('warn', 'Please select a receiver.');
     }
 
-    if (this.siteConfigs.findIndex((x: SiteConfig) => x.id == this.newSiteConfig.id) >= 0) {
-      this.siteConfigs = this.siteConfigs.map((x: SiteConfig) => {
-        if (x.id == this.newSiteConfig.id) {
-          x = { ...this.newSiteConfig };
-        }
-        return x;
-      });
+    if (!this.validateEmailList(this.newSiteConfig.receivedBy)) {
+      return this.sendMessageToState('warn', 'Please enter a valid approver email address.');
+    }
+  
+    if (this.newSiteConfig.id > 0) {
+      const request: UpdateReportRequestModel ={
+        id: this.newSiteConfig.id,
+        siteId: this.newSiteConfig.siteId,
+        reciever: this.newSiteConfig.receivedBy,
+        carboncopy: this.newSiteConfig.receivedCc,
+        blindcarboncopy: this.newSiteConfig.receivedBcc
+      };
+      const result = await this.httpSrv.updateReportConfig(request);
+  
+      if (result?.StatusCode?.toLowerCase().includes('success')) {
+        this.sendMessageToState('success', 'Report configuration updated successfully.');
+      } else {
+        this.sendMessageToState('error', 'Failed to update report configuration.');
+      }
     } else {
-      this.newSiteConfig.id = this.nextId++;
-      this.siteConfigs.push({ ...this.newSiteConfig });
+  
+      const request: CreateReportRequestModel = {
+        siteId: this.newSiteConfig.siteId,
+        reciever: this.newSiteConfig.receivedBy,
+        carboncopy: this.newSiteConfig.receivedCc,
+        blindcarboncopy: this.newSiteConfig.receivedBcc
+      };
+  
+      const result = await this.httpSrv.addReportConfig(request);
+  
+      if (result?.StatusCode?.toLowerCase().includes('success')) {
+        this.sendMessageToState('success', 'Report configuration created successfully.');
+      } else {
+        this.sendMessageToState('error', 'Failed to create report configuration.');
+      }
     }
-    
-    console.log('Site config saved:', this.newSiteConfig);
-    alert('Site email configuration saved successfully!');
-    
-    this.closeModal();
   }
 
-  deleteSiteConfig(id: number): void {
+  async deleteSiteConfig(id: number) {
     if (confirm('Are you sure you want to delete this configuration?')) {
-      this.siteConfigs = this.siteConfigs.filter(config => config.id !== id);
+      const request: DeleteReportRequestModel  =  { id: id };
+      const result = await this.httpSrv.deleteReportConfig(request);
+      if(result && result.StatusCode && result.StatusCode.toLowerCase().includes('success')){
+        this.sendMessageToState('success', 'Report configuration deleted successfully.');
+      } else {
+        this.sendMessageToState('error', 'Failed to delete report configuration.');
+      }
+      await this.getReportConfigData();
     }
   }
 
-  editSiteConfig(config: SiteConfig): void {
+  editSiteConfig(config: ReportConfigModel): void {
     this.newSiteConfig = { ...config };
     this.showModal = true;
   }
 
-  selectHolidayDate(date: Date): void {
-    this.selectedHolidayDate = date;
-    this.setHolidays();
-  }
-
-  setHolidays(): void {
-    if (this.holidayStartDate && this.holidayEndDate) {
-      this.addHolidayRange();
-    } else if (this.selectedHolidayDate) {
-      this.addSingleHoliday();
-    } else {
-      alert('Please select a date or date range');
-    }
-  }
-
-  private addHolidayRange(): void {
-    const start = new Date(this.holidayStartDate!);
-    const end = new Date(this.holidayEndDate!);
+  async saveGlobalSettings() {
     
-    if (start > end) {
-      alert('Start date must be before end date');
-      return;
+    if (!this.globalConfig().receivedBy) {
+      return this.sendMessageToState('warn', 'Please select a receiver.');
     }
 
-    const currentDate = new Date(start);
-    while (currentDate <= end) {
-      if (!this.isHolidayExists(currentDate)) {
-        this.holidayArr.push(new Date(currentDate));
+    if (!this.validateEmailList(this.globalConfig().receivedBy)) {
+      return this.sendMessageToState('warn', 'Please enter a valid approver email address.');
+    }
+  
+    if (this.globalConfig().id > 0) {
+      const request: UpdateReportRequestModel ={
+        id: this.globalConfig().id,
+        siteId: this.globalConfig().siteId,
+        reciever: this.globalConfig().receivedBy,
+        carboncopy: this.globalConfig().receivedCc,
+        blindcarboncopy: this.globalConfig().receivedBcc
+      };
+      const result = await this.httpSrv.updateReportConfig(request);
+  
+      if (result?.StatusCode?.toLowerCase().includes('success')) {
+        this.sendMessageToState('success', 'Report configuration updated successfully.');
+      } else {
+        this.sendMessageToState('error', 'Failed to update report configuration.');
       }
-      currentDate.setDate(currentDate.getDate() + 1);
+    } else {
+  
+      const request: CreateReportRequestModel = {
+        siteId: 'global',
+        reciever: this.globalConfig().receivedBy,
+        carboncopy: this.globalConfig().receivedCc,
+        blindcarboncopy: this.globalConfig().receivedBcc
+      };
+  
+      const result = await this.httpSrv.addReportConfig(request);
+  
+      if (result?.StatusCode?.toLowerCase().includes('success')) {
+        this.sendMessageToState('success', 'Report configuration created successfully.');
+      } else {
+        this.sendMessageToState('error', 'Failed to create report configuration.');
+      }
     }
-
-    this.holidayArr.sort((a, b) => a.getTime() - b.getTime());
-    alert('Holidays added successfully!');
+  
+    await this.getReportConfigData();
   }
 
-  private addSingleHoliday(): void {
-    const date = new Date(this.selectedHolidayDate!);
-    
-    if (this.isHolidayExists(date)) {
-      alert('This date is already in the holiday list');
-      return;
-    }
-
-    this.holidayArr.push(date);
-    this.holidayArr.sort((a, b) => a.getTime() - b.getTime());
-    alert('Holiday added successfully!');
+  sendMessageToState(type:  "error" | "success" | "info" | "warn" | "secondary" | "contrast", msg: string){
+    this.store.dispatch(sendMessage({ 
+      payload: { type: type, text: msg }
+    }));
   }
 
-  private isHolidayExists(date: Date): boolean {
-    return this.holidayArr.some(d => d.toDateString() === date.toDateString());
+  validateEmailList(value: string | null | undefined): boolean {
+
+    if (!value) return false;
+
+    // split email ด้วย comma
+    const emails = value
+      .split(',')
+      .map(e => e.trim())
+      .filter(e => e.length > 0);
+
+    if (emails.length === 0) return false;
+
+    // basic email regex (safe สำหรับ frontend validation)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    return emails.every(email => emailRegex.test(email));
   }
 
-  filterDateByMonth(monthNo: number, dates: Date[]): Date[] {
-    return dates.filter(date => date.getMonth() + 1 === monthNo);
-  }
-
-  removeHoliday(date: Date): void {
-    this.holidayArr = this.holidayArr.filter(
-      d => d.toDateString() !== date.toDateString()
-    );
-  }
-
-  getDaySuffix(day: number): string {
-    if (day >= 11 && day <= 13) {
-      return 'th';
-    }
-    switch (day % 10) {
-      case 1: return 'st';
-      case 2: return 'nd';
-      case 3: return 'rd';
-      default: return 'th';
-    }
+  getSiteName(id: string){
+    return this.siteList().find(x => x.id === id)?.name || id;
   }
 
 }

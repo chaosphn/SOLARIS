@@ -243,12 +243,20 @@
         row-gap: 8px;
         cursor: pointer;
         .card{
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: flex-start;
             gap: 12px;
             padding: 4px;
             box-sizing: border-box;
+            .event-icon{
+                position: absolute;
+                right: 0px;
+                top: 0px;
+                font-size: 16px !important;
+                animation: shake 0.8s ease-in-out forwards !important;
+            }
             .material-icons{
                 font-size: 20px;
                 color: var(--primary-txt);
@@ -442,6 +450,18 @@
   font-size: 16px;
 }
 
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-1px) rotate(-2deg);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(1px) rotate(2deg);
+  }
+}
+
 // Tablet Landscape (768px - 1024px)
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
     .sidenav-container {
@@ -464,6 +484,16 @@
         
         .material-icons {
             font-size: 26px;
+        }
+    }
+
+    .ai-btn {
+        width: 40px;
+        height: auto;
+        padding: 6px 10px;
+        font-size: 11px;
+        div{
+            display: none;
         }
     }
     
@@ -502,7 +532,7 @@
         padding: 6px;
         width: 100%;
         display: flex;
-        flex-wrap: wrap;
+        //flex-wrap: wrap;
         justify-content: space-around;
         flex: 1;
         div {

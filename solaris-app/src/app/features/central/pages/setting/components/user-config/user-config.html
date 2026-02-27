@@ -1,0 +1,71 @@
+<div class="user-box bz">
+  <div class="head bz">
+    <div class="topic bz">USERS CONFIGURATION</div>
+    <div class="btn-group">
+      <button class="bz" (click)="openAddUserModal()">ADD USER</button>
+      <!-- <button class="bz" (click)="saveUserChanges()">SAVE CHANGE</button> -->
+    </div>
+  </div>
+  <div class="main">
+    <div class="user-table-wrapper">
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Page Access</th>
+            <th>Site Access</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of users(); track $index) {
+            <tr>
+              <td>{{ user.username }}</td>
+              <td>
+                <span class="role-badge" [class.admin]="user.Group === 'administrator'">
+                  {{ user.Group }}
+                </span>
+              </td>
+              <td class="page-access-cell">
+                <div class="page-badges">
+                  @for (page of user.pageAccess; track $index) {
+                    <span class="page-badge">
+                      {{ getPageNameById(page) }}
+                    </span>
+                  }
+                </div>
+              </td>
+              <td class="page-access-cell">
+                <div class="page-badges">
+                  @for (page of user.siteAccess; track $index) {
+                    <span class="page-badge">
+                      {{ getSiteNameById(page) }}
+                    </span>
+                  }
+                </div>
+              </td>
+              <td class="action-cell">
+                <button class="action-btn edit-btn" (click)="openEditUserModal(user)">
+                  <i class="material-icons">edit</i>
+                </button>
+                <button class="action-btn delete-btn" (click)="confirmDeleteUser(user._id)">
+                  <i class="material-icons">delete</i>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+@if (showUserModal) {
+    <app-user-dialog
+        [userList]="users()"
+        [userData]="newUser"
+        [pageList]="availablePages"
+        (onClose)="closeUserModal()"
+    ></app-user-dialog>
+}

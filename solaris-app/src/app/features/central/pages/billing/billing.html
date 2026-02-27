@@ -1,7 +1,7 @@
 <div class="container w-100 h-100 bz">
     <div class="header d-flex-sb w-100 bz">
         <div class="item-group d-flex">
-            @if (sessionId() === 'viewer') {
+            @if (true) {
                 <div class="dropdown-wrapper" #dropdownWrapper1>
                     <div class="custom-dropdown d-flex-ct bz h-100" 
                         [class.active]="isDropdownOpen1"
@@ -71,6 +71,9 @@
         <div class="btn-group d-flex">
             @if (sessionId().length > 0 && sessionId() !== 'viewer') {
                 <button class="submit d-flex-ct brd h-100" (click)="approveBillingData()">{{ loading3() ? 'SENDING...' : 'APPROVE & SEND' }}</button>
+            }
+            @if (userRole() === 'administrator') {
+                <button class="submit d-flex-ct brd h-100" (click)="generateReport()">{{ loading4() ? 'GENERATING...' : 'GENERATE' }}</button>
             }
             <button class="submit d-flex-ct brd h-100" (click)="selectReport()">{{ loading() ? 'LOADING...' : 'VIEW' }}</button>
             <button class="submit d-flex-ct brd h-100" (click)="downloadReport()">{{ loading2() ? 'LOADING...' : 'DOWNLOAD' }}</button>

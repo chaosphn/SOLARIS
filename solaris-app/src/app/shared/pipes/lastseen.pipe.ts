@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { isDate } from 'moment';
 
 @Pipe({
   name: 'lastseen',
@@ -7,7 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class LastseenPipe implements PipeTransform {
 
   transform(timestamp: string, nowtinme: Date): unknown {
-    if(timestamp){
+    if(timestamp && timestamp !== '---' && isDate(new Date(timestamp))){
       const ts = new Date(timestamp);
       if(nowtinme > ts ){
         const time = nowtinme.getTime() - (ts.getTime());

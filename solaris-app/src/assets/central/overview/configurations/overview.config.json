@@ -93,6 +93,32 @@
         ]
       },
       {
+        "Group": "site-data",
+        "Order": 6,
+        "Tags": [
+          {
+            "Title": "J2301-1_POWER",
+            "Tagname": "J2301-1.SCADA1.POWER"
+          },
+          {
+            "Title": "J2301-1_ENERGY",
+            "Tagname": "J2301-1.SCADA1.TODAY_ENERGY"
+          },
+          {
+            "Title": "J2301-1_PYRANO",
+            "Tagname": "J2301-1.SCADA1.PYRANO1"
+          },
+          {
+            "Title": "J2301-1_AMBTEMP",
+            "Tagname": "J2301-1.SCADA1.AMBTEMP"
+          },
+          {
+            "Title": "J2301-1_PVTEMP",
+            "Tagname": "J2301-1.SCADA1.PVTEMP"
+          }
+        ]
+      },
+      {
         "Group": "map",
         "Order": 5,
         "Tags": [

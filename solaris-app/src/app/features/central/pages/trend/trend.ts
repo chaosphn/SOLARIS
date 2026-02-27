@@ -55,6 +55,8 @@ export class Trend implements OnInit, OnDestroy {
   
   timers?: Subscription;
   dateStateSubscription?: Subscription;
+  storeSub?: Subscription;
+  storeSub2?: Subscription;
 
   date: Date = new Date();
 
@@ -152,7 +154,7 @@ export class Trend implements OnInit, OnDestroy {
 
   private async loadFromStoreIfExists(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store.select(TrendSelectors.selectTrendState)
+      this.storeSub = this.store.select(TrendSelectors.selectTrendState)
         .pipe(take(1)) // เพิ่มบรรทัดนี้
         .subscribe((state: PageStateModel) => {
           console.log(state); // เรียกครั้งเดียว
@@ -325,7 +327,7 @@ export class Trend implements OnInit, OnDestroy {
 
   private async shouldRefreshData(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store.select(TrendSelectors.selectTrendTimestamp).subscribe(timestamp => {
+      this.storeSub2 = this.store.select(TrendSelectors.selectTrendTimestamp).subscribe(timestamp => {
         if (!timestamp) {
           resolve(true); // No timestamp means first time, should refresh
           return;

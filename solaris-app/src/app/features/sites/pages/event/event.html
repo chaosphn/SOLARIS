@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="btn-group d-flex">
-            <button class="submit d-flex-ct brd h-100" >{{ loading() ? 'LOADING...' : 'VIEW' }}</button>
+            <button class="submit d-flex-ct brd h-100" (click)="onSelectEvent()">{{ loading() ? 'LOADING...' : 'VIEW' }}</button>
             <button class="submit d-flex-ct brd h-100" >{{ loading2() ? 'LOADING...' : 'DOWNLOAD' }}</button>
         </div>
     </div>
@@ -69,39 +69,39 @@
                             @for (item of eventList(); track $index) {
                                 <tr >
                                     <td>
-                                        @if(item.status === "active"){
+                                        @if(!item.EndTime){
                                             <i class="material-icons minor">play_circle</i>
                                         }  
-                                        @if(item.status === "inactive") {
+                                        @if(item.EndTime) {
                                             <i class="material-icons event">stop_circle</i>
                                         }
                                     </td>
                                     <td>
-                                        @if(item.type === "event"){
+                                        @if(item.Level === "Info"){
                                             <i class="material-icons event">error_outline</i>
                                         }  
-                                        @if(item.type === "warning") {
+                                        @if(item.Level === "Warning") {
                                             <i class="material-icons warn">warning_amber</i>
                                         }
-                                        @if(item.type === "minor"){
+                                        @if(item.Level === "Minor"){
                                             <i class="material-icons minor">notification_important</i>
                                         }  
-                                        @if(item.type === "major") {
+                                        @if(item.Level === "Major") {
                                             <i class="material-icons major">dangerous</i>
                                         }
                                     </td>
-                                    <td>{{ item.timestamp }}</td>
-                                    <td>{{ item.equipment }}</td>
-                                    <td>{{ item.asset }}</td>
+                                    <td>{{ item.StartTime }}</td>
+                                    <td>{{ item.Group }}</td>
+                                    <td>{{ item.Item }}</td>
                                     <td (click)="onRowSelect(item)">
-                                        @if(item.action === "muted"){
+                                        @if(item.Action === "muted"){
                                             <i class="material-icons ">visibility_off</i>
                                         }  
-                                        @if(item.action === "unmute") {
+                                        @if(item.Action === "unmute") {
                                             <i class="material-icons active">visibility</i>
                                         }
                                     </td>
-                                    <td>{{ item.message }}</td>
+                                    <td>{{ item.Message }}</td>
                                 </tr>
                             }
                         </tbody>
@@ -110,7 +110,7 @@
             </div>
         </div>
         <div class="data-summary w-100 h-100 bz">
-            @if(selectedEvent()){
+            @if(selectedEvent().ID){
                 <app-card-container [title]="'DETAILS'">
                     <ng-template #container>
                         <app-event-details [event]="selectedEvent()"></app-event-details>

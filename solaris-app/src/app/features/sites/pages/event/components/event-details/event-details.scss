@@ -20,3 +20,17 @@
         margin-bottom: 4px;
     }
 }
+
+.chart-box{
+    padding: 12px;
+    background-color: var(--primary-bg); 
+    border-radius: 2px;
+    .title{
+        font-size: 12px;
+        margin-bottom: 12px;
+        color: var(--secondary-txt);
+    }
+    .chart{
+        height: 150px;
+    }
+}

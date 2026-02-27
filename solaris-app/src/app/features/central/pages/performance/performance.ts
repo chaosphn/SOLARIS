@@ -53,6 +53,8 @@ export class Performance implements OnInit, OnDestroy {
   
   timers?: Subscription;
   dateStateSubscription?: Subscription;
+  storeSub?: Subscription;
+  storeSub2?: Subscription;
 
   date: Date = new Date();
 
@@ -109,6 +111,12 @@ export class Performance implements OnInit, OnDestroy {
     if(this.dateStateSubscription){
       this.dateStateSubscription.unsubscribe();
     }
+    if(this.storeSub){
+      this.storeSub.unsubscribe();
+    } 
+    if(this.storeSub2){
+      this.storeSub2.unsubscribe();
+    }
     this.store.dispatch(setDateEnable({ payload: false }));
     this.store.dispatch(setDateEnable({ payload: false }));
   }
@@ -136,7 +144,7 @@ export class Performance implements OnInit, OnDestroy {
 
   private async loadFromStoreIfExists(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store.select(PerformanceSelectors.selectPerformanceState).subscribe(state => {
+      this.storeSub = this.store.select(PerformanceSelectors.selectPerformanceState).subscribe(state => {
         let hasData = false;
         
         // Check if config exists and load it
@@ -333,7 +341,7 @@ export class Performance implements OnInit, OnDestroy {
 
   private async shouldRefreshData(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store.select(PerformanceSelectors.selectPerformanceTimestamp).subscribe(timestamp => {
+      this.storeSub2 = this.store.select(PerformanceSelectors.selectPerformanceTimestamp).subscribe(timestamp => {
         if (!timestamp) {
           resolve(true); // No timestamp means first time, should refresh
           return;

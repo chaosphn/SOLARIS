@@ -89,6 +89,8 @@ export class Realtime implements OnInit, OnDestroy {
   
   timers?: Subscription;
   navSub?: Subscription;
+  storeSub?: Subscription;
+  storeSub2?: Subscription;
 
   date: Date = new Date();
 

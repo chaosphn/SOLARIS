@@ -8,6 +8,8 @@ export class AppInitService {
   config: ConfigModel = {
     UrlApi: undefined,
     UrlApiAuthen: undefined,
+    UrlApiBilling: undefined,
+    UrlApiNotification: undefined,
     Timer: 60,
   };
 
@@ -27,6 +29,8 @@ export class AppInitService {
       // Update config object
       this.config.UrlApi = data.UrlApi;
       this.config.UrlApiAuthen = data.UrlApiAuthen;
+      this.config.UrlApiBilling = data.UrlApiBilling;
+      this.config.UrlApiNotification = data.UrlApiNotification;
       this.config.Timer = data.Timer;
       
       return this.config;

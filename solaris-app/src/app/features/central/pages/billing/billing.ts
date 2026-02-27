@@ -34,6 +34,7 @@ export class Billing implements OnInit, OnDestroy {
   loading = signal<Boolean>(false);
   loading2 = signal<Boolean>(false);
   loading3 = signal<Boolean>(false);
+  loading4 = signal<Boolean>(false);
   
   isDropdownOpen1 = false;
   isDropdownOpen2 = false;
@@ -63,6 +64,8 @@ export class Billing implements OnInit, OnDestroy {
 
   sessionId = signal<string>('');
   sessionData = signal<BillingSessionModel | null>(null);
+
+  userRole = signal<string>('administrator');
 
   private http = inject(HttpService);
   private store = inject(Store);
@@ -172,6 +175,43 @@ export class Billing implements OnInit, OnDestroy {
     this.date = event;
   }
 
+  async generateReport() {
+    try {
+      this.loading4.set(true);
+      this.pdfurl.update(prev => '');
+      if(this.selectedSite?.value){
+        await new Promise(resolve => setTimeout(resolve, 200));
+        const blob: any = await this.http.generateBilling(this.selectedSite?.value, this.date.toISOString(), this.selectedReport?.value);
+        if(blob && blob.session){
+          this.sessionId.set(blob.session);
+        } else {
+          this.sessionId.set('');
+        }
+        if (blob && blob.data) {
+          // const bb = new Blob()
+          // this.pdfurl.set(URL.createObjectURL(blob.data));
+          const byteArray = new Uint8Array(blob.data.data);
+          const pdfBlob = new Blob([byteArray], { type: 'application/pdf' });
+          this.pdfurl.set(URL.createObjectURL(pdfBlob));
+        } else {
+          this.store.dispatch(sendMessage({ 
+            payload: { type: 'error', text: 'No billings returned' }
+          }));
+        }
+      } else {
+        this.store.dispatch(sendMessage({ 
+          payload: { type: 'error', text: 'Please select site !' }
+        }));
+      };
+      this.loading4.set(false);
+    } catch (error: any) {
+      this.store.dispatch(sendMessage({ 
+        payload: { type: 'error', text: error.message }
+      }));
+      this.loading4.set(false);
+    }
+  }
+
   async selectReport() {
     try {
       this.loading.set(true);
@@ -179,9 +219,9 @@ export class Billing implements OnInit, OnDestroy {
       if(this.selectedSite?.value){
         await new Promise(resolve => setTimeout(resolve, 200));
         const blob: any = await this.http.getBilling(this.selectedSite?.value, this.date.toISOString(), this.selectedReport?.value);
-        if(blob && blob.session){
-          this.sessionId.set(blob.session);
-        }
+        // if(blob && blob.session){
+        //   this.sessionId.set(blob.session);
+        // }
         if (blob && blob.data) {
           // const bb = new Blob()
           // this.pdfurl.set(URL.createObjectURL(blob.data));
@@ -246,8 +286,9 @@ export class Billing implements OnInit, OnDestroy {
       const result = await this.http.approveBilling(this.sessionId(), ts, sietId);
       if(result && result?.StatusCode === "Approve Billing Success"){
         this.store.dispatch(sendMessage({ 
-          payload: { type: 'info', text: result?.Message }
+          payload: { type: 'success', text: result?.Message }
         }));
+        this.sessionId.set('');
       } else {
         this.store.dispatch(sendMessage({ 
           payload: { type: 'error', text: result?.Message || 'Billing approval failed !' }

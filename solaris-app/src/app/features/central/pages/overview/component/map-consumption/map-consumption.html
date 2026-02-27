@@ -148,7 +148,7 @@
                 </div>
                 <div class="table">
                     <div class="thead">
-                        <div class="th th-xx" >XX</div>
+                        <div class="th th-xx" >i</div>
                         <!-- <div class="th th-code">CODE</div> -->
                         <div class="th th-site">SITE</div>
                         <div class="th th-province">PROVINCE</div>
@@ -162,7 +162,7 @@
                     <div class="tbody bz">
                         @for (row of sitesSummary(); track row.code) {
                             <div class="tr">
-                                <div class="td th-xx" >{{ row.indicator }}</div>
+                                <div class="td th-xx" >{{ row.indicator | lastseen : now}}</div>
                                 <!-- <div class="td th-code">{{ row.code }}</div> -->
                                 <div class="td th-site">{{ row.site }}</div>
                                 <div class="td th-province">{{ row.province }}</div>

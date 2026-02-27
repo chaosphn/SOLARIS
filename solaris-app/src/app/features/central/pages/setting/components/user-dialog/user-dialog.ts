@@ -189,10 +189,11 @@ export class UserDialog implements OnInit {
         this.store.dispatch(sendMessage({ payload: { text: 'Please enter username', type: 'error' } }));
         return;
       }
-      if(this.userList().findIndex(u => u.username === this.userData().username) !== -1) {
-        this.store.dispatch(sendMessage({ payload: { text: 'User already exists', type: 'warn' } }));
-        return;
-      }
+      
+      // if(this.userList().findIndex(u => u.username === this.userData().username) !== -1) {
+      //   this.store.dispatch(sendMessage({ payload: { text: 'User already exists', type: 'warn' } }));
+      //   return;
+      // }
       
       const body = {
         _id: this.userData()._id,

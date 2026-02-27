@@ -9,325 +9,36 @@
                 [ngClass]="{ 'item-active' : tabMode === 'alarm' }">
                     ALARM SETTING
             </div>
+            <div class="item" (click)="changeTabs('notification')"
+                [ngClass]="{ 'item-active' : tabMode === 'notification' }">
+                    NOTIFICATION CHANNELS
+            </div>
         </div>
         <div class="content w-100 h-100">
             <!-- User Setting Box -->
             @switch (tabMode) {
                 @case ('user') {
-                    <div class="user-box bz" >
-                        <div class="head bz">
-                            <div class="topic bz">USERS CONFIGURATION</div>
-                            <div class="btn-group">
-                                <button class="bz" (click)="openAddUserModal()">ADD USER</button>
-                                <button class="bz" (click)="saveUserChanges()">SAVE CHANGE</button>
-                            </div>
-                        </div>
-                        <div class="main">
-                            <div class="user-table-wrapper">
-                                <table class="user-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Username</th>
-                                            <th>Role</th>
-                                            <th>Page Access</th>
-                                            <th>Site Access</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @for (user of users; track $index) {
-                                            <tr>
-                                                <td>{{ user.username }}</td>
-                                                <td>
-                                                    <span class="role-badge" [class.admin]="user.Group === 'administrator'">
-                                                        {{ user.Group }}
-                                                    </span>
-                                                </td>
-                                                <td class="page-access-cell">
-                                                    <div class="page-badges">
-                                                        @for (page of user.pageAccess; track $index) {
-                                                            <span class="page-badge">
-                                                                {{ getPageNameById(page) }}
-                                                            </span>
-                                                        }
-                                                    </div>
-                                                </td>
-                                                <td class="page-access-cell">
-                                                    <div class="page-badges">
-                                                        @for (page of user.siteAccess; track $index) {
-                                                            <span class="page-badge">
-                                                                {{ getSiteNameById(page) }}
-                                                            </span>
-                                                        }
-                                                    </div>
-                                                </td>
-                                                <td class="action-cell">
-                                                    <button class="action-btn edit-btn" (click)="openEditUserModal(user)">
-                                                        <i class="material-icons">edit</i>
-                                                    </button>
-                                                    <button class="action-btn delete-btn" (click)="deleteUser(user._id)">
-                                                        <i class="material-icons">delete</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    <app-user-config ></app-user-config>
                 }
                 @case ('alarm') {
-                    <div class="alarm-box bz">
-                        <div class="head bz">
-                            <div class="topic bz">ALARM CONFIGURATION</div>
-                            <div class="btn-group d-flex" style="gap: 8px;">
-                                <button class="bz" (click)="openDialog()">TAG BROWSE</button>
-                                <button class="bz" (click)="openNewAlarmModal()">NEW ALARM</button>
-                                <button class="bz" (click)="saveAlarmChanges()">SAVE CHANGE</button>
-                            </div>
-                        </div>
-
-                        <!-- Notification Configuration -->
-                        <div class="notification-config">
-                            <h3 class="config-title">📢 Notification Channels</h3>
-
-                            <!-- Email Configuration -->
-                            <div class="config-section">
-                                <div class="config-header d-flex-sb">
-                                    <label class="toggle-label">
-                                        <input type="checkbox" [(ngModel)]="notificationConfig.email.enabled">
-                                        <span class="channel-icon">📧</span>
-                                        <span>Email</span>
-                                    </label>
-                                    @if (!notificationConfig.email.display) {
-                                        <span class="material-icons dropdown-arrow" (click)="setDisplayItem('email')">keyboard_arrow_down</span>
-                                    } @else { 
-                                        <span class="material-icons dropdown-arrow" (click)="setDisplayItem('email')">keyboard_arrow_up</span>
-                                    }
-                                </div>
-                                @if (notificationConfig.email.display) {
-                                    <div class="config-body">
-                                        <label class="field-label">Email Addresses</label>
-                                        <div class="input-with-button">
-                                            <input type="email" 
-                                                [(ngModel)]="newEmailAddress" 
-                                                placeholder="Enter email address"
-                                                (keyup.enter)="addEmailAddress()">
-                                            <button class="add-btn" (click)="addEmailAddress()">
-                                                <i class="material-icons">add</i>
-                                            </button>
-                                        </div>
-                                        <div class="items-list">
-                                            @for (email of notificationConfig.email.address; track $index) {
-                                                <div class="list-item">
-                                                    <span class="item-text">{{ email }}</span>
-                                                    <button class="remove-btn" (click)="removeEmailAddress(email)">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </div>
-                                            }
-                                            @if (notificationConfig.email.address.length === 0) {
-                                                <div class="empty-state" >
-                                                    No email addresses configured
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                            
-                            <!-- Telegram Configuration -->
-                            <div class="config-section">
-                                <div class="config-header d-flex-sb">
-                                    <label class="toggle-label">
-                                        <input type="checkbox" [(ngModel)]="notificationConfig.telegram.enabled">
-                                        <span class="channel-icon">✈️</span>
-                                        <span>Telegram</span>
-                                    </label>
-                                    @if (!notificationConfig.telegram.display) {
-                                        <span class="material-icons dropdown-arrow" (click)="setDisplayItem('telegram')">keyboard_arrow_down</span>
-                                    } @else { 
-                                        <span class="material-icons dropdown-arrow" (click)="setDisplayItem('telegram')">keyboard_arrow_up</span>
-                                    }
-                                </div>
-                                @if (notificationConfig.telegram.display) {
-                                    <div class="config-body" >
-                                        <label class="field-label">Chat IDs</label>
-                                        <div class="input-with-button">
-                                            <input type="text" 
-                                                [(ngModel)]="newTelegramChatId" 
-                                                placeholder="Enter Telegram Chat ID"
-                                                (keyup.enter)="addTelegramChatId()">
-                                            <button class="add-btn" (click)="addTelegramChatId()">
-                                                <i class="material-icons">add</i>
-                                            </button>
-                                        </div>
-                                        <div class="items-list">
-                                            @for (chatId of notificationConfig.telegram.chatIds; track $index) {
-                                                <div class="list-item" >
-                                                    <span class="item-text">{{ chatId }}</span>
-                                                    <button class="remove-btn" (click)="removeTelegramChatId(chatId)">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </div>
-                                            }
-                                            @if (notificationConfig.telegram.chatIds.length === 0) {
-                                                <div class="empty-state" >
-                                                    No chat IDs configured
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-
-                            <!-- MS Teams Configuration -->
-                            <div class="config-section">
-                                <div class="config-header d-flex-sb">
-                                    <label class="toggle-label">
-                                        <input type="checkbox" [(ngModel)]="notificationConfig.msteam.enabled">
-                                        <span class="channel-icon">👥</span>
-                                        <span>Microsoft Teams</span>
-                                    </label>
-                                    @if (!notificationConfig.msteam.display) {
-                                        <span class="material-icons dropdown-arrow" (click)="setDisplayItem('msteam')">keyboard_arrow_down</span>
-                                    } @else { 
-                                        <span class="material-icons dropdown-arrow" (click)="setDisplayItem('msteam')">keyboard_arrow_up</span>
-                                    }
-                                </div>
-                                @if (notificationConfig.msteam.display) {
-                                    <div class="config-body" >
-                                        <label class="field-label">Webhook URLs</label>
-                                        <div class="input-with-button">
-                                            <input type="text" 
-                                                [(ngModel)]="newMsteamWebhook" 
-                                                placeholder="Enter MS Teams Webhook URL"
-                                                (keyup.enter)="addMsteamWebhook()">
-                                            <button class="add-btn" (click)="addMsteamWebhook()">
-                                                <i class="material-icons">add</i>
-                                            </button>
-                                        </div>
-                                        <div class="items-list">
-                                            @for (webhook of notificationConfig.msteam.webhookUrls; track $index) {
-                                                <div class="list-item">
-                                                    <span class="item-text webhook-url">{{ webhook }}</span>
-                                                    <button class="remove-btn" (click)="removeMsteamWebhook(webhook)">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </div>
-                                            }
-                                            @if (notificationConfig.msteam.webhookUrls.length === 0) {
-                                                <div class="empty-state" >
-                                                    No webhook URLs configured
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-
-                        <!-- Alarm Tags Accordion -->
-                        <div class="main">
-                            <div class="tags-container">
-                                <div class="accordion">
-                                    @for (tag of editedTags; track $index; let i = $index;) {
-                                         <div class="accordion-item" >
-                                            <!-- Header -->
-                                            <div class="accordion-header" (click)="toggleAccordion(i)">
-                                                <div class="panel-title-content">
-                                                    <span class="tag-icon">🏷️</span>
-                                                    <span class="tag-name">{{ tag.name }}</span>
-                                                    <span class="tag-destinations">
-                                                        
-                                                        @if (tag.destination.email) {
-                                                            <span class="destination-icon email">📧</span>
-                                                        }
-                                                        @if (tag.destination.telegram) {
-                                                            <span class="destination-icon telegram">✈️</span>
-                                                        }
-                                                        @if (tag.destination.msteam) {
-                                                            <span class="destination-icon msteam">👥</span>
-                                                        }
-                                                    </span>
-                                                </div>
-                                                <div class="panel-description">
-                                                    {{ tag.description }}
-                                                </div>
-                                            </div>
-
-                                            <!-- Body -->
-                                            <div class="accordion-body" [class.active]="expandedIndex === i">
-                                                <div class="tag-form">
-                                                    <div class="form-header">
-                                                        <h3>Tag Configuration</h3>
-                                                        <button class="delete-button" (click)="deleteTag(i); $event.stopPropagation()">
-                                                            🗑 Delete
-                                                        </button>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label>Name</label>
-                                                        <input [(ngModel)]="tag.name" placeholder="Enter tag name">
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label>Description</label>
-                                                        <textarea [(ngModel)]="tag.description" rows="2" placeholder="Enter description"></textarea>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label>Message</label>
-                                                        <textarea [(ngModel)]="tag.message" rows="3" placeholder="Enter message"></textarea>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label>Expression</label>
-                                                        <textarea [(ngModel)]="tag.expression" rows="2" placeholder="Enter expression"></textarea>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label>Tag Sync</label>
-                                                        <input [(ngModel)]="tag.tagSync" placeholder="Enter tag sync identifier">
-                                                    </div>
-
-                                                    <div class="destination-section">
-                                                        <label class="section-label">📢 Destinations</label>
-                                                        <div class="destination-checkboxes">
-                                                            <label>
-                                                                <input type="checkbox" [(ngModel)]="tag.destination.email"> Email
-                                                            </label>
-                                                            <label>
-                                                                <input type="checkbox" [(ngModel)]="tag.destination.telegram"> Telegram
-                                                            </label>
-                                                            <label>
-                                                                <input type="checkbox" [(ngModel)]="tag.destination.msteam"> Microsoft Teams
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <app-alarm-config></app-alarm-config>
+                }
+                @case ('notification') {
+                    <app-notification-config></app-notification-config>
                 }
             }
         </div>
     </div>
 </div>
 
-@if (showUserModal) {
+<!-- @if (showUserModal) {
     <app-user-dialog
         [userList]="users"
         [userData]="newUser"
         [pageList]="availablePages"
         (onClose)="closeUserModal()"
     ></app-user-dialog>
-}
+} -->
 
 @if (showAlarmModal) {
     <app-event-dialog

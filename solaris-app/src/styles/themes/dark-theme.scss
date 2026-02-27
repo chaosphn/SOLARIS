@@ -32,7 +32,7 @@
   --thead-txt: #99aabb;
   --thead-border: #99aabb;
 
-  --trow-bg: #24292D;
+  --trow-bg: #292B2F;
   --trow-txt: #99aabb;
   --trow-border: #99aabb;
 
@@ -75,4 +75,24 @@
   padding: 6px 10px;
   font-size: 12px;
   letter-spacing: .2px;
+}
+
+.major-icon {
+  color: crimson !important;
+} 
+
+.minor-icon {
+  color: tomato !important;
+}
+
+.warning-icon {
+  color: gold !important;
+}
+
+.normal-icon {
+  color: greenyellow !important;
+}
+
+.hide-icon {
+  display: none;
 }

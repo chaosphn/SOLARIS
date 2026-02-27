@@ -21,6 +21,15 @@
     //overflow-y: auto;
 }
 
+.site-name{
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    .material-icons{
+        font-size: 16px;
+    }
+}
+
 .report-box {
     padding: 16px;
     display: flex;
@@ -338,189 +347,6 @@
                             }
                         }
                     }
-                }
-            }
-        }
-    }
-}
-
-.holiday-box {
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    row-gap: 24px;
-
-    .head {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .topic {
-            border-left: 4px solid #0DDDB9;
-            border-left-width: 3px;
-            padding: 2px 0px 2px 8px;
-            color: #bcd;
-            font-weight: 500;
-            font-size: 16px;
-        }
-    }
-
-    .holiday-controls {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        background-color: #3B444D;
-        padding: 16px;
-        border-radius: 4px;
-
-        .control-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-
-            .control-label {
-                color: #BBCCDD;
-                font-size: 14px;
-                font-weight: 500;
-                min-width: 100px;
-            }
-
-            .control-input {
-                flex: 1;
-                display: flex;
-                align-items: center;
-                gap: 12px;
-
-                &.range-inputs {
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-
-                    .range-separator {
-                        color: #BBCCDD;
-                        font-size: 14px;
-                    }
-                }
-
-                .date-input {
-                    background-color: #2F363E;
-                    border: 1px solid #485057;
-                    color: whitesmoke;
-                    padding: 8px 12px;
-                    border-radius: 4px;
-                    font-size: 14px;
-                    outline: none;
-                    transition: border-color 0.2s;
-                    min-width: 160px;
-
-                    &:focus {
-                        border-color: #0DDDB9;
-                    }
-
-                    &::-webkit-calendar-picker-indicator {
-                        filter: invert(1);
-                        cursor: pointer;
-                    }
-                }
-            }
-
-            .btn-submit {
-                padding: 8px 16px;
-                background-color: #ad8c51;
-                color: whitesmoke;
-                border: 1px solid #E7CD47;
-                border-radius: 4px;
-                font-size: 14px;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.2s;
-
-                &:hover {
-                    background-color: #c29d5a;
-                    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-                }
-            }
-        }
-    }
-
-    .holiday-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 16px;
-
-        .month-card {
-            background-color: #3B444D;
-            border-radius: 4px;
-            overflow: hidden;
-            border: 1px solid #485057;
-
-            .month-header {
-                background-color: #2F363E;
-                padding: 12px 16px;
-                border-bottom: 1px solid #485057;
-
-                span {
-                    color: #0DDDB9;
-                    font-size: 14px;
-                    font-weight: 500;
-                }
-            }
-
-            .holiday-chips {
-                padding: 12px;
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-                min-height: 80px;
-
-                .chip-item {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    background-color: #485057;
-                    padding: 8px 12px;
-                    border-radius: 16px;
-                    transition: background-color 0.2s;
-
-                    &:hover {
-                        background-color: #525A63;
-                    }
-
-                    .chip-date {
-                        color: whitesmoke;
-                        font-size: 13px;
-                        flex: 1;
-                    }
-
-                    .chip-remove {
-                        background: none;
-                        border: none;
-                        color: #E74C3C;
-                        cursor: pointer;
-                        padding: 0;
-                        display: flex;
-                        align-items: center;
-                        transition: color 0.2s;
-
-                        &:hover {
-                            color: #F25C4C;
-                        }
-
-                        i {
-                            font-size: 18px;
-                        }
-                    }
-                }
-
-                .no-holidays {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    height: 80px;
-                    color: #6B7580;
-                    font-size: 13px;
-                    font-style: italic;
                 }
             }
         }

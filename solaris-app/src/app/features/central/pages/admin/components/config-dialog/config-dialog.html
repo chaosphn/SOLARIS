@@ -11,9 +11,11 @@
             <!-- Site Selection -->
             <div class="form-group">
                 <label>Select Site</label>
-                <select [(ngModel)]="siteConfig().siteName" class="form-control">
+                <select [(ngModel)]="siteConfig().siteId" (change)="onChangeSiteId($event)" class="form-control">
                     <option value="">-- Select Site --</option>
-                    <option *ngFor="let site of availableSites" [value]="site">{{ site }}</option>
+                    @for (site of siteList(); track $index) {
+                        <option [value]="site.id">{{ site.name }}</option>
+                    }
                 </select>
             </div>
 
@@ -21,14 +23,14 @@
             <div class="form-group">
                 <label>Meter Mode</label>
                 <div class="radio-group">
-                    <label class="checkbox-label" [ngClass]="{ 'active' : siteConfig().meterMode === 'normal' }">
+                    <label class="checkbox-label" [ngClass]="{ 'active' : siteConfig().meterType === 'normal' }">
                         <input type="radio" name="siteMeterMode" value="normal" 
-                               [(ngModel)]="siteConfig().meterMode" (change)="onSiteConfigMeterModeChange()">
+                               [(ngModel)]="siteConfig().meterType" (change)="onSiteConfigMeterModeChange()">
                         <span>Normal Meter</span>
                     </label>
-                    <label class="checkbox-label" [ngClass]="{ 'active' : siteConfig().meterMode === 'tou' }">
+                    <label class="checkbox-label" [ngClass]="{ 'active' : siteConfig().meterType === 'tou' }">
                         <input type="radio" name="siteMeterMode" value="tou" 
-                               [(ngModel)]="siteConfig().meterMode" (change)="onSiteConfigMeterModeChange()">
+                               [(ngModel)]="siteConfig().meterType" (change)="onSiteConfigMeterModeChange()">
                         <span>TOU Meter</span>
                     </label>
                 </div>
@@ -37,36 +39,42 @@
             <!-- Config Fields -->
             <div class="card-box w-100 d-flex">
                 <!-- Normal Meter Fields -->
-                <div class="card d-col-st" *ngIf="siteConfig().meterMode === 'normal'">
-                    <div class="title">
-                        <i class="material-icons" style="font-size: 16px;">settings</i>
-                        ENERGY COST
+                @if (siteConfig().meterType === 'normal') {
+                    <div class="card d-col-st">
+                        <div class="title">
+                            <i class="material-icons" style="font-size: 16px;">settings</i>
+                            ENERGY COST
+                        </div>
+                        <div class="text-field">
+                            <input type="number" step="0.0001" [(ngModel)]="siteConfig().energyCost" />
+                        </div>
                     </div>
-                    <div class="text-field">
-                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().energyCost" />
-                    </div>
-                </div>
+                }
 
                 <!-- TOU Meter Fields -->
-                <div class="card d-col-st" *ngIf="siteConfig().meterMode === 'tou'">
-                    <div class="title">
-                        <i class="material-icons" style="font-size: 16px;">settings</i>
-                        ONPEAK ENERGY COST
+                @if (siteConfig().meterType === 'tou') {
+                    <div class="card d-col-st" >
+                        <div class="title">
+                            <i class="material-icons" style="font-size: 16px;">settings</i>
+                            ONPEAK ENERGY COST
+                        </div>
+                        <div class="text-field">
+                            <input type="number" step="0.0001" [(ngModel)]="siteConfig().onpeakCost" />
+                        </div>
                     </div>
-                    <div class="text-field">
-                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().onpeakCost" />
-                    </div>
-                </div>
+                }
 
-                <div class="card d-col-st" *ngIf="siteConfig().meterMode === 'tou'">
-                    <div class="title">
-                        <i class="material-icons" style="font-size: 16px;">settings</i>
-                        OFFPEAK ENERGY COST
+                @if (siteConfig().meterType === 'tou') {
+                    <div class="card d-col-st" >
+                        <div class="title">
+                            <i class="material-icons" style="font-size: 16px;">settings</i>
+                            OFFPEAK ENERGY COST
+                        </div>
+                        <div class="text-field">
+                            <input type="number" step="0.0001" [(ngModel)]="siteConfig().offpeakCost" />
+                        </div>
                     </div>
-                    <div class="text-field">
-                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().offpeakCost" />
-                    </div>
-                </div>
+                }
 
                 <!-- Common Fields -->
                 <div class="card d-col-st">
@@ -75,7 +83,7 @@
                         DISCOUNT COST
                     </div>
                     <div class="text-field">
-                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().discountCost" />
+                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().discountRate" />
                     </div>
                 </div>
 
@@ -85,7 +93,7 @@
                         FT COST
                     </div>
                     <div class="text-field">
-                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().ftCost" />
+                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().ftRate" />
                     </div>
                 </div>
             </div>
@@ -93,7 +101,7 @@
             <!-- Email List -->
             <div class="form-group full-width">
                 <label>Email List (comma-separated)</label>
-                <textarea [(ngModel)]="siteConfig().emails" 
+                <textarea [(ngModel)]="siteConfig().receivedBy" 
                           class="form-control textarea" 
                           rows="3"
                           placeholder="email1@example.com, email2@example.com"></textarea>

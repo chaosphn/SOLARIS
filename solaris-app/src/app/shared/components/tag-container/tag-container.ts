@@ -16,7 +16,7 @@ import * as TagsSelectors from '../../../store/selectors/tags.selectors';
   templateUrl: './tag-container.html',
   styleUrl: './tag-container.scss'
 })
-export class TagContainer implements OnDestroy {
+export class TagContainer implements OnChanges, OnDestroy {
 
   dateSelect: boolean = false;
   startDate: Date = new Date(new Date().setHours(0,0,0,0));
@@ -36,21 +36,38 @@ export class TagContainer implements OnDestroy {
   private store = inject(Store);
 
   constructor(){
-    effect(() => {
-      if(this.siteName()){
-        //console.log(this.tagConfig())
-        const tagState: any = this.store.select(TagsSelectors.getTagsGroupWithName(this.siteName()))
-          .subscribe((tag) => {
-            //console.log(tag)
-            if(tag && tag.length > 0){
-              this.tagsGroup.set(tag);
-            } else {
-              const tags = this.getTagsGroup();
-              this.tagsGroup.set(tags);
-            }
-          });
-      }
-    });
+    // effect(() => {
+    //   if(this.siteName()){
+    //     //console.log(this.tagConfig())
+    //     const tagState: any = this.store.select(TagsSelectors.getTagsGroupWithName(this.siteName()))
+    //       .subscribe((tag) => {
+    //         //console.log(tag)
+    //         if(tag && tag.length > 0){
+    //           this.tagsGroup.set(tag);
+    //         } else {
+    //           const tags = this.getTagsGroup();
+    //           this.tagsGroup.set(tags);
+    //         }
+    //       });
+    //   }
+    // });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.tagConfig()){
+      const tagState: any = this.store.select(TagsSelectors.getTagsGroupWithName(this.siteName()))
+        .subscribe((tag) => {
+          //console.log(tag)
+          if(tag && tag.length > 0){
+            //this.tagsGroup.set(tag);
+            const tags = this.getTagsGroup();
+            this.tagsGroup.set(tags);
+          } else {
+            const tags = this.getTagsGroup();
+            this.tagsGroup.set(tags);
+          }
+        });
+    }
   }
 
   ngOnDestroy(): void {
@@ -145,32 +162,37 @@ export class TagContainer implements OnDestroy {
     }
   }
 
+  // selectParameter(item: any, value: any){
+  //   const checked = value.currentTarget.checked;
+  //   // update the nested parameters/alias immutably to avoid mutating read-only objects
+  //   const updated = this.tagsGroup().map(group => {
+  //     const newParameters = group.parameters.map(param => {
+  //       // if parameter has aliases, either the param itself or one of its aliases might match
+  //       if(param.alias && param.alias.length > 0){
+  //         if(param.name === item.name){
+  //           return {...param, status: checked};
+  //         }
+  //         const aliasIndex = param.alias.findIndex(a => a.name === item.name);
+  //         if(aliasIndex > -1){
+  //           const newAlias = param.alias.map(a => a.name === item.name ? {...a, status: checked} : a);
+  //           return {...param, alias: newAlias};
+  //         }
+  //         return param;
+  //       } else {
+  //         if(param.name === item.name){
+  //           return {...param, status: checked};
+  //         }
+  //         return param;
+  //       }
+  //     });
+  //     return {...group, parameters: newParameters};
+  //   });
+  //   this.tagsGroup.set(updated);
+  // }
+
   selectParameter(item: any, value: any){
-    const checked = value.currentTarget.checked;
-    // update the nested parameters/alias immutably to avoid mutating read-only objects
-    const updated = this.tagsGroup().map(group => {
-      const newParameters = group.parameters.map(param => {
-        // if parameter has aliases, either the param itself or one of its aliases might match
-        if(param.alias && param.alias.length > 0){
-          if(param.name === item.name){
-            return {...param, status: checked};
-          }
-          const aliasIndex = param.alias.findIndex(a => a.name === item.name);
-          if(aliasIndex > -1){
-            const newAlias = param.alias.map(a => a.name === item.name ? {...a, status: checked} : a);
-            return {...param, alias: newAlias};
-          }
-          return param;
-        } else {
-          if(param.name === item.name){
-            return {...param, status: checked};
-          }
-          return param;
-        }
-      });
-      return {...group, parameters: newParameters};
-    });
-    this.tagsGroup.set(updated);
+    //console.log(this.tagsGroup())
+    return item.status = value.currentTarget.checked;
   }
 
   ckeckParamStatus(name: string){

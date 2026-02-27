@@ -19,6 +19,7 @@ import { PlantStatusData } from '../../../../shared/components/piechart/piechart
 import { getDateState } from '../../../../store/selectors/date.selectors';
 import { setDateEnable } from '../../../../store/actions/date.actions';
 import { TabularConfigModel } from '../../models/tabular.model';
+import { EventSummaryModel } from '../../../sites/models/event.model';
 
 
 @Component({
@@ -52,17 +53,25 @@ export class Tabular implements OnInit, OnDestroy {
 
   zoneSelected = signal<string>('overall');
   cardProperty = signal<any[]>([]);
+
+  eventSummary = signal<EventSummaryModel[]>([]);
   
   timers?: Subscription;
   dateStateSubscription?: Subscription;
+  storeSub?: Subscription;
+  storeSub2?: Subscription;
 
   date: Date = new Date();
 
   tableConfig = signal<TabularConfigModel[]>([]);
+  sortKey = signal<string>('');
+  sortType = signal<string>('asc');
   tableData = computed(() => {
     const sites = this.siteList();
     const config = this.tableConfig();
     const realtime = this.dataRealtime();
+    const key = this.sortKey();
+    const type = this.sortType();
 
     console.log('Sites:', sites);
     console.log('Config:', config);
@@ -92,7 +101,7 @@ export class Tabular implements OnInit, OnDestroy {
               row[h.Name] = item.capacity;
               break;
             case 'seen': 
-              row[h.Name] = realtime?.[`${item.id}_POWER`]?.TimeStamp;
+              row[h.Name] = realtime?.[`${item.id}_POWER`]?.TimeStamp || '---';
               break;
             default:
               // Debug: log what we're looking for
@@ -105,7 +114,14 @@ export class Tabular implements OnInit, OnDestroy {
     }
 
     console.log('Final result:', result);
-    return result;
+    
+    return result.sort((a,b) => {
+      if (type === 'asc') {
+        return a[key] - b[key];
+      } else {
+        return b[key] - a[key];
+      }
+    });;
   });
 
 
@@ -139,6 +155,12 @@ export class Tabular implements OnInit, OnDestroy {
     if(this.dateStateSubscription){
       this.dateStateSubscription.unsubscribe();
     }
+    if(this.storeSub){
+      this.storeSub.unsubscribe();
+    }
+    if(this.storeSub2){
+      this.storeSub2.unsubscribe();
+    }
     this.store.dispatch(setDateEnable({ payload: false }));
     this.store.dispatch(setDateEnable({ payload: false }));
   }
@@ -157,6 +179,7 @@ export class Tabular implements OnInit, OnDestroy {
     
     this.getRequest();
     await this.getData();
+    await this.getEventSummary();
     
     if(this.appInit.config.Timer){
       this.startTimer(this.appInit.config.Timer * 60000);
@@ -165,7 +188,7 @@ export class Tabular implements OnInit, OnDestroy {
 
   private async loadFromStoreIfExists(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store.select(TabularSelectors.selectTabularState).subscribe(state => {
+      this.storeSub = this.store.select(TabularSelectors.selectTabularState).subscribe(state => {
         let hasData = false;
         
         // Check if config exists and load it
@@ -364,7 +387,7 @@ export class Tabular implements OnInit, OnDestroy {
 
   private async shouldRefreshData(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store.select(TabularSelectors.selectTabularTimestamp).subscribe(timestamp => {
+      this.storeSub2 = this.store.select(TabularSelectors.selectTabularTimestamp).subscribe(timestamp => {
         if (!timestamp) {
           resolve(true); // No timestamp means first time, should refresh
           return;
@@ -528,6 +551,7 @@ export class Tabular implements OnInit, OnDestroy {
     await this.getRealtimeData();
     //await this.getAtTimeData();
     await this.getHistorianData();
+    await this.getEventSummary();
   }
 
   getLastSeen(item: string){
@@ -554,19 +578,9 @@ export class Tabular implements OnInit, OnDestroy {
       }
   }
 
-  sortDatatable(item: any){
-    const key = item.key;
-    const type = item.type;
-    //console.log(item)
-    const tableSorted = this.tableData().sort((a,b) => {
-      if (type === 'asc') {
-        ////console.log(a[key])
-        return this.tranformNumber(a[key]) - this.tranformNumber(b[key]);
-      } else {
-        return this.tranformNumber(b[key]) - this.tranformNumber(a[key]);
-      }
-    })
-    ////console.log(tableSorted)
+  sortDatatable(key: string, type: string){
+    this.sortKey.set(key);
+    this.sortType.set(type);
   }
 
   tranformNumber(val: string){
@@ -580,6 +594,38 @@ export class Tabular implements OnInit, OnDestroy {
     } else {
       return -1;
     }
+  }
+
+  async getEventSummary(){
+    const request = {
+      StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000).toISOString(),
+      EndTime: new Date().toISOString()
+    }
+    const result = await this.http.getSummaryAlarmEventData(request);
+    if(result.length > 0){
+      this.eventSummary.set(result);
+    } else {
+      this.eventSummary.set([]);
+    }
+  }
+
+  getPlantStatus(pointSource: string){
+    const summary = this.eventSummary().find(x => x.PointSource === pointSource);
+    if(summary){
+      if(summary.Major > 0){
+        return 'major'; 
+      } else if(summary.Minor > 0){
+        return 'minor';
+      } else if(summary.Warning > 0){
+        return 'warning';
+      } else if(summary.Info > 0){
+        return 'info';
+      } else {
+        return 'info';
+      }
+    } else {
+      return 'info';
+    } 
   }
 
 }

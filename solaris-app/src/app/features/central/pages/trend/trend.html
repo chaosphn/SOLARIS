@@ -2,7 +2,7 @@
     @if (dataChart()) {
         <div class="w-100 h-100 bz row-grid" >
             @for (item of siteList(); track item.id) {
-                <div class="item w-100 h-100 bz">
+                <div class="item w-100 h-100 bz brd">
                     <div class="item-title w-100">{{item.id}}: {{item.name}}</div>
                     <div class="item-content w-100 h-100" >
                         <app-highchart [chartParameter]="dataChart()[item.id]" >

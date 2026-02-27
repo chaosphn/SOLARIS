@@ -3,6 +3,7 @@ import { PlantStatusData } from '../../../../../../shared/components/piechart/pi
 import { ChartParameters } from '../../../../../../shared/models/highchart.model';
 import { ChartService } from '../../../../../../shared/services/chart.service';
 import { SeriesAreaOptions, SeriesColumnOptions, SeriesLineOptions, SeriesOptionsType } from 'highcharts/highcharts';
+import { EventDataModel } from '../../../../models/event.model';
 
 @Component({
   selector: 'app-event-consumption',
@@ -23,31 +24,31 @@ export class EventConsumption {
     ,'#F7F156', '#B2F76D', '#17A8EB', '#6766FF', '#C437D6'
     ,'#E95967'
   ];
-  events = input<any[]>([]);
+  events = input<EventDataModel[]>([]);
   eventCount = computed(() => {
     if(this.events()){
-      return this.events().filter(x => x.type === 'event').length;
+      return this.events().filter(x => x.Level === 'Info').length;
     } else {
       return 0;
     }
   });
   warnCount = computed(() => {
     if(this.events()){
-      return this.events().filter(x => x.type === 'warning').length;
+      return this.events().filter(x => x.Level === 'Warning').length;
     } else {
       return 0;
     }
   });
   minorCount = computed(() => {
     if(this.events()){
-      return this.events().filter(x => x.type === 'minor').length;
+      return this.events().filter(x => x.Level === 'Minor').length;
     } else {
       return 0;
     }
   });
   majorCount = computed(() => {
     if(this.events()){
-      return this.events().filter(x => x.type === 'major').length;
+      return this.events().filter(x => x.Level === 'Major').length;
     } else {
       return 0;
     }
@@ -55,11 +56,11 @@ export class EventConsumption {
   plantStatusData = computed(() => {
     if(this.events()){
       return this.events().reduce((acc, cur, index) => {
-        const findEqp = acc.find((x: any) => x.label == cur.asset);
+        const findEqp = acc.find((x: any) => x.label == cur.Item);
         if(!findEqp){
-          const count = this.events().filter(x => x.asset == cur.asset).length;
+          const count = this.events().filter(x => x.Item == cur.Item).length;
           const percentage = (count/this.events().length)*100;
-          acc.push({ label: cur.asset, count: count, percentage: percentage, color: this.colorList[index], unit: 'Unit' });
+          acc.push({ label: cur.Item, count: count, percentage: percentage, color: this.colorList[index], unit: 'Unit' });
         }
         return acc;
       }, [] as PlantStatusData[]);
@@ -87,38 +88,38 @@ export class EventConsumption {
   createEventChartSeries(events: any[]) {
     // จัดกลุ่มข้อมูลตาม type
     const typeGroups = {
-      event: [] as [number, number][],
-      warning: [] as [number, number][],
-      minor: [] as [number, number][],
-      major: [] as [number, number][]
+      Info: [] as [number, number][],
+      Warning: [] as [number, number][],
+      Minor: [] as [number, number][],
+      Major: [] as [number, number][]
     };
 
     // นับจำนวนสะสมของแต่ละ type
     const counters = {
-      event: 0,
-      warning: 0,
-      minor: 0,
-      major: 0
+      Info: 0,
+      Warning: 0,
+      Minor: 0,
+      Major: 0
     };
 
     // เรียงข้อมูลตามเวลา
-    const sortedEvents = [...events].sort((a, b) => 
+    const sortedEvents: EventDataModel[] = [...events].sort((a, b) => 
       new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
     );
 
     // วนลูปและสร้างข้อมูลสำหรับแต่ละจุด
     sortedEvents.forEach(event => {
-      const timestamp = new Date(event.timestamp).getTime();
-      const type = event.type as keyof typeof counters;
+      const timestamp = new Date(event.StartTime).getTime();
+      const type = event.Level as keyof typeof counters;
       
       // เพิ่มจำนวนสะสมของ type นั้น
       counters[type]++;
       
       // เพิ่มข้อมูลจุดใหม่สำหรับทุก type (เพื่อให้เส้นกราฟต่อเนื่อง)
-      typeGroups.event.push([timestamp, counters.event]);
-      typeGroups.warning.push([timestamp, counters.warning]);
-      typeGroups.minor.push([timestamp, counters.minor]);
-      typeGroups.major.push([timestamp, counters.major]);
+      typeGroups.Info.push([timestamp, counters.Info]);
+      typeGroups.Warning.push([timestamp, counters.Warning]);
+      typeGroups.Minor.push([timestamp, counters.Minor]);
+      typeGroups.Major.push([timestamp, counters.Major]);
     });
 
     // สร้าง series สำหรับแต่ละ type
@@ -126,7 +127,7 @@ export class EventConsumption {
       {
         type: 'line',
         name: 'Event*events',
-        data: typeGroups.event,
+        data: typeGroups.Info,
         color: '#10FDD3',
         showInLegend: false,
         marker: {
@@ -137,7 +138,7 @@ export class EventConsumption {
       {
         type: 'line',
         name: 'Warning*events',
-        data: typeGroups.warning,
+        data: typeGroups.Warning,
         color: '#ffe348',
         showInLegend: false,
         marker: {
@@ -148,7 +149,7 @@ export class EventConsumption {
       {
         type: 'line',
         name: 'Minor*events',
-        data: typeGroups.minor,
+        data: typeGroups.Minor,
         color: 'tomato',
         showInLegend: false,
         marker: {
@@ -159,7 +160,7 @@ export class EventConsumption {
       {
         type: 'line',
         name: 'Major*events',
-        data: typeGroups.major,
+        data: typeGroups.Major,
         color: 'crimson',
         showInLegend: false,
         marker: {

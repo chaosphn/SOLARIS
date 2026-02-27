@@ -7,13 +7,20 @@ import { UserDialog } from './components/user-dialog/user-dialog';
 import { EventDialog } from './components/event-dialog/event-dialog';
 import { ShareModule } from '../../../../shared/shared.module';
 import { FormsModule } from '@angular/forms';
+import { UserConfig } from './components/user-config/user-config';
+import { AlarmConfig } from './components/alarm-config/alarm-config';
+import { NotificationConfig } from './components/notification-config/notification-config';
 
 
 @NgModule({
   declarations: [
     Setting,
+    UserConfig,
     UserDialog,
-    EventDialog
+    AlarmConfig,
+    EventDialog,
+    NotificationConfig
+
   ],
   imports: [
     CommonModule,
