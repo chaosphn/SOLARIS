@@ -137,18 +137,37 @@ export class ChartCard {
   exportAllToExcel(): void {
     this.loadingData.set(true);
     const data: any[] = this.chartData()?.series || [];
-    const res:ResponseHistorianModel[] = data.map((x: any) => {
-      return {
-        Name: x.name,
-        Unit: '-',
-        Min: 0,
-        Max: 100,
-        records: x.data.map((y: any) => ({
-          Value: y[1],
-          TimeStamp: new Date(y[0]).toISOString()
-        }))
-      }
-    });
+    let res:ResponseHistorianModel[] = [];
+    if(this.chartData().xAxis?.categories){
+      const categories = this.chartData()?.xAxis?.categories || [];
+      res = data[0].data.map((x: any, index: number) => {
+        return {
+          Name: categories[index] || '-',
+          Unit: '-',
+          Min: 0,
+          Max: 100,
+          records: [
+            {
+              Value: x,
+              TimeStamp: new Date(this.date).toISOString()
+            }
+          ]
+        }
+      });
+    } else {
+      res = data.map((x: any) => {
+        return {
+          Name: x.name.split('*')[0] || '-',
+          Unit: '-',
+          Min: 0,
+          Max: 100,
+          records: x.data.map((y: any) => ({
+            Value: y[1],
+            TimeStamp: new Date(y[0]).toISOString()
+          }))
+        }
+      });
+    }
     const date = this.dateTimeSrv.getDateTime1(this.date);
     this.excelExportService.exportToExcel(res, 'exported_data_'+date.slice(0,10));
     this.loadingData.set(false);

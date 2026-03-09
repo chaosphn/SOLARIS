@@ -100,11 +100,11 @@ export class Trend implements OnInit, OnDestroy {
           await this.getHistorianData();
 
         } else {
-          console.log('xxxx')
+          //console.log('xxxx')
           await this.initPage();
         }
       } else {
-        console.log('yyyy');
+        //console.log('yyyy');
         const oldData = await firstValueFrom(
           this.store.select(TrendSelectors.selectTrendHistorianRequests)
         );
@@ -157,7 +157,7 @@ export class Trend implements OnInit, OnDestroy {
       this.storeSub = this.store.select(TrendSelectors.selectTrendState)
         .pipe(take(1)) // เพิ่มบรรทัดนี้
         .subscribe((state: PageStateModel) => {
-          console.log(state); // เรียกครั้งเดียว
+          //console.log(state); // เรียกครั้งเดียว
           
           let hasData = false;
           // Check if config exists and load it
@@ -210,7 +210,7 @@ export class Trend implements OnInit, OnDestroy {
         this.store.dispatch(TrendActions.loadTrendConfigSuccess({ config }));
       }
     } catch (error) {
-      console.error('Error fetching config', error);
+      //console.error('Error fetching config', error);
       this.store.dispatch(TrendActions.loadTrendConfigFailure({ error: error as string }));
     }
   }
@@ -319,7 +319,7 @@ export class Trend implements OnInit, OnDestroy {
     }
     //await this.getAtTimeData();
     if (!this.dataHistorian() || Object.keys(this.dataHistorian()).length === 0 || shouldRefresh) {
-      console.log(this.dataHistorian(), shouldRefresh)
+      //console.log(this.dataHistorian(), shouldRefresh)
       await this.getHistorianData();
       this.store.dispatch(TrendActions.loadTrendConfigTimeStamp({ timestamp: new Date() }))
     }
@@ -338,10 +338,10 @@ export class Trend implements OnInit, OnDestroy {
         const minutesDiff = timeDiff / (1000 * 60); // Convert to minutes
         
         if (minutesDiff > 2) {
-          console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
+          //console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
           resolve(true);
         } else {
-          console.log(`Data is ${minutesDiff.toFixed(2)} minutes , not refresh`);
+          //console.log(`Data is ${minutesDiff.toFixed(2)} minutes , not refresh`);
           resolve(false);
         }
       });
@@ -424,7 +424,7 @@ export class Trend implements OnInit, OnDestroy {
                   series.push(res);
                 }
               })
-              console.log(item.Group, series, response);
+              //console.log(item.Group, series, response);
               
               // สร้าง chart config object ใหม่
               newVal[item.Group] = {
@@ -477,7 +477,7 @@ export class Trend implements OnInit, OnDestroy {
 
   async onZoneChanges(event: string){
     this.zoneSelected.update(prev => event);
-    console.log(this.zoneSelected())
+    //console.log(this.zoneSelected())
     await this.getMapConfig();
   }
 

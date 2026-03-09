@@ -84,7 +84,7 @@ export class Layout implements OnInit, OnDestroy {
     this.store.dispatch(setDateEnable({ payload: false }));
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {
-      console.log(state.location)
+      //console.log(state.location)
       this.siteSelected.set(state.location);
       const res = await firstValueFrom(
         this.store.select(getZoneConfig(state.location))
@@ -215,7 +215,7 @@ export class Layout implements OnInit, OnDestroy {
         this.store.dispatch(LayoutActions.loadLayoutConfigSuccess({ config }));
       }
     } catch (error) {
-      console.error('Error fetching config', error);
+      //console.error('Error fetching config', error);
       this.store.dispatch(LayoutActions.loadLayoutConfigFailure({ error: error as string }));
     }
   }
@@ -347,7 +347,7 @@ export class Layout implements OnInit, OnDestroy {
         const minutesDiff = timeDiff / (1000 * 60); // Convert to minutes
         
         if (minutesDiff > 2) {
-          console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
+          //console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
           resolve(true);
         } else {
           resolve(false);
@@ -433,7 +433,7 @@ export class Layout implements OnInit, OnDestroy {
                   series.push(res);
                 }
               })
-              console.log(item.Group, series, response);
+              //console.log(item.Group, series, response);
               
               // สร้าง chart config object ใหม่
               newVal[item.Group] = {

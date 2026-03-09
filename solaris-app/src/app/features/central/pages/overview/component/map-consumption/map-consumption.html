@@ -32,10 +32,10 @@
                         <text id="( 555 kWp)" fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="86.3301" y="21.4848">( {{getProvinceCap('north')}} MWp )</tspan></text>
                         </g>
                         <g id="Production : 2,555 kWh">
-                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="9.4873" y="64.1801">PRODUCTION : {{ this.data()?.[`N_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
+                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="9.4873" y="64.1801">PRODUCTION : {{ this.data()[`N_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
                         </g>
                         <g id="power : 555 kW">
-                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="9.4873" y="39.5121">POWER : {{ this.data()?.[`N_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
+                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="9.4873" y="39.5121">POWER : {{ this.data()[`N_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
                         </g>
                         <path class="tooltip" id="linex1" d="M0 48.8438H158L223 81.7109" stroke="#FF4747" stroke-width="1.89737"/>
                         </g>
@@ -50,10 +50,10 @@
                         <text id="( 555 kWp)_2" fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="666.732" y="86.4809">( {{getProvinceCap('northeast')}} MWp )</tspan></text>
                         </g>
                         <g id="Production : 2,555 kWh_2">
-                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="589.89" y="129.176">PRODUCTION : {{ this.data()?.[`NE_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
+                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="589.89" y="129.176">PRODUCTION : {{ this.data()[`NE_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
                         </g>
                         <g id="power : 555 kW_2">
-                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="589.89" y="104.508">POWER : {{ this.data()?.[`NE_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
+                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="589.89" y="104.508">POWER : {{ this.data()[`NE_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
                         </g>
                         <path class="tooltip" id="linex2" d="M503 171.242L581.5 112.84H738.833" stroke="#FF843F" stroke-width="1.89737"/>
                         </g>
@@ -68,10 +68,10 @@
                         <text id="( 555 kWp)_3" fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="118.33" y="331.496">( {{getProvinceCap('west')}} MWp )</tspan></text>
                         </g>
                         <g id="Production : 2,555 kWh_3">
-                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="41.4873" y="374.18">PRODUCTION : {{ this.data()?.[`W_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
+                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="41.4873" y="374.18">PRODUCTION : {{ this.data()[`W_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
                         </g>
                         <g id="power : 555 kW_3">
-                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="41.4873" y="349.516">POWER : {{ this.data()?.[`W_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
+                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="41.4873" y="349.516">POWER : {{ this.data()[`W_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
                         </g>
                         <path class="tooltip" id="Line 54" d="M32 357.852H189.841L249 321.5" stroke="#5F82FF" stroke-width="1.89737"/>
                         </g>
@@ -86,10 +86,10 @@
                         <text id="( 555 kWp)_4" fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="481.789" y="466.106">( {{getProvinceCap('central')}} MWp )</tspan></text>
                         </g>
                         <g id="Production : 2,555 kWh_4">
-                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="404.946" y="508.801">PRODUCTION : {{ this.data()?.[`C_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
+                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="404.946" y="508.801">PRODUCTION : {{ this.data()[`C_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
                         </g>
                         <g id="power : 555 kW_4">
-                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="404.946" y="484.133">POWER : {{ this.data()?.[`C_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
+                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="404.946" y="484.133">POWER : {{ this.data()[`C_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
                         </g>
                         <path class="tooltip" id="Line 54_2" d="M330 353.5L395.85 492.467H553.889" stroke="#248997" stroke-width="1.89737"/>
                         </g>
@@ -104,10 +104,10 @@
                         <text id="( 555 kWp)_5" fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="618.478" y="345.493">( {{getProvinceCap('east')}} MWp )</tspan></text>
                         </g>
                         <g id="Production : 2,555 kWh_5">
-                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="541.634" y="388.184">PRODUCTION : {{ this.data()?.[`E_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
+                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="541.634" y="388.184">PRODUCTION : {{ this.data()[`E_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
                         </g>
                         <g id="power : 555 kW_5">
-                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="541.634" y="363.516">POWER : {{ this.data()?.[`E_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
+                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="541.634" y="363.516">POWER : {{ this.data()[`E_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
                         </g>
                         <path class="tooltip" id="linex3" d="M413 371.852L690.577 371.852" stroke="#7BB046" stroke-width="1.89737"/>
                         </g>
@@ -122,10 +122,10 @@
                         <text id="( 555 kWp)_6" fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="149.331" y="687.286">( {{getProvinceCap('south')}} MWp )</tspan></text>
                         </g>
                         <g id="Production : 2,555 kWh_6">
-                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="72.4873" y="729.973">PRODUCTION : {{ this.data()?.[`S_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
+                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="72.4873" y="729.973">PRODUCTION : {{ this.data()[`S_TODAY`]?.Value | numberFomat : '1.0-0'  }} kWh</tspan></text>
                         </g>
                         <g id="power : 555 kW_6">
-                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="72.4873" y="705.309">POWER : {{ this.data()?.[`S_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
+                        <text fill="var(--map-txt)" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8.5" font-weight="500" letter-spacing="0em"><tspan x="72.4873" y="705.309">POWER : {{ this.data()[`S_POWER`]?.Value | numberFomat : '1.0-0'  }} kW</tspan></text>
                         </g>
                         <path class="tooltip" id="linex5" d="M63 713.645H220.732L269.732 652" stroke="#289F7C" stroke-width="1.89737"/>
                         </g>
@@ -170,8 +170,8 @@
                                 <div class="td th-power">{{ row.powerKw | numberFomat : '1.2-2' }}</div>
                                 <div class="td th-today">{{ row.todayMWh | numberFomat : '1.2-2' }}</div>
                                 <div class="td th-irr">{{ row.irr | numberFomat : '1.2-2' }}</div>
-                                <div class="td th-pv">{{ row.pvTemp }}</div>
-                                <div class="td th-amb">{{ row.ambTemp }}</div>
+                                <div class="td th-pv">{{ row.pvTemp | numberFomat : '1.2-2' }}</div>
+                                <div class="td th-amb">{{ row.ambTemp | numberFomat : '1.2-2' }}</div>
                             </div>
                         }
                     </div>

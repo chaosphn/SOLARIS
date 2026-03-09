@@ -31,15 +31,21 @@
                         <label class="config-check d-flex-ct bz h-100" style="column-gap: 6px; cursor: pointer;">
                             <input 
                                 type="checkbox" 
-                                [value]="isCombinedChart"
+                                [(ngModel)]="isCombinedChart"
                                 (change)="toggleCombineChart($event)"
                                 style="width: 16px; height: 16px; cursor: pointer;">
                             <!-- <i class="material-icons" style="font-size: 16px;">line_axis</i> -->
-                            <span>COMBINE</span>
+                            <span>SPLITE</span>
                         </label>
                     }
                     <button class="config d-flex-ct bz h-100" style="column-gap: 4px;" (click)="captureChart()">
-                        <i class="material-icons" style="font-size: 16px;">camera_alt</i>
+                        @if (loadingImg()) {
+                            <div class="icon-box d-flex-ct">
+                                <i class="material-icons spinner" style="font-size: 16px;" >refresh</i>
+                            </div>
+                        } @else {
+                            <i class="material-icons" style="font-size: 16px;">camera_alt</i>
+                        }
                         CAPTURE
                     </button>
                     <button class="config d-flex-ct bz h-100" style="column-gap: 4px;" (click)="exportAllToExcel()">
@@ -68,7 +74,7 @@
                     @default {
                         <div class="chart-group w-100 bz" [id]="'combined-chart'">
                             <!-- Combined Chart View -->
-                            @if (isCombinedChart && combinedChartParameter()) {
+                            @if (!isCombinedChart && combinedChartParameter()) {
                                 <div class="w-100 bz chart-box h-100" >
                                     <div class="chart w-100 h-100 bz" >
                                         <ng-container>
@@ -80,7 +86,7 @@
                             }
                             
                             <!-- Individual Charts View -->
-                            @if (!isCombinedChart) {
+                            @if (isCombinedChart) {
                                 <ng-container >
                                     @for (item of chartParameter(); track $index; let i = $index) {
                                         <div class="w-100 bz chart-box h-100">

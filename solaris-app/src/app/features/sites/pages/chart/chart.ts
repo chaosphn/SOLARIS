@@ -39,6 +39,7 @@ export class Chart implements OnInit, OnDestroy {
   groupDatas = signal<RealtimeDataModel[]>([]);
   chartParameter = signal<ChartParameters[]>([]);
   combinedChartParameter = signal<ChartParameters | null>(null);
+  loadingImg = signal<boolean>(false);
   
   @ViewChildren(Highchart) charts!: QueryList<Highchart>;
   navState$: Observable<NavbarStateModel>;
@@ -369,9 +370,9 @@ export class Chart implements OnInit, OnDestroy {
       return val;
     });
     
-    console.log('chartParameter after emitResponse:', this.chartParameter());
+    //console.log('chartParameter after emitResponse:', this.chartParameter());
     // Update combined chart if enabled
-    if(this.isCombinedChart) {
+    if(!this.isCombinedChart) {
       this.updateCombinedChart();
     }
   };
@@ -380,7 +381,7 @@ export class Chart implements OnInit, OnDestroy {
     const checkbox = event.target as HTMLInputElement;
     this.isCombinedChart = checkbox.checked;
     
-    if(this.isCombinedChart) {
+    if(!this.isCombinedChart) {
       this.updateCombinedChart();
     } else {
       this.combinedChartParameter.set(null);
@@ -430,7 +431,7 @@ export class Chart implements OnInit, OnDestroy {
 
   private addSyncEvents() {
     this.charts.forEach(cmp => {
-      console.log(cmp)
+      //console.log(cmp)
       if (cmp.ref) {
         // ลบ old event listeners ก่อนเพิ่มตัวใหม่
         cmp.ref.container.removeEventListener('mousemove', this.syncTooltipBound);
@@ -636,9 +637,7 @@ export class Chart implements OnInit, OnDestroy {
       });
       
       // อัพเดท combined chart ถ้าเปิดอยู่
-      if(this.isCombinedChart) {
-        this.updateCombinedChart();
-      }
+      this.updateCombinedChart();
     }
   }
 
@@ -651,11 +650,15 @@ export class Chart implements OnInit, OnDestroy {
   }
 
   captureChart(): void {
+    if(this.loadingImg()) return; 
+    this.loadingImg.set(true);
     if (this.isCombinedChart) {
       // Capture combined chart
       const chartElement = document.getElementById('combined-chart');
       if (chartElement) {
-        this.captureElement(chartElement, 'combined-chart');
+        this.captureElement(chartElement, 'chart');
+      } else {
+        this.loadingImg.set(false);
       }
     } else {
       // Capture all individual charts
@@ -667,7 +670,9 @@ export class Chart implements OnInit, OnDestroy {
       // });
       const chartElement = document.getElementById('combined-chart');
       if (chartElement) {
-        this.captureElement(chartElement, 'combined-chart');
+        this.captureElement(chartElement, 'chart');
+      } else {
+        this.loadingImg.set(false);
       }
     }
   }
@@ -686,8 +691,10 @@ export class Chart implements OnInit, OnDestroy {
         link.download = `${filename}_${date.slice(0, 10)}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
+        this.loadingImg.set(false);
       }).catch((err: any) => {
         console.error('Error capturing chart:', err);
+        this.loadingImg.set(false);
       });
     });
   }

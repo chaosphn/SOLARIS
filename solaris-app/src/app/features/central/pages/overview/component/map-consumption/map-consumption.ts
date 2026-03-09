@@ -1,7 +1,9 @@
-import { Component, effect, EventEmitter, input, Output, signal } from '@angular/core';
+import { Component, effect, EventEmitter, inject, input, Output, signal } from '@angular/core';
 import { MapConfigModel } from '../../../../../../shared/models/svg.model';
-import { DataRealtimeModel } from '../../../../../../shared/models/response.model';
-import { SiteModel } from '../../../../../../shared/models/config.model';
+import { DataRealtimeModel, ResponseRealtimeModel } from '../../../../../../shared/models/response.model';
+import { RealtimeConfig, SiteModel } from '../../../../../../shared/models/config.model';
+import { HttpService } from '../../../../../../shared/services/http.service';
+import { RequestRealtimeModel } from '../../../../../../shared/models/request.model';
 
 
 @Component({
@@ -15,7 +17,8 @@ export class MapConsumption {
   showDetail = signal<boolean>(false);
   zone = input<string>('');
   config = input<MapConfigModel>();
-  data = input<DataRealtimeModel>();
+  data = signal<DataRealtimeModel>({});
+  tagConfig = signal<RealtimeConfig[]>([]);
   sites = input<SiteModel[]>([]);
   sitesSummary = signal<any[]>([]);
   now = new Date();
@@ -23,27 +26,12 @@ export class MapConsumption {
 
   selectedprovince: string = '';
   hoverprovince: string | null = null;
+  private http = inject(HttpService);
 
   constructor(){
     effect(() => {
       if(this.sites() && this.config()?.map){
-        //console.log(this.sites(), this.config())
-        const pvnInZone = this.config()?.map.map(x => x.name.replaceAll(" ", "").toLowerCase()) || [];
-        if(pvnInZone){
-          const siteData = this.sites().filter(x => pvnInZone.includes(x.location.replaceAll(" ", "").toLowerCase())).map(x => ({
-            indicator: this.data()?.[`${x.id}_POWER`]?.TimeStamp || '---', 
-            code: x.id, 
-            site: x.name, 
-            province: x.location, 
-            capacityMw: x.capacity, 
-            powerKw: this.data()?.[`${x.id}_POWER`]?.Value || '---', 
-            todayMWh: this.data()?.[`${x.id}_ENERGY`]?.Value || '---', 
-            irr: this.data()?.[`${x.id}_PYRONO`]?.Value || '---', 
-            pvTemp: this.data()?.[`${x.id}_PVTEMP`]?.Value || '---', 
-            ambTemp: this.data()?.[`${x.id}_AMBTEMP`]?.Value || '---'
-          }));
-          this.sitesSummary.set(siteData);
-        }
+        this.getData();
       }
     })
   }
@@ -122,6 +110,61 @@ export class MapConsumption {
     } else {
       return 0
     }; 
+  }
+
+  async getConfig() {
+    const config = await this.http.getConfig2(`assets/central/overview/configurations/overview[${this.zone()}].config.json`);
+    if (config) {
+      this.tagConfig.set(config);
+    } else {
+      this.tagConfig.set([]);
+    }
+  }
+
+  getRequest(): RequestRealtimeModel{
+    return {
+      Tags: this.tagConfig().map(x => x.Tagname)
+    };
+  }
+
+  async getData(){
+    await this.getConfig();
+    const req = this.getRequest();
+    const result: ResponseRealtimeModel[] = await this.http.getRealtime(req);
+    if(result && result.length > 0){
+      result.map(data => {
+        const conf = this.tagConfig().find(y => y.Tagname == data.Name);
+        if (conf) {
+          this.data.update(val => ({
+            ...val,
+            [conf.Title]: {
+              ...data,
+              Value: parseFloat(data.Value.toString().replaceAll(',', ''))
+            }
+          }));
+        }
+      });
+      this.getZoneData();
+    }
+  }
+
+  getZoneData(){
+    const pvnInZone = this.config()?.map.map(x => x.name.replaceAll(" ", "").toLowerCase()) || [];
+    if(pvnInZone){
+      const siteData = this.sites().filter(x => pvnInZone.includes(x.location.replaceAll(" ", "").toLowerCase())).map(x => ({
+        indicator: this.data()?.[`${x.id}_POWER`]?.TimeStamp || '---', 
+        code: x.id, 
+        site: x.name, 
+        province: x.location, 
+        capacityMw: x.capacity, 
+        powerKw: this.data()?.[`${x.id}_POWER`]?.Value || '---', 
+        todayMWh: this.data()?.[`${x.id}_ENERGY`]?.Value || '---', 
+        irr: this.data()?.[`${x.id}_PYRONO`]?.Value || '---', 
+        pvTemp: this.data()?.[`${x.id}_PVTEMP`]?.Value || '---', 
+        ambTemp: this.data()?.[`${x.id}_AMBTEMP`]?.Value || '---'
+      }));
+      this.sitesSummary.set(siteData);
+    }
   }
 
 }

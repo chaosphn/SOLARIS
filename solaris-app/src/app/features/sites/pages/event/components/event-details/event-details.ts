@@ -22,6 +22,7 @@ export class EventDetails {
   tagData = signal<ResponseHistorianModel[]>([]);
   chartParameter = computed(() => {
     if(this.event() && this.tagData().length > 0){
+      console.log(this.event())
       let item: ChartParameters = {};
       let series: SeriesOptionsType[] | SeriesLineOptions[] | SeriesAreaOptions[] | SeriesColumnOptions[] = this.createEventChartSeries(this.tagData()); 
       item.chart = this.chartOptions.getChartOptions({});

@@ -1,28 +1,33 @@
 <div class="container w-100 h-100 bz">
 
     <div class="card-box w-100 bz">
+        <div class="title w-100">ASSET</div>
+        <div class="value bz w-100">{{ event()?.Item || '---' }}</div>
+    </div>
+
+    <div class="card-box w-100 bz">
         <div class="title w-100">EQUIPMENT</div>
         <div class="value bz w-100">{{ event()?.Group || '---' }}</div>
     </div>
 
     <div class="card-box w-100 bz">
-        <div class="title w-100">ASSET</div>
-        <div class="value bz w-100">{{ event()?.Item || '---' }}</div>
+        <div class="title w-100">LOCATION</div>
+        <div class="value bz w-100">{{ event()?.Location || '---' }}</div>
     </div>
 
     @if (event()?.Type === 'event') {
         <div class="card-box w-100 bz">
             <div class="title w-100">TIMESTAMP</div>
-            <div class="value bz w-100">{{ event()?.StartTime || '---' }}</div>
+            <div class="value bz w-100">{{ event()?.StartTime | date: 'dd/mm/yyyy hh:mm:ss' }}</div>
         </div>
     } @else { 
         <div class="card-box w-100 bz">
             <div class="title w-100">STARTTIME</div>
-            <div class="value bz w-100">{{ event()?.StartTime || '---' }}</div>
+            <div class="value bz w-100">{{ event()?.StartTime | date: 'dd/mm/yyyy hh:mm:ss' }}</div>
         </div>
         <div class="card-box w-100 bz">
             <div class="title w-100">ENDTIME</div>
-            <div class="value bz w-100">{{ event()?.EndTime || '---' }}</div>
+            <div class="value bz w-100">{{ event()?.EndTime | date: 'dd/mm/yyyy hh:mm:ss' }}</div>
         </div>
     }
 

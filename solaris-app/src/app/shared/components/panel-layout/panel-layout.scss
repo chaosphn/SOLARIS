@@ -201,8 +201,10 @@
 
         .grade-range {
             width: 58px;
-            height: 18px;
+            height: 24px;
+            border: solid;
             border-radius: 2px;
+            border-width: 2.5px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -212,7 +214,7 @@
                 font-family: 'Inter', sans-serif;
                 font-size: 9px;
                 font-weight: 600;
-                color: white;
+                color: var(--primary-txt);
                 text-align: center;
             }
         }

@@ -71,11 +71,12 @@ export class Events implements OnInit, OnDestroy {
     const st = new Date(dt).toISOString();
     const en = new Date(dt).setDate(this.date.getDate() + 1);
     const request: EventRequestModel = {
+      PointSource: this.siteSelected(),
       StartTime: st,
       EndTime: new Date(en).toISOString()
     }
 
-    const result = await this.http.getAlarmEventData(request);
+    const result = await this.http.getFilteredAlarmEventData(request);
     if(result){
       this.eventList.set(result.map(x => {
         return {
@@ -146,6 +147,7 @@ export class Events implements OnInit, OnDestroy {
     const en = new Date(dt).setDate(this.date.getDate() + 1);
     console.log('Selected Event:', this.selectedOptions);
     const request: FilterEventRequestModel = {
+      PointSource: this.siteSelected(),
       StartTime: st,
       EndTime: new Date(en).toISOString(),
       Type: this.selectedOptions['Type']?.value || undefined,
@@ -153,7 +155,7 @@ export class Events implements OnInit, OnDestroy {
       Equipments: this.selectedOptions['Equipment']?.value || undefined,
       Assets: undefined
     };
-
+    this.selectedEvent.set({} as EventDataModel);
     const result = await this.http.getFilteredAlarmEventData(request);
     if(result){
       this.eventList.set(result.map(x => {

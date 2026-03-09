@@ -106,30 +106,41 @@
     color: #222529;
 }
 
-.st-danger{
+.st-major{
+    background-color: crimson;
+    border-radius: 50%;
+    font-size: 12px;
+    padding: 2px;
+    font-weight: 800;
+    text-align: center;
+    color: #222529;
+}
+
+.st-minor{
     background-color: #EE4400;
     border-radius: 50%;
     font-size: 12px;
     padding: 2px;
-    font-weight: 500;
-    width: 14px;
+    font-weight: 800;
+    text-align: center;
     color: #222529;
 }
 
 .st-warning{
     background-color: #ffc107;
     border-radius: 50%;
-    font-size: 10px;
-    padding: 2px;
-    font-weight: 500;
+    font-size: 14px;
+    //padding: 2px;
+    font-weight: 800;
+    text-align: center;
     color: #222529;
 }
 
 .icon-box{
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     .material-icons{
-        font-size: 10px;
+        font-size: 16px;
     }
 }
 

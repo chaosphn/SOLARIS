@@ -11,6 +11,8 @@ import { ReportConfigModel } from '../../../sites/models/report.model';
 import { sendMessage } from '../../../../store/actions/toaster.actions';
 import { Router } from '@angular/router';
 import { BillingSessionModel } from '../../../../shared/models/billing.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialog, ConfirmDialogData } from '../../../../shared/components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-billing',
@@ -71,17 +73,18 @@ export class Billing implements OnInit, OnDestroy {
   private store = inject(Store);
   private dateTimeSrv = inject(Datetime);
   private router = inject(Router);
+  private dialogs = inject(MatDialog);
 
   constructor(){
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {
-      console.log(state.location)
+      //console.log(state.location)
       this.siteSelected.set(state.location);
       const res = await firstValueFrom(
         this.store.select(getAllConfig())
       );
       if(res && res[0]){
-        console.log(res)
+        //console.log(res)
         this.siteList.set(res[0].siteList);
       };
     });
@@ -89,14 +92,14 @@ export class Billing implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getConfig();
-    console.log(this.router.url);
+    //console.log(this.router.url);
     const urlParts = this.router.url.split('/');
     const sessionId = urlParts[urlParts.length - 1];
     this.sessionId.set(sessionId);
     if(sessionId !== 'viewer'){
       this.getSessionData();
     }
-    console.log(this.siteOptions(), this.siteList())
+    //console.log(this.siteOptions(), this.siteList())
   }
 
   ngOnDestroy(): void {
@@ -155,7 +158,7 @@ export class Billing implements OnInit, OnDestroy {
       default:
         break;
     }
-    console.log('Selected:', option.value);
+    //console.log('Selected:', option.value);
   }
 
   toggleDropdown2(event: Event): void {
@@ -168,7 +171,7 @@ export class Billing implements OnInit, OnDestroy {
     this.selectedSite = option;
     this.isDropdownOpen2 = false;
     
-    console.log('Selected:', option.value);
+    //console.log('Selected:', option.value);
   }
 
   onDateSelect(event: any) {
@@ -255,7 +258,7 @@ export class Billing implements OnInit, OnDestroy {
         const blob: any = await this.http.downloadBilling(this.selectedSite?.value, this.date.toISOString(), this.selectedReport?.value);
       } else {
         this.store.dispatch(sendMessage({ 
-          payload: { type: 'error', text: 'Please select site !' }
+          payload: { type: 'warn', text: 'Please select site !' }
         }));
       };
       this.loading2.set(false);
@@ -267,18 +270,42 @@ export class Billing implements OnInit, OnDestroy {
     }
   }
 
+  confirmApproveBillingData(): void {
+    const dialogData: ConfirmDialogData = {
+      title: 'Approve Billing',
+      message: 'Are you sure you want to sending this billing to recievers?',
+      subMessage: 'This action cannot be undone.',
+      confirmText: 'Approve',
+      cancelText: 'Cancel',
+      type: 'info'
+    };
+
+    const dialogRef = this.dialogs.open(ConfirmDialog, {
+      width: '480px',
+      data: dialogData,
+      panelClass: 'confirm-dialog-panel'
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result === true) {
+        await this.approveBillingData();
+      }
+    });
+
+  }
+
   async approveBillingData() {
     try {
       this.loading3.set(true);
       if(!this.siteSelected && !this.selectedSite?.value){
         this.store.dispatch(sendMessage({ 
-          payload: { type: 'error', text: 'Please select site !' }
+          payload: { type: 'warn', text: 'Please select site !' }
         }));
       }
 
       if(!this.sessionData){
         this.store.dispatch(sendMessage({ 
-          payload: { type: 'error', text: 'No data for this bill !' }
+          payload: { type: 'warn', text: 'No data for this bill !' }
         }));
       }
       const ts = this.date.toISOString();

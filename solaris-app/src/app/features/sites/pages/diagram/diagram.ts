@@ -85,7 +85,7 @@ export class Diagram implements OnInit, OnDestroy {
   constructor(){
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {
-      console.log(state.location)
+      //console.log(state.location)
       this.siteSelected.set(state.location);
       const res = await firstValueFrom(
         this.store.select(getZoneConfig(state.location))
@@ -125,6 +125,9 @@ export class Diagram implements OnInit, OnDestroy {
     if(this.storeSub2){
       this.storeSub2.unsubscribe();
     }
+    if(this.svgSub){
+      this.svgSub.unsubscribe();
+    }
   }
 
   resetPage(){
@@ -141,6 +144,9 @@ export class Diagram implements OnInit, OnDestroy {
     this.dataChart.set({});
     this.dataRealtime.set({});
     this.dataHistorian.set({});
+    this.svgSafe.set('');
+    this.svgTemplate.set('');
+    this.diagramList.set([]);
     //this.store.dispatch(DiagramActions.resetDiagramState());
   }
 
@@ -306,36 +312,34 @@ export class Diagram implements OnInit, OnDestroy {
 
     const root: HTMLElement = this.svgContainer.nativeElement;
 
-    // หาเฉพาะ group ที่มี rectangle message box
-    const groups = root.querySelectorAll('g');
+    // Find all rectangles with id containing 'text_box'
+    const textBoxes = root.querySelectorAll('rect[id*="text_box"]');
 
-    groups.forEach((group: any) => {
+    textBoxes.forEach((rect: any) => {
+      // Get parent group
+      const parentGroup = rect.closest('g');
+      if (!parentGroup) return;
 
-      const rect = group.querySelector('rect');
-      const tspan = group.querySelector('tspan');
-
-      if (!rect || !tspan) return;
-
-      // filter เฉพาะกล่อง message (สูง 16.25)
-      const h = rect.getAttribute('height');
-      if (h !== '16.25') return;
+      // Get the text element that contains the actual value
+      const textElement = parentGroup.querySelector('text');
+      if (!textElement) return;
 
       const x = parseFloat(rect.getAttribute('x'));
       const y = parseFloat(rect.getAttribute('y'));
       const w = parseFloat(rect.getAttribute('width'));
       const height = parseFloat(rect.getAttribute('height'));
 
-      const cx = x + w / 2;
+      const cx = x + 5 + w / 2;
       const cy = y + height / 2;
 
-      // 🔥 สำคัญ — ต้อง set ที่ tspan
-      tspan.setAttribute('x', cx.toString());
-      tspan.setAttribute('y', cy.toString());
-
-      const text = tspan.parentElement;
-
-      text.setAttribute('text-anchor', 'middle');
-      text.setAttribute('dominant-baseline', 'middle');
+      // Center all tspans in this text element
+      const tspans = textElement.querySelectorAll('tspan');
+      tspans.forEach((tspan: any) => {
+        tspan.setAttribute('x', cx.toString());
+        tspan.setAttribute('text-anchor', 'middle');
+        //tspan.setAttribute('y', cy.toString());
+      
+      });
     });
   }
 
@@ -444,7 +448,7 @@ export class Diagram implements OnInit, OnDestroy {
     for (let index = 0; result.length <= 20; index++) {
       result = '-' + result + '-';
     }
-    console.log(result, lng)
+    //console.log(result, lng)
     return result;
   }
 
@@ -531,7 +535,7 @@ export class Diagram implements OnInit, OnDestroy {
         const minutesDiff = timeDiff / (1000 * 60); // Convert to minutes
         
         if (minutesDiff > 2) {
-          console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
+          //console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
           resolve(true);
         } else {
           resolve(false);

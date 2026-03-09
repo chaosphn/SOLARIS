@@ -36,27 +36,23 @@
             </g>
             <defs>
                 <!-- Gradient Definitions -->
-                <linearGradient id="gradient-excellent" x1="0%" y1="0%" x2="100%" y2="100%">
+                <!-- <linearGradient id="gradient-excellent" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" style="stop-color:#248997;stop-opacity:1" />
-                    <!-- <stop offset="50%" style="stop-color:#005F60;stop-opacity:1" /> -->
                     <stop offset="100%" style="stop-color:#289F7C;stop-opacity:1" />
                 </linearGradient>
                 
                 <linearGradient id="gradient-good" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" style="stop-color:#289F7C;stop-opacity:1" />
-                    <!-- <stop offset="50%" style="stop-color:#008083;stop-opacity:1" /> -->
                     <stop offset="100%" style="stop-color:#7BB046;stop-opacity:1" />
                 </linearGradient>
                 
                 <linearGradient id="gradient-fair" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" style="stop-color:#7BB046;stop-opacity:1" />
-                    <!-- <stop offset="50%" style="stop-color:#249EA0;stop-opacity:1" /> -->
                     <stop offset="100%" style="stop-color:rgb(145, 182, 43);stop-opacity:1" />
                 </linearGradient>
                 
                 <linearGradient id="gradient-poor" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" style="stop-color:#FF843F;stop-opacity:1" />
-                    <!-- <stop offset="50%" style="stop-color:#DEB266;stop-opacity:1" /> -->
                     <stop offset="100%" style="stop-color:#FF4747;stop-opacity:1" />
                 </linearGradient>
                 
@@ -64,7 +60,7 @@
                     <stop offset="0%" style="stop-color:#E63940;stop-opacity:1" />
                     <stop offset="50%" style="stop-color:#FF4F52;stop-opacity:1" />
                     <stop offset="100%" style="stop-color:#FF8085;stop-opacity:1" />
-                </linearGradient>
+                </linearGradient> -->
                 
                 <linearGradient id="gradient-default" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" style="stop-color:#2A2A2A;stop-opacity:1" />
@@ -129,7 +125,7 @@
             <h3 class="grade-title">INVERTER' STRINGS PERFORMANCE</h3>
             <div class="grade-ranges">
                 @for (color of getColorData(); track $index) {
-                    <div class="grade-range" [style.background-color]="color.color">
+                    <div class="grade-range" [style.border-color]="color.color">
                         <span class="range-text">{{ color.range }}</span>
                     </div>
                 }

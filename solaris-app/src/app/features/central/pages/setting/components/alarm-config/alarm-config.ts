@@ -62,7 +62,7 @@ export class AlarmConfig implements OnInit {
 
   async getAlarmEventData(){
     const result = await this.service.getAlarmEventConfig();
-    console.log('Initial alarm tags:', result);
+    //console.log('Initial alarm tags:', result);
     if(result && result.length > 0){
       this.editedTags.set(result);
     } else {
@@ -72,7 +72,7 @@ export class AlarmConfig implements OnInit {
 
   async getNotificationData(){
     const result = await this.service.getNotificationConfig();
-    console.log('Initial notification config:', result);
+    //console.log('Initial notification config:', result);
     if(result && result.length > 0){
       this.notificationConfig = result;
     } else {
@@ -169,7 +169,7 @@ export class AlarmConfig implements OnInit {
   }
 
   deleteTag(index: number): void {
-    if (confirm('Are you sure you want to delete this alarm?')) {
+    if (true) {
       this.editedTags.update(tags => tags.filter((_, i) => i !== index));
     }
   }
@@ -186,7 +186,7 @@ export class AlarmConfig implements OnInit {
   async parseExpressionData(expression: string) {
     //this.exPressionResult = null; // reset previous result
     const result = await this.service.parseExpression(expression);
-    console.log('Parsed expression result:', result);
+    //console.log('Parsed expression result:', result);
     this.exPressionResult = result;
   }
 
@@ -233,7 +233,7 @@ export class AlarmConfig implements OnInit {
       this.newAlarmTag.ID = this.editedTags().length > 0 ? Math.max(...this.editedTags().map(t => t.ID)) + 1 : 1;
       this.editedTags.update(tags => [...tags, { ...this.newAlarmTag }]);
     }
-    console.log('Saving alarm:', this.newAlarmTag, this.editedTags, this.editingIndex);
+    //console.log('Saving alarm:', this.newAlarmTag, this.editedTags, this.editingIndex);
     this.closeAlarmModal();
   }
 
@@ -260,4 +260,29 @@ export class AlarmConfig implements OnInit {
     });
 
   }
+
+  confirmDeleteTag(id: number): void {
+    const dialogData: ConfirmDialogData = {
+      title: 'Delete Item',
+      message: 'Are you sure you want to delete this item?',
+      subMessage: 'This action cannot be undone.',
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      type: 'danger'
+    };
+
+    const dialogRef = this.dialogs.open(ConfirmDialog, {
+      width: '480px',
+      data: dialogData,
+      panelClass: 'confirm-dialog-panel'
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result === true) {
+        this.deleteTag(id);
+      }
+    });
+
+  }
+
 }

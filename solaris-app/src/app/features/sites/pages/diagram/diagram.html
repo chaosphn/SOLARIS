@@ -7,9 +7,11 @@
     <div class="infoCard w-100 h-100 bz">
         <app-card-container [title]="'SYSTEM DIAGRAM'">
             <ng-template #container>
-                <div class="contentBox d-flex-c w-100 bz" >
-                    <div #svgContainer [innerHTML]="svgSafe()" class="content"></div>
-                </div>
+                @if (svgSafe()) {
+                    <div class="contentBox d-flex-c w-100 bz" >
+                        <div #svgContainer [innerHTML]="svgSafe()" class="content"></div>
+                    </div>
+                }
             </ng-template>
         </app-card-container>
     </div>

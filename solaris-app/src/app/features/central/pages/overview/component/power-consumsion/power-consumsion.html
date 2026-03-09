@@ -2,7 +2,7 @@
     <div class="progress bz w-100 h-100">
         <app-circle-progress 
             [percent]="getPercentage()" 
-            [value]="power()?.Value?.toFixed(0)??'---'" 
+            [value]="power()?.Value | numberFomat: '1.0-0'" 
             [unit]="power()?.Unit??'kW'">
         </app-circle-progress>
     </div>
@@ -10,21 +10,21 @@
         <div class="box d-col-c bz">
             <div class="title">YIELD</div>
             <div class="value" [matTooltip]="tooltipSrv.getTooltip(yield())" matTooltipPosition="above">
-                {{ yield()?.Value?.toFixed(1)??'---' }}
+                {{ yield()?.Value | numberFomat: '1.0-1' }}
             </div>
             <div class="unit">kWh/kWp</div>
         </div>
         <div class="box d-col-c bz">
             <div class="title">PR</div>
             <div class="value" [matTooltip]="tooltipSrv.getTooltip(performance())" matTooltipPosition="above">
-                {{ performance()?.Value?.toFixed(1)??'---' }}
+                {{ performance()?.Value | numberFomat: '1.0-1' }}
             </div>
             <div class="unit">%</div>
         </div>
         <div class="box d-col-c bz">
             <div class="title">CAPACITY</div>
             <div class="value" [matTooltip]="tooltipSrv.getTooltip(capacity())" matTooltipPosition="above">
-                {{ capacity()?.Value?.toFixed(1)??'---' }}
+                {{ capacity()?.Value | numberFomat: '1.0-1' }}
             </div>
             <div class="unit">%</div>
         </div>

@@ -195,7 +195,7 @@ export class Overview implements OnInit, OnDestroy {
         this.store.dispatch(OverviewActions.loadOverviewConfigSuccess({ config }));
       }
     } catch (error) {
-      console.error('Error fetching config', error);
+      //console.error('Error fetching config', error);
       this.store.dispatch(OverviewActions.loadOverviewConfigFailure({ error: error as string }));
     }
   }
@@ -320,7 +320,7 @@ export class Overview implements OnInit, OnDestroy {
         const minutesDiff = timeDiff / (1000 * 60); // Convert to minutes
         
         if (minutesDiff > 2) {
-          console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
+          //console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
           resolve(true);
         } else {
           resolve(false);
@@ -405,7 +405,7 @@ export class Overview implements OnInit, OnDestroy {
                   series.push(res);
                 }
               })
-              console.log(item.Group, series, response);
+              //console.log(item.Group, series, response);
               
               // สร้าง chart config object ใหม่
               newVal[item.Group] = {
@@ -458,7 +458,7 @@ export class Overview implements OnInit, OnDestroy {
 
   async onZoneChanges(event: string){
     this.zoneSelected.update(prev => event);
-    console.log(this.zoneSelected())
+    //console.log(this.zoneSelected())
     await this.getMapConfig();
   }
 

@@ -1,7 +1,7 @@
 ﻿{
     "realtimeConfig": [
       {
-        "Group": "PQMMERTER",
+        "Group": "POWER-METER",
         "Order": 0,
         "Tags": [
           {
@@ -19,13 +19,8 @@
           {
             "Title": "PQM_COM",
             "Tagname": "J2301-1.PQM1.MBFAIL"
-          }
-        ]
-      },
-      {
-        "Group": "emi01",
-        "Order": 0,
-        "Tags": [
+          },
+
           {
             "Title": "M01_W",
             "Tagname": "J2301-1.PQM1.W"
@@ -41,13 +36,8 @@
           {
             "Title": "M01_COM",
             "Tagname": "J2301-1.PQM1.MBFAIL"
-          }
-        ]
-      },
-      {
-        "Group": "emi02",
-        "Order": 0,
-        "Tags": [
+          },
+
           {
             "Title": "M02_W",
             "Tagname": "J2301-2.PQM2.W"
@@ -63,13 +53,8 @@
           {
             "Title": "M02_COM",
             "Tagname": "J2301-2.PQM2.MBFAIL"
-          }
-        ]
-      },
-      {
-        "Group": "emi03",
-        "Order": 0,
-        "Tags": [
+          },
+
           {
             "Title": "M03_W",
             "Tagname": "J2301-3.PQM3.W"
@@ -85,13 +70,8 @@
           {
             "Title": "M03_COM",
             "Tagname": "J2301-3.PQM3.MBFAIL"
-          }
-        ]
-      },
-      {
-        "Group": "emi04",
-        "Order": 0,
-        "Tags": [
+          },
+
           {
             "Title": "M04_W",
             "Tagname": "J2301-4.PQM4.W"
@@ -107,13 +87,8 @@
           {
             "Title": "M04_COM",
             "Tagname": "J2301-4.PQM4.MBFAIL"
-          }
-        ]
-      },
-      {
-        "Group": "emi05",
-        "Order": 0,
-        "Tags": [
+          },
+
           {
             "Title": "M05_W",
             "Tagname": "J2301-5.PQM5.W"
@@ -134,7 +109,7 @@
       },
       {
         "Group": "WEATHER",
-        "Order": 2,
+        "Order": 1,
         "Tags": [
           {
             "Title": "WX01_IRR",
@@ -160,7 +135,7 @@
       },
       {
         "Group": "inverter_power",
-        "Order": 4,
+        "Order": 2,
         "Tags": [
           {
             "Title":  "INV01_PW",
@@ -278,7 +253,7 @@
       },
       {
         "Group": "inverter_eff",
-        "Order": 4,
+        "Order": 3,
         "Tags": [
           {
             "Title":  "INV01_EFF",
@@ -506,7 +481,7 @@
       },
       {
         "Group": "inverter_comm",
-        "Order": 4,
+        "Order": 5,
         "Tags": [
           {
             "Title":  "INV01_COM",
@@ -615,6 +590,120 @@
           {
             "Title": "INV27_COM",
             "Tagname": "J2301-2.INV182.F_COMM"
+          }
+        ]
+      },
+      {
+        "Group": "inverter_status",
+        "Order": 5,
+        "Tags": [
+          {
+            "Title":  "INV01_STS",
+            "Tagname":  "J2301-1.INV011.FAULT"
+          },
+          {
+              "Title":  "INV02_STS",
+              "Tagname":  "J2301-1.INV012.FAULT"
+          },
+          {
+              "Title":  "INV03_STS",
+              "Tagname":  "J2301-1.INV021.FAULT"
+          },
+          {
+              "Title":  "INV04_STS",
+              "Tagname":  "J2301-1.INV022.FAULT"
+          },
+          {
+              "Title":  "INV05_STS",
+              "Tagname":  "J2301-1.INV031.FAULT"
+          },
+          {
+              "Title":  "INV06_STS",
+              "Tagname":  "J2301-1.INV032.FAULT"
+          },
+          {
+              "Title":  "INV07_STS",
+              "Tagname":  "J2301-1.INV041.FAULT"
+          },
+          {
+              "Title":  "INV08_STS",
+              "Tagname":  "J2301-1.INV042.FAULT"
+          },
+          {
+              "Title":  "INV09_STS",
+              "Tagname":  "J2301-1.INV051.FAULT"
+          },
+          {
+              "Title":  "INV10_STS",
+              "Tagname":  "J2301-1.INV052.FAULT"
+          },
+          {
+              "Title":  "INV11_STS",
+              "Tagname":  "J2301-1.INV061.FAULT"
+          },
+          {
+              "Title":  "INV12_STS",
+              "Tagname":  "J2301-1.INV062.FAULT"
+          },
+          {
+            "Title": "INV13_STS",
+            "Tagname": "J2301-2.INV111.FAULT"
+          },
+          {
+            "Title": "INV14_STS",
+            "Tagname": "J2301-2.INV112.FAULT"
+          },
+          {
+            "Title": "INV15_STS",
+            "Tagname": "J2301-2.INV121.FAULT"
+          },
+          {
+            "Title": "INV16_STS",
+            "Tagname": "J2301-2.INV122.FAULT"
+          },
+          {
+            "Title": "INV17_STS",
+            "Tagname": "J2301-2.INV131.FAULT"
+          },
+          {
+            "Title": "INV18_STS",
+            "Tagname": "J2301-2.INV141.FAULT"
+          },
+          {
+            "Title": "INV19_STS",
+            "Tagname": "J2301-2.INV142.FAULT"
+          },
+          {
+            "Title": "INV20_STS",
+            "Tagname": "J2301-2.INV151.FAULT"
+          },
+          {
+            "Title": "INV21_STS",
+            "Tagname": "J2301-2.INV152.FAULT"
+          },
+          {
+            "Title": "INV22_STS",
+            "Tagname": "J2301-2.INV161.FAULT"
+          },
+          {
+            "Title": "INV23_STS",
+            "Tagname": "J2301-2.INV162.FAULT"
+          },
+          {
+            "Title": "INV24_STS",
+            "Tagname": "J2301-2.INV171.FAULT"
+          },
+          {
+            "Title": "INV25_STS",
+            "Tagname": "J2301-2.INV172.FAULT"
+          },
+          {
+            "Title": "INV26_STS",
+            "Tagname": "J2301-2.INV181.FAULT"
+          },
+          {
+            "Title": "INV27_STS",
+            "Tagname": "J2301-2.INV182.FAULT"
           }
         ]
       }

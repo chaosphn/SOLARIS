@@ -25,6 +25,7 @@ export interface EventSummaryModel{
 export interface EventRequestModel{
     StartTime: string;
     EndTime: string;
+    PointSource?: string;
 }
 
 export interface FilterEventRequestModel extends EventRequestModel{

@@ -88,7 +88,7 @@ export class Dashboard implements OnInit, OnDestroy {
   constructor(){
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {
-      console.log(state.location)
+      //console.log(state.location)
       this.siteSelected.set(state.location);
       const res = await firstValueFrom(
         this.store.select(getSiteConfig(state.location))
@@ -221,7 +221,7 @@ export class Dashboard implements OnInit, OnDestroy {
         this.store.dispatch(DashboardActions.loadDashboardConfigSuccess({ config }));
       }
     } catch (error) {
-      console.error('Error fetching config', error);
+      //console.error('Error fetching config', error);
       this.store.dispatch(DashboardActions.loadDashboardConfigFailure({ error: error as string }));
     }
   }
@@ -346,7 +346,7 @@ export class Dashboard implements OnInit, OnDestroy {
         const minutesDiff = timeDiff / (1000 * 60); // Convert to minutes
         
         if (minutesDiff > 2) {
-          console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
+          //console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
           resolve(true);
         } else {
           resolve(false);
@@ -431,7 +431,7 @@ export class Dashboard implements OnInit, OnDestroy {
                   series.push(res);
                 }
               })
-              console.log(item.Group, series, response);
+              //console.log(item.Group, series, response);
               
               // สร้าง chart config object ใหม่
               newVal[item.Group] = {
@@ -483,7 +483,7 @@ export class Dashboard implements OnInit, OnDestroy {
   }
 
   async onChartUpdate(data: ChartPickerModel){
-    console.log(data, this.requestHistorian())
+    //console.log(data, this.requestHistorian())
     const findRequest = this.requestHistorian().find(x => x.Group === data.name);
     if(findRequest){
       this.loadingChart.set(data.name);

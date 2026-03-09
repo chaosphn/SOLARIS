@@ -56,24 +56,25 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>STATUE</th>
                                 <th>TYPE</th>
+                                <th>LEVEL</th>
                                 <th>TIMESTAMP</th>
-                                <th>EQUIPMENT</th>
                                 <th>ASSET</th>
-                                <th>ACTION</th>
+                                <th>EQUIPMENT</th>
+                                <th>LOCATION</th>
+                                <th>STATUS</th>
                                 <th>MESSAGE</th>
                             </tr>
                         </thead>
                         <tbody>
                             @for (item of eventList(); track $index) {
-                                <tr >
+                                <tr (click)="onRowSelect(item)" [ngClass]="{ 'active-event' : item.ID == selectedEvent().ID}">
                                     <td>
                                         @if(!item.EndTime){
-                                            <i class="material-icons minor">play_circle</i>
+                                            <i class="material-icons major">alarm</i>
                                         }  
                                         @if(item.EndTime) {
-                                            <i class="material-icons event">stop_circle</i>
+                                            <i class="material-icons event">event</i>
                                         }
                                     </td>
                                     <td>
@@ -90,15 +91,24 @@
                                             <i class="material-icons major">dangerous</i>
                                         }
                                     </td>
-                                    <td>{{ item.StartTime }}</td>
-                                    <td>{{ item.Group }}</td>
+                                    <td>{{ item.StartTime | date: 'dd/mm/yyyy hh:mm:ss'}}</td>
                                     <td>{{ item.Item }}</td>
-                                    <td (click)="onRowSelect(item)">
+                                    <td>{{ item.Group }}</td>
+                                    <td>{{ item.Location || '---' }}</td>
+                                    <!-- <td (click)="onRowSelect(item)">
                                         @if(item.Action === "muted"){
                                             <i class="material-icons ">visibility_off</i>
                                         }  
                                         @if(item.Action === "unmute") {
                                             <i class="material-icons active">visibility</i>
+                                        }
+                                    </td> -->
+                                    <td class="ongoing" [class]="{ 'ended' : item.EndTime }">
+                                        @if(item.EndTime){
+                                            CLOSED
+                                        }  
+                                        @else {
+                                            ACTIVE
                                         }
                                     </td>
                                     <td>{{ item.Message }}</td>

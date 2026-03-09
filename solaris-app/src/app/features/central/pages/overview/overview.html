@@ -66,9 +66,9 @@
                         @for (item of siteList(); track $index) {
                             <div class="content bz h-100">
                                 <app-stack-chart
-                                    [value]="dataRealtime()['POWER']?.Value?.toString() || '55'"
-                                    [maxVal]="dataRealtime()['POWER']?.Max || 100"
-                                    [unit]="dataRealtime()['POWER']?.Unit || 'kW'"
+                                    [value]="dataRealtime()[item.id + '_POWER']?.Value?.toString() || '0'"
+                                    [maxVal]="dataRealtime()[item.id + '_POWER']?.Max || 100"
+                                    [unit]="dataRealtime()[item.id + '_POWER']?.Unit || 'kW'"
                                     [activeColor]="'#D6AA19'"
                                     [bgColor]="'var(--stack-bg)'"
                                     [bdRadius]="'2px'"
@@ -92,7 +92,6 @@
                 <app-map-consumption 
                     [zone]="zoneSelected()"
                     [config]="mapConfig()"
-                    [data]="dataRealtime()"
                     [sites]="siteList()"
                     (selectZone)="onZoneChanges($event)"
                     >

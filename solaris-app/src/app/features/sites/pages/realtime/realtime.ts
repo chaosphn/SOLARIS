@@ -104,7 +104,7 @@ export class Realtime implements OnInit, OnDestroy {
   constructor(){
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {
-      console.log(state.location)
+      //console.log(state.location)
       this.siteSelected.set(state.location);
       const res = await firstValueFrom(
         this.store.select(getZoneConfig(state.location))
@@ -132,6 +132,12 @@ export class Realtime implements OnInit, OnDestroy {
     if(this.navSub){
       this.navSub.unsubscribe();
     }
+    if(this.storeSub){
+      this.storeSub.unsubscribe();
+    }
+    if(this.storeSub2){
+      this.storeSub2.unsubscribe();
+    }
   }
 
   resetPage(){
@@ -143,6 +149,9 @@ export class Realtime implements OnInit, OnDestroy {
     this.dataChart.set({});
     this.dataRealtime.set({});
     this.dataHistorian.set({});
+    this.configTags.set([]);
+    this.tableHeader.set([]);
+    this.tableRow.set([]);
   }
 
   async initPage(){
@@ -169,7 +178,7 @@ export class Realtime implements OnInit, OnDestroy {
         this.configTags.set(config);
       }
     } catch (error) {
-      console.error('Error fetching config', error);
+      //console.error('Error fetching config', error);
     }
   }
 
@@ -218,7 +227,7 @@ export class Realtime implements OnInit, OnDestroy {
       return acc;
     }, tagList);
     if(request){  
-      console.log(request);
+      //console.log(request);
     }
   }
 

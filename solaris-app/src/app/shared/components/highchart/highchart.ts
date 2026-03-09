@@ -134,7 +134,6 @@ export class Highchart  {
           }
           let dt = new DateTime();
           let montnFormat = dt.getMonth(dateTime.getMonth());
-          // d-MMM-yy
           let dateFormat = ('0' + dateTime.getDate()).slice(-2);
           let yearFormat = ('0' + dateTime.getFullYear()).slice(-2);
           let hourFormat = ((dateTime.getHours()-7));
@@ -143,21 +142,28 @@ export class Highchart  {
           let ts = isDate(dateTime) ? dateTime.toISOString().slice(0,16).replace("T"," ") : '---';
           let s = `<div class="chart-tooltip" style="margin-bottom:5px;"><div style="font-weight:500;color:var(--primary-txt);">${ts}</div></div>`;
           s += '<table style="font-size:11px">';
-          if ( this.points && this.points.length > 0) {
-            this.points.forEach(p => {
+          
+          // Handle both shared tooltip (multiple points) and single point tooltip
+          let pointsToProcess = this.points || [this];
+          
+          if (pointsToProcess && pointsToProcess.length > 0) {
+            pointsToProcess.forEach((p: any) => {
               let unit = p.series.name.split("*")[1]??'';
+              let seriesName = p.series.name.split("*")[0];
+              // Check if it's a valid date or scatter chart
               if(dateTime.toString() == 'Invalid Date' || dateTime.getFullYear() < 2000 || dateTime.getFullYear() > 3000)
               { 
-                if(p.y != null && p.x){
-                  s += '<tr><td class="chart-tooltip" style="color:' + p.color + ';font-weight:500">' + p.x + '</td> <td class="chart-tooltip" style="padding-left:6px;font-weight:500;color: ' + p.color + '"> ' + +(p.y).toFixed(2) + '</td></tr>';
+                // For scatter charts or non-time-based charts
+                if(p.y != null){
+                  s += '<tr><td class="chart-tooltip" style="color:' + p.color + ';font-weight:500">' + seriesName + ' :' + '</td> <td class="chart-tooltip" style="padding-left:6px;font-weight:500;color: ' + p.color + '"> ' + +(p.y).toFixed(2) + ' ' + unit + '</td></tr>';
                 }
               }
               else{
-                if(p.y != null && p.x){
-                  s += '<tr><td class="chart-tooltip" style="color:' + p.color + ';font-weight:500">' + p.series.name.split("*")[0] + ' :' + '</td> <td class="chart-tooltip" style="padding-left:6px;font-weight:500;color: ' + p.color + '"> ' +(p.y).toFixed(2) + ' ' + unit + ' </td></tr>';
+                // For time-based charts
+                if(p.y != null){
+                  s += '<tr><td class="chart-tooltip" style="color:' + p.color + ';font-weight:500">' + seriesName + ' :' + '</td> <td class="chart-tooltip" style="padding-left:6px;font-weight:500;color: ' + p.color + '"> ' +(p.y).toFixed(2) + ' ' + unit + ' </td></tr>';
                 }
               }
-              //s += '<tr><td style="color:rgba(0, 0, 0, 0.9);font-weight:500">' + p.series.name + '</td> <td style="padding-left:12px;font-weight:bold;color: ' + p.color + '"> ' + +(p.y).toFixed(2) + '</td></tr>';
             });
           }
           s += '</table>';

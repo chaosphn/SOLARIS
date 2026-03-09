@@ -253,6 +253,21 @@
     }
 }
 
+.ongoing{
+    font-weight: bold;
+    color: #E74C3C !important;
+}
+
+.ended{
+    font-weight: bold;
+    color: #4A90E2 !important;
+}
+
+.active-event{
+    //filter: brightness(125%);
+    background-color: var(--secondary-bg-50);
+}
+
 @media (max-width: 1700px) {
     .content{
         display: grid;

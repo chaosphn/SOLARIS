@@ -1,4 +1,4 @@
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, input, OnInit } from '@angular/core';
 import { ColorRangeModel, PanelConfigModel, PvGroupModel, PvPanelModel } from '../../models/panel.model';
 import { DataRealtimeModel } from '../../models/response.model';
 import { isNumber } from 'highcharts';
@@ -10,7 +10,7 @@ import { opacity } from 'html2canvas/dist/types/css/property-descriptors/opacity
   templateUrl: './panel-layout.html',
   styleUrl: './panel-layout.scss'
 })
-export class PanelLayout {
+export class PanelLayout implements OnInit {
 
   dataRealtime = input<DataRealtimeModel>({});
   panels = input.required<PanelConfigModel[]>();
@@ -28,11 +28,15 @@ export class PanelLayout {
         this.displayPanel= this.panels()[0];
       }
       if(this.dataRealtime()){
-        //console.log(this.dataRealtime())
+        ////console.log(this.dataRealtime())
         this.updatePanelData();
-        console.log(this.displayPanel)
+        //console.log(this.displayPanel)
       }
     });
+  }
+
+  ngOnInit(): void {
+    
   }
 
   handleProvinceClick = (provinceId: string, group: string) => {
@@ -76,7 +80,7 @@ export class PanelLayout {
         // fill: 'var(--map-bg)',
         // strokeWidth: '5',
         opacity: 0.9,
-        strokeWidth: '1',
+        strokeWidth: '0',
         cursor: 'pointer'
       };
     }
@@ -128,18 +132,18 @@ export class PanelLayout {
 
   getPanelColor(pr: number | undefined){
     if(pr != undefined && isNumber(pr)){
-      const gradientId = this.getGradientId(pr);
-      return `url(#${gradientId})`;
-      // let findColor;
-      // if(pr > 100) {
-      //   const res = this.colors().reduce((max, current) => 
-      //     current.maximum > max.maximum ? current : max
-      //   );
-      //   return res.color;
-      // } else {
-      //   const res = this.colors().find(x => pr >= x.minimum && pr < x.maximum);
-      //   return res ? res.color : 'var(--map-bg)';
-      // }
+      // const gradientId = this.getGradientId(pr);
+      // return `url(#${gradientId})`;
+      let findColor;
+      if(pr > 100) {
+        const res = this.colors().reduce((max, current) => 
+          current.maximum > max.maximum ? current : max
+        );
+        return res.color;
+      } else {
+        const res = this.colors().find(x => pr >= x.minimum && pr < x.maximum);
+        return res ? res.color : 'var(--map-bg)';
+      }
     } else {
       return 'var(--map-bg)';
     }
@@ -159,11 +163,14 @@ export class PanelLayout {
           current.maximum > max.maximum ? current : max,
         colors[0] // 👈 สำคัญมาก
       );
-      return res.color;
+      return 'var(--map-bg)';
+      //return res.color;
+      
     }
 
     const res = colors.find(x => pr >= x.minimum && pr < x.maximum);
-    return res ? res.color : 'var(--map-bg)';
+    return 'var(--map-bg)';
+    //return res ? res.color : 'var(--map-bg)';
   }
   
   getLabel(inv: string, str: string) {
@@ -211,7 +218,8 @@ export class PanelLayout {
       return {
         title: c.title,
         color: c.color,
-        value: group.panel.filter(y =>  y.percentage != undefined && y.percentage >= c.minimum && y.percentage < c.maximum ).length
+        value:  c.maximum >= 100 ? group.panel.filter(y =>  y.percentage != undefined && y.percentage >= c.minimum ).length
+        : group.panel.filter(y =>  y.percentage != undefined && y.percentage >= c.minimum && y.percentage < c.maximum ).length
       }
     })
 
@@ -293,7 +301,7 @@ export class PanelLayout {
           acc = acc + (this.dataRealtime()[`${cur.id}`]?.Value??0)
           return acc; 
         }, 0)/item.panel.length;
-        console.log(avg);
+        //console.log(avg);
         const panels = item.panel.map(x => {
           let val = this.dataRealtime()[`${x.id}`]?.Value??0;
           return {
@@ -313,10 +321,22 @@ export class PanelLayout {
       return {
         title: c.title,
         color: c.color,
-        value: this.displayPanel.group
+        value: c.maximum >= 100 ? this.displayPanel.group
           .map(x => x.panel)
             .flat()
-              .filter(y =>  y.percentage != undefined && y.percentage >= c.minimum && y.percentage < c.maximum ).length
+              .filter(y =>  
+                y.percentage != undefined 
+                && y.percentage >= c.minimum
+              ).length
+          : 
+          this.displayPanel.group
+          .map(x => x.panel)
+            .flat()
+              .filter(y =>  
+                y.percentage != undefined 
+                && y.percentage >= c.minimum 
+                && y.percentage < c.maximum 
+              ).length
       }
     })
   };

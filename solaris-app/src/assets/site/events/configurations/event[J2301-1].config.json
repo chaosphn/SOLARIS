@@ -6,12 +6,12 @@
       {
         "value": "alarm",
         "label": "Alarm",
-        "icon": "play_circle"
+        "icon": "alarm"
       },
       {
         "value": "event",
         "label": "Event",
-        "icon": "stop_circle"
+        "icon": "event"
       }
     ]
   },

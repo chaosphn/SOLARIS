@@ -149,9 +149,12 @@ export class Navbar implements OnInit, OnDestroy {
   }
 
   async getEventSummary(){
+    const d = new Date();
+    d.setHours(0,0,0,0);
+    const tmr = new Date().setDate(d.getDate()+1);
     const request = {
-      StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000).toISOString(),
-      EndTime: new Date().toISOString()
+      StartTime: new Date(d).toISOString(),
+      EndTime: new Date(tmr).toISOString()
     }
     const result = await this.http.getSummaryAlarmEventData(request);
     if(result.length > 0){

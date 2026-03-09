@@ -6,6 +6,8 @@ import { sendMessage } from '../../../../store/actions/toaster.actions';
 import { SiteModel } from '../../../../shared/models/config.model';
 import { firstValueFrom } from 'rxjs';
 import { getAllConfig } from '../../../../store/selectors/site.selectors';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialog, ConfirmDialogData } from '../../../../shared/components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-admin',
@@ -59,6 +61,7 @@ export class Admin implements OnInit {
 
   private httpSrv = inject(HttpService);
   private store = inject(Store);
+  private dialogs = inject(MatDialog);
 
   ngOnInit(): void {
     // Initialize with mock holiday data
@@ -102,7 +105,7 @@ export class Admin implements OnInit {
       this.store.select(getAllConfig())
     );
     if(res && res[0]){
-      //console.log(res)
+      ////console.log(res)
       this.siteList.set(res[0].siteList);
     };
   }
@@ -247,8 +250,32 @@ export class Admin implements OnInit {
     //this.siteConfigs.push(data);
   }
 
+  confirmDeleteSiteConfig(id: number): void {
+    const dialogData: ConfirmDialogData = {
+      title: 'Delete Item',
+      message: 'Are you sure you want to delete this item?',
+      subMessage: 'This action cannot be undone.',
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      type: 'danger'
+    };
+
+    const dialogRef = this.dialogs.open(ConfirmDialog, {
+      width: '480px',
+      data: dialogData,
+      panelClass: 'confirm-dialog-panel'
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result === true) {
+        await this.deleteSiteConfig(id);
+      }
+    });
+
+  }
+
   async deleteSiteConfig(id: number) {
-    if (confirm('Are you sure you want to delete this configuration?')) {
+    if (true) {
       const request: DeleteBillingRequestModel  =  { id: id };
       const result = await this.httpSrv.deleteBillingConfig(request);
       if(result && result.StatusCode && result.StatusCode.toLowerCase().includes('success')){

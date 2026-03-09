@@ -11,6 +11,10 @@ import {
   UpdateNotificationConfigModel,
 } from '../../../../../sites/models/event.model';
 import { HttpService } from '../../../../../../shared/services/http.service';
+import { Store } from '@ngrx/store';
+import { MatDialog } from '@angular/material/dialog';
+import { sendMessage } from '../../../../../../store/actions/toaster.actions';
+import { ConfirmDialog, ConfirmDialogData } from '../../../../../../shared/components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-notification-config',
@@ -56,6 +60,8 @@ export class NotificationConfig implements OnInit {
   newBccAddress: string = '';
 
   private service = inject(HttpService);
+  private store = inject(Store);
+  private dialogs = inject(MatDialog);
 
   ngOnInit(): void {
     this.getNotificationData();
@@ -211,17 +217,48 @@ export class NotificationConfig implements OnInit {
   }
 
   // ─── Delete ──────────────────────────────────────────────────────────────────
+  confirmDeleteChannel(id: string): void {
+    const dialogData: ConfirmDialogData = {
+      title: 'Delete Item',
+      message: 'Are you sure you want to delete this item?',
+      subMessage: 'This action cannot be undone.',
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      type: 'danger'
+    };
 
-  deleteChannel(index: number): void {
+    const dialogRef = this.dialogs.open(ConfirmDialog, {
+      width: '480px',
+      data: dialogData,
+      panelClass: 'confirm-dialog-panel'
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result === true) {
+        await this.deleteChannel(id);
+      }
+    });
+
+  }
+  
+  async deleteChannel(id: string) {
     if (confirm('Are you sure you want to delete this notification channel?')) {
-      this.notificationConfig.update(prev => prev.filter((_, i) => i !== index));
+      const request: DeleteNotificationConfigModel = {
+        ID: id
+      };
+      const result = await this.service.deleteNotificationConfig(request);
+      if(result && result.StatusCode == 'OK'){
+        this.sendMessageToState('success', 'Report configuration deleted successfully.');
+      } else {
+        this.sendMessageToState('error', 'Failed to delete report configuration.');
+      }
     }
   }
 
   // ─── Save All Changes ────────────────────────────────────────────────────────
 
   saveChanges(): void {
-    console.log('Saving notification config:', this.notificationConfig);
+    //console.log('Saving notification config:', this.notificationConfig);
     alert('Notification changes saved successfully!');
   }
 
@@ -270,5 +307,12 @@ export class NotificationConfig implements OnInit {
     }
     this.newBccAddress = '';
   }
+
   removeBccAddress(i: number): void { this.emailConfig.bccAddress.splice(i, 1); }
+
+  sendMessageToState(type:  "error" | "success" | "info" | "warn" | "secondary" | "contrast", msg: string){
+    this.store.dispatch(sendMessage({ 
+      payload: { type: type, text: msg }
+    }));
+  }
 }
