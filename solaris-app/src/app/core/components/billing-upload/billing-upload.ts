@@ -33,7 +33,7 @@ export class BillingUpload implements OnInit {
     const segments = currentUrl.split('/');
     this.billingId = segments[segments.length - 1];
     this.getSessionData();
-    console.log('Billing Upload ID:', this.billingId);
+    //console.log('Billing Upload ID:', this.billingId);
   }
 
   async getSessionData(){
@@ -139,13 +139,13 @@ export class BillingUpload implements OnInit {
       this.isUploading = true;
       // Simulate upload - Replace with actual API call
       const result = await this.http.uploadBilling(this.uploadedFile, this.billingId, this.sessionData()?.siteId || '');
-      console.log(result);
+      //console.log(result);
       this.uploadedFile = null;
       //this.goBack();
       this.isUploading = false;
       alert('File uploaded successfully!');
     } catch (error) {
-      console.error('Upload error:', error);
+      //console.error('Upload error:', error);
       alert('Failed to upload file. Please try again.');
       this.isUploading = false;
     } finally {
@@ -157,8 +157,8 @@ export class BillingUpload implements OnInit {
     // Simulate API call
     return new Promise((resolve) => {
       setTimeout(() => {
-        console.log('Uploading file for billing ID:', this.billingId);
-        console.log('File:', file.name);
+        //console.log('Uploading file for billing ID:', this.billingId);
+        //console.log('File:', file.name);
         resolve();
       }, 2000);
     });

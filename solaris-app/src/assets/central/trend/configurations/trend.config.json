@@ -2,12 +2,12 @@
     "realtimeConfig": [],
     "historianConfig": [
       {
-        "Group": "J2301-1",
+        "Group": "KKB",
         "Order": 0,
         "Tags": [
           {
-            "Title": "J2301-1_POWER",
-            "Tagname": "J2301-1.SCADA1.POWER",
+            "Title": "KKB_POWER",
+            "Tagname": "KKB.CALC.W",
             "Options": {
               "Time": "t",
               "Interval": 0,
@@ -16,243 +16,8 @@
             }
           },
           {
-            "Title": "J2301-1_IRR",
-            "Tagname": "J2301-1.SCADA1.PYRANO",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          }
-        ]
-      },
-      {
-        "Group": "J2301-2",
-        "Order": 1,
-        "Tags": [
-          {
-            "Title": "J2301-2_POWER",
-            "Tagname": "J2301-2.SCADA2.POWER",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          },
-          {
-            "Title": "J2301-2_IRR",
-            "Tagname": "J2301-2.SCADA2.PYRANO",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          }
-        ]
-      },
-      {
-        "Group": "J2301-3",
-        "Order": 2,
-        "Tags": [
-          {
-            "Title": "J2301-3_POWER",
-            "Tagname": "J2301-3.SCADA3.POWER",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          },
-          {
-            "Title": "J2301-3_IRR",
-            "Tagname": "J2301-3.SCADA3.PYRANO",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          }
-        ]
-      },
-      {
-        "Group": "J2301-4",
-        "Order": 3,
-        "Tags": [
-          {
-            "Title": "J2301-4_POWER",
-            "Tagname": "J2301-4.SCADA4.POWER",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          },
-          {
-            "Title": "J2301-4_IRR",
-            "Tagname": "J2301-4.SCADA4.PYRANO",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          }
-        ]
-      },
-      {
-        "Group": "J2301-5",
-        "Order": 4,
-        "Tags": [
-          {
-            "Title": "J2301-5_POWER",
-            "Tagname": "J2301-5.SCADA5.POWER",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          },
-          {
-            "Title": "J2301-5_IRR",
-            "Tagname": "J2301-5.SCADA5.PYRANO",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          }
-        ]
-      },
-
-      {
-        "Group": "COOP02",
-        "Order": 5,
-        "Tags": [
-          {
-            "Title": "COOP02_POWER",
-            "Tagname": "J2301-1.SCADA1.POWER",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          },
-          {
-            "Title": "COOP02_IRR",
-            "Tagname": "J2301-1.SCADA1.PYRANO",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          }
-        ]
-      },
-      {
-        "Group": "COOP08",
-        "Order": 6,
-        "Tags": [
-          {
-            "Title": "COOP08_POWER",
-            "Tagname": "J2301-2.SCADA2.POWER",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          },
-          {
-            "Title": "COOP08_IRR",
-            "Tagname": "J2301-2.SCADA2.PYRANO",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          }
-        ]
-      },
-      {
-        "Group": "COOP10",
-        "Order": 7,
-        "Tags": [
-          {
-            "Title": "COOP10_POWER",
-            "Tagname": "J2301-3.SCADA3.POWER",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          },
-          {
-            "Title": "COOP10_IRR",
-            "Tagname": "J2301-3.SCADA3.PYRANO",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          }
-        ]
-      },
-      {
-        "Group": "COOP11",
-        "Order": 8,
-        "Tags": [
-          {
-            "Title": "COOP11_POWER",
-            "Tagname": "J2301-4.SCADA4.POWER",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          },
-          {
-            "Title": "COOP11_IRR",
-            "Tagname": "J2301-4.SCADA4.PYRANO",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          }
-        ]
-      },
-      {
-        "Group": "COOP12",
-        "Order": 9,
-        "Tags": [
-          {
-            "Title": "COOP12_POWER",
-            "Tagname": "J2301-5.SCADA5.POWER",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
-          },
-          {
-            "Title": "COOP12_IRR",
-            "Tagname": "J2301-5.SCADA5.PYRANO",
+            "Title": "KKB_IRR",
+            "Tagname": "KKB.CALC.PYRANO",
             "Options": {
               "Time": "t",
               "Interval": 0,
@@ -262,14 +27,13 @@
           }
         ]
       }
-      
     ],
     "chartConfig": [
       {
-        "name": "J2301-1",
+        "name": "KKB",
         "tags": [
           {
-            "name": "J2301-1.SCADA1.POWER",
+            "name": "KKB.CALC.PYRANO",
             "title": "PYRANO*W/m²",
             "options": {
                 "yAxis": 0,
@@ -280,7 +44,7 @@
             }
           },
           {
-            "name": "J2301-1.SCADA1.PYRANO",
+            "name": "KKB.CALC.W",
             "title": "POWER*kW",
             "options": {					
               "yAxis": 1,
@@ -302,18 +66,18 @@
                 "align": "right"
                 },
                 "theme": {
-                "fill": "#E7CD47",
-                "style": {
-                  "color": "white"
-                },
-                "states": {
-                  "hover": {
                   "fill": "#E7CD47",
                   "style": {
                     "color": "white"
+                  },
+                  "states": {
+                    "hover": {
+                    "fill": "#E7CD47",
+                    "style": {
+                      "color": "white"
+                    }
+                    } 
                   }
-                  } 
-                }
                 }
               }
               },
@@ -975,7 +739,7 @@
         "name": "COOP02",
         "tags": [
           {
-            "name": "J2301-1.SCADA1.POWER",
+            "name": "KKB.CALC.POWER",
             "title": "PYRANO*W/m²",
             "options": {
                 "yAxis": 0,
@@ -986,7 +750,7 @@
             }
           },
           {
-            "name": "J2301-1.SCADA1.PYRANO",
+            "name": "KKB.CALC.PYRANO",
             "title": "POWER*kW",
             "options": {					
               "yAxis": 1,

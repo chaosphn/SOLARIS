@@ -1,0 +1,180 @@
+<div class="container w-100 h-100 bz">
+    <div class="header d-flex-sb w-100 bz">
+        <div class="item-group d-flex">
+            <div class="dropdown-wrapper" #dropdownWrapper2>
+                <div class="custom-dropdown d-flex-ct bz h-100" 
+                    [class.active]="isDropdownOpen2"
+                    (click)="toggleDropdown2($event)">
+                    <div class="selected-option">
+                        @if (selectedSite && selectedSite.icon) {
+                            <span class="material-icons">{{ selectedSite.icon }}</span>
+                        }
+                        <span>{{ selectedSite?.label || 'Select Site' }}</span>
+                    </div>
+                    <span class="material-icons dropdown-arrow">keyboard_arrow_down</span>
+                </div>
+                <div class="dropdown-menu" [class.show]="isDropdownOpen2">
+                    @for (option of siteOptions(); track $index) {
+                        <div class="dropdown-item"
+                            [class.selected]="selectedSite?.value === option.value"
+                            [attr.data-value]="option.value"
+                            (click)="selectOption2($event, option)">
+                            <span class="material-icons">{{ option.icon }}</span>
+                            <span>{{ option.label }}</span>
+                        </div>
+                    }
+                </div>
+            </div>
+            @for (item of config(); track $index) {
+                <div class="dropdown-wrapper" [id]="$index">
+                    <div class="custom-dropdown d-flex-ct bz h-100" 
+                        [class.active]="item.opened"
+                        (click)="toggleDropdown($event , item)">
+                        <div class="selected-option">
+                            @if (item?.selectedItem && item?.selectedItem?.icon) {
+                                <span class="material-icons">{{ item?.selectedItem?.icon }}</span>
+                            }
+                            <span>{{ item?.selectedItem?.label || item.name }}</span>
+                        </div>
+                        <span class="material-icons dropdown-arrow">keyboard_arrow_down</span>
+                    </div>
+                    <div class="dropdown-menu" [class.show]="item.opened">
+                        @for (option of item.item; track $index) {
+                            <div class="dropdown-item"
+                                [class.selected]="item?.selectedItem?.value === option.value"
+                                [attr.data-value]="option.value"
+                                (click)="selectOption($event, option, item)">
+                                <span class="material-icons">{{ option.icon }}</span>
+                                <span>{{ option.label }}</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            <div class="datepicker bz">
+                @switch (mode()) {
+                    @case ('d') {
+                        <app-date-picker [initdate]="start" (selectDate)="onStartDateSelect($event)" [type]="'day'" [scale]="1"></app-date-picker>
+                    }
+                    @case ('w') {
+                        <app-date-picker [initdate]="start" (selectDate)="onStartDateSelect($event)" [type]="'datetime'" [scale]="1"></app-date-picker>
+                    }
+                    @case ('m') {
+                        <app-date-picker [initdate]="start" (selectDate)="onStartDateSelect($event)" [type]="'month'" [scale]="1"></app-date-picker>
+                    }
+                    @case ('y') {
+                        <app-date-picker [initdate]="start" (selectDate)="onStartDateSelect($event)" [type]="'year'" [scale]="1"></app-date-picker>
+                    }
+                }
+            </div>
+            <div class="datepicker bz">
+                @switch (mode()) {
+                    @case ('d') {
+                        <app-date-picker [initdate]="end" (selectDate)="onEndDateSelect($event)" [type]="'day'" [scale]="1"></app-date-picker>
+                    }
+                    @case ('w') {
+                        <app-date-picker [initdate]="end" (selectDate)="onEndDateSelect($event)" [type]="'datetime'" [scale]="1"></app-date-picker>
+                    }
+                    @case ('m') {
+                        <app-date-picker [initdate]="end" (selectDate)="onEndDateSelect($event)" [type]="'month'" [scale]="1"></app-date-picker>
+                    }
+                    @case ('y') {
+                        <app-date-picker [initdate]="end" (selectDate)="onEndDateSelect($event)" [type]="'year'" [scale]="1"></app-date-picker>
+                    }
+                }
+            </div>
+        </div>
+        <div class="btn-group d-flex">
+            <button class="submit d-flex-ct brd h-100" (click)="onSelectEvent()">{{ loading() ? 'LOADING...' : 'VIEW' }}</button>
+            <button class="submit d-flex-ct brd h-100" (click)="exportEventListCsv()">{{ loading2() ? 'LOADING...' : 'DOWNLOAD' }}</button>
+        </div>
+    </div>
+    <div class="content w-100 h-100 bz">
+        <div class="data-table w-100 h-100 bz">
+            <div class="main">
+                <div class="table-wrapper">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>TYPE</th>
+                                <th>LEVEL</th>
+                                <th>TIMESTAMP</th>
+                                <th>POINTSOURCE</th>
+                                <th>ASSET</th>
+                                <th>EQUIPMENT</th>
+                                <th>LOCATION</th>
+                                <th>STATUS</th>
+                                <th>MESSAGE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (item of eventList(); track $index) {
+                                <tr (click)="onRowSelect(item)" [ngClass]="{ 'active-event' : item.ID == selectedEvent().ID}">
+                                    <td>
+                                        @if(!item.EndTime){
+                                            <i class="material-icons major">alarm</i>
+                                        }  
+                                        @if(item.EndTime) {
+                                            <i class="material-icons event">event</i>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if(item.Level === "Info"){
+                                            <i class="material-icons event">error_outline</i>
+                                        }  
+                                        @if(item.Level === "Warning") {
+                                            <i class="material-icons warn">warning_amber</i>
+                                        }
+                                        @if(item.Level === "Minor"){
+                                            <i class="material-icons minor">notification_important</i>
+                                        }  
+                                        @if(item.Level === "Major") {
+                                            <i class="material-icons major">dangerous</i>
+                                        }
+                                    </td>
+                                    <td>{{ item.StartTime | date: 'dd/mm/yyyy hh:mm:ss'}}</td>
+                                    <td>{{ getSiteName(item.PointSource) }}</td>
+                                    <td>{{ item.Item }}</td>
+                                    <td>{{ item.Group }}</td>
+                                    <td>{{ item.Location || '---' }}</td>
+                                    <!-- <td (click)="onRowSelect(item)">
+                                        @if(item.Action === "muted"){
+                                            <i class="material-icons ">visibility_off</i>
+                                        }  
+                                        @if(item.Action === "unmute") {
+                                            <i class="material-icons active">visibility</i>
+                                        }
+                                    </td> -->
+                                    <td class="ongoing" [class]="{ 'ended' : item.EndTime }">
+                                        @if(item.EndTime){
+                                            <div class="card">CLOSED</div>
+                                        }  
+                                        @else {
+                                            <div class="card">ACTIVE</div>
+                                        }
+                                    </td>
+                                    <td>{{ item.Message }}</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="data-summary w-100 h-100 bz">
+            @if(selectedEvent().ID){
+                <app-card-container [title]="'DETAILS'">
+                    <ng-template #container>
+                        <app-event-details [event]="selectedEvent()"></app-event-details>
+                    </ng-template>
+                </app-card-container>
+            } @else {
+                <app-card-container [title]="'SUMMARY'">
+                    <ng-template #container>
+                        <app-event-consumption [events]="eventList()"></app-event-consumption>
+                    </ng-template>
+                </app-card-container>
+            }
+        </div>
+    </div>
+</div>

@@ -24,7 +24,7 @@ export class AppInitService {
         this.http.get('assets/config.json')
       );
       
-      console.log('Config loaded:', data);
+      //console.log('Config loaded:', data);
       
       // Update config object
       this.config.UrlApi = data.UrlApi;
@@ -35,7 +35,7 @@ export class AppInitService {
       
       return this.config;
     } catch (error) {
-      console.error('Failed to load config:', error);
+      //console.error('Failed to load config:', error);
       // Return default config on error
       return this.config;
     }

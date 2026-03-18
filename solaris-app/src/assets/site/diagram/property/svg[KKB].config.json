@@ -1,0 +1,561 @@
+[
+	
+	{
+		"name": "OVERALL",
+		"title": "OVERALL",
+		"textBinding": [
+			{
+				"value": "False",
+				"message": "RUNNING"
+			},
+			{
+				"value": "True",
+				"message": "SHUTDOWN"
+			}
+		],
+		"colorBinding": [
+			{
+				"value": 0,
+				"color": "red"
+			},
+			{
+				"value": 1,
+				"color": "red"
+			},
+			{
+				"value": "False",
+				"color": "normal"
+			},
+			{
+				"value": "True",
+				"color": "major"
+			}
+		]
+	},
+	{
+		"name": "SUB3",
+		"title": "SUB 3",
+		"textBinding": [
+			{
+				"value": 0,
+				"message": "Normal"
+			},
+			{
+				"value": 1,
+				"message": "Grid Overvoltage"
+			},
+			{
+				"value": 2,
+				"message": "Grid Undervoltage"
+			},
+			{
+				"value": 3,
+				"message": "Grid Overfrequency"
+			},
+			{
+				"value": 4,
+				"message": "Grid Underfrequency"
+			},
+			{
+				"value": 5,
+				"message": "Grid Loss"
+			},
+			{
+				"value": 6,
+				"message": "Grid Phase Sequence Incorrect"
+			},
+			{
+				"value": 7,
+				"message": "Grid Voltage Imbalance"
+			},
+			{
+				"value": 8,
+				"message": "Output Overcurrent"
+			},
+			{
+				"value": 9,
+				"message": "DC Overvoltage"
+			},
+			{
+				"value": 10,
+				"message": "DC Bus Overvoltage"
+			},
+			{
+				"value": 11,
+				"message": "DC Bus Undervoltage"
+			},
+			{
+				"value": 12,
+				"message": "Insulation Resistance Low"
+			},
+			{
+				"value": 13,
+				"message": "Leakage Current Abnormal"
+			},
+			{
+				"value": 14,
+				"message": "Ground Fault"
+			},
+			{
+				"value": 15,
+				"message": "Device Overtemperature"
+			},
+			{
+				"value": 16,
+				"message": "Fan Fault"
+			},
+			{
+				"value": 17,
+				"message": "DSP Fault"
+			},
+			{
+				"value": 18,
+				"message": "Comm. Failure"
+			},
+			{
+				"value": 19,
+				"message": "Hardware Fault"
+			},
+			{
+				"value": 20,
+				"message": "AFCI Fault"
+			}
+		],
+		"colorBinding": [
+			{
+				"value": 0,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 1,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 2,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 3,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 256,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 512,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 513,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 514,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 515,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 768,
+				"tag": "COM",
+				"color": "major"
+			},
+			{
+				"value": 769,
+				"tag": "COM",
+				"color": "major"
+			},
+			{
+				"value": 770,
+				"tag": "COM",
+				"color": "major"
+			},
+			{
+				"value": 771,
+				"tag": "COM",
+				"color": "major"
+			},
+			{
+				"value": 40960,
+				"tag": "COM",
+				"color": "normal"
+			},
+
+			{
+				"value": 5,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 8,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 9,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 10,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 11,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 12,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 13,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 14,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 17,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 19,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 20,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 1,
+				"tag": "STS",
+				"color": "minor"
+			},
+			{
+				"value": 2,
+				"tag": "STS",
+				"color": "minor"
+			},
+			{
+				"value": 3,
+				"tag": "STS",
+				"color": "minor"
+			},
+			{
+				"value": 4,
+				"tag": "STS",
+				"color": "minor"
+			},
+			{
+				"value": 7,
+				"tag": "STS",
+				"color": "minor"
+			},
+			{
+				"value": 15,
+				"tag": "STS",
+				"color": "minor"
+			},
+			{
+				"value": 16,
+				"tag": "STS",
+				"color": "minor"
+			},
+			{
+				"value": 6,
+				"tag": "STS",
+				"color": "warnning"
+			},
+			{
+				"value": 18,
+				"tag": "STS",
+				"color": "warnning"
+			}
+		]
+	},
+	{
+		"name": "SUB2",
+		"title": "SUB 2",
+		"textBinding": [
+			{
+				"value": 0,
+				"message": "Normal"
+			},
+			{
+				"value": 1,
+				"message": "Grid Overvoltage"
+			},
+			{
+				"value": 2,
+				"message": "Grid Undervoltage"
+			},
+			{
+				"value": 3,
+				"message": "Grid Overfrequency"
+			},
+			{
+				"value": 4,
+				"message": "Grid Underfrequency"
+			},
+			{
+				"value": 5,
+				"message": "Grid Loss"
+			},
+			{
+				"value": 6,
+				"message": "Grid Phase Sequence Incorrect"
+			},
+			{
+				"value": 7,
+				"message": "Grid Voltage Imbalance"
+			},
+			{
+				"value": 8,
+				"message": "Output Overcurrent"
+			},
+			{
+				"value": 9,
+				"message": "DC Overvoltage"
+			},
+			{
+				"value": 10,
+				"message": "DC Bus Overvoltage"
+			},
+			{
+				"value": 11,
+				"message": "DC Bus Undervoltage"
+			},
+			{
+				"value": 12,
+				"message": "Insulation Resistance Low"
+			},
+			{
+				"value": 13,
+				"message": "Leakage Current Abnormal"
+			},
+			{
+				"value": 14,
+				"message": "Ground Fault"
+			},
+			{
+				"value": 15,
+				"message": "Device Overtemperature"
+			},
+			{
+				"value": 16,
+				"message": "Fan Fault"
+			},
+			{
+				"value": 17,
+				"message": "DSP Fault"
+			},
+			{
+				"value": 18,
+				"message": "Comm. Failure"
+			},
+			{
+				"value": 19,
+				"message": "Hardware Fault"
+			},
+			{
+				"value": 20,
+				"message": "AFCI Fault"
+			}
+		],
+		"colorBinding": [
+			{
+				"value": 0,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 1,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 2,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 3,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 256,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 512,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 513,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 514,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 515,
+				"tag": "COM",
+				"color": "normal"
+			},
+			{
+				"value": 768,
+				"tag": "COM",
+				"color": "major"
+			},
+			{
+				"value": 769,
+				"tag": "COM",
+				"color": "major"
+			},
+			{
+				"value": 770,
+				"tag": "COM",
+				"color": "major"
+			},
+			{
+				"value": 771,
+				"tag": "COM",
+				"color": "major"
+			},
+			{
+				"value": 40960,
+				"tag": "COM",
+				"color": "normal"
+			},
+
+			{
+				"value": 5,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 8,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 9,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 10,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 11,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 12,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 13,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 14,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 17,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 19,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 20,
+				"tag": "STS",
+				"color": "major"
+			},
+			{
+				"value": 1,
+				"tag": "STS",
+				"color": "minor"
+			},
+			{
+				"value": 2,
+				"tag": "STS",
+				"color": "minor"
+			},
+			{
+				"value": 3,
+				"tag": "STS",
+				"color": "minor"
+			},
+			{
+				"value": 4,
+				"tag": "STS",
+				"color": "minor"
+			},
+			{
+				"value": 7,
+				"tag": "STS",
+				"color": "minor"
+			},
+			{
+				"value": 15,
+				"tag": "STS",
+				"color": "minor"
+			},
+			{
+				"value": 16,
+				"tag": "STS",
+				"color": "minor"
+			},
+			{
+				"value": 6,
+				"tag": "STS",
+				"color": "warnning"
+			},
+			{
+				"value": 18,
+				"tag": "STS",
+				"color": "warnning"
+			}
+		]
+	}
+]

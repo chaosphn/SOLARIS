@@ -97,7 +97,7 @@ export class ChartCard {
         this.chartItems.update(prev => {
           return {} as ChartParameters;
         });
-        console.log('YYYYY')
+        //console.log('YYYYY')
       }
     })
   }
@@ -128,7 +128,7 @@ export class ChartCard {
         link.click();
         this.loadingImg.set(false);
       }).catch((err: any) => {
-        console.error('Error capturing chart:', err);
+        //console.error('Error capturing chart:', err);
         this.loadingImg.set(false);
       });
     });

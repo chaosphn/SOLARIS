@@ -28,7 +28,7 @@ export class DatePickers implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['initdate']) {
-      console.log(this.initdate)
+      //console.log(this.initdate)
       this.selectedDate = this.initdate;
     }
 
@@ -43,14 +43,14 @@ export class DatePickers implements OnInit, OnChanges {
   }
 
   onDateSelect(event: any): void {
-    console.log(event.value._d)
+    //console.log(event.value._d)
     if (event.value._d) {
       this.selectDate.emit(new Date(event.value));
     }
   }
 
   onMonthSelected(event: any, datepicker: any): void {
-    console.log(event)
+    //console.log(event)
     if(event._d){
       const date = new Date(event._d);
       const selectedDate1 = new Date(date.getFullYear(), date.getMonth(), 1);

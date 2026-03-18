@@ -72,7 +72,7 @@ export class StackChart implements OnInit {
   }
 
   getPercentage(): number{
-    if(this.value() && this.maxVal() && this.rangeVal()){
+    if(this.value() && this.maxVal() && this.rangeVal() && parseInt(this.value()) >= 0){
       if(parseFloat(this.value().replaceAll(",","")) > this.maxVal()){
         return 100;
       } else {

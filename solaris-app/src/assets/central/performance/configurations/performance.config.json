@@ -5,44 +5,8 @@
         "Order": 0,
         "Tags": [
           {
-            "Title": "J2301-1_ENERGY",
-            "Tagname": "J2301-1.INV011.WH_TODAY"
-          },
-          {
-            "Title": "J2301-2_ENERGY",
-            "Tagname": "J2301-1.INV012.WH_TODAY"
-          },
-          {
-            "Title": "J2301-3_ENERGY",
-            "Tagname": "J2301-1.INV021.WH_TODAY"
-          },
-          {
-            "Title": "J2301-4_ENERGY",
-            "Tagname": "J2301-1.INV022.WH_TODAY"
-          },
-          {
-            "Title": "J2301-5_ENERGY",
-            "Tagname": "J2301-1.INV031.WH_TODAY"
-          },
-          {
-            "Title": "COOP02_ENERGY",
-            "Tagname": "J2301-1.INV032.WH_TODAY"
-          },
-          {
-            "Title": "COOP08_ENERGY",
-            "Tagname": "J2301-1.INV041.WH_TODAY"
-          },
-          {
-            "Title": "COOP10_ENERGY",
-            "Tagname": "J2301-1.INV042.WH_TODAY"
-          },
-          {
-            "Title": "COOP11_ENERGY",
-            "Tagname": "J2301-1.INV051.WH_TODAY"
-          },
-          {
-            "Title": "COOP12_ENERGY",
-            "Tagname": "J2301-1.INV052.WH_TODAY"
+            "Title": "KKB_ENERGY",
+            "Tagname": "KKB.CALC.WH_TODAY"
           }
         ]
       },
@@ -51,44 +15,8 @@
         "Order": 1,
         "Tags": [
           {
-            "Title": "J2301-1_YIELD",
-            "Tagname": "J2301-1.INV011.TEMP_REACT2"
-          },
-          {
-            "Title": "J2301-2_YIELD",
-            "Tagname": "J2301-1.INV012.TEMP_REACT2"
-          },
-          {
-            "Title": "J2301-3_YIELD",
-            "Tagname": "J2301-1.INV021.TEMP_REACT2"
-          },
-          {
-            "Title": "J2301-4_YIELD",
-            "Tagname": "J2301-1.INV022.TEMP_REACT2"
-          },
-          {
-            "Title": "J2301-5_YIELD",
-            "Tagname": "J2301-1.INV031.TEMP_REACT2"
-          },
-          {
-            "Title": "COOP02_YIELD",
-            "Tagname": "J2301-1.INV032.TEMP_REACT2"
-          },
-          {
-            "Title": "COOP08_YIELD",
-            "Tagname": "J2301-1.INV041.TEMP_REACT2"
-          },
-          {
-            "Title": "COOP10_YIELD",
-            "Tagname": "J2301-1.INV042.TEMP_REACT2"
-          },
-          {
-            "Title": "COOP11_YIELD",
-            "Tagname": "J2301-1.INV051.TEMP_REACT2"
-          },
-          {
-            "Title": "COOP12_YIELD",
-            "Tagname": "J2301-1.INV052.TEMP_REACT2"
+            "Title": "KKB_YIELD",
+            "Tagname": "KKB.CALC.YIELD"
           }
         ]
       },
@@ -97,44 +25,8 @@
         "Order": 2,
         "Tags": [
           {
-            "Title": "J2301-1_INSO",
-            "Tagname": "J2301-1.SCADA1.PYRANO1"
-          },
-          {
-            "Title": "J2301-2_INSO",
-            "Tagname": "J2301-2.SCADA2.PYRANO1"
-          },
-          {
-            "Title": "J2301-3_INSO",
-            "Tagname": "J2301-3.SCADA3.PYRANO1"
-          },
-          {
-            "Title": "J2301-4_INSO",
-            "Tagname": "J2301-4.SCADA4.PYRANO1"
-          },
-          {
-            "Title": "J2301-5_INSO",
-            "Tagname": "J2301-5.SCADA5.PYRANO1"
-          },
-          {
-            "Title": "COOP02_INSO",
-            "Tagname": "J502.SCADA.PYRANO1"
-          },
-          {
-            "Title": "COOP08_INSO",
-            "Tagname": "J1102.SCADA.PYRANO1"
-          },
-          {
-            "Title": "COOP10_INSO",
-            "Tagname": "J402.SCADA.PYRANO1"
-          },
-          {
-            "Title": "COOP11_INSO",
-            "Tagname": "J403.SCADA.PYRANO1"
-          },
-          {
-            "Title": "COOP12_INSO",
-            "Tagname": "J406.SCADA.PYRANO1"
+            "Title": "KKB_INSO",
+            "Tagname": "KKB.CALC.INSOLUTION"
           }
         ]
       },
@@ -143,24 +35,8 @@
         "Order": 3,
         "Tags": [
           {
-            "Title": "J2301-1_PR",
-            "Tagname": "J2301-1.SCADA1.PR"
-          },
-          {
-            "Title": "J2301-2_PR",
-            "Tagname": "J2301-2.SCADA2.PR"
-          },
-          {
-            "Title": "J2301-3_PR",
-            "Tagname": "J2301-3.SCADA3.PR"
-          },
-          {
-            "Title": "J2301-4_PR",
-            "Tagname": "J2301-4.SCADA4.PR"
-          },
-          {
-            "Title": "J2301-5_PR",
-            "Tagname": "J2301-5.SCADA5.PR"
+            "Title": "KKB_PR",
+            "Tagname": "KKB.CALC.PR"
           }
         ]
       }

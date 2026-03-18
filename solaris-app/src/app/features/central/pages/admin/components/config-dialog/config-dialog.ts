@@ -27,7 +27,7 @@ export class ConfigDialog implements OnInit {
 
   constructor(){
     effect(() => {
-      console.log(this.siteInput())
+      //console.log(this.siteInput())
       if(this.siteInput() && this.siteInput()?.id && this.siteInput().id > 0){
         this.siteConfig.set(this.siteInput());
       }

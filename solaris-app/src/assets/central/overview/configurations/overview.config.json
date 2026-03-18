@@ -6,51 +6,51 @@
         "Tags": [
           {
             "Title": "POWER",
-            "Tagname": "J2301-1.SCADA1.POWER"
+            "Tagname": "OVERALL.CALC.W"
           },
           {
             "Title": "CAPACITY",
-            "Tagname": "J2301-1.SCADA1.CAPACITY"
+            "Tagname": "OVERALL.CALC.CAPACITY"
           },
           {
             "Title": "YIELD",
-            "Tagname": "J2301-1.CALC.YIELD"
+            "Tagname": "OVERALL.CALC.YIELD"
           },
           {
             "Title": "PR",
-            "Tagname": "J2301-1.SCADA1.PR"
+            "Tagname": "OVERALL.CALC.PR"
           },
           {
             "Title": "TODAY",
-            "Tagname": "J2301-1.SCADA1.TODAY_ENERGY"
+            "Tagname": "OVERALL.CALC.WH_TODAY"
           },
           {
             "Title": "MONTHLY",
-            "Tagname": "J2301-1.SCADA1.MONTHLY_ENERGY"
+            "Tagname": "OVERALL.CALC.WH_MONTH"
           },
           {
             "Title": "YEARLY",
-            "Tagname": "J2301-1.SCADA1.YEARLY_ENERGY"
+            "Tagname": "OVERALL.CALC.WH_YEAR"
           },
           {
             "Title": "TOTAL",
-            "Tagname": "J2301-1.PQM1.WH"
+            "Tagname": "OVERALL.CALC.WH"
           },
           {
             "Title": "REDUCTION",
-            "Tagname": "J2301-1.SCADA1.PYRANO1"
+            "Tagname": "OVERALL.CALC.CABON"
           },
           {
             "Title": "CREDIT",
-            "Tagname": "J2301-1.SCADA1.PYRANO2"
+            "Tagname": "OVERALL.CALC.CREDIT"
           },
           {
             "Title": "TREE",
-            "Tagname": "J2301-1.SCADA1.AMBTEMP"
+            "Tagname": "OVERALL.CALC.TREE"
           },
           {
             "Title": "OIL",
-            "Tagname": "J2301-1.SCADA1.PVTEMP"
+            "Tagname": "OVERALL.CALC.OIL"
           }
         ]
       },
@@ -59,16 +59,8 @@
         "Order": 4,
         "Tags": [
           {
-            "Title": "RUNNING",
-            "Tagname": "J2301-1.SCADA1.PYRANO1"
-          },
-          {
-            "Title": "UNHEALTHY",
-            "Tagname": "J2301-1.SCADA1.AMBTEMP"
-          },
-          {
-            "Title": "NODATA",
-            "Tagname": "J2301-1.SCADA1.PVTEMP"
+            "Title": "KKB_STATUS",
+            "Tagname": "KKB.CALC.STATUS"
           }
         ]
       },
@@ -77,44 +69,8 @@
         "Order": 6,
         "Tags": [
           {
-            "Title": "J2301-1_POWER",
-            "Tagname": "J2301-1.SCADA1.POWER"
-          },
-          {
-            "Title": "J2301-2_POWER",
-            "Tagname": "J2301-2.SCADA2.POWER"
-          },
-          {
-            "Title": "J2301-3_POWER",
-            "Tagname": "J2301-3.SCADA3.POWER"
-          },
-          {
-            "Title": "J2301-4_POWER",
-            "Tagname": "J2301-4.SCADA4.POWER"
-          },
-          {
-            "Title": "J2301-5_POWER",
-            "Tagname": "J2301-5.SCADA5.POWER"
-          },
-          {
-            "Title": "COOP02_POWER",
-            "Tagname": "COOP02.SCADA1.POWER"
-          },
-          {
-            "Title": "COOP08_POWER",
-            "Tagname": "COOP08.SCADA1.POWER"
-          },
-          {
-            "Title": "COOP10_POWER",
-            "Tagname": "COOP10.SCADA1.POWER"
-          },
-          {
-            "Title": "COOP11_POWER",
-            "Tagname": "COOP11.SCADA1.POWER"
-          },
-          {
-            "Title": "COOP12_POWER",
-            "Tagname": "COOP12.SCADA1.POWER"
+            "Title": "KKB_POWER",
+            "Tagname": "KKB.CALC.W"
           }
         ]
       }
@@ -126,7 +82,7 @@
         "Tags": [
           {
             "Title": "CHART01_POWER",
-            "Tagname": "J2301-1.CALC.WH_HOUR",
+            "Tagname": "OVERALL.CALC.WH_HOUR",
             "Options": {
               "Time": "t",
               "Interval": 0,
@@ -136,7 +92,7 @@
           },
           {
             "Title": "CHART01_IRR",
-            "Tagname": "J2301-1.CALC.WH_HOUR_EXPECT",
+            "Tagname": "OVERALL.CALC.WH_EXPECT_HOUR",
             "Options": {
               "Time": "t",
               "Interval": 0,
@@ -152,7 +108,7 @@
         "Tags": [
           {
             "Title": "TODAY_ENERGY",
-            "Tagname": "J2301-1.CALC.WH_DAY",
+            "Tagname": "OVERALL.CALC.WH_DAY",
             "Options": {
               "Time": "",
               "Interval": 0,
@@ -169,7 +125,7 @@
         "name": "CHART01",
         "tags": [
           {
-            "name": "J2301-1.CALC.WH_HOUR_EXPECT",
+            "name": "OVERALL.CALC.WH_EXPECT_HOUR",
             "title": "EXPECTED*kWh",
             "options": {
               "yAxis": 0,
@@ -180,7 +136,7 @@
             }
           },
           {
-            "name": "J2301-1.CALC.WH_HOUR",
+            "name": "OVERALL.CALC.WH_HOUR",
             "title": "PRODUCE*kWh",
             "options": {
               "yAxis": 1,
@@ -202,17 +158,17 @@
                   "align": "right"
                 },
                 "theme": {
-                  "fill": "#FF9B33",
+                  "fill": "#E7CD47",
                   "style": {
                     "color": "white"
                   },
                   "states": {
                     "hover": {
-                      "fill": "#FF9B33",
-                      "style": {
-                        "color": "white"
-                      }
+                    "fill": "#E7CD47",
+                    "style": {
+                      "color": "white"
                     }
+                    } 
                   }
                 }
               }
@@ -309,7 +265,7 @@
         "name": "CHART02",
         "tags": [
           {
-            "name": "J2301-1.CALC.WH_DAY",
+            "name": "OVERALL.CALC.WH_DAY",
             "title": "PRODUCE*kWh",
             "options": {
               "yAxis": 0,
@@ -331,17 +287,17 @@
                   "align": "right"
                 },
                 "theme": {
-                  "fill": "#FF9B33",
+                  "fill": "#E7CD47",
                   "style": {
                     "color": "white"
                   },
                   "states": {
                     "hover": {
-                      "fill": "#FF9B33",
-                      "style": {
-                        "color": "white"
-                      }
+                    "fill": "#E7CD47",
+                    "style": {
+                      "color": "white"
                     }
+                    } 
                   }
                 }
               }

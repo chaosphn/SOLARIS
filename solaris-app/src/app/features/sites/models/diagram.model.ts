@@ -8,9 +8,11 @@ export interface DiagramConfigModel{
 export interface TextMapper{
     value: string | number | boolean;
     message: string;
+    tag?: string;
 }
 
 export interface ColorMapper{
     value: string | number | boolean;
     color: string;
+    tag?: string;
 }

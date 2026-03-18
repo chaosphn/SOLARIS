@@ -60,7 +60,7 @@
                             [id]="item.id" 
                             *ngFor="let item of zoneList().siteList | filtersite : seachText; index as i; trackBy: siteTrackBy">
                         <i class="material-icons">factory</i>
-                        <div class="title">{{ 'SITE0' + i + ' : ' + item.name }}</div>
+                        <div class="title">{{ item.id + ' : ' + item.name }}</div>
                         <i class="material-icons event-icon" [ngClass]="getPlantStatus(item.id)">notifications_active</i>
                     </div>
                 </div>
@@ -182,6 +182,7 @@
                             <a class="nav-link" routerLink="/main/performance" routerLinkActive="active">PERFORMANCE</a>
                             <a class="nav-link" routerLink="/main/trend" routerLinkActive="active">TRENDS</a>
                             <a class="nav-link" routerLink="/main/tabular" routerLinkActive="active">TABULAR</a>
+                            <a class="nav-link" routerLink="/main/events" routerLinkActive="active">EVENTS</a>
                             <a class="nav-link" routerLink="/main/reports" routerLinkActive="active">REPORTS</a>
                             <a class="nav-link" routerLink="/main/billing/viewer" routerLinkActive="active">BILLINGS</a>
                             <a class="nav-link" routerLink="/main/admin" routerLinkActive="active">BILLING ADMIN</a>

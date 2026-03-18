@@ -46,7 +46,7 @@
         </div>
         <div class="btn-group d-flex">
             <button class="submit d-flex-ct brd h-100" (click)="onSelectEvent()">{{ loading() ? 'LOADING...' : 'VIEW' }}</button>
-            <button class="submit d-flex-ct brd h-100" >{{ loading2() ? 'LOADING...' : 'DOWNLOAD' }}</button>
+            <button class="submit d-flex-ct brd h-100" (click)="exportEventListCsv()">{{ loading2() ? 'LOADING...' : 'DOWNLOAD' }}</button>
         </div>
     </div>
     <div class="content w-100 h-100 bz">
@@ -105,10 +105,10 @@
                                     </td> -->
                                     <td class="ongoing" [class]="{ 'ended' : item.EndTime }">
                                         @if(item.EndTime){
-                                            CLOSED
+                                            <div class="card">CLOSED</div>
                                         }  
                                         @else {
-                                            ACTIVE
+                                            <div class="card">ACTIVE</div>
                                         }
                                     </td>
                                     <td>{{ item.Message }}</td>

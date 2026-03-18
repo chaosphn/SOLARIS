@@ -494,7 +494,7 @@ export class Chart implements OnInit, OnDestroy {
             }
           } catch (err) {
             // Handle error silently
-            console.debug('Sync tooltip error:', err);
+            //console.debug('Sync tooltip error:', err);
           }
         }
       });
@@ -510,7 +510,7 @@ export class Chart implements OnInit, OnDestroy {
             cmp.ref.xAxis[0].hideCrosshair();
           }
         } catch (err) {
-          console.debug('Hide tooltip error:', err);
+          //console.debug('Hide tooltip error:', err);
         }
       }
     });
@@ -526,7 +526,7 @@ export class Chart implements OnInit, OnDestroy {
     this.selectedOption = option;
     this.isDropdownOpen = false;
     
-    console.log('Selected:', option.value);
+    //console.log('Selected:', option.value);
     
     this.onOptionChange(option.value);
   }
@@ -693,7 +693,7 @@ export class Chart implements OnInit, OnDestroy {
         link.click();
         this.loadingImg.set(false);
       }).catch((err: any) => {
-        console.error('Error capturing chart:', err);
+        //console.error('Error capturing chart:', err);
         this.loadingImg.set(false);
       });
     });

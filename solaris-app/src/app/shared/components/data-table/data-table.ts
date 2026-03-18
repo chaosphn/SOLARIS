@@ -66,7 +66,7 @@ export class DataTable implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.data())
+    //console.log(this.data())
       const data = this.data();
       if(data.length === 0) return; // Don't process if data is empty
       

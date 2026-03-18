@@ -363,7 +363,7 @@ export class Dashboard implements OnInit, OnDestroy {
         if(response){
           response.map(data => {
             const conf = this.config().realtimeConfig.find(x => x.Group == item.Group)?.Tags.find(y => y.Tagname == data.Name && !y.Timestamp);
-            if (conf) {
+            if (conf && data.Value != null) {
               this.dataRealtime.update(val => ({
                 ...val,
                 [conf.Title]: {

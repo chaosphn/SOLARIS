@@ -1,22 +1,22 @@
 ﻿[
   {
-    "Title": "J2301-1_POWER",
-    "Tagname": "J2301-1.SCADA1.POWER"
+    "Title": "KKB_POWER",
+    "Tagname": "KKB.CALC.W"
   },
   {
-    "Title": "J2301-1_ENERGY",
-    "Tagname": "J2301-1.SCADA1.TODAY_ENERGY"
+    "Title": "KKB_ENERGY",
+    "Tagname": "KKB.CALC.WH_TODAY"
   },
   {
-    "Title": "J2301-1_PYRONO",
-    "Tagname": "J2301-1.SCADA1.PYRONO"
+    "Title": "KKB_PYRONO",
+    "Tagname": "KKB.CALC.PYRONO"
   },
   {
-    "Title": "J2301-1_PVTEMP",
-    "Tagname": "J2301-1.SCADA1.PVTEMP"
+    "Title": "KKB_PVTEMP",
+    "Tagname": "KKB.CALC.PVTEMP"
   },
   {
-    "Title": "J2301-1_AMBTEMP",
-    "Tagname": "J2301-1.SCADA1.AMBTEMP"
+    "Title": "KKB_AMBTEMP",
+    "Tagname": "KKB.CALC.AMBTEMP"
   }
 ]

@@ -1,0 +1,412 @@
+﻿{
+    "realtimeConfig": [
+      {
+        "Group": "left-side",
+        "Order": 0,
+        "Tags": [
+          {
+            "Title": "POWER",
+            "Tagname": "J2301-1.SCADA1.POWER"
+          },
+          {
+            "Title": "CAPACITY",
+            "Tagname": "J2301-1.SCADA1.CAPACITY"
+          },
+          {
+            "Title": "YIELD",
+            "Tagname": "J2301-1.CALC.YIELD"
+          },
+          {
+            "Title": "PR",
+            "Tagname": "J2301-1.SCADA1.PR"
+          },
+          {
+            "Title": "TODAY",
+            "Tagname": "J2301-1.SCADA1.TODAY_ENERGY"
+          },
+          {
+            "Title": "MONTHLY",
+            "Tagname": "J2301-1.SCADA1.MONTHLY_ENERGY"
+          },
+          {
+            "Title": "YEARLY",
+            "Tagname": "J2301-1.SCADA1.YEARLY_ENERGY"
+          },
+          {
+            "Title": "TOTAL",
+            "Tagname": "J2301-1.PQM1.WH"
+          },
+          {
+            "Title": "REDUCTION",
+            "Tagname": "J2301-1.SCADA1.PYRANO1"
+          },
+          {
+            "Title": "CREDIT",
+            "Tagname": "J2301-1.SCADA1.PYRANO2"
+          },
+          {
+            "Title": "TREE",
+            "Tagname": "J2301-1.SCADA1.AMBTEMP"
+          },
+          {
+            "Title": "OIL",
+            "Tagname": "J2301-1.SCADA1.PVTEMP"
+          }
+        ]
+      },
+      {
+        "Group": "right-side",
+        "Order": 4,
+        "Tags": [
+          {
+            "Title": "RUNNING",
+            "Tagname": "J2301-1.SCADA1.PYRANO1"
+          },
+          {
+            "Title": "UNHEALTHY",
+            "Tagname": "J2301-1.SCADA1.AMBTEMP"
+          },
+          {
+            "Title": "NODATA",
+            "Tagname": "J2301-1.SCADA1.PVTEMP"
+          }
+        ]
+      },
+      {
+        "Group": "site-data",
+        "Order": 6,
+        "Tags": [
+          {
+            "Title": "J2301-1_POWER",
+            "Tagname": "J2301-1.SCADA1.POWER"
+          },
+          {
+            "Title": "J2301-2_POWER",
+            "Tagname": "J2301-2.SCADA2.POWER"
+          },
+          {
+            "Title": "J2301-3_POWER",
+            "Tagname": "J2301-3.SCADA3.POWER"
+          },
+          {
+            "Title": "J2301-4_POWER",
+            "Tagname": "J2301-4.SCADA4.POWER"
+          },
+          {
+            "Title": "J2301-5_POWER",
+            "Tagname": "J2301-5.SCADA5.POWER"
+          },
+          {
+            "Title": "COOP02_POWER",
+            "Tagname": "COOP02.SCADA1.POWER"
+          },
+          {
+            "Title": "COOP08_POWER",
+            "Tagname": "COOP08.SCADA1.POWER"
+          },
+          {
+            "Title": "COOP10_POWER",
+            "Tagname": "COOP10.SCADA1.POWER"
+          },
+          {
+            "Title": "COOP11_POWER",
+            "Tagname": "COOP11.SCADA1.POWER"
+          },
+          {
+            "Title": "COOP12_POWER",
+            "Tagname": "COOP12.SCADA1.POWER"
+          }
+        ]
+      }
+    ],
+    "historianConfig": [
+      {
+        "Group": "CHART01",
+        "Order": 0,
+        "Tags": [
+          {
+            "Title": "CHART01_POWER",
+            "Tagname": "J2301-1.CALC.WH_HOUR",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "CHART01_IRR",
+            "Tagname": "J2301-1.CALC.WH_HOUR_EXPECT",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          }
+        ]
+      },
+      {
+        "Group": "CHART02",
+        "Order": 0,
+        "Tags": [
+          {
+            "Title": "TODAY_ENERGY",
+            "Tagname": "J2301-1.CALC.WH_DAY",
+            "Options": {
+              "Time": "",
+              "Interval": 0,
+              "StartTime": "*-7d",
+              "EndTime": "*-2d"
+            }
+          }
+        ]
+      }
+      
+    ],
+    "chartConfig": [
+      {
+        "name": "CHART01",
+        "tags": [
+          {
+            "name": "J2301-1.CALC.WH_HOUR_EXPECT",
+            "title": "EXPECTED*kWh",
+            "options": {
+              "yAxis": 0,
+              "type": "column",
+              "color": "#ffbe33",
+              "borderColor": "#FF9B33",
+							"borderRadius": 0
+            }
+          },
+          {
+            "name": "J2301-1.CALC.WH_HOUR",
+            "title": "PRODUCE*kWh",
+            "options": {
+              "yAxis": 1,
+              "type": "column",
+              "color": "#3ddffc",
+              "borderColor": "#3DB1FC",
+							"borderRadius": 0
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart": {
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                  "y": -40,
+                  "verticalAlign": "bottom",
+                  "align": "right"
+                },
+                "theme": {
+                  "fill": "#FF9B33",
+                  "style": {
+                    "color": "white"
+                  },
+                  "states": {
+                    "hover": {
+                      "fill": "#FF9B33",
+                      "style": {
+                        "color": "white"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "backgroundColor": "none",
+            "animation": false,
+            "margin": [
+              10,
+              10,
+              30,
+              10
+            ],
+            "borderColor": "var(--chart-brd)",
+            "borderWidth": 0
+          },
+          "title": {},
+          "yAxis": [
+            {
+              "color": "var(--chart-txt)",
+              "title": {
+                "text": "",
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "opposite": true,
+              "enabled": false,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": false,
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 1,
+              "margin": 0,
+              "min": 0
+            },
+            {
+              "color": "var(--chart-txt)",
+              "title": {
+                "text": "",
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "enabled": false,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": false,
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 0,
+              "margin": 0,
+              "min": 0
+            }
+          ],
+          "xAxis": {
+            "type": "datetime",
+            "tickColor": "var(--chart-brd)",
+            "gridLineColor": "var(--chart-brd)",
+            "lineColor": "var(--chart-txt)",
+            "gridLineWidth": 1,
+            "tickInterval": 7200000,
+            "labels": {
+              "enabled": true,
+              "format": "{value:%H}",
+              "style": {
+                "color": "var(--chart-txt)"
+              },
+              "useHTML": true
+            },
+            "crosshair": {
+              "color": "var(--chart-txt)",
+              "dashStyle": "ShortDash"
+            },
+            "max": "t"
+          },
+          "legend": {},
+          "plotOptions": {}
+        }
+      },
+      {
+        "name": "CHART02",
+        "tags": [
+          {
+            "name": "J2301-1.CALC.WH_DAY",
+            "title": "PRODUCE*kWh",
+            "options": {
+              "yAxis": 0,
+              "type": "column",
+              "color": "#FFDF6C",
+              "borderColor": "#E4B61A",
+							"borderRadius": 0
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart": {
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                  "y": -40,
+                  "verticalAlign": "bottom",
+                  "align": "right"
+                },
+                "theme": {
+                  "fill": "#FF9B33",
+                  "style": {
+                    "color": "white"
+                  },
+                  "states": {
+                    "hover": {
+                      "fill": "#FF9B33",
+                      "style": {
+                        "color": "white"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "backgroundColor": "none",
+            "animation": true,
+            "margin": [
+              10,
+              10,
+              30,
+              60
+            ],
+            "borderColor": "var(--chart-brd)",
+            "borderWidth": 0
+          },
+          "title": {},
+          "yAxis": [
+            {
+              "color": "var(--chart-txt)",
+              "title": {
+                "text": "PRODUCTION (kWh)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 0,
+              "tickInterval": 35,
+              "margin": 0,
+              "min": 0
+            }
+          ],
+          "xAxis": {
+            "type": "datetime",
+            "tickColor": "var(--chart-brd)",
+            "gridLineColor": "var(--chart-brd)",
+            "gridLineWidth": 1,
+            "tickInterval": 86400000,
+            "labels": {
+              "enabled": true,
+              "format": "{value:%a}",
+              "style": {
+                "color": "var(--chart-txt)"
+              },
+              "useHTML": true
+            },
+            "crosshair": {
+              "color": "var(--chart-txt)",
+              "dashStyle": "ShortDash"
+            }
+          },
+          "legend": {},
+          "plotOptions": {}
+        }
+      }
+    ]
+  }

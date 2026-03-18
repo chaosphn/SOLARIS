@@ -1,0 +1,787 @@
+[
+    {
+        "name": "POWER METERS",
+        "equipments": [
+            {
+                "name": "PQM1"
+            }
+        ],
+        "parameters": [
+            {
+                "name": "W",
+                "scale": "W",
+                "uom": "kW",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WACA",
+                "scale": "W",
+                "uom": "kW",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WACB",
+                "scale": "W",
+                "uom": "kW",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WACC",
+                "scale": "W",
+                "uom": "kW",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WH",
+                "scale": "WH",
+                "uom": "kWh",
+                "dp": 0,
+                "factor": 1
+            },
+            {
+                "name": "WH_NEG",
+                "scale": "WH_NEG",
+                "uom": "kWh",
+                "dp": 0,
+                "factor": 1
+            },
+            {
+                "name": "WH_POS",
+                "scale": "WH_POS",
+                "uom": "kWh",
+                "dp": 0,
+                "factor": 1
+            },
+            {
+                "name": "VAR",
+                "scale": "VAR",
+                "uom": "kvar",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VARH",
+                "scale": "VARH",
+                "uom": "kVArh",
+                "dp": 0,
+                "factor": 1
+            },
+            {
+                "name": "VARH_NEG",
+                "scale": "VARH_NEG",
+                "uom": "kVArh",
+                "dp": 0,
+                "factor": 1
+            },
+            {
+                "name": "WH_POS",
+                "scale": "WH_POS",
+                "uom": "kVArh",
+                "dp": 0,
+                "factor": 1
+            },
+            {
+                "name": "VACA",
+                "scale": "V",
+                "uom": "V",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VACB",
+                "scale": "V",
+                "uom": "V",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VACC",
+                "scale": "V",
+                "uom": "V",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACA",
+                "scale": "I",
+                "uom": "A",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACB",
+                "scale": "I",
+                "uom": "A",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACC",
+                "scale": "I",
+                "uom": "A",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "PF",
+                "scale": "PF",
+                "dp": 2,
+                "factor": 1
+            }
+        ]
+    },
+    {
+        "name": "REVENUE METERS",
+        "equipments": [
+            {
+                "name": "ALL"
+            },
+            {
+                "name": "EDMI01"
+            },
+            {
+                "name": "EDMI02"
+            },
+            {
+                "name": "EDMI03"
+            },
+            {
+                "name": "EDMI04"
+            },
+            {
+                "name": "EDMI05"
+            }
+        ],
+        "parameters": [
+            {
+                "name": "WAC",
+                "scale": "WAC",
+                "dp": 0,
+                "factor": 1
+            },
+            {
+                "name": "WH",
+                "scale": "WH",
+                "dp": 0,
+                "factor": 1
+            }
+        ]
+    },
+    {
+        "name": "INVERTERS",
+        "equipments": [
+            {
+                "name": "ALL"
+            },
+            {
+                "name": "INV01"
+            },
+            {
+                "name": "INV02"
+            },
+            {
+                "name": "INV03"
+            },
+            {
+                "name": "INV04"
+            },
+            {
+                "name": "INV05"
+            },
+            {
+                "name": "INV06"
+            },
+            {
+                "name": "INV07"
+            },
+            {
+                "name": "INV08"
+            },
+            {
+                "name": "INV09"
+            },
+            {
+                "name": "INV10"
+            },
+            {
+                "name": "INV11"
+            },
+            {
+                "name": "INV12"
+            },
+            {
+                "name": "INV13"
+            },
+            {
+                "name": "INV14"
+            },
+            {
+                "name": "INV15"
+            },
+            {
+                "name": "INV16"
+            },
+            {
+                "name": "INV17"
+            },
+            {
+                "name": "INV18"
+            },
+            {
+                "name": "INV19"
+            },
+            {
+                "name": "INV20"
+            },
+            {
+                "name": "INV21"
+            },
+            {
+                "name": "INV22"
+            },
+            {
+                "name": "INV23"
+            },
+            {
+                "name": "INV24"
+            },
+            {
+                "name": "INV25"
+            },
+            {
+                "name": "INV26"
+            },
+            {
+                "name": "INV27"
+            }
+        ],
+        "parameters": [
+            {
+                "name": "WAC",
+                "scale": "WAC",
+                "uom": "kW",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WH",
+                "scale": "WH",
+                "uom": "kWh",
+                "dp": 0,
+                "factor": 1
+            },
+            {
+                "name": "WH_TODAY",
+                "scale": "WH_TODAY",
+                "uom": "kWh",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "LOSS",
+                "scale": "LOSS",
+                "uom": "kWh",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "YIELD",
+                "scale": "YIELD",
+                "uom": "kWh/kWp",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "DOWNTIME",
+                "scale": "DOWNTIME",
+                "uom": "",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "RUNTIME",
+                "scale": "RUNTIME",
+                "uom": "",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "AVAI",
+                "scale": "AVAI",
+                "uom": "%",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VAR",
+                "scale": "VAR",
+                "uom": "kvar",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VACA",
+                "scale": "VAC",
+                "uom": "V",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VACB",
+                "scale": "VAC",
+                "uom": "V",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VACC",
+                "scale": "VAC",
+                "uom": "V",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACA",
+                "scale": "IAC",
+                "uom": "A",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACB",
+                "scale": "IAC",
+                "uom": "A",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACC",
+                "scale": "IAC",
+                "uom": "A",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "EFF",
+                "scale": "EFF",
+                "uom": "%",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "HZ",
+                "scale": "HZ",
+                "uom": "Hz",
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "PF",
+                "scale": "PF",
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WDC",
+                "scale": "WDC",
+                "uom": "kW",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I01",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 1,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I02",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 2,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I03",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 3,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I04",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 4,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I05",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 5,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I06",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I07",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 7,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I08",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 8,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I09",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 9,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I10",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 10,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I11",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 11,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I12",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 12,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I13",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 13,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I14",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 14,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I15",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 15,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I16",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 16,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I17",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 17,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I18",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 18,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I19",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 19,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I20",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 20,
+                "groupName": "STRING CURRENT"
+            },
+            {
+                "name": "I21",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 21,
+                "groupName": "STRING CURRENT"
+            },
+
+            {
+                "name": "V01",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 1,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V02",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 2,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V03",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 3,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V04",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 4,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V05",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 5,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V06",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V07",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 7,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V08",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 8,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V09",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 9,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V10",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 10,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V11",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 11,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V12",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 12,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V13",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 13,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V14",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 14,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V15",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 15,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V16",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 16,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V17",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 17,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V18",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 18,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V19",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 19,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V20",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 20,
+                "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "V21",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 21,
+                "groupName": "STRING VOLTAGE"
+            }
+            
+        ]
+    },
+    {
+        "name": "WEATHER",
+        "equipments": [
+            {
+                "name": "WX01"
+            }
+        ],
+        "parameters": [
+            {
+                "name": "IRR",
+                "scale": "IRR",
+                "uom": "W/m²",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IRR_TODAY",
+                "scale": "IRR_TODAY",
+                "uom": "kWh/m²",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "PVTEMP",
+                "scale": "TEMP",
+                "uom": "°C",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "AMBTEMP",
+                "scale": "TEMP",
+                "uom": "°C",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WIND_SPD",
+                "scale": "WIND_SPD",
+                "uom": "m/s",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WIND_DIR",
+                "scale": "WIND_DIR",
+                "uom": "m/s",
+                "dp": 1,
+                "factor": 1
+            }
+        ]
+    }
+]

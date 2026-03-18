@@ -41,6 +41,11 @@ export const routes: Routes = [
                 loadChildren: () => import('./features/central/pages/tabular/tabular-module').then(m => m.TabularModule)
             },
             {
+                path: 'events',
+                canActivate: [PermissionGuard],
+                loadChildren: () => import('./features/central/pages/events/events-module').then(m => m.Events2Module)
+            },
+            {
                 path: 'billing/:id',
                 canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/billing/billing-module').then(m => m.BillingModule)

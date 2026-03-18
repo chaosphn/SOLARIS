@@ -137,7 +137,7 @@ export class TimeSelectComponent implements OnInit, OnChanges {
       format = buddhistYear.toString();
     }
     const dt = new Date(date);
-    console.log(dt)
+    //console.log(dt)
     const formatted = this.datePipe.transform(date, format);
     this.selectDate.emit(dt.toISOString());
   }

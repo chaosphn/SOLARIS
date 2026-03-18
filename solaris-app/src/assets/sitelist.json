@@ -10,83 +10,83 @@
 			"capacity": "23.29",
 			"siteList": [
 				{
-					"id": "J2301-1",
+					"id": "KKB",
+					"name": "KKB FACTORY",
+					"project": "KKB",
+					"location": "SING BURI",
+					"capacity": "4.219",
+					"invtype": "CENTRAL"
+				},
+				{
+					"id": "KMD",
 					"name": "SINGHA KAMEDA",
-					"project": "SPP6",
+					"project": "KMD",
 					"location": "SAMUT PRAKAN",
 					"capacity": "1.14",
 					"invtype": "CENTRAL"
 				},
 				{
-					"id": "J2301-2",
+					"id": "VFP1",
 					"name": "VARA FOOD PHASE1",
-					"project": "SPP6",
+					"project": "VFP1",
 					"location": "NAKHON PATHOM",
 					"capacity": "0.993",
 					"invtype": "CENTRAL"
 				},
 				{
-					"id": "J2301-3",
+					"id": "PSC",
 					"name": "PSC STARCH",
-					"project": "SPP6",
+					"project": "PSC",
 					"location": "CHONBURI",
 					"capacity": " 0.999",
 					"invtype": "CENTRAL"
 				},
 				{
-					"id": "J2301-4",
-					"name": "SINGHA PARK CRI",
-					"project": "SPP6",
+					"id": "SPC",
+					"name": "SINGHA PARK CHIANGRAI",
+					"project": "SPC",
 					"location": "CHIANGRAI",
 					"capacity": "0.460",
 					"invtype": "CENTRAL"
 				},
 				{
-					"id": "J2301-5",
+					"id": "VFP2",
 					"name": "VARA FOOD PHASE2",
-					"project": "SPP6",
+					"project": "VFP2",
 					"location": "NAKHON PATHOM",
 					"capacity": "0.999",
 					"invtype": "CENTRAL"
 				},
 				{
-					"id": "COOP02",
-					"name": "BAB",
-					"project": "17AYH",
+					"id": "SRB",
+					"name": "SRB",
+					"project": "SRB",
 					"location": "SURATTHANI",
 					"capacity": "0.999",
 					"invtype": "STRING"
 				},
 				{
-					"id": "COOP08",
-					"name": "SRB",
-					"project": "AIQ",
-					"location": "Phra Nakhon Si Ayutthaya",
-					"capacity": "1.485",
-					"invtype": "CENTRAL"
-				},
-				{
-					"id": "COOP10",
+					"id": "WNB2",
 					"name": "WNB2",
-					"project": "IQE",
-					"location": "KHON KAEN",
-					"capacity": "1.219",
+					"project": "WNB2",
+					"location": "Phra Nakhon Si Ayutthaya",
+					"capacity": "2.485",
 					"invtype": "CENTRAL"
 				},
 				{
-					"id": "COOP11",
-					"name": "KKB FACTORY",
-					"project": "IQE",
+					"id": "BAB",
+					"name": "BAB",
+					"project": "BAB",
 					"location": "SING BURI",
 					"capacity": "1.495",
 					"invtype": "CENTRAL"
 				},
 				{
-					"id": "COOP12",
+					"id": "SBC",
 					"name": "SBC",
-					"project": "IQE",
+					"project": "SBC",
 					"location": "NAKHON PATHOM",
-					"capacity": "1.501",
+					"capacity": "8.501",
 					"invtype": "CENTRAL"
 				}
 			]

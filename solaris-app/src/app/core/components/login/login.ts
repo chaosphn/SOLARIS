@@ -37,7 +37,7 @@ export class Login implements OnInit {
         await this.authService.login(this.form.username, this.form.password); 
         //console.log("login success")   
         const destination = sessionStorage.getItem('navigate');
-        console.log(destination)
+        //console.log(destination)
         if(destination){
           this.router.navigate([destination]);
         } else {

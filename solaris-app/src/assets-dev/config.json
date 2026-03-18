@@ -1,0 +1,8 @@
+
+{
+    "UrlApi": "http://localhost:5127/",
+    "UrlApiAuthen": "http://192.168.24.111:4126/",
+    "UrlApiBilling": "http://localhost:4040/api/",
+    "UrlApiNotification": "http://localhost:6080/api/",
+    "Timer": 5
+}

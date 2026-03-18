@@ -22,7 +22,7 @@ export class EventDetails {
   tagData = signal<ResponseHistorianModel[]>([]);
   chartParameter = computed(() => {
     if(this.event() && this.tagData().length > 0){
-      console.log(this.event())
+      //console.log(this.event())
       let item: ChartParameters = {};
       let series: SeriesOptionsType[] | SeriesLineOptions[] | SeriesAreaOptions[] | SeriesColumnOptions[] = this.createEventChartSeries(this.tagData()); 
       item.chart = this.chartOptions.getChartOptions({});
@@ -119,7 +119,7 @@ export class EventDetails {
     effect(() => {
       if(this.event()){
         const tagNames = this.parseTagNamesAdvanced(this.event()!.Condition);
-        console.log('Extracted Tag Names:', tagNames);
+        //console.log('Extracted Tag Names:', tagNames);
         if(tagNames.length > 0){
           this.getTagData(tagNames);
         }
@@ -166,6 +166,27 @@ export class EventDetails {
       } as SeriesLineOptions;
     });
     return series;
+  }
+
+  parseExpression(expression: string | undefined){
+    if (!expression || typeof expression !== 'string') {
+      return '';
+    }
+
+    let tagName: string = expression;
+    const normalize = (s: any) => s.replace(/\s+/g, '');
+    const matches = [...expression.matchAll(/\b(ATTIME|REAL|MAX|MIN|SUM|AVG|LAST|TIMESTAMP)\s*\(([^()]*)\)/g)];
+    const uniqueMatches = [
+        ...new Map(
+            matches.map(m => [normalize(m[0]), m])
+        ).values()
+    ];
+    uniqueMatches.map(x => {
+      const expr = x[0];
+      const tag = x[2];
+      tagName = tagName.replaceAll(expr, tag);
+    });
+    return tagName;
   }
 
 }

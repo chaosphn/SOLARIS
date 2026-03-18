@@ -1,0 +1,1680 @@
+﻿{
+    "realtimeConfig": [],
+    "historianConfig": [
+      {
+        "Group": "J2301-1",
+        "Order": 0,
+        "Tags": [
+          {
+            "Title": "J2301-1_POWER",
+            "Tagname": "J2301-1.SCADA1.POWER",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "J2301-1_IRR",
+            "Tagname": "J2301-1.SCADA1.PYRANO",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          }
+        ]
+      },
+      {
+        "Group": "J2301-2",
+        "Order": 1,
+        "Tags": [
+          {
+            "Title": "J2301-2_POWER",
+            "Tagname": "J2301-2.SCADA2.POWER",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "J2301-2_IRR",
+            "Tagname": "J2301-2.SCADA2.PYRANO",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          }
+        ]
+      },
+      {
+        "Group": "J2301-3",
+        "Order": 2,
+        "Tags": [
+          {
+            "Title": "J2301-3_POWER",
+            "Tagname": "J2301-3.SCADA3.POWER",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "J2301-3_IRR",
+            "Tagname": "J2301-3.SCADA3.PYRANO",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          }
+        ]
+      },
+      {
+        "Group": "J2301-4",
+        "Order": 3,
+        "Tags": [
+          {
+            "Title": "J2301-4_POWER",
+            "Tagname": "J2301-4.SCADA4.POWER",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "J2301-4_IRR",
+            "Tagname": "J2301-4.SCADA4.PYRANO",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          }
+        ]
+      },
+      {
+        "Group": "J2301-5",
+        "Order": 4,
+        "Tags": [
+          {
+            "Title": "J2301-5_POWER",
+            "Tagname": "J2301-5.SCADA5.POWER",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "J2301-5_IRR",
+            "Tagname": "J2301-5.SCADA5.PYRANO",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          }
+        ]
+      },
+
+      {
+        "Group": "COOP02",
+        "Order": 5,
+        "Tags": [
+          {
+            "Title": "COOP02_POWER",
+            "Tagname": "J2301-1.SCADA1.POWER",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "COOP02_IRR",
+            "Tagname": "J2301-1.SCADA1.PYRANO",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          }
+        ]
+      },
+      {
+        "Group": "COOP08",
+        "Order": 6,
+        "Tags": [
+          {
+            "Title": "COOP08_POWER",
+            "Tagname": "J2301-2.SCADA2.POWER",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "COOP08_IRR",
+            "Tagname": "J2301-2.SCADA2.PYRANO",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          }
+        ]
+      },
+      {
+        "Group": "COOP10",
+        "Order": 7,
+        "Tags": [
+          {
+            "Title": "COOP10_POWER",
+            "Tagname": "J2301-3.SCADA3.POWER",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "COOP10_IRR",
+            "Tagname": "J2301-3.SCADA3.PYRANO",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          }
+        ]
+      },
+      {
+        "Group": "COOP11",
+        "Order": 8,
+        "Tags": [
+          {
+            "Title": "COOP11_POWER",
+            "Tagname": "J2301-4.SCADA4.POWER",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "COOP11_IRR",
+            "Tagname": "J2301-4.SCADA4.PYRANO",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          }
+        ]
+      },
+      {
+        "Group": "COOP12",
+        "Order": 9,
+        "Tags": [
+          {
+            "Title": "COOP12_POWER",
+            "Tagname": "J2301-5.SCADA5.POWER",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "COOP12_IRR",
+            "Tagname": "J2301-5.SCADA5.PYRANO",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          }
+        ]
+      }
+      
+    ],
+    "chartConfig": [
+      {
+        "name": "J2301-1",
+        "tags": [
+          {
+            "name": "J2301-1.SCADA1.POWER",
+            "title": "PYRANO*W/m²",
+            "options": {
+                "yAxis": 0,
+                "type": "area",
+                "color": "#E7CD47",
+                "fillOpacity": 0.125
+                
+            }
+          },
+          {
+            "name": "J2301-1.SCADA1.PYRANO",
+            "title": "POWER*kW",
+            "options": {					
+              "yAxis": 1,
+              "type": "area",
+              "color": "#3ddffc",
+              "fillOpacity": 0.125
+                      
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart":{
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                "y": -40,
+                "verticalAlign": "bottom",
+                "align": "right"
+                },
+                "theme": {
+                "fill": "#E7CD47",
+                "style": {
+                  "color": "white"
+                },
+                "states": {
+                  "hover": {
+                  "fill": "#E7CD47",
+                  "style": {
+                    "color": "white"
+                  }
+                  } 
+                }
+                }
+              }
+              },
+            "backgroundColor": "none",
+            "animation": false,
+            "margin": [10,70,30,60],
+            "borderColor": "var(--chart-brd)",
+            "borderWidth": 0
+          },
+          "title":{
+            
+          },
+          "yAxis": [
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "IRR (W/sq.m)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                  },
+                "useHTML": true
+              },
+              "opposite": true,
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 1,
+              "margin": 0,
+              "min": 0
+              
+            },
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "POWER (kW)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+                },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 0,
+              "margin": 0,
+              "min": 0
+            }
+          ],
+          "xAxis": {
+            "type": "datetime",
+            "tickColor": "var(--chart-brd)",
+            "lineColor": "var(--chart-brd)",
+            "gridLineColor": "var(--chart-brd)",
+            "gridLineWidth": 1,
+            "labels": {
+                "enabled": true,
+                "format": "{value:%H:%M}",
+              "style": {
+                "color": "var(--chart-txt)"
+              },
+              "useHTML": true
+            },
+            "crosshair": {
+              "color": "var(--chart-txt)",
+              "dashStyle": "ShortDash"
+            },
+            "max": "t"
+          },
+          "legend": {
+            
+          },
+          "plotOptions":{
+            
+          }
+        }
+      },
+      {
+        "name": "J2301-2",
+        "tags": [
+          {
+            "name": "J2301-2.SCADA2.PYRANO",
+            "title": "PYRANO*W/m²",
+            "options": {
+                "yAxis": 0,
+                "type": "area",
+                "color": "#E7CD47",
+                "fillOpacity": 0.125
+                
+            }
+          },
+          {
+            "name": "J2301-2.SCADA2.POWER",
+            "title": "POWER*kW",
+            "options": {					
+              "yAxis": 1,
+              "type": "area",
+              "color": "#3ddffc",
+              "fillOpacity": 0.125
+                      
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart":{
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                "y": -40,
+                "verticalAlign": "bottom",
+                "align": "right"
+                },
+                "theme": {
+                "fill": "#E7CD47",
+                "style": {
+                  "color": "white"
+                },
+                "states": {
+                  "hover": {
+                  "fill": "#E7CD47",
+                  "style": {
+                    "color": "white"
+                  }
+                  } 
+                }
+                }
+              }
+              },
+            "backgroundColor": "none",
+            "animation": false,
+            "margin": [10,70,30,60],
+            "borderColor": "var(--chart-brd)",
+            "borderWidth": 0
+          },
+          "title":{
+            
+          },
+          "yAxis": [
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "IRR (W/sq.m)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                  },
+                "useHTML": true
+              },
+              "opposite": true,
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 1,
+              "margin": 0,
+              "min": 0
+              
+            },
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "POWER (kW)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+                },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 0,
+              "margin": 0,
+              "min": 0
+            }
+          ],
+          "xAxis": {
+            "type": "datetime",
+            "tickColor": "var(--chart-brd)",
+            "lineColor": "var(--chart-brd)",
+            "gridLineColor": "var(--chart-brd)",
+            "gridLineWidth": 1,
+            "labels": {
+                "enabled": true,
+                "format": "{value:%H:%M}",
+              "style": {
+                "color": "var(--chart-txt)"
+              },
+              "useHTML": true
+            },
+            "crosshair": {
+              "color": "var(--chart-txt)",
+              "dashStyle": "ShortDash"
+            },
+            "max": "t"
+          },
+          "legend": {
+            
+          },
+          "plotOptions":{
+            
+          }
+        }
+      },
+      {
+        "name": "J2301-3",
+        "tags": [
+          {
+            "name": "J2301-3.SCADA3.PYRANO",
+            "title": "PYRANO*W/m²",
+            "options": {
+                "yAxis": 0,
+                "type": "area",
+                "color": "#E7CD47",
+                "fillOpacity": 0.125
+                
+            }
+          },
+          {
+            "name": "J2301-3.SCADA3.POWER",
+            "title": "POWER*kW",
+            "options": {					
+              "yAxis": 1,
+              "type": "area",
+              "color": "#3ddffc",
+              "fillOpacity": 0.125
+                      
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart":{
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                "y": -40,
+                "verticalAlign": "bottom",
+                "align": "right"
+                },
+                "theme": {
+                "fill": "#E7CD47",
+                "style": {
+                  "color": "white"
+                },
+                "states": {
+                  "hover": {
+                  "fill": "#E7CD47",
+                  "style": {
+                    "color": "white"
+                  }
+                  } 
+                }
+                }
+              }
+              },
+            "backgroundColor": "none",
+            "animation": false,
+            "margin": [10,70,30,60],
+            "borderColor": "var(--chart-brd)",
+            "borderWidth": 0
+          },
+          "title":{
+            
+          },
+          "yAxis": [
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "IRR (W/sq.m)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                  },
+                "useHTML": true
+              },
+              "opposite": true,
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 1,
+              "margin": 0,
+              "min": 0
+              
+            },
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "POWER (kW)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+                },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 0,
+              "margin": 0,
+              "min": 0
+            }
+          ],
+          "xAxis": {
+            "type": "datetime",
+            "tickColor": "var(--chart-brd)",
+            "lineColor": "var(--chart-brd)",
+            "gridLineColor": "var(--chart-brd)",
+            "gridLineWidth": 1,
+            "labels": {
+                "enabled": true,
+                "format": "{value:%H:%M}",
+              "style": {
+                "color": "var(--chart-txt)"
+              },
+              "useHTML": true
+            },
+            "crosshair": {
+              "color": "var(--chart-txt)",
+              "dashStyle": "ShortDash"
+            },
+            "max": "t"
+          },
+          "legend": {
+            
+          },
+          "plotOptions":{
+            
+          }
+        }
+      },
+      {
+        "name": "J2301-4",
+        "tags": [
+          {
+            "name": "J2301-4.SCADA4.PYRANO",
+            "title": "PYRANO*W/m²",
+            "options": {
+                "yAxis": 0,
+                "type": "area",
+                "color": "#E7CD47",
+                "fillOpacity": 0.125
+                
+            }
+          },
+          {
+            "name": "J2301-4.SCADA4.POWER",
+            "title": "POWER*kW",
+            "options": {					
+              "yAxis": 1,
+              "type": "area",
+              "color": "#3ddffc",
+              "fillOpacity": 0.125
+                      
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart":{
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                "y": -40,
+                "verticalAlign": "bottom",
+                "align": "right"
+                },
+                "theme": {
+                "fill": "#E7CD47",
+                "style": {
+                  "color": "white"
+                },
+                "states": {
+                  "hover": {
+                  "fill": "#E7CD47",
+                  "style": {
+                    "color": "white"
+                  }
+                  } 
+                }
+                }
+              }
+              },
+            "backgroundColor": "none",
+            "animation": false,
+            "margin": [10,70,30,60],
+            "borderColor": "var(--chart-brd)",
+            "borderWidth": 0
+          },
+          "title":{
+            
+          },
+          "yAxis": [
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "IRR (W/sq.m)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                  },
+                "useHTML": true
+              },
+              "opposite": true,
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 1,
+              "margin": 0,
+              "min": 0
+              
+            },
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "POWER (kW)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+                },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 0,
+              "margin": 0,
+              "min": 0
+            }
+          ],
+          "xAxis": {
+            "type": "datetime",
+            "tickColor": "var(--chart-brd)",
+            "lineColor": "var(--chart-brd)",
+            "gridLineColor": "var(--chart-brd)",
+            "gridLineWidth": 1,
+            "labels": {
+                "enabled": true,
+                "format": "{value:%H:%M}",
+              "style": {
+                "color": "var(--chart-txt)"
+              },
+              "useHTML": true
+            },
+            "crosshair": {
+              "color": "var(--chart-txt)",
+              "dashStyle": "ShortDash"
+            },
+            "max": "t"
+          },
+          "legend": {
+            
+          },
+          "plotOptions":{
+            
+          }
+        }
+      },
+      {
+        "name": "J2301-5",
+        "tags": [
+          {
+            "name": "J2301-5.SCADA5.PYRANO",
+            "title": "PYRANO*W/m²",
+            "options": {
+                "yAxis": 0,
+                "type": "area",
+                "color": "#E7CD47",
+                "fillOpacity": 0.125
+                
+            }
+          },
+          {
+            "name": "J2301-5.SCADA5.POWER",
+            "title": "POWER*kW",
+            "options": {					
+              "yAxis": 1,
+              "type": "area",
+              "color": "#3ddffc",
+              "fillOpacity": 0.125
+                      
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart":{
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                "y": -40,
+                "verticalAlign": "bottom",
+                "align": "right"
+                },
+                "theme": {
+                "fill": "#E7CD47",
+                "style": {
+                  "color": "white"
+                },
+                "states": {
+                  "hover": {
+                  "fill": "#E7CD47",
+                  "style": {
+                    "color": "white"
+                  }
+                  } 
+                }
+                }
+              }
+              },
+            "backgroundColor": "none",
+            "animation": false,
+            "margin": [10,70,30,60],
+            "borderColor": "var(--chart-brd)",
+            "borderWidth": 0
+          },
+          "title":{
+            
+          },
+          "yAxis": [
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "IRR (W/sq.m)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                  },
+                "useHTML": true
+              },
+              "opposite": true,
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 1,
+              "margin": 0,
+              "min": 0
+              
+            },
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "POWER (kW)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+                },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 0,
+              "margin": 0,
+              "min": 0
+            }
+          ],
+          "xAxis": {
+            "type": "datetime",
+            "tickColor": "var(--chart-brd)",
+            "lineColor": "var(--chart-brd)",
+            "gridLineColor": "var(--chart-brd)",
+            "gridLineWidth": 1,
+            "labels": {
+                "enabled": true,
+                "format": "{value:%H:%M}",
+              "style": {
+                "color": "var(--chart-txt)"
+              },
+              "useHTML": true
+            },
+            "crosshair": {
+              "color": "var(--chart-txt)",
+              "dashStyle": "ShortDash"
+            },
+            "max": "t"
+          },
+          "legend": {
+            
+          },
+          "plotOptions":{
+            
+          }
+        }
+      },
+
+      {
+        "name": "COOP02",
+        "tags": [
+          {
+            "name": "J2301-1.SCADA1.POWER",
+            "title": "PYRANO*W/m²",
+            "options": {
+                "yAxis": 0,
+                "type": "area",
+                "color": "#E7CD47",
+                "fillOpacity": 0.125
+                
+            }
+          },
+          {
+            "name": "J2301-1.SCADA1.PYRANO",
+            "title": "POWER*kW",
+            "options": {					
+              "yAxis": 1,
+              "type": "area",
+              "color": "#3ddffc",
+              "fillOpacity": 0.125
+                      
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart":{
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                "y": -40,
+                "verticalAlign": "bottom",
+                "align": "right"
+                },
+                "theme": {
+                "fill": "#E7CD47",
+                "style": {
+                  "color": "white"
+                },
+                "states": {
+                  "hover": {
+                  "fill": "#E7CD47",
+                  "style": {
+                    "color": "white"
+                  }
+                  } 
+                }
+                }
+              }
+              },
+            "backgroundColor": "none",
+            "animation": false,
+            "margin": [10,70,30,60],
+            "borderColor": "var(--chart-brd)",
+            "borderWidth": 0
+          },
+          "title":{
+            
+          },
+          "yAxis": [
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "IRR (W/sq.m)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                  },
+                "useHTML": true
+              },
+              "opposite": true,
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 1,
+              "margin": 0,
+              "min": 0
+              
+            },
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "POWER (kW)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+                },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 0,
+              "margin": 0,
+              "min": 0
+            }
+          ],
+          "xAxis": {
+            "type": "datetime",
+            "tickColor": "var(--chart-brd)",
+            "lineColor": "var(--chart-brd)",
+            "gridLineColor": "var(--chart-brd)",
+            "gridLineWidth": 1,
+            "labels": {
+                "enabled": true,
+                "format": "{value:%H:%M}",
+              "style": {
+                "color": "var(--chart-txt)"
+              },
+              "useHTML": true
+            },
+            "crosshair": {
+              "color": "var(--chart-txt)",
+              "dashStyle": "ShortDash"
+            },
+            "max": "t"
+          },
+          "legend": {
+            
+          },
+          "plotOptions":{
+            
+          }
+        }
+      },
+      {
+        "name": "COOP08",
+        "tags": [
+          {
+            "name": "J2301-2.SCADA2.PYRANO",
+            "title": "PYRANO*W/m²",
+            "options": {
+                "yAxis": 0,
+                "type": "area",
+                "color": "#E7CD47",
+                "fillOpacity": 0.125
+                
+            }
+          },
+          {
+            "name": "J2301-2.SCADA2.POWER",
+            "title": "POWER*kW",
+            "options": {					
+              "yAxis": 1,
+              "type": "area",
+              "color": "#3ddffc",
+              "fillOpacity": 0.125
+                      
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart":{
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                "y": -40,
+                "verticalAlign": "bottom",
+                "align": "right"
+                },
+                "theme": {
+                "fill": "#E7CD47",
+                "style": {
+                  "color": "white"
+                },
+                "states": {
+                  "hover": {
+                  "fill": "#E7CD47",
+                  "style": {
+                    "color": "white"
+                  }
+                  } 
+                }
+                }
+              }
+              },
+            "backgroundColor": "none",
+            "animation": false,
+            "margin": [10,70,30,60],
+            "borderColor": "var(--chart-brd)",
+            "borderWidth": 0
+          },
+          "title":{
+            
+          },
+          "yAxis": [
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "IRR (W/sq.m)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                  },
+                "useHTML": true
+              },
+              "opposite": true,
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 1,
+              "margin": 0,
+              "min": 0
+              
+            },
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "POWER (kW)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+                },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 0,
+              "margin": 0,
+              "min": 0
+            }
+          ],
+          "xAxis": {
+            "type": "datetime",
+            "tickColor": "var(--chart-brd)",
+            "lineColor": "var(--chart-brd)",
+            "gridLineColor": "var(--chart-brd)",
+            "gridLineWidth": 1,
+            "labels": {
+                "enabled": true,
+                "format": "{value:%H:%M}",
+              "style": {
+                "color": "var(--chart-txt)"
+              },
+              "useHTML": true
+            },
+            "crosshair": {
+              "color": "var(--chart-txt)",
+              "dashStyle": "ShortDash"
+            },
+            "max": "t"
+          },
+          "legend": {
+            
+          },
+          "plotOptions":{
+            
+          }
+        }
+      },
+      {
+        "name": "COOP10",
+        "tags": [
+          {
+            "name": "J2301-3.SCADA3.PYRANO",
+            "title": "PYRANO*W/m²",
+            "options": {
+                "yAxis": 0,
+                "type": "area",
+                "color": "#E7CD47",
+                "fillOpacity": 0.125
+                
+            }
+          },
+          {
+            "name": "J2301-3.SCADA3.POWER",
+            "title": "POWER*kW",
+            "options": {					
+              "yAxis": 1,
+              "type": "area",
+              "color": "#3ddffc",
+              "fillOpacity": 0.125
+                      
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart":{
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                "y": -40,
+                "verticalAlign": "bottom",
+                "align": "right"
+                },
+                "theme": {
+                "fill": "#E7CD47",
+                "style": {
+                  "color": "white"
+                },
+                "states": {
+                  "hover": {
+                  "fill": "#E7CD47",
+                  "style": {
+                    "color": "white"
+                  }
+                  } 
+                }
+                }
+              }
+              },
+            "backgroundColor": "none",
+            "animation": false,
+            "margin": [10,70,30,60],
+            "borderColor": "var(--chart-brd)",
+            "borderWidth": 0
+          },
+          "title":{
+            
+          },
+          "yAxis": [
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "IRR (W/sq.m)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                  },
+                "useHTML": true
+              },
+              "opposite": true,
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 1,
+              "margin": 0,
+              "min": 0
+              
+            },
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "POWER (kW)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+                },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 0,
+              "margin": 0,
+              "min": 0
+            }
+          ],
+          "xAxis": {
+            "type": "datetime",
+            "tickColor": "var(--chart-brd)",
+            "lineColor": "var(--chart-brd)",
+            "gridLineColor": "var(--chart-brd)",
+            "gridLineWidth": 1,
+            "labels": {
+                "enabled": true,
+                "format": "{value:%H:%M}",
+              "style": {
+                "color": "var(--chart-txt)"
+              },
+              "useHTML": true
+            },
+            "crosshair": {
+              "color": "var(--chart-txt)",
+              "dashStyle": "ShortDash"
+            },
+            "max": "t"
+          },
+          "legend": {
+            
+          },
+          "plotOptions":{
+            
+          }
+        }
+      },
+      {
+        "name": "COOP11",
+        "tags": [
+          {
+            "name": "J2301-4.SCADA4.PYRANO",
+            "title": "PYRANO*W/m²",
+            "options": {
+                "yAxis": 0,
+                "type": "area",
+                "color": "#E7CD47",
+                "fillOpacity": 0.125
+                
+            }
+          },
+          {
+            "name": "J2301-4.SCADA4.POWER",
+            "title": "POWER*kW",
+            "options": {					
+              "yAxis": 1,
+              "type": "area",
+              "color": "#3ddffc",
+              "fillOpacity": 0.125
+                      
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart":{
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                "y": -40,
+                "verticalAlign": "bottom",
+                "align": "right"
+                },
+                "theme": {
+                "fill": "#E7CD47",
+                "style": {
+                  "color": "white"
+                },
+                "states": {
+                  "hover": {
+                  "fill": "#E7CD47",
+                  "style": {
+                    "color": "white"
+                  }
+                  } 
+                }
+                }
+              }
+              },
+            "backgroundColor": "none",
+            "animation": false,
+            "margin": [10,70,30,60],
+            "borderColor": "var(--chart-brd)",
+            "borderWidth": 0
+          },
+          "title":{
+            
+          },
+          "yAxis": [
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "IRR (W/sq.m)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                  },
+                "useHTML": true
+              },
+              "opposite": true,
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 1,
+              "margin": 0,
+              "min": 0
+              
+            },
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "POWER (kW)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+                },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 0,
+              "margin": 0,
+              "min": 0
+            }
+          ],
+          "xAxis": {
+            "type": "datetime",
+            "tickColor": "var(--chart-brd)",
+            "lineColor": "var(--chart-brd)",
+            "gridLineColor": "var(--chart-brd)",
+            "gridLineWidth": 1,
+            "labels": {
+                "enabled": true,
+                "format": "{value:%H:%M}",
+              "style": {
+                "color": "var(--chart-txt)"
+              },
+              "useHTML": true
+            },
+            "crosshair": {
+              "color": "var(--chart-txt)",
+              "dashStyle": "ShortDash"
+            },
+            "max": "t"
+          },
+          "legend": {
+            
+          },
+          "plotOptions":{
+            
+          }
+        }
+      },
+      {
+        "name": "COOP12",
+        "tags": [
+          {
+            "name": "J2301-5.SCADA5.PYRANO",
+            "title": "PYRANO*W/m²",
+            "options": {
+                "yAxis": 0,
+                "type": "area",
+                "color": "#E7CD47",
+                "fillOpacity": 0.125
+                
+            }
+          },
+          {
+            "name": "J2301-5.SCADA5.POWER",
+            "title": "POWER*kW",
+            "options": {					
+              "yAxis": 1,
+              "type": "area",
+              "color": "#3ddffc",
+              "fillOpacity": 0.125
+                      
+            }
+          }
+        ],
+        "chartOptions": {
+          "chart":{
+            "zooming": {
+              "type": "x",
+              "resetButton": {
+                "position": {
+                "y": -40,
+                "verticalAlign": "bottom",
+                "align": "right"
+                },
+                "theme": {
+                "fill": "#E7CD47",
+                "style": {
+                  "color": "white"
+                },
+                "states": {
+                  "hover": {
+                  "fill": "#E7CD47",
+                  "style": {
+                    "color": "white"
+                  }
+                  } 
+                }
+                }
+              }
+              },
+            "backgroundColor": "none",
+            "animation": false,
+            "margin": [10,70,30,60],
+            "borderColor": "var(--chart-brd)",
+            "borderWidth": 0
+          },
+          "title":{
+            
+          },
+          "yAxis": [
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "IRR (W/sq.m)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                  },
+                "useHTML": true
+              },
+              "opposite": true,
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 1,
+              "margin": 0,
+              "min": 0
+              
+            },
+            {
+              "color": "var(--chart-txt)",
+              "title":{
+                "text": "POWER (kW)",
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+              },
+              "enabled": true,
+              "lineColor": "var(--chart-txt)",
+              "labels": {
+                "enabled": true,
+                "style": {
+                  "color": "var(--chart-txt)"
+                },
+                "useHTML": true
+                },
+              "lineWidth": 0,
+              "gridLineColor": "var(--chart-brd)",
+              "gridLineWidth": 0,
+              "margin": 0,
+              "min": 0
+            }
+          ],
+          "xAxis": {
+            "type": "datetime",
+            "tickColor": "var(--chart-brd)",
+            "lineColor": "var(--chart-brd)",
+            "gridLineColor": "var(--chart-brd)",
+            "gridLineWidth": 1,
+            "labels": {
+                "enabled": true,
+                "format": "{value:%H:%M}",
+              "style": {
+                "color": "var(--chart-txt)"
+              },
+              "useHTML": true
+            },
+            "crosshair": {
+              "color": "var(--chart-txt)",
+              "dashStyle": "ShortDash"
+            },
+            "max": "t"
+          },
+          "legend": {
+            
+          },
+          "plotOptions":{
+            
+          }
+        }
+      }
+    ]
+  }

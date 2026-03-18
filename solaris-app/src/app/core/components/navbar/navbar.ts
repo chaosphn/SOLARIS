@@ -78,7 +78,7 @@ export class Navbar implements OnInit, OnDestroy {
     });
     this.navStateSubscription = this.navState$.subscribe(state => {
       this.currentNavState.set(state);
-      console.log('NAV STATE:', state);
+      //console.log('NAV STATE:', state);
       if(!state.name && !state.location && !this.router.url.includes('billing')){
         this.router.navigate(['/'])
       }

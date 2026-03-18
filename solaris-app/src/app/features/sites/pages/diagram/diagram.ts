@@ -248,6 +248,7 @@ export class Diagram implements OnInit, OnDestroy {
         );
       }
     } catch (error: any) {
+      console.log(error)
       if (error.status === 404) {
         this.svgTemplate.set(`<p>Not found works!</p>`);
       } else {
@@ -414,11 +415,19 @@ export class Diagram implements OnInit, OnDestroy {
           return 'unknow';
         case 'Msg':
           let val = tagData.Value;
+          const tagNameSpl = tagName.split('_');
+          if(tagNameSpl[1]){
+            const fnItem = this.selectedDiagram().textBinding.find(x => x.value == val && x?.tag === tagNameSpl[1])?.message??undefined;
+            if(fnItem){
+              return fnItem;
+            }
+          }
+
           const mapVal = this.selectedDiagram().textBinding.find(x => x.value == val)?.message??undefined;
           if(mapVal){
             return mapVal;
           }
-          return val.toString() || 'unknow';
+          return 'unknow';
         case 'Timestamp':
           let timestamp = new Date(tagData.TimeStamp);
           if(timestamp){
@@ -429,6 +438,14 @@ export class Diagram implements OnInit, OnDestroy {
           }
         case 'Color':
           let val1 = tagData.Value;
+          const tagNameSpl1 = tagName.split('_');
+          if(tagNameSpl1[1]){
+            const fnItem = this.selectedDiagram().colorBinding.find(x => x.value == val1 && x?.tag === tagNameSpl1[1])?.color??undefined;
+            if(fnItem){
+              return fnItem;
+            }
+          }
+
           const mapColor = this.selectedDiagram().colorBinding.find(x => x.value == val1)?.color??undefined;
           if(mapColor){
             return mapColor;

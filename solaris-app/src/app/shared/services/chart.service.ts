@@ -404,7 +404,7 @@ export class ChartService {
         borderWidth: item.borderWidth,
         data: data.records.map(function(x){
           let res:any[] = [];
-          res[0] = new Date(x.TimeStamp).getTime() + 7 * 60 * 60 * 1000;
+          res[0] = new Date(x.TimeStamp).getTime() //+ 7 * 60 * 60 * 1000;
           if(!isNumber(x.Value) && x.Value.toUpperCase() == "TRUE"){
             res[1] = 1;
           } else if(!isNumber(x.Value) && x.Value.toUpperCase() == "FALSE"){
