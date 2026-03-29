@@ -7,8 +7,9 @@
             style="perspective: 800px;"
             fill="none"
             xmlns="http://www.w3.org/2000/svg">
-            <g 
-                transform="translate(0, -40)">
+            <g id="gbox"  [attr.transform]="getCenterTransform('gbox')"
+                [style.opacity]="isReady ? 1 : 0"
+                >
                 @for (item of displayPanel.group; track $index; let i = $index) {
                     <g [id]="item.id"
                         class="card"
@@ -16,20 +17,17 @@
                         [attr.transform]="isSelectedGreoup(item.id) ? 'translate(0, 0)' : ''"
                         >
                         @for (it of item.panel; track $index; let j = $index) {
-                            <rect
+                            <path
                                 [attr.id]="it.id"
-                                [attr.width]="it.width" 
-                                [attr.height]="it.height" 
-                                [attr.transform]="it.transform" 
-                                [attr.fill]="getPanelColor(it.percentage)"
+                                [attr.d]="it.d" 
                                 [attr.stroke]="getPanelStrokeColor(it.percentage)"
-                                [style]="getProvinceStyle(it.id, item.id)"
+                                [style]="getProvinceStyle(it.id, item.id, it.percentage)"
                                 (click)="handleProvinceClick(it.id, item.id)"
                                 (mouseenter)="handleProvinceHover(it.id)"
                                 (mouseleave)="handleProvinceHover(null)"
                             >
                                 <title>{{ getLabel(item.name, it.id) }}</title>
-                            </rect>
+                            </path>
                         }
                     </g>
                 }
@@ -131,7 +129,7 @@
                 }
             </div>
         </div>
-        <div class="summary-card">
+        <!-- <div class="summary-card">
             <div class="summary-header">
                 <div class="summary-indicator"></div>
                 <h3 class="summary-title">STRING SUMMARY</h3>
@@ -146,7 +144,7 @@
                     </div>
                 }
             </div>
-        </div>
+        </div> -->
     }
 
     <!-- Navigation Buttons -->

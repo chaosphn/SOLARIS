@@ -41,10 +41,11 @@ export class AuthService {
                 localStorage.setItem('refreshtoken', result?.Access?.RefreshToken??'');
                 localStorage.setItem('role', result?.Access?.Role??'');
                 localStorage.setItem('user', username);
-                let pageAccess = result.Access.Pages.map(x => {
-                    const key = Object.keys(x)[0];
-                    return x[key] ? key.toLowerCase() : null;
-                }).filter(x => x!=null);
+                // let pageAccess = result.Access.Pages.map(x => {
+                //     const key = Object.keys(x)[0];
+                //     return x[key] ? key.toLowerCase() : null;
+                // }).filter(x => x!=null);
+                let pageAccess = result.Access.Pages??[];
                 localStorage.setItem('pages', JSON.stringify(pageAccess));
                 let siteList = result.Access.Sites??[];
                 localStorage.setItem('sites', JSON.stringify(siteList));

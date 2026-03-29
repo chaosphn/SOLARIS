@@ -26,7 +26,7 @@ export class BillingUpload implements OnInit {
 
   // Regex pattern: Billing_XXX-X_YYYY-MM.pdf
   // XXX = alphanumeric, X = alphanumeric, YYYY = 4 digits, MM = 2 digits
-  private fileNamePattern = /^Billing_[A-Za-z0-9]+-[A-Za-z0-9]+_\d{4}-\d{2}\.pdf$/;
+  private fileNamePattern = /^Billing_[A-Za-z0-9]+-[A-Za]+_\d{4}-\d{2}\.pdf$/;
 
   ngOnInit(): void {
     const currentUrl = this.router.url;
@@ -100,15 +100,15 @@ export class BillingUpload implements OnInit {
     }
 
     // Check file name format
-    if (!this.fileNamePattern.test(file.name)) {
-      alert(
-        `Invalid file name format.\n\n` +
-        `Expected format: Billing_XXX-X_YYYY-MM.pdf\n` +
-        `Example: Billing_J2301-1_2025-12.pdf\n\n` +
-        `Your file: ${file.name}`
-      );
-      return;
-    }
+    // if (!this.fileNamePattern.test(file.name)) {
+    //   alert(
+    //     `Invalid file name format.\n\n` +
+    //     `Expected format: Billing_XXX-X_YYYY-MM.pdf\n` +
+    //     `Example: Billing_J2301-1_2025-12.pdf\n\n` +
+    //     `Your file: ${file.name}`
+    //   );
+    //   return;
+    // }
 
     this.uploadedFile = file;
   }

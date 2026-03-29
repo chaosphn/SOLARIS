@@ -1,4 +1,4 @@
-import { NgModule, Optional, SkipSelf } from '@angular/core';
+﻿import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -16,6 +16,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 import { Assistant } from './components/assistant/assistant';
 import { BillingUpload } from './components/billing-upload/billing-upload';
+import { ChartsModule } from '../shared/chart.module';
 
 
 
@@ -30,7 +31,8 @@ import { BillingUpload } from './components/billing-upload/billing-upload';
         MaterialModule,
         AppStateModule,
         ReactiveFormsModule,
-        ShareModule
+        ShareModule,
+        ChartsModule
     ],
     declarations: [
         Login,

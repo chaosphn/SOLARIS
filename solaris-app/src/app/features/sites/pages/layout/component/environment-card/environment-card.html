@@ -44,7 +44,7 @@
           [icon]="'co2'" 
           [data]="item6()"
           [title]="title6()" 
-          [value]="(item6()?.Value | number: '1.0-1') || '---'" 
+          [value]="(item6()?.Value / 1000 | number: '1.0-1') || '---'" 
           [unit]="item6()?.Unit || ''"></app-polygon-card>
      </div>
 </div>

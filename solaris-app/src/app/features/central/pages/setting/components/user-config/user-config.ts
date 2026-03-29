@@ -2,7 +2,7 @@ import { Component, inject, OnInit, output, signal } from '@angular/core';
 import { UserDataModel } from '../../../../../../shared/models/user.model';
 import { PageDataModel } from '../../../../../../shared/models/page.model';
 import { NotificationConfig } from '../notification-config/notification-config';
-import { SiteModel } from '../../../../../../shared/models/config.model';
+import { SiteModel, SiteStateModel } from '../../../../../../shared/models/config.model';
 import { Store } from '@ngrx/store';
 import { FloatingDialogService } from '../../../../../../shared/pipes/floating-dialog.service';
 import { HttpService } from '../../../../../../shared/services/http.service';
@@ -29,6 +29,8 @@ export class UserConfig implements OnInit {
   availablePages: PageDataModel[] = [];
 
   siteList = signal<SiteModel[]>([]);
+  
+  userRole = signal<string>('user');
 
   addUserEvent = output<null>();
   editUserEvent = output<UserDataModel>();
@@ -43,11 +45,11 @@ export class UserConfig implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.select(getZoneConfig('CENTRAL1')).subscribe(zone => {
-      if (zone) {
-        this.siteList.set(zone.siteList);
-      }
-    });
+    const role = localStorage.getItem('role');
+    if(role){
+      this.userRole.set(role);
+    }
+    this.getSiteConfig();
     this.initializeUserData();
   }
 
@@ -59,6 +61,16 @@ export class UserConfig implements OnInit {
       this.users.set([]);
     }
     this.availablePages = this.pgService.getPageList();
+  }
+
+  async getSiteConfig(){
+    const config: SiteStateModel = await this.service.getConfig2('assets/sitelist.json');
+    if(config){
+      const zonselected = config.zoneList.map(x => x.siteList).flat(1);
+      if(zonselected){
+        this.siteList.set(zonselected);
+      }
+    }
   }
 
   openAddUserModal(): void {

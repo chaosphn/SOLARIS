@@ -17,7 +17,7 @@ export interface PvPanelModel{
     id: string;
     width: string;
     height: string;
-    transform: string;
+    d: string;
     fill: string;
     average?: number;
     percentage?: number;

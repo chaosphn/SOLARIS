@@ -1,6 +1,6 @@
 <div class="container w-100 h-100">
     <div class="w-100 h-100 table-container ">
-        @if (dataTable() && pageList.length > 0) {
+        @if (dataTable()) {
             <table class="table w-100 bz" >
                 <thead class="fixed">
                     <tr class=" w-100 bz" >
@@ -15,18 +15,19 @@
                         }
                     </tr>
                 </thead>
-                @for (t of dataTable()[0].records; track $index; let i = $index;) {
+                @for (t of timestampList; track $index; let i = $index;) {
                     <tr class="w-100 bz" >
-                        <td class="row bz">{{convertDate(t.TimeStamp)}}</td>
-                        @for (d of dataTable(); track $index) {
-                            <td class="row brd" >{{d.records[i].Value | numberFomat: '1.0-1'}}</td>
+                        <td class="row bz">{{convertDate(t)}}</td>
+                        @for (d of dataTable(); track $index; let j = $index;) {
+                            <!-- <td class="row brd" >{{d.records[i].Value | numberFomat: '1.0-1'}}</td> -->
+                            <td class="row brd" >{{getDataValue(d.Name, t) | numberFomat: '1.0-1'}}</td>
                         }
                     </tr>
                 }
             </table>
         }
     </div>
-    @if (dataTable() && pageList.length > 0) {
+    @if (dataTable()) {
         <div class="w-100 bz paginator-bar d-flex-ct">
             <div class="d-flex bz paginator">
                 <button class="nav-icon d-flex-ct h-100 bz"  (click)="getBackRange()">

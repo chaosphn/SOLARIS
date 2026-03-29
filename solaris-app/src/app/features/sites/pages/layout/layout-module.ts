@@ -6,6 +6,7 @@ import { Layout } from './layout';
 import { ShareModule } from '../../../../shared/shared.module';
 import { EnvironmentCard } from './component/environment-card/environment-card';
 import { PowerConsumption } from './component/power-consumption/power-consumption';
+import { ChartsModule } from '../../../../shared/chart.module';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { PowerConsumption } from './component/power-consumption/power-consumptio
   imports: [
     CommonModule,
     ShareModule,
+    ChartsModule,
     LayoutRoutingModule
   ]
 })

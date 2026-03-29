@@ -2,7 +2,9 @@
   <div class="head bz">
     <div class="topic bz">USERS CONFIGURATION</div>
     <div class="btn-group">
-      <button class="bz" (click)="openAddUserModal()">ADD USER</button>
+      @if (userRole() === 'administrator') {
+        <button class="bz" (click)="openAddUserModal()">ADD USER</button>
+      }
       <!-- <button class="bz" (click)="saveUserChanges()">SAVE CHANGE</button> -->
     </div>
   </div>
@@ -46,12 +48,14 @@
                 </div>
               </td>
               <td class="action-cell">
-                <button class="action-btn edit-btn" (click)="openEditUserModal(user)">
-                  <i class="material-icons">edit</i>
-                </button>
-                <button class="action-btn delete-btn" (click)="confirmDeleteUser(user._id)">
-                  <i class="material-icons">delete</i>
-                </button>
+                @if (userRole() === 'administrator') {
+                  <button class="action-btn edit-btn" (click)="openEditUserModal(user)">
+                    <i class="material-icons">edit</i>
+                  </button>
+                  <button class="action-btn delete-btn" (click)="confirmDeleteUser(user._id)">
+                    <i class="material-icons">delete</i>
+                  </button>
+                }
               </td>
             </tr>
           }

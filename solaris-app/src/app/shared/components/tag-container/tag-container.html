@@ -81,7 +81,7 @@
                                <div class="w-100 alias bz">
                                     <div class="d-flex item-box" style="column-gap: 12px;">
                                         <label class="containers ">
-                                            <input type="checkbox" [checked]="eqp.status" type="checkbox" [value]="false" required (change)="selectParameter(eqp, $event)">
+                                            <input type="checkbox" [checked]="eqp.status" type="checkbox" [value]="false" required (change)="selectParameter(eqp, '', item.name, $event)">
                                             <div class="checkmark"></div>
                                         </label>
                                         <div [ngClass]="eqp.status ? 'active-label bz' : 'label bz'" ><span>{{eqp.name}}</span></div>
@@ -107,7 +107,7 @@
                                         <div  [ngClass]="eqp.status ? 'w-100 bz alias bz' : 'hide bz'" >
                                             <div class="d-flex item-box" style="column-gap: 12px;">
                                                 <label class="containers ">
-                                                    <input type="checkbox" [checked]="i.status" type="checkbox" [value]="false" required (change)="selectParameter(i, $event)">
+                                                    <input type="checkbox" [checked]="i.status" type="checkbox" [value]="false" required (change)="selectParameter(i, eqp.name, item.name, $event)">
                                                     <div class="checkmark"></div>
                                                 </label>
                                                 <div [ngClass]="i.status ? 'active-label bz' : 'label bz'" ><span>{{i.name}}</span></div>

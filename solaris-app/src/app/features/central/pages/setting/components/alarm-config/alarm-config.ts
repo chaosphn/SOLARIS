@@ -4,7 +4,7 @@ import { AlarmTag } from '../../../../models/billing.model';
 import { getZoneConfig } from '../../../../../../store/selectors/site.selectors';
 import { PagesService } from '../../../../../../shared/services/pages.service';
 import { HttpService } from '../../../../../../shared/services/http.service';
-import { SiteModel } from '../../../../../../shared/models/config.model';
+import { SiteModel, SiteStateModel } from '../../../../../../shared/models/config.model';
 import { Store } from '@ngrx/store';
 import { FloatingDialogService } from '../../../../../../shared/pipes/floating-dialog.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -41,6 +41,8 @@ export class AlarmConfig implements OnInit {
 
   tabMode: 'user' | 'notification' | 'alarm' = 'user';
 
+  userRole = signal<string>('user');
+
   siteList = signal<SiteModel[]>([]);
   private store = inject(Store);
   private dialog = inject(FloatingDialogService);
@@ -51,13 +53,28 @@ export class AlarmConfig implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.select(getZoneConfig('CENTRAL1')).subscribe(zone => {
-      if (zone) {
-        this.siteList.set(zone.siteList);
-      }
-    });
+    // this.store.select(getZoneConfig('CENTRAL1')).subscribe(zone => {
+    //   if (zone) {
+    //     this.siteList.set(zone.siteList);
+    //   }
+    // });
+    const role = localStorage.getItem('role');
+    if(role){
+      this.userRole.set(role);
+    }
+    this.getSiteConfig();
     this.getAlarmEventData();
     this.getNotificationData();
+  }
+
+  async getSiteConfig(){
+    const config: SiteStateModel = await this.service.getConfig2('assets/sitelist.json');
+    if(config){
+      const zonselected = config.zoneList.map(x => x.siteList).flat(1);
+      if(zonselected){
+        this.siteList.set(zonselected);
+      }
+    }
   }
 
   async getAlarmEventData(){

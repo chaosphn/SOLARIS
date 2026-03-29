@@ -21,6 +21,7 @@ export class PanelLayout implements OnInit {
   selectedString: string = '';
   hoverString: string | null = null;
   currentPanelIndex: number = 0;
+  isReady = false;
 
   constructor(){
     effect(() => {
@@ -40,6 +41,10 @@ export class PanelLayout implements OnInit {
   }
 
   handleProvinceClick = (provinceId: string, group: string) => {
+    if(!group.includes('INV')){
+      return;
+    };
+
     if(this.selectedGroup == group) {
       this.selectedString = '';
       this.selectedGroup = '';
@@ -58,7 +63,7 @@ export class PanelLayout implements OnInit {
     this.hoverString = provinceId;
   };
 
-  getProvinceStyle = (provinceId: string, group: string) => {
+  getProvinceStyle = (provinceId: string, group: string, pr: number | undefined) => {
     const isSelected = this.selectedString === provinceId || this.selectedGroup === group;
     const isHovered = this.hoverString === provinceId;
     if (isSelected) {
@@ -70,15 +75,14 @@ export class PanelLayout implements OnInit {
       };
     } else if (isHovered) {
       return {
-        //fill: '#005F60',
+        fill: group.includes('INV') ? this.getPanelColor(pr) : 'var(--map-bg)',
         stroke: 'white',
         strokeWidth: '2',
         cursor: 'pointer'
       };
     } else {
       return {
-        // fill: 'var(--map-bg)',
-        // strokeWidth: '5',
+        fill: group.includes('INV') ? this.getPanelColor(pr) : 'var(--map-bg)',
         opacity: 0.9,
         strokeWidth: '0',
         cursor: 'pointer'
@@ -142,10 +146,10 @@ export class PanelLayout implements OnInit {
         return res.color;
       } else {
         const res = this.colors().find(x => pr >= x.minimum && pr < x.maximum);
-        return res ? res.color : 'var(--map-bg)';
+        return res ? res.color : 'var(--map-hover)';
       }
     } else {
-      return 'var(--map-bg)';
+      return 'var(--map-hover)';
     }
   }
 
@@ -174,7 +178,10 @@ export class PanelLayout implements OnInit {
   }
   
   getLabel(inv: string, str: string) {
-    return `${inv} : STRING ${str.split('_').find(x => x.includes('STR'))?.replaceAll('STR', '')} : ${this.dataRealtime()[str]?.Value} A`;
+    if(!inv.toLowerCase().includes('inverter')){
+      return inv;
+    }
+    return `${inv} : STRING ${str.split('_').find(x => x.includes('STR'))?.replaceAll('STR', '')} : ${this.dataRealtime()[str]?.Value??'---'} A`;
   }
 
   isSelectedGreoup(id: string) {
@@ -259,6 +266,7 @@ export class PanelLayout implements OnInit {
 
   // Navigation methods for changing displayPanel
   navigateToPrevious() {
+    this.isReady = false;
     if (this.panels() && this.panels().length > 0) {
       this.currentPanelIndex = this.currentPanelIndex > 0 
         ? this.currentPanelIndex - 1 
@@ -270,6 +278,7 @@ export class PanelLayout implements OnInit {
   }
 
   navigateToNext() {
+    this.isReady = false;
     if (this.panels() && this.panels().length > 0) {
       this.currentPanelIndex = this.currentPanelIndex < this.panels().length - 1 
         ? this.currentPanelIndex + 1 
@@ -308,7 +317,7 @@ export class PanelLayout implements OnInit {
             ...x,
             average: avg??0,
             value: val,
-            percentage: (val/avg)*100
+            percentage: x.id.includes('STR') ? (val/avg)*100 : undefined
           }
         });
         return {
@@ -338,6 +347,21 @@ export class PanelLayout implements OnInit {
                 && y.percentage < c.maximum 
               ).length
       }
-    })
+    });
   };
+
+  getCenterTransform(id: string) {
+    const el: any = document.getElementById(id);
+    if (!el) return '';
+
+    const box = el.getBBox();
+
+    const centerX = box.x + box.width / 2;
+    const centerY = box.y + box.height / 2;
+
+    const svgCenterX = 1234 / 2;
+    const svgCenterY = (681 / 2) + 40;
+    this.isReady = true;
+    return `translate(${svgCenterX - centerX}, ${svgCenterY - centerY})`;
+  }
 }

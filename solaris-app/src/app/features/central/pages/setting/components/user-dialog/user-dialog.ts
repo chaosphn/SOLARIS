@@ -1,6 +1,6 @@
 import { Component, inject, input, OnInit, output, signal } from '@angular/core';
 import { User } from '../../../../models/billing.model';
-import { SiteModel } from '../../../../../../shared/models/config.model';
+import { SiteModel, SiteStateModel } from '../../../../../../shared/models/config.model';
 import { Store } from '@ngrx/store';
 import { getZoneConfig } from '../../../../../../store/selectors/site.selectors';
 import { ChnagePasswordRequestModel, UserDataModel } from '../../../../../../shared/models/user.model';
@@ -32,16 +32,28 @@ export class UserDialog implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.select(getZoneConfig('CENTRAL1')).subscribe(zone => {
-      if (zone) {
-        this.siteList.set(zone.siteList);
-      }
-    });
+    // this.store.select(getZoneConfig('CENTRAL1')).subscribe(zone => {
+    //   if (zone) {
+    //     this.siteList.set(zone.siteList);
+    //   }
+    // });
+    
+    this.getSiteConfig();
     this.initializeMockData();
   }
 
   initializeMockData(): void {
     
+  }
+
+  async getSiteConfig(){
+    const config: SiteStateModel = await this.service.getConfig2('assets/sitelist.json');
+    if(config){
+      const zonselected = config.zoneList.map(x => x.siteList).flat(1);
+      if(zonselected){
+        this.siteList.set(zonselected);
+      }
+    }
   }
 
   // User Management Methods

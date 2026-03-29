@@ -45,6 +45,7 @@ export class Navbar implements OnInit, OnDestroy {
   seachText: string = '';
   zoneSelected: string = 'OVERVIEW';
   user: string | undefined = '';
+  role: string | undefined = '';
   sub1?: Subscription;
   dateStateSubscription?: Subscription;
   navStateSubscription?: Subscription;
@@ -110,6 +111,7 @@ export class Navbar implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.user = localStorage.getItem('user') || '---';
+    this.role = localStorage.getItem('role') || '---';
     const theme = localStorage.getItem('theme');
     if(theme){
       this.mode.set(theme as 'dark' | 'light');
@@ -165,12 +167,23 @@ export class Navbar implements OnInit, OnDestroy {
   }
 
   async getSiteConfig(){
+    const storeData = localStorage.getItem('sites');
+    const avaiableSites: string[] = storeData ? JSON.parse(storeData) : [];
     const config: SiteStateModel = await this.http.getConfig2('assets/sitelist.json');
     if(config){
-      this.siteConfig.set(config);
-      this.store.dispatch(setSite({payload: config}));
-      if(config && config.zoneList.length == 1){
-        const zonselected = config.zoneList[0];
+      const filterSite: SiteStateModel = {
+        ...config,
+        zoneList: config.zoneList.map(x => {
+          return {
+            ...x,
+            siteList: x.siteList.filter(y => avaiableSites.includes(y.id))
+          }
+        })
+      }
+      this.siteConfig.set(filterSite);
+      this.store.dispatch(setSite({payload: filterSite}));
+      if(filterSite && filterSite.zoneList.length == 1){
+        const zonselected = filterSite.zoneList[0];
         this.zoneList.set(zonselected);
         this.store.dispatch(addState({
           payload: {

@@ -32,7 +32,7 @@
         },
         {
           "Title": "INSOLUTION",
-          "Tagname": "KKB.CALC.INSOLUTION"
+          "Tagname": "KKB.CALC.PYRANO_TODAY"
         },
         {
           "Title": "AMBTEMP",
@@ -44,7 +44,7 @@
         },
         {
           "Title": "WIND",
-          "Tagname": "KKB.WX01.WIND_SPD"
+          "Tagname": "KKB.CALC.WIND_SPD"
         },
         {
           "Title": "REDUCTION",
@@ -2824,7 +2824,7 @@
       "Tags": [
         {
           "Title": "CHART01_POWER",
-          "Tagname": "KKB.CALC.POWER",
+          "Tagname": "KKB.CALC.W",
           "Options": {
             "Time": "t",
             "Interval": 0,
@@ -2877,7 +2877,7 @@
           }
         },
         {
-          "name": "KKB.CALC.POWER",
+          "name": "KKB.CALC.W",
           "title": "POWER*kW",
           "options": {
             "yAxis": 1,

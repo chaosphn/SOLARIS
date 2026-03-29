@@ -3,7 +3,7 @@
         "name": "POWER METERS",
         "equipments": [
             {
-                "name": "PQM1"
+                "name": "PQM01"
             }
         ],
         "parameters": [
@@ -44,14 +44,14 @@
             },
             {
                 "name": "WH_NEG",
-                "scale": "WH_NEG",
+                "scale": "WH",
                 "uom": "kWh",
                 "dp": 0,
                 "factor": 1
             },
             {
                 "name": "WH_POS",
-                "scale": "WH_POS",
+                "scale": "WH",
                 "uom": "kWh",
                 "dp": 0,
                 "factor": 1
@@ -59,28 +59,28 @@
             {
                 "name": "VAR",
                 "scale": "VAR",
-                "uom": "kvar",
+                "uom": "kVar",
                 "dp": 1,
                 "factor": 1
             },
             {
                 "name": "VARH",
                 "scale": "VARH",
-                "uom": "kVArh",
+                "uom": "kVarh",
                 "dp": 0,
                 "factor": 1
             },
             {
                 "name": "VARH_NEG",
-                "scale": "VARH_NEG",
-                "uom": "kVArh",
+                "scale": "VARH",
+                "uom": "kVarh",
                 "dp": 0,
                 "factor": 1
             },
             {
-                "name": "WH_POS",
-                "scale": "WH_POS",
-                "uom": "kVArh",
+                "name": "VARH_POS",
+                "scale": "VARH",
+                "uom": "kVarh",
                 "dp": 0,
                 "factor": 1
             },
@@ -159,15 +159,399 @@
         "parameters": [
             {
                 "name": "WAC",
-                "scale": "WAC",
-                "dp": 0,
+                "scale": "W",
+                "uom": "kW",
+                "dp": 1,
                 "factor": 1
             },
             {
-                "name": "WH",
-                "scale": "WH",
-                "dp": 0,
+                "name": "WACA",
+                "scale": "W",
+                "uom": "kW",
+                "dp": 1,
                 "factor": 1
+            },
+            {
+                "name": "WACB",
+                "scale": "W",
+                "uom": "kW",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WACC",
+                "scale": "W",
+                "uom": "kW",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VAR",
+                "scale": "VAR",
+                "uom": "kVar",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VARA",
+                "scale": "VAR",
+                "uom": "kVar",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VARB",
+                "scale": "VAR",
+                "uom": "kVar",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VARC",
+                "scale": "VAR",
+                "uom": "kVar",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VA",
+                "scale": "VA",
+                "uom": "kVA",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VAA",
+                "scale": "VA",
+                "uom": "kVA",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VAB",
+                "scale": "VA",
+                "uom": "kVA",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VAC",
+                "scale": "VA",
+                "uom": "kVA",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VACA",
+                "scale": "V",
+                "uom": "V",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VACB",
+                "scale": "V",
+                "uom": "V",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VACC",
+                "scale": "V",
+                "uom": "V",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACA",
+                "scale": "I",
+                "uom": "A",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACB",
+                "scale": "I",
+                "uom": "A",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACC",
+                "scale": "I",
+                "uom": "A",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "PF",
+                "scale": "PF",
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "HZ",
+                "scale": "HZ",
+                "dp": 2,
+                "factor": 1
+            },
+
+            {
+                "name": "WH_IMPORT",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY IMPORT"
+            },
+            {
+                "name": "WH_IMPORT_R1",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY IMPORT"
+            },
+            {
+                "name": "WH_IMPORT_R2",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY IMPORT"
+            },
+            {
+                "name": "WH_IMPORT_R3",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY IMPORT"
+            },
+            {
+                "name": "WH_IMPORT_BILL",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY IMPORT"
+            },
+            {
+                "name": "WH_IMPORT_BILL_R1",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY IMPORT"
+            },
+            {
+                "name": "WH_IMPORT_BILL_R2",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY IMPORT"
+            },
+            {
+                "name": "WH_IMPORT_BILL_R3",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY IMPORT"
+            },
+            {
+                "name": "WH_IMPORT_PREV",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY IMPORT"
+            },
+            {
+                "name": "WH_IMPORT_PREV_R1",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY IMPORT"
+            },
+            {
+                "name": "WH_IMPORT_PREV_R2",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY IMPORT"
+            },
+            {
+                "name": "WH_IMPORT_PREV_R3",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY IMPORT"
+            },
+            {
+                "name": "WH_IMPORT_CURR",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY IMPORT"
+            },
+            {
+                "name": "WH_IMPORT_CURR_R1",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY IMPORT"
+            },
+            {
+                "name": "WH_IMPORT_CURR_R2",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY IMPORT"
+            },
+            {
+                "name": "WH_IMPORT_CURR_R3",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY IMPORT"
+            },
+
+            {
+                "name": "WH_EXPORT",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY EXPORT"
+            },
+            {
+                "name": "WH_EXPORT_R1",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY EXPORT"
+            },
+            {
+                "name": "WH_EXPORT_R2",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY EXPORT"
+            },
+            {
+                "name": "WH_EXPORT_R3",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY EXPORT"
+            },
+            {
+                "name": "WH_EXPORT_BILL",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY EXPORT"
+            },
+            {
+                "name": "WH_EXPORT_BILL_R1",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY EXPORT"
+            },
+            {
+                "name": "WH_EXPORT_BILL_R2",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY EXPORT"
+            },
+            {
+                "name": "WH_EXPORT_BILL_R3",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY EXPORT"
+            },
+            {
+                "name": "WH_EXPORT_PREV",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY EXPORT"
+            },
+            {
+                "name": "WH_EXPORT_PREV_R1",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY EXPORT"
+            },
+            {
+                "name": "WH_EXPORT_PREV_R2",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY EXPORT"
+            },
+            {
+                "name": "WH_EXPORT_PREV_R3",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY EXPORT"
+            },
+            {
+                "name": "WH_EXPORT_CURR",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY EXPORT"
+            },
+            {
+                "name": "WH_EXPORT_CURR_R1",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY EXPORT"
+            },
+            {
+                "name": "WH_EXPORT_CURR_R2",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY EXPORT"
+            },
+            {
+                "name": "WH_EXPORT_CURR_R3",
+                "scale": "WH",
+                "dp": 2,
+                "factor": 1,
+                "groupOrder": 6,
+                "groupName": "ENERGY EXPORT"
             }
         ]
     },
@@ -289,13 +673,6 @@
                 "factor": 1
             },
             {
-                "name": "YIELD",
-                "scale": "YIELD",
-                "uom": "kWh/kWp",
-                "dp": 1,
-                "factor": 1
-            },
-            {
                 "name": "DOWNTIME",
                 "scale": "DOWNTIME",
                 "uom": "",
@@ -319,7 +696,7 @@
             {
                 "name": "VAR",
                 "scale": "VAR",
-                "uom": "kvar",
+                "uom": "kVar",
                 "dp": 1,
                 "factor": 1
             },
@@ -391,6 +768,14 @@
                 "uom": "kW",
                 "dp": 1,
                 "factor": 1
+            },
+            {
+                "name": "ALL",
+                "scale": "IDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 1,
+                "groupName": "STRING CURRENT"
             },
             {
                 "name": "I01",
@@ -560,7 +945,14 @@
                 "groupOrder": 21,
                 "groupName": "STRING CURRENT"
             },
-
+            {
+                "name": "ALL",
+                "scale": "VDC",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 1,
+                "groupName": "STRING VOLTAGE"
+            },
             {
                 "name": "V01",
                 "scale": "VDC",
@@ -733,10 +1125,101 @@
         ]
     },
     {
+        "name": "SMART LOGGERS",
+        "equipments": [
+            {
+                "name": "ALL"
+            },
+            {
+                "name": "SLG01"
+            },
+            {
+                "name": "SLG02"
+            }
+        ],
+        "parameters": [
+            {
+                "name": "WAC",
+                "scale": "W",
+                "uom": "kW",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WDC",
+                "scale": "W",
+                "uom": "kW",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WH",
+                "scale": "WH",
+                "uom": "kWh",
+                "dp": 0,
+                "factor": 1
+            },
+            {
+                "name": "WH_TODAY",
+                "scale": "WH",
+                "uom": "kWh",
+                "dp": 0,
+                "factor": 1
+            },
+            {
+                "name": "VAR",
+                "scale": "VAR",
+                "uom": "kVar",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IDC",
+                "scale": "I",
+                "uom": "A",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACA",
+                "scale": "I",
+                "uom": "A",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACB",
+                "scale": "I",
+                "uom": "A",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACC",
+                "scale": "I",
+                "uom": "A",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "PF",
+                "scale": "PF",
+                "dp": 2,
+                "factor": 1
+            }
+        ]
+    },
+    {
         "name": "WEATHER",
         "equipments": [
             {
+                "name": "ALL"
+            },
+            {
                 "name": "WX01"
+            },
+            {
+                "name": "WX02"
             }
         ],
         "parameters": [
@@ -749,7 +1232,7 @@
             },
             {
                 "name": "IRR_TODAY",
-                "scale": "IRR_TODAY",
+                "scale": "IRR",
                 "uom": "kWh/m²",
                 "dp": 1,
                 "factor": 1
@@ -771,13 +1254,6 @@
             {
                 "name": "WIND_SPD",
                 "scale": "WIND_SPD",
-                "uom": "m/s",
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "WIND_DIR",
-                "scale": "WIND_DIR",
                 "uom": "m/s",
                 "dp": 1,
                 "factor": 1

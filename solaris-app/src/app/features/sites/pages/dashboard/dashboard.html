@@ -3,10 +3,10 @@
         <app-card-container [title]="'PLANT INFOMATION'">
             <ng-template #container>
                 <app-infomation-card
-                    [site]="'SINGHA KAMEDA'"
-                    [location]="'พญาไท แขวงวังใหม่ เขตปทุมวัน กรุงเทพมหานคร 10400'"
-                    [capacity]="'1,1400 kWp'"
-                    [cod]="'16 September 2025'"
+                    [site]="siteInfomation().name"
+                    [location]="siteInfomation().location"
+                    [capacity]="siteInfomation().capacity + ' MWp'"
+                    [cod]="'---'"
                 ></app-infomation-card>
             </ng-template>
         </app-card-container>

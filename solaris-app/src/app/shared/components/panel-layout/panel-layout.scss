@@ -19,8 +19,8 @@
 }
 
 .card{
-    animation: cardFadeIn 0.8s ease-in-out backwards;
-    animation-delay: 0.2s;
+    // animation: cardFadeIn 0.8s ease-in-out backwards;
+    // animation-delay: 0.2s;
 }
 
 .inverter-summary-card {
@@ -176,7 +176,7 @@
 
 .grade-card {
     position: absolute;
-    top: 5px;
+    top: -5px;
     right: 5px;
     z-index: 15;
     background: var(--primary-bg);

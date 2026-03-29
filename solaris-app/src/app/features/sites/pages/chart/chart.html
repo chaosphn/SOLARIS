@@ -66,7 +66,7 @@
                         <div class="tables-group h-100 w-100 bz" >
                             <div class="table bz h-100">
                                 @if (responseHistorian().length > 0) {
-                                    <app-data-table [data]="responseHistorian()"></app-data-table>
+                                    <app-data-table [data]="responseHistorian()" [start]="startDate" [end]="endDate"></app-data-table>
                                 }
                             </div>
                         </div>
@@ -110,6 +110,7 @@
                 <app-tag-container
                     [tagConfig]="configTest()"
                     [siteName]="siteSelected()"
+                    (emitDate)="onDateChange($event)"
                     (emitResponse)="emitResponse($event)"
                     (isLoading)="onLoadingData($event)"
                     (clrDatas)="clearData()">

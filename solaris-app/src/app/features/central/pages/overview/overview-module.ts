@@ -8,7 +8,7 @@ import { PowerConsumsion } from './component/power-consumsion/power-consumsion';
 import { EnvironmentCard } from './component/environment-card/environment-card';
 import { MapConsumption } from './component/map-consumption/map-consumption';
 import { EnergyConsumption } from './component/energy-consumption/energy-consumption';
-import { ChartModule } from "angular-highcharts";
+import { ChartsModule } from '../../../../shared/chart.module';
 
 
 @NgModule({
@@ -23,7 +23,7 @@ import { ChartModule } from "angular-highcharts";
     CommonModule,
     OverviewRoutingModule,
     ShareModule,
-    ChartModule
+    ChartsModule
 ]
 })
 export class OverviewModule { }

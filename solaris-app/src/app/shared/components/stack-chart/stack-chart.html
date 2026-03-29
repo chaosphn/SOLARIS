@@ -25,6 +25,6 @@
     @if (!verLabel() && title()) {
         <div class="chartLabel bz ">{{ label() }}</div>
     } @else if (verLabel()) {
-        <div class="bz " [ngClass]="label() && label().length > 3 ? 'chartLabel1' : 'chartLabel2' " >{{ label() }}</div>
+        <div class="bz" [ngClass]="label() && label().length > 1 ? 'chartLabel1' : 'chartLabel2' " >{{ label() }}</div>
     }
   </div>

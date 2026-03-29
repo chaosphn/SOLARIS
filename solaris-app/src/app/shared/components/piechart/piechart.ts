@@ -1,9 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Chart } from 'angular-highcharts';
-import * as Highcharts from 'highcharts';
-import * as Highcharts3D from 'highcharts/highcharts-3d';
-Highcharts3D;
-
 
 export interface PlantStatusData {
   label: string;
@@ -22,9 +18,8 @@ export interface PlantStatusData {
 })
 export class Piechart implements OnInit, OnChanges {
   
-  Highcharts: typeof Highcharts = Highcharts; // Add this line
   chart?: Chart;
-  ref?: Highcharts3D.default.Chart;
+  //ref?: Highcharts3D.default.Chart;
   @Input() vertical?: boolean = false;
   @Input() high?: number = 120;
   @Input() enable3D?: boolean = true;
@@ -151,7 +146,7 @@ export class Piechart implements OnInit, OnChanges {
     
     if (this.chart && this.chart.ref$) {
       this.chart.ref$.subscribe(ref => {
-        this.ref = ref;
+        //this.ref = ref;
         this.changeDetectorRef.markForCheck();
       });
     }

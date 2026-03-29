@@ -3,7 +3,7 @@
         "name": "POWER METERS",
         "equipments": [
             {
-                "name": "PQM1"
+                "name": "PQM01"
             }
         ],
         "parameters": [
@@ -13,21 +13,45 @@
                 "width": "5.25rem"
             },
             {
-                "name": "MBFAIL",
-                "title": "MBFAIL",
-                "width": "5rem",
-                "sheets": [
-                    "overview"
-                ],
-                "type": "bad"
-            },
-            {
                 "name": "W",
                 "title": "W",
                 "uom": "kW",
                 "width": "5rem",
                 "sheets": [
                     "overview",
+                    "power & energy"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WACA",
+                "title": "WACA",
+                "uom": "kW",
+                "width": "5rem",
+                "sheets": [
+                    "power & energy"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WACB",
+                "title": "WACB",
+                "uom": "kW",
+                "width": "5rem",
+                "sheets": [
+                    "power & energy"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WACC",
+                "title": "WACC",
+                "uom": "kW",
+                "width": "5rem",
+                "sheets": [
                     "power & energy"
                 ],
                 "dp": 1,
@@ -46,12 +70,22 @@
                 "factor": 1
             },
             {
-                "name": "WH_TODAY",
-                "title": "WH\nTODAY",
+                "name": "WH_NEG",
+                "title": "WH\nNEGATIVE",
                 "uom": "kWh",
                 "width": "5.5rem",
                 "sheets": [
-                    "overview",
+                    "power & energy"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WH_POS",
+                "title": "WH\nPOSITIVE",
+                "uom": "kWh",
+                "width": "5.5rem",
+                "sheets": [
                     "power & energy"
                 ],
                 "dp": 1,
@@ -60,7 +94,7 @@
             {
                 "name": "VAR",
                 "title": "VAR",
-                "uom": "kvar",
+                "uom": "kVar",
                 "width": "4.25rem",
                 "sheets": [
                     "overview",
@@ -72,7 +106,7 @@
             {
                 "name": "VARH",
                 "title": "VARH",
-                "uom": "kVArh",
+                "uom": "kVarh",
                 "width": "6.5rem",
                 "sheets": [
                     "power & energy"
@@ -81,8 +115,30 @@
                 "factor": 1
             },
             {
-                "name": "V",
-                "title": "V",
+                "name": "VARH_NEG",
+                "title": "VARH\nNEGATIVE",
+                "uom": "kVarh",
+                "width": "6.5rem",
+                "sheets": [
+                    "power & energy"
+                ],
+                "dp": 0,
+                "factor": 1
+            },
+            {
+                "name": "VARH_POS",
+                "title": "VARH\nPOSITIVE",
+                "uom": "kVarh",
+                "width": "6.5rem",
+                "sheets": [
+                    "power & energy"
+                ],
+                "dp": 0,
+                "factor": 1
+            },
+            {
+                "name": "VACA",
+                "title": "VACA",
                 "uom": "V",
                 "width": "5rem",
                 "sheets": [
@@ -93,43 +149,10 @@
                 "factor": 1
             },
             {
-                "name": "V1",
-                "title": "V1",
+                "name": "VACB",
+                "title": "VACB",
                 "uom": "V",
                 "width": "5rem",
-                "sheets": [
-                    "v & i"
-                ],
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "V2",
-                "title": "V2",
-                "uom": "V",
-                "width": "5rem",
-                "sheets": [
-                    "v & i"
-                ],
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "V3",
-                "title": "V3",
-                "uom": "V",
-                "width": "5rem",
-                "sheets": [
-                    "v & i"
-                ],
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "I",
-                "title": "I",
-                "uom": "A",
-                "width": "4.25rem",
                 "sheets": [
                     "overview",
                     "v & i"
@@ -138,48 +161,48 @@
                 "factor": 1
             },
             {
-                "name": "I1",
-                "title": "I1",
-                "uom": "A",
-                "width": "4.25rem",
-                "sheets": [
-                    "v & i"
-                ],
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "I2",
-                "title": "I2",
-                "uom": "A",
-                "width": "4.25rem",
-                "sheets": [
-                    "v & i"
-                ],
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "I3",
-                "title": "I3",
-                "uom": "A",
-                "width": "4.25rem",
-                "sheets": [
-                    "v & i"
-                ],
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "HZ",
-                "title": "HZ",
-                "uom": "Hz",
-                "width": "4.25rem",
+                "name": "VACC",
+                "title": "VACC",
+                "uom": "V",
+                "width": "5rem",
                 "sheets": [
                     "overview",
-                    "hz & pf"
+                    "v & i"
                 ],
-                "dp": 2,
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACA",
+                "title": "IACA",
+                "uom": "A",
+                "width": "4.25rem",
+                "sheets": [
+                    "v & i"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACB",
+                "title": "IACB",
+                "uom": "A",
+                "width": "4.25rem",
+                "sheets": [
+                    "v & i"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACC",
+                "title": "IACC",
+                "uom": "A",
+                "width": "4.25rem",
+                "sheets": [
+                    "v & i"
+                ],
+                "dp": 1,
                 "factor": 1
             },
             {
@@ -188,12 +211,777 @@
                 "uom": "",
                 "width": "4.25rem",
                 "sheets": [
-                    "overview",
-                    "hz & pf"
+                    "overview"
                 ],
                 "dp": 2,
                 "factor": 1
             }
+        ]
+    },
+    {
+        "name": "SMART LOGGER",
+        "equipments": [
+            {
+                "name": "SLG01"
+            },
+            {
+                "name": "SLG02"
+            }
+        ],
+        "parameters": [
+            {
+                "name": "id",
+                "title": "NAME",
+                "width": "5.25rem"
+            },
+            {
+                "name": "WAC",
+                "title": "WAC",
+                "uom": "kW",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WDC",
+                "title": "WDC",
+                "uom": "kW",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VAR",
+                "title": "VAR",
+                "uom": "kVar",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACA",
+                "title": "IACA",
+                "uom": "A",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACB",
+                "title": "IACB",
+                "uom": "A",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACC",
+                "title": "IACC",
+                "uom": "A",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IDC",
+                "title": "IDC",
+                "uom": "A",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WH",
+                "title": "WH",
+                "uom": "kWh",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WH_TODAY",
+                "title": "WH\nTODAY",
+                "uom": "kWh",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "PF",
+                "title": "PF",
+                "uom": "",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "STATUS",
+                "title": "STATUS",
+                "uom": "",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            }
+        ]
+    },
+    {
+        "name": "EDMI METERS",
+        "equipments": [
+            {
+                "name": "EDMI01"
+            },
+            {
+                "name": "EDMI02"
+            },
+            {
+                "name": "EDMI03"
+            },
+            {
+                "name": "EDMI04"
+            },
+            {
+                "name": "EDMI05"
+            }
+        ],
+        "parameters": [
+            {
+                "name": "id",
+                "title": "NAME",
+                "width": "5.25rem"
+            },
+            {
+                "name": "WAC",
+                "title": "WAC",
+                "uom": "kW",
+                "width": "5rem",
+                "sheets": [
+                    "overview",
+                    "power & energy"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WACA",
+                "title": "WACA",
+                "uom": "kW",
+                "width": "5rem",
+                "sheets": [
+                    "power & energy"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WACB",
+                "title": "WACB",
+                "uom": "kW",
+                "width": "5rem",
+                "sheets": [
+                    "power & energy"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WACC",
+                "title": "WACC",
+                "uom": "kW",
+                "width": "5rem",
+                "sheets": [
+                    "power & energy"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT",
+                "title": "WH IMPORT",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "overview",
+                    "power & energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT",
+                "title": "WH EXPORT",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "overview",
+                    "power & energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "VAR",
+                "title": "VAR",
+                "uom": "kVar",
+                "width": "4.25rem",
+                "sheets": [
+                    "overview",
+                    "power & energy"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VARA",
+                "title": "VARA",
+                "uom": "kVar",
+                "width": "4.25rem",
+                "sheets": [
+                    "power & energy"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VARB",
+                "title": "VARB",
+                "uom": "kVar",
+                "width": "4.25rem",
+                "sheets": [
+                    "power & energy"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VARC",
+                "title": "VARC",
+                "uom": "kVar",
+                "width": "4.25rem",
+                "sheets": [
+                    "power & energy"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VA",
+                "title": "VA",
+                "uom": "kVA",
+                "width": "4.25rem",
+                "sheets": [
+                    "overview",
+                    "power & energy"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VAA",
+                "title": "VAA",
+                "uom": "kVA",
+                "width": "4.25rem",
+                "sheets": [
+                    "power & energy"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VAB",
+                "title": "VAB",
+                "uom": "kVA",
+                "width": "4.25rem",
+                "sheets": [
+                    "power & energy"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VAC",
+                "title": "VAC",
+                "uom": "kVA",
+                "width": "4.25rem",
+                "sheets": [
+                    "power & energy"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VACA",
+                "title": "VACA",
+                "uom": "V",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VACB",
+                "title": "VACB",
+                "uom": "V",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "VACC",
+                "title": "VACC",
+                "uom": "V",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACA",
+                "title": "IACA",
+                "uom": "A",
+                "width": "4.25rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACB",
+                "title": "IACB",
+                "uom": "A",
+                "width": "4.25rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "IACC",
+                "title": "IACC",
+                "uom": "A",
+                "width": "4.25rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "PF",
+                "title": "PF",
+                "uom": "",
+                "width": "4.25rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "HZ",
+                "title": "HZ",
+                "uom": "",
+                "width": "4.25rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT",
+                "title": "WH",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_R1",
+                "title": "WH RATE 1",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_R2",
+                "title": "WH RATE 2",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_R3",
+                "title": "WH RATE 3",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_BILL",
+                "title": "WH BILLING",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_BILL_R1",
+                "title": "WH BILLING\nRATE 1",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_BILL_R2",
+                "title": "WH BILLING\nRATE 2",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_BILL_R3",
+                "title": "WH BILLING\nRATE 3",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_PREV",
+                "title": "WH PREV.",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_PREV_R1",
+                "title": "WH PREV.\nRATE 1",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_PREV_R2",
+                "title": "WH PREV.\nRATE 2",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_PREV_R3",
+                "title": "WH PREV.\nRATE 3",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_CURR",
+                "title": "WH CURR.",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_CURR_R1",
+                "title": "WH CURR.\nRATE 1",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_CURR_R2",
+                "title": "WH CURR.\nRATE 2",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_CURR_R3",
+                "title": "WH CURR.\nRATE 3",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT",
+                "title": "WH",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_R1",
+                "title": "WH RATE 1",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_R2",
+                "title": "WH RATE 2",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_R3",
+                "title": "WH RATE 3",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_BILL",
+                "title": "WH BILLING",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_BILL_R1",
+                "title": "WH BILLING\nRATE 1",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_BILL_R2",
+                "title": "WH BILLING\nRATE 2",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_BILL_R3",
+                "title": "WH BILLING\nRATE 3",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_PREV",
+                "title": "WH PREV.",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_PREV_R1",
+                "title": "WH PREV.\nRATE 1",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_PREV_R2",
+                "title": "WH PREV.\nRATE 2",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_PREV_R3",
+                "title": "WH PREV.\nRATE 3",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_CURR",
+                "title": "WH CURR.",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_CURR_R1",
+                "title": "WH CURR.\nRATE 1",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_CURR_R2",
+                "title": "WH CURR.\nRATE 2",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_CURR_R3",
+                "title": "WH CURR.\nRATE 3",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            }
+
         ]
     },
     {
@@ -272,7 +1060,7 @@
             {
                 "name": "VAR",
                 "title": "VAR",
-                "uom": "kvar",
+                "uom": "kVar",
                 "width": "4.25rem",
                 "sheets": [
                     "overview",
@@ -282,8 +1070,8 @@
                 "factor": 1
             },
             {
-                "name": "VACAB",
-                "title": "VACAB",
+                "name": "VACA",
+                "title": "VACA",
                 "uom": "V",
                 "width": "4.25rem",
                 "sheets": [
@@ -293,8 +1081,8 @@
                 "factor": 1
             },
             {
-                "name": "VACBC",
-                "title": "VACBC",
+                "name": "VACB",
+                "title": "VACB",
                 "uom": "V",
                 "width": "4.25rem",
                 "sheets": [
@@ -304,8 +1092,8 @@
                 "factor": 1
             },
             {
-                "name": "VACCA",
-                "title": "VACCA",
+                "name": "VACC",
+                "title": "VACC",
                 "uom": "V",
                 "width": "4.25rem",
                 "sheets": [
@@ -388,483 +1176,540 @@
                 "uom": "kW",
                 "width": "4.25rem",
                 "sheets": [
-                    "overview",
-                    "dc"
+                    "overview"
                 ],
                 "dp": 1,
                 "factor": 1
             },
             {
-                "name": "VDC",
-                "title": "VDC",
+                "name": "TEMP_INT",
+                "title": "INTERNAL TEMP.",
                 "uom": "V",
                 "width": "4.25rem",
                 "sheets": [
-                    "overview",
-                    "dc"
+                    "overview"
                 ],
                 "dp": 1,
                 "factor": 1
             },
+            
             {
-                "name": "IDC",
-                "title": "IDC",
+                "name": "I01",
+                "title": "I01",
                 "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I02",
+                "title": "I02",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I03",
+                "title": "I03",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I04",
+                "title": "I04",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I05",
+                "title": "I05",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I06",
+                "title": "I06",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I07",
+                "title": "I07",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I08",
+                "title": "I08",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I09",
+                "title": "I09",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I10",
+                "title": "I10",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I11",
+                "title": "I11",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I12",
+                "title": "I12",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I13",
+                "title": "I13",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I14",
+                "title": "I14",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I15",
+                "title": "I15",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I16",
+                "title": "I16",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I17",
+                "title": "I17",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I18",
+                "title": "I18",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I19",
+                "title": "I19",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I20",
+                "title": "I20",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "I21",
+                "title": "I21",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING CURRENT"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            
+            {
+                "name": "V01",
+                "title": "V01",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V02",
+                "title": "V02",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V03",
+                "title": "V03",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V04",
+                "title": "V04",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V05",
+                "title": "V05",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V06",
+                "title": "V06",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V07",
+                "title": "V07",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V08",
+                "title": "V08",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V09",
+                "title": "V09",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V10",
+                "title": "V10",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V11",
+                "title": "V11",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V12",
+                "title": "V12",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V13",
+                "title": "V13",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V14",
+                "title": "V14",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V15",
+                "title": "V15",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V16",
+                "title": "V16",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V17",
+                "title": "V17",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V18",
+                "title": "V18",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V19",
+                "title": "V19",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V20",
+                "title": "V20",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "V21",
+                "title": "V21",
+                "uom": "A",
+                "width": "3.5rem",
+                "sheets": [
+                    "PV STRING VOLTAGE"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "DSTATUS",
+                "title": "STATUS",
+                "uom": "-",
                 "width": "4.25rem",
                 "sheets": [
-                    "overview",
-                    "dc"
+                    "STATUS"
                 ],
                 "dp": 1,
                 "factor": 1
-            },
-            {
-                "name": "X_ILOCK",
-                "title": "X\nILOCK",
-                "width": "5rem",
-                "sheets": [
-                    "status"
-                ],
-                "type": "run"
-            },
-            {
-                "name": "X_ONGRID",
-                "title": "X\nONGRID",
-                "width": "5rem",
-                "sheets": [
-                    "status"
-                ],
-                "type": "run"
-            },
-            {
-                "name": "X_REMOTE",
-                "title": "X\nREMOTE",
-                "width": "5rem",
-                "sheets": [
-                    "status"
-                ],
-                "type": "run"
-            },
-            {
-                "name": "X_SHUTDOW",
-                "title": "X\nSHUT\nDOWN",
-                "width": "5rem",
-                "sheets": [
-                    "status"
-                ],
-                "type": "run"
-            },
-            {
-                "name": "X_STANDBY",
-                "title": "X\nSTANDBY",
-                "width": "5rem",
-                "sheets": [
-                    "status"
-                ],
-                "type": "run"
-            },
-            {
-                "name": "RUN_TM",
-                "title": "RUN\nTM",
-                "uom": "hour",
-                "width": "5rem",
-                "sheets": [
-                    "status"
-                ],
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "TEMP_CAB1",
-                "title": "TEMP\nCAB1",
-                "uom": "°C",
-                "width": "4.25rem",
-                "sheets": [
-                    "status"
-                ],
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "TEMP_CAB2",
-                "title": "TEMP\nCAB2",
-                "uom": "°C",
-                "width": "4.25rem",
-                "sheets": [
-                    "status"
-                ],
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "TEMP_IGBT1",
-                "title": "TEMP\nIGBT1",
-                "uom": "°C",
-                "width": "4.25rem",
-                "sheets": [
-                    "status"
-                ],
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "TEMP_IGBT2",
-                "title": "TEMP\nIGBT2",
-                "uom": "°C",
-                "width": "4.25rem",
-                "sheets": [
-                    "status"
-                ],
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "TEMP_IGBT3",
-                "title": "TEMP\nIGBT3",
-                "uom": "°C",
-                "width": "4.25rem",
-                "sheets": [
-                    "status"
-                ],
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "TEMP_REACT1",
-                "title": "TEMP\nREACT1",
-                "uom": "°C",
-                "width": "4.25rem",
-                "sheets": [
-                    "status"
-                ],
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "TEMP_REACT2",
-                "title": "TEMP\nREACT2",
-                "uom": "°C",
-                "width": "4.25rem",
-                "sheets": [
-                    "status"
-                ],
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "F_ACSURGE",
-                "title": "AC\nSURGE",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_AMBTEMP_OVR",
-                "title": "AMBTEMP\nOVR",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_COMM",
-                "title": "COMM",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_DCBREAKER",
-                "title": "DC\nBREAKER",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_DCREVS",
-                "title": "DC\nREVS",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_DCSURGE",
-                "title": "DC\nSURGE",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_ENTRANCE",
-                "title": "ENTRANCE",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_FIREDAMPR",
-                "title": "FIRE\nDAMPR",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_GRID_REVSEQ",
-                "title": "GRID\nREVSEQ",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_GRIDFREQ_AB",
-                "title": "GRID\nFREQ\nAB",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_GRIDFREQ_HI",
-                "title": "GRID\nFREQ\nHI",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_GRIDFREQ_LO",
-                "title": "GRID\nFREQ\nLO",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_GRIDVOLT_AB",
-                "title": "GRID\nVOLT\nAB",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_GRIDVOLT_HI",
-                "title": "GRID\nVOLT\nHI",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_GRIDVOLT_LO",
-                "title": "GRID\nVOLT\nLO",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_IDC_OVR",
-                "title": "IDC\nOVR",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_ISLPROT",
-                "title": "ISLPROT",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_NETW",
-                "title": "NETW",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_OVERHEAT",
-                "title": "OVER\nHEAT",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_OVERLOAD",
-                "title": "OVER\nLOAD",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_PV_OVRVOLT",
-                "title": "PV\nOVRVOLT",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_PVISO_AB",
-                "title": "PVISO\nAB",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_PVISO_AB2",
-                "title": "PVISO\nAB2",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_REACT1_HITEMP",
-                "title": "REACT1\nHITEMP",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_REACT1_HITEMP_P",
-                "title": "REACT1\nHITEMP\nP",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_REACT2_HITEMP",
-                "title": "REACT2\nHITEMP",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_REACT2_HITEMP_P",
-                "title": "REACT2\nHITEMP\nP",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_REACTIV_COMP",
-                "title": "REACTIV\nCOMP",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_SCRAM",
-                "title": "SCRAM",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_SHORTCIRC",
-                "title": "SHORT\nCIRC",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_SMOKE",
-                "title": "SMOKE",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_TFMR_HITEMP",
-                "title": "TFMR\nHITEMP",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_TFMR_HITEMP_P",
-                "title": "TFMR\nHITEMP\nP",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
-            },
-            {
-                "name": "F_VDC_OVR",
-                "title": "VDC\nOVR",
-                "width": "5rem",
-                "sheets": [
-                    
-                ],
-                "type": "bad"
             },
             {
                 "name": "FAULT",
                 "title": "FAULT",
-                "width": "5rem",
+                "uom": "-",
+                "width": "4.25rem",
                 "sheets": [
-                    
+                    "STATUS"
                 ],
-                "type": "bad"
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "ALARM1",
+                "title": "ALARM 1",
+                "uom": "-",
+                "width": "4.25rem",
+                "sheets": [
+                    "STATUS"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "ALARM2",
+                "title": "ALARM 2",
+                "uom": "-",
+                "width": "4.25rem",
+                "sheets": [
+                    "STATUS"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "ALARM3",
+                "title": "ALARM 3",
+                "uom": "-",
+                "width": "4.25rem",
+                "sheets": [
+                    "STATUS"
+                ],
+                "dp": 1,
+                "factor": 1
             }
         ]
     },
@@ -932,65 +1777,6 @@
                 "name": "WIND_SPD",
                 "title": "WIND SPEED",
                 "uom": "m/s",
-                "width": "5rem",
-                "sheets": [
-                    "overview"
-                ],
-                "dp": 1,
-                "factor": 1
-            }
-        ]
-    },
-    {
-        "name": "GATEWAYS",
-        "equipments": [
-            {
-                "name": "GTW01"
-            },
-            {
-                "name": "GTW02"
-            }
-        ],
-        "parameters": [
-            {
-                "name": "id",
-                "title": "NAME",
-                "width": "5.25rem"
-            },
-            {
-                "name": "STATUS",
-                "title": "STATUS",
-                "width": "5rem",
-                "sheets": [
-                    "overview"
-                ]
-            },
-            {
-                "name": "CPU",
-                "title": "CPU",
-                "uom": "%",
-                "width": "5rem",
-                "sheets": [
-                    "overview"
-                ],
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "NET",
-                "title": "NETWORK",
-                "uom": "Kbps",
-                "width": "5rem",
-                "sheets": [
-                    "overview"
-                ],
-                "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "DISK",
-                "title": "DISK SPACE",
-                "uom": "GB",
                 "width": "5rem",
                 "sheets": [
                     "overview"

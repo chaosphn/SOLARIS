@@ -49,8 +49,8 @@ export class Chart implements OnInit, OnDestroy {
   navSub?: Subscription;
   parameter: Property[] = [];
   siteSelected = signal<string>('');
-  startDate?: string;
-  endDate?: string;
+  startDate: string = '';
+  endDate: string = '';
   isChange: boolean = false;
   chartTag: DisplayTag[] = [];
   isCombinedChart: boolean = false;
@@ -385,6 +385,14 @@ export class Chart implements OnInit, OnDestroy {
       this.updateCombinedChart();
     } else {
       this.combinedChartParameter.set(null);
+    }
+  }
+
+  onDateChange(event: any){
+    if(event.type == 'start'){
+      this.startDate = event.value;
+    } else if(event.type == 'end'){
+      this.endDate = event.value;
     }
   }
 

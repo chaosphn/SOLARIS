@@ -2,9 +2,11 @@
   <div class="head bz">
     <div class="topic bz">ALARM CONFIGURATION</div>
     <div class="btn-group d-flex" style="gap: 8px">
-      <button class="bz" (click)="openDialog()">TAG BROWSE</button>
-      <button class="bz" (click)="openNewAlarmModal()">NEW ALARM</button>
-      <button class="bz" (click)="confirmSaveChanges()">SAVE CHANGE</button>
+      @if (userRole() === 'administrator') {
+        <button class="bz" (click)="openDialog()">TAG BROWSE</button>
+        <button class="bz" (click)="openNewAlarmModal()">NEW ALARM</button>
+        <button class="bz" (click)="confirmSaveChanges()">SAVE CHANGE</button>
+      }
     </div>
   </div>
 

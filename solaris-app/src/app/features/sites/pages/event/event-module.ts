@@ -6,6 +6,7 @@ import { ShareModule } from '../../../../shared/shared.module';
 import { Events } from './event';
 import { EventDetails } from './components/event-details/event-details';
 import { EventConsumption } from './components/event-consumption/event-consumption';
+import { ChartsModule } from '../../../../shared/chart.module';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { EventConsumption } from './components/event-consumption/event-consumpti
   imports: [
     CommonModule,
     ShareModule,
+    ChartsModule,
     EventRoutingModule
   ]
 })

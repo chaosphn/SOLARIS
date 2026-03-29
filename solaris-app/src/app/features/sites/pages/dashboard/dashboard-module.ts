@@ -9,6 +9,7 @@ import { InverterSummary } from './component/inverter-summary/inverter-summary';
 import { PowerConsumption } from './component/power-consumption/power-consumption';
 import { WeatherStation } from './component/weather-station/weather-station';
 import { DatePicker } from "primeng/datepicker";
+import { ChartsModule } from '../../../../shared/chart.module';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { DatePicker } from "primeng/datepicker";
   imports: [
     CommonModule,
     ShareModule,
+    ChartsModule,
     DashboardRoutingModule,
     DatePicker
 ]

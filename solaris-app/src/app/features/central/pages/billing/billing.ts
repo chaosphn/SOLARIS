@@ -67,7 +67,7 @@ export class Billing implements OnInit, OnDestroy {
   sessionId = signal<string>('');
   sessionData = signal<BillingSessionModel | null>(null);
 
-  userRole = signal<string>('administrator');
+  userRole = signal<string>('user');
 
   private http = inject(HttpService);
   private store = inject(Store);
@@ -93,6 +93,10 @@ export class Billing implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getConfig();
     //console.log(this.router.url);
+    const role = localStorage.getItem('role');
+    if(role){
+      this.userRole.set(role);
+    }
     const urlParts = this.router.url.split('/');
     const sessionId = urlParts[urlParts.length - 1];
     this.sessionId.set(sessionId);
@@ -329,6 +333,19 @@ export class Billing implements OnInit, OnDestroy {
       this.loading3.set(false);
     }
   };
+
+  checkIsNowMonth(){
+    const now = new Date();
+    const nM = now.getMonth();
+    const nY = now.getFullYear();
+    const sM = this.date.getMonth();
+    const sY = this.date.getFullYear();
+    if(nM === sM && nY === sY){
+      return true;
+    } else {
+      return false;
+    }
+  }
 
 }
 

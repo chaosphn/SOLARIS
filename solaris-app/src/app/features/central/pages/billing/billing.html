@@ -72,7 +72,7 @@
             @if (sessionId().length > 0 && sessionId() !== 'viewer') {
                 <button class="submit d-flex-ct brd h-100" (click)="confirmApproveBillingData()">{{ loading3() ? 'SENDING...' : 'APPROVE & SEND' }}</button>
             }
-            @if (userRole() === 'administrator') {
+            @if (userRole() === 'administrator' && checkIsNowMonth()) {
                 <button class="submit d-flex-ct brd h-100" (click)="generateReport()">{{ loading4() ? 'GENERATING...' : 'GENERATE' }}</button>
             }
             <button class="submit d-flex-ct brd h-100" (click)="selectReport()">{{ loading() ? 'LOADING...' : 'VIEW' }}</button>

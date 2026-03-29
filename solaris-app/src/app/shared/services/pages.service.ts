@@ -10,7 +10,7 @@ export class PagesService {
     {
       level: 'central',
       page: [ 
-        { name: 'Overview', path: 'overview' }, { name: 'Performance', path: 'performance' }, { name: 'Trends', path: 'trend' }, { name: 'Billings', path: 'billing' }
+        { name: 'Overview', path: 'overview' }, { name: 'Performance', path: 'performance' }, { name: 'Trends', path: 'trend' }, { name: 'TABULAR', path: 'tabular' }, { name: 'Events', path: 'events' }, { name: 'Billings', path: 'billing' }
         ,{ name: 'Report', path: 'reports' }, { name: 'Billing Admin', path: 'admin' }, { name: 'Report Admin', path: 'report-admin' }, { name: 'Settings', path: 'setting' }
       ]
     },
@@ -19,7 +19,7 @@ export class PagesService {
       page: [ 
         { name: 'Overview', path: 'layout' }, { name: 'Dashboard', path: 'dashboard' }, { name: 'Performance', path: 'efficiency' }
         ,{ name: 'Realtime', path: 'realtime' }, { name: 'Diagram', path: 'diagram' }, { name: 'Charts', path: 'charts' }
-        ,{ name: 'Events', path: 'event' }, { name: 'Report', path: 'report' }
+        ,{ name: 'Event', path: 'event' }, { name: 'Report', path: 'report' }
       ]
     }
   ];

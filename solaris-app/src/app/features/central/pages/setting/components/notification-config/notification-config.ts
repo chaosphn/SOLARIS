@@ -59,11 +59,17 @@ export class NotificationConfig implements OnInit {
   newCcAddress: string = '';
   newBccAddress: string = '';
 
+  userRole = signal<string>('user');
+
   private service = inject(HttpService);
   private store = inject(Store);
   private dialogs = inject(MatDialog);
 
   ngOnInit(): void {
+    const role = localStorage.getItem('role');
+    if(role){
+      this.userRole.set(role);
+    }
     this.getNotificationData();
   }
 

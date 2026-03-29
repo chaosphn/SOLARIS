@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+﻿import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FiltersitePipe } from './pipes/filtersite-pipe';
 import { MaterialModule } from '../core/module/material-module';
@@ -37,114 +37,32 @@ import { TagDialog } from './components/tag-dialog/tag-dialog';
 import { InverterDialog } from './components/inverter-dialog/inverter-dialog';
 import { MeterDialog } from './components/meter-dialog/meter-dialog';
 import { LastseenPipe } from './pipes/lastseen.pipe';
-import { ChartsModule } from './chart.module';
-
-export const MY_DATE_FORMATS = {
-  parse: {
-    dateInput: 'DD/MM/YYYY',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY',
-    monthLabel: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
+import { ShareModule } from './shared.module';
 
 
 @NgModule({
   declarations: [
-    FiltersitePipe,
-    NumberFomatPipe,
-    FilterTablePipe,
-    LastseenPipe,
-
-    DatePickers,
-    CardContainer,
-    CircleProgress,
-    PolygonCard,
-    StackChart,
-    // Piechart,
-    // Highchart,
-    PanelLayout,
-    //ChartCard,
-    TimeSelectComponent,
-    FilterTable,
-    TagContainer,
-    DataTable,
-    SkeletonBox,
-    TagDialog,
-    // InverterDialog,
-    // MeterDialog
     
+    Piechart,
+    Highchart,
+    ChartCard,
+    InverterDialog,
+    MeterDialog
   ],
   imports: [
-    FormsModule,
     CommonModule,
-    DragDropModule,
-    OverlayModule,
-    PortalModule,
-    MaterialModule,
-    DatePickerModule,
-    //ChartModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
-    Toast,
-
+    FormsModule,
+    ChartModule,
+    ShareModule,
   ],
   exports: [
-    MaterialModule,
-    Toast,
-
-    FiltersitePipe,
-    NumberFomatPipe,
-    FilterTablePipe,
-    LastseenPipe,
-
-    DatePickers,
-    CardContainer,
-    CircleProgress,
-    PolygonCard,
-    StackChart,
-    // Piechart,
-    // Highchart,
-    PanelLayout,
-    //ChartCard,
-    TimeSelectComponent,
-    FilterTable,
-    TagContainer,
-    DataTable,
-    SkeletonBox,
-    TagDialog,
-    // InverterDialog,
-    // MeterDialog
-    
+    Piechart,
+    Highchart,
+    ChartCard,
+    InverterDialog,
+    MeterDialog
   ],
   providers: [
-    MessageService, // Add MessageService provider here
-    provideAnimationsAsync(),
-    providePrimeNG({
-      theme: {
-        preset: Aura,
-      },
-    }),
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-    },
-    {
-      provide: MAT_DATE_FORMATS,
-      useFactory: () => ({
-        parse: { dateInput: 'DD/MM/YYYY' },
-        display: {
-          dateInput: 'DD/MM/YYYY',
-          monthYearLabel: 'MMM YYYY',
-          dateA11yLabel: 'LL',
-          monthYearA11yLabel: 'MMMM YYYY',
-        }
-      })
-    }
   ]
 })
-export class ShareModule { }
+export class ChartsModule { }

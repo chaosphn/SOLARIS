@@ -29,6 +29,7 @@ export class TagContainer implements OnChanges, OnDestroy {
   @Output() clrDatas = new EventEmitter();
   @Output() emitResponse = new EventEmitter();
   @Output() isLoading = new EventEmitter();
+  @Output() emitDate = new EventEmitter();
   tagsGroup = signal<GroupTags[]>([]);
 
   private dateTime = inject(Datetime);
@@ -68,6 +69,14 @@ export class TagContainer implements OnChanges, OnDestroy {
           }
         });
     }
+    this.emitDate.emit({
+      type: 'start',
+      value: this.startDate.toISOString()
+    });
+    this.emitDate.emit({
+      type: 'end',
+      value: this.endDate.toISOString()
+    });
   }
 
   ngOnDestroy(): void {
@@ -84,6 +93,10 @@ export class TagContainer implements OnChanges, OnDestroy {
     } else if(type == 'end'){
       this.endDate = event;
     }
+    this.emitDate.emit({
+      type: type,
+      value: event.toISOString()
+    })
   }
 
   getTagsGroup(): GroupTags[] {
@@ -190,9 +203,31 @@ export class TagContainer implements OnChanges, OnDestroy {
   //   this.tagsGroup.set(updated);
   // }
 
-  selectParameter(item: any, value: any){
-    //console.log(this.tagsGroup())
-    return item.status = value.currentTarget.checked;
+  selectParameter(item: any, paramName: string, groupName: string, value: any){
+    const checked = value.currentTarget.checked;
+    if(item.name === "ALL"){
+      if(paramName){
+        // "ALL" in alias of a parameter
+        const group = this.tagsGroup().find(g => g.name === groupName);
+        const param = group?.parameters.find(p => p.name === paramName);
+        if(param && param.alias){
+          param.alias.forEach(alias => alias.status = checked);
+        }
+      } else {
+        // "ALL" in main parameters
+        const group = this.tagsGroup().find(g => g.name === groupName);
+        if(group){
+          group.parameters.forEach(param => {
+            param.status = checked;
+            if(param.alias){
+              param.alias.forEach(alias => alias.status = checked);
+            }
+          });
+        }
+      }
+    } else {
+      item.status = checked;
+    }
   }
 
   ckeckParamStatus(name: string){
@@ -319,6 +354,14 @@ export class TagContainer implements OnChanges, OnDestroy {
         const rawData: ResponseHistorianModel[] = data;
         this.emitResponse.emit(rawData);
         this.btnLoadingState.set(false);
+         this.emitDate.emit({
+          type: 'start',
+          value: this.startDate.toISOString()
+        });
+        this.emitDate.emit({
+          type: 'end',
+          value: this.endDate.toISOString()
+        });
         this.isLoading.emit(false);
         return data;
       })

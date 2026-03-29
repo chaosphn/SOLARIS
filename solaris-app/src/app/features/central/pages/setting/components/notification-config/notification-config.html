@@ -2,8 +2,10 @@
   <div class="head bz">
     <div class="topic bz">NOTIFICATION CONFIGURATION</div>
     <div class="btn-group d-flex" style="gap: 8px">
-      <button class="bz" (click)="openNewNotificationModal()">NEW CHANNEL</button>
-      <button class="bz" (click)="saveChanges()">SAVE CHANGE</button>
+      @if (userRole() === 'administrator') {
+        <button class="bz" (click)="openNewNotificationModal()">NEW CHANNEL</button>
+        <button class="bz" (click)="saveChanges()">SAVE CHANGE</button>
+      }
     </div>
   </div>
 

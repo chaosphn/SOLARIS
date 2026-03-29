@@ -15,6 +15,8 @@ export class DataTable implements OnChanges {
   data = input([], {
     transform: (val:ResponseHistorianModel[]) => val.filter(x => x.records.length > 1).sort((a,b)=> a.Name.localeCompare(b.Name)),
   });
+  start = input<string>('');
+  end = input<string>('');
   dataTable = signal<ResponseHistorianModel[]>([]);
   pageList: string[] = [];
   tableRange:number = 20;
@@ -24,6 +26,7 @@ export class DataTable implements OnChanges {
   pageNumber: string = '1';
   //lastRange: number = -3; 
   recordHeader: any[] = [];
+  timestampList: string[] = [];
 
   private excelExportService = inject(ExportXls);
   private dateTimeSrv = inject(Datetime);
@@ -65,25 +68,31 @@ export class DataTable implements OnChanges {
     // })
   }
 
+  generateTimestampList(): string[] {
+    const startStr = this.start();
+    const endStr = this.end();
+    if (!startStr || !endStr) return [];
+    const startDate = new Date(startStr);
+    const endDate = new Date(endStr);
+    const list: string[] = [];
+    let current = new Date(startDate);
+    while (current <= endDate) {
+      list.push(current.toISOString());
+      current = new Date(current.getTime() + 60000); // 1 minute
+    }
+    return list;
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
-    //console.log(this.data())
+      console.log(this.data(), this.start(), this.end() )
       const data = this.data();
       if(data.length === 0) return; // Don't process if data is empty
       
-      //this.dataTable.set([]);
-      this.dataTable.set(
-        data.map(function(item){
-          return {
-            Name: item.Name,
-            Min: item.Min,
-            Max: item.Max,
-            Unit: item.Unit,
-            records: item.records.slice(0,20)
-          }
-        })
-      );
-      const lenght = data[0].records.length/this.tableRange;
-      this.pageList = Array(Math.ceil(lenght)).fill(0).map((_, i) => (i+1).toString());
+      this.dataTable.set(data);
+      const fullTimestamps = this.generateTimestampList();
+      this.timestampList = fullTimestamps.slice(0, this.tableRange);
+      const length = fullTimestamps.length / this.tableRange;
+      this.pageList = Array(Math.ceil(length)).fill(0).map((_, i) => (i+1).toString());
       this.recordHeader = [];
       this.dataTable().forEach(item => {
         let findName = this.recordHeader.find(x => x.name == item.Name.split(".")[1]);
@@ -96,7 +105,7 @@ export class DataTable implements OnChanges {
           })
         }
       });
-
+      console.log(this.timestampList, this.dataTable())
       this.tableRange = 20;
       this.pageNumber = "1";
   }
@@ -156,45 +165,20 @@ export class DataTable implements OnChanges {
     //console.log(value);
     this.tableRange = parseInt(value);
     this.pageNumber = "1";
-    const end = this.tableRange;
-    const lenght = this.data()[0].records.length/this.tableRange;
-    //console.log(lenght)
-    this.pageList = Array(Math.ceil(lenght)).fill(0).map((_, i) => (i+1).toString());
-    this.dataTable.set(
-      this.data().map(function(item){
-        return {
-          Name: item.Name,
-          Min: item.Min,
-          Max: item.Max,
-          Unit: item.Unit,
-          records: item.records.slice(0, end)
-        }
-      })
-    );
+    const fullTimestamps = this.generateTimestampList();
+    this.timestampList = fullTimestamps.slice(0, this.tableRange);
+    const length = fullTimestamps.length / this.tableRange;
+    this.pageList = Array(Math.ceil(length)).fill(0).map((_, i) => (i+1).toString());
   }
 
   getForwardRange(){
     if(parseInt(this.pageNumber) < this.pageList.length){
       const pg = parseInt(this.pageNumber) + 1;
       this.pageNumber = pg.toString();
+      const fullTimestamps = this.generateTimestampList();
+      const st = (pg - 1) * this.tableRange;
       const en = pg * this.tableRange;
-      const st = en - this.tableRange;
-      //console.log("pg : "+pg+"\ncheck : " + (this.prevStart + this.prevRange + 1))
-      if(pg == this.prevStart + this.prevRange + 1){
-        this.prevStart = parseInt(this.pageNumber) - 1;
-      }
-      //console.log("page : "+pg+"\nstartIndex : "+st+"\nendIndex : "+en)
-      this.dataTable.set(
-        this.data().map(function(item){
-          return {
-            Name: item.Name,
-            Min: item.Min,
-            Max: item.Max,
-            Unit: item.Unit,
-            records: item.records.slice(st, en)
-          }
-        })
-      );
+      this.timestampList = fullTimestamps.slice(st, en);
     }
   }
 
@@ -202,59 +186,25 @@ export class DataTable implements OnChanges {
     if(parseInt(this.pageNumber) > 1){
       const pg = parseInt(this.pageNumber) - 1;
       this.pageNumber = pg.toString();
+      const fullTimestamps = this.generateTimestampList();
+      const st = (pg - 1) * this.tableRange;
       const en = pg * this.tableRange;
-      const st = en - this.tableRange;
-      //console.log("pg : "+pg+"\ncheck : " + (this.prevStart))
-      if(pg == this.prevStart){
-        this.prevStart = parseInt(this.pageNumber) - 1;
-      }
-      //console.log("page : "+pg+"\nstartIndex : "+st+"\nendIndex : "+en)
-      this.dataTable.set(
-        this.data().map(function(item){
-          return {
-            Name: item.Name,
-            Min: item.Min,
-            Max: item.Max,
-            Unit: item.Unit,
-            records: item.records.slice(st, en)
-          }
-        })
-      );
+      this.timestampList = fullTimestamps.slice(st, en);
     }
   }
 
   goFirstPage(){
-    const end = this.tableRange;
-    this.prevStart = 1;
+    const fullTimestamps = this.generateTimestampList();
     this.pageNumber = "1";
-    this.dataTable.set(
-      this.data().map(function(item){
-        return {
-          Name: item.Name,
-          Min: item.Min,
-          Max: item.Max,
-          Unit: item.Unit,
-          records: item.records.slice(0, end)
-        }
-      })
-    );
+    this.timestampList = fullTimestamps.slice(0, this.tableRange);
   }
 
   goLastPage(){
-    const end = this.tableRange;
-    this.prevStart = this.pageList.length-4;
-    this.pageNumber = this.pageList[this.pageList.length-1];
-    this.dataTable.set(
-      this.data().map(function(item){
-        return {
-          Name: item.Name,
-          Min: item.Min,
-          Max: item.Max,
-          Unit: item.Unit,
-          records: item.records.slice((item.records.length - end), item.records.length)
-        }
-      })
-    );
+    const fullTimestamps = this.generateTimestampList();
+    const totalPages = Math.ceil(fullTimestamps.length / this.tableRange);
+    this.pageNumber = totalPages.toString();
+    const st = (totalPages - 1) * this.tableRange;
+    this.timestampList = fullTimestamps.slice(st);
   }
 
   goToPage(page: string){
@@ -263,20 +213,10 @@ export class DataTable implements OnChanges {
       alert("page not found !")
     } else {
       this.pageNumber = page;
+      const fullTimestamps = this.generateTimestampList();
+      const st = (pg - 1) * this.tableRange;
       const en = pg * this.tableRange;
-      const st = en - this.tableRange;
-      //console.log("startIndex : "+st+"\nendIndex : "+en)
-      this.dataTable.set(
-        this.data().map(function(item){
-          return {
-            Name: item.Name,
-            Min: item.Min,
-            Max: item.Max,
-            Unit: item.Unit,
-            records: item.records.slice(st, en)
-          }
-        })
-      );
+      this.timestampList = fullTimestamps.slice(st, en);
     }
   }
 
@@ -288,6 +228,15 @@ export class DataTable implements OnChanges {
     const date = this.dateTimeSrv.getDateTime1(new Date());
     //console.log(this.data());
     this.excelExportService.exportToExcel(this.data().filter(x => x.records.length > 0), 'exported_data_'+date.slice(0,10));
+  }
+
+  getDataValue(tag: string, ts: string){
+    const val = this.data().find(x => x.Name == tag)?.records?.find(x => x.TimeStamp == ts)?.Value;
+    if(val != null){
+      return val;
+    } else {
+      return '---';
+    }
   }
 
 }

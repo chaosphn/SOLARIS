@@ -33,18 +33,18 @@ export class PermissionGuard implements CanActivate {
       return true;
     }
 
-    // this.dialog.open(PermissionDialog, {
-    //   width: '480px',
-    //   disableClose: false,
-    //   panelClass: 'permission-dialog-panel',
-    //   data: {
-    //     routePath: routingUrl || 'ไม่ทราบ',
-    //     requiredPermission: routingUrl,
-    //     message: 'You do not have permission to access this page'
-    //   }
-    // });
+    this.dialog.open(PermissionDialog, {
+      width: '480px',
+      disableClose: false,
+      panelClass: 'permission-dialog-panel',
+      data: {
+        routePath: routingUrl || 'ไม่ทราบ',
+        requiredPermission: routingUrl,
+        message: 'You do not have permission to access this page'
+      }
+    });
     sessionStorage.removeItem('navigate');
-    return true//false;
+    return false;
   }
 
   private getUserPermissions(): string[] {
