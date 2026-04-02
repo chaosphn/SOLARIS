@@ -25,8 +25,12 @@
             "Tagname": "KKB.CALC.PR"
           },
           {
-            "Title": "OPR",
-            "Tagname": "KKB.CALC.OPR"
+            "Title": "PR_MONTH",
+            "Tagname": "KKB.CALC.PR_MONTH"
+          },
+          {
+            "Title": "AVAI",
+            "Tagname": "KKB.CALC.AVAI"
           }
         ]
       },
@@ -485,7 +489,7 @@
             }
           },
           {
-            "name": "KKB.CALC.POWER",
+            "name": "KKB.CALC.W",
             "title": "POWER*kW",
             "options": {
               "yAxis": 1,

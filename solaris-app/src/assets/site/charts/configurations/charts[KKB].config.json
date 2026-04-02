@@ -1259,5 +1259,52 @@
                 "factor": 1
             }
         ]
+    },
+    {
+        "name": "CALCULATION",
+        "equipments": [
+            {
+                "name": "CALC"
+            }
+        ],
+        "parameters": [
+            { "name": "PYRANO", "scale": "PYRANO", "uom": "W/m²", "dp": 1, "factor": 1, "groupOrder": 1, "groupName": "RESOURCE" },
+            { "name": "PYRANO_TODAY", "scale": "PYRANO", "uom": "W/m²", "dp": 1, "factor": 1, "groupOrder": 2, "groupName": "RESOURCE" },
+            { "name": "PVTEMP", "scale": "TEMP", "uom": "°C", "dp": 1, "factor": 1, "groupOrder": 3, "groupName": "RESOURCE" },
+            { "name": "WIND_SPD", "scale": "WIND_SPD", "uom": "m/s", "dp": 1, "factor": 1, "groupOrder": 4, "groupName": "RESOURCE" },
+            { "name": "AMBTEMP", "scale": "TEMP", "uom": "°C", "dp": 1, "factor": 1, "groupOrder": 5, "groupName": "RESOURCE" },
+            { "name": "W", "scale": "W", "uom": "kW", "dp": 1, "factor": 1, "groupOrder": 1, "groupName": "PRODUCTION" },
+            { "name": "W_EXPECT", "scale": "W", "uom": "kW", "dp": 1, "factor": 1, "groupOrder": 1, "groupName": "PRODUCTION" },
+            { "name": "W_PEAK", "scale": "W", "uom": "kW", "dp": 1, "factor": 1, "groupOrder": 2, "groupName": "PRODUCTION" },
+            { "name": "CAPACITY", "scale": "CAPACITY", "uom": "kW", "dp": 1, "factor": 1, "groupOrder": 3, "groupName": "PRODUCTION" },
+            { "name": "WH", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 1, "groupName": "ENERGY" },
+            { "name": "WH_HOUR", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 2, "groupName": "ENERGY" },
+            { "name": "WH_DAY", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 3, "groupName": "ENERGY" },
+            { "name": "WH_MONTH", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 4, "groupName": "ENERGY" },
+            { "name": "WH_YEAR", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 5, "groupName": "ENERGY" },
+            { "name": "WH_EXPECT", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 6, "groupName": "ENERGY" },
+            { "name": "WH_EXPECT_HOUR", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 7, "groupName": "ENERGY" },
+            { "name": "WH_EXPECT_DAY", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 8, "groupName": "ENERGY" },
+            { "name": "WH_EXPECT_MONTH", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 9, "groupName": "ENERGY" },
+            { "name": "WH_EXPECT_YEAR", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 10, "groupName": "ENERGY" },
+            { "name": "PR", "scale": "PR", "uom": "%", "dp": 2, "factor": 1, "groupOrder": 1, "groupName": "PERFORMANCE" },
+            { "name": "PR_HOUR", "scale": "PR", "uom": "%", "dp": 2, "factor": 1, "groupOrder": 2, "groupName": "PERFORMANCE" },
+            { "name": "PR_DAY", "scale": "PR", "uom": "%", "dp": 2, "factor": 1, "groupOrder": 3, "groupName": "PERFORMANCE" },
+            { "name": "PR_MONTH", "scale": "PR", "uom": "%", "dp": 2, "factor": 1, "groupOrder": 4, "groupName": "PERFORMANCE" },
+            { "name": "PR_YEAR", "scale": "PR", "uom": "%", "dp": 2, "factor": 1, "groupOrder": 5, "groupName": "PERFORMANCE" },
+            { "name": "YIELD", "scale": "YIELD", "uom": "kWh/kW", "dp": 2, "factor": 1, "groupOrder": 6, "groupName": "PERFORMANCE" },
+            { "name": "YIELD_DAY", "scale": "YIELD", "uom": "kWh/kW", "dp": 2, "factor": 1, "groupOrder": 7, "groupName": "PERFORMANCE" },
+            { "name": "YIELD_MONTH", "scale": "YIELD", "uom": "kWh/kW", "dp": 2, "factor": 1, "groupOrder": 8, "groupName": "PERFORMANCE" },
+            { "name": "YIELD_YEAR", "scale": "YIELD", "uom": "kWh/kW", "dp": 2, "factor": 1, "groupOrder": 9, "groupName": "PERFORMANCE" },
+            { "name": "RUNTIME", "scale": "RUNTIME", "uom": "h", "dp": 1, "factor": 1, "groupOrder": 1, "groupName": "AVAILABILITY" },
+            { "name": "DOWNTIME", "scale": "DOWNTIME", "uom": "h", "dp": 1, "factor": 1, "groupOrder": 2, "groupName": "AVAILABILITY" },
+            { "name": "AVAI", "scale": "AVAI", "uom": "%", "dp": 1, "factor": 1, "groupOrder": 3, "groupName": "AVAILABILITY" },
+            { "name": "STATUS", "scale": "STATUS", "uom": "", "dp": 0, "factor": 1, "groupOrder": 4, "groupName": "AVAILABILITY" },
+            { "name": "WH_LOSS", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 1, "groupName": "LOSS" },
+            { "name": "WH_LOSS_HOUR", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 2, "groupName": "LOSS" },
+            { "name": "WH_LOSS_DAY", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 3, "groupName": "LOSS" },
+            { "name": "WH_LOSS_MONTH", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 4, "groupName": "LOSS" },
+            { "name": "WH_LOSS_YEAR", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 5, "groupName": "LOSS" }
+        ]
     }
 ]

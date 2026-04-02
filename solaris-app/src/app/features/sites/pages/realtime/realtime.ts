@@ -341,7 +341,7 @@ export class Realtime implements OnInit, OnDestroy {
     if(val == null){
       val = "-1";
     }
-    const res = parseFloat(val.replaceAll(",",""));
+    const res = parseFloat(val);
     //console.log(res)
     if(res >= 0){
       return res;

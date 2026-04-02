@@ -1,8 +1,8 @@
 ﻿{
   "realtimeConfig": [
     {
-      "Group": "power",
-      "Order": 0,
+      "Group": "overview",
+      "Order": 3,
       "Tags": [
         {
           "Title": "POWER",
@@ -54,7 +54,7 @@
     },
     {
       "Group": "status",
-      "Order": 3,
+      "Order": 1,
       "Tags": [
         {
           "Title": "KKB_STATUS",

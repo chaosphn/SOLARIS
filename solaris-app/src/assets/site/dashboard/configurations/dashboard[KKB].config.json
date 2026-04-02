@@ -62,7 +62,7 @@
           },
           {
             "Title": "INSOLUTION",
-            "Tagname": "KKB.CALC.INSOLUTION"
+            "Tagname": "KKB.CALC.PYRANO_TODAY"
           },
           {
             "Title": "AMBTEMP",
@@ -74,7 +74,7 @@
           },
           {
             "Title": "WIND",
-            "Tagname": "KKB.CALC.WINDSPD"
+            "Tagname": "KKB.CALC.WIND_SPD"
           },
           {
             "Title": "REDUCTION",

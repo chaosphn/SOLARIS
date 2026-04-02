@@ -4,28 +4,28 @@
             <!-- Active Power -->
             <div class="metric-card">
                 <div class="metric-label">ACTIVE POWER</div>
-                <div class="metric-value" [matTooltip]="tooltipSrv.getTooltip(power())" matTooltipPosition="above">{{ power()?.Value | number: '1.0-0' }}</div>
+                <div class="metric-value" [matTooltip]="tooltipSrv.getTooltip(power())" matTooltipPosition="above">{{ power()?.Value | numberFomat: '1.0-0' }}</div>
                 <div class="metric-unit">{{ power()?.Unit || '-' }}</div>
             </div>
             
             <!-- Production -->
             <div class="metric-card">
                 <div class="metric-label">PRODUCTION</div>
-                <div class="metric-value" [matTooltip]="tooltipSrv.getTooltip(energy())" matTooltipPosition="above">{{ energy()?.Value | number: '1.0-2' }}</div>
+                <div class="metric-value" [matTooltip]="tooltipSrv.getTooltip(energy())" matTooltipPosition="above">{{ energy()?.Value | numberFomat: '1.0-2' }}</div>
                 <div class="metric-unit">{{ energy()?.Unit || '-' }}</div>
             </div>
             
             <!-- Today Yield -->
             <div class="metric-card">
                 <div class="metric-label">TODAY YIELD</div>
-                <div class="metric-value" [matTooltip]="tooltipSrv.getTooltip(yield())" matTooltipPosition="above">{{ yield()?.Value | number: '1.0-2' }}</div>
+                <div class="metric-value" [matTooltip]="tooltipSrv.getTooltip(yield())" matTooltipPosition="above">{{ yield()?.Value | numberFomat: '1.0-2' }}</div>
                 <div class="metric-unit">{{ yield()?.Unit || '-' }}</div>
             </div>
             
             <!-- Performance -->
             <div class="metric-card">
                 <div class="metric-label">PERFORMANCE</div>
-                <div class="metric-value" [matTooltip]="tooltipSrv.getTooltip(performance())" matTooltipPosition="above">{{ performance()?.Value | number: '1.0-1' }}</div>
+                <div class="metric-value" [matTooltip]="tooltipSrv.getTooltip(performance())" matTooltipPosition="above">{{ performance()?.Value | numberFomat: '1.0-1' }}</div>
                 <div class="metric-unit">{{ performance()?.Unit || '-' }}</div>
             </div>
         </div>

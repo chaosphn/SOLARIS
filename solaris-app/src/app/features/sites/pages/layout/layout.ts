@@ -114,6 +114,8 @@ export class Layout implements OnInit, OnDestroy {
     if(this.storeSub2){
       this.storeSub2.unsubscribe();
     }
+    this.navState$.subscribe().unsubscribe();
+    this.resetPage();
   }
 
   resetPage(){
@@ -152,6 +154,7 @@ export class Layout implements OnInit, OnDestroy {
     
     this.getRequest();
     await this.getData();
+    //console.log(this.dataRealtime());
     
     if(this.appInit.config.Timer){
       this.startTimer(this.appInit.config.Timer * 60000);
@@ -362,14 +365,16 @@ export class Layout implements OnInit, OnDestroy {
         const request = item.Request;
         const response:ResponseRealtimeModel[] = await this.http.getRealtime(request);
         if(response){
+          //console.log('Realtime response for', item.Group, response);
           response.map(data => {
             const conf = this.config().realtimeConfig.find(x => x.Group == item.Group)?.Tags.find(y => y.Tagname == data.Name && !y.Timestamp);
             if (conf) {
+              //console.log('Updating realtime data for', conf.Title, 'with value', data.Value);
               this.dataRealtime.update(val => ({
                 ...val,
                 [conf.Title]: {
                   ...data,
-                  Value: parseFloat(data.Value.toString().replaceAll(',', ''))
+                  Value: data.Value ? parseFloat(data.Value.toString().replaceAll(',', '')) : 0
                 }
               }));
             }
