@@ -3,15 +3,16 @@
     "Name": "String Inverter",
     "Type": "inverter",
     "Parameter": [
-        { "Title": "ALARM1", "Name": "ALARM1", "Description": "Active alarm code", "Unit": "-", "Group": "Status" },
+        { "Title": "ALARM1", "Name": "ALARM1", "Description": "Active alarm code 1", "Unit": "-", "Group": "Status" },
+        { "Title": "ALARM2", "Name": "ALARM2", "Description": "Active alarm code 2", "Unit": "-", "Group": "Status" },
+        { "Title": "ALARM3", "Name": "ALARM3", "Description": "Active alarm code 3", "Unit": "-", "Group": "Status" },
         { "Title": "DSTATUS", "Name": "DSTATUS", "Description": "Inverter operating status", "Unit": "-", "Group": "Status" },
-        { "Title": "FAULT", "Name": "FAULT", "Description": "Inverter internal status flag", "Unit": "-", "Group": "Status" },
-        { "Title": "RUN", "Name": "RUN", "Description": "Inverter run state (Start/Stop)", "Unit": "-", "Group": "Status" },
+        { "Title": "FAULT", "Name": "FAULT", "Description": "Inverter fault status", "Unit": "-", "Group": "Status" },
 
         { "Title": "WAC", "Name": "WAC", "Description": "Active power output", "Unit": "kW", "Group": "Major" },
         { "Title": "WH_TODAY", "Name": "WH_TODAY", "Description": "Daily energy production", "Unit": "kWh", "Group": "Major" },
         { "Title": "EFF", "Name": "EFF", "Description": "Inverter conversion efficiency", "Unit": "%", "Group": "Major" },
-        { "Title": "TEMP_INT", "Name": "TEMP_IGBT1", "Description": "Internal inverter temperature", "Unit": "°C", "Group": "Major" },
+        { "Title": "TEMP_INT", "Name": "TEMP_INT", "Description": "Internal inverter temperature", "Unit": "°C", "Group": "Major" },
 
         { "Title": "I01", "Name": "I01", "Description": "PV string 1 input current", "Unit": "A", "Group": "PV Input" },
         { "Title": "I02", "Name": "I02", "Description": "PV string 2 input current", "Unit": "A", "Group": "PV Input" },
@@ -66,9 +67,9 @@
         { "Title": "IACC", "Name": "IACC","Description": "Grid phase C current", "Unit": "A", "Group": "Grid Output" },
 
         { "Title": "VAC", "Name": "VAC", "Description": "Average grid voltage", "Unit": "V", "Group": "Grid Output" },
-        { "Title": "VACA", "Name": "VACAB", "Description": "Grid phase A voltage", "Unit": "V", "Group": "Grid Output" },
-        { "Title": "VACB", "Name": "VACBC", "Description": "Grid phase B voltage", "Unit": "V", "Group": "Grid Output" },
-        { "Title": "VACC", "Name": "VACCA", "Description": "Grid phase C voltage", "Unit": "V", "Group": "Grid Output" },
+        { "Title": "VACA", "Name": "VACA", "Description": "Grid phase A voltage", "Unit": "V", "Group": "Grid Output" },
+        { "Title": "VACB", "Name": "VACB", "Description": "Grid phase B voltage", "Unit": "V", "Group": "Grid Output" },
+        { "Title": "VACC", "Name": "VACC", "Description": "Grid phase C voltage", "Unit": "V", "Group": "Grid Output" },
 
         { "Title": "WAC", "Name": "WAC", "Description": "Active power output", "Unit": "kW", "Group": "Grid Output" },
         { "Title": "VAR", "Name": "VAR", "Description": "Reactive power output", "Unit": "kvar", "Group": "Grid Output" },

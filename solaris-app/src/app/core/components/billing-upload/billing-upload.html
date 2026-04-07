@@ -1,128 +1,103 @@
 <div class="billing-upload-container">
+  <!-- Header -->
   <div class="page-header">
     <div class="header-content">
       <button class="btn-back" (click)="goBack()">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <line x1="19" y1="12" x2="5" y2="12"></line>
-          <polyline points="12 19 5 12 12 5"></polyline>
-        </svg>
-        Back
+        ← Back
       </button>
+
       <div class="header-title">
-        <h1>Billing Upload</h1>
-        <p class="header-subtitle">Upload and manage billing documents</p>
+        <h1>Upload Signed Invoice</h1>
+        <p class="header-subtitle">
+          Upload signed invoice and provide document send date
+        </p>
       </div>
     </div>
   </div>
 
-  <div class="upload-section">
+  <!-- Instruction -->
+  <div class="upload-section bz">
+    <div class="upload-card info-card bz">
+      <h3>📌 Instructions</h3>
+      <ul>
+        <li>Download invoice</li>
+        <li>Print and sign document</li>
+        <li>Scan signed document</li>
+        <li>Upload PDF and select send date</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- Upload -->
+  <div class="upload-section bz">
     <div class="upload-card">
-      <div
-        class="upload-area"
-        [class.dragover]="isDragOver"
-        (click)="fileInput.click()"
-        (dragover)="onDragOver($event)"
-        (dragleave)="onDragLeave($event)"
-        (drop)="onDrop($event)"
-      >
-        <div class="upload-icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="17 8 12 3 7 8"></polyline>
-            <line x1="12" y1="3" x2="12" y2="15"></line>
-          </svg>
-        </div>
+
+      <!-- Upload Area -->
+      <div class="upload-area"
+           [class.dragover]="isDragOver"
+           (click)="fileInput.click()"
+           (dragover)="onDragOver($event)"
+           (dragleave)="onDragLeave($event)"
+           (drop)="onDrop($event)">
 
         <h3>Drop file here or click to upload</h3>
-        <p class="upload-hint">Support: PDF only (Format: Billing_XXX-X_YYYY-MM.pdf)</p>
+        <p class="upload-hint">
+          PDF only <br>
+          Format: Invoice_Billing_KKB_2025-11.pdf
+        </p>
 
-        <input
-          #fileInput
-          [disabled]="sessionData() === null"
-          type="file"
-          accept=".pdf"
-          (change)="onFileSelected($event)"
-          style="display: none"
-        />
+        <input #fileInput
+               type="file"
+               accept=".pdf"
+               (change)="onFileSelected($event)"
+               hidden>
       </div>
 
+      <!-- File Preview -->
       <div class="file-list" *ngIf="uploadedFile">
         <h4>Selected File</h4>
-        <div class="file-items">
-          <div class="file-item">
-            <div class="file-info">
-              <div class="file-icon">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                </svg>
-              </div>
-              <div class="file-details">
-                <span class="file-name">{{ uploadedFile.name }}</span>
-                <span class="file-size">{{ formatFileSize(uploadedFile.size) }}</span>
-              </div>
-            </div>
-            <div class="file-actions">
-              <button class="btn-icon" (click)="removeFile()" title="Remove">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              </button>
-            </div>
+
+        <div class="file-item">
+          <div>
+            <strong>{{ uploadedFile.name }}</strong><br>
+            <small>{{ formatFileSize(uploadedFile.size) }}</small>
           </div>
+
+          <button class="btn-icon" (click)="removeFile()">✕</button>
         </div>
       </div>
 
+      <!-- Send Date -->
+      <div class="send-date-section" *ngIf="uploadedFile">
+        <label class="date-label">📅 Document Send Date</label>
+
+        <input
+          type="date"
+          class="date-input"
+          [(ngModel)]="sendDate"
+          [max]="getTodayDate()"
+        />
+
+        <p class="date-hint">
+          Please select the date when the document was sent to the customer.<br>
+          This information is important for our records and future reference.
+        </p>
+      </div>
+
+      <!-- Actions -->
       <div class="upload-actions" *ngIf="uploadedFile">
-        <button class="btn-secondary" (click)="clearFile()">Clear</button>
-        <button class="btn-primary" (click)="submitFile()" [disabled]="isUploading">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-          {{ isUploading ? 'Uploading...' : 'Submit File' }}
+        <button class="btn-secondary" (click)="clearFile()">
+          Clear
+        </button>
+
+        <button class="btn-primary"
+                (click)="submitFile()"
+                [disabled]="isUploading || !sendDate">
+          {{ isUploading ? 'Uploading...' : 'Submit' }}
         </button>
       </div>
+
     </div>
   </div>
 </div>

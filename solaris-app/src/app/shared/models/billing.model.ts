@@ -1,10 +1,7 @@
 export interface BillingSessionModel {
-    createdAt: string;
-    createdBy: string;
-    id: number;
-    sessionId: string;
-    siteId: string
-    status: string;
+    action: string;
+    pointsource: string;
+    process: string;
     timestamp: string;
-    updatedAt: string;
+    type: string;
 }

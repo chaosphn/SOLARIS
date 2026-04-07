@@ -44,12 +44,14 @@
                 </span>
               </td>
               <td class="action-cell">
-                <button class="action-btn edit-btn" (click)="openEditModal(i)" matTooltip="Edit Channel">
-                  <i class="material-icons">edit</i>
-                </button>
-                <button class="action-btn delete-btn" (click)="confirmDeleteChannel(noti.id)" matTooltip="Delete Channel">
-                  <i class="material-icons">delete</i>
-                </button>
+                @if (userRole() === 'administrator') {
+                  <button class="action-btn edit-btn" (click)="openEditModal(i)" matTooltip="Edit Channel">
+                    <i class="material-icons">edit</i>
+                  </button>
+                  <button class="action-btn delete-btn" (click)="confirmDeleteChannel(noti.id)" matTooltip="Delete Channel">
+                    <i class="material-icons">delete</i>
+                  </button>
+                }
               </td>
             </tr>
           }

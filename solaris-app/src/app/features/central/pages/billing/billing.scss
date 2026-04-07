@@ -1,4 +1,4 @@
-.container{
+.container {
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -6,7 +6,9 @@
     padding: 16px;
 }
 
-.header{
+// ─── Header ───────────────────────────────────────────────────────────────────
+
+.header {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
     padding: 16px;
@@ -15,26 +17,29 @@
     gap: 8px;
 }
 
-.item-group{
+.item-group {
     flex-wrap: wrap;
     gap: 8px;
 }
 
-.btn-group{
+.btn-group {
     flex-wrap: wrap;
     gap: 8px;
 }
 
-.content{
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    padding: 16px;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
+.datepicker {
+    height: 40px;
+    width: 180px;
+}
+
+// ─── Content area ─────────────────────────────────────────────────────────────
+
+.content {
     overflow-y: auto;
     height: calc(100vh - 228px);
 }
+
+// ─── Dropdown ─────────────────────────────────────────────────────────────────
 
 .dropdown-wrapper {
     position: relative;
@@ -56,33 +61,33 @@
     justify-content: space-between;
     gap: 12px;
     min-width: 160px;
-    
+
     .selected-option {
         display: flex;
         align-items: center;
         gap: 8px;
-        
+
         .material-icons {
             font-size: 18px;
             flex-shrink: 0;
         }
     }
-    
+
     .dropdown-arrow {
         font-size: 20px;
         transition: transform 0.3s ease;
         flex-shrink: 0;
     }
-    
+
     &:hover {
         border: 1px solid var(--secondary-bg);
         background-color: var(--secondary-bg);
         color: var(--primary-txt);
     }
-    
+
     &.active {
         border: 1px solid var(--secondary-bg);
-        
+
         .dropdown-arrow {
             transform: rotate(180deg);
         }
@@ -104,7 +109,7 @@
     transform: translateY(-8px);
     transition: all 0.3s ease;
     overflow: hidden;
-    
+
     &.show {
         opacity: 1;
         visibility: visible;
@@ -120,29 +125,26 @@
     color: var(--secondary-txt);
     cursor: pointer;
     transition: all 0.2s ease;
-    
+
     .material-icons {
         font-size: 18px;
         flex-shrink: 0;
     }
-    
+
     &:hover {
         background-color: var(--secondary-bg);
         color: var(--primary-txt);
     }
-    
+
     &.selected {
         background-color: var(--secondary-bg);
         color: var(--primary-txt);
     }
 }
 
-.datepicker{
-    height: 40px;
-    width: 180px;
-}
+// ─── Submit buttons ────────────────────────────────────────────────────────────
 
-.submit{
+.submit {
     font-size: 14px;
     padding: 12px 16px;
     border: 1px solid #E7CD47;
@@ -150,10 +152,546 @@
     color: whitesmoke;
     border-radius: 4px;
     cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+        opacity: 0.85;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
 }
 
+// ─── Billing wrapper ──────────────────────────────────────────────────────────
+
+.billing-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+// ─── Summary row ──────────────────────────────────────────────────────────────
+
+.summary-row {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+
+    @media (max-width: 700px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.summary-card {
+    // background-color: var(--primary-bg);
+    // border: 1px solid var(--border-color);
+    // border-radius: 4px;
+    // padding: 12px 16px;
+    // margin-top: 16px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--primary-txt);
+
+        .material-icons {
+            font-size: 18px;
+        }
+    }
+
+    &__pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+}
+
+// ─── Pills ────────────────────────────────────────────────────────────────────
+
+.pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    //background-color: var(--secondary-bg-50);
+    background-color: transparent;
+    border-radius: 3px;
+    padding: 5px 10px;
+
+    &--total {
+        border: 1px solid var(--primary-txt);
+        background-color: transparent;
+    }
+
+    &__label {
+        font-size: 12px;
+        //color: var(--primary-txt);
+    }
+
+    &__count {
+        font-size: 12px;
+        font-weight: 600;
+        //color: var(--active-txt);
+    }
+
+    // &--prepared     { border: 1px solid #667079; }
+    // &--onprogress   { border: 1px solid #E4B61A; }
+    // &--complete     { border: 1px solid #4CAF82; }
+    // &--delay        { border: 1px solid #E05C5C; }
+    &--prepared {
+        background-color: rgba(102, 112, 121, 0.15);
+        border: 1px solid #667079;
+        color: #99aabb !important;
+    }
+
+    &--onprogress {
+        background-color: rgba(228, 182, 26, 0.15);
+        border: 1px solid #E4B61A;
+        color: #E4B61A !important;
+    }
+
+    &--complete {
+        background-color: rgba(76, 175, 130, 0.15);
+        border: 1px solid #4CAF82;
+        color: #4CAF82 !important;
+    }
+
+    &--delay {
+        background-color: rgba(224, 92, 92, 0.15);
+        border: 1px solid #E05C5C;
+        color: #E05C5C !important;
+    }
+
+    &--prepared     { border: 1px solid #667079; }
+    &--confirmation { border: 1px solid #5B8DEF; }
+    &--invoice      { border: 1px solid #E4B61A; }
+    &--payment      { border: 1px solid #9B6DFF; }
+    &--receipt      { border: 1px solid #4CAF82; }
+}
+
+// ─── Status dots ──────────────────────────────────────────────────────────────
+
+.dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+
+    &--prepared     { background-color: #667079; }
+    &--onprogress   { background-color: #E4B61A; }
+    &--complete     { background-color: #4CAF82; }
+    &--delay        { background-color: #E05C5C; }
+    &--confirmation { background-color: #5B8DEF; }
+    &--invoice      { background-color: #E4B61A; }
+    &--payment      { background-color: #9B6DFF; }
+    &--receipt      { background-color: #4CAF82; }
+}
+
+// ─── Data table ───────────────────────────────────────────────────────────────
+
+.billing-table {
+    margin-top: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.table-wrap {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.tbl {
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 860px;
+
+    thead tr {
+        background-color: var(--thead-bg);
+    }
+
+    th {
+        padding: 10px 14px;
+        text-align: left;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        color: var(--thead-txt);
+        border-bottom: 1px solid var(--border-color);
+        white-space: nowrap;
+
+        &.th-stepper {
+            min-width: 340px;
+        }
+    }
+
+    td {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--border-color);
+        color: var(--primary-txt);
+        vertical-align: middle;
+    }
+
+    tfoot td {
+        padding: 10px 14px;
+        border-top: 1px solid var(--border-color);
+        border-bottom: none;
+        background-color: var(--primary-bg);
+    }
+
+    .tbl-row {
+        transition: background-color 0.15s ease;
+
+        &:hover td {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        &:last-child td {
+            border-bottom: none;
+        }
+    }
+}
+
+.tbl-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    &__left, &__right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    &__label {
+        font-size: 12px;
+        color: var(--secondary-txt);
+        white-space: nowrap;
+    }
+
+    &__range {
+        font-size: 12px;
+        color: var(--secondary-txt);
+        white-space: nowrap;
+    }
+
+    &__select {
+        height: 30px;
+        padding: 0 10px;
+        border-radius: 4px;
+        border: 1px solid var(--border-color);
+        background-color: var(--secondary-bg-50);
+        color: var(--primary-txt);
+        outline: none;
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    &__btn {
+        width: 32px;
+        height: 32px;
+        border: 1px solid var(--border-color);
+        background-color: var(--secondary-bg-50);
+        color: var(--primary-txt);
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: opacity 0.15s ease, background-color 0.15s ease;
+
+        .material-icons {
+            font-size: 18px;
+        }
+
+        &:hover {
+            background-color: var(--secondary-bg);
+        }
+
+        &:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+    }
+}
+
+.td-site {
+    color: var(--secondary-txt) !important;
+    font-size: 14px !important;
+}
+
+.td-ctype {
+    color: var(--secondary-txt) !important;
+    font-size: 14px !important;
+    white-space: nowrap;
+}
+
+.td-process {
+    color: var(--secondary-txt) !important;
+    font-size: 14px !important;
+    white-space: nowrap;
+}
+
+.td-stepper {
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+}
+
+.td-empty {
+    text-align: center;
+    padding: 32px 16px !important;
+    color: var(--secondary-txt);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    .material-icons {
+        font-size: 18px;
+    }
+}
+
+// ─── Status badge ─────────────────────────────────────────────────────────────
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+
+    &__dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    &--prepared {
+        background-color: rgba(102, 112, 121, 0.15);
+        color: #99aabb;
+
+        .badge__dot { background-color: #667079; }
+    }
+
+    &--onprogress {
+        background-color: rgba(228, 182, 26, 0.15);
+        color: #E4B61A;
+
+        .badge__dot { background-color: #E4B61A; }
+    }
+
+    &--complete {
+        background-color: rgba(76, 175, 130, 0.15);
+        color: #4CAF82;
+
+        .badge__dot { background-color: #4CAF82; }
+    }
+
+    &--delay {
+        background-color: rgba(224, 92, 92, 0.15);
+        color: #E05C5C;
+
+        .badge__dot { background-color: #E05C5C; }
+    }
+
+    &--confirmation {
+        background-color: rgba(91, 142, 239, 0.15);
+        color: #5B8DEF;
+
+        .badge__dot { background-color: #5B8DEF; }
+    }
+
+    &--invoice {
+        background-color: rgba(228, 182, 26, 0.15);
+        color: #E4B61A;
+
+        .badge__dot { background-color: #E4B61A; }
+    }
+
+    &--payment {
+        background-color: rgba(155, 109, 255, 0.15);
+        color: #9B6DFF;
+
+        .badge__dot { background-color: #9B6DFF; }
+    }
+
+    &--receipt {
+        background-color: rgba(76, 175, 130, 0.15);
+        color: #4CAF82;
+        
+        .badge__dot { background-color: #4CAF82; }
+    }
+}
+
+// ─── Process Stepper ──────────────────────────────────────────────────────────
+
+.stepper {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    width: 100%;
+
+    &__step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        flex: 0 0 auto;
+        min-width: 72px;
+    }
+
+    &__line {
+        flex: 1;
+        height: 1px;
+        background-color: var(--border-color);
+        margin-top: 12px; // align with center of node (node is 24px tall → 12px)
+        transition: background-color 0.2s ease;
+
+        &--done   { background-color: #4CAF82; }
+        &--active { background-color: #E4B61A; }
+    }
+
+    &__node {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 1.5px solid var(--border-color);
+        background-color: var(--primary-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+
+        &--done {
+            border-color: #4CAF82;
+            background-color: rgba(76, 175, 130, 0.15);
+        }
+
+        &--active {
+            border-color: #E4B61A;
+            background-color: rgba(228, 182, 26, 0.15);
+        }
+
+        &--pending {
+            border-color: var(--border-color);
+            background-color: var(--primary-bg);
+        }
+    }
+
+    &__icon {
+        font-size: 14px !important;
+
+        &--done   { color: #4CAF82; }
+        &--active { color: #E4B61A; }
+    }
+
+    &__label {
+        font-size: 10px;
+        color: var(--secondary-txt);
+        text-align: center;
+        white-space: nowrap;
+
+        &--done   { color: #4CAF82; }
+        &--active { color: var(--active-txt); }
+    }
+
+    &__sublabel {
+        font-size: 9px;
+        color: var(--secondary-txt);
+        text-align: center;
+        max-width: 80px;
+        line-height: 1.3;
+        word-break: break-word;
+    }
+}
+
+// ─── Action buttons ───────────────────────────────────────────────────────────
+
+.action-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.action-btn {
+    padding: 4px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+
+    .material-icons {
+        font-size: 16px;
+    }
+
+    &.view-btn {
+        background-color: #4CAF82;
+        color: white;
+
+        &:hover {
+            background-color: #4CAF82;
+        }
+    }
+
+    &.edit-btn {
+        background-color: #4A90E2;
+        color: white;
+
+        &:hover {
+            background-color: #5FA3F5;
+        }
+    }
+
+    &.delete-btn {
+        background-color: #E74C3C;
+        color: white;
+
+        &:hover {
+            background-color: #F25C4C;
+        }
+    }
+}
+
+// ─── Spinner ──────────────────────────────────────────────────────────────────
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+    display: inline-block;
+}
+
+// ─── Responsive ───────────────────────────────────────────────────────────────
+
 @media (max-width: 500px) {
-    .content{
+    .content {
         overflow-y: auto;
         height: calc(100vh - 428px) !important;
     }

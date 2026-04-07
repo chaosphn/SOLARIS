@@ -1,0 +1,151 @@
+<div class="dialog-root">
+
+  <!-- HEADER -->
+  <div class="dialog-header">
+    <span class="dialog-title">Billing Final Confirmation</span>
+    <button class="icon-btn" (click)="close()">✕</button>
+  </div>
+
+  <!-- BODY -->
+  <div class="dialog-body">
+
+    <!-- LEFT: PDF PREVIEW -->
+    <div class="pane-left">
+
+      <!-- 🔥 PROCESS SELECTOR -->
+      <div class="process-selector">
+        <button
+          *ngFor="let p of processes"
+          [class.active]="selectedProcess === p"
+          (click)="selectProcess(p)">
+          {{ p | titlecase }}
+        </button>
+      </div>
+
+      <div class="pdf-frame">
+        <iframe *ngIf="pdfUrl()"
+                [src]="pdfUrl()"
+                class="pdf-iframe"
+                title="Receipt preview"></iframe>
+
+        <div *ngIf="loadingPdf()" class="pdf-placeholder">
+          Loading...
+        </div>
+
+        <div *ngIf="!pdfUrl() && !loadingPdf()" class="pdf-placeholder">
+          No preview
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: INFO -->
+    <div class="pane-right">
+
+      <!-- Site & Timestamp chips -->
+      <div class="meta-row">
+        <div class="meta-chip">
+            <span class="material-icons">factory</span>
+            <span class="meta-chip__value">{{ getSiteName(data.siteId) }}</span>
+        </div>
+        <div class="meta-chip">
+            <span class="material-icons">calendar_month</span>
+            <span class="meta-chip__value">{{ data.timestamp | date: 'MMM yyyy' }}</span>
+        </div>
+      </div>
+
+      <!-- STEPPER (payment-confirmation-dialog style) -->
+      <div class="mini-stepper">
+        <ng-container *ngFor="let step of stepDefs; let i = index">
+          <div *ngIf="i > 0"
+               class="mini-stepper__line"
+               [class.mini-stepper__line--done]="isStepDone(step.key)"
+               [class.mini-stepper__line--active]="isStepActive(step.key)">
+          </div>
+          <div class="mini-stepper__step">
+            <div class="mini-stepper__node"
+                 [class.mini-stepper__node--done]="isStepDone(step.key)"
+                 [class.mini-stepper__node--active]="isStepActive(step.key)">
+              <ng-container *ngIf="isStepDone(step.key)">
+                <span class="material-icons mini-stepper__icon--done">check</span>
+              </ng-container>
+              <ng-container *ngIf="!isStepDone(step.key) && isStepActive(step.key)">
+                <span class="material-icons mini-stepper__icon--active">schedule</span>
+              </ng-container>
+            </div>
+            <span class="mini-stepper__label"
+                  [class.mini-stepper__label--done]="isStepDone(step.key)"
+                  [class.mini-stepper__label--active]="isStepActive(step.key)">
+              {{ step.label }}
+            </span>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- STATUS (payment-confirmation-dialog style) -->
+      <div class="status-row">
+        <span class="status-label">Current status</span>
+        <span class="status-pill"
+              [class.status-pill--prepared]="data.status === 'prepared'"
+              [class.status-pill--onprogress]="data.status === 'onprogress'"
+              [class.status-pill--complete]="data.status === 'complete'"
+              [class.status-pill--delay]="data.status === 'delay'">
+          {{ data.status }}
+        </span>
+        <span class="status-sub">{{ data.billing_process }}</span>
+      </div>
+
+      <!-- LOG (payment-confirmation-dialog style) -->
+      <div class="log-section">
+        <div class="log-section__title">
+          <span class="material-icons">history</span>
+          Activity Log
+        </div>
+
+        <div class="log-list">
+          <div *ngIf="loadingLog()" class="log-empty">
+            <span class="material-icons spin">sync</span> Loading…
+          </div>
+
+          <div *ngIf="!loadingLog() && logs().length === 0" class="log-empty">
+            No activity yet
+          </div>
+
+          <div *ngFor="let log of logs()" class="log-item">
+            <div class="log-item__dot"
+                 [class.log-item__dot--approve]="log.action === 'approve'"
+                 [class.log-item__dot--reject]="log.action === 'reject'"
+                 [class.log-item__dot--send]="log.action === 'send'">
+            </div>
+            <div class="log-item__body">
+              <div class="log-item__top">
+                <span class="log-item__user">{{ log.user }}</span>
+                <span class="log-item__action"
+                      [class.log-item__action--approve]="log.action === 'approve'"
+                      [class.log-item__action--reject]="log.action === 'reject'">
+                  {{ log.action | titlecase }}
+                </span>
+              </div>
+              <div class="log-item__meta">
+                <span>{{ log.processType | titlecase }}</span>
+                <span class="log-item__time">{{ log.timestamp | date: 'dd MMM yy, HH:mm' }}</span>
+              </div>
+              <div *ngIf="log.from_action" class="log-item__from">
+                from: {{ log.from_action | titlecase }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTION -->
+      <div class="action-footer">
+        <button class="btn-approve"
+                (click)="confirmAction()"
+                [disabled]="loading()">
+          {{ loading() ? 'Processing...' : 'Confirm All Process' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

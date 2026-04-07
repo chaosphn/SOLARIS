@@ -15,8 +15,11 @@
           <tr>
             <th>Username</th>
             <th>Role</th>
-            <th>Page Access</th>
-            <th>Site Access</th>
+            <th>Company</th>
+            <th>Department</th>
+            <th>Position</th>
+            <!-- <th>Page Access</th>
+            <th>Site Access</th> -->
             <th>Actions</th>
           </tr>
         </thead>
@@ -29,7 +32,10 @@
                   {{ user.Group }}
                 </span>
               </td>
-              <td class="page-access-cell">
+              <td>{{ user.company }}</td>
+              <td>{{ user.department }}</td>
+              <td>{{ user.role }}</td>
+              <!-- <td class="page-access-cell">
                 <div class="page-badges">
                   @for (page of user.pageAccess; track $index) {
                     <span class="page-badge">
@@ -46,14 +52,21 @@
                     </span>
                   }
                 </div>
-              </td>
+              </td> -->
               <td class="action-cell">
                 @if (userRole() === 'administrator') {
+                  <button class="action-btn view-btn" (click)="openUserViewerModal(user)">
+                    <i class="material-icons">visibility</i>
+                  </button>
                   <button class="action-btn edit-btn" (click)="openEditUserModal(user)">
                     <i class="material-icons">edit</i>
                   </button>
                   <button class="action-btn delete-btn" (click)="confirmDeleteUser(user._id)">
                     <i class="material-icons">delete</i>
+                  </button>
+                } @else {
+                  <button class="action-btn view-btn" (click)="openUserViewerModal(user)">
+                    <i class="material-icons">visibility</i>
                   </button>
                 }
               </td>
@@ -72,4 +85,11 @@
         [pageList]="availablePages"
         (onClose)="closeUserModal()"
     ></app-user-dialog>
+}
+@if (showUserViewerModal) {
+    <app-user-viewer-dialog
+        [userData]="newUser"
+        [pageList]="availablePages"
+        (onClose)="closeUserViewerModal()"
+    ></app-user-viewer-dialog>
 }

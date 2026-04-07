@@ -1,0 +1,77 @@
+<div class="modal-overlay" (click)="closeUserModal()">
+    <div class="modal-content user-modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>View User</h2>
+            <button class="close-btn" (click)="closeUserModal()">
+                <i class="material-icons">close</i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Username</label>
+                <div class="display-value">{{ userData().username }}</div>
+            </div>
+
+            <div class="form-group">
+                <label>Full Name</label>
+                <div class="display-value">{{ userData().fullname }}</div>
+            </div>
+
+            <div class="form-row" style="display:flex; gap:8px;">
+                <div class="form-group" style="flex:1;">
+                    <label>Email</label>
+                    <div class="display-value">{{ userData().email }}</div>
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label>Company</label>
+                    <div class="display-value">{{ userData().company }}</div>
+                </div>
+            </div>
+
+            <div class="form-row" style="display:flex; gap:8px;">
+                <div class="form-group" style="flex:1;">
+                    <label>Department</label>
+                    <div class="display-value">{{ userData().department }}</div>
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label>Position / Role</label>
+                    <div class="display-value">{{ userData().role }}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Role</label>
+                <div class="display-value">{{ userData().Group === 'administrator' ? 'Administrator' : 'User' }}</div>
+            </div>
+
+            <div class="form-group">
+                <label>Page Access</label>
+                <div class="selected-items">
+                    @for (page of getSelectedPages(); track $index) {
+                        <span class="item-badge">{{ page }}</span>
+                    }
+                    @if (getSelectedPages().length === 0) {
+                        <span class="no-items">No page access assigned.</span>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Site Access</label>
+                <div class="selected-items">
+                    @for (site of getSelectedSites(); track $index) {
+                        <span class="item-badge">{{ site }}</span>
+                    }
+                    @if (getSelectedSites().length === 0) {
+                        <span class="no-items">No site access assigned.</span>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="closeUserModal()">CLOSE</button>
+        </div>
+    </div>
+</div>

@@ -38,6 +38,7 @@ import { InverterDialog } from './components/inverter-dialog/inverter-dialog';
 import { MeterDialog } from './components/meter-dialog/meter-dialog';
 import { LastseenPipe } from './pipes/lastseen.pipe';
 import { ChartsModule } from './chart.module';
+import { BillingStatusPipe } from './pipes/billing-status-pipe';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -59,6 +60,7 @@ export const MY_DATE_FORMATS = {
     NumberFomatPipe,
     FilterTablePipe,
     LastseenPipe,
+    BillingStatusPipe,
 
     DatePickers,
     CardContainer,
@@ -101,6 +103,7 @@ export const MY_DATE_FORMATS = {
     NumberFomatPipe,
     FilterTablePipe,
     LastseenPipe,
+    BillingStatusPipe,
 
     DatePickers,
     CardContainer,

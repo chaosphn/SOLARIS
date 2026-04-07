@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { BillingConfigModel, CreateBillingRequestModel, DeleteBillingRequestModel, UpdateBillingRequestModel } from '../../models/billing.model';
+import { BillingConfigModel, CreateBillingRequestModel, DeleteBillingRequestModel, UpdateBillingRequestModel, User } from '../../models/billing.model';
 import { HttpService } from '../../../../shared/services/http.service';
 import { Store } from '@ngrx/store';
 import { sendMessage } from '../../../../store/actions/toaster.actions';
@@ -8,6 +8,7 @@ import { firstValueFrom } from 'rxjs';
 import { getAllConfig } from '../../../../store/selectors/site.selectors';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialog, ConfirmDialogData } from '../../../../shared/components/confirm-dialog/confirm-dialog';
+import { UserDataModel } from '../../../../shared/models/user.model';
 
 @Component({
   selector: 'app-admin',
@@ -33,6 +34,7 @@ export class Admin implements OnInit {
     'actions'
   ];
   siteList = signal<SiteModel[]>([]);
+  userList = signal<UserDataModel[]>([]);
   private nextId: number = 1;
 
   // Holiday Settings
@@ -41,6 +43,9 @@ export class Admin implements OnInit {
   holidayEndDate: Date | null = null;
   holidayArr: Date[] = [];
   removable: boolean = true;
+
+  userRole = signal<string>('user');
+  mode = signal<'view' | 'edit' | 'add'>('view');
 
   tabMode: 'factor' | 'holiday' = 'factor';
 
@@ -64,7 +69,10 @@ export class Admin implements OnInit {
   private dialogs = inject(MatDialog);
 
   ngOnInit(): void {
-    // Initialize with mock holiday data
+    const role = localStorage.getItem('role');
+    if(role){
+      this.userRole.set(role);
+    }
     this.holidayArr = [
       new Date(2025, 0, 1),  // Jan 1 - New Year
       new Date(2025, 1, 14), // Feb 14 - Valentine's Day
@@ -82,6 +90,7 @@ export class Admin implements OnInit {
       new Date(2025, 11, 10), // Dec 10 - Constitution Day
       new Date(2025, 11, 31)  // Dec 31 - New Year's Eve
     ];
+    this.initializeUserData();
     this.getBillingConfigData();
     this.getSiteListData();
   }
@@ -97,6 +106,15 @@ export class Admin implements OnInit {
       if(sites){
         this.siteConfigs.set(sites);
       }
+    }
+  }
+
+  async initializeUserData() {
+    const result = await this.httpSrv.getUserConfig();
+    if (result) {
+      this.userList.set(result);
+    } else {
+      this.userList.set([]);
     }
   }
 
@@ -127,12 +145,15 @@ export class Admin implements OnInit {
       ftRate: 0,
       scheduleDate: '1',
       scheduleTime: '',
-      approvedBy: '',
-      approvedCc: '',
-      approvedBcc: '',
-      receivedBy: '',
-      receivedCc: '',
-      receivedBcc: ''
+      confirmation_user: [],
+      confirmation_account: [],
+      confirmation_customer: [],
+      invoice_user: [],
+      invoice_account: [],
+      invoice_customer: [],
+      receipt_user: [],
+      receipt_account: [],
+      receipt_customer: []
     };
   }
 
@@ -177,18 +198,6 @@ export class Admin implements OnInit {
     if (this.globalConfig().billingMode === 'auto' && !this.globalConfig().scheduleTime) {
       return this.sendMessageToState('warn', 'Please select a billing schedule time.');
     }
-
-    if (!this.globalConfig().approvedBy) {
-      return this.sendMessageToState('warn', 'Please select an approver.');
-    }
-  
-    if (!this.globalConfig().receivedBy) {
-      return this.sendMessageToState('warn', 'Please select a receiver.');
-    }
-
-    if (!this.validateEmailList(this.globalConfig().approvedBy)) {
-      return this.sendMessageToState('warn', 'Please enter a valid approver email address.');
-    }
   
     if (this.globalConfig().id > 0) {
       const request: UpdateBillingRequestModel = this.globalConfig();
@@ -212,12 +221,15 @@ export class Admin implements OnInit {
         ftRate: this.globalConfig().ftRate,
         scheduleDate: this.globalConfig().scheduleDate,
         scheduleTime: this.globalConfig().scheduleTime,
-        approvedBy: this.globalConfig().approvedBy,
-        approvedCc: this.globalConfig().approvedCc,
-        approvedBcc: this.globalConfig().approvedBcc,
-        receivedBy: this.globalConfig().receivedBy,
-        receivedCc: this.globalConfig().receivedCc,
-        receivedBcc: this.globalConfig().receivedBcc
+        confirmation_user: this.globalConfig().confirmation_user,
+        confirmation_account: this.globalConfig().confirmation_account,
+        confirmation_customer: this.globalConfig().confirmation_customer,
+        invoice_user: this.globalConfig().invoice_user,
+        invoice_account: this.globalConfig().invoice_account,
+        invoice_customer: this.globalConfig().invoice_customer,
+        receipt_user: this.globalConfig().receipt_user,
+        receipt_account: this.globalConfig().receipt_account,
+        receipt_customer: this.globalConfig().receipt_customer
       };
   
       const result = await this.httpSrv.addBillingConfig(request);
@@ -234,20 +246,23 @@ export class Admin implements OnInit {
   
 
   openAddSiteModal(): void {
+    this.mode.set('add');
     this.showModal = true;
     this.newSiteConfig = this.getEmptySiteConfig();
   }
 
   async closeModal() {
+    this.mode.set('view');
     this.showModal = false;
     this.newSiteConfig = this.getEmptySiteConfig();
     await this.getBillingConfigData();
   }
 
-  saveModal(data: BillingConfigModel): void {
+  async saveModal(data: BillingConfigModel): Promise<void> {
+    this.mode.set('view');
     this.showModal = false;
     this.newSiteConfig = this.getEmptySiteConfig();
-    //this.siteConfigs.push(data);
+    await this.getBillingConfigData();
   }
 
   confirmDeleteSiteConfig(id: number): void {
@@ -287,7 +302,14 @@ export class Admin implements OnInit {
     }
   }
 
+  viewSiteConfig(config: BillingConfigModel): void {
+    this.mode.set('view');
+    this.newSiteConfig = { ...config };
+    this.showModal = true;
+  }
+
   editSiteConfig(config: BillingConfigModel): void {
+    this.mode.set('edit');
     this.newSiteConfig = { ...config };
     this.showModal = true;
   }

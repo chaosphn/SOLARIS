@@ -16,10 +16,12 @@
                     <div class="report-box bz">
                         <div class="head bz">
                             <div class="topic bz">BILLING FACTOR SETTING</div>
-                            <div class="btn-group">
-                                <button class="bz" (click)="openAddSiteModal()">ADD SITE CONFIG</button>
-                                <button class="bz" (click)="saveGlobalSettings()">SAVE CHANGE</button>
-                            </div>
+                            @if (userRole() === 'administrator') {
+                                <div class="btn-group">
+                                    <!-- <button class="bz" (click)="openAddSiteModal()">ADD SITE CONFIG</button> -->
+                                    <button class="bz" (click)="saveGlobalSettings()">SAVE CHANGE</button>
+                                </div>
+                            }
                         </div>
 
                         <!-- Meter Mode Selection -->
@@ -110,7 +112,6 @@
                                         <input type="number" step="0.0001" [(ngModel)]="globalConfig().ftRate" />
                                     </div>
                                 </div>
-
                                 @if (globalConfig().billingMode === 'auto') {
                                     <div class="card d-col-st">
                                         <div class="title">
@@ -138,6 +139,114 @@
                                         </div>
                                     </div>
                                 }
+
+                                <!-- User Assignments -->
+                                <div class="user-assignments-selection w-100">
+                                    <div class="user-assignments-title w-100 bz">
+                                        <div>WORKFLOW RESPONSIBILITY</div>
+                                    </div>
+                                    <div class="user-assignments w-100 bz">
+                                        <div class="step-header">[ Energy Confirmation ]</div>
+                                        <div class="assignment-row">
+                                            <div class="form-group">
+                                                <label>Reviewed By (Internal)</label>
+                                                <mat-select multiple [(ngModel)]="globalConfig().confirmation_user" class="user-select">
+                                                    @for (user of userList(); track user._id) {
+                                                        <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                                    }
+                                                </mat-select>
+                                            </div>
+                                            <div class="icon-group ">
+                                                <i class="material-icons">arrow_forward</i>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Reviewed By (Accounting)</label>
+                                                <mat-select multiple [(ngModel)]="globalConfig().confirmation_account" class="user-select">
+                                                    @for (user of userList(); track user._id) {
+                                                        <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                                    }
+                                                </mat-select>
+                                            </div>
+                                            <div class="icon-group ">
+                                                <i class="material-icons">arrow_forward</i>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Reviewed By (Customer)</label>
+                                                <mat-select multiple [(ngModel)]="globalConfig().confirmation_customer" class="user-select">
+                                                    @for (user of userList(); track user._id) {
+                                                        <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                                    }
+                                                </mat-select>
+                                            </div>
+                                        </div>
+                                        <div class="step-header">[ Invoice Processing ]</div>
+                                        <div class="assignment-row">
+                                            <div class="form-group">
+                                                <label>Verified By (Internal)</label>
+                                                <mat-select multiple [(ngModel)]="globalConfig().invoice_user" class="user-select">
+                                                    @for (user of userList(); track user._id) {
+                                                        <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                                    }
+                                                </mat-select>
+                                            </div>
+                                            <div class="icon-group ">
+                                                <i class="material-icons">arrow_forward</i>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Verified By (Accounting)</label>
+                                                <mat-select multiple [(ngModel)]="globalConfig().invoice_account" class="user-select">
+                                                    @for (user of userList(); track user._id) {
+                                                        <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                                    }
+                                                </mat-select>
+                                            </div>
+                                            <div class="icon-group ">
+                                                <i class="material-icons">arrow_forward</i>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Approved By (Customer)</label>
+                                                <mat-select multiple [(ngModel)]="globalConfig().invoice_customer" class="user-select">
+                                                    @for (user of userList(); track user._id) {
+                                                        <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                                    }
+                                                </mat-select>
+                                            </div>
+                                        </div>
+                                        <div class="step-header">[ Payment & Receipt ]</div>
+                                        <div class="assignment-row">
+                                            <div class="form-group">
+                                                <label>Recorded By (Internal)</label>
+                                                <mat-select multiple [(ngModel)]="globalConfig().receipt_user" class="user-select">
+                                                    @for (user of userList(); track user._id) {
+                                                        <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                                    }
+                                                </mat-select>
+                                            </div>
+                                            <div class="icon-group ">
+                                                <i class="material-icons">arrow_forward</i>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Validated By (Accounting)</label>
+                                                <mat-select multiple [(ngModel)]="globalConfig().receipt_account" class="user-select">
+                                                    @for (user of userList(); track user._id) {
+                                                        <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                                    }
+                                                </mat-select>
+                                            </div>
+                                            <div class="icon-group ">
+                                                <i class="material-icons">arrow_forward</i>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Acknowledged By (Customer)</label>
+                                                <mat-select multiple [(ngModel)]="globalConfig().receipt_customer" class="user-select">
+                                                    @for (user of userList(); track user._id) {
+                                                        <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                                    }
+                                                </mat-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             
                             <!-- Report Schedule Card (visible only in auto mode) -->
@@ -174,7 +283,7 @@
                             } -->
 
                             <!-- Approver Email Card -->
-                            <div class="email-section">
+                            <!-- <div class="email-section">
                                 <div class="card-box w-100">
                                     <div class="card d-col-st email-card">
                                         <div class="title">
@@ -189,10 +298,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- Global Email List Card -->
-                            <div class="email-section">
+                            <!-- <div class="email-section">
                                 <div class="card-box w-100">
                                     <div class="card d-col-st email-card">
                                         <div class="title">
@@ -207,13 +316,18 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
 
                         <!-- Site Configurations Table -->
                         @if (siteConfigs().length > 0) {
                             <div class="table-section" >
-                                <h3 class="table-title">Site Configurations</h3>
+                                <div class="table-header bz">
+                                    <div class="table-title bz">SITE CONFIGURATIONS</div>
+                                    @if (userRole() === 'administrator') {
+                                        <button class="bz" (click)="openAddSiteModal()">ADD SITE CONFIG</button>
+                                    }
+                                </div>
                                 <div class="table-wrapper">
                                     <table class="config-table">
                                         <thead>
@@ -225,8 +339,8 @@
                                                 <th>Offpeak Cost</th>
                                                 <th>Discount Cost</th>
                                                 <th>FT Cost</th>
-                                                <th>Email List</th>
-                                                <th>Actions</th>
+                                                <!-- <th>Email List</th> -->
+                                                <th style="text-align: center;">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -239,14 +353,24 @@
                                                     <td>{{ config.meterType === 'tou' ? config.offpeakCost : '-' }}</td>
                                                     <td>{{ config.discountRate }}</td>
                                                     <td>{{ config.ftRate }}</td>
-                                                    <td class="email-cell">{{ config.receivedBy || '-' }}</td>
+                                                    <!-- <td class="email-cell">{{ config.receivedBy || '-' }}</td> -->
                                                     <td class="action-cell">
-                                                        <button class="action-btn edit-btn" (click)="editSiteConfig(config)">
-                                                            <i class="material-icons">edit</i>
-                                                        </button>
-                                                        <button class="action-btn delete-btn" (click)="confirmDeleteSiteConfig(config.id)">
-                                                            <i class="material-icons">delete</i>
-                                                        </button>
+                                                        
+                                                        @if (userRole() === 'administrator') {
+                                                            <button class="action-btn edit-btn" (click)="viewSiteConfig(config)">
+                                                                <i class="material-icons">visibility</i>
+                                                            </button>
+                                                            <button class="action-btn edit-btn" (click)="editSiteConfig(config)">
+                                                                <i class="material-icons">edit</i>
+                                                            </button>
+                                                            <button class="action-btn delete-btn" (click)="confirmDeleteSiteConfig(config.id)">
+                                                                <i class="material-icons">delete</i>
+                                                            </button>
+                                                        } @else {
+                                                            <button class="action-btn edit-btn" (click)="viewSiteConfig(config)">
+                                                                <i class="material-icons">visibility</i>
+                                                            </button>
+                                                        }
                                                     </td>
                                                 </tr>
                                             }
@@ -319,6 +443,7 @@
 
 @if (showModal) {
     <app-config-dialog
+        [mode]="mode()"
         [siteInput]="newSiteConfig"
         (onSave)="saveModal($event)"
         (onClose)="closeModal()"

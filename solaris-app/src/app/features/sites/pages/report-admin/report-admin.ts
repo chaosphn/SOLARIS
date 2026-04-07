@@ -23,7 +23,7 @@ export class ReportAdmin implements OnInit {
   siteConfigs = signal<ReportConfigModel[]>([]);
   newSiteConfig: ReportConfigModel = this.getEmptySiteConfig();
   siteList = signal<SiteModel[]>([]);
-
+  userRole = signal<string>('user');
 
   private httpSrv = inject(HttpService);
   private store = inject(Store);
@@ -31,6 +31,10 @@ export class ReportAdmin implements OnInit {
 
 
   ngOnInit(): void {
+    const role = localStorage.getItem('role');
+    if(role){
+      this.userRole.set(role);
+    }
     this.getReportConfigData();
     this.getSiteListData();
   }

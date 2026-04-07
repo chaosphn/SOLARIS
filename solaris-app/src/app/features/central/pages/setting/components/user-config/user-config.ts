@@ -23,6 +23,7 @@ export class UserConfig implements OnInit {
   // User Management
   users = signal<UserDataModel[]>([]);
   showUserModal: boolean = false;
+  showUserViewerModal: boolean = false;
   editingUser: UserDataModel | null = null;
   newUser: UserDataModel = this.getEmptyUser();
 
@@ -84,6 +85,12 @@ export class UserConfig implements OnInit {
     this.newUser = { ...user, pageAccess: [...user.pageAccess] };
     this.showUserModal = true;
   }
+
+  openUserViewerModal(user: UserDataModel): void {
+    this.editingUser = user;
+    this.newUser = { ...user };
+    this.showUserViewerModal = true;
+  }
   
   async deleteUser(id: string): Promise<void> {
       const response = await this.service.deleteUserConfig(id);
@@ -128,6 +135,11 @@ export class UserConfig implements OnInit {
     this.editingUser = null;
     this.newUser = this.getEmptyUser();
     await this.initializeUserData();
+  }
+
+  closeUserViewerModal(): void {
+    this.showUserViewerModal = false;
+    this.editingUser = null;
   }
 
   confirmDeleteUser(id: string): void {

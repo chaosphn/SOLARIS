@@ -7,6 +7,17 @@ export interface UserDataModel {
     siteAccess: string[];
     firstName?: string;
     lastName?: string;
+    fullname?: string;
+    email?: string;
+    company?: string;
+    department?: string;
+    role?: string;
+    createBy?: string;
+    createAt?: string;
+    updateBy?: string;
+    updateAt?: string;
+    signedAt?: string;
+    signature?: string;
 };
 
 export interface AddUserRequestModel {
@@ -17,6 +28,12 @@ export interface AddUserRequestModel {
     siteAccess: string[];
     firstName?: string;
     lastName?: string;
+    fullname?: string;
+    email?: string;
+    company?: string;
+    department?: string;
+    role?: string;
+    signature?: string;
 };
 
 export interface UpdateUserRequestModel {
@@ -28,10 +45,17 @@ export interface UpdateUserRequestModel {
     siteAccess?: string[];
     firstName?: string;
     lastName?: string;
+    fullname?: string;
+    email?: string;
+    company?: string;
+    department?: string;
+    role?: string;
+    signature?: string;
 }
 
 export interface DeleteUserRequestModel {
     _id: string;
+    
 }
 
 export interface ChnagePasswordRequestModel {

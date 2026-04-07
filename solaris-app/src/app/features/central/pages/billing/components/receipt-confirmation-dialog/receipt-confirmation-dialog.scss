@@ -1,0 +1,648 @@
+// ─── Dialog root ──────────────────────────────────────────────────────────────
+
+.dialog-root {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--card-bg);
+    color: var(--primary-txt);
+    width: 90vw;
+    max-width: 1200px;
+    height: 90vh;
+    max-height: 900px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+// ─── Header ───────────────────────────────────────────────────────────────────
+
+.dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background-color: var(--primary-bg);
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.dialog-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--primary-txt);
+    letter-spacing: 0.03em;
+}
+
+// ─── Body layout ──────────────────────────────────────────────────────────────
+
+.dialog-body {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 0;
+    flex: 1;
+    overflow: hidden;
+}
+
+// ─── Left pane — PDF preview ──────────────────────────────────────────────────
+
+.pane-left {
+    padding: 20px;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+// ─── Receipt-only: Process selector (left pane) ────────────────────────────────
+
+.process-selector {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--primary-bg);
+    flex-shrink: 0;
+
+    button {
+        appearance: none;
+        border: 1px solid var(--border-color);
+        background-color: var(--card-bg);
+        color: var(--secondary-txt);
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+
+        &:hover {
+            color: var(--primary-txt);
+            border-color: var(--active-txt);
+        }
+
+        &.active {
+            color: var(--active-txt);
+            border-color: var(--active-txt);
+            background-color: rgba(228, 182, 26, 0.10);
+        }
+    }
+}
+
+.pdf-frame {
+    flex: 1;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pdf-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+.pdf-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: var(--secondary-txt);
+    font-size: 13px;
+
+    .material-icons {
+        font-size: 36px;
+        opacity: 0.4;
+    }
+}
+
+// ─── Right pane ───────────────────────────────────────────────────────────────
+
+.pane-right {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 20px;
+    gap: 14px;
+}
+
+// ─── Meta chips (site + timestamp) ────────────────────────────────────────────
+
+.meta-row {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.meta-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 6px 12px;
+    flex: 1;
+    // Receipt HTML sometimes uses plain text inside `.meta-chip`
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--primary-txt);
+
+    .material-icons {
+        font-size: 15px;
+        color: var(--secondary-txt);
+    }
+
+    &__value {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--primary-txt);
+    }
+}
+
+// ─── Action panel ─────────────────────────────────────────────────────────────
+
+.action-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background-color: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 14px 16px;
+    overflow: hidden;
+    position: relative;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--primary-txt);
+        flex-shrink: 0;
+
+        .material-icons {
+            font-size: 14px;
+        }
+    }
+}
+
+// ─── Mini stepper ─────────────────────────────────────────────────────────────
+
+.mini-stepper {
+    display: flex;
+    align-items: flex-start;
+    flex-shrink: 0;
+    gap: 8px;
+    flex-wrap: wrap;
+
+    &__step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        flex: 0 0 auto;
+        min-width: 64px;
+    }
+
+    &__line {
+        flex: 1;
+        height: 1px;
+        background-color: var(--border-color);
+        margin-top: 11px;
+        transition: background-color 0.2s ease;
+
+        &--done   { background-color: #4CAF82; }
+        &--active { background-color: #E4B61A; }
+    }
+
+    &__node {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: 1.5px solid var(--border-color);
+        background-color: var(--card-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        .material-icons {
+            font-size: 13px;
+        }
+
+        &--done {
+            border-color: #4CAF82;
+            background-color: rgba(76, 175, 130, 0.15);
+        }
+
+        &--active {
+            border-color: #E4B61A;
+            background-color: rgba(228, 182, 26, 0.15);
+        }
+    }
+
+    &__icon--done   { color: #4CAF82; }
+    &__icon--active { color: #E4B61A; }
+
+    &__label {
+        font-size: 10px;
+        color: var(--secondary-txt);
+        text-align: center;
+        white-space: nowrap;
+
+        &--done   { color: #4CAF82; }
+        &--active { color: var(--active-txt); }
+    }
+}
+
+// ─── Receipt-only: simple stepper variant ─────────────────────────────────────
+// Receipt template uses `.mini-stepper > .mini-step` instead of the BEM nodes.
+.mini-step {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    color: var(--secondary-txt);
+    user-select: none;
+
+    &.done {
+        border-color: #4CAF82;
+        color: #4CAF82;
+        background-color: rgba(76, 175, 130, 0.12);
+    }
+
+    &.active {
+        border-color: #E4B61A;
+        color: #E4B61A;
+        background-color: rgba(228, 182, 26, 0.12);
+    }
+}
+
+// ─── Status row ───────────────────────────────────────────────────────────────
+
+.status-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.status-label {
+    font-size: 11px;
+    color: var(--secondary-txt);
+}
+
+.status-sub {
+    font-size: 11px;
+    color: var(--secondary-txt);
+    margin-left: auto;
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 9px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+
+    &--prepared   { background-color: rgba(102,112,121,.15); color: #99aabb; }
+    &--onprogress { background-color: rgba(228,182,26,.15);  color: #E4B61A; }
+    &--complete   { background-color: rgba(76,175,130,.15);  color: #4CAF82; }
+    &--delay      { background-color: rgba(224,92,92,.15);   color: #E05C5C; }
+}
+
+// ─── Activity log ─────────────────────────────────────────────────────────────
+
+.log-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    overflow: hidden;
+    min-height: 0;
+
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--primary-txt);
+        flex-shrink: 0;
+
+        .material-icons { font-size: 13px; }
+    }
+}
+
+.log-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+}
+
+.log-empty {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--secondary-txt);
+    padding: 8px 0;
+}
+
+.log-item {
+    display: flex;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(72, 80, 87, 0.4);
+
+    &:last-child { border-bottom: none; }
+
+    &__dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: var(--secondary-txt);
+        flex-shrink: 0;
+        margin-top: 5px;
+
+        &--approve { background-color: #4CAF82; }
+        &--reject  { background-color: #E05C5C; }
+        &--send    { background-color: #5B8DEF; }
+    }
+
+    &__body {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        flex: 1;
+        min-width: 0;
+    }
+
+    &__top {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    &__user {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--primary-txt);
+    }
+
+    &__action {
+        font-size: 11px;
+        color: var(--secondary-txt);
+        background-color: var(--secondary-bg-50);
+        padding: 1px 7px;
+        border-radius: 3px;
+
+        &--approve { color: #4CAF82; background-color: rgba(76,175,130,.12); }
+        &--reject  { color: #E05C5C; background-color: rgba(224,92,92,.12); }
+    }
+
+    &__meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        color: var(--secondary-txt);
+    }
+
+    &__time {
+        margin-left: auto;
+        font-size: 10px;
+        color: var(--secondary-txt);
+        opacity: 0.7;
+    }
+
+    &__from {
+        font-size: 10px;
+        color: var(--secondary-txt);
+        opacity: 0.6;
+    }
+}
+
+// Receipt HTML: plain `.log-item` + `.log-time`
+.log-section .log-item {
+    flex-direction: column;
+    gap: 4px;
+}
+
+.log-section .log-time {
+    font-size: 10px;
+    color: var(--secondary-txt);
+    opacity: 0.7;
+}
+
+// ─── Comment form ─────────────────────────────────────────────────────────────
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-shrink: 0;
+
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--primary-txt);
+
+        .material-icons { font-size: 13px; }
+    }
+}
+
+.comment-input {
+    width: 100%;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--primary-txt);
+    font-size: 12px;
+    padding: 8px 10px;
+    resize: none;
+    font-family: inherit;
+    line-height: 1.5;
+    transition: border-color 0.2s ease;
+
+    &::placeholder { color: var(--secondary-txt); opacity: 0.6; }
+
+    &:focus {
+        outline: none;
+        border-color: var(--active-txt);
+    }
+}
+
+// ─── Force Energy Value ────────────────────────────────────────────────────────
+
+.force-energy-value {
+    position: absolute;
+    bottom: 0px;
+    width: calc(100% - 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-shrink: 0;
+    background-color: var(--primary-bg);
+    padding: 10px 16px;
+
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--primary-txt);
+
+        .material-icons { font-size: 13px; }
+    }
+
+    &__input {
+        width: 100%;
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        color: var(--primary-txt);
+        font-size: 12px;
+        padding: 8px 10px;
+        resize: none;
+        font-family: inherit;
+        line-height: 1.5;
+        transition: border-color 0.2s ease;
+    }
+}
+
+// ─── Action footer (Approve / Reject) ─────────────────────────────────────────
+
+.action-footer {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.btn-approve,
+.btn-reject {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+
+    .material-icons { font-size: 16px; }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.btn-approve {
+    background-color: rgba(76, 175, 130, 0.15);
+    border-color: #4CAF82;
+    color: #4CAF82;
+
+    &:hover:not(:disabled) {
+        background-color: rgba(76, 175, 130, 0.25);
+    }
+}
+
+.btn-reject {
+    background-color: rgba(224, 92, 92, 0.15);
+    border-color: #E05C5C;
+    color: #E05C5C;
+
+    &:hover:not(:disabled) {
+        background-color: rgba(224, 92, 92, 0.25);
+    }
+}
+
+// ─── Icon button ──────────────────────────────────────────────────────────────
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 3px;
+    color: var(--secondary-txt);
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.15s ease;
+
+    .material-icons { font-size: 18px; }
+
+    &:hover {
+        background-color: var(--secondary-bg-50);
+        color: var(--primary-txt);
+    }
+}
+
+// ─── Spinner ──────────────────────────────────────────────────────────────────
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+    display: inline-block;
+}
+
+// ─── Responsive ───────────────────────────────────────────────────────────────
+
+@media (max-width: 800px) {
+    .dialog-body {
+        grid-template-columns: 1fr;
+        grid-template-rows: 40% 1fr;
+        overflow-y: auto;
+    }
+
+    .pane-left {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .dialog-root {
+        width: 100vw;
+        height: 100vh;
+        max-width: none;
+        max-height: none;
+        border-radius: 0;
+    }
+}
+

@@ -17,6 +17,7 @@ import { PortalModule } from '@angular/cdk/portal';
 import { Assistant } from './components/assistant/assistant';
 import { BillingUpload } from './components/billing-upload/billing-upload';
 import { ChartsModule } from '../shared/chart.module';
+import { PaymentUpload } from './components/payment-upload/payment-upload';
 
 
 
@@ -39,7 +40,8 @@ import { ChartsModule } from '../shared/chart.module';
         Navbar,
         NotFound,
         Assistant,
-        BillingUpload
+        BillingUpload,
+        PaymentUpload
     ],
     providers: [
         DatePipe,

@@ -6,19 +6,11 @@
         "Tags": [
           {
             "Title": "PQM_W",
-            "Tagname": "KKB.PQM01.WAC"
-          },
-          {
-            "Title": "PQM_EFF",
-            "Tagname": "KKB.CALC.PR"
+            "Tagname": "KKB.PQM01.W"
           },
           {
             "Title": "PQM_WH",
-            "Tagname": "KKB.PQM01.WH_TODAY"
-          },
-          {
-            "Title": "PQM_COM",
-            "Tagname": "KKB.PQM01.MBFAIL"
+            "Tagname": "KKB.PQM01.WH"
           },
 
           {
@@ -60,12 +52,12 @@
             "Tagname": "KKB.EDMI01.WAC"
           },
           {
-            "Title": "M01_I",
-            "Tagname": "KKB.EDMI01.IAC"
+            "Title": "M01_IMPORT",
+            "Tagname": "KKB.EDMI01.WH_IMPORT"
           },
           {
-            "Title": "M01_WH",
-            "Tagname": "KKB.EDMI01.WH_TODAY"
+            "Title": "M01_EXPORT",
+            "Tagname": "KKB.EDMI01.WH_EXPORT"
           },
           {
             "Title": "M01_COM",
@@ -77,12 +69,12 @@
             "Tagname": "KKB.EDMI02.WAC"
           },
           {
-            "Title": "M02_I",
-            "Tagname": "KKB.EDMI02.IAC"
+            "Title": "M02_IMPORT",
+            "Tagname": "KKB.EDMI02.WH_IMPORT"
           },
           {
-            "Title": "M02_WH",
-            "Tagname": "KKB.EDMI02.WH_TODAY"
+            "Title": "M02_EXPORT",
+            "Tagname": "KKB.EDMI02.WH_EXPORT"
           },
           {
             "Title": "M02_COM",
@@ -94,12 +86,12 @@
             "Tagname": "KKB.EDMI03.WAC"
           },
           {
-            "Title": "M03_I",
-            "Tagname": "KKB.EDMI03.IAC"
+            "Title": "M03_IMPORT",
+            "Tagname": "KKB.EDMI03.WH_IMPORT"
           },
           {
-            "Title": "M03_WH",
-            "Tagname": "KKB.EDMI03.WH_TODAY"
+            "Title": "M03_EXPORT",
+            "Tagname": "KKB.EDMI03.WH_EXPORT"
           },
           {
             "Title": "M03_COM",
@@ -111,12 +103,12 @@
             "Tagname": "KKB.EDMI04.WAC"
           },
           {
-            "Title": "M04_I",
-            "Tagname": "KKB.EDMI04.IAC"
+            "Title": "M04_IMPORT",
+            "Tagname": "KKB.EDMI04.WH_IMPORT"
           },
           {
-            "Title": "M04_WH",
-            "Tagname": "KKB.EDMI04.WH_TODAY"
+            "Title": "M04_EXPORT",
+            "Tagname": "KKB.EDMI04.WH_EXPORT"
           },
           {
             "Title": "M04_COM",
@@ -128,12 +120,12 @@
             "Tagname": "KKB.EDMI05.WAC"
           },
           {
-            "Title": "M05_I",
-            "Tagname": "KKB.EDMI05.IAC"
+            "Title": "M05_IMPORT",
+            "Tagname": "KKB.EDMI05.WH_IMPORT"
           },
           {
-            "Title": "M05_WH",
-            "Tagname": "KKB.EDMI05.WH_TODAY"
+            "Title": "M05_EXPORT",
+            "Tagname": "KKB.EDMI05.WH_EXPORT"
           },
           {
             "Title": "M05_COM",

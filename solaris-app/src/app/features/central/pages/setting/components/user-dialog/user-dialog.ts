@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, output, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, inject, input, output, signal } from '@angular/core';
 import { User } from '../../../../models/billing.model';
 import { SiteModel, SiteStateModel } from '../../../../../../shared/models/config.model';
 import { Store } from '@ngrx/store';
@@ -14,7 +14,7 @@ import { sendMessage } from '../../../../../../store/actions/toaster.actions';
   templateUrl: './user-dialog.html',
   styleUrl: './user-dialog.scss'
 })
-export class UserDialog implements OnInit {
+export class UserDialog implements OnInit, AfterViewInit {
   
   userList = input<UserDataModel[]>([]);
   userData = input<UserDataModel>(this.getEmptyUser());
@@ -28,28 +28,44 @@ export class UserDialog implements OnInit {
   siteList = signal<SiteModel[]>([]);
   private store = inject(Store);
   private service = inject(HttpService);
+
+  @ViewChild('signatureCanvas') signatureCanvas?: ElementRef<HTMLCanvasElement>;
+  private canvasContext: CanvasRenderingContext2D | null = null;
+  private isDrawing: boolean = false;
+  private deviceScale: number = 1;
+  signaturePreview: string = '';
+  private canvasCssWidth: number = 400;
+  private canvasCssHeight: number = 200;
   constructor() {
   }
 
   ngOnInit(): void {
-    // this.store.select(getZoneConfig('CENTRAL1')).subscribe(zone => {
-    //   if (zone) {
-    //     this.siteList.set(zone.siteList);
-    //   }
-    // });
-    
     this.getSiteConfig();
     this.initializeMockData();
+    this.getUserSignature();
   }
 
   initializeMockData(): void {
     
   }
 
+  async getUserSignature(){
+    const response = await this.service.getUserSignature(this.userData().username);
+    if(response && typeof response === 'string') {
+      this.signaturePreview = response;
+      // If canvas is already initialized, render the saved signature into it.
+      if (this.canvasContext) {
+        this.drawSignatureImageToCanvas(response);
+      }
+    } else {
+      this.signaturePreview = '';
+    }
+  }
+
   async getSiteConfig(){
     const config: SiteStateModel = await this.service.getConfig2('assets/sitelist.json');
     if(config){
-      const zonselected = config.zoneList.map(x => x.siteList).flat(1);
+      const zonselected = config.zoneList.flatMap(x => x.siteList);
       if(zonselected){
         this.siteList.set(zonselected);
       }
@@ -65,13 +81,172 @@ export class UserDialog implements OnInit {
       Group: 'user',
       pageAccess: [],
       siteAccess: [],
-      firstName: '',
-      lastName: ''
+      fullname: '',
+      company: '',
+      department: '',
+      role: '',
+      signature: ''
     };
   }
 
   closeUserModal(): void {
     this.onClose.emit();
+  }
+
+  // Signature handling
+  ngAfterViewInit(): void {
+    this.initializeSignatureCanvas();
+  }
+
+  private initializeSignatureCanvas(): void {
+    if (!this.signatureCanvas) return;
+    const canvas = this.signatureCanvas.nativeElement;
+    const context = canvas.getContext('2d');
+    if (!context) return;
+    // Handle high-DPI displays
+    const dpr = window.devicePixelRatio || 1;
+    this.deviceScale = dpr;
+    const displayWidth = canvas.width;
+    const displayHeight = canvas.height;
+    this.canvasCssWidth = displayWidth;
+    this.canvasCssHeight = displayHeight;
+    canvas.width = Math.floor(displayWidth * dpr);
+    canvas.height = Math.floor(displayHeight * dpr);
+    canvas.style.width = `${displayWidth}px`;
+    canvas.style.height = `${displayHeight}px`;
+
+    context.scale(dpr, dpr);
+    context.lineWidth = 2;
+    context.lineCap = 'round';
+    context.strokeStyle = '#000';
+    this.canvasContext = context;
+
+    // If we already loaded signaturePreview in ngOnInit, render it now.
+    if (this.signaturePreview) {
+      this.drawSignatureImageToCanvas(this.signaturePreview);
+    }
+  }
+
+  onPointerDown(event: MouseEvent): void {
+    if (!this.canvasContext || !this.signatureCanvas) return;
+    this.isDrawing = true;
+    const { x, y } = this.getCanvasPoint(event.clientX, event.clientY);
+    this.canvasContext.beginPath();
+    this.canvasContext.moveTo(x, y);
+  }
+
+  onPointerMove(event: MouseEvent): void {
+    if (!this.isDrawing || !this.canvasContext) return;
+    const { x, y } = this.getCanvasPoint(event.clientX, event.clientY);
+    this.canvasContext.lineTo(x, y);
+    this.canvasContext.stroke();
+  }
+
+  onPointerUp(): void {
+    if (!this.canvasContext) return;
+    this.isDrawing = false;
+    this.canvasContext.closePath();
+  }
+
+  onTouchStart(event: TouchEvent): void {
+    if (!this.canvasContext) return;
+    const touch = event.touches[0];
+    if (!touch) return;
+    event.preventDefault();
+    this.isDrawing = true;
+    const { x, y } = this.getCanvasPoint(touch.clientX, touch.clientY);
+    this.canvasContext.beginPath();
+    this.canvasContext.moveTo(x, y);
+  }
+
+  onTouchMove(event: TouchEvent): void {
+    if (!this.isDrawing || !this.canvasContext) return;
+    const touch = event.touches[0];
+    if (!touch) return;
+    event.preventDefault();
+    const { x, y } = this.getCanvasPoint(touch.clientX, touch.clientY);
+    this.canvasContext.lineTo(x, y);
+    this.canvasContext.stroke();
+  }
+
+  clearSignature(): void {
+    if (!this.signatureCanvas || !this.canvasContext) return;
+    const canvas = this.signatureCanvas.nativeElement;
+    // Clear in CSS pixel space using scaled context
+    this.canvasContext.save();
+    this.canvasContext.setTransform(1, 0, 0, 1, 0, 0);
+    this.canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+    this.canvasContext.restore();
+    // Re-apply base drawing settings
+    this.canvasContext.lineWidth = 2;
+    this.canvasContext.lineCap = 'round';
+    this.canvasContext.strokeStyle = '#000';
+    this.signaturePreview = '';
+  }
+
+  private drawSignatureImageToCanvas(dataUrl: string): void {
+    if (!this.signatureCanvas || !this.canvasContext) return;
+
+    // Clear existing content without modifying `signaturePreview`.
+    const canvas = this.signatureCanvas.nativeElement;
+    this.canvasContext.save();
+    this.canvasContext.setTransform(1, 0, 0, 1, 0, 0);
+    this.canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+    this.canvasContext.restore();
+    this.canvasContext.lineWidth = 2;
+    this.canvasContext.lineCap = 'round';
+    this.canvasContext.strokeStyle = '#000';
+
+    const img = new Image();
+    img.onload = () => {
+      // Draw using CSS pixel coordinates (context is scaled for DPR).
+      this.canvasContext?.drawImage(img, 0, 0, this.canvasCssWidth, this.canvasCssHeight);
+    };
+    img.src = dataUrl;
+  }
+
+  saveCanvasSignature(): void {
+    if (!this.signatureCanvas) return;
+    const canvas = this.signatureCanvas.nativeElement;
+    // Create an export canvas in CSS pixels to avoid DPR scaling in output
+    const exportCanvas = document.createElement('canvas');
+    exportCanvas.width = Math.floor(canvas.width / this.deviceScale);
+    exportCanvas.height = Math.floor(canvas.height / this.deviceScale);
+    const exportCtx = exportCanvas.getContext('2d');
+    if (exportCtx) {
+      exportCtx.fillStyle = '#ffffff';
+      exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+      exportCtx.drawImage(
+        canvas,
+        0, 0, canvas.width, canvas.height,
+        0, 0, exportCanvas.width, exportCanvas.height
+      );
+      this.signaturePreview = exportCanvas.toDataURL('image/png');
+    }
+  }
+
+  onSignatureFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+    const file = input.files[0];
+    if (!file.type.startsWith('image/')) {
+      this.store.dispatch(sendMessage({ payload: { text: 'Please select an image file', type: 'warn' } }));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      this.signaturePreview = result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  private getCanvasPoint(clientX: number, clientY: number): { x: number; y: number } {
+    if (!this.signatureCanvas) return { x: 0, y: 0 };
+    const rect = this.signatureCanvas.nativeElement.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    return { x, y };
   }
 
   togglePageAccess(page: string): void {
@@ -183,7 +358,12 @@ export class UserDialog implements OnInit {
         pageAccess: this.userData().pageAccess,
         siteAccess: this.userData().siteAccess,
         firstName: this.userData().firstName,
-        lastName: this.userData().lastName
+        lastName: this.userData().lastName,
+        fullname: this.userData().fullname,
+        company: this.userData().company,
+        department: this.userData().department,
+        role: this.userData().role,
+        signature: this.signaturePreview || undefined
       };
       const response = await this.service.addUserConfig(body);
       if (response && response.success) {
@@ -215,7 +395,12 @@ export class UserDialog implements OnInit {
         pageAccess: this.userData().pageAccess,
         siteAccess: this.userData().siteAccess,
         firstName: this.userData().firstName,
-        lastName: this.userData().lastName
+        lastName: this.userData().lastName,
+        fullname: this.userData().fullname,
+        company: this.userData().company,
+        department: this.userData().department,
+        role: this.userData().role,
+        signature: this.signaturePreview || undefined
       };
       const response = await this.service.updateUserConfig(body);
       if (response && response.success) {

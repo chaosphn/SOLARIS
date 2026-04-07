@@ -229,3 +229,76 @@
         }
     }
 }
+
+.user-assignments-selection {
+    padding: 12px 0;
+}
+
+.user-assignments-selection {
+    margin-top: 20px;
+
+    .user-assignments-title {
+        color: var(--primary-txt);
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 16px;
+        border-left: 3px solid var(--highlight);
+        padding-left: 8px;
+    }
+
+    .user-assignments {
+        .step-header {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--primary-txt);
+            margin: 0px 0 8px 0;
+            // border-left: 3px solid var(--highlight);
+            // padding-left: 8px;
+        }
+
+        .assignment-row {
+            display: flex;
+            gap: 12px;
+            //margin-bottom: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+
+            .form-group {
+                flex: 1;
+                min-width: 200px;
+
+                label {
+                    display: block;
+                    color: var(--secondary-txt);
+                    font-size: 14px;
+                    font-weight: 500;
+                    margin-bottom: 4px;
+                }
+
+                .user-select {
+                    width: 100%;
+                    background-color: var(--primary-bg);
+                    border: 1px solid var(--border-color);
+                    color: var(--primary-txt);
+                    border-radius: 4px;
+                    padding: 8px 12px;
+                    font-size: 14px;
+                    outline: none;
+                    transition: border-color 0.2s;
+
+                    &:focus {
+                        border-color: var(--highlight);
+                    }
+                }
+            }
+
+            .icon-group{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                margin-top: 20px;
+            }
+        }
+    }
+}

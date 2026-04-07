@@ -1,32 +1,6 @@
 <div class="container w-100 h-100 bz">
     <div class="header d-flex-sb w-100 bz">
         <div class="item-group d-flex">
-            @if (true) {
-                <div class="dropdown-wrapper" #dropdownWrapper1>
-                    <div class="custom-dropdown d-flex-ct bz h-100" 
-                        [class.active]="isDropdownOpen1"
-                        (click)="toggleDropdown1($event)">
-                        <div class="selected-option">
-                            @if (selectedReport && selectedReport.icon) {
-                                <span class="material-icons">{{ selectedReport.icon }}</span>
-                            }
-                            <span>{{ selectedReport?.label || 'Billing Type' }}</span>
-                        </div>
-                        <span class="material-icons dropdown-arrow">keyboard_arrow_down</span>
-                    </div>
-                    <div class="dropdown-menu" [class.show]="isDropdownOpen1">
-                        @for (option of reportOptions(); track $index) {
-                            <div class="dropdown-item"
-                                [class.selected]="selectedReport?.value === option.value"
-                                [attr.data-value]="option.value"
-                                (click)="selectOption1($event, option)">
-                                <span class="material-icons">{{ option.icon }}</span>
-                                <span>{{ option.label }}</span>
-                            </div>
-                        }
-                    </div>
-                </div>
-            }
             <div class="dropdown-wrapper" #dropdownWrapper2>
                 <div class="custom-dropdown d-flex-ct bz h-100" 
                     [class.active]="isDropdownOpen2"
@@ -69,23 +43,264 @@
             </div>
         </div>
         <div class="btn-group d-flex">
-            @if (sessionId().length > 0 && sessionId() !== 'viewer') {
-                <button class="submit d-flex-ct brd h-100" (click)="confirmApproveBillingData()">{{ loading3() ? 'SENDING...' : 'APPROVE & SEND' }}</button>
+            @if (userRole() === 'administrator' && !checkIsNowMonth()) {
+                <button class="submit d-flex-ct brd h-100" (click)="generateReport()">
+                    {{ loading4() ? 'GENERATING...' : 'GENERATE' }}
+                </button>
             }
-            @if (userRole() === 'administrator' && checkIsNowMonth()) {
-                <button class="submit d-flex-ct brd h-100" (click)="generateReport()">{{ loading4() ? 'GENERATING...' : 'GENERATE' }}</button>
-            }
-            <button class="submit d-flex-ct brd h-100" (click)="selectReport()">{{ loading() ? 'LOADING...' : 'VIEW' }}</button>
-            <button class="submit d-flex-ct brd h-100" (click)="downloadReport()">{{ loading2() ? 'LOADING...' : 'DOWNLOAD' }}</button>
+            <button class="submit d-flex-ct brd h-100" (click)="getBillingStateData()">
+                {{ loading() ? 'LOADING...' : 'VIEW' }}
+            </button>
+            <button class="submit d-flex-ct brd h-100" (click)="downloadReport()">
+                {{ loading2() ? 'LOADING...' : 'DOWNLOAD' }}
+            </button>
         </div>
     </div>
+
     <div class="content w-100 bz">
-        @if(pdfurl().length > 0){
-            <pdf-viewer [className]="'pdf bz'" [src]="pdfurl()"
-                [render-text]="true"
-                [original-size]="false"
-                style="width: 850px; height: 100% !important;"
-            ></pdf-viewer>
-        }
+        <app-card-container [title]="'BILLING LIST'">
+            <ng-template #container>
+                <div class="billing-wrapper w-100 h-100 bz">
+
+                    <!-- ─── Summary Row ─────────────────────────────────── -->
+                    <div class="summary-row">
+
+                        <!-- Billing Status -->
+                        <div class="summary-card">
+                            <div class="summary-card__title">
+                                <span class="material-icons">list_alt</span>
+                                Billing Status
+                            </div>
+                            <div class="summary-card__pills">
+                                <div class="pill pill--total">
+                                    <span class="pill__label">Total</span>
+                                    <span class="pill__count">{{ billingStatusSummary().total }}</span>
+                                </div>
+                                <div class="pill pill--prepared">
+                                    <span class="dot dot--prepared"></span>
+                                    <span class="pill__label">Prepared : </span>
+                                    <span class="pill__count">{{ billingStatusSummary().counts.prepared }}</span>
+                                </div>
+                                <div class="pill pill--onprogress">
+                                    <span class="dot dot--onprogress"></span>
+                                    <span class="pill__label">On progress : </span>
+                                    <span class="pill__count">{{ billingStatusSummary().counts.onprogress }}</span>
+                                </div>
+                                <div class="pill pill--complete">
+                                    <span class="dot dot--complete"></span>
+                                    <span class="pill__label">Complete : </span>
+                                    <span class="pill__count">{{ billingStatusSummary().counts.complete }}</span>
+                                </div>
+                                <div class="pill pill--delay">
+                                    <span class="dot dot--delay"></span>
+                                    <span class="pill__label">Delay : </span>
+                                    <span class="pill__count">{{ billingStatusSummary().counts.delay }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Billing Process -->
+                        <div class="summary-card">
+                            <div class="summary-card__title">
+                                <span class="material-icons">timeline</span>
+                                Billing Process
+                            </div>
+                            <div class="summary-card__pills">
+                                <div class="pill pill--total">
+                                    <span class="pill__label">Total</span>
+                                    <span class="pill__count">{{ billingProcessSummary().total }}</span>
+                                </div>
+                                <div class="pill pill--confirmation">
+                                    <span class="dot dot--confirmation"></span>
+                                    <span class="pill__label">Confirmation :</span>
+                                    <span class="pill__count">{{ billingProcessSummary().counts.confirmation }}</span>
+                                </div>
+                                <div class="pill pill--invoice">
+                                    <span class="dot dot--invoice"></span>
+                                    <span class="pill__label">Invoice :</span>
+                                    <span class="pill__count">{{ billingProcessSummary().counts.invoice }}</span>
+                                </div>
+                                <div class="pill pill--payment">
+                                    <span class="dot dot--payment"></span>
+                                    <span class="pill__label">Payment :</span>
+                                    <span class="pill__count">{{ billingProcessSummary().counts.payment }}</span>
+                                </div>
+                                <div class="pill pill--receipt">
+                                    <span class="dot dot--receipt"></span>
+                                    <span class="pill__label">Receipt :</span>
+                                    <span class="pill__count">{{ billingProcessSummary().counts.receipt }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- ─── Data Table ──────────────────────────────────── -->
+                    <div class="billing-table">
+                        <div class="table-wrap">
+                            <table class="tbl w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Billing Status</th>
+                                        <th>Site</th>
+                                        <th>Contract Type</th>
+                                        <th>Billing State</th>
+                                        <th class="th-stepper" style="text-align: center;">Billing Process</th>
+                                        <th class="ta-r" style="text-align: center;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (row of pagedRows(); track row.id) {
+                                        <tr class="tbl-row bz">
+                                            <!-- Billing Status badge -->
+                                            <td>
+                                                <span class="badge"
+                                                    [class.badge--prepared]="row.billingStatus === 'prepared'"
+                                                    [class.badge--onprogress]="row.billingStatus === 'onprogress'"
+                                                    [class.badge--complete]="row.billingStatus === 'complete'"
+                                                    [class.badge--delay]="row.billingStatus === 'delay'">
+                                                    <span class="badge__dot"></span>
+                                                    {{ row.billingStatus | titlecase}}
+                                                </span>
+                                            </td>
+
+                                            <!-- Site -->
+                                            <td class="td-site">{{ getSiteName(row.siteId) }}</td>
+
+                                            <!-- Contract Type -->
+                                            <td class="td-ctype">{{ row.contractType }}</td>
+
+                                            <!-- Billing Process status -->
+                                            <td class="td-process">
+                                                <span class="badge"
+                                                    [class.badge--confirmation]="row.billingState === 'confirmation'"
+                                                    [class.badge--invoice]="row.billingState === 'invoice'"
+                                                    [class.badge--payment]="row.billingState === 'payment'"
+                                                    [class.badge--receipt]="row.billingState === 'receipt'">
+                                                    <span class="badge__dot"></span>
+                                                    {{ row.billingState | titlecase }}
+                                                </span>
+                                            </td>
+
+                                            <!-- Billing State — process stepper -->
+                                            <td class="td-stepper">
+                                                <div class="stepper">
+                                                    @for (step of stepDefs; track step.key; let i = $index) {
+                                                        <!-- connector before each step (except first) -->
+                                                        @if (i > 0) {
+                                                            <div class="stepper__line"
+                                                                [class.stepper__line--done]="isStepDone(row.billingState, step.key, row)"
+                                                                [class.stepper__line--active]="isStepActive(row.billingState, step.key, row)">
+                                                            </div>
+                                                        }
+                                                        <div class="stepper__step">
+                                                            <div class="stepper__node"
+                                                                [class.stepper__node--done]="isStepDone(row.billingState, step.key, row)"
+                                                                [class.stepper__node--active]="isStepActive(row.billingState, step.key, row)"
+                                                                [class.stepper__node--pending]="isStepPending(row.billingState, step.key, row)">
+                                                                @if (isStepDone(row.billingState, step.key, row)) {
+                                                                    <span class="material-icons stepper__icon stepper__icon--done">check</span>
+                                                                } @else if (isStepActive(row.billingState, step.key, row)) {
+                                                                    <span class="material-icons stepper__icon stepper__icon--active">schedule</span>
+                                                                }
+                                                            </div>
+                                                            <span class="stepper__label"
+                                                                [class.stepper__label--done]="isStepDone(row.billingState, step.key, row)"
+                                                                [class.stepper__label--active]="isStepActive(row.billingState, step.key, row)">
+                                                                {{ step.label }}
+                                                            </span>
+                                                            @if (isStepActive(row.billingState, step.key, row) && row.billingProcess) {
+                                                                <span class="stepper__sublabel">{{ getLabel(step.key, row) | billingStatus }}</span>
+                                                            } @else if (isStepPending(row.billingState, step.key, row)) {
+                                                                <span class="stepper__sublabel">{{ getLabel(step.key, row) | billingStatus }}</span>
+                                                            } @else {
+                                                                <span class="stepper__sublabel">{{ getLabel(step.key, row) | billingStatus }}</span>
+                                                            }
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </td>
+
+                                            <!-- Actions -->
+                                            <td class="ta-r bz">
+                                                <div class="action-group">
+                                                    <button class="action-btn view-btn" title="view" >
+                                                        <span class="material-icons">visibility</span>
+                                                    </button>
+                                                    <button class="action-btn edit-btn" title="edit" (click)="openConfirmationInternalDialog(row)">
+                                                        <span class="material-icons">edit</span>
+                                                    </button>
+                                                    <button class="action-btn edit-btn" title="edit" (click)="openConfirmationCustomerDialog(row)">
+                                                        <span class="material-icons">edit</span>
+                                                    </button>
+                                                    <button class="action-btn edit-btn" title="edit" (click)="openInvoiceAccountingDialog(row)">
+                                                        <span class="material-icons">edit</span>
+                                                    </button>
+                                                    <button class="action-btn edit-btn" title="edit" (click)="openPaymentConfirmationDialog(row)">
+                                                        <span class="material-icons">edit</span>
+                                                    </button>
+                                                    <button class="action-btn edit-btn" title="edit" (click)="openReceiptConfirmationDialog(row)">
+                                                        <span class="material-icons">edit</span>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                    @if (billingTableRows().length === 0) {
+                                        <tr>
+                                            <td colspan="6" class="td-empty">
+                                                @if (loading()) {
+                                                    <span class="material-icons spin">sync</span>
+                                                    Loading...
+                                                } @else {
+                                                    <span class="material-icons">inbox</span>
+                                                    No data
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr class="tbl-footer-row">
+                                        <td colspan="6">
+                                            <div class="tbl-footer">
+                                                <div class="tbl-footer__left">
+                                                    <span class="tbl-footer__label">Rows per page</span>
+                                                    <select class="tbl-footer__select"
+                                                        [value]="pageSize()"
+                                                        (change)="setPageSizeFromEvent($event)"
+                                                        [disabled]="billingTableRows().length === 0">
+                                                        @for (opt of pageSizeOptions; track $index) {
+                                                            <option [value]="opt">{{ opt }}</option>
+                                                        }
+                                                    </select>
+                                                </div>
+
+                                                <div class="tbl-footer__right">
+                                                    <span class="tbl-footer__range">{{ pageRangeText() }}</span>
+                                                    <button class="tbl-footer__btn"
+                                                        (click)="prevPage()"
+                                                        [disabled]="currentPage() <= 1 || billingTableRows().length === 0"
+                                                        title="Previous page">
+                                                        <span class="material-icons">chevron_left</span>
+                                                    </button>
+                                                    <button class="tbl-footer__btn"
+                                                        (click)="nextPage()"
+                                                        [disabled]="currentPage() >= totalPages() || billingTableRows().length === 0"
+                                                        title="Next page">
+                                                        <span class="material-icons">chevron_right</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </ng-template>
+        </app-card-container>
     </div>
 </div>

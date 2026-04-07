@@ -6,6 +6,7 @@ import { SiteModel } from '../../../../../../shared/models/config.model';
 import { firstValueFrom } from 'rxjs';
 import { getAllConfig } from '../../../../../../store/selectors/site.selectors';
 import { sendMessage } from '../../../../../../store/actions/toaster.actions';
+import { UserDataModel } from '../../../../../../shared/models/user.model';
 
 @Component({
   selector: 'app-config-dialog',
@@ -18,9 +19,11 @@ export class ConfigDialog implements OnInit {
   // Site config form\
   siteInput = input<BillingConfigModel>(this.getEmptySiteConfig());
   siteConfig = signal<BillingConfigModel>(this.getEmptySiteConfig());
+  mode = input<'view' | 'edit' | 'add'>('view');
   onClose = output();
   onSave = output<BillingConfigModel>();
   siteList = signal<SiteModel[]>([]);
+  userList = signal<UserDataModel[]>([]);
 
   private httpSrv = inject(HttpService);
   private store = inject(Store);
@@ -36,6 +39,7 @@ export class ConfigDialog implements OnInit {
 
   ngOnInit(): void {
     this.getSiteListData();
+    this.initializeUserData();
   }
 
   async getSiteListData(){
@@ -46,6 +50,15 @@ export class ConfigDialog implements OnInit {
       //console.log(res)
       this.siteList.set(res[0].siteList);
     };
+  }
+
+  async initializeUserData() {
+    const result = await this.httpSrv.getUserConfig();
+    if (result) {
+      this.userList.set(result);
+    } else {
+      this.userList.set([]);
+    }
   }
 
   getEmptySiteConfig(): BillingConfigModel {
@@ -61,12 +74,15 @@ export class ConfigDialog implements OnInit {
       ftRate: 0,
       scheduleDate: '',
       scheduleTime: '',
-      approvedBy: '',
-      approvedCc: '',
-      approvedBcc: '',
-      receivedBy: '',
-      receivedCc: '',
-      receivedBcc: ''
+      confirmation_user: [],
+      confirmation_account: [],
+      confirmation_customer: [],
+      invoice_user: [],
+      invoice_account: [],
+      invoice_customer: [],
+      receipt_user: [],
+      receipt_account: [],
+      receipt_customer: []
     };
   }
 
@@ -108,12 +124,15 @@ export class ConfigDialog implements OnInit {
         ftRate: this.siteConfig().ftRate,
         scheduleDate: this.siteConfig().scheduleDate,
         scheduleTime: this.siteConfig().scheduleTime,
-        approvedBy: this.siteConfig().approvedBy,
-        approvedCc: this.siteConfig().approvedCc,
-        approvedBcc: this.siteConfig().approvedBcc,
-        receivedBy: this.siteConfig().receivedBy,
-        receivedCc: this.siteConfig().receivedCc,
-        receivedBcc: this.siteConfig().receivedBcc
+        confirmation_user: this.siteConfig().confirmation_user,
+        confirmation_account: this.siteConfig().confirmation_account,
+        confirmation_customer: this.siteConfig().confirmation_customer,
+        invoice_user: this.siteConfig().invoice_user,
+        invoice_account: this.siteConfig().invoice_account,
+        invoice_customer: this.siteConfig().invoice_customer,
+        receipt_user: this.siteConfig().receipt_user,
+        receipt_account: this.siteConfig().receipt_account,
+        receipt_customer: this.siteConfig().receipt_customer
       };
       const result = await this.httpSrv.addBillingConfig(request);
       if(result && result.StatusCode && result.StatusCode.toLowerCase().includes('success')){

@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { PermissionDialog } from '../../shared/components/permission-dialog/permission-dialog';
+import { AppInitService } from '../../shared/services/app-init.service';
 
 
 @Injectable({
@@ -12,20 +13,22 @@ import { PermissionDialog } from '../../shared/components/permission-dialog/perm
 export class PermissionGuard implements CanActivate {
   constructor(
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private initService: AppInitService
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const routingUrl = route.url[0].path;
     const userPermissions = this.getUserPermissions(); // ดึงสิทธิ์ของ user
-    //console.log(routingUrl, userPermissions)
+    const checkToken = localStorage.getItem('token');
+    //console.log(routingUrl, userPermissions, checkToken)
 
-    if (!userPermissions || userPermissions.length === 0) {
+    if ( userPermissions.length === 0 && checkToken?.length === 0) {
       const rt: any = route;
       const fullUrl: any = rt['_routerState']?.url;
-      //console.log(fullUrl)
+      console.log(fullUrl)
       sessionStorage.setItem('navigate', fullUrl);
-      this.router.navigate(['/login']);
+      //this.router.navigate(['/login']);
       return false;
     }
 
@@ -44,6 +47,7 @@ export class PermissionGuard implements CanActivate {
       }
     });
     sessionStorage.removeItem('navigate');
+    this.router.navigate([this.initService.defaultRoute]);
     return false;
   }
 
@@ -52,8 +56,8 @@ export class PermissionGuard implements CanActivate {
     const pageStr = localStorage.getItem('pages');
     if (pageStr) {
       const pages = JSON.parse(pageStr);
-      return pages || [];
+      return pages || ['overview'];
     }
-    return [];
+    return ['overview']; // ค่าเริ่มต้นถ้าไม่มีข้อมูล
   }
 }

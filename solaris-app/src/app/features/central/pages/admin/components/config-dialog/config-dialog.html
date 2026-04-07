@@ -11,7 +11,7 @@
             <!-- Site Selection -->
             <div class="form-group">
                 <label>Select Site</label>
-                <select [(ngModel)]="siteConfig().siteId" (change)="onChangeSiteId($event)" class="form-control">
+                <select [(ngModel)]="siteConfig().siteId" (change)="onChangeSiteId($event)" class="form-control" disabled="{{ mode() === 'view' }}">
                     <option value="">-- Select Site --</option>
                     @for (site of siteList(); track $index) {
                         <option [value]="site.id">{{ site.name }}</option>
@@ -25,12 +25,12 @@
                 <div class="radio-group">
                     <label class="checkbox-label" [ngClass]="{ 'active' : siteConfig().meterType === 'normal' }">
                         <input type="radio" name="siteMeterMode" value="normal" 
-                               [(ngModel)]="siteConfig().meterType" (change)="onSiteConfigMeterModeChange()">
+                               [(ngModel)]="siteConfig().meterType" (change)="onSiteConfigMeterModeChange()" disabled="{{ mode() === 'view' }}">
                         <span>Normal Meter</span>
                     </label>
                     <label class="checkbox-label" [ngClass]="{ 'active' : siteConfig().meterType === 'tou' }">
                         <input type="radio" name="siteMeterMode" value="tou" 
-                               [(ngModel)]="siteConfig().meterType" (change)="onSiteConfigMeterModeChange()">
+                               [(ngModel)]="siteConfig().meterType" (change)="onSiteConfigMeterModeChange()" disabled="{{ mode() === 'view' }}">
                         <span>TOU Meter</span>
                     </label>
                 </div>
@@ -46,7 +46,7 @@
                             ENERGY COST
                         </div>
                         <div class="text-field">
-                            <input type="number" step="0.0001" [(ngModel)]="siteConfig().energyCost" />
+                            <input type="number" step="0.0001" [(ngModel)]="siteConfig().energyCost" disabled="{{ mode() === 'view' }}" />
                         </div>
                     </div>
                 }
@@ -59,7 +59,7 @@
                             ONPEAK ENERGY COST
                         </div>
                         <div class="text-field">
-                            <input type="number" step="0.0001" [(ngModel)]="siteConfig().onpeakCost" />
+                            <input type="number" step="0.0001" [(ngModel)]="siteConfig().onpeakCost" disabled="{{ mode() === 'view' }}" />
                         </div>
                     </div>
                 }
@@ -71,7 +71,7 @@
                             OFFPEAK ENERGY COST
                         </div>
                         <div class="text-field">
-                            <input type="number" step="0.0001" [(ngModel)]="siteConfig().offpeakCost" />
+                            <input type="number" step="0.0001" [(ngModel)]="siteConfig().offpeakCost" disabled="{{ mode() === 'view' }}" />
                         </div>
                     </div>
                 }
@@ -83,7 +83,7 @@
                         DISCOUNT COST
                     </div>
                     <div class="text-field">
-                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().discountRate" />
+                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().discountRate" disabled="{{ mode() === 'view' }}" />
                     </div>
                 </div>
 
@@ -93,18 +93,117 @@
                         FT COST
                     </div>
                     <div class="text-field">
-                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().ftRate" />
+                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().ftRate" disabled="{{ mode() === 'view' }}" />
                     </div>
                 </div>
             </div>
 
-            <!-- Email List -->
-            <div class="form-group full-width">
-                <label>Email List (comma-separated)</label>
-                <textarea [(ngModel)]="siteConfig().receivedBy" 
-                          class="form-control textarea" 
-                          rows="3"
-                          placeholder="email1@example.com, email2@example.com"></textarea>
+            <!-- User Assignments -->
+            <div class="user-assignments-selection w-100">
+                <div class="user-assignments-title w-100 bz">
+                    <div>Workflow Responsibility</div>
+                </div>
+                <div class="user-assignments w-100 bz">
+                    <div class="step-header bz">[ Energy Confirmation ]</div>
+                    <div class="assignment-row bz">
+                        <div class="form-group bz">
+                            <label>Reviewed By (Internal)</label>
+                            <mat-select multiple [(ngModel)]="siteConfig().confirmation_user" class="user-select" disabled="{{ mode() === 'view' }}">
+                                @for (user of userList(); track user._id) {
+                                    <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                }
+                            </mat-select>
+                        </div>
+                        <div class="icon-group ">
+                            <i class="material-icons">arrow_forward</i>
+                        </div>
+                        <div class="form-group">
+                            <label>Reviewed By (Accounting)</label>
+                            <mat-select multiple [(ngModel)]="siteConfig().confirmation_account" class="user-select" disabled="{{ mode() === 'view' }}">
+                                @for (user of userList(); track user._id) {
+                                    <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                }
+                            </mat-select>
+                        </div>
+                        <div class="icon-group ">
+                            <i class="material-icons">arrow_forward</i>
+                        </div>
+                        <div class="form-group">
+                            <label>Reviewed By (Customer)</label>
+                            <mat-select multiple [(ngModel)]="siteConfig().confirmation_customer" class="user-select" disabled="{{ mode() === 'view' }}">
+                                @for (user of userList(); track user._id) {
+                                    <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                }
+                            </mat-select>
+                        </div>
+                    </div>
+                    <div class="step-header">[ Invoice Processing ]</div>
+                    <div class="assignment-row">
+                        <div class="form-group">
+                            <label>Verified By (Internal)</label>
+                            <mat-select multiple [(ngModel)]="siteConfig().invoice_user" class="user-select" disabled="{{ mode() === 'view' }}">
+                                @for (user of userList(); track user._id) {
+                                    <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                }
+                            </mat-select>
+                        </div>
+                        <div class="icon-group ">
+                            <i class="material-icons">arrow_forward</i>
+                        </div>
+                        <div class="form-group">
+                            <label>Verified By (Accounting)</label>
+                            <mat-select multiple [(ngModel)]="siteConfig().invoice_account" class="user-select" disabled="{{ mode() === 'view' }}">
+                                @for (user of userList(); track user._id) {
+                                    <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                }
+                            </mat-select>
+                        </div>
+                        <div class="icon-group ">
+                            <i class="material-icons">arrow_forward</i>
+                        </div>
+                        <div class="form-group">
+                            <label>Approved By (Customer)</label>
+                            <mat-select multiple [(ngModel)]="siteConfig().invoice_customer" class="user-select" disabled="{{ mode() === 'view' }}">
+                                @for (user of userList(); track user._id) {
+                                    <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                }
+                            </mat-select>
+                        </div>
+                    </div>
+                    <div class="step-header">[ Payment & Receipt ]</div>
+                    <div class="assignment-row">
+                        <div class="form-group">
+                            <label>Recorded By (Internal)</label>
+                            <mat-select multiple [(ngModel)]="siteConfig().receipt_user" class="user-select" disabled="{{ mode() === 'view' }}">
+                                @for (user of userList(); track user._id) {
+                                    <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                }
+                            </mat-select>
+                        </div>
+                        <div class="icon-group ">
+                            <i class="material-icons">arrow_forward</i>
+                        </div>
+                        <div class="form-group">
+                            <label>Validated By (Accounting)</label>
+                            <mat-select multiple [(ngModel)]="siteConfig().receipt_account" class="user-select" disabled="{{ mode() === 'view' }}">
+                                @for (user of userList(); track user._id) {
+                                    <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                }
+                            </mat-select>
+                        </div>
+                        <div class="icon-group ">
+                            <i class="material-icons">arrow_forward</i>
+                        </div>
+                        <div class="form-group">
+                            <label>Acknowledged By (Customer)</label>
+                            <mat-select multiple [(ngModel)]="siteConfig().receipt_customer" class="user-select" disabled="{{ mode() === 'view' }}">
+                                @for (user of userList(); track user._id) {
+                                    <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                }
+                            </mat-select>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

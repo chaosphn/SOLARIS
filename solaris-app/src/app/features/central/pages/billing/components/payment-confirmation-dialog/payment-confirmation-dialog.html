@@ -1,0 +1,182 @@
+<div class="dialog-root">
+
+    <!-- ─── Header ─────────────────────────────────────────────────────────── -->
+    <div class="dialog-header">
+        <span class="dialog-title">Customer Payment Confirmation</span>
+        <button class="icon-btn" (click)="close()">
+            <span class="material-icons">close</span>
+        </button>
+    </div>
+
+    <!-- ─── Body ───────────────────────────────────────────────────────────── -->
+    <div class="dialog-body">
+
+        <!-- Left — PDF Preview -->
+        <div class="pane-left">
+            <div class="pdf-frame">
+                @if (pdfUrl()) {
+                    <iframe [src]="pdfUrl()" class="pdf-iframe" frameborder="0"></iframe>
+                } @else if (loadingPdf()) {
+                    <div class="pdf-placeholder">
+                        <span class="material-icons spin">sync</span>
+                        <span>Loading preview…</span>
+                    </div>
+                } @else {
+                    <div class="pdf-placeholder">
+                        <span class="material-icons">picture_as_pdf</span>
+                        <span>No preview available</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Right — Info + Action -->
+        <div class="pane-right">
+
+            <!-- Site & Timestamp chips -->
+            <div class="meta-row">
+                <div class="meta-chip">
+                    <span class="material-icons">factory</span>
+                    <span class="meta-chip__value">{{ getSiteName(data.siteId) }}</span>
+                </div>
+                <div class="meta-chip">
+                    <span class="material-icons">calendar_month</span>
+                    <span class="meta-chip__value">{{ data.timestamp | date: 'MMM yyyy' }}</span>
+                </div>
+            </div>
+
+            <!-- Action Panel -->
+            <div class="action-panel">
+                <div class="action-panel__header">
+                    <span class="material-icons">manage_accounts</span>
+                    Action Panel
+                </div>
+
+                <!-- Billing state stepper (mini) -->
+                <div class="mini-stepper">
+                    @for (step of stepDefs; track step.key; let i = $index) {
+                        @if (i > 0) {
+                            <div class="mini-stepper__line"
+                                [class.mini-stepper__line--done]="isStepDone(step.key)"
+                                [class.mini-stepper__line--active]="isStepActive(step.key)">
+                            </div>
+                        }
+                        <div class="mini-stepper__step">
+                            <div class="mini-stepper__node"
+                                [class.mini-stepper__node--done]="isStepDone(step.key)"
+                                [class.mini-stepper__node--active]="isStepActive(step.key)"
+                                [class.mini-stepper__node--pending]="isStepPending(step.key)">
+                                @if (isStepDone(step.key)) {
+                                    <span class="material-icons mini-stepper__icon--done">check</span>
+                                } @else if (isStepActive(step.key)) {
+                                    <span class="material-icons mini-stepper__icon--active">schedule</span>
+                                }
+                            </div>
+                            <span class="mini-stepper__label"
+                                [class.mini-stepper__label--done]="isStepDone(step.key)"
+                                [class.mini-stepper__label--active]="isStepActive(step.key)">
+                                {{ step.label }}
+                            </span>
+                        </div>
+                    }
+                </div>
+
+                <!-- Current status pill -->
+                <div class="status-row">
+                    <span class="status-label">Current status</span>
+                    <span class="status-pill"
+                        [class.status-pill--prepared]="data.status === 'prepared'"
+                        [class.status-pill--onprogress]="data.status === 'onprogress'"
+                        [class.status-pill--complete]="data.status === 'complete'"
+                        [class.status-pill--delay]="data.status === 'delay'">
+                        {{ data.status }}
+                    </span>
+                    <span class="status-sub">{{ data.billing_process }}</span>
+                </div>
+
+                <!-- Activity log -->
+                @if (userRole() === 'administrator') {
+                    <div class="log-section">
+                        <div class="log-section__title">
+                            <span class="material-icons">history</span>
+                            Activity Log
+                        </div>
+                        <div class="log-list">
+                            @if (loadingLog()) {
+                                <div class="log-empty">
+                                    <span class="material-icons spin">sync</span> Loading…
+                                </div>
+                            } @else if (logs().length === 0) {
+                                <div class="log-empty">No activity yet</div>
+                            } @else {
+                                @for (log of logs(); track log.id) {
+                                    <div class="log-item">
+                                        <div class="log-item__dot"
+                                            [class.log-item__dot--approve]="log.action === 'approve'"
+                                            [class.log-item__dot--reject]="log.action === 'reject'"
+                                            [class.log-item__dot--send]="log.action === 'send'">
+                                        </div>
+                                        <div class="log-item__body">
+                                            <div class="log-item__top">
+                                                <span class="log-item__user">{{ log.user }}</span>
+                                                <span class="log-item__action"
+                                                    [class.log-item__action--approve]="log.action === 'approve'"
+                                                    [class.log-item__action--reject]="log.action === 'reject'">
+                                                    {{ log.action | titlecase}}
+                                                </span>
+                                            </div>
+                                            <div class="log-item__meta">
+                                                <span>{{ log.processType | titlecase }}</span>
+                                                <span class="log-item__time">{{ log.timestamp | date: 'dd MMM yy, HH:mm' }}</span>
+                                            </div>
+                                            @if (log.from_action) {
+                                                <div class="log-item__from">from: {{ log.from_action | titlecase }}</div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                } 
+
+                <!-- Transaction Reference No. -->
+                <div class="force-energy-value bz">
+                    <div class="force-energy-value__title">
+                        <span class="material-icons">payment</span>
+                        Transaction Reference No.
+                    </div>
+                    <input type="text" class="force-energy-value__input" [(ngModel)]="transactionReferenceNo" />
+                </div>
+
+                <!-- Comment form -->
+                <!-- <div class="comment-form">
+                    <div class="comment-form__title">
+                        <span class="material-icons">edit_note</span>
+                        Comment
+                    </div>
+                    <textarea
+                        class="comment-input"
+                        rows="3"
+                        placeholder="Add a comment or reason (optional)…"
+                        [(ngModel)]="comment">
+                    </textarea>
+                </div> -->
+            </div>
+
+            <!-- Approve / Reject buttons -->
+            <div class="action-footer">
+                <button class="btn-approve" (click)="confirmAction('submit')" [disabled]="loading()">
+                    <span class="material-icons">check_circle</span>
+                    {{ loading() ? 'Processing…' : 'Submit' }}
+                </button>
+                <!-- <button class="btn-reject" (click)="confirmAction('reject')" [disabled]="loading()">
+                    <span class="material-icons">cancel</span>
+                    Reject
+                </button> -->
+            </div>
+
+        </div>
+    </div>
+
+</div>

@@ -248,13 +248,33 @@
     .table-section {
         margin-top: 12px;
 
-        .table-title {
-            color: var(--primary-txt);
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 12px;
-            border-left: 3px solid var(--highlight);
-            padding-left: 8px;
+        .table-header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            .table-title {
+                color: var(--primary-txt);
+                font-size: 14px;
+                font-weight: 500;
+                border-left: 3px solid var(--highlight);
+                padding-left: 8px;
+            }
+            button {
+                font-size: 14px;
+                padding: 4px 12px;
+                border: 1px solid var(--btn-border);
+                background-color: var(--btn-bg);
+                color: var(--btn-color);
+                border-radius: 4px;
+                cursor: pointer;
+                transition: all 0.2s;
+
+                &:hover {
+                    filter: brightness(120%);
+                    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+                }
+            }
         }
 
         .table-wrapper {

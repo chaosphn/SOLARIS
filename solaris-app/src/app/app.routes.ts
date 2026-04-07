@@ -5,6 +5,7 @@ import { Login } from './core/components/login/login';
 import { Navbar } from './core/components/navbar/navbar';
 import { PermissionGuard } from './core/guards/auth.guard';
 import { BillingUpload } from './core/components/billing-upload/billing-upload';
+import { PaymentUpload } from './core/components/payment-upload/payment-upload';
 
 export const routes: Routes = [
     {
@@ -121,9 +122,15 @@ export const routes: Routes = [
     },
     {
         path: 'billing-upload/:id',
-        canActivate: [PermissionGuard],
+        //canActivate: [PermissionGuard],
         component: BillingUpload,
     },
+    {
+        path: 'payment-upload/:id',
+        //canActivate: [PermissionGuard],
+        component: PaymentUpload,
+    },
+
     {
         path: 'notfound',
         component: NotFound

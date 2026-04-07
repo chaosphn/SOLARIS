@@ -3,10 +3,13 @@
         <div class="report-box h-100 bz" style="margin-bottom: 16px;">
             <div class="head bz">
                 <div class="topic bz">REPORT SETTING</div>
-                <div class="btn-group">
-                    <button class="bz" (click)="openAddSiteModal()">ADD SITE CONFIG</button>
-                    <button class="bz" (click)="saveGlobalSettings()">SAVE CHANGE</button>
-                </div>
+                
+                @if (userRole() === 'administrator') {
+                    <div class="btn-group">
+                        <!-- <button class="bz" (click)="openAddSiteModal()">ADD SITE CONFIG</button> -->
+                        <button class="bz" (click)="saveGlobalSettings()">SAVE CHANGE</button>
+                    </div>
+                }
             </div>
 
             <!-- Report Mode Selection -->
@@ -87,14 +90,19 @@
             <!-- Site Configurations Table -->
             @if (siteConfigs().length > 0) {
                 <div class="table-section" >
-                    <h3 class="table-title">Site-Specific Email Configuration</h3>
+                    <div class="table-header bz">
+                        <div class="table-title bz">SITE CONFIGURATIONS</div>
+                        @if (userRole() === 'administrator') {
+                            <button class="bz" (click)="openAddSiteModal()">ADD SITE CONFIG</button>
+                        }
+                    </div>
                     <div class="table-wrapper">
                         <table class="config-table">
                             <thead>
                                 <tr>
                                     <th>Site Name</th>
                                     <th>Email List</th>
-                                    <th>Actions</th>
+                                    <th style="text-align: center;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -113,12 +121,15 @@
                                         }
                                     </td>
                                     <td class="action-cell">
-                                        <button class="action-btn edit-btn" (click)="editSiteConfig(config)" title="Edit">
-                                            <i class="material-icons">edit</i>
-                                        </button>
-                                        <button class="action-btn delete-btn" (click)="confirmDeleteSiteConfig(config.id)" title="Delete">
-                                            <i class="material-icons">delete</i>
-                                        </button>
+                                
+                                        @if (userRole() === 'administrator') {
+                                            <button class="action-btn edit-btn" (click)="editSiteConfig(config)" title="Edit">
+                                                <i class="material-icons">edit</i>
+                                            </button>
+                                            <button class="action-btn delete-btn" (click)="confirmDeleteSiteConfig(config.id)" title="Delete">
+                                                <i class="material-icons">delete</i>
+                                            </button>
+                                        }
                                     </td>
                                 </tr>
                             </tbody>

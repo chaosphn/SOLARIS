@@ -204,6 +204,94 @@
                         }
                     }
                 }
+
+                /* Signature section */
+
+                .sig-row {
+                    display: flex;
+                    row-gap: 16px;
+                    column-gap: 16px;
+                    align-items: flex-start;
+                    flex-wrap: wrap;
+                    padding: 8px 0;
+                }
+
+                .sig-col {
+                    flex: 1;
+                    width: 100px;
+                    .title{
+                        color: var(--primary-txt);
+                    }
+                    .text-muted{
+                        color: var(--secondary-txt);
+                    }
+                }
+
+                .sig-col-fixed {
+                    width: 400;
+                    .title{
+                        color: var(--primary-txt);
+                    }
+                    .text-muted{
+                        color: var(--secondary-txt);
+                    }
+                }
+
+                .mb-8 {
+                    margin-bottom: 8px;
+                }
+
+                .signature-canvas {
+                    border: 1px solid var(--border-color);
+                    border-radius: 4px;
+                    touch-action: none;
+                    width: 100%;
+                    max-width: 500px;
+                    height: auto;
+                    background: #fff;
+                }
+
+                .sig-select-buttons {
+                    display: flex;
+                    gap: 8px;
+                    margin-top: 8px;
+
+                    .select-btn {
+                        background-color: var(--primary-bg);
+                        color: var(--secondary-txt);
+                        border: 1px solid var(--border-color);
+                        padding: 4px 12px;
+                        border-radius: 4px;
+                        font-size: 12px;
+                        cursor: pointer;
+                        transition: all 0.2s;
+
+                        &:hover {
+                            filter: brightness(125%);
+                            color: var(--primary-txt);
+                        }
+                    }
+                }
+
+                .signature-preview {
+                    max-width: 100%;
+                    height: auto;
+                    border: 1px solid #eee;
+                    border-radius: 4px;
+                    background: #fff;
+                }
+
+                .mt-4 {
+                    margin-top: 4px;
+                }
+
+                .signature-empty {
+                    padding: 16px;
+                    color: #666;
+                    border: 1px dashed #ccc;
+                    border-radius: 4px;
+                    background: #fafafa;
+                }
             }
         }
 

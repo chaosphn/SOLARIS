@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { UserConfig } from './components/user-config/user-config';
 import { AlarmConfig } from './components/alarm-config/alarm-config';
 import { NotificationConfig } from './components/notification-config/notification-config';
+import { UserViewerDialog } from './components/user-viewer-dialog/user-viewer-dialog';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { NotificationConfig } from './components/notification-config/notificatio
     Setting,
     UserConfig,
     UserDialog,
+    UserViewerDialog,
     AlarmConfig,
     EventDialog,
     NotificationConfig

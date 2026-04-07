@@ -8,7 +8,49 @@ import { AuthRespondModel } from '../models/auth.model';
 import { ResponseTagsModel } from '../models/tags.model';
 import { AddUserRequestModel, ChnagePasswordRequestModel, UpdateUserRequestModel, UserDataModel, UserRespondModel } from '../models/user.model';
 import { BillingSessionModel } from '../models/billing.model';
-import { BillingConfigModel, BillingConfigResponseModel, BillingResponseModel, CreateBillingRequestModel, DeleteBillingRequestModel, UpdateBillingRequestModel } from '../../features/central/models/billing.model';
+import {
+    BillingConfigByIdRequestModel,
+    BillingConfigByIdResponseModel,
+    BillingConfigBySiteIdRequestModel,
+    BillingConfigBySiteIdResponseModel,
+    BillingConfigResponseModel,
+    BillingLogByIdRequestModel,
+    BillingLogByIdResponseModel,
+    BillingLogResponseModel,
+    BillingLogsByBillingIdRequestModel,
+    BillingLogsByBillingIdResponseModel,
+    BillingLogsByTimestampRequestModel,
+    BillingLogsByTimestampResponseModel,
+    BillingResponseModel,
+    BillingStateByIdRequestModel,
+    BillingStateByIdResponseModel,
+    BillingStateBySiteIdAndTimestampRequestModel,
+    BillingStateBySiteIdAndTimestampResponseModel,
+    BillingStateBySiteIdRequestModel,
+    BillingStateBySiteIdResponseModel,
+    BillingStateResponseModel,
+    CreateBillingLogRequestModel,
+    CreateBillingRequestModel,
+    CreateBillingStateRequestModel,
+    DeleteBillingLogRequestModel,
+    DeleteBillingRequestModel,
+    DeleteBillingStateRequestModel,
+    GenerateConfirmationBillingRequestModel,
+    GetBillingDocumentFileRequestModel,
+    RejectConfirmationCustomerReviewRequestModel,
+    RejectConfirmationInternalReviewRequestModel,
+    UpdateBillingLogRequestModel,
+    UpdateBillingRequestModel,
+    UpdateBillingStateRequestModel,
+    UpdateConfirmationCustomerReviewRequestModel,
+    UpdateConfirmationInternalReviewRequestModel,
+    UpdateInvoiceAccountingReviewRequestModel,
+    UpdateInvoiceCustomerReviewRequestModel,
+    UpdatePaymentAccountingReviewRequestModel,
+    UpdatePaymentCustomerReviewRequestModel,
+    UpdateReceiptAccountingReviewRequestModel,
+    UpdateReceiptCustomerReviewRequestModel,
+} from '../../features/central/models/billing.model';
 import { CreateReportRequestModel, DeleteReportRequestModel, ReportConfigResponseModel, ReportResponseModel, UpdateReportRequestModel } from '../../features/central/models/report.model';
 import { AddNotificationConfigModel, DeleteNotificationConfigModel, EventConfigModel, EventConfigResponseModel, EventDataModel, EventRequestModel, EventSummaryModel, ExpressionParseResultModel, FilterEventRequestModel, NotificationConfigModel, UpdateNotificationConfigModel } from '../../features/sites/models/event.model';
 
@@ -343,15 +385,29 @@ export class HttpService {
 
     async getBillingConfig() {
         const res = await firstValueFrom(
-            this.httpClient.get<BillingConfigResponseModel>(this.appLoadService.config.UrlApiBilling + 'billing/get')
+            this.httpClient.get<BillingConfigResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/get')
         );
         
         return res;
     };
 
+    async getBillingConfigById(body: BillingConfigByIdRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingConfigByIdResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/find', body)
+        );
+        return res;
+    };
+
+    async getBillingConfigBySiteId(body: BillingConfigBySiteIdRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingConfigBySiteIdResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/getbyid', body)
+        );
+        return res;
+    };
+
     async addBillingConfig(body: CreateBillingRequestModel) {
         const res = await firstValueFrom(
-            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billing/set', body)
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/set', body)
         );
         
         return res;
@@ -359,7 +415,7 @@ export class HttpService {
 
     async updateBillingConfig(body: UpdateBillingRequestModel) {
         const res = await firstValueFrom(
-            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billing/update', body)
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/update', body)
         );
         
         return res;
@@ -367,9 +423,59 @@ export class HttpService {
 
     async deleteBillingConfig(body: DeleteBillingRequestModel) {
         const res = await firstValueFrom(
-            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billing/delete', body)
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/delete', body)
         );
         
+        return res;
+    };
+
+    // billings logs
+    async getAllBillingLogs() {
+        const res = await firstValueFrom(
+            this.httpClient.get<BillingLogResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/log/get')
+        );
+        return res;
+    };
+
+    async getBillingLogById(body: BillingLogByIdRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingLogByIdResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/log/find', body)
+        );
+        return res;
+    };
+
+    async getBillingLogsByBillingId(body: BillingLogsByBillingIdRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingLogsByBillingIdResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/log/find-by-billing', body)
+        );
+        return res;
+    };
+
+    async getBillingLogsByTimestamp(body: BillingLogsByTimestampRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingLogsByTimestampResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/log/find-by-timestamp', body)
+        );
+        return res;
+    };
+
+    async createBillingLog(body: CreateBillingLogRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/log/set', body)
+        );
+        return res;
+    };
+
+    async updateBillingLog(body: UpdateBillingLogRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/log/update', body)
+        );
+        return res;
+    };
+
+    async deleteBillingLog(body: DeleteBillingLogRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/log/delete', body)
+        );
         return res;
     };
 
@@ -408,7 +514,7 @@ export class HttpService {
 
     async getUserConfig() {
         const res = await firstValueFrom(
-            this.httpClient.post<UserDataModel[]>(this.appLoadService.config.UrlApiAuthen + 'getuser', {})
+            this.httpClient.get<UserDataModel[]>(this.appLoadService.config.UrlApi + 'user/get', {})
         );
         
         return res;
@@ -416,7 +522,7 @@ export class HttpService {
 
     async addUserConfig(body: AddUserRequestModel) {
         const res = await firstValueFrom(
-            this.httpClient.post<UserRespondModel>(this.appLoadService.config.UrlApiAuthen + 'adduser', body)
+            this.httpClient.post<UserRespondModel>(this.appLoadService.config.UrlApi + 'user/create', body)
         );
         
         return res;
@@ -424,7 +530,7 @@ export class HttpService {
 
     async updateUserConfig(body: UpdateUserRequestModel) {
         const res = await firstValueFrom(
-            this.httpClient.post<UserRespondModel>(this.appLoadService.config.UrlApiAuthen + 'edituser', body)
+            this.httpClient.post<UserRespondModel>(this.appLoadService.config.UrlApi + 'user/update', body)
         );
         
         return res;
@@ -435,14 +541,25 @@ export class HttpService {
             _id: userId
         };
         const res = await firstValueFrom(
-            this.httpClient.post<UserRespondModel>(this.appLoadService.config.UrlApiAuthen + 'deluser', body)
+            this.httpClient.post<UserRespondModel>(this.appLoadService.config.UrlApi + 'user/delete', body)
         );
         return res;
     }
 
     async updatePassword(body: ChnagePasswordRequestModel) {
         const res = await firstValueFrom(
-            this.httpClient.post<UserRespondModel>(this.appLoadService.config.UrlApiAuthen + 'chgpass', body)
+            this.httpClient.post<UserRespondModel>(this.appLoadService.config.UrlApi + 'user/changepassword', body)
+        );
+        
+        return res;
+    };
+
+    async getUserSignature(user: string) {
+        const body = {
+            username: user
+        };
+        const res = await firstValueFrom(
+            this.httpClient.post<UserRespondModel | string>(this.appLoadService.config.UrlApi + 'user/signature', body)
         );
         
         return res;
@@ -534,4 +651,190 @@ export class HttpService {
         
         return res;
     };
+
+    // billings state
+    async getAllBillingStates() {
+        const res = await firstValueFrom(
+            this.httpClient.get<BillingStateResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/state/get')
+        );
+        return res;
+    };
+
+    async getBillingStateById(body: BillingStateByIdRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingStateByIdResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/state/find', body)
+        );
+        return res;
+    };
+
+    async getBillingStatesBySiteId(body: BillingStateBySiteIdRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingStateBySiteIdResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/state/find-by-site', body)
+        );
+        return res;
+    };
+
+    async getBillingStatesBySiteIdAndTimestamp(body: BillingStateBySiteIdAndTimestampRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingStateBySiteIdAndTimestampResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/state/find-by-timestamp', body)
+        );
+        return res;
+    };
+
+    async getBillingStateData(timestamp: string) {
+        const body = {
+            timestamp: timestamp
+        };
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingStateResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/state/find-by-timestamp-only', body)
+        );
+        
+        return res;
+    };
+
+    async getBillingLogData(billingId: string, billingTimestamp: string) {
+        const body = {
+            billingId: billingId,
+            billingTimestamp: billingTimestamp
+        };
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingLogResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/log/find-by-timestamp', body)
+        );
+        
+        return res;
+    };
+
+    async createBillingState(body: CreateBillingStateRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/state/set', body)
+        );
+        return res;
+    };
+
+    async updateBillingState(body: UpdateBillingStateRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/state/update', body)
+        );
+        return res;
+    };
+
+    async deleteBillingState(body: DeleteBillingStateRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/state/delete', body)
+        );
+        return res;
+    };
+
+    // billings workflow (confirmation/invoice/payment/receipt)
+    async generateConfirmationBilling(body: GenerateConfirmationBillingRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/confirmation/generate', body)
+        );
+        return res;
+    };
+
+    async updateConfirmationInternalReview(body: UpdateConfirmationInternalReviewRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/confirmation/update-internal', body)
+        );
+        return res;
+    };
+
+    async rejectConfirmationInternalReview(body: RejectConfirmationInternalReviewRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/confirmation/reject-internal', body)
+        );
+        return res;
+    };
+
+    async updateConfirmationCustomerReview(body: UpdateConfirmationCustomerReviewRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/confirmation/update-customer', body)
+        );
+        return res;
+    };
+
+    async rejectConfirmationCustomerReview(body: RejectConfirmationCustomerReviewRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/confirmation/reject-customer', body)
+        );
+        return res;
+    };
+
+    async updateInvoiceAccountingReview(body: UpdateInvoiceAccountingReviewRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/invoice/update-accounting', body)
+        );
+        return res;
+    };
+
+    async updateInvoiceCustomerReview(body: UpdateInvoiceCustomerReviewRequestModel) {
+        const formData = new FormData();
+        formData.append('file', body.file, body.file.name);
+        formData.append('timestamp', body.timestamp);
+        formData.append('pointsource', body.pointsource);
+        if (body.status) formData.append('status', body.status);
+        if (body.sitename) formData.append('sitename', body.sitename);
+        if (body.username) formData.append('username', body.username);
+        if (body.sendDate) formData.append('sendDate', body.sendDate);
+
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/invoice/update-customer', formData)
+        );
+        return res;
+    };
+
+    async updatePaymentAccountingReview(body: UpdatePaymentAccountingReviewRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/payment/update-accounting', body)
+        );
+        return res;
+    };
+
+    async updatePaymentCustomerReview(body: UpdatePaymentCustomerReviewRequestModel) {
+        const formData = new FormData();
+        formData.append('file', body.file, body.file.name);
+        formData.append('timestamp', body.timestamp);
+        formData.append('pointsource', body.pointsource);
+        if (body.status) formData.append('status', body.status);
+        if (body.sitename) formData.append('sitename', body.sitename);
+        if (body.username) formData.append('username', body.username);
+        if (body.sendDate) formData.append('sendDate', body.sendDate);
+
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/payment/update-customer', formData)
+        );
+        return res;
+    };
+
+    async updateReceiptAccountingReview(body: UpdateReceiptAccountingReviewRequestModel) {
+        const formData = new FormData();
+        formData.append('file', body.file, body.file.name);
+        formData.append('timestamp', body.timestamp);
+        formData.append('pointsource', body.pointsource);
+        if (body.status) formData.append('status', body.status);
+        if (body.sitename) formData.append('sitename', body.sitename);
+        if (body.username) formData.append('username', body.username);
+
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/receipt/update-accounting', formData)
+        );
+        return res;
+    };
+
+    async updateReceiptCustomerReview(body: UpdateReceiptCustomerReviewRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/receipt/update-customer', body)
+        );
+        return res;
+    };
+
+    // billings documents (PDF buffer)
+    async getBillingDocumentFile(body: GetBillingDocumentFileRequestModel): Promise<Blob> {
+        const res = await firstValueFrom(
+            this.httpClient.post(this.appLoadService.config.UrlApiBilling + 'billings/document/get', body, { responseType: 'blob' })
+        );
+        return res as Blob;
+    };
+    
 }
