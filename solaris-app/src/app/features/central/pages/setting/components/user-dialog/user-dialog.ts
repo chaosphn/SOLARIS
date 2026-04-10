@@ -361,6 +361,7 @@ export class UserDialog implements OnInit, AfterViewInit {
         lastName: this.userData().lastName,
         fullname: this.userData().fullname,
         company: this.userData().company,
+        email: this.userData().email,
         department: this.userData().department,
         role: this.userData().role,
         signature: this.signaturePreview || undefined
@@ -398,6 +399,7 @@ export class UserDialog implements OnInit, AfterViewInit {
         lastName: this.userData().lastName,
         fullname: this.userData().fullname,
         company: this.userData().company,
+        email: this.userData().email,
         department: this.userData().department,
         role: this.userData().role,
         signature: this.signaturePreview || undefined

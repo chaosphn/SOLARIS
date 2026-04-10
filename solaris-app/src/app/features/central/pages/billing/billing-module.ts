@@ -11,7 +11,9 @@ import { ConfirmationCustomerDialog } from './components/confirmation-customer-d
 import { InvoiceAccountingDialog } from './components/invoice-accounting-dialog/invoice-accounting-dialog';
 import { PaymentConfirmationDialog } from './components/payment-confirmation-dialog/payment-confirmation-dialog';
 import { ReceiptConfirmationDialog } from './components/receipt-confirmation-dialog/receipt-confirmation-dialog';
-
+import { ReceiptInternalDialog } from './components/receipt-internal-dialog/receipt-internal-dialog';
+import { BillingViewerDialog } from './components/billing-viewer-dialog/billing-viewer-dialog';
+import { BillingEditorDialog } from './components/billing-editor-dialog/billing-editor-dialog';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,10 @@ import { ReceiptConfirmationDialog } from './components/receipt-confirmation-dia
     ConfirmationCustomerDialog,
     InvoiceAccountingDialog,
     PaymentConfirmationDialog,
-    ReceiptConfirmationDialog
+    ReceiptConfirmationDialog,
+    ReceiptInternalDialog,
+    BillingViewerDialog,
+    BillingEditorDialog
   ],
   imports: [
     CommonModule,
@@ -31,3 +36,4 @@ import { ReceiptConfirmationDialog } from './components/receipt-confirmation-dia
   ]
 })
 export class BillingModule { }
+

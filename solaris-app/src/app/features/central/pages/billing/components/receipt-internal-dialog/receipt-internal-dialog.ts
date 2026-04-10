@@ -7,19 +7,15 @@ import { HttpService } from '../../../../../../shared/services/http.service';
 import { ConfirmDialog, ConfirmDialogData } from '../../../../../../shared/components/confirm-dialog/confirm-dialog';
 import { sendMessage } from '../../../../../../store/actions/toaster.actions';
 import { SiteModel } from '../../../../../../shared/models/config.model';
- 
-export interface BillingDetailDialogData {
-  row: BillingStateDataModel;
-  siteList: SiteModel[];
-}
+import { BillingDetailDialogData } from '../confirmation-internal-dialog/confirmation-internal-dialog';
 
 @Component({
-  selector: 'app-confirmation-internal-dialog',
+  selector: 'app-receipt-internal-dialog',
   standalone: false,
-  templateUrl: './confirmation-internal-dialog.html',
-  styleUrl: './confirmation-internal-dialog.scss'
+  templateUrl: './receipt-internal-dialog.html',
+  styleUrl: './receipt-internal-dialog.scss'
 })
-export class ConfirmationInternalDialog implements OnInit {
+export class ReceiptInternalDialog implements OnInit {
  
   data: BillingStateDataModel;
  
@@ -29,10 +25,12 @@ export class ConfirmationInternalDialog implements OnInit {
   loading       = signal(false);
   logs          = signal<BillingLogDataModel[]>([]);
   comment: string = '';
-  forceEnergyValue?: number;
+  transactionReferenceNo?: string;
   userRole      = signal<string>('user');
   siteList = signal<SiteModel[]>([]);
   userName = signal<string>('');
+  file: File | null = null;
+  send_date: string = '';
   
  
   readonly stepDefs = [
@@ -44,7 +42,7 @@ export class ConfirmationInternalDialog implements OnInit {
  
   private readonly stepOrder = ['confirmation', 'invoice', 'payment', 'receipt'];
  
-  private dialogRef  = inject(MatDialogRef<ConfirmationInternalDialog>);
+  private dialogRef  = inject(MatDialogRef<ReceiptInternalDialog>);
   private dialogData = inject<BillingDetailDialogData>(MAT_DIALOG_DATA);
   private http       = inject(HttpService);
   private store      = inject(Store);
@@ -100,11 +98,15 @@ export class ConfirmationInternalDialog implements OnInit {
         {
           timestamp: this.data.timestamp,
           pointsource: this.data.siteId,
-          process: 'confirmation',
-          type: this.logs().filter(log => log.processType === this.data.billing_process).find(log => log.action.endsWith('_approved') && !log.action.includes('wait_for')) ? 'signed' : 'unsigned'
+          process: 'receipt',
+          type: 'unsigned'
         }
       );
-      this.pdfUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)));
+      if(blob instanceof Blob && blob.size > 0) {
+        this.pdfUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)));
+      } else {
+        throw new Error('Failed to load PDF');
+      }
     } catch (error: any) {
       this.store.dispatch(sendMessage({ payload: { type: 'error', text: error.message } }));
     } finally {
@@ -117,7 +119,7 @@ export class ConfirmationInternalDialog implements OnInit {
       this.loadingLog.set(true);
       const res: any = await this.http.getBillingLogData(this.data.siteId, this.data.timestamp);
       if (res?.status === 'success' && res.data) {
-        this.logs.set(res.data.filter((log: BillingLogDataModel) => log.processType === 'confirmation'));
+        this.logs.set(res.data.filter((log: BillingLogDataModel) => log.processType === 'receipt'));
         await this.loadPdf();
       } else {
         this.logs.set([]);
@@ -128,18 +130,37 @@ export class ConfirmationInternalDialog implements OnInit {
       this.loadingLog.set(false);
     }
   }
+
+  get today(): string {
+    return new Date().toISOString().split('T')[0];
+  }
+
+  onFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      this.file = input.files[0];
+    }
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    const f = event.dataTransfer?.files?.[0];
+    if (f) this.file = f;
+  }
+
+  clearFile(): void {
+    this.file = null;
+  }
  
   // ─── Actions ─────────────────────────────────────────────────────────────────
  
-  confirmAction(type: 'approve' | 'reject'): void {
-    const isApprove = type === 'approve';
+  confirmAction(type: 'submit'): void {
+    const isApprove = type === 'submit';
     const dialogData: ConfirmDialogData = {
-      title:       isApprove ? 'Approve Billing'      : 'Reject Billing',
-      message:     isApprove
-        ? 'Are you sure you want to approve this billing?'
-        : 'Are you sure you want to reject this billing?',
+      title:       'Submit Transaction No.',
+      message:     'Are you sure you want to submit this transaction no.?',
       subMessage:  'This action cannot be undone.',
-      confirmText: isApprove ? 'Approve' : 'Reject',
+      confirmText: isApprove ? 'Submit' : 'Cancel',
       cancelText:  'Cancel',
       type:        isApprove ? 'info' : 'warning',
     };
@@ -152,20 +173,33 @@ export class ConfirmationInternalDialog implements OnInit {
  
     ref.afterClosed().subscribe(async result => {
       if (result === true) {
-        isApprove ? await this.approve() : await this.reject();
+        await this.approve()
       }
     });
   }
  
   async approve(): Promise<void> {
     try {
+      //console.log(this.siteList());
+      if(!this.send_date) {
+        this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Send Date is required' } }));
+        return;
+      }
+
+      if(!this.file) {
+        this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Receipt file is required' } }));
+        return;
+      }
+
       this.loading.set(true);
-      const result: any = await this.http.updateConfirmationInternalReview({
+      const result: any = await this.http.updateReceiptAccountingReview({
         timestamp: this.data.timestamp,
         pointsource: this.data.siteId,
-        status: 'user_approved',
+        status: 'account_approved',
         sitename: this.getSiteName(this.data.siteId),
         username: this.userName() || '',
+        sendDate: this.send_date,
+        file: this.file
       });
       
       if (result && result.StatusCode.toLowerCase().includes('success')) {
@@ -173,30 +207,6 @@ export class ConfirmationInternalDialog implements OnInit {
         this.dialogRef.close({ action: 'approve', billingId: this.data.id });
       } else {
         this.store.dispatch(sendMessage({ payload: { type: 'error', text: result?.Message || 'Approve failed' } }));
-      }
-    } catch (error: any) {
-      this.store.dispatch(sendMessage({ payload: { type: 'error', text: error.message } }));
-    } finally {
-      this.loading.set(false);
-    }
-  }
- 
-  async reject(): Promise<void> {
-    try {
-      this.loading.set(true);
-      const result: any = await this.http.rejectConfirmationInternalReview({
-        timestamp: this.data.timestamp,
-        pointsource: this.data.siteId,
-        reason: this.comment,
-        forceValue: this.forceEnergyValue,
-        sitename: this.getSiteName(this.data.siteId),
-        username: this.userName() || '',
-      }); 
-      if(result && result.StatusCode.toLowerCase().includes('success')){
-        this.store.dispatch(sendMessage({ payload: { type: 'success', text: result.Message } }));
-        this.dialogRef.close({ action: 'reject', billingId: this.data.id });
-      } else {
-        this.store.dispatch(sendMessage({ payload: { type: 'error', text: result?.Message || 'Reject failed' } }));
       }
     } catch (error: any) {
       this.store.dispatch(sendMessage({ payload: { type: 'error', text: error.message } }));

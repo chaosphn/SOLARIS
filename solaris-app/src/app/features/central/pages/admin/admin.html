@@ -159,7 +159,7 @@
                                             <div class="icon-group ">
                                                 <i class="material-icons">arrow_forward</i>
                                             </div>
-                                            <div class="form-group">
+                                            <!-- <div class="form-group">
                                                 <label>Reviewed By (Accounting)</label>
                                                 <mat-select multiple [(ngModel)]="globalConfig().confirmation_account" class="user-select">
                                                     @for (user of userList(); track user._id) {
@@ -169,7 +169,7 @@
                                             </div>
                                             <div class="icon-group ">
                                                 <i class="material-icons">arrow_forward</i>
-                                            </div>
+                                            </div> -->
                                             <div class="form-group">
                                                 <label>Reviewed By (Customer)</label>
                                                 <mat-select multiple [(ngModel)]="globalConfig().confirmation_customer" class="user-select">
@@ -181,7 +181,7 @@
                                         </div>
                                         <div class="step-header">[ Invoice Processing ]</div>
                                         <div class="assignment-row">
-                                            <div class="form-group">
+                                            <!-- <div class="form-group">
                                                 <label>Verified By (Internal)</label>
                                                 <mat-select multiple [(ngModel)]="globalConfig().invoice_user" class="user-select">
                                                     @for (user of userList(); track user._id) {
@@ -191,7 +191,7 @@
                                             </div>
                                             <div class="icon-group ">
                                                 <i class="material-icons">arrow_forward</i>
-                                            </div>
+                                            </div> -->
                                             <div class="form-group">
                                                 <label>Verified By (Accounting)</label>
                                                 <mat-select multiple [(ngModel)]="globalConfig().invoice_account" class="user-select">
@@ -214,7 +214,7 @@
                                         </div>
                                         <div class="step-header">[ Payment & Receipt ]</div>
                                         <div class="assignment-row">
-                                            <div class="form-group">
+                                            <!-- <div class="form-group">
                                                 <label>Recorded By (Internal)</label>
                                                 <mat-select multiple [(ngModel)]="globalConfig().receipt_user" class="user-select">
                                                     @for (user of userList(); track user._id) {
@@ -224,7 +224,7 @@
                                             </div>
                                             <div class="icon-group ">
                                                 <i class="material-icons">arrow_forward</i>
-                                            </div>
+                                            </div> -->
                                             <div class="form-group">
                                                 <label>Validated By (Accounting)</label>
                                                 <mat-select multiple [(ngModel)]="globalConfig().receipt_account" class="user-select">
@@ -320,65 +320,63 @@
                         </div>
 
                         <!-- Site Configurations Table -->
-                        @if (siteConfigs().length > 0) {
-                            <div class="table-section" >
-                                <div class="table-header bz">
-                                    <div class="table-title bz">SITE CONFIGURATIONS</div>
-                                    @if (userRole() === 'administrator') {
-                                        <button class="bz" (click)="openAddSiteModal()">ADD SITE CONFIG</button>
-                                    }
-                                </div>
-                                <div class="table-wrapper">
-                                    <table class="config-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Site Name</th>
-                                                <th>Meter Mode</th>
-                                                <th>Energy Cost</th>
-                                                <th>Onpeak Cost</th>
-                                                <th>Offpeak Cost</th>
-                                                <th>Discount Cost</th>
-                                                <th>FT Cost</th>
-                                                <!-- <th>Email List</th> -->
-                                                <th style="text-align: center;">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @for (config of siteConfigs(); track $index) {
-                                                <tr>
-                                                    <td>{{ getSiteName(config.siteId) }}</td>
-                                                    <td>{{ config.meterType === 'normal' ? 'Normal' : 'TOU' }}</td>
-                                                    <td>{{ config.meterType === 'normal' ? config.energyCost : '-' }}</td>
-                                                    <td>{{ config.meterType === 'tou' ? config.onpeakCost : '-' }}</td>
-                                                    <td>{{ config.meterType === 'tou' ? config.offpeakCost : '-' }}</td>
-                                                    <td>{{ config.discountRate }}</td>
-                                                    <td>{{ config.ftRate }}</td>
-                                                    <!-- <td class="email-cell">{{ config.receivedBy || '-' }}</td> -->
-                                                    <td class="action-cell">
-                                                        
-                                                        @if (userRole() === 'administrator') {
-                                                            <button class="action-btn edit-btn" (click)="viewSiteConfig(config)">
-                                                                <i class="material-icons">visibility</i>
-                                                            </button>
-                                                            <button class="action-btn edit-btn" (click)="editSiteConfig(config)">
-                                                                <i class="material-icons">edit</i>
-                                                            </button>
-                                                            <button class="action-btn delete-btn" (click)="confirmDeleteSiteConfig(config.id)">
-                                                                <i class="material-icons">delete</i>
-                                                            </button>
-                                                        } @else {
-                                                            <button class="action-btn edit-btn" (click)="viewSiteConfig(config)">
-                                                                <i class="material-icons">visibility</i>
-                                                            </button>
-                                                        }
-                                                    </td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
+                        <div class="table-section" >
+                            <div class="table-header bz">
+                                <div class="table-title bz">SITE CONFIGURATIONS</div>
+                                @if (userRole() === 'administrator') {
+                                    <button class="bz" (click)="openAddSiteModal()">ADD SITE CONFIG</button>
+                                }
                             </div>
-                        }
+                            <div class="table-wrapper">
+                                <table class="config-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Site Name</th>
+                                            <th>Meter Mode</th>
+                                            <th>Energy Cost</th>
+                                            <th>Onpeak Cost</th>
+                                            <th>Offpeak Cost</th>
+                                            <th>Discount Cost</th>
+                                            <th>FT Cost</th>
+                                            <!-- <th>Email List</th> -->
+                                            <th style="text-align: center;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (config of siteConfigs(); track $index) {
+                                            <tr>
+                                                <td>{{ getSiteName(config.siteId) }}</td>
+                                                <td>{{ config.meterType === 'normal' ? 'Normal' : 'TOU' }}</td>
+                                                <td>{{ config.meterType === 'normal' ? config.energyCost : '-' }}</td>
+                                                <td>{{ config.meterType === 'tou' ? config.onpeakCost : '-' }}</td>
+                                                <td>{{ config.meterType === 'tou' ? config.offpeakCost : '-' }}</td>
+                                                <td>{{ config.discountRate }}</td>
+                                                <td>{{ config.ftRate }}</td>
+                                                <!-- <td class="email-cell">{{ config.receivedBy || '-' }}</td> -->
+                                                <td class="action-cell">
+                                                    
+                                                    @if (userRole() === 'administrator') {
+                                                        <button class="action-btn edit-btn" (click)="viewSiteConfig(config)">
+                                                            <i class="material-icons">visibility</i>
+                                                        </button>
+                                                        <button class="action-btn edit-btn" (click)="editSiteConfig(config)">
+                                                            <i class="material-icons">edit</i>
+                                                        </button>
+                                                        <button class="action-btn delete-btn" (click)="confirmDeleteSiteConfig(config.id)">
+                                                            <i class="material-icons">delete</i>
+                                                        </button>
+                                                    } @else {
+                                                        <button class="action-btn edit-btn" (click)="viewSiteConfig(config)">
+                                                            <i class="material-icons">visibility</i>
+                                                        </button>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 }
                 @case ('holiday') {

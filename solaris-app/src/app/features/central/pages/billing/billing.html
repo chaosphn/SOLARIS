@@ -144,6 +144,7 @@
                                         <th>Billing Status</th>
                                         <th>Site</th>
                                         <th>Contract Type</th>
+                                        <th>Amount</th>
                                         <th>Billing State</th>
                                         <th class="th-stepper" style="text-align: center;">Billing Process</th>
                                         <th class="ta-r" style="text-align: center;">Action</th>
@@ -168,7 +169,10 @@
                                             <td class="td-site">{{ getSiteName(row.siteId) }}</td>
 
                                             <!-- Contract Type -->
-                                            <td class="td-ctype">{{ row.contractType }}</td>
+                                            <td class="td-ctype">{{ getContractType(row.siteId) }}</td>
+
+                                            <!-- Billing Amount -->
+                                            <td class="td-amount">฿ {{ getBillingAmount(row.siteId) | number:'1.2-2' }}</td>
 
                                             <!-- Billing Process status -->
                                             <td class="td-process">
@@ -224,23 +228,16 @@
                                             <!-- Actions -->
                                             <td class="ta-r bz">
                                                 <div class="action-group">
-                                                    <button class="action-btn view-btn" title="view" >
+                                                    <button class="action-btn view-btn" title="View Details" (click)="openBillingViewerDialog(row)">
                                                         <span class="material-icons">visibility</span>
                                                     </button>
-                                                    <button class="action-btn edit-btn" title="edit" (click)="openConfirmationInternalDialog(row)">
-                                                        <span class="material-icons">edit</span>
-                                                    </button>
-                                                    <button class="action-btn edit-btn" title="edit" (click)="openConfirmationCustomerDialog(row)">
-                                                        <span class="material-icons">edit</span>
-                                                    </button>
-                                                    <button class="action-btn edit-btn" title="edit" (click)="openInvoiceAccountingDialog(row)">
-                                                        <span class="material-icons">edit</span>
-                                                    </button>
-                                                    <button class="action-btn edit-btn" title="edit" (click)="openPaymentConfirmationDialog(row)">
-                                                        <span class="material-icons">edit</span>
-                                                    </button>
-                                                    <button class="action-btn edit-btn" title="edit" (click)="openReceiptConfirmationDialog(row)">
-                                                        <span class="material-icons">edit</span>
+                                                    @if (userRole() === 'administrator') {
+                                                        <button class="action-btn edit-btn" title="Edit Billing State" (click)="openBillingEditorDialog(row)">
+                                                            <span class="material-icons">edit</span>
+                                                        </button>
+                                                    }
+                                                    <button class="action-btn edit-btn" title="Manage Billing" (click)="openActionDialog(row)">
+                                                        <span class="material-icons">settings</span>
                                                     </button>
                                                 </div>
                                             </td>
@@ -262,7 +259,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr class="tbl-footer-row">
-                                        <td colspan="6">
+                                        <td colspan="7">
                                             <div class="tbl-footer">
                                                 <div class="tbl-footer__left">
                                                     <span class="tbl-footer__label">Rows per page</span>
@@ -304,3 +301,4 @@
         </app-card-container>
     </div>
 </div>
+

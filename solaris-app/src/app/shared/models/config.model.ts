@@ -11,8 +11,14 @@ export interface SiteModel{
     name: string;
     project: string;
     location: string;
+    position: PositionModel;
     capacity: string;
     invtype?: string;
+}
+
+export interface PositionModel{
+    lat: number;
+    lng: number;
 }
 
 export interface ZoneModel{

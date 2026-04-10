@@ -39,6 +39,7 @@ import { MeterDialog } from './components/meter-dialog/meter-dialog';
 import { LastseenPipe } from './pipes/lastseen.pipe';
 import { ChartsModule } from './chart.module';
 import { BillingStatusPipe } from './pipes/billing-status-pipe';
+import { MapContainer } from './components/map-container/map-container';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -77,6 +78,7 @@ export const MY_DATE_FORMATS = {
     DataTable,
     SkeletonBox,
     TagDialog,
+    MapContainer
     // InverterDialog,
     // MeterDialog
     
@@ -120,6 +122,7 @@ export const MY_DATE_FORMATS = {
     DataTable,
     SkeletonBox,
     TagDialog,
+    MapContainer
     // InverterDialog,
     // MeterDialog
     

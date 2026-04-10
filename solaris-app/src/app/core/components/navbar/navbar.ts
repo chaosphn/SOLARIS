@@ -54,6 +54,7 @@ export class Navbar implements OnInit, OnDestroy {
   siteName: string = "";
   timers: number = 10;
   mode = signal<'dark' | 'light'>('dark');
+  logoUrl = signal<string>('assets/images/logo-dark.png');
   date: Date = new Date();
   enableDate: boolean = false;
   enableSite: string[] = [];
@@ -116,8 +117,10 @@ export class Navbar implements OnInit, OnDestroy {
     if(theme){
       this.mode.set(theme as 'dark' | 'light');
       this.theme.setTheme(this.mode() as 'dark' | 'light');
+      this.logoUrl.set(this.mode() === 'dark' ? 'assets/images/logo-dark.png' : 'assets/images/logo-light.png');
     } else {
       this.mode.set('dark');
+      this.theme.setTheme('dark');
     }
     this.getSiteConfig();
     this.getEventSummary();
@@ -377,9 +380,11 @@ export class Navbar implements OnInit, OnDestroy {
   changTheme(){
     if(this.mode() == 'dark'){
       this.theme.setTheme('light');
+      this.logoUrl.set('assets/images/logo-light.png');
       this.mode.set('light');
     } else {
       this.theme.setTheme('dark');
+      this.logoUrl.set('assets/images/logo-dark.png');
       this.mode.set('dark');
     }   
   }

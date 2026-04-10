@@ -116,6 +116,8 @@ export interface BillingStateDataModel {
   createdBy: string;
   status: string;
   payment_id: string;
+  energy_amount: number;
+  forced_energy_amount: number;
   billing_process: string;
   confirmation_status: string;
   confirmation_updateAt: string;
@@ -130,6 +132,7 @@ export interface BillingStateDataModel {
   reciept_status: string;
   reciept_updateAt: string;
   reciept_updateBy: string;
+  reciept_sendDate: string;
 }
 
 export interface BillingStateRequestModel {
@@ -326,6 +329,7 @@ export interface UpdateReceiptAccountingReviewRequestModel {
   status?: string;
   sitename?: string;
   username?: string;
+  sendDate?: string;
 }
 
 export interface UpdateReceiptCustomerReviewRequestModel {

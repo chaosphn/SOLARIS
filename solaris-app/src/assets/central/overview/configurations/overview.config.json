@@ -71,6 +71,14 @@
           {
             "Title": "KKB_POWER",
             "Tagname": "KKB.CALC.W"
+          },
+          {
+            "Title": "KKB_ENERGY",
+            "Tagname": "KKB.CALC.WH_TODAY"
+          },
+          {
+            "Title": "KKB_PR",
+            "Tagname": "KKB.CALC.PR"
           }
         ]
       }

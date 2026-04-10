@@ -97,3 +97,32 @@
 .hide-icon {
   display: none;
 }
+
+/* Dialog theming for dark mode */
+.mat-mdc-dialog-container .mdc-dialog__surface,
+.billing-detail-panel .mdc-dialog__surface {
+  background: var(--primary-bg) !important;
+  color: var(--primary-txt) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.45) !important;
+}
+
+.billing-detail-panel .mdc-dialog__title,
+.mat-mdc-dialog-container .mdc-dialog__title {
+  color: var(--primary-txt) !important;
+}
+
+.billing-detail-panel .mdc-dialog__content,
+.mat-mdc-dialog-container .mdc-dialog__content {
+  color: var(--row-txt) !important;
+}
+
+.billing-detail-panel .mdc-dialog__actions .mdc-button,
+.mat-mdc-dialog-container .mdc-dialog__actions .mdc-button {
+  color: var(--btn-color) !important;
+}
+
+/* Optional: subtle backdrop tint */
+.cdk-overlay-backdrop.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}

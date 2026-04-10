@@ -12,13 +12,16 @@ import { sendMessage } from '../../../../store/actions/toaster.actions';
 import { Router } from '@angular/router';
 import { BillingSessionModel } from '../../../../shared/models/billing.model';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialog, ConfirmDialogData } from '../../../../shared/components/confirm-dialog/confirm-dialog';
-import { BillingLogDataModel, BillingStateDataModel, BillingStateResponseModel, GenerateConfirmationBillingRequestModel } from '../../models/billing.model';
+import { BillingConfigModel, BillingConfigResponseModel, BillingLogDataModel, BillingStateDataModel, BillingStateResponseModel, GenerateConfirmationBillingRequestModel } from '../../models/billing.model';
 import { BillingDetailDialogData, ConfirmationInternalDialog } from './components/confirmation-internal-dialog/confirmation-internal-dialog';
 import { ConfirmationCustomerDialog } from './components/confirmation-customer-dialog/confirmation-customer-dialog';
 import { InvoiceAccountingDialog } from './components/invoice-accounting-dialog/invoice-accounting-dialog';
 import { PaymentConfirmationDialog } from './components/payment-confirmation-dialog/payment-confirmation-dialog';
 import { ReceiptConfirmationDialog } from './components/receipt-confirmation-dialog/receipt-confirmation-dialog';
+import { ReceiptInternalDialog } from './components/receipt-internal-dialog/receipt-internal-dialog';
+import { UserDataModel } from '../../../../shared/models/user.model';
+import { BillingViewerDialog } from './components/billing-viewer-dialog/billing-viewer-dialog';
+import { BillingEditorDialog } from './components/billing-editor-dialog/billing-editor-dialog';
 
 @Component({
   selector: 'app-billing',
@@ -255,6 +258,8 @@ export class Billing implements OnInit, OnDestroy {
   sessionId = signal<string>('');
   sessionData = signal<BillingSessionModel | null>(null);
   userRole = signal<string>('user');
+  userList = signal<UserDataModel[]>([]);
+  billingConfigData = signal<BillingConfigModel[]>([]);
 
   private http = inject(HttpService);
   private store = inject(Store);
@@ -271,7 +276,7 @@ export class Billing implements OnInit, OnDestroy {
       );
       if(res && res[0]){
         const sites = [
-          {id: 'all', name: 'All Sites', project: '', location: '', capacity: ''},
+          {id: 'all', name: 'All Sites', project: '', location: '', capacity: '', position: { lat: 0, lng: 0 }} as SiteModel,
           ...res[0].siteList
         ];
         this.siteList.set(sites);
@@ -294,11 +299,18 @@ export class Billing implements OnInit, OnDestroy {
       if(sessiondata && sessionObj && sessionObj.pointsource && sessionObj.timestamp){
         this.sessionData.set(sessionObj);
         this.siteSelected.set(sessionObj.pointsource);
+        //console.log('siteOptions', this.siteOptions());
+        const selectedOption = this.siteOptions().find(x => x.value === sessionObj.pointsource);
+        if(selectedOption !== undefined){
+          //console.log('selectedOption', selectedOption);
+          this.selectedSite = selectedOption;
+        }
         this.date = new Date(sessionObj.timestamp);
         this.getBillingStateData();
       }
-
     }
+    this.getBillingConfigData();
+    this.getUserList();
   }
 
   ngOnDestroy(): void {
@@ -323,7 +335,7 @@ export class Billing implements OnInit, OnDestroy {
           payload: { type: 'error', text: 'Failed to get billing state data' }
         }));
       }
-      console.log(this.billingState())
+      //console.log(this.billingState())
     } catch (error: any) {
       this.billingState.set([]);
       this.currentPage.set(1);
@@ -332,6 +344,30 @@ export class Billing implements OnInit, OnDestroy {
       }));
     } finally {
       this.loading.set(false);
+    }
+  }
+
+  async getBillingConfigData(){
+    try {
+      const res: BillingConfigResponseModel = await this.http.getBillingConfig();
+      if(res && res.status === 'success' && res.data){
+        this.billingConfigData.set(res.data);
+      } else {
+        this.billingConfigData.set([]);
+      }
+    } catch (error) {
+      this.billingConfigData.set([]);
+    }
+  };
+
+  async getUserList(){
+    try {
+      const res = await this.http.getUserConfig();
+      if(res && res.length > 0){
+        this.userList.set(res);
+      }
+    } catch (error) {
+      this.userList.set([]);
     }
   }
 
@@ -385,6 +421,34 @@ export class Billing implements OnInit, OnDestroy {
 
   onDateSelect(event: any) {
     this.date = event;
+  }
+
+  getBillingAmount(siteId: string) {
+    const billing = this.billingState().find(x => x.siteId === siteId);
+    //console.log('Calculating billing amount for siteId:', siteId, 'billing record:', billing);
+    const energyAmount = billing?.forced_energy_amount && billing.forced_energy_amount > 0 ? billing.forced_energy_amount : billing?.energy_amount || 0;
+    //console.log('Energy amount for billing calculation:', energyAmount);
+    const siteConfig = this.billingConfigData().find(x => x.siteId === siteId);
+    const globalConfig = this.billingConfigData().find(x => x.siteId === 'global');
+    //console.log('Site config:', siteConfig, 'Global config:', globalConfig);
+    if(siteConfig){
+      return siteConfig.energyCost * energyAmount;
+    } else if(globalConfig) {
+      return globalConfig.energyCost * energyAmount;
+    }
+    return 0;
+  }
+
+  getContractType(siteId: string): string {
+    const siteConfig = this.billingConfigData().find(x => x.siteId === siteId);
+    const globalConfig = this.billingConfigData().find(x => x.siteId === 'global');
+    if(siteConfig){
+      return siteConfig.meterType === 'tou' ? 'TOU Rate' : 'Fixed Rate';
+    } else if(globalConfig) {
+      return globalConfig.meterType === 'tou' ? 'TOU Rate' : 'Fixed Rate';
+    } else {
+      return '---';
+    }
   }
 
   async generateReport() {
@@ -475,65 +539,6 @@ export class Billing implements OnInit, OnDestroy {
     }
   }
 
-  confirmApproveBillingData(): void {
-    const dialogData: ConfirmDialogData = {
-      title: 'Approve Billing',
-      message: 'Are you sure you want to sending this billing to recievers?',
-      subMessage: 'This action cannot be undone.',
-      confirmText: 'Approve',
-      cancelText: 'Cancel',
-      type: 'info'
-    };
-
-    const dialogRef = this.dialogs.open(ConfirmDialog, {
-      width: '480px',
-      data: dialogData,
-      panelClass: 'confirm-dialog-panel'
-    });
-
-    dialogRef.afterClosed().subscribe(async result => {
-      if (result === true) {
-        await this.approveBillingData();
-      }
-    });
-
-  }
-
-  async approveBillingData() {
-    try {
-      this.loading3.set(true);
-      if(!this.siteSelected && !this.selectedSite?.value){
-        this.store.dispatch(sendMessage({ 
-          payload: { type: 'warn', text: 'Please select site !' }
-        }));
-      }
-
-      if(!this.sessionData){
-        this.store.dispatch(sendMessage({ 
-          payload: { type: 'warn', text: 'No data for this bill !' }
-        }));
-      }
-      const ts = this.date.toISOString();
-      const sietId = this.selectedSite?.value || '';
-      const result = await this.http.approveBilling(this.sessionId(), ts, sietId);
-      if(result && result?.StatusCode === "Approve Billing Success"){
-        this.store.dispatch(sendMessage({ 
-          payload: { type: 'success', text: result?.Message }
-        }));
-        this.sessionId.set('');
-      } else {
-        this.store.dispatch(sendMessage({ 
-          payload: { type: 'error', text: result?.Message || 'Billing approval failed !' }
-        }));
-      }
-      this.loading3.set(false);
-    } catch (error: any) {
-      this.store.dispatch(sendMessage({ 
-        payload: { type: 'error', text: error.message }
-      }));
-      this.loading3.set(false);
-    }
-  };
 
   checkIsNowMonth(){
     const now = new Date();
@@ -742,6 +747,30 @@ export class Billing implements OnInit, OnDestroy {
     });
   }
 
+  openReceiptInternalDialog(row: BillingTableRow): void {
+    const item = this.billingState().find(x => x.id === row.id);
+    if(!item) return;
+    const data: BillingDetailDialogData = {
+      row: item,
+      siteList: this.siteList(),
+    };
+    const ref = this.dialogs.open(ReceiptInternalDialog, {
+      width: '90vw',
+      maxWidth: '1200px',
+      height: '90vh',
+      data: data,
+      panelClass: 'billing-detail-panel',
+      disableClose: false,
+    });
+  
+    ref.afterClosed().subscribe(result => {
+      if (result?.action) {
+        // refresh table หลัง approve/reject
+        this.getBillingStateData();
+      }
+    });
+  }
+
   openReceiptConfirmationDialog(row: BillingTableRow): void {
     const item = this.billingState().find(x => x.id === row.id);
     if(!item) return;
@@ -764,6 +793,136 @@ export class Billing implements OnInit, OnDestroy {
         this.getBillingStateData();
       }
     });
+  }
+
+  openActionDialog(row: BillingTableRow): void {
+    const user = this.userList().find(u => u.username === localStorage.getItem('user'));
+    const item = this.billingState().find(x => x.id === row.id);
+    const globalConfig = this.billingConfigData().find(x => x.siteId === 'global');
+    const siteConfig = this.billingConfigData().find(x => x.siteId === item?.siteId);
+    if(!item || !globalConfig || !siteConfig) return;
+    switch ((item.billing_process || '').toLowerCase()) {
+      case 'confirmation':
+          if(item.confirmation_status === 'prepared' || item.confirmation_status === 'user_wait_for_approve'){
+            const userCanApprove = [...globalConfig.confirmation_user, ...siteConfig.confirmation_user];
+            //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
+            if(this.userRole() === 'administrator'){
+              this.openConfirmationInternalDialog(row);
+            }
+            if(user && userCanApprove.includes(user._id)){
+              this.openConfirmationInternalDialog(row);
+            } else {
+              this.sendingTextMessage('warn', 'You do not have permission to approve this confirmation');
+            }
+          };
+          if(item.confirmation_status === 'customer_wait_for_approve'){
+            const userCanApprove = [...globalConfig.confirmation_customer, ...siteConfig.confirmation_customer];
+            //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
+            if(this.userRole() === 'administrator'){
+              this.openConfirmationCustomerDialog(row);
+            }
+            if(user && userCanApprove.includes(user._id)){
+              this.openConfirmationCustomerDialog(row);
+            } else {
+              this.sendingTextMessage('warn', 'You do not have permission to approve this confirmation');
+            }
+          };
+        break;
+      case 'invoice':
+          if(item.invoice_status === 'prepared' || item.invoice_status === 'account_wait_for_approve'){
+            const userCanApprove = [...globalConfig.invoice_account, ...siteConfig.invoice_account];
+            //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
+            if(this.userRole() === 'administrator'){
+              this.openInvoiceAccountingDialog(row);
+            }
+            if(user && userCanApprove.includes(user._id)){
+              this.openInvoiceAccountingDialog(row);
+            } else {
+              this.sendingTextMessage('warn', 'You do not have permission to approve this invoice');
+            }
+          };
+        break;
+      case 'payment':
+          if(item.payment_status === 'customer_paid'){
+            const userCanApprove = [...globalConfig.receipt_account, ...siteConfig.receipt_account];
+            //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
+            if(this.userRole() === 'administrator'){
+              this.openPaymentConfirmationDialog(row);
+            }
+            if(user && userCanApprove.includes(user._id)){
+              this.openPaymentConfirmationDialog(row);
+            } else {
+              this.sendingTextMessage('warn', 'You do not have permission to approve this invoice');
+            }
+          };
+        break;
+      case 'receipt':
+        if(item.reciept_status === 'prepared'){
+          const userCanApprove = [...globalConfig.receipt_account, ...siteConfig.receipt_account];
+          //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
+          if(this.userRole() === 'administrator'){
+            this.openReceiptInternalDialog(row);
+          }
+          if(user && userCanApprove.includes(user._id)){
+            this.openReceiptInternalDialog(row);
+          } else {
+            this.sendingTextMessage('warn', 'You do not have permission to approve this invoice');
+          }
+        };
+        if(item.reciept_status === 'customer_wait_for_approve'){
+          const userCanApprove = [...globalConfig.receipt_customer, ...siteConfig.receipt_customer];
+          //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
+          if(this.userRole() === 'administrator'){
+            this.openReceiptConfirmationDialog(row);
+          }
+          if(user && userCanApprove.includes(user._id)){
+            this.openReceiptConfirmationDialog(row);
+          } else {
+            this.sendingTextMessage('warn', 'You do not have permission to approve this invoice');
+          }
+        };
+        break;
+      default:
+        break;
+    }
+  };
+
+  openBillingViewerDialog(row: BillingTableRow): void {
+    const item = this.billingState().find(x => x.id === row.id);
+    if(!item) return;
+    const ref = this.dialogs.open(BillingViewerDialog, {
+      width: '95vw',
+      maxWidth: '1400px',
+      height: '92vh',
+      data: { row: item, siteList: this.siteList() },
+      panelClass: 'billing-detail-panel',
+      disableClose: false,
+    });
+    ref.afterClosed().subscribe();
+  }
+
+  openBillingEditorDialog(row: BillingTableRow): void {
+    const item = this.billingState().find(x => x.id === row.id);
+    if(!item) return;
+    const ref = this.dialogs.open(BillingEditorDialog, {
+      width: '95vw',
+      maxWidth: '1400px',
+      height: '92vh',
+      data: { row: item, siteList: this.siteList() },
+      panelClass: 'billing-detail-panel',
+      disableClose: false,
+    });
+    ref.afterClosed().subscribe(result => {
+      if (result?.action === 'saved') {
+        this.getBillingStateData();
+      }
+    });
+  }
+
+  sendingTextMessage(type: "success" | "info" | "warn" | "error" | "secondary" | "contrast", text: string): void {
+    this.store.dispatch(sendMessage({ 
+      payload: { type, text }
+    }));
   }
 
 }
@@ -789,3 +948,4 @@ interface BillingTableRow {
   paymentStatus: string;
   receiptStatus: string;
 }
+

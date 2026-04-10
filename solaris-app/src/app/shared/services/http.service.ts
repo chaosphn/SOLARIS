@@ -815,6 +815,7 @@ export class HttpService {
         if (body.status) formData.append('status', body.status);
         if (body.sitename) formData.append('sitename', body.sitename);
         if (body.username) formData.append('username', body.username);
+        if (body.sendDate) formData.append('sendDate', body.sendDate);
 
         const res = await firstValueFrom(
             this.httpClient.post<BillingResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/receipt/update-accounting', formData)

@@ -1,0 +1,350 @@
+// ── Color variables (ใช้ร่วมกับ global :root ที่มีอยู่) ──────────────────
+
+.dialog-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--card-bg);
+  //border: 1px solid var(--border-color);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+// ── Header ────────────────────────────────────────────────────────────────
+.dialog-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+  align-items: center;
+  background: var(--card-bg);
+  flex-shrink: 0;
+}
+
+.header-left {
+  .title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-txt);
+    letter-spacing: 0.3px;
+  }
+  .subtitle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--secondary-txt);
+    font-size: 14px;
+    //margin-top: 3px;
+    margin-left: 15px;
+    font-weight: 500;
+
+    .material-icons {
+      font-size: 14px;
+      color: var(--color-gd1);
+    }
+    .dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--secondary-bg);
+      display: inline-block;
+      margin: 0 4px;
+    }
+  }
+}
+
+.close-btn {
+  // background: var(--secondary-bg-50);
+  // border: 1px solid var(--border-color);
+  // border-radius: 6px;
+  color: var(--secondary-txt);
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // transition: background 0.2s, color 0.2s;
+
+  //&:hover {
+  //   background: var(--secondary-bg);
+  //   color: var(--primary-txt);
+  // }
+}
+
+// ── Content ───────────────────────────────────────────────────────────────
+.dialog-content {
+  flex: 1;
+  //padding: 12px 16px;
+  overflow: auto;
+  min-height: 0;
+  background: var(--main-bg);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  //gap: 12px;
+  height: 100%;
+}
+
+// ── Panel ─────────────────────────────────────────────────────────────────
+.panel {
+  background: var(--primary-bg);
+  // border: 1px solid var(--border-color);
+  // border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
+  &__title {
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--color-gd1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+
+    .material-icons {
+      font-size: 16px;
+    }
+  }
+}
+
+.panel:not(:last-child) {
+  border-right: 1px solid var(--border-color);
+}
+
+// ── Doc rows ──────────────────────────────────────────────────────────────
+.doc-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.doc-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: var(--secondary-bg);
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--row-txt);
+
+    .material-icons {
+      font-size: 16px;
+      color: var(--secondary-txt);
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 6px;
+  }
+}
+
+// ── Buttons ───────────────────────────────────────────────────────────────
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  background: var(--secondary-bg-50);
+  color: var(--secondary-txt);
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.18s;
+
+  .material-icons {
+    font-size: 14px;
+  }
+
+  &:hover {
+    background: var(--secondary-bg);
+    color: var(--primary-txt);
+    border-color: var(--secondary-txt);
+  }
+
+  &.active {
+    background: linear-gradient(135deg, #3a2e00, #2a2200);
+    border-color: var(--color-gd1);
+    color: var(--color-gd1);
+    box-shadow: 0 0 8px rgba(228, 182, 26, 0.2);
+  }
+}
+
+// ── PDF area ──────────────────────────────────────────────────────────────
+.pdf-wrap {
+  flex: 1;
+  border: 1px dashed var(--border-color);
+  border-radius: 6px;
+  margin-top: 10px;
+  min-height: 240px;
+  position: relative;
+  overflow: hidden;
+  background: var(--card-bg);
+}
+
+.pdf-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.pdf-loading,
+.pdf-none {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary-txt);
+  gap: 8px;
+
+  .material-icons {
+    font-size: 38px;
+    opacity: 0.3;
+  }
+}
+
+.pdf-view {
+  position: absolute;
+  inset: 0;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ── Billing state grid ────────────────────────────────────────────────────
+.state-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.state-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 7px 9px;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: var(--secondary-bg);
+  }
+
+  label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--secondary-txt);
+  }
+
+  span {
+    font-size: 13px;
+    color: var(--row-txt);
+    font-weight: 500;
+  }
+}
+
+// ── Activity logs ─────────────────────────────────────────────────────────
+.logs {
+  flex: 1;
+  margin-top: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: auto;
+  min-height: 0;
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead tr {
+      background: var(--thead-bg);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    th {
+      padding: 8px 9px;
+      color: var(--thead-txt);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+      font-weight: 600;
+    }
+
+    td {
+      padding: 7px 9px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--row-txt);
+      font-size: 12px;
+    }
+
+    tbody tr {
+      background: var(--trow-bg);
+      transition: background 0.15s;
+
+      &:hover {
+        background: var(--primary-bg-50);
+      }
+
+      &:last-child td {
+        border-bottom: none;
+      }
+    }
+  }
+
+  &__empty,
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px;
+    color: var(--secondary-txt);
+  }
+}
+
+.mt16 { margin-top: 16px; }
+
+// ── Scrollbar ─────────────────────────────────────────────────────────────
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--card-bg); }
+::-webkit-scrollbar-thumb { background: var(--secondary-bg); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--secondary-txt); }

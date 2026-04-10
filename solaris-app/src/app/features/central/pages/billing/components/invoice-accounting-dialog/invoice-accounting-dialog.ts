@@ -97,7 +97,7 @@ export class InvoiceAccountingDialog implements OnInit {
           timestamp: this.data.timestamp,
           pointsource: this.data.siteId,
           process: 'invoice',
-          type: this.logs().filter(log => log.processType === this.data.billing_process).find(log => log.action.endsWith('_approve') && !log.action.includes('wait_for')) ? 'signed' : 'unsigned'
+          type: this.logs().filter(log => log.processType === this.data.billing_process).find(log => log.action.endsWith('_approved') && !log.action.includes('wait_for')) ? 'signed' : 'unsigned'
         }
       );
       if(blob instanceof Blob && blob.size > 0) {
@@ -117,7 +117,7 @@ export class InvoiceAccountingDialog implements OnInit {
       this.loadingLog.set(true);
       const res: any = await this.http.getBillingLogData(this.data.siteId, this.data.timestamp);
       if (res?.status === 'success' && res.data) {
-        this.logs.set(res.data);
+        this.logs.set(res.data.filter((log: BillingLogDataModel) => log.processType === 'invoice'));
         await this.loadPdf();
       } else {
         this.logs.set([]);

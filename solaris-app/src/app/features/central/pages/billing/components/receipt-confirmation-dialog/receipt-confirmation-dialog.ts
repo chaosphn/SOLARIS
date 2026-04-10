@@ -101,7 +101,7 @@ export class ReceiptConfirmationDialog implements OnInit {
         this.data.timestamp
       );
 
-      this.logs.set(res?.data || []);
+      //this.logs.set(res?.data || []);
     } finally {
       this.loadingLog.set(false);
     }

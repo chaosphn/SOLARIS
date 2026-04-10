@@ -117,7 +117,7 @@
                         <div class="icon-group ">
                             <i class="material-icons">arrow_forward</i>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label>Reviewed By (Accounting)</label>
                             <mat-select multiple [(ngModel)]="siteConfig().confirmation_account" class="user-select" disabled="{{ mode() === 'view' }}">
                                 @for (user of userList(); track user._id) {
@@ -127,7 +127,7 @@
                         </div>
                         <div class="icon-group ">
                             <i class="material-icons">arrow_forward</i>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label>Reviewed By (Customer)</label>
                             <mat-select multiple [(ngModel)]="siteConfig().confirmation_customer" class="user-select" disabled="{{ mode() === 'view' }}">
@@ -139,7 +139,7 @@
                     </div>
                     <div class="step-header">[ Invoice Processing ]</div>
                     <div class="assignment-row">
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label>Verified By (Internal)</label>
                             <mat-select multiple [(ngModel)]="siteConfig().invoice_user" class="user-select" disabled="{{ mode() === 'view' }}">
                                 @for (user of userList(); track user._id) {
@@ -149,7 +149,7 @@
                         </div>
                         <div class="icon-group ">
                             <i class="material-icons">arrow_forward</i>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label>Verified By (Accounting)</label>
                             <mat-select multiple [(ngModel)]="siteConfig().invoice_account" class="user-select" disabled="{{ mode() === 'view' }}">
@@ -172,7 +172,7 @@
                     </div>
                     <div class="step-header">[ Payment & Receipt ]</div>
                     <div class="assignment-row">
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label>Recorded By (Internal)</label>
                             <mat-select multiple [(ngModel)]="siteConfig().receipt_user" class="user-select" disabled="{{ mode() === 'view' }}">
                                 @for (user of userList(); track user._id) {
@@ -182,7 +182,7 @@
                         </div>
                         <div class="icon-group ">
                             <i class="material-icons">arrow_forward</i>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label>Validated By (Accounting)</label>
                             <mat-select multiple [(ngModel)]="siteConfig().receipt_account" class="user-select" disabled="{{ mode() === 'view' }}">

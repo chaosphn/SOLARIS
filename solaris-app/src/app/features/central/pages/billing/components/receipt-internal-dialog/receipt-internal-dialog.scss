@@ -52,43 +52,6 @@
     overflow: hidden;
 }
 
-// ─── Receipt-only: Process selector (left pane) ────────────────────────────────
-
-.process-selector {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    padding: 10px 12px;
-    margin-bottom: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    background-color: var(--primary-bg);
-    flex-shrink: 0;
-
-    button {
-        appearance: none;
-        border: 1px solid var(--border-color);
-        background-color: var(--card-bg);
-        color: var(--secondary-txt);
-        padding: 6px 10px;
-        border-radius: 999px;
-        font-size: 12px;
-        cursor: pointer;
-        transition: all 0.15s ease;
-
-        &:hover {
-            color: var(--primary-txt);
-            border-color: var(--active-txt);
-        }
-
-        &.active {
-            color: var(--active-txt);
-            border-color: var(--active-txt);
-            background-color: rgba(228, 182, 26, 0.10);
-        }
-    }
-}
-
 .pdf-frame {
     flex: 1;
     border-radius: 4px;
@@ -129,7 +92,6 @@
     overflow: hidden;
     padding: 20px;
     gap: 14px;
-    position: relative;
 }
 
 // ─── Meta chips (site + timestamp) ────────────────────────────────────────────
@@ -149,10 +111,6 @@
     border-radius: 4px;
     padding: 6px 12px;
     flex: 1;
-    // Receipt HTML sometimes uses plain text inside `.meta-chip`
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--primary-txt);
 
     .material-icons {
         font-size: 15px;
@@ -203,8 +161,6 @@
     display: flex;
     align-items: flex-start;
     flex-shrink: 0;
-    gap: 8px;
-    flex-wrap: wrap;
 
     &__step {
         display: flex;
@@ -263,30 +219,6 @@
 
         &--done   { color: #4CAF82; }
         &--active { color: var(--active-txt); }
-    }
-}
-
-// ─── Receipt-only: simple stepper variant ─────────────────────────────────────
-// Receipt template uses `.mini-stepper > .mini-step` instead of the BEM nodes.
-.mini-step {
-    font-size: 11px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    border: 1px solid var(--border-color);
-    background-color: var(--card-bg);
-    color: var(--secondary-txt);
-    user-select: none;
-
-    &.done {
-        border-color: #4CAF82;
-        color: #4CAF82;
-        background-color: rgba(76, 175, 130, 0.12);
-    }
-
-    &.active {
-        border-color: #E4B61A;
-        color: #E4B61A;
-        background-color: rgba(228, 182, 26, 0.12);
     }
 }
 
@@ -444,18 +376,6 @@
     }
 }
 
-// Receipt HTML: plain `.log-item` + `.log-time`
-.log-section .log-item {
-    flex-direction: column;
-    gap: 4px;
-}
-
-.log-section .log-time {
-    font-size: 10px;
-    color: var(--secondary-txt);
-    opacity: 0.7;
-}
-
 // ─── Comment form ─────────────────────────────────────────────────────────────
 
 .comment-form {
@@ -504,7 +424,8 @@
 .force-energy-value {
     position: absolute;
     bottom: 0px;
-    width: calc(100% - 32px);
+    left: 0px;
+    width: calc(100% - 0px);
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -547,12 +468,6 @@
     grid-template-columns: 1fr;
     gap: 10px;
     flex-shrink: 0;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: var(--card-bg);
-    padding: 20px;
 }
 
 .btn-approve,
@@ -628,6 +543,116 @@
 .spin {
     animation: spin 1s linear infinite;
     display: inline-block;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--primary-txt);
+    .material-icons { font-size: 13px; }
+  }
+}
+
+.field-required {
+  color: #E05C5C;
+  margin-left: 2px;
+}
+
+.field-input {
+  width: 100%;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--primary-txt);
+  font-size: 12px;
+  padding: 7px 10px;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+  color-scheme: dark light;
+
+  &:focus {
+    outline: none;
+    border-color: var(--active-txt);
+  }
+}
+
+.upload-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 1.5px dashed var(--border-color);
+  border-radius: 4px;
+  padding: 14px 12px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  background-color: var(--primary-bg);
+  position: relative;
+
+  &:hover { border-color: var(--active-txt); }
+
+  &--has-file {
+    border-style: solid;
+    border-color: #4CAF82;
+    background-color: rgba(76,175,130,.06);
+  }
+
+  &__hidden { display: none; }
+
+  &__icon {
+    font-size: 22px !important;
+    color: var(--secondary-txt);
+    opacity: 0.5;
+  }
+
+  &__icon--done {
+    font-size: 20px !important;
+    color: #4CAF82;
+  }
+
+  &__hint {
+    font-size: 11px;
+    color: var(--secondary-txt);
+    text-align: center;
+  }
+
+  &__name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--primary-txt);
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__size {
+    font-size: 10px;
+    color: var(--secondary-txt);
+    opacity: 0.7;
+  }
+}
+
+.upload-hidden {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
 }
 
 // ─── Responsive ───────────────────────────────────────────────────────────────

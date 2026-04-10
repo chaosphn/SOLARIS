@@ -1,0 +1,144 @@
+<div class="dialog-container bz">
+  <div class="dialog-header d-flex-sb">
+    <div class="header-left d-flex-c">
+      <div class="title bz">Billing Editor</div>
+      <div class="subtitle bz">
+        <span class="material-icons">factory</span>
+        {{ getSiteName(data.siteId) }} ({{ data.siteId }})
+        <span class="dot"></span>
+        <span class="material-icons">event</span>
+        {{ data.timestamp | date:'yyyy-MM-dd' }}
+        <span class="dot"></span>
+        <span class="material-icons">tag</span>
+        ID: {{ data.id }}
+      </div>
+    </div>
+    <div
+      type="button"
+      class="close-btn"
+      (click)="close()"
+      aria-label="Close"
+    >
+      <span class="material-icons">close</span>
+    </div>
+  </div>
+
+  <div class="dialog-content" *ngIf="model() as m">
+    <div class="grid">
+      <div class="panel">
+        <div class="panel__title">
+          <span class="material-icons">edit_note</span>
+          Editable fields
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="billing-status">Status</label>
+            <input id="billing-status" [(ngModel)]="m.status" placeholder="prepared/onprogress/complete/delay" />
+          </div>
+
+          <div class="field">
+            <label for="billing-process">Billing Process</label>
+            <select id="billing-process" [(ngModel)]="m.billing_process">
+              <option [ngValue]="'confirmation'">confirmation</option>
+              <option [ngValue]="'invoice'">invoice</option>
+              <option [ngValue]="'payment'">payment</option>
+              <option [ngValue]="'receipt'">receipt</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="billing-energy-amount">Energy Amount</label>
+            <input id="billing-energy-amount" type="number" [(ngModel)]="m.energy_amount" />
+          </div>
+
+          <div class="field">
+            <label for="billing-forced-energy-amount">Forced Energy Amount</label>
+            <input id="billing-forced-energy-amount" type="number" [(ngModel)]="m.forced_energy_amount" />
+          </div>
+
+          <div class="field">
+            <label for="billing-payment-id">Payment ID</label>
+            <input id="billing-payment-id" [(ngModel)]="m.payment_id" />
+          </div>
+
+          <div class="field">
+            <label for="billing-confirmation-status">Confirmation Status</label>
+            <select id="billing-confirmation-status" [(ngModel)]="m.confirmation_status">
+              <option *ngIf="m.confirmation_status && !isKnownStatus('confirmation', m.confirmation_status)" [ngValue]="m.confirmation_status">
+                {{ getStatusLabel('confirmation', m.confirmation_status) }}
+              </option>
+              <option *ngFor="let opt of getStatusOptions('confirmation')" [ngValue]="opt.value">{{ opt.label }}</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="billing-invoice-status">Invoice Status</label>
+            <select id="billing-invoice-status" [(ngModel)]="m.invoice_status">
+              <option *ngIf="m.invoice_status && !isKnownStatus('invoice', m.invoice_status)" [ngValue]="m.invoice_status">
+                {{ getStatusLabel('invoice', m.invoice_status) }}
+              </option>
+              <option *ngFor="let opt of getStatusOptions('invoice')" [ngValue]="opt.value">{{ opt.label }}</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="billing-invoice-send-date">Invoice Send Date (ISO)</label>
+            <input id="billing-invoice-send-date" [(ngModel)]="m.invoice_sendDate" />
+          </div>
+
+          <div class="field">
+            <label for="billing-payment-status">Payment Status</label>
+            <select id="billing-payment-status" [(ngModel)]="m.payment_status">
+              <option *ngIf="m.payment_status && !isKnownStatus('payment', m.payment_status)" [ngValue]="m.payment_status">
+                {{ getStatusLabel('payment', m.payment_status) }}
+              </option>
+              <option *ngFor="let opt of getStatusOptions('payment')" [ngValue]="opt.value">{{ opt.label }}</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="billing-receipt-status">Receipt Status</label>
+            <select id="billing-receipt-status" [(ngModel)]="m.reciept_status">
+              <option *ngIf="m.reciept_status && !isKnownStatus('receipt', m.reciept_status)" [ngValue]="m.reciept_status">
+                {{ getStatusLabel('receipt', m.reciept_status) }}
+              </option>
+              <option *ngFor="let opt of getStatusOptions('receipt')" [ngValue]="opt.value">{{ opt.label }}</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="billing-receipt-send-date">Receipt Send Date (ISO)</label>
+            <input id="billing-receipt-send-date" [(ngModel)]="m.reciept_sendDate" />
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel__title">
+          <span class="material-icons">terminal</span>
+          Actions
+        </div>
+
+        <div class="actions">
+          <button class="btn" (click)="reset()" [disabled]="saving()">
+            <span class="material-icons">restart_alt</span>
+            Reset
+          </button>
+          <button class="btn primary" (click)="save()" [disabled]="saving()">
+            <span class="material-icons">save</span>
+            @if (saving()) { Saving... } @else { Save }
+          </button>
+        </div>
+
+        <div class="hint">
+          <div class="hint__title">Note</div>
+          <div class="hint__text">
+            Saving will update the Billing State using the values you edited.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -2,7 +2,7 @@
     @if (!isHided) {
         <div class="sidenav bz ">
             <div class="logo w-100 d-flex-ct ">
-                <img src="assets/images/logo.png" class="img" alt="" height="42px" (click)="show()">
+                <img [src]="logoUrl()" class="img" alt="" height="42px" (click)="show()">
             </div>
             <div class="btn-group d-col-sb bz">
                 <div mat-list-item routerLink="/main/overview" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
@@ -60,7 +60,7 @@
                             [id]="item.id" 
                             *ngFor="let item of zoneList().siteList | filtersite : seachText; index as i; trackBy: siteTrackBy">
                         <i class="material-icons">factory</i>
-                        <div class="title">{{ item.id + ' : ' + item.name }}</div>
+                        <div class="title">{{ item.id + ' : ' + item.name | uppercase}}</div>
                         <i class="material-icons event-icon" [ngClass]="getPlantStatus(item.id)">notifications_active</i>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                         <option *ngFor="let item of zoneList().siteList | filtersite : seachText; index as i; trackBy: siteTrackBy"
                                 [value]="item.id"
                                 [selected]="changeBgColor(item.id)">
-                            {{ 'SITE0' + i + ' : ' + item.name }}
+                            {{ 'SITE0' + i + ' : ' + item.name | uppercase }}
                         </option>
                     </select>
                 </div>

@@ -117,7 +117,7 @@ export class PaymentConfirmationDialog implements OnInit {
       this.loadingLog.set(true);
       const res: any = await this.http.getBillingLogData(this.data.siteId, this.data.timestamp);
       if (res?.status === 'success' && res.data) {
-        this.logs.set(res.data);
+        this.logs.set(res.data.filter((log: BillingLogDataModel) => log.processType === 'payment'));
         await this.loadPdf();
       } else {
         this.logs.set([]);

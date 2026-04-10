@@ -1,0 +1,116 @@
+<div class="dialog-container bz">
+  <div class="dialog-header d-flex-sb">
+    <div class="header-left d-flex-c">
+      <div class="title bz">Billing Viewer</div>
+      <div class="subtitle bz">
+        <span class="material-icons">factory</span>
+        {{ getSiteName(data.siteId) }} ({{ data.siteId }})
+        <span class="dot"></span>
+        <span class="material-icons">event</span>
+        {{ data.timestamp | date:'yyyy-MM-dd' }}
+      </div>
+    </div>
+    <div class="close-btn" (click)="close()">
+      <span class="material-icons">close</span>
+    </div>
+  </div>
+
+  <div class="dialog-content">
+    <div class="grid">
+      <div class="panel">
+        <div class="panel__title">
+          <span class="material-icons">description</span>
+          Documents
+        </div>
+        <div class="doc-actions">
+          <div class="doc-row" *ngFor="let p of ['confirmation','invoice','payment','receipt']">
+            <div class="doc-row__label">
+              <span class="material-icons">topic</span>
+              {{ p | titlecase }}
+            </div>
+            <div class="doc-row__buttons">
+              <button class="btn" (click)="viewDocument(p, 'unsigned')" [class.active]="activeProcess()===p && activeType()==='unsigned'">
+                <span class="material-icons">visibility</span>
+                View unsigned
+              </button>
+              <button class="btn" (click)="viewDocument(p, 'signed')" [class.active]="activeProcess()===p && activeType()==='signed'">
+                <span class="material-icons">verified</span>
+                View signed
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="pdf-wrap">
+          @if (loadingPdf()) {
+            <div class="pdf-loading">
+              <span class="material-icons spin">sync</span>
+              Loading document...
+            </div>
+          }
+          @if (!loadingPdf() && !pdfUrl()) {
+            <div class="pdf-none">
+              <span class="material-icons">picture_as_pdf</span>
+              No document selected
+            </div>
+          }
+          @if (pdfUrl() && !loadingPdf()) {
+            <div class="pdf-view" >
+              <iframe [src]="pdfUrl()" class="pdf-iframe" frameborder="0"></iframe>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel__title">
+          <span class="material-icons">info</span>
+          Billing State
+        </div>
+        <div class="state-grid">
+          <div class="state-item"><label>Billing Status : </label><span>{{ data.status || '---' }}</span></div>
+          <div class="state-item"><label>Billing Process : </label><span>{{ data.billing_process || '---' }}</span></div>
+          <div class="state-item"><label>Energy Amount : </label><span>{{ data.energy_amount >= 0 ? data.energy_amount : '---' }}</span></div>
+          <div class="state-item"><label>Forced Energy : </label><span>{{ data.forced_energy_amount >= 0 ? data.forced_energy_amount : '---' }}</span></div>
+          <div class="state-item"><label>Confirmation : </label><span>{{ humanizeBillingStatus('confirmation', data.confirmation_status) || '---' }}</span></div>
+          <div class="state-item"><label>Invoice : </label><span>{{ humanizeBillingStatus('invoice', data.invoice_status) || '---' }}</span></div>
+          <div class="state-item"><label>Payment : </label><span>{{ humanizeBillingStatus('payment', data.payment_status) || '---' }}</span></div>
+          <div class="state-item"><label>Receipt : </label><span>{{ humanizeBillingStatus('receipt', data.reciept_status) || '---' }}</span></div>
+        </div>
+
+        <div class="panel__title mt16">
+          <span class="material-icons">history</span>
+          Activity Logs
+        </div>
+        <div class="logs">
+          <div class="logs__loading" *ngIf="loadingLog()">
+            <span class="material-icons spin">sync</span>
+            Loading logs...
+          </div>
+          <table class="logs__table" *ngIf="!loadingLog() && logs().length > 0">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Process</th>
+                <th>Action</th>
+                <th>User</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let lg of logs()">
+                <td>{{ lg.timestamp | date:'yyyy-MM-dd HH:mm' }}</td>
+                <td>{{ lg.processType | titlecase }}</td>
+                <td>{{ lg.action }}</td>
+                <td>{{ lg.user }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="logs__empty" *ngIf="!loadingLog() && logs().length === 0">
+            <span class="material-icons">inbox</span>
+            No logs
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

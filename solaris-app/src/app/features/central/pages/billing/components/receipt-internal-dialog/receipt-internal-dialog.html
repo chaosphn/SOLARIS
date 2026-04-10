@@ -2,7 +2,7 @@
 
     <!-- ─── Header ─────────────────────────────────────────────────────────── -->
     <div class="dialog-header">
-        <span class="dialog-title">Customer Payment Confirmation</span>
+        <span class="dialog-title">Receipt Accounting Review</span>
         <button class="icon-btn" (click)="close()">
             <span class="material-icons">close</span>
         </button>
@@ -95,7 +95,7 @@
                 </div>
 
                 <!-- Activity log -->
-                @if (true) {
+                @if (userRole() === 'administrator') {
                     <div class="log-section">
                         <div class="log-section__title">
                             <span class="material-icons">history</span>
@@ -141,13 +141,13 @@
                 } 
 
                 <!-- Transaction Reference No. -->
-                <div class="force-energy-value bz">
+                <!-- <div class="force-energy-value bz">
                     <div class="force-energy-value__title">
                         <span class="material-icons">payment</span>
                         Transaction Reference No.
                     </div>
                     <input type="text" class="force-energy-value__input" [(ngModel)]="transactionReferenceNo" />
-                </div>
+                </div> -->
 
                 <!-- Comment form -->
                 <!-- <div class="comment-form">
@@ -162,6 +162,48 @@
                         [(ngModel)]="comment">
                     </textarea>
                 </div> -->
+
+                <!-- Send Date ──────────────────────────────────── -->
+                <div class="field-group">
+                    <div class="field-group__title">
+                        <span class="material-icons">event</span>
+                        Send Date <span class="field-required">*</span>
+                    </div>
+                    <input
+                        type="date"
+                        class="field-input"
+                        [(ngModel)]="send_date"
+                        [max]="today" />
+                </div>
+
+                <!-- Receipt File Upload ──────────────────────── -->
+                <div class="field-group">
+                    <div class="d-flex-sb">
+                        <div class="field-group__title">
+                            <span class="material-icons">upload_file</span>
+                            Receipt File <span class="field-required">*</span>
+                        </div>
+                        <div (click)="clearFile()" style="cursor: pointer;">
+                            <span class="material-icons" style="font-size: 14px;">close</span>
+                        </div>
+                    </div>
+                    <label class="upload-zone"
+                           [class.upload-zone--has-file]="file"
+                           (dragover)="$event.preventDefault()"
+                           (drop)="onDrop($event)">
+                        <input type="file" accept=".pdf,.jpg,.jpeg,.png"
+                               class="upload-hidden"
+                               (change)="onFileChange($event)" />
+                        @if (file) {
+                            <span class="material-icons upload-zone__icon--done">check_circle</span>
+                            <span class="upload-zone__name">{{ file!.name }}</span>
+                            <span class="upload-zone__size">{{ (file!.size / 1024).toFixed(1) }} KB</span>
+                        } @else {
+                            <span class="material-icons upload-zone__icon">cloud_upload</span>
+                            <span class="upload-zone__hint">Click or drag PDF / image here</span>
+                        }
+                    </label>
+                </div>
             </div>
 
             <!-- Approve / Reject buttons -->

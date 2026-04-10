@@ -89,13 +89,14 @@
     <div class="layoutCard bz w-100 h-100">
         <app-card-container [title]="'Map OVERVIEW'">
             <ng-template #container>
-                <app-map-consumption 
+                <!-- <app-map-consumption 
                     [zone]="zoneSelected()"
                     [config]="mapConfig()"
                     [sites]="siteList()"
                     (selectZone)="onZoneChanges($event)"
                     >
-                </app-map-consumption>
+                </app-map-consumption> -->
+                <app-map-container [dataRealtime]="dataRealtime()" [siteList]="siteList()"></app-map-container>
             </ng-template>
         </app-card-container>
     </div>

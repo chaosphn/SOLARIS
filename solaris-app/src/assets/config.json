@@ -1,6 +1,6 @@
 {
     "UrlApi": "http://localhost:5130/",
-    "UrlApiAuthen": "http://192.168.24.111:4126/",
+    "UrlApiAuthen": "http://192.168.101.1:4126/",
     "UrlApiBilling": "http://localhost:4040/api/",
     "UrlApiNotification": "http://192.168.24.111:6080/api/",
     "Timer": 5
