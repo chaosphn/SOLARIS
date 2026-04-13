@@ -178,9 +178,11 @@ export class NotificationConfig implements OnInit {
 
   // ─── Save ────────────────────────────────────────────────────────────────────
 
-  saveChannel(): void {
+  async saveChannel() {
     if (!this.newNotiForm.Name.trim()) {
-      alert('Please enter a channel name');
+      this.store.dispatch(sendMessage({ 
+        payload: { text: 'Please fill name', type: 'warn' } 
+      }));
       return;
     }
 
@@ -206,7 +208,25 @@ export class NotificationConfig implements OnInit {
       };
       const updatedArray = [...this.notificationConfig()];
       updatedArray[this.editingIndex] = updated;
-      this.notificationConfig.set(updatedArray);
+
+      const body: UpdateNotificationConfigModel = {
+        Id: updated.id,
+        Name: updated.name,
+        Enable: updated.enable,
+        Type: updated.type,
+        Config: updated.config
+      };
+      const updateResult = await this.service.updateNotificationConfig(body);
+      if(updateResult?.StatusCode === 'OK'){
+        this.store.dispatch(sendMessage({ 
+          payload: { text: updateResult.Message || 'Update notification channel success !', type: 'success' } 
+        }));
+      } else {
+        this.store.dispatch(sendMessage({ 
+          payload: { text: updateResult.Message || 'Update notification channel failed !', type: 'error' } 
+        }));
+      }
+      await this.getNotificationData();
     } else {
       // Add new entry to local array (id will be assigned by backend on save)
       const newEntry: NotificationConfigModel = {
@@ -216,7 +236,23 @@ export class NotificationConfig implements OnInit {
         enable: this.newNotiForm.Enable,
         config,
       };
-      this.notificationConfig.update(prev => [...prev, newEntry]);
+      const body: AddNotificationConfigModel = {
+        Name: newEntry.name,
+        Enable: newEntry.enable,
+        Type: newEntry.type,
+        Config: newEntry.config
+      };
+      const updateResult = await this.service.addNotificationConfig(body);
+      if(updateResult?.StatusCode === 'OK'){
+        this.store.dispatch(sendMessage({ 
+          payload: { text: updateResult.Message || 'Add notification channel success !', type: 'success' } 
+        }));
+      } else {
+        this.store.dispatch(sendMessage({ 
+          payload: { text: updateResult.Message || 'Add notification channel failed !', type: 'error' } 
+        }));
+      }
+      await this.getNotificationData();
     }
 
     this.closeModal();
@@ -248,25 +284,24 @@ export class NotificationConfig implements OnInit {
   }
   
   async deleteChannel(id: string) {
-    if (confirm('Are you sure you want to delete this notification channel?')) {
-      const request: DeleteNotificationConfigModel = {
-        ID: id
-      };
-      const result = await this.service.deleteNotificationConfig(request);
-      if(result && result.StatusCode == 'OK'){
-        this.sendMessageToState('success', 'Report configuration deleted successfully.');
-      } else {
-        this.sendMessageToState('error', 'Failed to delete report configuration.');
-      }
+    const request: DeleteNotificationConfigModel = {
+      Id: id
+    };
+    const result = await this.service.deleteNotificationConfig(request);
+    if(result && result.StatusCode == 'OK'){
+      this.sendMessageToState('success', 'Report configuration deleted successfully.');
+    } else {
+      this.sendMessageToState('error', 'Failed to delete report configuration.');
     }
+    await this.getNotificationData();
   }
 
   // ─── Save All Changes ────────────────────────────────────────────────────────
 
-  saveChanges(): void {
-    //console.log('Saving notification config:', this.notificationConfig);
-    alert('Notification changes saved successfully!');
-  }
+  // saveChanges(): void {
+  //   //console.log('Saving notification config:', this.notificationConfig);
+  //   const result = await this.service.updateNotificationConfig
+  // }
 
   // ─── Tag-chip helpers ─────────────────────────────────────────────────────────
 

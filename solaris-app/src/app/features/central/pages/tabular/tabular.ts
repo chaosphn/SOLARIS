@@ -621,10 +621,10 @@ export class Tabular implements OnInit, OnDestroy {
       } else if(summary.Info > 0){
         return 'info';
       } else {
-        return 'info';
+        return 'default';
       }
     } else {
-      return 'info';
+      return 'default';
     } 
   }
 

@@ -79,9 +79,9 @@
     }
 
     .custom-dropdown {
-        border: 1px solid var(--secondary-bg-50);
-        background-color: var(--secondary-bg-50);
-        color: var(--primary-txt);
+        border: 1px solid var(--dropdown-border);
+        background-color: var(--dropdown-bg);
+        color: var(--dropdown-txt);
         padding: 8px 16px;
         font-size: 14px;
         font-weight: 500;
@@ -112,13 +112,13 @@
         }
         
         &:hover {
-            border: 1px solid var(--secondary-bg);
-            background-color: var(--secondary-bg);
-            color: var(--primary-txt);
+            border: 1px solid var(--dropdown-hover-bg);
+            background-color: var(--dropdown-hover-bg);
+            color: var(--dropdown-txt);
         }
         
         &.active {
-            border: 1px solid var(--secondary-bg);
+            border: 1px solid var(--dropdown-hover-bg);
             
             .dropdown-arrow {
                 transform: rotate(180deg);
@@ -131,8 +131,8 @@
         top: calc(100% + 4px);
         left: 0;
         right: 0;
-        border: 1px solid var(--primary-bg);
-        background-color: var(--primary-bg);
+        border: 1px solid var(--dropdown-menu-border);
+        background-color: var(--dropdown-menu-bg);
         border-radius: 4px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         z-index: 1000;
@@ -154,7 +154,7 @@
         align-items: center;
         gap: 8px;
         padding: 10px 16px;
-        color: var(--secondary-txt);
+        color: var(--dropdown-item-txt);
         cursor: pointer;
         transition: all 0.2s ease;
         
@@ -164,13 +164,13 @@
         }
         
         &:hover {
-            background-color: var(--secondary-bg);
-            color: var(--primary-txt);
+            background-color: var(--dropdown-item-hover-bg);
+            color: var(--dropdown-item-hover-txt);
         }
         
         &.selected {
-            background-color: var(--secondary-bg);
-            color: var(--primary-txt);
+            background-color: var(--dropdown-item-hover-bg);
+            color: var(--dropdown-item-hover-txt);
         }
     }
 }

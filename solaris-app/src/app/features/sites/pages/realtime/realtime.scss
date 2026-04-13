@@ -72,12 +72,12 @@
         overflow-y: scroll;
     }
     .header{
-        background-color: var(--primary-bg-50);
+        background-color: var(--thead-bg);
         display: flex;
-        border: 1px solid var(--border-color);
+        border: 1px solid var(--thead-border);
         border-bottom: none;
         .value{
-            color: var(--secondary-txt);
+            color: var(--thead-txt);
             font-size: 0.75rem;
             font-weight: 500;
             text-align: center;
@@ -93,6 +93,7 @@
         .value:hover{
             cursor: pointer;
             background-color: var(--secondary-bg-50);
+            border: 1px solid var(--thead-border);
             .filter-box{
                 display: grid;
                 position: absolute;
@@ -105,9 +106,10 @@
     }
     .row{
         display: flex;
+        border-bottom: 1px solid var(--trow-border);
         .value{
             cursor: pointer;
-            color: var(--row-txt);
+            color: var(--trow-txt);
             font-size: 0.75rem;
             text-align: center;
             padding: 6px 0px;
@@ -117,11 +119,11 @@
         }
     }
     .row:nth-child(even){
-        background-color: var(--primary-bg-50);
+        background-color: var(--trow-bg);
     }
     
     .row:nth-child(odd){
-        background-color: var(--primary-bg);
+        background-color: var(--trow-bg);
     }
 
     .header{

@@ -319,6 +319,14 @@ export class Billing implements OnInit, OnDestroy {
 
   async getBillingStateData(){
     try {
+
+      if(!this.selectedSite){
+        this.store.dispatch(sendMessage({ 
+          payload: { type: 'warn', text: 'Please select site !' }
+        }));
+        return;
+      }
+
       this.loading.set(true);
       const dt = this.date;
       dt.setHours(0, 0, 0, 0);
@@ -326,7 +334,12 @@ export class Billing implements OnInit, OnDestroy {
       const ts = new Date(dt).toISOString();
       const data: BillingStateResponseModel = await this.http.getBillingStateData(ts);
       if(data && data.status === 'success' && data.data){
-        this.billingState.set(data.data);
+        if(this.selectedSite?.value === 'all'){
+          const siteAvaiable = data.data.filter(x => this.siteList().findIndex(y => y.id === x.siteId) >= 0);
+          this.billingState.set(siteAvaiable);
+        } else {
+          this.billingState.set(data.data.filter(x => x.siteId === this.selectedSite?.value));
+        }
         this.currentPage.set(1);
       } else {
         this.billingState.set([]);

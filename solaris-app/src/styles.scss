@@ -55,7 +55,7 @@ body {
         height: 56px;
     }
     
-    --mat-select-panel-background-color: #272B31;
+    --mat-select-panel-background-color: var(--primary-bg);
     --mat-select-enabled-trigger-text-color: var(--primary-txt);
     --mat-select-disabled-trigger-text-color: var(--primary-txt);
     --mat-select-placeholder-text-color: var(--primary-txt);
@@ -66,7 +66,7 @@ body {
     --mat-option-label-text-color: var(--primary-txt);
     --mdc-filled-text-field-label-text-weight: 200;
     --mat-select-trigger-text-weight: 200;
-    --mdc-filled-text-field-active-indicator-color: #272B31;
+    --mdc-filled-text-field-active-indicator-color: var(--primary-bg);
 }
 
 #major{
@@ -94,4 +94,20 @@ body {
   color: var(--primary-txt);
   border: 1px solid var(--border-color) !important;
   padding: 0;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color) !important;
+    border-radius: 100vw;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--secondary-bg-50) !important;
+    border-radius: 100vh;
+    margin-block: .5em;
+}
+
+::-webkit-scrollbar {
+    height: 6px;
+    width: 4px;
 }

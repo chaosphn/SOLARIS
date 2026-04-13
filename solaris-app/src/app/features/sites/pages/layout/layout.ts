@@ -56,13 +56,15 @@ export class Layout implements OnInit, OnDestroy {
   mapConfig = signal<MapConfigModel>({} as MapConfigModel);
   plantStatusData = computed(() => {
     if(this.dataRealtime()){
-      const pr1 = ((this.dataRealtime()['RUNNING']?.Value || 0)/100)*100;
-      const pr2 = ((this.dataRealtime()['UNHEALTHY']?.Value || 0)/100)*100;
-      const pr3 = ((this.dataRealtime()['NODATA']?.Value || 0)/100)*100;
+      const invs = this.config().realtimeConfig.filter(x => x.Group.includes('inverter')).map(x => x.Group.replace('inverter', '')); 
+      const normal = invs.filter(x => this.dataRealtime()?.[ 'INV' + x + '_STATUS']?.Value > 799 || this.dataRealtime()?.[ 'INV' + x + '_STATUS']?.Value < 699).length;
+      const fault = invs.filter(x => this.dataRealtime?.()[ 'INV' + x + '_STATUS']?.Value < 799 && this.dataRealtime?.()[ 'INV' + x + '_STATUS']?.Value > 699 && this.dataRealtime?.()[ 'INV' + x + '_STATUS']?.Value != 771).length;
+      const fcom = invs.filter(x => !this.dataRealtime?.()[ 'INV' + x + '_STATUS']?.Value || this.dataRealtime?.()[ 'INV' + x + '_STATUS']?.Value == 771).length;
+      //console.log(normal, fault, fcom, invs, this.dataRealtime())
       const data: PlantStatusData[] = [
-        { label: 'INV NORMAL', count: this.dataRealtime()['RUNNING']?.Value || 0, percentage: pr1, color: '#00E396', unit: 'Unit' },
-        { label: 'INV ERROR', count: this.dataRealtime()['UNHEALTHY']?.Value || 0, percentage: pr2, color: '#FEB019', unit: 'Unit' },
-        { label: 'INV FCOM', count: this.dataRealtime()['NODATA']?.Value || 0, percentage: pr3, color: '#FF4F52', unit: 'Unit' }
+        { label: 'INV NORMAL', count: normal || 0, percentage: (normal/invs.length*100) || 0, color: '#00E396', unit: 'Unit' },
+        { label: 'INV FAULT', count: fault || 0, percentage: (fault/invs.length*100) || 0, color: '#FEB019', unit: 'Unit' },
+        { label: 'INV FCOM', count: fcom || 0, percentage: (fcom/invs.length*100) || 0, color: '#FF4F52', unit: 'Unit' }
       ];
       return data;
     } else {

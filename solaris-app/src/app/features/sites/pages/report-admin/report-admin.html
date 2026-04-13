@@ -88,55 +88,53 @@
             </div>
 
             <!-- Site Configurations Table -->
-            @if (siteConfigs().length > 0) {
-                <div class="table-section" >
-                    <div class="table-header bz">
-                        <div class="table-title bz">SITE CONFIGURATIONS</div>
-                        @if (userRole() === 'administrator') {
-                            <button class="bz" (click)="openAddSiteModal()">ADD SITE CONFIG</button>
-                        }
-                    </div>
-                    <div class="table-wrapper">
-                        <table class="config-table">
-                            <thead>
-                                <tr>
-                                    <th>Site Name</th>
-                                    <th>Email List</th>
-                                    <th style="text-align: center;">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let config of siteConfigs()">
-                                    <td>
-                                        <div class="site-name bz">
-                                            <i class="material-icons bz">location_on</i>
-                                            {{ getSiteName(config.siteId) }}
-                                        </div>
-                                    </td>
-                                    <td class="email-cell">
-                                        @if (config.receivedBy) {
-                                            <span class="email-content">{{ config.receivedBy }}</span>
-                                        } @else {
-                                            <span class="email-default">Using default emails</span>
-                                        }
-                                    </td>
-                                    <td class="action-cell">
-                                
-                                        @if (userRole() === 'administrator') {
-                                            <button class="action-btn edit-btn" (click)="editSiteConfig(config)" title="Edit">
-                                                <i class="material-icons">edit</i>
-                                            </button>
-                                            <button class="action-btn delete-btn" (click)="confirmDeleteSiteConfig(config.id)" title="Delete">
-                                                <i class="material-icons">delete</i>
-                                            </button>
-                                        }
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="table-section" >
+                <div class="table-header bz">
+                    <div class="table-title bz">SITE CONFIGURATIONS</div>
+                    @if (userRole() === 'administrator') {
+                        <button class="bz" (click)="openAddSiteModal()">ADD SITE CONFIG</button>
+                    }
                 </div>
-            }
+                <div class="table-wrapper">
+                    <table class="config-table">
+                        <thead>
+                            <tr>
+                                <th>Site Name</th>
+                                <th>Email List</th>
+                                <th style="text-align: center;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let config of siteConfigs()">
+                                <td>
+                                    <div class="site-name bz">
+                                        <i class="material-icons bz">location_on</i>
+                                        {{ getSiteName(config.siteId) }}
+                                    </div>
+                                </td>
+                                <td class="email-cell">
+                                    @if (config.receivedBy) {
+                                        <span class="email-content">{{ config.receivedBy }}</span>
+                                    } @else {
+                                        <span class="email-default">Using default emails</span>
+                                    }
+                                </td>
+                                <td class="action-cell">
+                            
+                                    @if (userRole() === 'administrator') {
+                                        <button class="action-btn edit-btn" (click)="editSiteConfig(config)" title="Edit">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                        <button class="action-btn delete-btn" (click)="confirmDeleteSiteConfig(config.id)" title="Delete">
+                                            <i class="material-icons">delete</i>
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

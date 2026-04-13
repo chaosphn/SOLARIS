@@ -68,7 +68,7 @@ export class PanelLayout implements OnInit {
     const isHovered = this.hoverString === provinceId;
     if (isSelected) {
       return {
-        fill: 'var(--highlight)',
+        fill: 'var(--map-selected)',
         stroke: 'white',
         strokeWidth: '2',
         cursor: 'pointer',

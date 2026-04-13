@@ -53,16 +53,6 @@
       ]
     },
     {
-      "Group": "status",
-      "Order": 1,
-      "Tags": [
-        {
-          "Title": "KKB_STATUS",
-          "Tagname": "KKB.CALC.STATUS"
-        }
-      ]
-    },
-    {
       "Group": "inverter01",
       "Order": 4,
       "Tags": [
@@ -73,6 +63,10 @@
         {
           "Title": "INV01_ENERGY",
           "Tagname": "KKB.INV01.WH_TODAY"
+        },
+        {
+          "Title": "INV01_STATUS",
+          "Tagname": "KKB.INV01.DSTATUS"
         },
         {
           "Title": "INV01_PR",
@@ -177,6 +171,10 @@
           "Tagname": "KKB.INV02.WH_TODAY"
         },
         {
+          "Title": "INV02_STATUS",
+          "Tagname": "KKB.INV02.DSTATUS"
+        },
+        {
           "Title": "INV02_PR",
           "Tagname": "KKB.INV02.EFF"
         },
@@ -277,6 +275,10 @@
         {
           "Title": "INV03_ENERGY",
           "Tagname": "KKB.INV03.WH_TODAY"
+        },
+        {
+          "Title": "INV03_STATUS",
+          "Tagname": "KKB.INV03.DSTATUS"
         },
         {
           "Title": "INV03_PR",
@@ -381,6 +383,10 @@
           "Tagname": "KKB.INV04.WH_TODAY"
         },
         {
+          "Title": "INV04_STATUS",
+          "Tagname": "KKB.INV04.DSTATUS"
+        },
+        {
           "Title": "INV04_PR",
           "Tagname": "KKB.INV04.EFF"
         },
@@ -481,6 +487,10 @@
         {
           "Title": "INV05_ENERGY",
           "Tagname": "KKB.INV05.WH_TODAY"
+        },
+        {
+          "Title": "INV05_STATUS",
+          "Tagname": "KKB.INV05.DSTATUS"
         },
         {
           "Title": "INV05_PR",
@@ -585,6 +595,10 @@
           "Tagname": "KKB.INV06.WH_TODAY"
         },
         {
+          "Title": "INV06_STATUS",
+          "Tagname": "KKB.INV06.DSTATUS"
+        },
+        {
           "Title": "INV06_PR",
           "Tagname": "KKB.INV06.EFF"
         },
@@ -685,6 +699,10 @@
         {
           "Title": "INV07_ENERGY",
           "Tagname": "KKB.INV07.WH_TODAY"
+        },
+        {
+          "Title": "INV07_STATUS",
+          "Tagname": "KKB.INV07.DSTATUS"
         },
         {
           "Title": "INV07_PR",
@@ -789,6 +807,10 @@
           "Tagname": "KKB.INV08.WH_TODAY"
         },
         {
+          "Title": "INV08_STATUS",
+          "Tagname": "KKB.INV08.DSTATUS"
+        },
+        {
           "Title": "INV08_PR",
           "Tagname": "KKB.INV08.EFF"
         },
@@ -889,6 +911,10 @@
         {
           "Title": "INV09_ENERGY",
           "Tagname": "KKB.INV09.WH_TODAY"
+        },
+        {
+          "Title": "INV09_STATUS",
+          "Tagname": "KKB.INV09.DSTATUS"
         },
         {
           "Title": "INV09_PR",
@@ -993,6 +1019,10 @@
           "Tagname": "KKB.INV10.WH_TODAY"
         },
         {
+          "Title": "INV10_STATUS",
+          "Tagname": "KKB.INV10.DSTATUS"
+        },
+        {
           "Title": "INV10_PR",
           "Tagname": "KKB.INV10.EFF"
         },
@@ -1093,6 +1123,10 @@
         {
           "Title": "INV11_ENERGY",
           "Tagname": "KKB.INV11.WH_TODAY"
+        },
+        {
+          "Title": "INV11_STATUS",
+          "Tagname": "KKB.INV11.DSTATUS"
         },
         {
           "Title": "INV11_PR",
@@ -1197,6 +1231,10 @@
           "Tagname": "KKB.INV12.WH_TODAY"
         },
         {
+          "Title": "INV12_STATUS",
+          "Tagname": "KKB.INV12.DSTATUS"
+        },
+        {
           "Title": "INV12_PR",
           "Tagname": "KKB.INV12.EFF"
         },
@@ -1297,6 +1335,10 @@
         {
           "Title": "INV13_ENERGY",
           "Tagname": "KKB.INV13.WH_TODAY"
+        },
+        {
+          "Title": "INV13_STATUS",
+          "Tagname": "KKB.INV13.DSTATUS"
         },
         {
           "Title": "INV13_PR",
@@ -1401,6 +1443,10 @@
           "Tagname": "KKB.INV14.WH_TODAY"
         },
         {
+          "Title": "INV14_STATUS",
+          "Tagname": "KKB.INV14.DSTATUS"
+        },
+        {
           "Title": "INV14_PR",
           "Tagname": "KKB.INV14.EFF"
         },
@@ -1501,6 +1547,10 @@
         {
           "Title": "INV15_ENERGY",
           "Tagname": "KKB.INV15.WH_TODAY"
+        },
+        {
+          "Title": "INV15_STATUS",
+          "Tagname": "KKB.INV15.DSTATUS"
         },
         {
           "Title": "INV15_PR",
@@ -1605,6 +1655,10 @@
           "Tagname": "KKB.INV16.WH_TODAY"
         },
         {
+          "Title": "INV16_STATUS",
+          "Tagname": "KKB.INV16.DSTATUS"
+        },
+        {
           "Title": "INV16_PR",
           "Tagname": "KKB.INV16.EFF"
         },
@@ -1705,6 +1759,10 @@
         {
           "Title": "INV17_ENERGY",
           "Tagname": "KKB.INV17.WH_TODAY"
+        },
+        {
+          "Title": "INV17_STATUS",
+          "Tagname": "KKB.INV17.DSTATUS"
         },
         {
           "Title": "INV17_PR",
@@ -1809,6 +1867,10 @@
           "Tagname": "KKB.INV18.WH_TODAY"
         },
         {
+          "Title": "INV18_STATUS",
+          "Tagname": "KKB.INV18.DSTATUS"
+        },
+        {
           "Title": "INV18_PR",
           "Tagname": "KKB.INV18.EFF"
         },
@@ -1909,6 +1971,10 @@
         {
           "Title": "INV19_ENERGY",
           "Tagname": "KKB.INV19.WH_TODAY"
+        },
+        {
+          "Title": "INV19_STATUS",
+          "Tagname": "KKB.INV19.DSTATUS"
         },
         {
           "Title": "INV19_PR",
@@ -2013,6 +2079,10 @@
           "Tagname": "KKB.INV20.WH_TODAY"
         },
         {
+          "Title": "INV20_STATUS",
+          "Tagname": "KKB.INV20.DSTATUS"
+        },
+        {
           "Title": "INV20_PR",
           "Tagname": "KKB.INV20.EFF"
         },
@@ -2113,6 +2183,10 @@
         {
           "Title": "INV21_ENERGY",
           "Tagname": "KKB.INV21.WH_TODAY"
+        },
+        {
+          "Title": "INV21_STATUS",
+          "Tagname": "KKB.INV21.DSTATUS"
         },
         {
           "Title": "INV21_PR",
@@ -2217,6 +2291,10 @@
           "Tagname": "KKB.INV22.WH_TODAY"
         },
         {
+          "Title": "INV22_STATUS",
+          "Tagname": "KKB.INV22.DSTATUS"
+        },
+        {
           "Title": "INV22_PR",
           "Tagname": "KKB.INV22.EFF"
         },
@@ -2317,6 +2395,10 @@
         {
           "Title": "INV23_ENERGY",
           "Tagname": "KKB.INV23.WH_TODAY"
+        },
+        {
+          "Title": "INV23_STATUS",
+          "Tagname": "KKB.INV23.DSTATUS"
         },
         {
           "Title": "INV23_PR",
@@ -2421,6 +2503,10 @@
           "Tagname": "KKB.INV24.WH_TODAY"
         },
         {
+          "Title": "INV24_STATUS",
+          "Tagname": "KKB.INV24.DSTATUS"
+        },
+        {
           "Title": "INV24_PR",
           "Tagname": "KKB.INV24.EFF"
         },
@@ -2521,6 +2607,10 @@
         {
           "Title": "INV25_ENERGY",
           "Tagname": "KKB.INV25.WH_TODAY"
+        },
+        {
+          "Title": "INV25_STATUS",
+          "Tagname": "KKB.INV25.DSTATUS"
         },
         {
           "Title": "INV25_PR",
@@ -2625,6 +2715,10 @@
           "Tagname": "KKB.INV26.WH_TODAY"
         },
         {
+          "Title": "INV26_STATUS",
+          "Tagname": "KKB.INV26.DSTATUS"
+        },
+        {
           "Title": "INV26_PR",
           "Tagname": "KKB.INV26.EFF"
         },
@@ -2725,6 +2819,10 @@
         {
           "Title": "INV27_ENERGY",
           "Tagname": "KKB.INV27.WH_TODAY"
+        },
+        {
+          "Title": "INV27_STATUS",
+          "Tagname": "KKB.INV27.DSTATUS"
         },
         {
           "Title": "INV27_PR",
@@ -2854,7 +2952,7 @@
           "Options": {
             "Time": "",
             "Interval": 0,
-            "StartTime": "*-3d",
+            "StartTime": "*-7d",
             "EndTime": "NOW"
           }
         }
@@ -3086,7 +3184,6 @@
             "lineWidth": 0,
             "gridLineColor": "var(--chart-brd)",
             "gridLineWidth": 0,
-            "tickInterval": 35,
             "margin": 0,
             "min": 0
           }

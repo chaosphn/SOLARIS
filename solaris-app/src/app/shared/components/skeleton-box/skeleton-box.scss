@@ -1,5 +1,5 @@
 .skeleton {
-  background-color: #2d2d2d;
+  background-color: var(--sekeleton-bg1);
   animation: pulse 1.8s ease-in-out infinite;
   filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.02));
 }
@@ -32,12 +32,12 @@
 
 @keyframes pulse {
   0% {
-    background-color: #2d2d2d;
+    background-color: var(--sekeleton-bg1);
   }
   50% {
-    background-color: #505050;
+    background-color: var(--sekeleton-bg2);
   }
   100% {
-    background-color: #2d2d2d;
+    background-color: var(--sekeleton-bg1);
   }
 }

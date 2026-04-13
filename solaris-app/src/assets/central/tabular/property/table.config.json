@@ -41,7 +41,17 @@
     },
     {
         "Name": "ENERGY",
-        "Display": "TODAY\n(MWh)",
+        "Display": "ENERGY TODAY\n(kWh)",
+        "Size": 1
+    },
+    {
+        "Name": "ENERGYMTD",
+        "Display": "ENERGY MTD\n(MWh)",
+        "Size": 1
+    },
+    {
+        "Name": "ENERGYYTD",
+        "Display": "ENERGY YTD\n(MWh)",
         "Size": 1
     },
     {
@@ -50,8 +60,8 @@
         "Size": 1
     },
     {
-        "Name": "OPR",
-        "Display": "OPR\n(%)",
+        "Name": "TD",
+        "Display": "YIELD TODAY\n(kWh/kWp)",
         "Size": 1
     },
     {

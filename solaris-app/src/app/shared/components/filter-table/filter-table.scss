@@ -5,10 +5,10 @@
     border: 1px solid var(--border-color);
     color: var(--primary-txt);
     .row{
-        border-bottom: 1px solid #2d3136;
+        border-bottom: 1px solid var(--border-color);
         max-width: 100%;
     }
     .row:hover{
-        background-color: #2d3136;
+        background-color: var(--border-color);
     }
 }

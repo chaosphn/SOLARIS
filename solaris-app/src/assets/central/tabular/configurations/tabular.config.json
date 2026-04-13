@@ -16,7 +16,15 @@
         "Tags": [
           {
             "Title": "KKB_ENERGY",
-            "Tagname": "KKB.CALC.WH_TODAY"
+            "Tagname": "KKB.CALC.WH_DAY"
+          },
+          {
+            "Title": "KKB_ENERGYMTD",
+            "Tagname": "KKB.CALC.WH_MONTH"
+          },
+          {
+            "Title": "KKB_ENERGYYTD",
+            "Tagname": "KKB.CALC.WH_YEAR"
           }
         ]
       },
@@ -37,16 +45,6 @@
           {
             "Title": "KKB_PR",
             "Tagname": "KKB.CALC.PR"
-          }
-        ]
-      },
-      {
-        "Group": "operformance",
-        "Order": 3,
-        "Tags": [
-          {
-            "Title": "KKB_OPR",
-            "Tagname": "KKB.CALC.OPR"
           }
         ]
       },

@@ -36,526 +36,160 @@
 		"name": "SUB3",
 		"title": "SUB 3",
 		"textBinding": [
-			{
-				"value": 0,
-				"message": "Normal"
-			},
-			{
-				"value": 1,
-				"message": "Grid Overvoltage"
-			},
-			{
-				"value": 2,
-				"message": "Grid Undervoltage"
-			},
-			{
-				"value": 3,
-				"message": "Grid Overfrequency"
-			},
-			{
-				"value": 4,
-				"message": "Grid Underfrequency"
-			},
-			{
-				"value": 5,
-				"message": "Grid Loss"
-			},
-			{
-				"value": 6,
-				"message": "Grid Phase Sequence Incorrect"
-			},
-			{
-				"value": 7,
-				"message": "Grid Voltage Imbalance"
-			},
-			{
-				"value": 8,
-				"message": "Output Overcurrent"
-			},
-			{
-				"value": 9,
-				"message": "DC Overvoltage"
-			},
-			{
-				"value": 10,
-				"message": "DC Bus Overvoltage"
-			},
-			{
-				"value": 11,
-				"message": "DC Bus Undervoltage"
-			},
-			{
-				"value": 12,
-				"message": "Insulation Resistance Low"
-			},
-			{
-				"value": 13,
-				"message": "Leakage Current Abnormal"
-			},
-			{
-				"value": 14,
-				"message": "Ground Fault"
-			},
-			{
-				"value": 15,
-				"message": "Device Overtemperature"
-			},
-			{
-				"value": 16,
-				"message": "Fan Fault"
-			},
-			{
-				"value": 17,
-				"message": "DSP Fault"
-			},
-			{
-				"value": 18,
-				"message": "Comm. Failure"
-			},
-			{
-				"value": 19,
-				"message": "Hardware Fault"
-			},
-			{
-				"value": 20,
-				"message": "AFCI Fault"
-			}
+			{ "value": 0, "message": "Init standby" },
+			{ "value": 1, "message": "Check insulation" },
+			{ "value": 2, "message": "Check irradiation" },
+			{ "value": 3, "message": "Check grid" },
+			{ "value": 256, "message": "Starting" },
+			{ "value": 512, "message": "On-grid" },
+			{ "value": 513, "message": "Power limited" },
+			{ "value": 514, "message": "Self-derating" },
+			{ "value": 515, "message": "Off-grid run" },
+
+			{ "value": 768, "message": "Fault shutdown" },
+			{ "value": 769, "message": "Cmd shutdown" },
+			{ "value": 770, "message": "OVGR shutdown" },
+			{ "value": 771, "message": "Comm fail" },
+			{ "value": 772, "message": "PL shutdown" },
+			{ "value": 773, "message": "Manual start req" },
+			{ "value": 774, "message": "DC switch off" },
+			{ "value": 775, "message": "Rapid cutoff" },
+			{ "value": 776, "message": "Low input power" },
+
+			{ "value": 1025, "message": "cosφ-P ctrl" },
+			{ "value": 1026, "message": "Q-U ctrl" },
+			{ "value": 1027, "message": "PF-U ctrl" },
+			{ "value": 1028, "message": "Dry contact" },
+			{ "value": 1029, "message": "Q-P ctrl" },
+
+			{ "value": 1280, "message": "Spot ready" },
+			{ "value": 1281, "message": "Spot checking" },
+			{ "value": 1536, "message": "Inspecting" },
+			{ "value": 1792, "message": "AFCI check" },
+			{ "value": 2048, "message": "I-V scan" },
+			{ "value": 2304, "message": "DC detect" },
+			{ "value": 2560, "message": "Off-grid charge" },
+
+			{ "value": 40960, "message": "No irradiation" }
 		],
 		"colorBinding": [
-			{
-				"value": 0,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 1,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 2,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 3,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 256,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 512,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 513,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 514,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 515,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 768,
-				"tag": "COM",
-				"color": "major"
-			},
-			{
-				"value": 769,
-				"tag": "COM",
-				"color": "major"
-			},
-			{
-				"value": 770,
-				"tag": "COM",
-				"color": "major"
-			},
-			{
-				"value": 771,
-				"tag": "COM",
-				"color": "major"
-			},
-			{
-				"value": 40960,
-				"tag": "COM",
-				"color": "normal"
-			},
+			{ "value": 0, "tag": "COM", "color": "normal" },
+			{ "value": 1, "tag": "COM", "color": "normal" },
+			{ "value": 2, "tag": "COM", "color": "normal" },
+			{ "value": 3, "tag": "COM", "color": "normal" },
+			{ "value": 256, "tag": "COM", "color": "normal" },
+			{ "value": 512, "tag": "COM", "color": "normal" },
+			{ "value": 515, "tag": "COM", "color": "normal" },
+			{ "value": 40960, "tag": "COM", "color": "normal" },
 
-			{
-				"value": 5,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 8,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 9,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 10,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 11,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 12,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 13,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 14,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 17,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 19,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 20,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 1,
-				"tag": "STS",
-				"color": "minor"
-			},
-			{
-				"value": 2,
-				"tag": "STS",
-				"color": "minor"
-			},
-			{
-				"value": 3,
-				"tag": "STS",
-				"color": "minor"
-			},
-			{
-				"value": 4,
-				"tag": "STS",
-				"color": "minor"
-			},
-			{
-				"value": 7,
-				"tag": "STS",
-				"color": "minor"
-			},
-			{
-				"value": 15,
-				"tag": "STS",
-				"color": "minor"
-			},
-			{
-				"value": 16,
-				"tag": "STS",
-				"color": "minor"
-			},
-			{
-				"value": 6,
-				"tag": "STS",
-				"color": "warnning"
-			},
-			{
-				"value": 18,
-				"tag": "STS",
-				"color": "warnning"
-			}
+			{ "value": 513, "tag": "COM", "color": "warnning" },
+			{ "value": 514, "tag": "COM", "color": "warnning" },
+
+			{ "value": 768, "tag": "COM", "color": "major" },
+			{ "value": 770, "tag": "COM", "color": "major" },
+			{ "value": 771, "tag": "COM", "color": "major" },
+
+			{ "value": 769, "tag": "COM", "color": "minor" },
+			{ "value": 772, "tag": "COM", "color": "minor" },
+			{ "value": 773, "tag": "COM", "color": "minor" },
+			{ "value": 774, "tag": "COM", "color": "minor" },
+			{ "value": 775, "tag": "COM", "color": "minor" },
+			{ "value": 776, "tag": "COM", "color": "minor" },
+
+			{ "value": 1025, "tag": "COM", "color": "normal" },
+			{ "value": 1026, "tag": "COM", "color": "normal" },
+			{ "value": 1027, "tag": "COM", "color": "normal" },
+			{ "value": 1028, "tag": "COM", "color": "normal" },
+			{ "value": 1029, "tag": "COM", "color": "normal" },
+			{ "value": 1280, "tag": "COM", "color": "normal" },
+			{ "value": 1281, "tag": "COM", "color": "normal" },
+			{ "value": 1536, "tag": "COM", "color": "normal" },
+			{ "value": 1792, "tag": "COM", "color": "normal" },
+			{ "value": 2048, "tag": "COM", "color": "normal" },
+			{ "value": 2304, "tag": "COM", "color": "normal" },
+			{ "value": 2560, "tag": "COM", "color": "normal" },
+
+			{ "value": -1, "tag": "COM", "color": "unknow" }
 		]
 	},
 	{
 		"name": "SUB2",
 		"title": "SUB 2",
 		"textBinding": [
-			{
-				"value": 0,
-				"message": "Normal"
-			},
-			{
-				"value": 1,
-				"message": "Grid Overvoltage"
-			},
-			{
-				"value": 2,
-				"message": "Grid Undervoltage"
-			},
-			{
-				"value": 3,
-				"message": "Grid Overfrequency"
-			},
-			{
-				"value": 4,
-				"message": "Grid Underfrequency"
-			},
-			{
-				"value": 5,
-				"message": "Grid Loss"
-			},
-			{
-				"value": 6,
-				"message": "Grid Phase Sequence Incorrect"
-			},
-			{
-				"value": 7,
-				"message": "Grid Voltage Imbalance"
-			},
-			{
-				"value": 8,
-				"message": "Output Overcurrent"
-			},
-			{
-				"value": 9,
-				"message": "DC Overvoltage"
-			},
-			{
-				"value": 10,
-				"message": "DC Bus Overvoltage"
-			},
-			{
-				"value": 11,
-				"message": "DC Bus Undervoltage"
-			},
-			{
-				"value": 12,
-				"message": "Insulation Resistance Low"
-			},
-			{
-				"value": 13,
-				"message": "Leakage Current Abnormal"
-			},
-			{
-				"value": 14,
-				"message": "Ground Fault"
-			},
-			{
-				"value": 15,
-				"message": "Device Overtemperature"
-			},
-			{
-				"value": 16,
-				"message": "Fan Fault"
-			},
-			{
-				"value": 17,
-				"message": "DSP Fault"
-			},
-			{
-				"value": 18,
-				"message": "Comm. Failure"
-			},
-			{
-				"value": 19,
-				"message": "Hardware Fault"
-			},
-			{
-				"value": 20,
-				"message": "AFCI Fault"
-			}
+			{ "value": 0, "message": "Init standby" },
+			{ "value": 1, "message": "Check insulation" },
+			{ "value": 2, "message": "Check irradiation" },
+			{ "value": 3, "message": "Check grid" },
+			{ "value": 256, "message": "Starting" },
+			{ "value": 512, "message": "On-grid" },
+			{ "value": 513, "message": "Power limited" },
+			{ "value": 514, "message": "Self-derating" },
+			{ "value": 515, "message": "Off-grid run" },
+
+			{ "value": 768, "message": "Fault shutdown" },
+			{ "value": 769, "message": "Cmd shutdown" },
+			{ "value": 770, "message": "OVGR shutdown" },
+			{ "value": 771, "message": "Comm fail" },
+			{ "value": 772, "message": "PL shutdown" },
+			{ "value": 773, "message": "Manual start req" },
+			{ "value": 774, "message": "DC switch off" },
+			{ "value": 775, "message": "Rapid cutoff" },
+			{ "value": 776, "message": "Low input power" },
+
+			{ "value": 1025, "message": "cosφ-P ctrl" },
+			{ "value": 1026, "message": "Q-U ctrl" },
+			{ "value": 1027, "message": "PF-U ctrl" },
+			{ "value": 1028, "message": "Dry contact" },
+			{ "value": 1029, "message": "Q-P ctrl" },
+
+			{ "value": 1280, "message": "Spot ready" },
+			{ "value": 1281, "message": "Spot checking" },
+			{ "value": 1536, "message": "Inspecting" },
+			{ "value": 1792, "message": "AFCI check" },
+			{ "value": 2048, "message": "I-V scan" },
+			{ "value": 2304, "message": "DC detect" },
+			{ "value": 2560, "message": "Off-grid charge" },
+
+			{ "value": 40960, "message": "No irradiation" }
 		],
 		"colorBinding": [
-			{
-				"value": 0,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 1,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 2,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 3,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 256,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 512,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 513,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 514,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 515,
-				"tag": "COM",
-				"color": "normal"
-			},
-			{
-				"value": 768,
-				"tag": "COM",
-				"color": "major"
-			},
-			{
-				"value": 769,
-				"tag": "COM",
-				"color": "major"
-			},
-			{
-				"value": 770,
-				"tag": "COM",
-				"color": "major"
-			},
-			{
-				"value": 771,
-				"tag": "COM",
-				"color": "major"
-			},
-			{
-				"value": 40960,
-				"tag": "COM",
-				"color": "normal"
-			},
+			{ "value": 0, "tag": "COM", "color": "normal" },
+			{ "value": 1, "tag": "COM", "color": "normal" },
+			{ "value": 2, "tag": "COM", "color": "normal" },
+			{ "value": 3, "tag": "COM", "color": "normal" },
+			{ "value": 256, "tag": "COM", "color": "normal" },
+			{ "value": 512, "tag": "COM", "color": "normal" },
+			{ "value": 515, "tag": "COM", "color": "normal" },
+			{ "value": 40960, "tag": "COM", "color": "normal" },
 
-			{
-				"value": 5,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 8,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 9,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 10,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 11,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 12,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 13,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 14,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 17,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 19,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 20,
-				"tag": "STS",
-				"color": "major"
-			},
-			{
-				"value": 1,
-				"tag": "STS",
-				"color": "minor"
-			},
-			{
-				"value": 2,
-				"tag": "STS",
-				"color": "minor"
-			},
-			{
-				"value": 3,
-				"tag": "STS",
-				"color": "minor"
-			},
-			{
-				"value": 4,
-				"tag": "STS",
-				"color": "minor"
-			},
-			{
-				"value": 7,
-				"tag": "STS",
-				"color": "minor"
-			},
-			{
-				"value": 15,
-				"tag": "STS",
-				"color": "minor"
-			},
-			{
-				"value": 16,
-				"tag": "STS",
-				"color": "minor"
-			},
-			{
-				"value": 6,
-				"tag": "STS",
-				"color": "warnning"
-			},
-			{
-				"value": 18,
-				"tag": "STS",
-				"color": "warnning"
-			}
+			{ "value": 513, "tag": "COM", "color": "warnning" },
+			{ "value": 514, "tag": "COM", "color": "warnning" },
+
+			{ "value": 768, "tag": "COM", "color": "major" },
+			{ "value": 770, "tag": "COM", "color": "major" },
+			{ "value": 771, "tag": "COM", "color": "major" },
+
+			{ "value": 769, "tag": "COM", "color": "minor" },
+			{ "value": 772, "tag": "COM", "color": "minor" },
+			{ "value": 773, "tag": "COM", "color": "minor" },
+			{ "value": 774, "tag": "COM", "color": "minor" },
+			{ "value": 775, "tag": "COM", "color": "minor" },
+			{ "value": 776, "tag": "COM", "color": "minor" },
+
+			{ "value": 1025, "tag": "COM", "color": "normal" },
+			{ "value": 1026, "tag": "COM", "color": "normal" },
+			{ "value": 1027, "tag": "COM", "color": "normal" },
+			{ "value": 1028, "tag": "COM", "color": "normal" },
+			{ "value": 1029, "tag": "COM", "color": "normal" },
+			{ "value": 1280, "tag": "COM", "color": "normal" },
+			{ "value": 1281, "tag": "COM", "color": "normal" },
+			{ "value": 1536, "tag": "COM", "color": "normal" },
+			{ "value": 1792, "tag": "COM", "color": "normal" },
+			{ "value": 2048, "tag": "COM", "color": "normal" },
+			{ "value": 2304, "tag": "COM", "color": "normal" },
+			{ "value": 2560, "tag": "COM", "color": "normal" },
+
+			{ "value": -1, "tag": "COM", "color": "unknow" }
 		]
 	}
 ]

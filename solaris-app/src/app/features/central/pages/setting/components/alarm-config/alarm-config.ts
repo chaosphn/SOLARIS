@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { EventConfigModel, ExpressionParseResultModel, NotificationConfigModel } from '../../../../../sites/models/event.model';
 import { AlarmTag } from '../../../../models/billing.model';
 import { getZoneConfig } from '../../../../../../store/selectors/site.selectors';
@@ -44,6 +44,42 @@ export class AlarmConfig implements OnInit {
   userRole = signal<string>('user');
 
   siteList = signal<SiteModel[]>([]);
+
+  pageSizeOptions: number[] = [10, 20, 50, 100];
+  pageSize = signal<number>(10);
+  currentPage = signal<number>(1); // 1-based
+
+  tableRowConfig = computed(() => {
+    const end = this.currentPage() * this.pageSize();
+    const start = end - this.pageSize();
+    return this.editedTags().slice(start, end);
+  })
+
+  totalRows = computed(() => this.editedTags().length);
+  totalPages = computed(() => {
+    const total = this.totalRows();
+    const size = this.pageSize();
+    return Math.max(1, Math.ceil(total / Math.max(1, size)));
+  });
+
+  pagedRows = computed(() => {
+    const rows = this.editedTags();
+    const size = Math.max(1, this.pageSize());
+    const page = Math.min(Math.max(1, this.currentPage()), this.totalPages());
+    const start = (page - 1) * size;
+    return rows.slice(start, start + size);
+  });
+
+  pageRangeText = computed(() => {
+    const total = this.totalRows();
+    if (total === 0) return '0–0 of 0';
+    const size = Math.max(1, this.pageSize());
+    const page = Math.min(Math.max(1, this.currentPage()), this.totalPages());
+    const start = (page - 1) * size + 1;
+    const end = Math.min(total, page * size);
+    return `${start}–${end} of ${total}`;
+  });
+
   private store = inject(Store);
   private dialog = inject(FloatingDialogService);
   private service = inject(HttpService);
@@ -82,8 +118,10 @@ export class AlarmConfig implements OnInit {
     //console.log('Initial alarm tags:', result);
     if(result && result.length > 0){
       this.editedTags.set(result);
+      this.currentPage.set(1);
     } else {
       this.editedTags.set([]);
+      this.currentPage.set(1);
     }
   };
 
@@ -257,7 +295,7 @@ export class AlarmConfig implements OnInit {
   confirmSaveChanges(): void {
     const dialogData: ConfirmDialogData = {
       title: 'Save Changes Alarm Configuration',
-      message: 'Are you sure you want to delete this item?',
+      message: 'Are you sure you want to save this configuration?',
       subMessage: 'This action cannot be undone.',
       confirmText: 'Save',
       cancelText: 'Cancel',
@@ -300,6 +338,21 @@ export class AlarmConfig implements OnInit {
       }
     });
 
+  }
+
+  setPageSizeFromEvent(ev: Event) {
+    const value = Number((ev.target as HTMLSelectElement)?.value);
+    const nextSize = Number.isFinite(value) && value > 0 ? value : 10;
+    this.pageSize.set(nextSize);
+    this.currentPage.set(1);
+  }
+
+  prevPage() {
+    this.currentPage.update(p => Math.max(1, p - 1));
+  }
+
+  nextPage() {
+    this.currentPage.update(p => Math.min(this.totalPages(), p + 1));
   }
 
 }

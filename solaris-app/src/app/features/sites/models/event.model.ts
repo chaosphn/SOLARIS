@@ -116,7 +116,7 @@ export interface UpdateNotificationConfigModel extends AddNotificationConfigMode
 }
 
 export interface DeleteNotificationConfigModel{
-    ID: string
+    Id: string
 }
 
 export interface ExpressionParseResultModel{

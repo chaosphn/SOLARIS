@@ -38,13 +38,13 @@
         cursor: pointer;
         padding: 6px 8px;
         transition: all 0.3s;
-        opacity: 0.6;
     }
 
     .time.active {
-        opacity: 1;
         color: var(--active-txt);
-        font-weight: 500;
+        //background: none;
+        //border: 1px solid var(--active-txt);
+        font-weight: bolder;
     }
 
     .time:hover {

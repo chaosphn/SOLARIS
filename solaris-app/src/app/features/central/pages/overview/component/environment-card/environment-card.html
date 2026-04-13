@@ -1,6 +1,7 @@
 <div class="envi-container w-100 h-100 bz">
    <div class="bz d-flex-ct">
-        <app-polygon-card  
+        <app-polygon-card 
+        [bgcolor]="'#F90808'" 
         [data]="reduction()"
         [title]="'CO₂ REDUCTION'"
         [icon]="'filter_drama'" 
@@ -9,6 +10,7 @@
    </div>
    <div class="bz d-flex-ct">
         <app-polygon-card 
+        [bgcolor]="'#FF9213'" 
         [data]="credit()"
         [title]="'CO₂ CREDIT'" 
         [icon]="'filter_drama'" 
@@ -17,6 +19,7 @@
     </div>
     <div class="bz d-flex-ct">
         <app-polygon-card 
+        [bgcolor]="'#4AC631'" 
         [data]="tree()"
         [title]="'TREE SAVING'" 
         [icon]="'forest'"
@@ -25,6 +28,7 @@
    </div>
    <div class="bz d-flex-ct">
         <app-polygon-card 
+        [bgcolor]="'#F90808'" 
         [data]="oil()"
         [title]="'OIL SAVING'"
         [icon]="'oil_barrel'" 

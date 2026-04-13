@@ -98,7 +98,7 @@
                     </div>
                     <div class="sig-row">
                         <div class="sig-col">
-                            <div class="mb-8">Preview</div>
+                            <div class="mb-8 title">Preview</div>
                             @if (signaturePreview) {
                                 <img [src]="signaturePreview" alt="Signature preview" class="signature-preview"/>
                             } @else {
@@ -133,7 +133,7 @@
                         <button class="select-btn" (click)="deselectAllPages()">Deselect All</button>
                     </div>
                 </div>
-                <div class="w-100 pb-2" [style]="{ padding: '8px 0' }">
+                <div class="w-100 title pb-2" [style]="{ padding: '8px 0' }">
                     Central Management Pages
                 </div>
                 <div class="checkbox-grid-user">
@@ -146,7 +146,7 @@
                         </label>
                     }
                 </div>
-                <div class="w-100 pb-2" [style]="{ padding: '8px 0' }">
+                <div class="w-100 title pb-2" [style]="{ padding: '8px 0' }">
                     Site Management Pages
                 </div>
                 <div class="checkbox-grid-user">

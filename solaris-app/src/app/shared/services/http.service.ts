@@ -633,14 +633,17 @@ export class HttpService {
 
     async deleteNotificationConfig(request: DeleteNotificationConfigModel) {
         const res = await firstValueFrom(
-            this.httpClient.delete<EventConfigResponseModel>(this.appLoadService.config.UrlApiNotification + 'config/notification', {
-                body: request 
-            })
+            this.httpClient.delete<EventConfigResponseModel>(
+                this.appLoadService.config.UrlApiNotification + 'config/notification',
+                {
+                    body: request   // 👈 สำคัญมาก
+                }
+            )
         );
-        
-        return res;
-    };
 
+        return res;
+    }
+    
     async parseExpression(expr: string) {
         const request = {
             expression: expr

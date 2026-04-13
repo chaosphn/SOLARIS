@@ -34,7 +34,7 @@
               <td colspan="8" class="empty-row">No alarm configured</td>
             </tr>
           }
-          @for (tag of editedTags(); track $index; let i = $index) {
+          @for (tag of tableRowConfig(); track $index; let i = $index) {
             <tr [class.selected-row]="editingIndex === i">
                 <td>
                     <span class="tag-icon">🔗</span>
@@ -78,6 +78,41 @@
             </tr>
           }
         </tbody>
+        <tfoot>
+            <tr class="tbl-footer-row">
+                <td colspan="10">
+                    <div class="tbl-footer">
+                        <div class="tbl-footer__left">
+                            <span class="tbl-footer__label">Rows per page</span>
+                            <select class="tbl-footer__select"
+                                [value]="pageSize()"
+                                (change)="setPageSizeFromEvent($event)"
+                                [disabled]="editedTags().length === 0">
+                                @for (opt of pageSizeOptions; track $index) {
+                                    <option [value]="opt">{{ opt }}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="tbl-footer__right">
+                            <span class="tbl-footer__range">{{ pageRangeText() }}</span>
+                            <button class="tbl-footer__btn"
+                                (click)="prevPage()"
+                                [disabled]="currentPage() <= 1 || editedTags().length === 0"
+                                title="Previous page">
+                                <span class="material-icons">chevron_left</span>
+                            </button>
+                            <button class="tbl-footer__btn"
+                                (click)="nextPage()"
+                                [disabled]="currentPage() >= totalPages() || editedTags().length === 0"
+                                title="Next page">
+                                <span class="material-icons">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
       </table>
     </div>
   </div>

@@ -163,12 +163,12 @@
                 font-family: 'Roboto', sans-serif;
                 font-size: 12px;
                 font-weight: 700;
-
-                &.excellent { color: #005F60; }
-                &.good { color: #008083; }
-                &.fair { color: #249EA0; }
-                &.poor { color: #DEB266; }
-                &.critical { color: #FF4F52; }
+                color: var(--primary-txt);
+                // &.excellent { color: #005F60; }
+                // &.good { color: #008083; }
+                // &.fair { color: #249EA0; }
+                // &.poor { color: #DEB266; }
+                // &.critical { color: #FF4F52; }
             }
         }
     }

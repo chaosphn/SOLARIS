@@ -3,22 +3,22 @@
         <div class="item bz" [style.background-color]="color1()">
             <i class="icon material-icons" >{{ icon1() }}</i>
             <div class="value" [matTooltip]="tooltipSrv.getTooltip(data1())" matTooltipPosition="above">{{ data1()?.Value | numberFomat: '1.0-1'}}</div>
-            <div class="unit">{{ data1()?.Unit || '-' }}</div>
+            <div class="unit">{{ data1()?.Unit || '°C' }}</div>
         </div>
         <div class="item bz" [style.background-color]="color2()">
             <i class="icon material-icons" >{{ icon2() }}</i>
             <div class="value" [matTooltip]="tooltipSrv.getTooltip(data2())" matTooltipPosition="above">{{ data2()?.Value | numberFomat: '1.0-1'}}</div>
-            <div class="unit">{{ data2()?.Unit || '-' }}</div>
+            <div class="unit">{{ data2()?.Unit || '°C' }}</div>
         </div>
         <div class="item bz" [style.background-color]="color3()">
             <i class="icon material-icons" >{{ icon3() }}</i>
             <div class="value" [matTooltip]="tooltipSrv.getTooltip(data3())" matTooltipPosition="above">{{ data3()?.Value | numberFomat: '1.0-2'}}</div>
-            <div class="unit">{{ data3()?.Unit || '-' }}</div>
+            <div class="unit">{{ data3()?.Unit || 'm/s' }}</div>
         </div>
         <div class="item bz" [style.background-color]="color4()">
             <i class="icon material-icons" >{{ icon4() }}</i>
             <div class="value" [matTooltip]="tooltipSrv.getTooltip(data4())" matTooltipPosition="above">{{ data4()?.Value / 1000 | numberFomat: '1.0-0'}}</div>
-            <div class="unit">{{ data4()?.Unit || '-' }}</div>
+            <div class="unit">{{ data4()?.Unit || 'ton' }}</div>
         </div>
     </div>
     <div class="power-info-container w-100 h-100 bz">

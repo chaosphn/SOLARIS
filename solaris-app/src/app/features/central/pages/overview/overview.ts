@@ -50,14 +50,15 @@ export class Overview implements OnInit, OnDestroy {
   zoneSelected = signal<string>('overall');
   mapConfig = signal<MapConfigModel>({} as MapConfigModel);
   plantStatusData = computed(() => {
-    if(this.dataRealtime()){
-      const pr1 = ((this.dataRealtime()['RUNNING']?.Value || 0)/this.siteList().length)*100;
-      const pr2 = ((this.dataRealtime()['UNHEALTHY']?.Value || 0)/this.siteList().length)*100;
-      const pr3 = ((this.dataRealtime()['NODATA']?.Value || 0)/this.siteList().length)*100;
+    if(this.dataRealtime() && this.siteList() && this.siteList().length > 0){
+      const normalCount = this.siteList().filter(site => this.dataRealtime()[site.id + '_STATUS']?.Value === 1).length;
+      const unhealthyCount = this.siteList().filter(site => this.dataRealtime()[site.id + '_STATUS']?.Value === 2).length;
+      const noDataCount = this.siteList().filter(site => this.dataRealtime()[site.id + '_STATUS']?.Value === 0 || !this.dataRealtime()[site.id + '_STATUS']).length;
+      console.log('Plant Status Counts:', { normalCount, unhealthyCount, noDataCount }, this.siteList(), this.dataRealtime());
       const data: PlantStatusData[] = [
-        { label: 'RUNNING', count: this.dataRealtime()['RUNNING']?.Value || 0, percentage: pr1, color: '#00E396', unit: 'Sites' },
-        { label: 'UNHEALTHY', count: this.dataRealtime()['UNHEALTHY']?.Value || 0, percentage: pr2, color: '#FEB019', unit: 'Sites' },
-        { label: 'NODATA', count: this.dataRealtime()['NODATA']?.Value || 0, percentage: pr3, color: '#FF4F52', unit: 'Sites' }
+        { label: 'NORMAL', count: normalCount || 0, percentage: normalCount / this.siteList().length * 100 || 0, color: '#00E396', unit: 'Sites' },
+        { label: 'UNHEALTHY', count: unhealthyCount || 0, percentage: unhealthyCount / this.siteList().length * 100 || 0, color: '#FEB019', unit: 'Sites' },
+        { label: 'NODATA', count: noDataCount || 0, percentage: noDataCount / this.siteList().length * 100 || 0, color: '#FF4F52', unit: 'Sites' }
       ];
       return data;
     } else {

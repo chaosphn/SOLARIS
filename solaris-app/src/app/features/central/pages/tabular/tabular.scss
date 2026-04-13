@@ -27,13 +27,15 @@
     // left: 0;
     //display: grid;
     //grid-template-columns: repeat(19, auto);
-    background-color: var(--thead-bg);
-    border: 1px solid var(--border-color);
+    // background-color: var(--thead-bg);
+    // border: 1px solid var(--border-color);
     .title{
         padding: 8px 0px;
         text-align: center;
-        font-size: 12px;
-        color: var(--primary-txt);
+        font-size: var(--text-small);
+        color: var(--thead-txt);
+        background-color: var(--thead-bg);
+        //border: 1px solid var(--thead-border);
         position: relative;
         .filter-box{
             display: none;
@@ -53,7 +55,7 @@
             transform: translateY(-50%);
             right: 0%;
             .material-icons{
-                font-size: 14px;
+                font-size: var(--text-medium);
                 padding: 4px 2px;
             }
             .material-icons:hover{
@@ -66,7 +68,8 @@
 }
 
 .row{
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 0.5px solid var(--trow-border);
+    background-color: var(--trow-bg);
     transition: background 0.15s;
 
     &:last-child { border-bottom: none; }
@@ -78,8 +81,8 @@
     .value{
         padding: 6px;
         text-align: center;
-        font-size: 12px;
-        
+        font-size: var(--text-small);
+        color: var(--trow-txt);
     }
     
 }
@@ -96,6 +99,16 @@
     filter: brightness(150%);
 }
 
+.st-default{
+    background-color: #667079;
+    border-radius: 50%;
+    font-size: 12px;
+    padding: 2px;
+    font-weight: 800;
+    text-align: center;
+    color: #F5F7FB;
+}
+
 .st-normal{
     background-color: #00FFA3;
     border-radius: 50%;
@@ -103,7 +116,7 @@
     padding: 2px;
     font-weight: 800;
     text-align: center;
-    color: #222529;
+    color: #F5F7FB;
 }
 
 .st-major{
@@ -113,7 +126,7 @@
     padding: 2px;
     font-weight: 800;
     text-align: center;
-    color: #222529;
+    color: #F5F7FB;
 }
 
 .st-minor{
@@ -123,24 +136,24 @@
     padding: 2px;
     font-weight: 800;
     text-align: center;
-    color: #222529;
+    color: #F5F7FB;
 }
 
 .st-warning{
     background-color: #ffc107;
     border-radius: 50%;
-    font-size: 14px;
+    font-size: var(--text-medium);
     //padding: 2px;
     font-weight: 800;
     text-align: center;
-    color: #222529;
+    color: #F5F7FB;
 }
 
 .icon-box{
     width: 20px;
     height: 20px;
     .material-icons{
-        font-size: 16px;
+        font-size: var(--text-large);
     }
 }
 

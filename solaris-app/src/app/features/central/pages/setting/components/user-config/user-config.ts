@@ -57,7 +57,7 @@ export class UserConfig implements OnInit {
   async initializeUserData() {
     const result = await this.service.getUserConfig();
     if (result) {
-      this.users.set(result);
+      this.users.set(result.filter(x => x.username && x.username != 'systemadmin'));
     } else {
       this.users.set([]);
     }

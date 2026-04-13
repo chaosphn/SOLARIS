@@ -26,7 +26,7 @@
             "Tagname": "KKB.SLG01.WH_TODAY"
           },
           {
-            "Title": "LOG01_COM",
+            "Title": "LOG01_STS",
             "Tagname": "KKB.SLG01.MBFAIL"
           },
 
@@ -43,7 +43,7 @@
             "Tagname": "KKB.SLG02.WH_TODAY"
           },
           {
-            "Title": "LOG02_COM",
+            "Title": "LOG02_STS",
             "Tagname": "KKB.SLG02.MBFAIL"
           },
 
@@ -60,7 +60,7 @@
             "Tagname": "KKB.EDMI01.WH_EXPORT"
           },
           {
-            "Title": "M01_COM",
+            "Title": "M01_STS",
             "Tagname": "KKB.EDMI01.MBFAIL"
           },
 
@@ -77,7 +77,7 @@
             "Tagname": "KKB.EDMI02.WH_EXPORT"
           },
           {
-            "Title": "M02_COM",
+            "Title": "M02_STS",
             "Tagname": "KKB.EDMI02.MBFAIL"
           },
 
@@ -94,7 +94,7 @@
             "Tagname": "KKB.EDMI03.WH_EXPORT"
           },
           {
-            "Title": "M03_COM",
+            "Title": "M03_STS",
             "Tagname": "KKB.EDMI03.MBFAIL"
           },
 
@@ -111,7 +111,7 @@
             "Tagname": "KKB.EDMI04.WH_EXPORT"
           },
           {
-            "Title": "M04_COM",
+            "Title": "M04_STS",
             "Tagname": "KKB.EDMI04.MBFAIL"
           },
 
@@ -128,7 +128,7 @@
             "Tagname": "KKB.EDMI05.WH_EXPORT"
           },
           {
-            "Title": "M05_COM",
+            "Title": "M05_STS",
             "Tagname": "KKB.EDMI05.MBFAIL"
           }
         ]
@@ -530,230 +530,116 @@
         ]
       },
       {
-        "Group": "inverter_comm",
-        "Order": 5,
-        "Tags": [
-          {
-            "Title":  "INV01_COM",
-            "Tagname":  "KKB.INV01.DSTATUS"
-          },
-          {
-            "Title":  "INV02_COM",
-            "Tagname":  "KKB.INV02.DSTATUS"
-          },
-          {
-            "Title":  "INV03_COM",
-            "Tagname":  "KKB.INV03.DSTATUS"
-          },
-          {
-            "Title":  "INV04_COM",
-            "Tagname":  "KKB.INV04.DSTATUS"
-          },
-          {
-            "Title":  "INV05_COM",
-            "Tagname":  "KKB.INV05.DSTATUS"
-          },
-          {
-            "Title":  "INV06_COM",
-            "Tagname":  "KKB.INV06.DSTATUS"
-          },
-          {
-            "Title":  "INV07_COM",
-            "Tagname":  "KKB.INV07.DSTATUS"
-          },
-          {
-            "Title":  "INV08_COM",
-            "Tagname":  "KKB.INV08.DSTATUS"
-          },
-          {
-            "Title":  "INV09_COM",
-            "Tagname":  "KKB.INV09.DSTATUS"
-          },
-          {
-            "Title":  "INV10_COM",
-            "Tagname":  "KKB.INV10.DSTATUS"
-          },
-          {
-            "Title":  "INV11_COM",
-            "Tagname":  "KKB.INV11.DSTATUS"
-          },
-          {
-            "Title":  "INV12_COM",
-            "Tagname":  "KKB.INV12.DSTATUS"
-          },
-          {
-            "Title": "INV13_COM",
-            "Tagname": "KKB.INV13.DSTATUS"
-          },
-          {
-            "Title": "INV14_COM",
-            "Tagname": "KKB.INV14.DSTATUS"
-          },
-          {
-            "Title": "INV15_COM",
-            "Tagname": "KKB.INV15.DSTATUS"
-          },
-          {
-            "Title": "INV16_COM",
-            "Tagname": "KKB.INV16.DSTATUS"
-          },
-          {
-            "Title": "INV17_COM",
-            "Tagname": "KKB.INV17.DSTATUS"
-          },
-          {
-            "Title": "INV18_COM",
-            "Tagname": "KKB.INV18.DSTATUS"
-          },
-          {
-            "Title": "INV19_COM",
-            "Tagname": "KKB.INV19.DSTATUS"
-          },
-          {
-            "Title": "INV20_COM",
-            "Tagname": "KKB.INV20.DSTATUS"
-          },
-          {
-            "Title": "INV21_COM",
-            "Tagname": "KKB.INV21.DSTATUS"
-          },
-          {
-            "Title": "INV22_COM",
-            "Tagname": "KKB.INV22.DSTATUS"
-          },
-          {
-            "Title": "INV23_COM",
-            "Tagname": "KKB.INV23.DSTATUS"
-          },
-          {
-            "Title": "INV24_COM",
-            "Tagname": "KKB.INV24.DSTATUS"
-          },
-          {
-            "Title": "INV25_COM",
-            "Tagname": "KKB.INV25.DSTATUS"
-          },
-          {
-            "Title": "INV26_COM",
-            "Tagname": "KKB.INV26.DSTATUS"
-          },
-          {
-            "Title": "INV27_COM",
-            "Tagname": "KKB.INV27.DSTATUS"
-          }
-        ]
-      },
-      {
         "Group": "inverter_status",
         "Order": 5,
         "Tags": [
           {
             "Title":  "INV01_STS",
-            "Tagname":  "KKB.INV01.FAULT"
+            "Tagname":  "KKB.INV01.DSTATUS"
           },
           {
             "Title":  "INV02_STS",
-            "Tagname":  "KKB.INV02.FAULT"
+            "Tagname":  "KKB.INV02.DSTATUS"
           },
           {
             "Title":  "INV03_STS",
-            "Tagname":  "KKB.INV03.FAULT"
+            "Tagname":  "KKB.INV03.DSTATUS"
           },
           {
             "Title":  "INV04_STS",
-            "Tagname":  "KKB.INV04.FAULT"
+            "Tagname":  "KKB.INV04.DSTATUS"
           },
           {
             "Title":  "INV05_STS",
-            "Tagname":  "KKB.INV05.FAULT"
+            "Tagname":  "KKB.INV05.DSTATUS"
           },
           {
             "Title":  "INV06_STS",
-            "Tagname":  "KKB.INV06.FAULT"
+            "Tagname":  "KKB.INV06.DSTATUS"
           },
           {
             "Title":  "INV07_STS",
-            "Tagname":  "KKB.INV07.FAULT"
+            "Tagname":  "KKB.INV07.DSTATUS"
           },
           {
             "Title":  "INV08_STS",
-            "Tagname":  "KKB.INV08.FAULT"
+            "Tagname":  "KKB.INV08.DSTATUS"
           },
           {
             "Title":  "INV09_STS",
-            "Tagname":  "KKB.INV09.FAULT"
+            "Tagname":  "KKB.INV09.DSTATUS"
           },
           {
             "Title":  "INV10_STS",
-            "Tagname":  "KKB.INV10.FAULT"
+            "Tagname":  "KKB.INV10.DSTATUS"
           },
           {
             "Title":  "INV11_STS",
-            "Tagname":  "KKB.INV11.FAULT"
+            "Tagname":  "KKB.INV11.DSTATUS"
           },
           {
             "Title":  "INV12_STS",
-            "Tagname":  "KKB.INV12.FAULT"
+            "Tagname":  "KKB.INV12.DSTATUS"
           },
           {
             "Title": "INV13_STS",
-            "Tagname": "KKB.INV13.FAULT"
+            "Tagname": "KKB.INV13.DSTATUS"
           },
           {
             "Title": "INV14_STS",
-            "Tagname": "KKB.INV14.FAULT"
+            "Tagname": "KKB.INV14.DSTATUS"
           },
           {
             "Title": "INV15_STS",
-            "Tagname": "KKB.INV15.FAULT"
+            "Tagname": "KKB.INV15.DSTATUS"
           },
           {
             "Title": "INV16_STS",
-            "Tagname": "KKB.INV16.FAULT"
+            "Tagname": "KKB.INV16.DSTATUS"
           },
           {
             "Title": "INV17_STS",
-            "Tagname": "KKB.INV17.FAULT"
+            "Tagname": "KKB.INV17.DSTATUS"
           },
           {
             "Title": "INV18_STS",
-            "Tagname": "KKB.INV18.FAULT"
+            "Tagname": "KKB.INV18.DSTATUS"
           },
           {
             "Title": "INV19_STS",
-            "Tagname": "KKB.INV19.FAULT"
+            "Tagname": "KKB.INV19.DSTATUS"
           },
           {
             "Title": "INV20_STS",
-            "Tagname": "KKB.INV20.FAULT"
+            "Tagname": "KKB.INV20.DSTATUS"
           },
           {
             "Title": "INV21_STS",
-            "Tagname": "KKB.INV21.FAULT"
+            "Tagname": "KKB.INV21.DSTATUS"
           },
           {
             "Title": "INV22_STS",
-            "Tagname": "KKB.INV22.FAULT"
+            "Tagname": "KKB.INV22.DSTATUS"
           },
           {
             "Title": "INV23_STS",
-            "Tagname": "KKB.INV23.FAULT"
+            "Tagname": "KKB.INV23.DSTATUS"
           },
           {
             "Title": "INV24_STS",
-            "Tagname": "KKB.INV24.FAULT"
+            "Tagname": "KKB.INV24.DSTATUS"
           },
           {
             "Title": "INV25_STS",
-            "Tagname": "KKB.INV25.FAULT"
+            "Tagname": "KKB.INV25.DSTATUS"
           },
           {
             "Title": "INV26_STS",
-            "Tagname": "KKB.INV26.FAULT"
+            "Tagname": "KKB.INV26.DSTATUS"
           },
           {
             "Title": "INV27_STS",
-            "Tagname": "KKB.INV27.FAULT"
+            "Tagname": "KKB.INV27.DSTATUS"
           }
         ]
       }

@@ -46,10 +46,22 @@
                         <i class="material-icons bz" (click)="sortDatatable('POWER', 'asc')">expand_more</i>
                     </div>
                 </th>
-                <th class=" title gray">TODAY <br>(MWh)
+                <th class=" title gray">ENERGY TODAY <br>(MWh)
                     <div class="filter-box bz">
                         <i class="material-icons bz" (click)="sortDatatable('ENERGY', 'desc')">expand_less</i>
                         <i class="material-icons bz" (click)="sortDatatable('ENERGY', 'asc')">expand_more</i>
+                    </div>
+                </th>
+                <th class=" title gray">ENERGY MTD <br>(MWh)
+                    <div class="filter-box bz">
+                        <i class="material-icons bz" (click)="sortDatatable('ENERGYMTD', 'desc')">expand_less</i>
+                        <i class="material-icons bz" (click)="sortDatatable('ENERGYMTD', 'asc')">expand_more</i>
+                    </div>
+                </th>
+                <th class=" title gray">ENERGY YTD <br>(MWh)
+                    <div class="filter-box bz">
+                        <i class="material-icons bz" (click)="sortDatatable('ENERGYYTD', 'desc')">expand_less</i>
+                        <i class="material-icons bz" (click)="sortDatatable('ENERGYYTD', 'asc')">expand_more</i>
                     </div>
                 </th>
                 <th class=" title gray">PR <br>(%)
@@ -58,10 +70,16 @@
                         <i class="material-icons bz" (click)="sortDatatable('PR', 'asc')">expand_more</i>
                     </div>
                 </th>
-                <th class=" title gray">OPR <br>(%)
+                <!-- <th class=" title gray">OPR <br>(%)
                     <div class="filter-box bz">
                         <i class="material-icons bz" (click)="sortDatatable('OPR', 'desc')">expand_less</i>
                         <i class="material-icons bz" (click)="sortDatatable('OPR', 'asc')">expand_more</i>
+                    </div>
+                </th> -->
+                <th class=" title gray">YIELD TODAY <br>(kWh/kWp)
+                    <div class="filter-box bz">
+                        <i class="material-icons bz" (click)="sortDatatable('TD', 'desc')">expand_less</i>
+                        <i class="material-icons bz" (click)="sortDatatable('TD', 'asc')">expand_more</i>
                     </div>
                 </th>
                 <th class=" title gray">YIELD MTD <br>(kWh/kWp)
@@ -116,12 +134,17 @@
                             }
                             @case ('major') {
                                 <div class="icon-box d-flex-ct st-major">
-                                    <i class="material-icons" >report</i>
+                                    <i class="material-icons" >notifications</i>
+                                </div>
+                            }
+                            @case ('info') {
+                                <div class="icon-box d-flex-ct st-normal">
+                                    <i class="material-icons" >check</i>
                                 </div>
                             }
                             @default {
-                                <div class="icon-box d-flex-ct st-normal">
-                                    <i class="material-icons" >check</i>
+                                <div class="icon-box d-flex-ct st-default">
+                                    <i class="material-icons" >question_mark</i>
                                 </div>
                             }
                         }
@@ -133,8 +156,11 @@
                     <td class=" value gray">{{item.Capacity}}</td>
                     <td class=" value gray">{{item.POWER | numberFomat: '1.0-0'}}</td>
                     <td class=" value gray">{{item.ENERGY | numberFomat: '1.0-0'}}</td>
+                    <td class=" value gray">{{item.ENERGYMTD | numberFomat: '1.0-0'}}</td>
+                    <td class=" value gray">{{item.ENERGYYTD | numberFomat: '1.0-0'}}</td>
                     <td class=" value gray">{{item.PR | numberFomat: '1.0-1'}}</td>
-                    <td class=" value gray">{{item.OPR | numberFomat: '1.0-1'}}</td>
+                    <!-- <td class=" value gray">{{item.OPR | numberFomat: '1.0-1'}}</td> -->
+                    <td class=" value gray">{{item.TD | numberFomat: '1.0-0'}}</td>
                     <td class=" value gray">{{item.MTD | numberFomat: '1.0-0'}}</td>
                     <td class=" value gray">{{item.YTD | numberFomat: '1.0-0'}}</td>
                     <td class=" value gray">{{item.IRR | numberFomat: '1.0-0'}}</td>
