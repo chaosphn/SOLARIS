@@ -154,4 +154,53 @@ export class InverterDialog implements OnInit {
     }
   }
 
+  getStatusInfo(value: any): { message: string, color: string } {
+    if (value === null || value === undefined) {
+      return { message: 'Unknown', color: '#808080' };
+    }
+    const status = invstatus.find(s => s.value === parseInt(value));
+    if (status) {
+      return { message: status.message, color: status.color };
+    }
+    return { message: 'Unknown', color: '#808080' };
+  }
+
 }
+
+export const invstatus = [
+	{ "value": 0, "message": "Init standby", "color": "#B0B0B0" },
+	{ "value": 1, "message": "Check insulation", "color": "#B0B0B0" },
+	{ "value": 2, "message": "Check irradiation", "color": "#B0B0B0" },
+	{ "value": 3, "message": "Check grid", "color": "#B0B0B0" },
+	{ "value": 256, "message": "Starting", "color": "#FFFF00" },
+	{ "value": 512, "message": "On-grid", "color": "#00FF00" },
+	{ "value": 513, "message": "Power limited", "color": "#00FF00" },
+	{ "value": 514, "message": "Self-derating", "color": "#00FF00" },
+	{ "value": 515, "message": "Off-grid run", "color": "#00FF00" },
+
+	{ "value": 768, "message": "Fault shutdown", "color": "#FF0000" },
+	{ "value": 769, "message": "Cmd shutdown", "color": "#FF0000" },
+	{ "value": 770, "message": "OVGR shutdown", "color": "#FF0000" },
+	{ "value": 771, "message": "Comm fail", "color": "#FF0000" },
+	{ "value": 772, "message": "PL shutdown", "color": "#FF0000" },
+	{ "value": 773, "message": "Manual start req", "color": "#FF0000" },
+	{ "value": 774, "message": "DC switch off", "color": "#FF0000" },
+	{ "value": 775, "message": "Rapid cutoff", "color": "#FF0000" },
+	{ "value": 776, "message": "Low input power", "color": "#FF0000" },
+
+	{ "value": 1025, "message": "cosφ-P ctrl", "color": "#0000FF" },
+	{ "value": 1026, "message": "Q-U ctrl", "color": "#0000FF" },
+	{ "value": 1027, "message": "PF-U ctrl", "color": "#0000FF" },
+	{ "value": 1028, "message": "Dry contact", "color": "#0000FF" },
+	{ "value": 1029, "message": "Q-P ctrl", "color": "#0000FF" },
+
+	{ "value": 1280, "message": "Spot ready", "color": "#FFA500" },
+	{ "value": 1281, "message": "Spot checking", "color": "#FFA500" },
+	{ "value": 1536, "message": "Inspecting", "color": "#FFA500" },
+	{ "value": 1792, "message": "AFCI check", "color": "#FFA500" },
+	{ "value": 2048, "message": "I-V scan", "color": "#FFA500" },
+	{ "value": 2304, "message": "DC detect", "color": "#FFA500" },
+	{ "value": 2560, "message": "Off-grid charge", "color": "#FFA500" },
+
+	{ "value": 40960, "message": "No irradiation", "color": "#808080" }
+];

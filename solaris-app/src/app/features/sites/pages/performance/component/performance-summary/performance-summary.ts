@@ -1,6 +1,7 @@
 import { Component, inject, input } from '@angular/core';
 import { ResponseRealtimeModel } from '../../../../../../shared/models/response.model';
 import { TooltipFormat } from '../../../../../../shared/services/tooltip-format';
+import { color } from 'highcharts';
 
 
 @Component({
@@ -32,6 +33,26 @@ export class PerformanceSummary {
   unit21 = input<string>('');
 
   tooltipSrv = inject(TooltipFormat);
+
+  getPlantstatus(){
+    const val = this.value21()?.Value || 0;
+    if(val == 1){
+      return {
+        label: "NORMAL",
+        color: "#00E396 !important"
+      }
+    } else if(val == 2){
+      return {
+        label: "UNHEALTHY",
+        color: "#FEB019 !important"
+      }
+    } else {
+      return {
+        label: "NODATA",
+        color: "#FF4F52 !important"
+      }
+    }
+  }
 
   getPercentage(){
     let value = this.percent()?.Value??0;

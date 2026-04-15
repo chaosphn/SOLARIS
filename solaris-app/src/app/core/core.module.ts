@@ -33,7 +33,7 @@ import { PaymentUpload } from './components/payment-upload/payment-upload';
         AppStateModule,
         ReactiveFormsModule,
         ShareModule,
-        ChartsModule
+        //ChartsModule
     ],
     declarations: [
         Login,

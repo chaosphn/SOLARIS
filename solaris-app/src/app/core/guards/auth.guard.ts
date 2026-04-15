@@ -20,17 +20,21 @@ export class PermissionGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const routingUrl = route.url[0].path;
     const userPermissions = this.getUserPermissions(); // ดึงสิทธิ์ของ user
-    const checkToken = localStorage.getItem('token');
+    //const checkToken = localStorage.getItem('token');
     //console.log(routingUrl, userPermissions, checkToken)
-
-    if ( userPermissions.length === 0 && checkToken?.length === 0) {
-      const rt: any = route;
-      const fullUrl: any = rt['_routerState']?.url;
-      console.log(fullUrl)
-      sessionStorage.setItem('navigate', fullUrl);
-      //this.router.navigate(['/login']);
-      return false;
-    }
+    const rt: any = route;
+    const fullUrl: any = rt['_routerState']?.url;
+    //console.log(fullUrl)
+    sessionStorage.setItem('navigate', fullUrl);
+    
+    // if ( userPermissions.length === 0 && checkToken?.length === 0) {
+    //   const rt: any = route;
+    //   const fullUrl: any = rt['_routerState']?.url;
+    //   console.log(fullUrl)
+    //   sessionStorage.setItem('navigate', fullUrl);
+    //   //this.router.navigate(['/login']);
+    //   return false;
+    // }
 
     if(userPermissions.includes(routingUrl)){
       return true;
@@ -58,6 +62,6 @@ export class PermissionGuard implements CanActivate {
       const pages = JSON.parse(pageStr);
       return pages || ['overview'];
     }
-    return ['overview']; // ค่าเริ่มต้นถ้าไม่มีข้อมูล
+    return []; 
   }
 }

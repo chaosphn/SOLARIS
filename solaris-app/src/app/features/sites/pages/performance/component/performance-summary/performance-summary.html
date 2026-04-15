@@ -28,7 +28,7 @@
                 <div class="tips d-flex">
                     <div class="tip">{{ title21() }} :</div>
                     <!-- <div class="tip-highlight" [matTooltip]="tooltipSrv.getTooltip(value21())" matTooltipPosition="above">{{ value21()?.Value | numberFomat: '1.0-1' }} {{ unit21() }}</div> -->
-                     <div class="tip-highlight" [matTooltip]="tooltipSrv.getTooltip(value21())" matTooltipPosition="above">{{ 'RUNNING' }} </div>
+                     <div class="tip-highlight" [matTooltip]="tooltipSrv.getTooltip(value21())" matTooltipPosition="above" [ngStyle]="{ color: getPlantstatus().color }">{{ getPlantstatus().label }} </div>
                 </div>
             }
         </div>

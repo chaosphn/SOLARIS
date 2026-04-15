@@ -2921,6 +2921,16 @@
       "Order": 0,
       "Tags": [
         {
+          "Title": "CHART01_IMPORT",
+          "Tagname": "KKB.PQM01.W",
+          "Options": {
+            "Time": "t",
+            "Interval": 0,
+            "StartTime": "MIDN",
+            "EndTime": "NOW"
+          }
+        },
+        {
           "Title": "CHART01_POWER",
           "Tagname": "KKB.CALC.W",
           "Options": {
@@ -2981,6 +2991,17 @@
             "yAxis": 1,
             "type": "area",
             "color": "#3DB1FC",
+            "fillOpacity": 0.125,
+            "showInLegend": true
+          }
+        },
+        {
+          "name": "KKB.PQM01.W",
+          "title": "IMPORT*kW",
+          "options": {
+            "yAxis": 1,
+            "type": "area",
+            "color": "#d1FC",
             "fillOpacity": 0.125,
             "showInLegend": true
           }

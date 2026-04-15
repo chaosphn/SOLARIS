@@ -14,7 +14,7 @@
           },
           {
             "Title": "YIELD",
-            "Tagname": "OVERALL.CALC.YIELD"
+            "Tagname": "OVERALL.CALC.YIELD_DAY"
           },
           {
             "Title": "PR",
@@ -22,7 +22,7 @@
           },
           {
             "Title": "TODAY",
-            "Tagname": "OVERALL.CALC.WH_TODAY"
+            "Tagname": "OVERALL.CALC.WH_DAY"
           },
           {
             "Title": "MONTHLY",

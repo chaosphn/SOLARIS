@@ -10,8 +10,12 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
 
       if (error.status === 401) {
+        localStorage.clear();
+        sessionStorage.clear();
         router.navigate(['/login']);
       } else if (error.status === 403) {
+        localStorage.clear();
+        sessionStorage.clear();
         router.navigate(['/login']);
       } else 
       if (error.status >= 700) {

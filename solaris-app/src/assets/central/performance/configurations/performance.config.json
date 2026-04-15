@@ -6,7 +6,7 @@
         "Tags": [
           {
             "Title": "KKB_ENERGY",
-            "Tagname": "KKB.CALC.WH_TODAY"
+            "Tagname": "KKB.CALC.WH_DAY"
           }
         ]
       },
@@ -16,7 +16,7 @@
         "Tags": [
           {
             "Title": "KKB_YIELD",
-            "Tagname": "KKB.CALC.YIELD"
+            "Tagname": "KKB.CALC.YIELD_DAY"
           }
         ]
       },
@@ -26,7 +26,7 @@
         "Tags": [
           {
             "Title": "KKB_INSO",
-            "Tagname": "KKB.CALC.INSOLUTION"
+            "Tagname": "KKB.CALC.PYRANO_TODAY"
           }
         ]
       },
@@ -36,7 +36,7 @@
         "Tags": [
           {
             "Title": "KKB_PR",
-            "Tagname": "KKB.CALC.PR"
+            "Tagname": "KKB.CALC.PR_DAY"
           }
         ]
       }

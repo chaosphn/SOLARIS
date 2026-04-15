@@ -13,8 +13,8 @@
     </div>
     <div class="header-right">
       <div class="status-badge" [class.running]="checkStatus(dataRealtime()['RUN']?.Value) === true" [class.stopped]="checkStatus(dataRealtime()['RUN']?.Value) !== true">
-        <span class="status-dot"></span>
-        {{ checkStatus(dataRealtime()['RUN']?.Value) === true ? 'Running' : 'Stopped' }}
+        <span class="status-dot" [style.background-color]="getStatusInfo(dataRealtime()['DSTATUS']?.Value).color"></span>
+        {{ getStatusInfo(dataRealtime()['DSTATUS']?.Value).message }}
       </div>
       <button class="btn-close" (click)="onClose()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

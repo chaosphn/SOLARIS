@@ -34,14 +34,21 @@ export class Login implements OnInit {
     ////console.log(this.isEven())
     if(this.form.username != '' && this.form.password != ''){
       try {
-        await this.authService.login(this.form.username, this.form.password); 
-        //console.log("login success")   
-        const destination = sessionStorage.getItem('navigate');
-        //console.log(destination)
-        if(destination){
-          this.router.navigate([destination]);
+        const response = await this.authService.login(this.form.username, this.form.password); 
+        if(response.success){
+          const destination = sessionStorage.getItem('navigate');
+          if(destination){
+            this.router.navigate([destination]);
+          } else {
+            this.router.navigate([this.appLoadService.defaultRoute]);
+          }
         } else {
-           this.router.navigate([this.appLoadService.defaultRoute]);
+          this.invalidText = 'username or password invalid!';
+          this.animateClass = 'invalid';
+          this.router.navigate(['login']);
+          setTimeout(() =>{
+            this.changeClass();
+          },1000);
         }
       } catch (err) {
         this.invalidText = 'username or password invalid!';

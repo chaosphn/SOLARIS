@@ -16,7 +16,7 @@
             <ng-template #container>
                <app-power-consumption
                     [title]="'PR'"
-                    [value]="(dataRealtime()['PR']?.Value | number: '1.0-2') ?? ''"
+                    [value]="(dataRealtime()['PR']?.Value | number: '1.0-0') ?? ''"
                     [unit]="'%'"
                     [percent]="dataRealtime()['PR']"
 
@@ -36,7 +36,7 @@
             <ng-template #container>
                 <app-power-consumption
                     [title]="'PRODUCE'"
-                    [value]="(dataRealtime()['TODAY']?.Value | number: '1.0-2') ?? ''"
+                    [value]="(dataRealtime()['TODAY']?.Value | number: '1.0-0') ?? ''"
                     [unit]="dataRealtime()['TODAY']?.Unit || ''"
                     [percent]="dataRealtime()['TODAY']"
 

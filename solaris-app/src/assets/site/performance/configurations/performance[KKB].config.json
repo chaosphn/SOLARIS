@@ -31,6 +31,10 @@
           {
             "Title": "AVAI",
             "Tagname": "KKB.CALC.AVAI"
+          },
+          {
+            "Title": "STATUS",
+            "Tagname": "KKB.CALC.STATUS"
           }
         ]
       },
@@ -93,8 +97,8 @@
         "Order": 0,
         "Tags": [
           {
-            "Title": "CHART01_POWER",
-            "Tagname": "KKB.CALC.W",
+            "Title": "CHART01_IMPORT",
+            "Tagname": "KKB.PQM01.W",
             "Options": {
               "Time": "t",
               "Interval": 0,
@@ -105,6 +109,16 @@
           {
             "Title": "CHART01_IRR",
             "Tagname": "KKB.CALC.PYRANO",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "CHART01_POWER",
+            "Tagname": "KKB.CALC.W",
             "Options": {
               "Time": "t",
               "Interval": 0,
@@ -497,6 +511,16 @@
               "color": "#3DB1FC",
               "fillOpacity": 0.125
             }
+          },
+          {
+            "name": "KKB.PQM01.W",
+            "title": "IMPORT*kW",
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#d1FC",
+              "fillOpacity": 0.125
+            }
           }
         ],
         "chartOptions": {
@@ -793,14 +817,14 @@
             "options": {
               "yAxis": 0,
               "type": "column",
-              "color": "#249EA0",
-              "borderColor": "#249EA0",
+              "color": "#19D6B4",
+              "borderColor": "#19D6B4",
 							"borderRadius": 0,
               "showInLegend": true
             }
           },
           {
-            "name": "KKB.CALC.WH_HOUR_LOSS",
+            "name": "KKB.CALC.WH_LOSS_HOUR",
             "title": "LOSS*kWh",
             "options": {
               "yAxis": 0,
@@ -812,7 +836,7 @@
             }
           },
           {
-            "name": "KKB.CALC.WH_HOUR_EXPECT",
+            "name": "KKB.CALC.WH_EXPECT_HOUR",
             "title": "EXPECTED*kWh",
             "options": {
               "yAxis": 1,

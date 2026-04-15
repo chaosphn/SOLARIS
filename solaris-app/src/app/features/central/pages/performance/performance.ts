@@ -79,6 +79,7 @@ export class Performance implements OnInit, OnDestroy {
       const stateDate = state.date.setHours(0,0,0,0);
       const pageDate = new Date().setHours(0,0,0,0);
       this.dataRealtime.set({});
+      this.dataRealtime.update(val => ({}));
       if(new Date(pageDate).getTime() != new Date(stateDate).getTime()){
         this.date = state.date;
         await this.getConfig();
@@ -192,10 +193,10 @@ export class Performance implements OnInit, OnDestroy {
 
   async getConfig() {
     try {
-      const path = this.date.getDate() == new Date().getDate() ? 
+      const path = this.date.getDate() === new Date().getDate() ? 
         `assets/central/performance/configurations/performance.config.json` :
         `assets/central/performance/configurations/performance2.config.json` ;
-      const config = await this.http.getConfig2(`assets/central/performance/configurations/performance.config.json`);
+      const config = await this.http.getConfig2(path);
       if (config) {
         this.config.set(config);
         this.store.dispatch(PerformanceActions.loadPerformanceConfigSuccess({ config }));
@@ -273,14 +274,20 @@ export class Performance implements OnInit, OnDestroy {
   }
 
   getAttimeRequest2(){
-    const ts = this.date.setHours(23,0,0);
+    //const ts = this.date.setHours(23,0,0);
     const req: GroupRequestAtTimeModel[] = this.config().realtimeConfig.map((item: GroupReatimeConfigModel) => {
-      const rq: RequestAtTimeModel[] = [
-        {
-          Tags: item.Tags.filter(x => !x.Timestamp).map(y => y.Tagname),
-          TimeStamp: this.dateTimeSrv.getDateTime1(new Date(ts))
+      const rq: RequestAtTimeModel[] = item.Tags.filter(x => x.Timestamp).reduce((acc, cur) => {
+        const ts = this.dateTimeSrv.getTime(cur.Timestamp || '', this.date);
+        const eod = new Date(ts).setHours(23, 0, 0);
+        if(acc.findIndex(x => x.TimeStamp === ts) < 0){
+          acc.push({
+            Tags: item.Tags.filter(x => x.Timestamp && x.Timestamp == cur.Timestamp).map(y => y.Tagname),
+            TimeStamp: cur.Timestamp === 'EOD' ? this.dateTimeSrv.getTime(new Date(eod).toISOString()) : ts
+          })
         }
-      ];
+        return acc;
+      }, [] as RequestAtTimeModel[] );
+      
       return {
         Group: item.Group,
         Order: item.Order,

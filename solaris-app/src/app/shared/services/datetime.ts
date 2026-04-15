@@ -57,10 +57,10 @@ export class Datetime {
       }
   }
   
-  getTime(period: string): string {
+  getTime(period: string, date?: Date): string {
       const p = period.toLowerCase();
       if (p === 'boh') {
-          const dateTime = new Date();
+          const dateTime = date ? new Date(date) : new Date();
           dateTime.setMinutes(0);
           dateTime.setSeconds(0);
           dateTime.setMilliseconds(0);
@@ -72,7 +72,7 @@ export class Datetime {
           }
       }
       else if (p === 'bod') {
-          const dateTime = new Date();
+          const dateTime = date ? new Date(date) : new Date();
           dateTime.setHours(0);
           dateTime.setMinutes(0);
           dateTime.setSeconds(0);
@@ -85,7 +85,7 @@ export class Datetime {
           }
       }
       else if (p === 'bom') {
-          const dateTime = new Date();
+          const dateTime = date ? new Date(date) : new Date();
           dateTime.setDate(1);
           dateTime.setHours(0);
           dateTime.setMinutes(0);
@@ -95,7 +95,7 @@ export class Datetime {
           return dtres;
       }
       else if (p === 'boy') {
-          const dateTime = new Date();
+          const dateTime = date ? new Date(date) : new Date();
           dateTime.setMonth(0);
           dateTime.setDate(1);
           dateTime.setHours(0);
@@ -106,7 +106,7 @@ export class Datetime {
           return dtres;
       }
       else if (p === 'eoh') {
-          const dateTime = new Date();
+          const dateTime = date ? new Date(date) : new Date();
           dateTime.setHours(dateTime.getHours() + 1);
           dateTime.setMinutes(0);
           dateTime.setSeconds(0);
@@ -115,7 +115,7 @@ export class Datetime {
           return dtres;
       }
       else if (p === 'eod') {
-          const dateTime = new Date();
+          const dateTime = date ? new Date(date) : new Date();
           dateTime.setDate(dateTime.getDate() + 1);
           dateTime.setHours(0);
           dateTime.setMinutes(0);
@@ -125,7 +125,7 @@ export class Datetime {
           return dtres;
       }
       else if (p === 'eom') {
-          const dateTime = new Date();
+          const dateTime = date ? new Date(date) : new Date();
           dateTime.setMonth(dateTime.getMonth() + 1);
           dateTime.setDate(0);
           dateTime.setHours(23);
@@ -138,7 +138,7 @@ export class Datetime {
           return dtres;
       }
       else if (p === 'eoy') {
-          const dateTime = new Date();
+          const dateTime = date ? new Date(date) : new Date();
           dateTime.setFullYear(dateTime.getFullYear() + 1);
           dateTime.setMonth(0);
           dateTime.setDate(1);
@@ -152,12 +152,12 @@ export class Datetime {
           return dtres;
       }
       else if (p === 'now') {
-          const dateTime = new Date();
+          const dateTime = date ? new Date(date) : new Date();
           const dtres = this.getDateTime1(dateTime);
           return dtres;
       }
       else if (p === 'y') {
-          const dateTime = new Date();
+          const dateTime = date ? new Date(date) : new Date();
           dateTime.setDate(dateTime.getDate() - 1);
           dateTime.setHours(0);
           dateTime.setMinutes(0);
