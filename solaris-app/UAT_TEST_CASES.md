@@ -1,521 +1,728 @@
-# UAT Test Cases — SOLARIS INSIGHT (Angular `solaris-app`)
+# UAT Test Cases - SOLARIS INSIGHT (Angular `solaris-app`)
 
 ### Document info
 - **Project**: `C:\Users\phum7\Documents\BOONRAWD\solaris-app`
 - **App name**: SOLARIS INSIGHT
 - **Build/Run**: `npm run start` (dev), `npm run build` (prod)
-- **Routing**: hash routing (`useHash: true`) → URLs like `/#/main/overview`
+- **Routing**: hash routing (`useHash: true`) -> URLs like `/#/main/overview`
+- **Basis used for this revision**:
+  - Current routes and page flows in `src/app/app.routes.ts`
+  - Runtime behavior in page components and interceptors
 
-### Scope (based on current code)
-Main user journeys inferred from `src/app/app.routes.ts` and API usage in `src/app/shared/services/http.service.ts`:
-- **Auth**: login/logout, token header injection, permission-based navigation
+### Scope
+Main user journeys covered by this UAT set:
+- **Authentication**: login, logout, token/session handling, protected route access
+- **Navigation**: navbar, site filtering, theme persistence, date state, auto-refresh summary
 - **Central pages**: Overview, Performance, Trend, Tabular, Events, Billing, Reports, Admin, Setting
 - **Site pages**: Layout, Dashboard, Efficiency, Realtime, Diagram, Charts, Event, Report, Report Admin
-- **Billing workflow**: generate/get/download billing & reports, approval, config/log/state, upload billing/payment docs
-- **Notifications/Events**: event data/filter/summary + config/notification config + expression parsing
-- **App config**: load `assets/config.json` at startup (`APP_INITIALIZER`)
+- **Billing workflow**: billing state, viewer, approval/review, document upload, logs, config, report/billing PDF
+- **Exports**: CSV, Excel, PNG, PDF preview/download
+- **Resilience**: invalid config, invalid route params, missing assets, network/API failure
 
 ### Test prerequisites
 - **UAT environment config**: `src/assets/config.json` must have valid URLs:
-  - `UrlApi`, `UrlApiAuthen`, `UrlApiBilling`, `UrlApiNotification`, `Timer`
-- **Test accounts & permissions** (prepare 3 users):
-  - **UAT_ADMIN**: full pages + all sites
-  - **UAT_USER_LIMITED**: a limited subset of pages (e.g. only `overview`, `trend`, `events`) + 1–2 sites
-  - **UAT_NO_PERMISSION**: valid credentials but no page/site access (expect “permission denied” behavior)
+  - `UrlApi`
+  - `UrlApiAuthen`
+  - `UrlApiBilling`
+  - `UrlApiNotification`
+  - `Timer`
+- **Test accounts**:
+  - `UAT_ADMIN`: full page access and all sites
+  - `UAT_USER_LIMITED`: limited pages and 1-2 sites
+  - `UAT_NO_PERMISSION`: valid login but no effective page/site access
 - **Test data**:
-  - At least 1 site with realtime + historian data available
-  - At least 1 site with events/alarms for “today”
-  - At least 1 billing session ID (route param `:id`) prepared for upload and workflow tests
+  - At least 1 site with realtime and historian data
+  - At least 1 site with events/alarms for today
+  - At least 1 billing session per major billing stage
+  - Sample files for upload:
+    - valid billing PDF
+    - valid payment PDF
+    - oversized PDF (>10MB)
+    - invalid file type
+    - incorrectly named billing PDF
 
-### Conventions used in test cases
-- **Precondition**: setup required before steps
-- **Steps**: numbered actions tester performs
-- **Expected**: what should happen
-- **Notes**: where relevant, calls out likely edge cases based on current implementation
+### Conventions
+- **Precondition**: required setup before steps
+- **Steps**: tester actions
+- **Expected**: required outcome
+- **Notes**: implementation-specific risks or defects to verify
 
 ---
 
-## A. App startup & configuration
+## A. App startup and configuration
 
-### UAT-A01 — App loads and configuration is read
+### UAT-A01 - App loads and startup configuration is read
 - **Precondition**: `assets/config.json` exists and is reachable
 - **Steps**
-  1. Open app in browser.
+  1. Open the app in browser.
   2. Observe first navigation destination.
 - **Expected**
   - App loads without blank screen.
-  - Default navigation is to `/#/main/overview` (or redirect to login if your backend enforces auth).
+  - App lands on `/#/main/overview` or is redirected to login if auth is enforced by environment.
 
-### UAT-A02 — Missing/invalid config falls back safely
-- **Precondition**: Temporarily break `assets/config.json` URL (or rename file)
+### UAT-A02 - Missing or invalid config degrades safely
+- **Precondition**: Temporarily break or rename `assets/config.json`
 - **Steps**
   1. Reload the app.
 - **Expected**
-  - App should show a user-friendly error state or at least still render shell.
-  - No infinite loading/spinner.
-- **Notes**
-  - Current `AppInitService.getConfigs()` returns a default object on error; if URLs remain `undefined`, API calls will fail. UAT should confirm the UX is acceptable.
+  - App does not enter infinite loading.
+  - User sees usable shell or a clear error state.
+  - Subsequent API failures are observable and diagnosable.
 
 ---
 
 ## B. Authentication, token, and access control
 
-### UAT-B01 — Login success stores token & navigates to default route
-- **Precondition**: User `UAT_ADMIN` exists and has page access for at least `overview`
+### UAT-B01 - Login success stores token and navigates correctly
+- **Precondition**: `UAT_ADMIN` exists and has access to `overview`
 - **Steps**
-  1. Go to `/#/login`.
+  1. Open `/#/login`.
   2. Enter valid credentials.
   3. Click login.
 - **Expected**
   - Token is stored in local storage key `token`.
-  - User is routed to default route (usually `/#/main/overview`).
+  - User lands on default route, typically `/#/main/overview`.
 
-### UAT-B02 — Login failure blocks navigation (negative)
+### UAT-B02 - Login failure blocks navigation
 - **Precondition**: Use wrong password for a valid username
 - **Steps**
-  1. Go to `/#/login`.
+  1. Open `/#/login`.
   2. Enter invalid credentials.
   3. Click login.
 - **Expected**
-  - Login shows an error message and user stays on login page.
+  - Login shows an error message.
+  - User remains on login page.
 - **Notes**
-  - Current `login.ts` does not check `success` returned by `AuthService.login()`. UAT should verify and log as defect if navigation still proceeds.
+  - Current implementation should be verified carefully. If navigation still proceeds, log a defect.
 
-### UAT-B03 — Access protected page without token
-- **Precondition**: Clear browser storage (localStorage/sessionStorage)
+### UAT-B03 - Protected page cannot be opened without token
+- **Precondition**: Clear `localStorage` and `sessionStorage`
 - **Steps**
   1. Open `/#/main/performance` directly.
 - **Expected**
-  - User is blocked and redirected to login or shown permission dialog.
-- **Notes**
-  - Current guard default permissions include `overview`. UAT should verify whether unauthenticated user can still reach overview; if yes and not intended, log defect.
+  - User is blocked from protected content.
+  - User is redirected to login or sees permission handling per current implementation.
 
-### UAT-B04 — Permission denied shows dialog and routes back to safe page
-- **Precondition**: Login as `UAT_USER_LIMITED` with no access to `admin`
+### UAT-B04 - Permission denied returns user to safe page
+- **Precondition**: Login as `UAT_USER_LIMITED` without access to `admin`
 - **Steps**
   1. Navigate to `/#/main/admin`.
 - **Expected**
-  - Permission dialog appears.
-  - App routes to `defaultRoute` (from `AppInitService.defaultRoute`).
+  - Permission dialog or equivalent denial feedback is shown.
+  - App routes user back to a safe/default route.
 
-### UAT-B05 — Session “navigate” resume after login
+### UAT-B05 - Intended route resumes after login
 - **Precondition**: Not logged in
 - **Steps**
-  1. Attempt to open a protected page, e.g. `/#/main/trend`.
-  2. Confirm you are blocked.
+  1. Open `/#/main/trend`.
+  2. Confirm access is blocked.
   3. Login with a user who has permission.
 - **Expected**
-  - App returns user to the originally requested page (uses `sessionStorage.navigate`).
+  - App returns user to the originally requested page.
 
-### UAT-B06 — Logout clears session and returns to login
+### UAT-B06 - Logout clears client state and returns to login
 - **Precondition**: Logged in
 - **Steps**
-  1. Click logout in navbar.
+  1. Click logout.
 - **Expected**
-  - localStorage cleared.
-  - App routes to `/#/login`.
+  - Auth-related local storage is cleared.
+  - User returns to `/#/login`.
 
-### UAT-B07 — Token header injection for API requests
+### UAT-B07 - Token and user headers are attached to API calls
 - **Precondition**: Logged in
 - **Steps**
-  1. Open browser devtools → Network.
-  2. Trigger any API call (e.g. load overview).
+  1. Open browser devtools network tab.
+  2. Trigger any authenticated API call.
 - **Expected**
-  - Requests include `Authorization` header containing the stored token.
-  - Requests include `user` header with username (if backend expects it).
+  - Request includes `Authorization` header containing current token.
+  - Request includes `user` header if backend expects it.
 
-### UAT-B08 — Handling 401/403 forces re-login
+### UAT-B08 - 401 or 403 response forces clean re-login
 - **Precondition**: Logged in
 - **Steps**
-  1. Expire token server-side or set an invalid token in localStorage.
+  1. Expire token server-side or manually replace it with an invalid token.
   2. Trigger any API call.
 - **Expected**
   - App redirects to `/#/login`.
-- **Notes**
-  - Current interceptor redirects but does not clear local storage/state; verify user experience and log defect if needed.
+  - Both `localStorage` and `sessionStorage` are cleared.
+  - No stale user/session state remains after re-login.
 
 ---
 
-## C. Navigation & layout (Navbar)
+## C. Navigation and layout
 
-### UAT-C01 — Navbar loads user/role and site list filters by access
-- **Precondition**: Logged in; localStorage has `sites` list
+### UAT-C01 - Navbar shows user, role, and allowed site list
+- **Precondition**: Logged in with stored `sites` and `role`
 - **Steps**
   1. Open `/#/main/overview`.
-  2. Observe user display and site selection options.
+  2. Observe navbar.
 - **Expected**
-  - Username and role appear.
-  - Site list is filtered to only allowed sites (`sites`).
+  - Username and role are displayed.
+  - Site selector shows only allowed sites.
 
-### UAT-C02 — Theme toggle persists
+### UAT-C02 - Theme toggle persists after reload
 - **Precondition**: Logged in
 - **Steps**
-  1. Toggle theme (dark ↔ light).
+  1. Toggle theme.
   2. Reload browser.
 - **Expected**
-  - Theme remains as last chosen (uses `localStorage.theme`).
-  - Logo switches correctly (`logo-dark.png`/`logo-light.png`).
+  - Selected theme persists.
+  - Theme-specific branding/logo is correct.
 
-### UAT-C03 — Date selector updates global state
-- **Precondition**: Logged in; date picker enabled in UI for relevant pages
+### UAT-C03 - Date selector updates shared state
+- **Precondition**: Logged in
 - **Steps**
-  1. Select a new date in navbar.
-  2. Navigate to a page that uses date filters (e.g. trend/tabular).
+  1. Change date in navbar.
+  2. Open a page that consumes date-based filters.
 - **Expected**
-  - Data reflects selected date range (or UI indicates applied date).
+  - Page reflects new date or date range correctly.
 
-### UAT-C04 — Event summary refresh timer
-- **Precondition**: Logged in; `Timer` set in config (minutes)
+### UAT-C04 - Event summary refreshes by timer
+- **Precondition**: Logged in and `Timer` is configured
 - **Steps**
-  1. Open page and note event summary counters.
-  2. Wait for at least one timer interval.
+  1. Observe event summary counters.
+  2. Wait for one refresh interval.
 - **Expected**
-  - Event summary auto-refreshes without user action.
+  - Counters refresh automatically without full page reload.
 
 ---
 
-## D. Overview (Central)
+## D. Overview
 
-### UAT-D01 — Overview page renders core widgets
-- **Precondition**: Logged in with access to `overview`
+### UAT-D01 - Overview page renders core widgets
+- **Precondition**: Logged in with `overview` access
 - **Steps**
   1. Open `/#/main/overview`.
 - **Expected**
-  - Page renders without console errors.
-  - Site/zone filtering works (if present in UI).
+  - Page renders successfully.
+  - No blocking console errors.
+  - Site or zone filters work if present.
 
-### UAT-D02 — Map components render (Leaflet)
-- **Precondition**: Overview map is enabled and site coordinates exist
+### UAT-D02 - Overview map renders and is usable
+- **Precondition**: Map feature enabled and coordinates exist
 - **Steps**
-  1. Open overview map view.
-  2. Zoom/pan; click markers (if any).
+  1. Open map section.
+  2. Pan, zoom, and click markers.
 - **Expected**
   - Map tiles load.
-  - Popups show readable content with correct theme styles.
+  - Marker popup content is readable and correct.
 
 ---
 
-## E. Performance / Trend / Tabular (Central)
+## E. Performance, Trend, and Tabular
 
-### UAT-E01 — Performance data loads for allowed user
+### UAT-E01 - Central Performance loads with valid data
 - **Precondition**: Logged in with `performance` permission
 - **Steps**
   1. Open `/#/main/performance`.
-  2. Select a site and date range (if available).
+  2. Apply site and date selections.
 - **Expected**
-  - Charts/tables show data (no empty state unless truly no data).
+  - Page loads data correctly.
+  - Empty state appears only when data is truly unavailable.
 
-### UAT-E02 — Trend chart loads and reacts to filters
+### UAT-E02 - Trend chart reacts to filter changes
 - **Precondition**: Logged in with `trend` permission
 - **Steps**
   1. Open `/#/main/trend`.
-  2. Change time range/interval options.
+  2. Change time range or interval.
 - **Expected**
-  - Chart refreshes accordingly and remains responsive.
+  - Chart refreshes correctly and stays responsive.
 
-### UAT-E03 — Tabular data supports sorting/filtering/export (if UI provides)
+### UAT-E03 - Tabular page supports sort, filter, and export
 - **Precondition**: Logged in with `tabular` permission
 - **Steps**
   1. Open `/#/main/tabular`.
-  2. Apply a filter and/or sort a column.
-  3. Export to Excel (if provided).
+  2. Filter rows and sort a column.
+  3. Export if export button is available.
 - **Expected**
-  - Data updates correctly after filter/sort.
-  - Exported file contains the same filtered dataset.
+  - Filter and sort results are correct.
+  - Exported file reflects current filtered data.
+
+### UAT-E04 - Large dataset remains usable
+- **Precondition**: Choose a time range that returns large historian volume
+- **Steps**
+  1. Load trend or tabular with large range.
+  2. Interact with chart/table.
+- **Expected**
+  - Browser remains responsive.
+  - No crash or freeze.
 
 ---
 
 ## F. Events (Central)
 
-### UAT-F01 — Events list loads for today
-- **Precondition**: Logged in with `events` permission; event service is available
+### UAT-F01 - Events list loads for selected date range
+- **Precondition**: Logged in with `events` permission
 - **Steps**
   1. Open `/#/main/events`.
 - **Expected**
-  - Event list displays.
-  - Severity indicators (major/minor/warning/info) show correctly.
+  - Event list loads successfully.
+  - Severity labels display correctly.
 
-### UAT-F02 — Filtered events search
-- **Precondition**: Events page supports filter inputs
+### UAT-F02 - Events filtering returns correct subset
+- **Precondition**: Event list contains multiple event types or severities
 - **Steps**
-  1. Apply filter (site, severity, text).
+  1. Apply filters by site, severity, equipment, or type.
   2. Submit filter.
 - **Expected**
-  - Results match filter criteria.
+  - Returned rows match selected filter criteria.
+
+### UAT-F03 - Events export downloads CSV matching current result set
+- **Precondition**: Events list contains at least 1 row after filtering
+- **Steps**
+  1. Apply filters or date range.
+  2. Export the event list.
+- **Expected**
+  - CSV file downloads successfully.
+  - Exported rows match the currently displayed rows.
+  - File name reflects selected date range.
 
 ---
 
-## G. Sites pages (Layout/Dashboard/Efficiency/Realtime/Diagram/Charts/Event/Report)
+## G. Site pages (Layout, Dashboard, Efficiency, Realtime, Diagram, Charts, Event, Report, Report Admin)
 
-### UAT-G01 — Switch to site mode resets page states
-- **Precondition**: Logged in; multiple sites available
+### UAT-G01 - Switching to site mode clears stale page state
+- **Precondition**: Logged in with multiple sites
 - **Steps**
-  1. From `overview`, switch nav state to a site page (e.g. `layout`).
-  2. Then navigate between `dashboard`, `diagram`, `realtime`.
+  1. Go from `overview` to `layout`.
+  2. Navigate across `dashboard`, `diagram`, and `realtime`.
 - **Expected**
-  - Navigation works and previous page-specific state is cleared (no stale data bleeding across pages).
+  - Navigation works normally.
+  - State from previous site page does not bleed into next page.
 
-### UAT-G02 — Realtime page shows current values and refresh behavior
-- **Precondition**: Logged in with `realtime` permission; backend `getrealtime` works
+### UAT-G02 - Realtime page shows current values correctly
+- **Precondition**: Logged in with `realtime` permission
 - **Steps**
   1. Open `/#/main/realtime`.
-  2. Change site/tag selection (if UI supports).
+  2. Change site or tag selection if available.
 - **Expected**
-  - Realtime values render.
-  - Units/min/max display correctly.
+  - Current values render.
+  - Units and limits display correctly.
 
-### UAT-G03 — Diagram page renders and interactions work
+### UAT-G03 - Diagram page renders SVG and interactions work
 - **Precondition**: Logged in with `diagram` permission
 - **Steps**
   1. Open `/#/main/diagram`.
-  2. Interact with diagram elements (click/hover) if available.
+  2. Interact with clickable or hoverable elements.
 - **Expected**
-  - Diagram loads with no missing assets.
-  - Interactions show expected details.
+  - Diagram loads without missing assets.
+  - Interaction shows the expected tag/device details.
 
-### UAT-G04 — Charts page loads (Highcharts)
-- **Precondition**: Logged in with `charts` permission; data available
+### UAT-G04 - Charts page loads and responds to chart-type changes
+- **Precondition**: Logged in with `charts` permission
 - **Steps**
   1. Open `/#/main/charts`.
-  2. Switch between chart types/series if UI provides.
+  2. Load chart data.
+  3. Switch chart type.
 - **Expected**
-  - Chart renders and updates; no console errors.
+  - Charts render without console errors.
+  - Selected chart type is applied correctly.
 
-### UAT-G05 — Site Event page loads and filters work
-- **Precondition**: Logged in with site event permissions
+### UAT-G05 - Site Event page loads and filters correctly
+- **Precondition**: Logged in with site event permission
 - **Steps**
   1. Open `/#/main/event`.
-  2. Apply site-scoped filters.
+  2. Apply site-scoped filters and date range.
 - **Expected**
-  - Events displayed match selected site/time filter.
+  - Rows match selected filters.
 
-### UAT-G06 — Site Report page generates/downloads report PDF
-- **Precondition**: Logged in; billing/report service endpoints available
+### UAT-G06 - Site Event page exports CSV
+- **Precondition**: Site event list contains at least 1 row
+- **Steps**
+  1. Open `/#/main/event`.
+  2. Apply filters.
+  3. Export the event list.
+- **Expected**
+  - CSV file downloads successfully.
+  - Exported rows match the filtered list.
+
+### UAT-G07 - Site Report page generates and downloads PDF
+- **Precondition**: Logged in with `report` permission
 - **Steps**
   1. Open `/#/main/report`.
-  2. Select a report type and timestamp.
-  3. Generate report.
-  4. Download/open generated PDF.
+  2. Select report type and date.
+  3. Generate preview.
+  4. Download report.
 - **Expected**
-  - A PDF is generated and can be opened in a new tab and/or downloaded.
+  - PDF preview loads successfully.
+  - Downloaded PDF matches the selected report parameters.
+
+### UAT-G08 - Site Report page validates required report type
+- **Precondition**: Logged in with `report` permission
+- **Steps**
+  1. Open `/#/main/report`.
+  2. Leave report type empty.
+  3. Try preview and download.
+- **Expected**
+  - Both actions are blocked.
+  - User sees a clear validation message.
+
+### UAT-G09 - Charts page exports PNG snapshot
+- **Precondition**: Chart data is already rendered
+- **Steps**
+  1. Open `/#/main/charts`.
+  2. Click image export or capture.
+- **Expected**
+  - PNG file downloads successfully.
+  - Captured image reflects the current chart view.
+
+### UAT-G10 - Report Admin saves global report email settings
+- **Precondition**: Logged in with `report-admin` access
+- **Steps**
+  1. Open `/#/main/report-admin`.
+  2. Change global receiver settings.
+  3. Save.
+- **Expected**
+  - Save succeeds.
+  - Same values appear again after reload.
+
+### UAT-G11 - Report Admin site config CRUD works
+- **Precondition**: Logged in with `report-admin` access
+- **Steps**
+  1. Add a site-specific config.
+  2. Edit it.
+  3. Delete it.
+- **Expected**
+  - Create, update, and delete succeed.
+  - List reflects latest state after each action.
+
+### UAT-G12 - Report Admin validates email list format
+- **Precondition**: Logged in with `report-admin` access
+- **Steps**
+  1. Enter invalid email text and save.
+  2. Enter valid comma-separated emails and save again.
+- **Expected**
+  - Invalid format is rejected.
+  - Valid comma-separated addresses are accepted.
 
 ---
 
-## H. Billing (Central) — configuration, workflow, documents
+## H. Billing (Central)
 
-### UAT-H01 — Billing list view loads for a given project id
-- **Precondition**: Logged in with `billing` permission; use a valid `:id`
+### UAT-H01 - Billing page loads for valid route id
+- **Precondition**: Logged in with `billing` permission and valid `:id`
 - **Steps**
-  1. Open `/#/main/billing/<id>` (replace `<id>` with real id).
+  1. Open `/#/main/billing/<id>`.
 - **Expected**
-  - Billing records render (or empty state with clear message).
+  - Billing records or a clear empty state are shown.
 
-### UAT-H02 — Generate billing PDF and view/download
-- **Precondition**: Billing data exists for chosen site/timestamp
+### UAT-H02 - Billing PDF preview and download work
+- **Precondition**: Billing data exists for selected site and timestamp
 - **Steps**
-  1. From billing page, generate a billing document.
-  2. Open viewer dialog (if provided).
-  3. Download billing.
+  1. Generate billing document.
+  2. Open viewer dialog.
+  3. Download document.
 - **Expected**
-  - PDF is generated and renders correctly.
-  - Downloaded file name and content match the selected billing session.
+  - PDF renders correctly in viewer.
+  - Download succeeds and content is valid.
 
-### UAT-H03 — Approve billing workflow
-- **Precondition**: Billing session ready for approval; user has permission
+### UAT-H03 - Billing approval updates status correctly
+- **Precondition**: Billing entry is ready for approval
 - **Steps**
   1. Approve billing.
 - **Expected**
-  - Status updates to approved.
-  - Audit/log entry is created if the system supports logs.
+  - Status changes according to workflow.
+  - Relevant log or audit entry is visible if supported.
 
-### UAT-H04 — Confirmation internal review (approve/reject)
-- **Precondition**: Workflow endpoints available
+### UAT-H04 - Internal confirmation supports approve and reject paths
+- **Precondition**: Workflow endpoint available and test entry exists
 - **Steps**
   1. Generate confirmation.
-  2. Perform internal review update.
-  3. Reject internal review (negative path).
+  2. Approve it.
+  3. Repeat with reject path.
 - **Expected**
   - Status transitions follow business rules.
-  - Rejection requires a reason (if required by UI/backend).
+  - Reject path requires reason if configured by UI or backend.
 
-### UAT-H05 — Customer review upload (invoice/payment/receipt)
-- **Precondition**: Have sample PDF files for upload
+### UAT-H05 - Customer or accounting document upload works from billing workflow
+- **Precondition**: Valid billing entry and sample files available
 - **Steps**
-  1. Upload invoice customer document.
-  2. Upload payment customer document.
-  3. Upload receipt accounting document.
+  1. Upload invoice-related customer document.
+  2. Upload payment-related customer document.
+  3. Upload receipt-related accounting document.
 - **Expected**
-  - Upload succeeds and appears in viewer/record.
-  - File type restrictions enforced (if required).
+  - Upload succeeds only for valid stage and valid file.
+  - Uploaded document appears in record or viewer.
 
-### UAT-H06 — Billing config CRUD (Admin/Setting pages)
-- **Precondition**: User has admin permission
+### UAT-H06 - Billing config CRUD works
+- **Precondition**: Admin-capable user
 - **Steps**
-  1. Create a new billing config.
-  2. Update the config.
-  3. Delete the config.
+  1. Create billing config.
+  2. Update billing config.
+  3. Delete billing config.
 - **Expected**
-  - Create/update/delete succeed and list reflects changes.
-  - Validation prevents incomplete configs.
+  - All operations succeed.
+  - Validation prevents incomplete or invalid data.
 
-### UAT-H07 — Billing logs CRUD
-- **Precondition**: Billing logs endpoints available
+### UAT-H07 - Billing logs CRUD works
+- **Precondition**: Billing logs endpoint available
 - **Steps**
-  1. Create log entry for a billing.
-  2. Update log entry.
-  3. Delete log entry.
+  1. Create a log.
+  2. Update it.
+  3. Delete it.
 - **Expected**
-  - Logs reflect accurate timestamps and user actions.
+  - Log data remains consistent and traceable.
 
-### UAT-H08 — Billing states retrieval by timestamp/site
+### UAT-H08 - Billing states can be queried by site and timestamp
 - **Precondition**: Billing states exist in system
 - **Steps**
-  1. Query billing states by site id.
-  2. Query billing states by timestamp only.
-  3. Query by site id + timestamp.
+  1. Query by site only.
+  2. Query by timestamp only.
+  3. Query by site and timestamp together.
 - **Expected**
-  - Returned dataset matches query criteria.
+  - Returned state data matches query criteria.
+
+### UAT-H09 - Billing viewer handles missing or invalid document gracefully
+- **Precondition**: Billing entry points to missing or invalid document
+- **Steps**
+  1. Open billing viewer dialog.
+- **Expected**
+  - Viewer does not crash.
+  - User sees empty or error state instead of broken content.
+
+### UAT-H10 - Central Reports page previews and downloads PDF
+- **Precondition**: Logged in with `reports` permission
+- **Steps**
+  1. Open `/#/main/reports`.
+  2. Select report type, site, and date.
+  3. Preview report.
+  4. Download report.
+- **Expected**
+  - PDF preview renders correctly.
+  - Downloaded file matches selected parameters.
+
+### UAT-H11 - Central Reports page validates required site and report type
+- **Precondition**: Logged in with `reports` permission
+- **Steps**
+  1. Open `/#/main/reports`.
+  2. Leave report type empty and try preview/download.
+  3. Leave site empty and try preview/download.
+- **Expected**
+  - User is blocked in both cases.
+  - Validation clearly identifies the missing field.
 
 ---
 
-## I. Billing Upload pages (standalone routes)
+## I. Standalone upload pages
 
-### UAT-I01 — Billing upload page loads and uploads file
-- **Precondition**: Have valid session id and site id; sample billing PDF
+### UAT-I01 - Billing upload page accepts valid invoice-stage file
+- **Precondition**: Valid encoded route id for invoice-stage billing and valid billing PDF
 - **Steps**
   1. Open `/#/billing-upload/<id>`.
-  2. Select a file and upload.
+  2. Select valid PDF.
+  3. Enter send date.
+  4. Submit.
 - **Expected**
-  - Upload succeeds and user gets success confirmation.
+  - Upload succeeds with success confirmation.
+  - Workflow progresses only when billing state is `invoice`.
 
-### UAT-I02 — Payment upload page loads and uploads file
-- **Precondition**: Have valid session id and site id; sample payment PDF
+### UAT-I02 - Payment upload page accepts valid payment-stage file
+- **Precondition**: Valid encoded route id for payment-stage billing and valid payment PDF
 - **Steps**
   1. Open `/#/payment-upload/<id>`.
-  2. Select a file and upload.
+  2. Select valid PDF.
+  3. Submit.
 - **Expected**
-  - Upload succeeds and user gets success confirmation.
+  - Upload succeeds with success confirmation.
+  - Workflow progresses only when billing state is `payment`.
 
-### UAT-I03 — Upload invalid file type (negative)
-- **Precondition**: Have an unsupported file type (e.g. `.exe`)
+### UAT-I03 - Invalid file type is rejected
+- **Precondition**: Unsupported file type available
 - **Steps**
-  1. Try uploading the unsupported file.
+  1. Try uploading unsupported file.
 - **Expected**
-  - App rejects file with clear error message.
-  - No corrupted record created.
+  - App rejects the file with clear error message.
+  - No corrupted record is created.
+
+### UAT-I04 - Billing upload rejects wrong filename pattern
+- **Precondition**: PDF file name does not match `Invoice_Billing_<SITE>_YYYY-MM.pdf`
+- **Steps**
+  1. Open `/#/billing-upload/<id>`.
+  2. Select incorrectly named PDF.
+- **Expected**
+  - App rejects file with filename format error.
+  - File is not retained in upload list.
+
+### UAT-I05 - Upload rejects file larger than 10MB
+- **Precondition**: PDF file larger than 10MB
+- **Steps**
+  1. Open billing or payment upload page.
+  2. Select oversized PDF.
+- **Expected**
+  - App blocks the upload.
+  - No upload request is sent.
+
+### UAT-I06 - Billing upload requires send date
+- **Precondition**: Valid billing upload link and valid PDF selected
+- **Steps**
+  1. Open `/#/billing-upload/<id>`.
+  2. Select valid PDF.
+  3. Leave send date empty.
+  4. Click submit.
+- **Expected**
+  - Submit is blocked.
+  - User is asked to select send date.
+
+### UAT-I07 - Invalid or malformed encoded route id is rejected
+- **Precondition**: Invalid `:id` that cannot be decoded or lacks required fields
+- **Steps**
+  1. Open upload page with invalid id.
+- **Expected**
+  - App rejects route input and redirects user away from page.
+  - No upload action is possible.
+
+### UAT-I08 - Upload link requires logged-in user context
+- **Precondition**: Clear browser storage so `user` does not exist
+- **Steps**
+  1. Open a valid upload link directly.
+- **Expected**
+  - App shows login-related error and routes to `/#/login`.
+
+### UAT-I09 - Upload link is blocked when billing stage is wrong
+- **Precondition**: Valid encoded id but billing state is not expected stage
+- **Steps**
+  1. Open `/#/billing-upload/<id>` for non-invoice state.
+  2. Open `/#/payment-upload/<id>` for non-payment state.
+- **Expected**
+  - App blocks the action.
+  - User is redirected away with explanatory error.
+
+### UAT-I10 - Payment upload accepted file types match runtime validation
+- **Precondition**: Sample `.pdf`, `.jpg`, and `.png` files available
+- **Steps**
+  1. Open `/#/payment-upload/<id>`.
+  2. Try each file type.
+- **Expected**
+  - Actual runtime acceptance or rejection is documented.
+  - If UI hint and runtime validation differ, log as defect.
 
 ---
 
-## J. Admin & Setting
+## J. Admin and Setting
 
-### UAT-J01 — User management: list users
-- **Precondition**: Admin user; backend `user/get` works
-- **Steps**
-  1. Open `/#/main/setting` → user config section (or relevant tab).
-- **Expected**
-  - Users list loads.
-  - Sensitive fields (password) are not displayed.
-
-### UAT-J02 — User management: create user
+### UAT-J01 - User list loads without exposing password fields
 - **Precondition**: Admin user
 - **Steps**
-  1. Create a new user with minimal required fields.
-  2. Login with the new user.
+  1. Open user management section in `/#/main/setting`.
 - **Expected**
-  - New user appears in list.
-  - New user can login and receives correct permissions/sites.
+  - User list loads successfully.
+  - Password fields are not displayed in list view.
 
-### UAT-J03 — User management: update user + signature
-- **Precondition**: Admin user; an existing user
+### UAT-J02 - Create user works end to end
+- **Precondition**: Admin user
 - **Steps**
-  1. Update user info (role, pages, sites).
-  2. Set user signature and reopen viewer.
+  1. Create user with minimum required fields.
+  2. Login with new user.
+- **Expected**
+  - User is created successfully.
+  - New login behaves according to assigned permissions and sites.
+
+### UAT-J03 - Update user profile and signature works
+- **Precondition**: Existing user
+- **Steps**
+  1. Update role, pages, or sites.
+  2. Upload or set signature.
+  3. Reopen user record or dependent view.
 - **Expected**
   - Updated values persist.
   - Signature is retrievable and displayed correctly.
 
-### UAT-J04 — User management: change password
+### UAT-J04 - Password change invalidates old password
 - **Precondition**: Existing user
 - **Steps**
-  1. Change password using UI.
-  2. Verify old password no longer works.
-  3. Verify new password works.
+  1. Change password.
+  2. Try old password.
+  3. Try new password.
 - **Expected**
-  - Password change enforces required fields and shows success status.
+  - Old password fails.
+  - New password works.
 
-### UAT-J05 — User management: delete user
-- **Precondition**: Admin user; a deletable test user
+### UAT-J05 - Delete user prevents future login
+- **Precondition**: Deletable test user exists
 - **Steps**
   1. Delete the test user.
-  2. Attempt to login as deleted user.
+  2. Try logging in as deleted user.
 - **Expected**
-  - User removed from list.
-  - Login fails for deleted user.
+  - User disappears from list.
+  - Login fails.
 
-### UAT-J06 — Alarm tag config: get/set
+### UAT-J06 - Alarm tag config save and reload works
 - **Precondition**: Notification service available
 - **Steps**
-  1. Load alarm tag config.
-  2. Update tag config and save.
+  1. Open alarm tag config.
+  2. Modify and save.
+  3. Reload page.
 - **Expected**
-  - Saved config is persisted and reflected upon reload.
+  - Saved config persists and reloads correctly.
 
-### UAT-J07 — Notification config CRUD
+### UAT-J07 - Notification config CRUD works
 - **Precondition**: Notification service available
 - **Steps**
-  1. Add notification config.
-  2. Update it.
-  3. Delete it.
+  1. Create config.
+  2. Update config.
+  3. Delete config.
 - **Expected**
-  - CRUD works and UI list reflects changes.
+  - CRUD actions succeed and are reflected in UI.
 
-### UAT-J08 — Expression parser
+### UAT-J08 - Expression parser handles valid and invalid formulas
 - **Precondition**: Notification calc endpoint available
 - **Steps**
-  1. Input a valid expression (e.g. `A+B*2`).
-  2. Input an invalid expression (e.g. `A+*`).
+  1. Enter valid expression such as `A+B*2`.
+  2. Enter invalid expression such as `A+*`.
 - **Expected**
-  - Valid expression returns parsed structure/result.
-  - Invalid expression shows a clear validation error.
+  - Valid expression returns parse result.
+  - Invalid expression returns clear validation feedback.
 
 ---
 
-## K. Error handling & resilience
+## K. Error handling and resilience
 
-### UAT-K01 — API base URL down (network failure)
-- **Precondition**: Temporarily set `UrlApi` to an unreachable host
+### UAT-K01 - Main API base URL outage does not break whole app shell
+- **Precondition**: Temporarily point `UrlApi` to unreachable host
 - **Steps**
-  1. Load a page that calls `UrlApi` (e.g. realtime/historian).
+  1. Open page that requires main API.
 - **Expected**
-  - App displays a non-blocking error state (toast/dialog) and remains usable for navigation.
+  - Error is visible to tester.
+  - App shell remains navigable.
 
-### UAT-K02 — Billing service returns blob/PDF correctly
-- **Precondition**: Billing/report endpoints respond with PDF
+### UAT-K02 - Billing and report PDF responses open without corruption
+- **Precondition**: Billing or report endpoint returns valid PDF blob
 - **Steps**
-  1. Download report/billing.
-  2. Open in a new tab.
+  1. Download report or billing document.
+  2. Open downloaded file.
 - **Expected**
-  - PDF opens without corruption; correct content type.
+  - PDF opens successfully.
+  - Content type and file integrity are correct.
 
-### UAT-K03 — Large dataset performance (trend/tabular)
-- **Precondition**: Choose a time range that returns a large dataset
+### UAT-K03 - Missing asset or config file on file-driven pages degrades gracefully
+- **Precondition**: Temporarily rename one referenced asset or config file
 - **Steps**
-  1. Load trend/tabular with large range.
-  2. Interact with filters/sorts.
+  1. Open page such as `diagram`, `report`, or `events`.
 - **Expected**
-  - App remains responsive; no browser freeze.
+  - App does not collapse into blank screen.
+  - User can still navigate or sees clear empty/error state.
+
+### UAT-K04 - Invalid route or unknown path goes to not found flow
+- **Precondition**: App is reachable
+- **Steps**
+  1. Open an unknown hash route.
+- **Expected**
+  - App routes to not found screen or equivalent fallback.
 
 ---
 
-## Appendix: Quick smoke checklist (10 minutes)
-- [ ] App loads and lands on `overview` (or login if required)
-- [ ] Login works with a valid user
+## Appendix: Quick smoke checklist
+- [ ] App loads and lands on overview or login
+- [ ] Login works with valid user
+- [ ] Protected route blocks unauthorized access
 - [ ] Token is attached to API requests
-- [ ] Permission denied blocks access to `admin` for limited user
-- [ ] Overview renders and map loads (if enabled)
-- [ ] Trend loads and chart renders
+- [ ] 401 or 403 redirects cleanly to login
+- [ ] Overview renders
+- [ ] Trend loads with chart
 - [ ] Events summary loads in navbar
-- [ ] Billing page loads for a known id
-- [ ] Report/billing PDF can be generated and opened
+- [ ] Events export works
+- [ ] Billing page opens for known id
+- [ ] Central Reports preview and download work
+- [ ] Site Report preview and download work
+- [ ] Upload pages reject invalid file, invalid stage, and invalid route input
 - [ ] Logout clears session and returns to login
-

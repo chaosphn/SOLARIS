@@ -1,0 +1,1810 @@
+[
+  {
+    "id": "TC001",
+    "title": "Log in and reach the central overview",
+    "description": "Verifies that a user can authenticate with valid credentials and is taken to the central overview landing page.",
+    "category": "User Login",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the username field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user lands on the central overview page"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC002",
+    "title": "Allow access to a guarded page when the user has permission",
+    "description": "Verifies that a logged-in user with the required page permission can open a guarded page and see its content.",
+    "category": "Authorization Guard (Page Permissions)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the username field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/performance"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify performance content is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC003",
+    "title": "Redirect unauthorized access to a guarded page back to the overview",
+    "description": "Verifies that attempting to access a guarded page without permission shows a permission dialog and redirects to the overview.",
+    "category": "Authorization Guard (Page Permissions)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the username field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/performance"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a permission dialog is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user is redirected to the central overview page"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "View plant overview charts and export chart data from site dashboard",
+    "description": "User can view site dashboard charts for a selected time range and successfully trigger exports in supported formats.",
+    "category": "Site Monitoring — Dashboard, Realtime, Diagram, Charts",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid time range on the dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Trigger export of the dashboard chart data as XLSX"
+      },
+      {
+        "type": "action",
+        "description": "Trigger export of the dashboard chart as PNG"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify plant overview and summary charts are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an export completion confirmation is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC005",
+    "title": "Generate invoice by approving energy confirmation in a billing record",
+    "description": "Verifies a billing operator can open a billing record from reports, review the confirmation PDF, approve it, and proceed to invoice generation state.",
+    "category": "Billing & Billing Admin (Configuration and Workflow)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/reports"
+      },
+      {
+        "type": "action",
+        "description": "Open a billing record from the billing list"
+      },
+      {
+        "type": "action",
+        "description": "Open the confirmation energy PDF preview in the billing record"
+      },
+      {
+        "type": "action",
+        "description": "Approve the energy confirmation step"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the invoice step becomes available in the billing workflow"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC006",
+    "title": "View dashboard realtime values after refresh",
+    "description": "Verifies an authenticated monitoring user can open the site dashboard, refresh realtime data, and see realtime values and charts displayed.",
+    "category": "Realtime / Historian Data Views",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link to open the site dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Trigger a realtime data refresh"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify realtime device or meter values are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify production or performance charts are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC007",
+    "title": "Refresh realtime metrics and see updated device status table",
+    "description": "User can refresh realtime data on the site realtime page and see realtime device metrics and a device status table displayed.",
+    "category": "Site Monitoring — Dashboard, Realtime, Diagram, Charts",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/realtime"
+      },
+      {
+        "type": "action",
+        "description": "Trigger a realtime data refresh"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify realtime device metrics are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a table of device statuses is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC008",
+    "title": "Issue receipt and complete billing after payment proof is present",
+    "description": "Verifies a billing operator can verify payment proof in a billing record, issue a receipt, and mark the billing workflow complete.",
+    "category": "Billing Workflow — Energy Confirmation to Receipt",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/reports"
+      },
+      {
+        "type": "action",
+        "description": "Open a billing record from the billing list"
+      },
+      {
+        "type": "action",
+        "description": "If needed, progress the record through energy confirmation and invoice approval to reach the payment verification step"
+      },
+      {
+        "type": "action",
+        "description": "Open the payment proof section for the billing record"
+      },
+      {
+        "type": "action",
+        "description": "Verify the payment proof and issue the receipt"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the billing record is marked complete"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC009",
+    "title": "View national KPIs and the interactive site map",
+    "description": "Verifies that the central overview loads and displays system-wide indicators along with a map containing site icons.",
+    "category": "Central Overview (National Dashboard & Map)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /main/overview"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify system-wide performance indicators are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a map with site icons is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC010",
+    "title": "View central comparative performance charts for a selected date range",
+    "description": "User can access the central performance page, choose a valid date range, and see comparative charts and summary metrics rendered for that range.",
+    "category": "Performance & Trends (Central Comparative Charts)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/performance"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid date range for the performance query"
+      },
+      {
+        "type": "action",
+        "description": "Run the performance query to load results"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify comparative performance charts are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify summary performance metrics are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC011",
+    "title": "View and filter events and open event details",
+    "description": "Verifies an authenticated user can filter the central events list and open an event to view its details successfully.",
+    "category": "Event Analytics & Event Viewer",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation item for central events"
+      },
+      {
+        "type": "action",
+        "description": "Select a status filter option"
+      },
+      {
+        "type": "action",
+        "description": "Select a device type filter option"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid date range"
+      },
+      {
+        "type": "action",
+        "description": "Select an event from the filtered list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify detailed event information is displayed for the selected event"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC012",
+    "title": "Compare selected devices and parameters in charts and export combined output",
+    "description": "User can select devices and parameters, combine charts, and successfully trigger chart exports in PNG or XLSX.",
+    "category": "Site Monitoring — Dashboard, Realtime, Diagram, Charts",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/charts"
+      },
+      {
+        "type": "action",
+        "description": "Select at least one device to chart"
+      },
+      {
+        "type": "action",
+        "description": "Select at least one parameter to chart"
+      },
+      {
+        "type": "action",
+        "description": "Combine the selected series into the chart view"
+      },
+      {
+        "type": "action",
+        "description": "Trigger export of the combined chart as PNG or XLSX"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify combined charts are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an export completion confirmation is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC013",
+    "title": "Approve invoice to mark billing ready for customer signature",
+    "description": "Verifies a billing operator can review the invoice PDF and approve it so the record reaches the ready-for-customer-signature state.",
+    "category": "Billing & Billing Admin (Configuration and Workflow)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/reports"
+      },
+      {
+        "type": "action",
+        "description": "Open a billing record from the billing list"
+      },
+      {
+        "type": "action",
+        "description": "If needed, complete the energy confirmation approval to reach the invoice step"
+      },
+      {
+        "type": "action",
+        "description": "Open the invoice PDF preview in the billing record"
+      },
+      {
+        "type": "action",
+        "description": "Approve the invoice step"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the billing record is in a ready-for-customer-signature state"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC014",
+    "title": "View charts for historical series",
+    "description": "Verifies an authenticated user can request a historical time series in Charts and see plotted historical data.",
+    "category": "Realtime / Historian Data Views",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link to open the charts page"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid device or source to chart"
+      },
+      {
+        "type": "action",
+        "description": "Select one or more valid parameters to chart"
+      },
+      {
+        "type": "action",
+        "description": "Request historical series data for a valid date range"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a historical time-series chart is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC015",
+    "title": "View central trend charts across sites for a selected date range",
+    "description": "User can access the central trend page, choose a valid date range, and see power vs irradiance trend charts rendered across sites.",
+    "category": "Performance & Trends (Central Comparative Charts)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/trend"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid date range for the trend query"
+      },
+      {
+        "type": "action",
+        "description": "Run the trend query to load results"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify trend charts are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify site series are displayed in the trend view"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC016",
+    "title": "Select a site from the map to view its summary",
+    "description": "Verifies that selecting a site icon on the central overview map shows the corresponding site summary and current status.",
+    "category": "Central Overview (National Dashboard & Map)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /main/overview"
+      },
+      {
+        "type": "action",
+        "description": "Click a site icon on the map"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a site summary panel is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the selected site current status is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC017",
+    "title": "Update page and site access permissions for a user",
+    "description": "Verifies an administrator can edit a user’s page and site access permissions and the changes persist after saving.",
+    "category": "User Management & Page/Site Access Control",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/setting"
+      },
+      {
+        "type": "action",
+        "description": "Create a new user for permission editing named Test User Perm"
+      },
+      {
+        "type": "action",
+        "description": "Open the edit view for Test User Perm"
+      },
+      {
+        "type": "action",
+        "description": "Change at least one page access checkbox"
+      },
+      {
+        "type": "action",
+        "description": "Change the site access list selection to include at least one site"
+      },
+      {
+        "type": "action",
+        "description": "Save the user changes"
+      },
+      {
+        "type": "action",
+        "description": "Reopen the edit view for Test User Perm"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the updated page and site permissions are still selected"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC018",
+    "title": "Create a new user",
+    "description": "Verifies an administrator can add a new user with role and company details and the user appears in the user list.",
+    "category": "User Management & Page/Site Access Control",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/setting"
+      },
+      {
+        "type": "action",
+        "description": "Start creating a new user"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the user name field with Test User A"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid role"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the company details with Test Company"
+      },
+      {
+        "type": "action",
+        "description": "Save the user"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the new user appears in the user list"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC019",
+    "title": "View system diagram and connectivity for troubleshooting",
+    "description": "User can open the site diagram page and see the system diagram with device connectivity information displayed.",
+    "category": "Site Monitoring — Dashboard, Realtime, Diagram, Charts",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/diagram"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the system diagram is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify device connectivity information is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC020",
+    "title": "Save global billing parameters",
+    "description": "Verifies an authorized admin can configure global billing parameters and save changes successfully.",
+    "category": "Billing & Billing Admin (Configuration and Workflow)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/admin"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid meter type in global billing parameters"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid numeric energy cost value into the energy cost field"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid billing generation schedule/date option"
+      },
+      {
+        "type": "action",
+        "description": "Save the global billing parameters"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a success confirmation is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC021",
+    "title": "View charts for at-time snapshot",
+    "description": "Verifies an authenticated user can request an at-time snapshot in Charts and see the returned at-time data displayed.",
+    "category": "Realtime / Historian Data Views",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link to open the charts page"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid device or source to chart"
+      },
+      {
+        "type": "action",
+        "description": "Select one or more valid parameters to chart"
+      },
+      {
+        "type": "action",
+        "description": "Request an at-time snapshot using a valid date and time"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify at-time values are displayed for the selected parameters"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC022",
+    "title": "Generate a report with live preview and download the PDF",
+    "description": "User can generate an operational report by selecting report type, date range, and sites, view a live preview, and download the report PDF.",
+    "category": "Reports (Preview & Download)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/reports"
+      },
+      {
+        "type": "action",
+        "description": "Select a report type"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid report date range"
+      },
+      {
+        "type": "action",
+        "description": "Select at least one site for the report"
+      },
+      {
+        "type": "action",
+        "description": "Generate the report to load the preview"
+      },
+      {
+        "type": "action",
+        "description": "Trigger download of the report PDF"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a live report preview is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a download initiation confirmation is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC023",
+    "title": "Save site billing configuration with workflow role assignments",
+    "description": "Verifies an authorized admin can add or edit a site billing configuration, assign workflow roles, and save successfully.",
+    "category": "Billing & Billing Admin (Configuration and Workflow)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/admin"
+      },
+      {
+        "type": "action",
+        "description": "Open the site billing configuration section"
+      },
+      {
+        "type": "action",
+        "description": "Select a site to configure"
+      },
+      {
+        "type": "action",
+        "description": "Select valid workflow role assignees for the required billing steps"
+      },
+      {
+        "type": "action",
+        "description": "Save the site billing configuration"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a success confirmation is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC024",
+    "title": "Add a new notification channel and activate it",
+    "description": "Verifies an authenticated user can create a new notification channel with required fields, activate it, and save successfully.",
+    "category": "Notification Channels (Telegram / LINE / Email / Teams)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation item for settings"
+      },
+      {
+        "type": "action",
+        "description": "Open the notifications or channels list"
+      },
+      {
+        "type": "action",
+        "description": "Start adding a new channel"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the channel name field with NotifyChan-01"
+      },
+      {
+        "type": "action",
+        "description": "Select a channel type"
+      },
+      {
+        "type": "action",
+        "description": "Fill in a valid access token value into the access token field"
+      },
+      {
+        "type": "action",
+        "description": "Fill in a valid recipient or chat identifier into the recipient field"
+      },
+      {
+        "type": "action",
+        "description": "Toggle the channel to Active"
+      },
+      {
+        "type": "action",
+        "description": "Save the channel"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the new channel appears in the channels list"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC025",
+    "title": "Export chart data to XLSX",
+    "description": "Verifies an authenticated user can export the currently displayed chart dataset to XLSX and sees an export completion indicator.",
+    "category": "Realtime / Historian Data Views",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link to open the charts page"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid device or source to chart"
+      },
+      {
+        "type": "action",
+        "description": "Select one or more valid parameters to chart"
+      },
+      {
+        "type": "action",
+        "description": "Request historical series data for a valid date range"
+      },
+      {
+        "type": "action",
+        "description": "Trigger export to XLSX for the current chart data"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an export completion confirmation is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC026",
+    "title": "Create a new alarm rule from site events alarm settings",
+    "description": "Verifies an authenticated user can create and save a new alarm rule by entering required metadata, trigger expression, and schedule.",
+    "category": "Alarm & Event Configuration",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation item for site events"
+      },
+      {
+        "type": "action",
+        "description": "Open alarm settings"
+      },
+      {
+        "type": "action",
+        "description": "Start creating a new alarm rule"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the equipment field with AlarmEquip-01"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the asset field with AlarmAsset-01"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the message field with AlarmMessage-01"
+      },
+      {
+        "type": "action",
+        "description": "Select a severity level"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid trigger expression into the expression field"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid schedule option"
+      },
+      {
+        "type": "action",
+        "description": "Save the alarm rule"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the new alarm rule appears in the alarm list"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC027",
+    "title": "Export chart image to PNG",
+    "description": "Verifies an authenticated user can export the current chart as a PNG image and sees an export completion indicator.",
+    "category": "Realtime / Historian Data Views",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link to open the charts page"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid device or source to chart"
+      },
+      {
+        "type": "action",
+        "description": "Select one or more valid parameters to chart"
+      },
+      {
+        "type": "action",
+        "description": "Request historical series data for a valid date range"
+      },
+      {
+        "type": "action",
+        "description": "Trigger export to PNG for the current chart"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an export completion confirmation is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC028",
+    "title": "Add and save a user signature",
+    "description": "Verifies an administrator can open signature management for a user, add a signature, preview it, and save successfully.",
+    "category": "User Management & Page/Site Access Control",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/setting"
+      },
+      {
+        "type": "action",
+        "description": "Create a new user for signature named Test User Sig"
+      },
+      {
+        "type": "action",
+        "description": "Open signature management for Test User Sig"
+      },
+      {
+        "type": "action",
+        "description": "Draw a signature in the signature canvas"
+      },
+      {
+        "type": "action",
+        "description": "Preview the signature"
+      },
+      {
+        "type": "action",
+        "description": "Save the signature"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a saved signature preview is displayed for the user"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC029",
+    "title": "Enable or disable an alarm and notification and save changes",
+    "description": "Verifies an authenticated user can toggle an alarm rule enabled state and its notification setting and persist the changes.",
+    "category": "Alarm & Event Configuration",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation item for site events"
+      },
+      {
+        "type": "action",
+        "description": "Open alarm settings"
+      },
+      {
+        "type": "action",
+        "description": "Toggle the enabled state for the first alarm rule in the list"
+      },
+      {
+        "type": "action",
+        "description": "Toggle the notification on/off setting for the same alarm rule"
+      },
+      {
+        "type": "action",
+        "description": "Save changes"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the alarm list reflects the updated enabled and notification states"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC030",
+    "title": "Prevent requesting chart data without required selections",
+    "description": "Verifies the charts page blocks a data request when required inputs are missing and shows a validation error.",
+    "category": "Realtime / Historian Data Views",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link to open the charts page"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to request historical series data without selecting a device or parameters"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a validation error is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC031",
+    "title": "Block progressing workflow without required approval inputs",
+    "description": "Verifies the billing operator cannot proceed to the next billing step without completing required approval actions and is shown a validation/blocking message.",
+    "category": "Billing Workflow — Energy Confirmation to Receipt",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/reports"
+      },
+      {
+        "type": "action",
+        "description": "Open a billing record from the billing list"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to proceed to the next workflow step without completing the current step's required approval action"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a blocking validation message is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC032",
+    "title": "Edit an existing notification channel and toggle active state",
+    "description": "Verifies an authenticated user can edit a notification channel, toggle Active/Inactive, and save the updated configuration.",
+    "category": "Notification Channels (Telegram / LINE / Email / Teams)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation item for settings"
+      },
+      {
+        "type": "action",
+        "description": "Open the notifications or channels list"
+      },
+      {
+        "type": "action",
+        "description": "Open the first channel in the list for editing"
+      },
+      {
+        "type": "action",
+        "description": "Toggle the channel Active/Inactive state"
+      },
+      {
+        "type": "action",
+        "description": "Save changes"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the channels list reflects the updated active state for the edited channel"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC033",
+    "title": "Validate date range boundaries for historian requests",
+    "description": "Verifies the charts page prevents submitting an invalid date range for historian data and shows a date validation error.",
+    "category": "Realtime / Historian Data Views",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link to open the charts page"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid device or source to chart"
+      },
+      {
+        "type": "action",
+        "description": "Select one or more valid parameters to chart"
+      },
+      {
+        "type": "action",
+        "description": "Set the end date earlier than the start date"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to request historical series data"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a date range validation error is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC034",
+    "title": "Prevent login when required fields are empty",
+    "description": "Verifies that the login form cannot be submitted with missing required fields and shows validation feedback.",
+    "category": "User Login",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the username field"
+      },
+      {
+        "type": "action",
+        "description": "Fill  into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a required-field validation error is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user remains on the login page"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC035",
+    "title": "Prevent running central comparative charts with an invalid date range",
+    "description": "User cannot run a central comparative charts query when the selected date range is invalid and a date validation error is shown.",
+    "category": "Performance & Trends (Central Comparative Charts)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/performance"
+      },
+      {
+        "type": "action",
+        "description": "Select an invalid date range where the end date is earlier than the start date"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to run the performance query"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a date validation error is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no comparative chart results are displayed"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC036",
+    "title": "Prevent saving global billing parameters with invalid numeric inputs",
+    "description": "Verifies the admin cannot save global billing parameters when required numeric fields contain invalid values and a validation error is shown.",
+    "category": "Billing & Billing Admin (Configuration and Workflow)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/admin"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid meter type in global billing parameters"
+      },
+      {
+        "type": "action",
+        "description": "Fill a non-numeric value into the energy cost field"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to save the global billing parameters"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a field validation error is visible"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC037",
+    "title": "Prevent saving a new notification channel with missing required fields",
+    "description": "Verifies the UI blocks saving a new notification channel when required fields are left empty and shows validation feedback.",
+    "category": "Notification Channels (Telegram / LINE / Email / Teams)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation item for settings"
+      },
+      {
+        "type": "action",
+        "description": "Open the notifications or channels list"
+      },
+      {
+        "type": "action",
+        "description": "Start adding a new channel"
+      },
+      {
+        "type": "action",
+        "description": "Select a channel type"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to save the channel without filling required fields"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify required-field validation errors are visible and the channel is not created"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC038",
+    "title": "Prevent report generation when required inputs are missing",
+    "description": "User cannot generate a report when required inputs are missing and sees form validation feedback instead of a preview.",
+    "category": "Reports (Preview & Download)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/reports"
+      },
+      {
+        "type": "action",
+        "description": "Clear required selections for report type, date range, or sites"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to generate the report"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a required-field validation error is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no report preview is displayed"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC039",
+    "title": "Show an error for invalid login credentials",
+    "description": "Verifies that submitting an incorrect password prevents login and shows an invalid-credentials error state.",
+    "category": "User Login",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill invalid-user@example.com into the username field"
+      },
+      {
+        "type": "action",
+        "description": "Fill wrong-password into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an invalid credentials error is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user remains on the login page"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC040",
+    "title": "Validate charts selection requirements before combining series",
+    "description": "User is blocked from combining charts when required selections are missing and sees a selection validation error.",
+    "category": "Site Monitoring — Dashboard, Realtime, Diagram, Charts",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the username field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /main/charts"
+      },
+      {
+        "type": "action",
+        "description": "Clear device and parameter selections if any are preselected"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to combine charts without selecting required inputs"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a selection validation error is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no combined chart results are displayed"
+      }
+    ],
+    "priority": "Low"
+  }
+]

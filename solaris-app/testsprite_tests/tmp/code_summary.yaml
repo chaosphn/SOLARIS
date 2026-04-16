@@ -1,0 +1,196 @@
+version: "2"
+type: frontend
+tech_stack:
+  - language: TypeScript
+  - framework: Angular 20
+  - ui_library:
+      - Angular Material
+      - PrimeNG
+  - other:
+      - NgRx Store
+      - Highcharts
+      - Leaflet
+      - Moment.js
+routes:
+  - path: /
+    file: src/app/app.routes.ts
+    auth_required: false
+    description: Redirects to /main/overview
+  - path: /login
+    file: src/app/core/components/login/login.ts
+    auth_required: false
+    description: User login page
+  - path: /main/overview
+    file: src/app/features/central/pages/overview/overview-module.ts
+    auth_required: false
+    description: Central overview landing page
+  - path: /main/performance
+    file: src/app/features/central/pages/performance/performance-module.ts
+    auth_required: true
+    description: Central performance page (guarded)
+  - path: /main/trend
+    file: src/app/features/central/pages/trend/trend-module.ts
+    auth_required: true
+    description: Central trend page (guarded)
+  - path: /main/tabular
+    file: src/app/features/central/pages/tabular/tabular-module.ts
+    auth_required: true
+    description: Central tabular page (guarded)
+  - path: /main/events
+    file: src/app/features/central/pages/events/events-module.ts
+    auth_required: true
+    description: Central events page (guarded)
+  - path: /main/billing/:id
+    file: src/app/features/central/pages/billing/billing-module.ts
+    auth_required: true
+    description: Billing workflow for a specific id (guarded)
+  - path: /main/reports
+    file: src/app/features/central/pages/reports/reports-module.ts
+    auth_required: true
+    description: Central reports page (guarded)
+  - path: /main/admin
+    file: src/app/features/central/pages/admin/admin-module.ts
+    auth_required: true
+    description: Admin management page (guarded)
+  - path: /main/setting
+    file: src/app/features/central/pages/setting/setting-module.ts
+    auth_required: true
+    description: Settings page (guarded)
+  - path: /main/layout
+    file: src/app/features/sites/pages/layout/layout-module.ts
+    auth_required: true
+    description: Site layout page (guarded)
+  - path: /main/dashboard
+    file: src/app/features/sites/pages/dashboard/dashboard-module.ts
+    auth_required: true
+    description: Site dashboard page (guarded)
+  - path: /main/efficiency
+    file: src/app/features/sites/pages/performance/performance-module.ts
+    auth_required: true
+    description: Site efficiency page (guarded)
+  - path: /main/realtime
+    file: src/app/features/sites/pages/realtime/realtime-module.ts
+    auth_required: true
+    description: Realtime monitoring page (guarded)
+  - path: /main/diagram
+    file: src/app/features/sites/pages/diagram/diagram-module.ts
+    auth_required: true
+    description: Site diagram page (guarded)
+  - path: /main/charts
+    file: src/app/features/sites/pages/chart/chart-module.ts
+    auth_required: true
+    description: Charts page (guarded)
+  - path: /main/event
+    file: src/app/features/sites/pages/event/event-module.ts
+    auth_required: true
+    description: Site events page (guarded)
+  - path: /main/report
+    file: src/app/features/sites/pages/report/report-module.ts
+    auth_required: true
+    description: Site report page (guarded)
+  - path: /main/report-admin
+    file: src/app/features/sites/pages/report-admin/report-admin-module.ts
+    auth_required: true
+    description: Report admin page (guarded)
+  - path: /billing-upload/:id
+    file: src/app/core/components/billing-upload/billing-upload.ts
+    auth_required: false
+    description: Billing document upload page
+  - path: /payment-upload/:id
+    file: src/app/core/components/payment-upload/payment-upload.ts
+    auth_required: false
+    description: Payment document upload page
+  - path: /notfound
+    file: src/app/core/components/not-found/not-found.ts
+    auth_required: false
+    description: Not found page
+features:
+  - name: User Login
+    description: Login with username and password, store token and permissions in localStorage.
+    files:
+      - src/app/core/components/login/login.ts
+      - src/app/shared/services/auth.service.ts
+      - src/app/shared/services/http.service.ts
+      - src/assets/config.json
+    entry_route: /login
+    user_interactions:
+      - Enter username
+      - Enter password
+      - Click Login to submit
+      - On success, navigates to last attempted route or default route
+      - On failure, sees invalid credentials message
+    api_calls:
+      - method: POST
+        endpoint: "{UrlApiAuthen}userauthen"
+    auth_required: false
+  - name: Authorization Guard (Page Permissions)
+    description: Guarded routes require route permission in localStorage 'pages'; unauthorized access shows a dialog and redirects.
+    files:
+      - src/app/core/guards/auth.guard.ts
+      - src/app/app.routes.ts
+    entry_route: /main/performance
+    user_interactions:
+      - Navigate to a guarded page
+      - If missing permission, see permission dialog and get redirected
+    api_calls: []
+    auth_required: true
+  - name: Realtime / Historian Data Views
+    description: Fetch realtime, at-time, and historian data for site monitoring views.
+    files:
+      - src/app/shared/services/http.service.ts
+    entry_route: /main/realtime
+    user_interactions:
+      - Open monitoring pages (dashboard/realtime/charts)
+      - Trigger data refresh and view updated values/graphs
+    api_calls:
+      - method: POST
+        endpoint: "{UrlApi}getrealtime"
+      - method: POST
+        endpoint: "{UrlApi}getattime"
+      - method: POST
+        endpoint: "{UrlApi}gethisdata"
+    auth_required: true
+  - name: Billing & Reports Workflow
+    description: Generate/download billing and report PDFs and manage billing configurations and states.
+    files:
+      - src/app/shared/services/http.service.ts
+    entry_route: /main/billing/:id
+    user_interactions:
+      - Open billing session by id
+      - Generate or download billing/report documents
+      - Upload billing/payment documents
+      - Approve billing or update billing workflow steps
+    api_calls:
+      - method: POST
+        endpoint: "{UrlApiBilling}genbill"
+      - method: POST
+        endpoint: "{UrlApiBilling}getbill"
+      - method: POST
+        endpoint: "{UrlApiBilling}genreport"
+      - method: POST
+        endpoint: "{UrlApiBilling}uploadbill?sesseionId={id}&siteId={siteId}"
+    auth_required: true
+  - name: Alarm / Event Analytics & Notification Config
+    description: View and configure alarm/event data and notification settings.
+    files:
+      - src/app/shared/services/http.service.ts
+    entry_route: /main/event
+    user_interactions:
+      - Open events pages
+      - Filter and view alarm/event summaries
+      - Manage notification configurations
+    api_calls:
+      - method: POST
+        endpoint: "{UrlApiNotification}event/data"
+      - method: POST
+        endpoint: "{UrlApiNotification}event/filter"
+      - method: POST
+        endpoint: "{UrlApiNotification}event/summary"
+      - method: GET
+        endpoint: "{UrlApiNotification}event/gettag"
+      - method: POST
+        endpoint: "{UrlApiNotification}event/settag"
+      - method: GET
+        endpoint: "{UrlApiNotification}config/notification"
+    auth_required: true
+known_limitations: []

@@ -666,8 +666,8 @@
                 "factor": 1
             },
             {
-                "name": "LOSS",
-                "scale": "LOSS",
+                "name": "WH_LOSS",
+                "scale": "WH_LOSS",
                 "uom": "kWh",
                 "dp": 1,
                 "factor": 1
