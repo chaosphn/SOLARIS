@@ -1,3 +1,11 @@
 <div class="w-100 h-100 chart-container">
-    <div [chart]="chart" class=" w-100 bz chart"></div>
+  @if (chartOptions) {
+    <div
+      highchartsChart
+      [options]="chartOptions"
+      (chartInstance)="onChartInstance($event)"
+      class="w-100 bz chart"
+    ></div>
+  }
 </div>
+

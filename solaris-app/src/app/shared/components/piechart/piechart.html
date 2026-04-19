@@ -1,5 +1,12 @@
 <div class="w-100 h-100 horizontal-content" [ngClass]="{'vertical-content': vertical}">
-    <div [chart]="chart" class="w-100 chart bz"></div>
+    @if (chartOptions) {
+      <div
+        highchartsChart
+        [options]="chartOptions"
+        (chartInstance)="onChartInstance($event)"
+        class="w-100 chart bz"
+      ></div>
+    }
     <div class="status-list w-100 h-100 bz">
         @for (status of statusData; track $index) {
             <div class="status-item">

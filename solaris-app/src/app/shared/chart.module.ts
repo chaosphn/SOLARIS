@@ -13,7 +13,7 @@ import { CircleProgress } from './components/circle-progress/circle-progress';
 import { PolygonCard } from './components/polygon-card/polygon-card';
 import { StackChart } from './components/stack-chart/stack-chart';
 import { Piechart } from './components/piechart/piechart';
-import { ChartModule } from 'angular-highcharts';
+import { HighchartsChartDirective } from 'highcharts-angular';
 import { Highchart } from './components/highchart/highchart';
 import { PanelLayout } from './components/panel-layout/panel-layout';
 import { ChartCard } from './components/chart-card/chart-card';
@@ -52,7 +52,7 @@ import { ShareModule } from './shared.module';
   imports: [
     CommonModule,
     FormsModule,
-    ChartModule,
+    HighchartsChartDirective,
     ShareModule,
   ],
   exports: [

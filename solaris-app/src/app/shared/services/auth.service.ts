@@ -69,12 +69,12 @@ export class AuthService {
 
     logout() {
         localStorage.clear();
+        sessionStorage.clear();
         this.router.navigate(['login']);
     }
 
     hasRole(role: string): boolean {
-        // ตัวอย่าง mock role
-        const userRoles = ['admin', 'user'];
+        const userRoles = ['administrator', 'user'];
         return userRoles.includes(role);
     }
 }

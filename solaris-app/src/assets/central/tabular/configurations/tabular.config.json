@@ -7,6 +7,10 @@
           {
             "Title": "KKB_POWER",
             "Tagname": "KKB.CALC.W"
+          },
+           {
+            "Title": "KKB_TIMEREF",
+            "Tagname": "KKB.SLG01.WAC"
           }
         ]
       },
@@ -33,8 +37,16 @@
         "Order": 1,
         "Tags": [
           {
-            "Title": "KKB_YIELD",
+            "Title": "KKB_TD",
             "Tagname": "KKB.CALC.YIELD"
+          },
+          {
+            "Title": "KKB_MTD",
+            "Tagname": "KKB.CALC.YIELD_MONTH"
+          },
+          {
+            "Title": "KKB_YTD",
+            "Tagname": "KKB.CALC.YIELD_YEAR"
           }
         ]
       },

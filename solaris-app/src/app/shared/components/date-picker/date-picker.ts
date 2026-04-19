@@ -1,7 +1,5 @@
 import { Component, ElementRef, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { Datetime } from '../../services/datetime';
-import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 
 @Component({

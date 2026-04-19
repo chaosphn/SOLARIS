@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { firstValueFrom, Observable, Subscription } from 'rxjs';
 import { NavbarStateModel } from '../../../../shared/models/navigate.model';
 import { SiteModel } from '../../../../shared/models/config.model';
@@ -282,6 +282,26 @@ export class Billing implements OnInit, OnDestroy {
         this.siteList.set(sites);
       };
     });
+
+    effect(() => {
+      if(this.siteList() && !this.selectedSite){
+        //console.log(this.siteList(), this.siteSelected())
+        const urlParts = this.router.url.split('/');
+        const sessionId = urlParts[urlParts.length - 1];
+        if(sessionId !== 'viewer'){
+          const sessiondata: any = this.safeBase64Decode(sessionId);
+          const sessionObj = JSON.parse(sessiondata);
+          const site = this.siteList().find(x => x.id === sessionObj.pointsource);
+          if(site){
+            this.selectedSite = {
+              value: sessionObj.pointsource,
+              icon: 'factory',
+              label: site.name
+            } as DropdownOption
+          }
+        }
+      }
+    })
   }
 
   ngOnInit(): void {
@@ -306,7 +326,7 @@ export class Billing implements OnInit, OnDestroy {
           this.selectedSite = selectedOption;
         }
         this.date = new Date(sessionObj.timestamp);
-        this.getBillingStateData();
+        //this.getBillingStateData();
       }
     }
     this.getBillingConfigData();
@@ -315,6 +335,22 @@ export class Billing implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     
+  }
+
+  async applySiteSelected(siteId: string){
+    const res = await firstValueFrom(
+      this.store.select(getAllConfig())
+    );
+
+    const site = res[0]?.siteList.find(x => x.id === siteId);
+    //console.log(site, res)
+    if(site){
+      this.selectedSite = {
+        value: siteId,
+        icon: 'factory',
+        label: site.name
+      } as DropdownOption
+    }
   }
 
   async getBillingStateData(){

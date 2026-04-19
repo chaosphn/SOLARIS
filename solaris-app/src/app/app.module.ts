@@ -1,5 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { provideHighcharts } from 'highcharts-angular';
 import { App } from './app';
 import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './app.routes';
@@ -20,6 +21,7 @@ import { CustomUrlSerializer } from './shared/services/url-serialize';
     AppRoutingModule,
   ],
   providers: [
+    provideHighcharts(),
     AppInitService,
     {
       provide: APP_INITIALIZER,

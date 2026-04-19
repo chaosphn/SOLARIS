@@ -101,7 +101,7 @@ export class Tabular implements OnInit, OnDestroy {
               row[h.Name] = item.capacity;
               break;
             case 'seen': 
-              row[h.Name] = realtime?.[`${item.id}_POWER`]?.TimeStamp || '---';
+              row[h.Name] = realtime?.[`${item.id}_TIMEREF`]?.TimeStamp || '---';
               break;
             default:
               // Debug: log what we're looking for
@@ -611,6 +611,8 @@ export class Tabular implements OnInit, OnDestroy {
 
   getPlantStatus(pointSource: string){
     const summary = this.eventSummary().find(x => x.PointSource === pointSource);
+    const lastseen = this.tableData().find(x => x.Id === pointSource)?.SEEN;
+    //console.log(summary, lastseen)
     if(summary){
       if(summary.Major > 0){
         return 'major'; 
@@ -624,7 +626,7 @@ export class Tabular implements OnInit, OnDestroy {
         return 'default';
       }
     } else {
-      return 'default';
+      return lastseen && lastseen != '---' ? 'info' : 'default';
     } 
   }
 

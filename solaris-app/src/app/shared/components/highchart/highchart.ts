@@ -1,8 +1,5 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { ChartModule } from 'angular-highcharts';
-import { Chart } from 'angular-highcharts';
-import { Series, SeriesOptionsType } from 'highcharts';
-import { splitNsName } from '@angular/compiler';
+import { Component, effect, inject, input } from '@angular/core';
+import type { Chart, Options } from 'highcharts';
 import { isDate } from 'moment';
 import { ChartParameters } from '../../models/highchart.model';
 import { Datetime } from '../../services/datetime';
@@ -15,8 +12,8 @@ import { Datetime } from '../../services/datetime';
 })
 export class Highchart  {
   
-  chart?: Chart;
-  ref?: Highcharts.Chart;
+  chartOptions?: Options;
+  ref?: Chart;
   chartParameter = input.required<ChartParameters>({});
   today = new Date(new Date().setHours(23,59,0,0)).getTime() + 7 * 60 * 60 * 1000;
   yester = new Date(new Date().setHours(0,0,0,0)).getTime() + 7 * 60 * 60 * 1000;
@@ -27,21 +24,22 @@ export class Highchart  {
       if( this.chartParameter() && this.chartParameter()?.series && this.chartParameter()?.yAxis != undefined  && this.chartParameter()?.chart && this.chartParameter()?.xAxis ){
         this.init();
       } else {
-        this.chart = undefined;
+        this.chartOptions = undefined;
+        this.ref = undefined;
       }
     });
   }
 
   addPoint() {
-    if (this.chart) {
-      this.chart.addPoint(Math.floor(Math.random() * 10), 0, false);
+    if (this.ref?.series[0]) {
+      this.ref.series[0].addPoint(Math.floor(Math.random() * 10), false, false);
     } else {
       alert('init chart, first!');
     }
   }
 
   addSerie() {
-    this.chart?.addSeries({
+    this.ref?.addSeries({
       type: 'line',
       name: 'Line ' + Math.floor(Math.random() * 10),
       data: [
@@ -59,15 +57,21 @@ export class Highchart  {
   }
 
   removePoint() {
-    if (this.ref) {
-      this.chart?.removePoint(this.ref.series[0].data.length - 1);
+    const s0 = this.ref?.series[0];
+    if (s0 && s0.data.length > 0) {
+      s0.removePoint(s0.data.length - 1, true);
     }
   }
 
   removeSerie() {
-    if (this.ref) {
-      this.chart?.removeSeries(this.ref?.series.length - 1);
+    const last = this.ref?.series.at(-1);
+    if (last) {
+      last.remove(true);
     }
+  }
+
+  onChartInstance(chart: Chart) {
+    this.ref = chart;
   }
 
   splitName(txt: string, idx: number){
@@ -80,7 +84,7 @@ export class Highchart  {
   }
 
   init() {
-    let chart = new Chart({
+    const options: Options = {
       chart: this.chartParameter()?.chart,
       title: {
         text: undefined,
@@ -179,16 +183,8 @@ export class Highchart  {
       },
       plotOptions: this.chartParameter()?.plotOptions,
       responsive: this.chartParameter()?.responsive || {},
-    });
-    ////console.log(chart)
-    // chart.addPoint(4, 0, false);
-    this.chart = chart;
-    // chart.addPoint(5, 0, false);
-    if (this.chart && this.chart.ref$) {
-      this.chart.ref$.subscribe(ref => {
-        this.ref = ref;
-      });
-    }
+    };
+    this.chartOptions = options;
   }
 
 }

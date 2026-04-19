@@ -5,7 +5,7 @@
         [data]="reduction()"
         [title]="'CO₂ REDUCTION'"
         [icon]="'filter_drama'" 
-        [value]="reduction()?.Value | numberFomat: '1.0-1'" 
+        [value]="reduction()?.Value | numberFomat: '1.0-0'" 
         [unit]="'kgCO₂'"></app-polygon-card>
    </div>
    <div class="bz d-flex-ct">
@@ -14,7 +14,7 @@
         [data]="credit()"
         [title]="'CO₂ CREDIT'" 
         [icon]="'filter_drama'" 
-        [value]="credit()?.Value | numberFomat: '1.0-1'" 
+        [value]="credit()?.Value | numberFomat: '1.0-0'" 
         [unit]="'tCO₂'"></app-polygon-card>
     </div>
     <div class="bz d-flex-ct">
@@ -23,7 +23,7 @@
         [data]="tree()"
         [title]="'TREE SAVING'" 
         [icon]="'forest'"
-        [value]="tree()?.Value | numberFomat: '1.0-1'" 
+        [value]="tree()?.Value | numberFomat: '1.0-0'" 
         [unit]="'Trees'"></app-polygon-card>
    </div>
    <div class="bz d-flex-ct">
@@ -32,7 +32,7 @@
         [data]="oil()"
         [title]="'OIL SAVING'"
         [icon]="'oil_barrel'" 
-        [value]="oil()?.Value | numberFomat: '1.0-1'" 
+        [value]="oil()?.Value | numberFomat: '1.0-0'" 
         [unit]="'Lites'"></app-polygon-card>
     </div>
 </div>
