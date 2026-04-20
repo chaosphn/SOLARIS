@@ -14,6 +14,7 @@ export interface SiteModel{
     position: PositionModel;
     capacity: string;
     invtype?: string;
+    cod: string;
 }
 
 export interface PositionModel{

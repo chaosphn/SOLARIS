@@ -36,7 +36,7 @@
             </div>
             <div class="info-content">
             <span class="label">COD :</span>
-            <span class="value">{{ cod() }}</span>
+            <span class="value">{{ cod() ? (cod() | date:'dd-MMM-yyyy') : '---' }}</span>
             </div>
         </div>
     </div>

@@ -11,7 +11,7 @@
             <!-- Production -->
             <div class="metric-card">
                 <div class="metric-label">PRODUCTION</div>
-                <div class="metric-value" [matTooltip]="tooltipSrv.getTooltip(energy())" matTooltipPosition="above">{{ energy()?.Value | numberFomat: '1.0-2' }}</div>
+                <div class="metric-value" [matTooltip]="tooltipSrv.getTooltip(energy())" matTooltipPosition="above">{{ energy()?.Value | numberFomat: '1.0-0' }}</div>
                 <div class="metric-unit">{{ energy()?.Unit || '-' }}</div>
             </div>
             

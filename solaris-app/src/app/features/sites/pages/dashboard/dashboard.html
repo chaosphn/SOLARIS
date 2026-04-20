@@ -6,7 +6,7 @@
                     [site]="siteInfomation().name"
                     [location]="siteInfomation().location"
                     [capacity]="siteInfomation().capacity + ' MWp'"
-                    [cod]="'---'"
+                    [cod]="siteInfomation().cod"
                 ></app-infomation-card>
             </ng-template>
         </app-card-container>
@@ -42,11 +42,11 @@
 
                     [title1]="'MONTHLY ENERGY'"
                     [value1]="dataRealtime()['MONTHLY']"
-                    [unit1]="'MWh'"
+                    [unit1]="dataRealtime()['MONTHLY']?.Unit || ''"
 
                     [title2]="'YEARLY ENEGY'"
                     [value2]="dataRealtime()['YEARLY']"
-                    [unit2]="'MWh'"
+                    [unit2]="dataRealtime()['YEARLY']?.Unit || ''"
             ></app-power-consumption>
             </ng-template>
         </app-card-container>

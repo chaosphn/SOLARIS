@@ -600,22 +600,24 @@
         "tags": [
           {
             "name": "KKB.CALC.PYRANO",
-            "title": "PYRANO*W/m²",
+            "title": "IRRADIANCE*W/m²",
             "options": {
               "yAxis": 0,
               "type": "area",
               "color": "#FF9B33",
-              "fillOpacity": 0.125
+              "fillOpacity": 0.125,
+              "showInLegend": true
             }
           },
           {
             "name": "KKB.CALC.W",
-            "title": "POWER*kW",
+            "title": "PRODUCE*kW",
             "options": {
               "yAxis": 1,
               "type": "area",
               "color": "#3DB1FC",
-              "fillOpacity": 0.125
+              "fillOpacity": 0.125,
+              "showInLegend": true
             }
           },
           {
@@ -625,7 +627,8 @@
               "yAxis": 1,
               "type": "area",
               "color": "#d1FC",
-              "fillOpacity": 0.125
+              "fillOpacity": 0.125,
+              "showInLegend": true
             }
           }
         ],
@@ -658,7 +661,7 @@
             "backgroundColor": "none",
             "animation": true,
             "margin": [
-              10,
+              30,
               70,
               30,
               60
@@ -741,7 +744,14 @@
             },
             "max": "t"
           },
-          "legend": {},
+          "legend": {
+            "enabled": true,
+              "floating": true,
+              "align": "center",
+              "verticalAlign": "top",
+              "layout": "horizontal",
+              "y": -15
+          },
           "plotOptions": {}
         }
       },

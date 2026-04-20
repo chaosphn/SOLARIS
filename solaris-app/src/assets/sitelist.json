@@ -19,7 +19,8 @@
 						"lng": 102.82415187729329
 					},
 					"capacity": "4.219",
-					"invtype": "CENTRAL"
+					"invtype": "CENTRAL",
+					"cod": "2026-01-23T17:00:00.000Z"
 				},
 				{
 					"id": "KMD",
@@ -31,7 +32,8 @@
 						"lng": 100.76913233094028
 					},
 					"capacity": "1.14",
-					"invtype": "CENTRAL"
+					"invtype": "CENTRAL",
+					"cod": ""
 				},
 				{
 					"id": "VFP1",
@@ -43,7 +45,8 @@
 						"lng": 100.06607225612235
 					},
 					"capacity": "0.993",
-					"invtype": "CENTRAL"
+					"invtype": "CENTRAL",
+					"cod": ""
 				},
 				{
 					"id": "PSC",
@@ -55,7 +58,8 @@
 						"lng": 101.3663123462175
 					},
 					"capacity": " 0.999",
-					"invtype": "CENTRAL"
+					"invtype": "CENTRAL",
+					"cod": ""
 				},
 				{
 					"id": "SPC",
@@ -67,7 +71,8 @@
 						"lng": 99.74312310486084
 					},
 					"capacity": "0.460",
-					"invtype": "CENTRAL"
+					"invtype": "CENTRAL",
+					"cod": ""
 				},
 				{
 					"id": "VFP2",
@@ -79,7 +84,8 @@
 						"lng": 100.06603865912146
 					},
 					"capacity": "0.999",
-					"invtype": "CENTRAL"
+					"invtype": "CENTRAL",
+					"cod": ""
 				},
 				{
 					"id": "SRB",
@@ -91,7 +97,8 @@
 						"lng": 99.18426802620452
 					},
 					"capacity": "0.999",
-					"invtype": "STRING"
+					"invtype": "STRING",
+					"cod": ""
 				},
 				{
 					"id": "WNB2",
@@ -103,7 +110,8 @@
 						"lng": 100.62253736280259
 					},
 					"capacity": "2.485",
-					"invtype": "CENTRAL"
+					"invtype": "CENTRAL",
+					"cod": ""
 				},
 				{
 					"id": "BAB",
@@ -115,7 +123,8 @@
 						"lng": 100.43014473831514
 					},
 					"capacity": "1.495",
-					"invtype": "CENTRAL"
+					"invtype": "CENTRAL",
+					"cod": ""
 				},
 				{
 					"id": "SBC",
@@ -127,7 +136,8 @@
 						"lng": 100.27882687920783
 					},
 					"capacity": "8.501",
-					"invtype": "CENTRAL"
+					"invtype": "CENTRAL",
+					"cod": ""
 				}
 			]
 

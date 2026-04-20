@@ -4,7 +4,7 @@
             <ng-template #container>
                 <app-performance-summary
                     [title]="'PR'"
-                    [value]="(dataRealtime()['PR']?.Value | number: '1.0-2') ?? ''"
+                    [value]="(dataRealtime()['PR']?.Value | number: '1.0-0') ?? ''"
                     [unit]="'%'"
                     [percent]="dataRealtime()['PR']"
 

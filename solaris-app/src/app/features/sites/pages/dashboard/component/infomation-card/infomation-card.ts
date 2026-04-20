@@ -10,5 +10,5 @@ export class InfomationCard {
   site = input<string>('---');
   location = input<string>('---');
   capacity = input<string>('---');
-  cod = input<string>('---');
+  cod = input<string>('');
 }

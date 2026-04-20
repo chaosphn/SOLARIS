@@ -10,7 +10,7 @@
         },
         {
           "Title": "ENERGY",
-          "Tagname": "KKB.CALC.WH_DAY"
+          "Tagname": "KKB.CALC.WH_TODAY"
         },
         {
           "Title": "YIELD",
@@ -2975,7 +2975,7 @@
       "tags": [
         {
           "name": "KKB.CALC.PYRANO",
-          "title": "PYRANO*W/m2",
+          "title": "IRRADIANCE*W/m²",
           "options": {
             "yAxis": 0,
             "type": "area",
@@ -2986,7 +2986,7 @@
         },
         {
           "name": "KKB.CALC.W",
-          "title": "POWER*kW",
+          "title": "PRODUCE*kW",
           "options": {
             "yAxis": 1,
             "type": "area",

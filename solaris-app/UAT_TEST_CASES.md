@@ -290,6 +290,54 @@ Main user journeys covered by this UAT set:
   - Navigation works normally.
   - State from previous site page does not bleed into next page.
 
+### UAT-G01a - Site Layout: Renders correctly with Data Caching
+- **Precondition**: Logged in with site access
+- **Steps**
+  1. Open `/#/main/layout`.
+  2. Wait for data to load, then navigate to `/#/main/dashboard` and back within 2 minutes.
+- **Expected**
+  - Data renders correctly (SVG panels, map config, etc.).
+  - Navigating back within 2 minutes loads data from the Store cache without triggering new API requests.
+  - If 2 minutes pass, cache invalidates and new data is requested.
+
+### UAT-G01b - Site Layout: Inverter Status calculations
+- **Precondition**: Site has realtime properties mapped to `INV<X>_STATUS`
+- **Steps**
+  1. Open `/#/main/layout`.
+  2. Evaluate Plant Status (Pie Chart) numbers compared to raw realtime data.
+- **Expected**
+  - "INV NORMAL" counts inverters missing 771 and outside range 699-799.
+  - "INV FAULT" counts inverters in range 699-799 (excluding 771).
+  - "INV FCOM" counts missing status or value 771.
+
+### UAT-G01c - Site Dashboard: Chart Date Picker (Historian Range)
+- **Precondition**: Dashboard containing at least one chart with a date/time picker
+- **Steps**
+  1. Open `/#/main/dashboard`.
+  2. Find a specific chart and change its date/time range using the chart picker.
+- **Expected**
+  - A loading indicator specifically targets that chart.
+  - Only the targeted chart's historian data is requested and updated without reloading the entire page or other widgets.
+
+### UAT-G01d - Site Performance: Dynamic Plot Lines Calculation
+- **Precondition**: Site Performance page has a chart configured with `maxValue`, `minValue`, or `averageValue` plot lines
+- **Steps**
+  1. Open `/#/main/performance`.
+  2. Observe the Y-Axis plot lines (e.g., max, min, average overlays).
+  3. Use the Chart Date Picker to change the time range.
+- **Expected**
+  - The calculated values on the plot lines reflect exactly the max/min/average of the sequence of historian data on the screen.
+  - Updating the date range correctly recalculates these boundaries based on the newly fetched data series.
+
+### UAT-G01e - Site Performance: Column Charts via Categories
+- **Precondition**: Performance config includes a chart with explicit x-axis categories
+- **Steps**
+  1. Open `/#/main/performance`.
+  2. Locate the categorized chart (e.g., comparison of energy per equipment).
+- **Expected**
+  - The chart gracefully formats as a 'column' chart instead of a continuous strict time-series line.
+  - Data points map correctly to their categories based on the last available historian record.
+
 ### UAT-G02 - Realtime page shows current values correctly
 - **Precondition**: Logged in with `realtime` permission
 - **Steps**
