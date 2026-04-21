@@ -39,6 +39,36 @@ export class Events implements OnInit, OnDestroy {
   selectedEvent = signal<EventDataModel>({} as EventDataModel);
   selectedOptions: any = {};
 
+  // ─── Table pagination ────────────────────────────────────────────────────────
+  pageSizeOptions: number[] = [10, 15, 20, 50, 100];
+  pageSize = signal<number>(15);
+  currentPage = signal<number>(1); // 1-based
+
+  totalRows = computed(() => this.eventList().length);
+  totalPages = computed(() => {
+    const total = this.totalRows();
+    const size = this.pageSize();
+    return Math.max(1, Math.ceil(total / Math.max(1, size)));
+  });
+
+  pagedEventList = computed(() => {
+    const rows = this.eventList();
+    const size = Math.max(1, this.pageSize());
+    const page = Math.min(Math.max(1, this.currentPage()), this.totalPages());
+    const start = (page - 1) * size;
+    return rows.slice(start, start + size);
+  });
+
+  pageRangeText = computed(() => {
+    const total = this.totalRows();
+    if (total === 0) return '0–0 of 0';
+    const size = Math.max(1, this.pageSize());
+    const page = Math.min(Math.max(1, this.currentPage()), this.totalPages());
+    const start = (page - 1) * size + 1;
+    const end = Math.min(total, page * size);
+    return `${start}–${end} of ${total}`;
+  });
+
   private http = inject(HttpService);
   private store = inject(Store);
   private dateTimeSrv = inject(Datetime);
@@ -85,8 +115,10 @@ export class Events implements OnInit, OnDestroy {
           Action: 'muted'
         }
       }));
+      this.currentPage.set(1);
     } else {
       this.eventList.set([]);
+      this.currentPage.set(1);
     }
   }
 
@@ -153,8 +185,8 @@ export class Events implements OnInit, OnDestroy {
       EndTime: new Date(en).toISOString(),
       Type: this.selectedOptions['Type']?.value || undefined,
       Level: this.selectedOptions['Level']?.value || undefined,
-      Equipments: this.selectedOptions['Equipment']?.value || undefined,
-      Assets: undefined
+      Assets: this.selectedOptions['Equipment']?.value || undefined,
+      Equipments: undefined
     };
     this.selectedEvent.set({} as EventDataModel);
     const result = await this.http.getFilteredAlarmEventData(request);
@@ -165,9 +197,26 @@ export class Events implements OnInit, OnDestroy {
           Action: 'muted'
         }
       }));
+      this.currentPage.set(1);
     } else {
       this.eventList.set([]);
+      this.currentPage.set(1);
     }
+  }
+
+  setPageSizeFromEvent(ev: Event) {
+    const value = Number((ev.target as HTMLSelectElement)?.value);
+    const nextSize = Number.isFinite(value) && value > 0 ? value : 10;
+    this.pageSize.set(nextSize);
+    this.currentPage.set(1);
+  }
+
+  prevPage() {
+    this.currentPage.update(p => Math.max(1, p - 1));
+  }
+
+  nextPage() {
+    this.currentPage.update(p => Math.min(this.totalPages(), p + 1));
   }
 
   exportEventListCsv(): void {

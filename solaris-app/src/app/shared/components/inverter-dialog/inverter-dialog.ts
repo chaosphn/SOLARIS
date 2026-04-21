@@ -165,6 +165,23 @@ export class InverterDialog implements OnInit {
     return { message: 'Unknown', color: '#808080' };
   }
 
+  getStatusType(value: any): 'normal' | 'warning' | 'error' {
+    if (value === null || value === undefined) {
+      return 'error';
+    }
+    const status = invstatus.find(s => s.value === parseInt(value));
+    if (status) {
+      if (status.color === '#00FF00') {
+        return 'normal';
+      } else if (status.color === '#FFFF00' || status.color === '#FFA500') {
+        return 'warning';
+      } else if (status.color === '#FF0000') {
+        return 'error';
+      }
+    }
+    return 'error';
+  }
+
 }
 
 export const invstatus = [
@@ -204,3 +221,6 @@ export const invstatus = [
 
 	{ "value": 40960, "message": "No irradiation", "color": "#808080" }
 ];
+
+
+

@@ -67,14 +67,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for (item of eventList(); track $index) {
+                            @for (item of pagedEventList(); track $index) {
                                 <tr (click)="onRowSelect(item)" [ngClass]="{ 'active-event' : item.ID == selectedEvent().ID}">
                                     <td>
-                                        @if(!item.EndTime){
+                                        @if(item.Type === "alarm"){
                                             <i class="material-icons major">alarm</i>
-                                        }  
-                                        @if(item.EndTime) {
+                                        }  @else if(item.Type === "event"){ 
                                             <i class="material-icons event">event</i>
+                                        } @else { 
+                                            <i class="material-icons info">question_mark</i>
                                         }
                                     </td>
                                     <td>
@@ -115,6 +116,41 @@
                                 </tr>
                             }
                         </tbody>
+                        <tfoot>
+                            <tr class="tbl-footer-row">
+                                <td colspan="8">
+                                    <div class="tbl-footer">
+                                        <div class="tbl-footer__left">
+                                            <span class="tbl-footer__label">Rows per page</span>
+                                            <select class="tbl-footer__select"
+                                                [value]="pageSize()"
+                                                (change)="setPageSizeFromEvent($event)"
+                                                [disabled]="eventList().length === 0">
+                                                @for (opt of pageSizeOptions; track $index) {
+                                                    <option [value]="opt">{{ opt }}</option>
+                                                }
+                                            </select>
+                                        </div>
+
+                                        <div class="tbl-footer__right">
+                                            <span class="tbl-footer__range">{{ pageRangeText() }}</span>
+                                            <button class="tbl-footer__btn"
+                                                (click)="prevPage()"
+                                                [disabled]="currentPage() <= 1 || eventList().length === 0"
+                                                title="Previous page">
+                                                <span class="material-icons">chevron_left</span>
+                                            </button>
+                                            <button class="tbl-footer__btn"
+                                                (click)="nextPage()"
+                                                [disabled]="currentPage() >= totalPages() || eventList().length === 0"
+                                                title="Next page">
+                                                <span class="material-icons">chevron_right</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>

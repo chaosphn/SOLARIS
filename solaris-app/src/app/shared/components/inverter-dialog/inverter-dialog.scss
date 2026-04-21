@@ -80,7 +80,7 @@
       border-radius: 50%;
     }
 
-    &.running {
+    &.normal {
       background: rgba(52, 211, 153, 0.12);
       color: #34d399;
       border: 1px solid rgba(52, 211, 153, 0.3);
@@ -92,7 +92,17 @@
       }
     }
 
-    &.stopped {
+    &.warning {
+      background: rgba(239, 208, 68, 0.12);
+      color: #f8ef71;
+      border: 1px solid rgba(239, 222, 68, 0.3);
+
+      .status-dot {
+        background: #f8ef71;
+      }
+    }
+
+    &.error {
       background: rgba(239, 68, 68, 0.12);
       color: #f87171;
       border: 1px solid rgba(239, 68, 68, 0.3);

@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="header-right">
-      <div class="status-badge" [class.running]="checkStatus(dataRealtime()['RUN']?.Value) === true" [class.stopped]="checkStatus(dataRealtime()['RUN']?.Value) !== true">
+      <div class="status-badge" [class.normal]="getStatusType(dataRealtime()['DSTATUS']?.Value) === 'normal'" [class.warning]="getStatusType(dataRealtime()['DSTATUS']?.Value) === 'warning'" [class.error]="getStatusType(dataRealtime()['DSTATUS']?.Value) === 'error'">
         <span class="status-dot" [style.background-color]="getStatusInfo(dataRealtime()['DSTATUS']?.Value).color"></span>
         {{ getStatusInfo(dataRealtime()['DSTATUS']?.Value).message }}
       </div>

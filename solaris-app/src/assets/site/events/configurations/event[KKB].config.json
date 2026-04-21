@@ -51,12 +51,12 @@
         "icon": "construction"
       },
       {
-        "value": "METERS",
+        "value": "POWER METER",
         "label": "Power Merters",
         "icon": "construction"
       },
       {
-        "value": "WEATHER",
+        "value": "WEATHER STATION",
         "label": "Weather Station",
         "icon": "construction"
       }
