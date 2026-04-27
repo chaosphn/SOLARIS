@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { BillingConfigModel, CreateBillingRequestModel, DeleteBillingRequestModel, UpdateBillingRequestModel, User } from '../../models/billing.model';
+import { BillingConfigModel, CreateBillingRequestModel, DeleteBillingRequestModel, UpdateBillingRequestModel } from '../../models/billing.model';
 import { HttpService } from '../../../../shared/services/http.service';
 import { Store } from '@ngrx/store';
 import { sendMessage } from '../../../../store/actions/toaster.actions';
@@ -9,6 +9,7 @@ import { getAllConfig } from '../../../../store/selectors/site.selectors';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialog, ConfirmDialogData } from '../../../../shared/components/confirm-dialog/confirm-dialog';
 import { UserDataModel } from '../../../../shared/models/user.model';
+import { HolidayRequestModel } from '../../../../shared/models/holiday.model';
 
 @Component({
   selector: 'app-admin',
@@ -38,10 +39,11 @@ export class Admin implements OnInit {
   private nextId: number = 1;
 
   // Holiday Settings
-  selectedHolidayDate: Date | null = null;
+  selectedYear: Date = new Date();
+  selectedHolidayDate: Date = new Date();
   holidayStartDate: Date | null = null;
   holidayEndDate: Date | null = null;
-  holidayArr: Date[] = [];
+  holidayArr = signal<Date[]>([]);
   removable: boolean = true;
 
   userRole = signal<string>('user');
@@ -73,26 +75,48 @@ export class Admin implements OnInit {
     if(role){
       this.userRole.set(role);
     }
-    this.holidayArr = [
-      new Date(2025, 0, 1),  // Jan 1 - New Year
-      new Date(2025, 1, 14), // Feb 14 - Valentine's Day
-      new Date(2025, 3, 6),  // Apr 6 - Chakri Day
-      new Date(2025, 3, 13), // Apr 13 - Songkran
-      new Date(2025, 3, 14), // Apr 14 - Songkran
-      new Date(2025, 3, 15), // Apr 15 - Songkran
-      new Date(2025, 4, 1),  // May 1 - Labour Day
-      new Date(2025, 4, 5),  // May 5 - Coronation Day
-      new Date(2025, 6, 28), // Jul 28 - King's Birthday
-      new Date(2025, 7, 12), // Aug 12 - Queen's Birthday
-      new Date(2025, 9, 13), // Oct 13 - King Bhumibol Day
-      new Date(2025, 9, 23), // Oct 23 - Chulalongkorn Day
-      new Date(2025, 11, 5), // Dec 5 - King Bhumibol Birthday
-      new Date(2025, 11, 10), // Dec 10 - Constitution Day
-      new Date(2025, 11, 31)  // Dec 31 - New Year's Eve
-    ];
     this.initializeUserData();
     this.getBillingConfigData();
     this.getSiteListData();
+    this.getHolidaysFromBackend();
+  }
+
+  private getDateKey(date: Date): string {
+    const d = new Date(date);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
+  private toLocalStartOfDay(date: Date): Date {
+    const d = new Date(date);
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  }
+
+  async getHolidaysFromBackend(): Promise<void> {
+    try {
+      const year = this.selectedYear?.getFullYear?.() ?? new Date().getFullYear();
+      const request: HolidayRequestModel = {
+        StartDate: `${year}-01-01`,
+        EndDate: `${year}-12-31`
+      };
+      const result = await this.httpSrv.getReportHoliday(request);
+      if (result && result.length > 0) {
+        const uniqueByDate = new Map<string, Date>();
+        for (const holiday of result as any[]) {
+          const localDate = this.toLocalStartOfDay(new Date(holiday.StartDate));
+          uniqueByDate.set(this.getDateKey(localDate), localDate);
+        }
+        const dates = Array.from(uniqueByDate.values()).sort((a, b) => a.getTime() - b.getTime());
+        this.holidayArr.set(dates);
+      } else {
+        this.holidayArr.set([]);
+      }
+    } catch (error) {
+      console.error('Failed to fetch holidays:', error);
+      this.sendMessageToState('error', 'Failed to load holidays from server');
+    }
   }
 
   async getBillingConfigData(){
@@ -317,7 +341,17 @@ export class Admin implements OnInit {
   // Holiday Methods
   selectHolidayDate(date: Date): void {
     this.selectedHolidayDate = date;
-    this.setHolidays();
+    const selected = this.toLocalStartOfDay(date);
+    const selectedKey = this.getDateKey(selected);
+    this.holidayArr.update(arr => {
+      const dateExists = arr.some(d => this.getDateKey(d) === selectedKey);
+      if (!dateExists) {
+        const newArr: Date[] = [...arr, selected];
+        newArr.sort((a, b) => a.getTime() - b.getTime());
+        return newArr;
+      } else {        return arr;
+      } 
+    });
   }
 
   onHolidayStartDateChange(date: Date): void {
@@ -328,59 +362,68 @@ export class Admin implements OnInit {
     this.holidayEndDate = date;
   }
 
-  setHolidays(): void {
-    if (this.holidayStartDate && this.holidayEndDate) {
-      // Add range of dates
-      const start = new Date(this.holidayStartDate);
-      const end = new Date(this.holidayEndDate);
-      
-      if (start > end) {
-        alert('Start date must be before end date');
+  async setHolidays(): Promise<void> {
+    try {
+      if (this.holidayArr().length === 0) {
+        this.sendMessageToState('warn', 'Please select date!');
         return;
       }
-
-      const currentDate = new Date(start);
-      while (currentDate <= end) {
-        const dateExists = this.holidayArr.some(
-          d => d.toDateString() === currentDate.toDateString()
-        );
-        
-        if (!dateExists) {
-          this.holidayArr.push(new Date(currentDate));
-        }
-        currentDate.setDate(currentDate.getDate() + 1);
-      }
-
-      this.holidayArr.sort((a, b) => a.getTime() - b.getTime());
-      alert('Holidays added successfully!');
-      
-    } else if (this.selectedHolidayDate != null) {
-      // Add single date
-      const stDate = this.selectedHolidayDate;
-      const dateExists = this.selectedHolidayDate != null && this.holidayArr.some(
-        d => d.toISOString() === new Date(stDate).toISOString()
-      );
-      
-      if (!dateExists) {
-        this.holidayArr.push(new Date(this.selectedHolidayDate));
-        this.holidayArr.sort((a, b) => a.getTime() - b.getTime());
-        alert('Holiday added successfully!');
+      // Save to backend
+      const res = await this.saveHolidaysToBackend();
+      if(res){
+        await this.getHolidaysFromBackend();
       } else {
-        alert('This date is already in the holiday list');
+        this.sendMessageToState('error', 'Failed to save holidays to server');
+        return;
       }
-    } else {
-      alert('Please select a date or date range');
+      this.sendMessageToState('success', 'Holiday added successfully!');
+      this.selectedHolidayDate = new Date();
+    } catch (error) {
+      console.error('Failed to save holidays:', error);
+      this.sendMessageToState('error', 'Failed to save holidays');
     }
+  }
+
+  async saveHolidaysToBackend(): Promise<any> {
+    const year = this.selectedYear?.getFullYear?.() ?? new Date().getFullYear();
+    const startOfYear = new Date(year, 0, 1);
+    const endOfYear = new Date(year, 11, 31);
+
+    const payload = {
+      start: this.getDateKey(startOfYear),
+      end: this.getDateKey(endOfYear),
+      holidays: this.holidayArr().map(d => {
+        const start = this.toLocalStartOfDay(d);
+        const end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
+        return ({
+        Name: "Custom Holiday",
+        Type: 'custom',
+        StartDate: start.toISOString(),
+        EndDate: end.toISOString()
+        });
+      })
+    };
+
+    const result = await this.httpSrv.setReportHoliday(payload);
+    if (result) return result;
+    throw new Error('Failed to save holidays to backend');
   }
 
   filterDateByMonth(monthNo: number, dates: Date[]): Date[] {
     return dates.filter(date => date.getMonth() + 1 === monthNo);
   }
 
-  removeHoliday(date: Date): void {
-    this.holidayArr = this.holidayArr.filter(
-      d => d.toDateString() !== date.toDateString()
-    );
+  async removeHoliday(date: Date): Promise<void> {
+    try {
+      this.holidayArr.update(arr => arr.filter(d => d.toDateString() !== date.toDateString()));
+      
+      // Save updated list to backend
+      // await this.saveHolidaysToBackend();
+      // this.sendMessageToState('success', 'Holiday removed successfully!');
+    } catch (error) {
+      console.error('Failed to remove holiday:', error);
+      this.sendMessageToState('error', 'Failed to remove holiday');
+    }
   }
 
   getDaySuffix(day: number): string {

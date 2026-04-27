@@ -53,6 +53,7 @@ import {
 } from '../../features/central/models/billing.model';
 import { CreateReportRequestModel, DeleteReportRequestModel, ReportConfigResponseModel, ReportResponseModel, UpdateReportRequestModel } from '../../features/central/models/report.model';
 import { AddNotificationConfigModel, DeleteNotificationConfigModel, EventConfigModel, EventConfigResponseModel, EventDataModel, EventRequestModel, EventSummaryModel, ExpressionParseResultModel, FilterEventRequestModel, NotificationConfigModel, UpdateNotificationConfigModel } from '../../features/sites/models/event.model';
+import { HolidayRequestModel, HolidayResponseModel, SetHolidayModel, SetHolidayRequestModel } from '../models/holiday.model';
 
 @Injectable({
     providedIn: 'root'
@@ -840,5 +841,22 @@ export class HttpService {
         );
         return res as Blob;
     };
+
+    async getReportHoliday(req: HolidayRequestModel) {
+        const body = req;
+        const res = await firstValueFrom(
+            this.httpClient.post<HolidayResponseModel[]>(this.appLoadService.config.UrlApi + 'getholidays', body)
+        );
+        return res;
+    }
+
+    async setReportHoliday(item: SetHolidayRequestModel) {
+        const body = item;
+
+        const res = await firstValueFrom(
+            this.httpClient.post(this.appLoadService.config.UrlApi + 'customholidays' ,body)
+        );
+        return res;
+    }
     
 }

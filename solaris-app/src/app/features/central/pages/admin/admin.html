@@ -386,25 +386,14 @@
                         </div>
                         
                         <div class="holiday-controls">
-                            <div class="control-row">
-                                <div class="control-label">Single Date:</div>
-                                <div class="control-input">
-                                    <input type="date" [(ngModel)]="selectedHolidayDate" (change)="selectedHolidayDate ? selectHolidayDate(selectedHolidayDate) : null" class="date-input">
-                                </div>
-                            </div>
-                            
                             <div class="control-row d-flex-sb">
                                 <div class="d-flex control-row-range">
-                                    <div class="control-label">Date Range:</div>
-                                    <div class="control-input range-inputs">
-                                        <input type="date" [(ngModel)]="holidayStartDate" class="date-input" placeholder="Start Date">
-                                        <span class="range-separator">to</span>
-                                        <input type="date" [(ngModel)]="holidayEndDate" class="date-input" placeholder="End Date">
+                                    <div class="control-label">Single Date:</div>
+                                    <div class="control-input">
+                                        <input type="date" [(ngModel)]="selectedHolidayDate" (change)="selectHolidayDate(selectedHolidayDate)" class="date-input">
                                     </div>
-                                    <button [id]="'btn-change'" class="btn-submit" style="margin-left: 16px;" (click)="setHolidays()">SUBMIT</button>
+                                    <button class="btn-submit" style="margin-left: 16px;" (click)="setHolidays()">SAVE CHANGE</button>
                                 </div>
-                                <button class="btn-submit btn-submit2" (click)="setHolidays()">SUBMIT</button>
-                                <button class="btn-submit" (click)="setHolidays()">SAVE CHANGE</button>
                             </div>
                         </div>
 
@@ -415,7 +404,7 @@
                                         <span>{{ m.name }}</span>
                                     </div>
                                     <div class="holiday-chips">
-                                        @for (date of filterDateByMonth(m.no, holidayArr); track $index) {
+                                        @for (date of filterDateByMonth(m.no, holidayArr()); track $index) {
                                             <div class="chip-item" >
                                                 <span class="chip-date">{{ date | date: 'dd MMM yyyy' }}</span>
                                                 <button class="chip-remove" (click)="removeHoliday(date)">
@@ -423,7 +412,7 @@
                                                 </button>
                                             </div>
                                         }
-                                        @if (filterDateByMonth(m.no, holidayArr).length === 0) {
+                                        @if (filterDateByMonth(m.no, holidayArr()).length === 0) {
                                             <div class="no-holidays" >
                                                 <span>No holidays</span>
                                             </div>
