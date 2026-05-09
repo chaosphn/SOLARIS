@@ -24,6 +24,8 @@ import { ToastStateModel } from '../../../shared/models/toast.model';
 import { getToastState } from '../../../store/selectors/toaster.selectors';
 import { FloatingDialogService } from '../../../shared/pipes/floating-dialog.service';
 import { EventSummaryModel } from '../../../features/sites/models/event.model';
+import { setEventSummary } from '../../../store/actions/event.actions';
+import { getEventSummary } from '../../../store/selectors/event.selectors';
 
 
 @Component({
@@ -36,11 +38,12 @@ export class Navbar implements OnInit, OnDestroy {
   navState$: Observable<NavbarStateModel>;
   dateState$: Observable<DateStateModel>;
   toastState$: Observable<ToastStateModel>;
+  eventSummary$: Observable<EventSummaryModel[]>;
 
   siteConfig = signal<SiteStateModel>({ name: '', number: 0, capacity: '', zoneList: [] });
-  zoneList = signal<ZoneModel>({ title: '', number: 0, capacity: '', display: '', siteList: [] }); 
+  zoneList = signal<ZoneModel>({ title: '', number: 0, capacity: '', display: '', siteList: [] });
   currentNavState = signal<NavbarStateModel>({ name: '', location: '' });
-  isChanged: boolean = false;
+  eventSummary = signal<EventSummaryModel[]>([]);
   isHided: boolean = false;
   seachText: string = '';
   zoneSelected: string = 'OVERVIEW';
@@ -58,7 +61,6 @@ export class Navbar implements OnInit, OnDestroy {
   date: Date = new Date();
   enableDate: boolean = false;
   enableSite: string[] = [];
-  eventSummary = signal<EventSummaryModel[]>([]);
 
   private auth =  inject(AuthService);
   private http =  inject(HttpService);
@@ -73,6 +75,7 @@ export class Navbar implements OnInit, OnDestroy {
     this.navState$ = this.store.select(getNavState);
     this.dateState$ = this.store.select(getDateState);
     this.toastState$ = this.store.select(getToastState);
+    this.eventSummary$ = this.store.select(getEventSummary);
 
     this.dateStateSubscription = this.dateState$.subscribe(state => {
       this.date = state.date;
@@ -107,7 +110,10 @@ export class Navbar implements OnInit, OnDestroy {
             break;
         }
       }
-    })
+    });
+    this.sub1 = this.eventSummary$.subscribe(data => {
+      this.eventSummary.set(data);
+    });
   }
 
   ngOnInit(): void {
@@ -130,18 +136,11 @@ export class Navbar implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.dateStateSubscription){
-      this.dateStateSubscription.unsubscribe();
-    }
-    if(this.navStateSubscription){
-      this.navStateSubscription.unsubscribe();
-    }
-    if(this.sub1){
-      this.sub1.unsubscribe();
-    }
-    if(this.timerSubscription){
-      this.timerSubscription.unsubscribe();
-    }
+    this.dateStateSubscription?.unsubscribe();
+    this.navStateSubscription?.unsubscribe();
+    this.toastStateSubscription?.unsubscribe();
+    this.sub1?.unsubscribe();
+    this.timerSubscription?.unsubscribe();
   }
 
   show() {
@@ -163,9 +162,9 @@ export class Navbar implements OnInit, OnDestroy {
     }
     const result = await this.http.getSummaryAlarmEventData(request);
     if(result.length > 0){
-      this.eventSummary.set(result);
+      this.store.dispatch(setEventSummary({ payload: result }));
     } else {
-      this.eventSummary.set([]);
+      this.store.dispatch(setEventSummary({ payload: [] }));
     }
   }
 

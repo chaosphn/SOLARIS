@@ -75,8 +75,6 @@ export class Dashboard implements OnInit, OnDestroy {
 
   timers?: Subscription;
   navSub?: Subscription;
-  storeSub?: Subscription;
-  storeSub2?: Subscription;
 
   date: Date = new Date();
 
@@ -110,18 +108,8 @@ export class Dashboard implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.timers){
-      this.timers.unsubscribe();
-    }
-    if(this.navSub){
-      this.navSub.unsubscribe();
-    }
-    if(this.storeSub){
-      this.storeSub.unsubscribe();
-    }
-    if(this.storeSub2){
-      this.storeSub2.unsubscribe();
-    }
+    this.timers?.unsubscribe();
+    this.navSub?.unsubscribe();
   }
 
   resetPage(){
@@ -166,51 +154,39 @@ export class Dashboard implements OnInit, OnDestroy {
   }
 
   private async loadFromStoreIfExists(): Promise<boolean> {
-    return new Promise((resolve) => {
-      this.storeSub = this.store.select(DashboardSelectors.selectDashboardState).subscribe(state => {
-        let hasData = false;
-        
-        // Check if config exists and load it
-        if (state.config && state.config.realtimeConfig.length > 0) {
-          this.config.set(state.config);
-          hasData = true;
-        }
-        
-        // Check if requests exist and load them
-        if (state.req_realtime && state.req_realtime.length > 0) {
-          this.requestRealtime.set(state.req_realtime);
-          hasData = true;
-        }
-        
-        if (state.req_attime && state.req_attime.length > 0) {
-          this.requestAttime.set(state.req_attime);
-          hasData = true;
-        }
-        
-        if (state.req_historian && state.req_historian.length > 0) {
-          this.requestHistorian.set(state.req_historian);
-          hasData = true;
-        }
-        
-        // Check if data exists and load it
-        if (state.data_realtime && Object.keys(state.data_realtime).length > 0) {
-          this.dataRealtime.set(state.data_realtime);
-          hasData = true;
-        }
-        
-        if (state.data_historian && Object.keys(state.data_historian).length > 0) {
-          this.dataHistorian.set(state.data_historian);
-          hasData = true;
-        }
-        
-        if (state.data_chart && Object.keys(state.data_chart).length > 0) {
-          this.dataChart.set(state.data_chart);
-          hasData = true;
-        }
-        
-        resolve(hasData);
-      });
-    });
+    const state = await firstValueFrom(this.store.select(DashboardSelectors.selectDashboardState));
+    let hasData = false;
+
+    if (state.config && state.config.realtimeConfig.length > 0) {
+      this.config.set(state.config);
+      hasData = true;
+    }
+    if (state.req_realtime && state.req_realtime.length > 0) {
+      this.requestRealtime.set(state.req_realtime);
+      hasData = true;
+    }
+    if (state.req_attime && state.req_attime.length > 0) {
+      this.requestAttime.set(state.req_attime);
+      hasData = true;
+    }
+    if (state.req_historian && state.req_historian.length > 0) {
+      this.requestHistorian.set(state.req_historian);
+      hasData = true;
+    }
+    if (state.data_realtime && Object.keys(state.data_realtime).length > 0) {
+      this.dataRealtime.set(state.data_realtime);
+      hasData = true;
+    }
+    if (state.data_historian && Object.keys(state.data_historian).length > 0) {
+      this.dataHistorian.set(state.data_historian);
+      hasData = true;
+    }
+    if (state.data_chart && Object.keys(state.data_chart).length > 0) {
+      this.dataChart.set(state.data_chart);
+      hasData = true;
+    }
+
+    return hasData;
   }
 
   async getConfig() {
@@ -334,25 +310,10 @@ export class Dashboard implements OnInit, OnDestroy {
   }
 
   private async shouldRefreshData(): Promise<boolean> {
-    return new Promise((resolve) => {
-      this.storeSub2 = this.store.select(DashboardSelectors.selectDashboardTimestamp).subscribe(timestamp => {
-        if (!timestamp) {
-          resolve(true); // No timestamp means first time, should refresh
-          return;
-        }
-        
-        const now = new Date();
-        const timeDiff = now.getTime() - new Date(timestamp).getTime();
-        const minutesDiff = timeDiff / (1000 * 60); // Convert to minutes
-        
-        if (minutesDiff > 2) {
-          //console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      });
-    });
+    const timestamp = await firstValueFrom(this.store.select(DashboardSelectors.selectDashboardTimestamp));
+    if (!timestamp) return true;
+    const minutesDiff = (Date.now() - new Date(timestamp).getTime()) / 60000;
+    return minutesDiff > 2;
   }
 
   async getRealtimeData(){

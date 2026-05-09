@@ -3,6 +3,7 @@ import { StoreModule } from '@ngrx/store';
 import { navReducer } from './reducers/nav.reducer';
 import { siteReducer } from './reducers/site.reducer';
 import { dateReducer } from './reducers/date.reducer';
+import { eventReducer } from './reducers/event.reducer';
 import { overviewReducer } from '../features/central/store/reducers/overview.reducer';
 import { trendReducer } from '../features/central/store/reducers/trend.reducer';
 import { performanceReducer } from '../features/central/store/reducers/performance.reducer';
@@ -17,11 +18,12 @@ import { tabularReducer } from '../features/central/store/reducers/tabular.reduc
 
 @NgModule({
   imports: [
-    StoreModule.forRoot({ 
-      nav: navReducer, 
+    StoreModule.forRoot({
+      nav: navReducer,
       site: siteReducer,
       tags: tagsReducer,
       date: dateReducer,
+      event: eventReducer,
       overview: overviewReducer,
       trend: trendReducer ,
       performance: performanceReducer,

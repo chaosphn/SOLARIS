@@ -17,6 +17,8 @@ import { getZoneConfig } from '../../../../store/selectors/site.selectors';
 import { MapConfigModel } from '../../../../shared/models/svg.model';
 import { PlantStatusData } from '../../../../shared/components/piechart/piechart';
 import { setDateEnable } from '../../../../store/actions/date.actions';
+import { EventSummaryModel } from '../../../../features/sites/models/event.model';
+import { getEventSummary } from '../../../../store/selectors/event.selectors';
 
 @Component({
   selector: 'app-overview',
@@ -49,12 +51,32 @@ export class Overview implements OnInit, OnDestroy {
 
   zoneSelected = signal<string>('overall');
   mapConfig = signal<MapConfigModel>({} as MapConfigModel);
+  eventSummary = signal<EventSummaryModel[]>([]);
   plantStatusData = computed(() => {
     if(this.dataRealtime() && this.siteList() && this.siteList().length > 0){
-      const normalCount = this.siteList().filter(site => this.dataRealtime()[site.id + '_STATUS']?.Value === 1).length;
-      const unhealthyCount = this.siteList().filter(site => this.dataRealtime()[site.id + '_STATUS']?.Value === 2).length;
-      const noDataCount = this.siteList().filter(site => this.dataRealtime()[site.id + '_STATUS']?.Value === 0 || !this.dataRealtime()[site.id + '_STATUS']).length;
-      console.log('Plant Status Counts:', { normalCount, unhealthyCount, noDataCount }, this.siteList(), this.dataRealtime());
+      let normalCount = 0;
+      let unhealthyCount = 0;
+      let noDataCount = 0;
+
+      for (const site of this.siteList()) {
+        // Check for events first (higher priority)
+        const eventData = this.eventSummary().find(e => e.PointSource === site.id);
+
+        if (eventData && (eventData.Major > 0 || eventData.Minor > 0 || eventData.Warning > 0)) {
+          unhealthyCount++;
+        } else {
+          // Fall back to status value if no event
+          const statusValue = this.dataRealtime()[site.id + '_STATUS']?.Value;
+          if (statusValue === 1) {
+            normalCount++;
+          } else if (statusValue === 2) {
+            unhealthyCount++;
+          } else {
+            noDataCount++;
+          }
+        }
+      }
+
       const data: PlantStatusData[] = [
         { label: 'NORMAL', count: normalCount || 0, percentage: normalCount / this.siteList().length * 100 || 0, color: '#00E396', unit: 'Sites' },
         { label: 'UNHEALTHY', count: unhealthyCount || 0, percentage: unhealthyCount / this.siteList().length * 100 || 0, color: '#FEB019', unit: 'Sites' },
@@ -67,8 +89,7 @@ export class Overview implements OnInit, OnDestroy {
   });
 
   timers?: Subscription;
-  storeSub?: Subscription;
-  storeSub2?: Subscription;
+  navSub?: Subscription;
 
   private http = inject(HttpService);
   private store = inject(Store);
@@ -76,6 +97,11 @@ export class Overview implements OnInit, OnDestroy {
   private chartOptions = inject(ChartService);
   private dateTimeSrv = inject(Datetime);
   constructor(){
+    // Subscribe to event summary
+    this.store.select(getEventSummary).subscribe(data => {
+      this.eventSummary.set(data);
+    });
+
     effect(() => {
       if(this.dataRealtime()){
         const pr1 = ((this.dataRealtime()['RUNNING']?.Value || 0)/this.siteList().length)*100;
@@ -92,7 +118,7 @@ export class Overview implements OnInit, OnDestroy {
       }
     })
     this.navState$ = this.store.select(getNavState);
-    this.navState$.subscribe(async (state) => {
+    this.navSub = this.navState$.subscribe(async (state) => {
       const res = await firstValueFrom(
         this.store.select(getZoneConfig(state.location))
       );
@@ -107,15 +133,8 @@ export class Overview implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.timers){
-      this.timers.unsubscribe();
-    }
-    if(this.storeSub){
-      this.storeSub.unsubscribe();
-    }
-    if(this.storeSub2){
-      this.storeSub2.unsubscribe();
-    }
+    this.timers?.unsubscribe();
+    this.navSub?.unsubscribe();
   }
 
   async initPage(){
@@ -141,51 +160,39 @@ export class Overview implements OnInit, OnDestroy {
   }
 
   private async loadFromStoreIfExists(): Promise<boolean> {
-    return new Promise((resolve) => {
-      this.storeSub = this.store.select(OverviewSelectors.selectOverviewState).subscribe(state => {
-        let hasData = false;
-        
-        // Check if config exists and load it
-        if (state.config && state.config.realtimeConfig.length > 0) {
-          this.config.set(state.config);
-          hasData = true;
-        }
-        
-        // Check if requests exist and load them
-        if (state.req_realtime && state.req_realtime.length > 0) {
-          this.requestRealtime.set(state.req_realtime);
-          hasData = true;
-        }
-        
-        if (state.req_attime && state.req_attime.length > 0) {
-          this.requestAttime.set(state.req_attime);
-          hasData = true;
-        }
-        
-        if (state.req_historian && state.req_historian.length > 0) {
-          this.requestHistorian.set(state.req_historian);
-          hasData = true;
-        }
-        
-        // Check if data exists and load it
-        if (state.data_realtime && Object.keys(state.data_realtime).length > 0) {
-          this.dataRealtime.set(state.data_realtime);
-          hasData = true;
-        }
-        
-        if (state.data_historian && Object.keys(state.data_historian).length > 0) {
-          this.dataHistorian.set(state.data_historian);
-          hasData = true;
-        }
-        
-        if (state.data_chart && Object.keys(state.data_chart).length > 0) {
-          this.dataChart.set(state.data_chart);
-          hasData = true;
-        }
-        
-        resolve(hasData);
-      });
-    });
+    const state = await firstValueFrom(this.store.select(OverviewSelectors.selectOverviewState));
+    let hasData = false;
+
+    if (state.config && state.config.realtimeConfig.length > 0) {
+      this.config.set(state.config);
+      hasData = true;
+    }
+    if (state.req_realtime && state.req_realtime.length > 0) {
+      this.requestRealtime.set(state.req_realtime);
+      hasData = true;
+    }
+    if (state.req_attime && state.req_attime.length > 0) {
+      this.requestAttime.set(state.req_attime);
+      hasData = true;
+    }
+    if (state.req_historian && state.req_historian.length > 0) {
+      this.requestHistorian.set(state.req_historian);
+      hasData = true;
+    }
+    if (state.data_realtime && Object.keys(state.data_realtime).length > 0) {
+      this.dataRealtime.set(state.data_realtime);
+      hasData = true;
+    }
+    if (state.data_historian && Object.keys(state.data_historian).length > 0) {
+      this.dataHistorian.set(state.data_historian);
+      hasData = true;
+    }
+    if (state.data_chart && Object.keys(state.data_chart).length > 0) {
+      this.dataChart.set(state.data_chart);
+      hasData = true;
+    }
+
+    return hasData;
   }
 
   async getConfig() {
@@ -309,25 +316,10 @@ export class Overview implements OnInit, OnDestroy {
   }
 
   private async shouldRefreshData(): Promise<boolean> {
-    return new Promise((resolve) => {
-      this.storeSub2 = this.store.select(OverviewSelectors.selectOverviewTimestamp).subscribe(timestamp => {
-        if (!timestamp) {
-          resolve(true); // No timestamp means first time, should refresh
-          return;
-        }
-        
-        const now = new Date();
-        const timeDiff = now.getTime() - new Date(timestamp).getTime();
-        const minutesDiff = timeDiff / (1000 * 60); // Convert to minutes
-        
-        if (minutesDiff > 2) {
-          //console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      });
-    });
+    const timestamp = await firstValueFrom(this.store.select(OverviewSelectors.selectOverviewTimestamp));
+    if (!timestamp) return true;
+    const minutesDiff = (Date.now() - new Date(timestamp).getTime()) / 60000;
+    return minutesDiff > 2;
   }
 
   async getRealtimeData(){

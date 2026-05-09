@@ -1,7 +1,11 @@
-import { AfterViewInit, Component, effect, input } from '@angular/core';
+import { AfterViewInit, Component, effect, input, inject, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
 import { DataRealtimeModel } from '../../models/response.model';
 import { SiteModel } from '../../models/config.model';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { EventSummaryModel } from '../../../features/sites/models/event.model';
+import { getEventSummary } from '../../../store/selectors/event.selectors';
 
 @Component({
   selector: 'app-map-container',
@@ -9,16 +13,27 @@ import { SiteModel } from '../../models/config.model';
   styleUrls: ['./map-container.scss'],
   standalone: false
 })
-export class MapContainer implements AfterViewInit {
+export class MapContainer implements AfterViewInit, OnDestroy {
 
   private map!: L.Map;
   private markerLayer = L.layerGroup();
+  private eventSummary$: Observable<EventSummaryModel[]>;
+  private eventSub?: Subscription;
+  private eventSummaryData: EventSummaryModel[] = [];
 
   dataRealtime = input<DataRealtimeModel>();
   siteList = input<SiteModel[]>([]);
   theme = 'dark';
 
+  private store = inject(Store);
+
   constructor() {
+    this.eventSummary$ = this.store.select(getEventSummary);
+    this.eventSub = this.eventSummary$.subscribe(data => {
+      //console.log('Received event summary data:', data);
+      this.eventSummaryData = data;
+    });
+
     effect(() => {
       const sites = this.siteList();
 
@@ -32,7 +47,23 @@ export class MapContainer implements AfterViewInit {
         const realtime = this.dataRealtime()?.[site.id+'_POWER']?.Value;
         const energy = this.dataRealtime()?.[site.id+'_ENERGY']?.Value;
         const pr = this.dataRealtime()?.[site.id+'_PR']?.Value;
-        const status = realtime > 0 ? 'normal' : realtime === 0 ? 'offline' : 'nodata';
+
+        // Get event data for this site
+        const eventData = this.eventSummaryData.find(e => e.PointSource === site.id);
+        //console.log('Event data for site', site.id, eventData);
+
+        // Determine status based on realtime data and events
+        let status: string;
+        if (eventData && eventData.Major > 0) {
+          status = 'critical';
+        } else if (eventData && eventData.Minor > 0) {
+          status = 'warning';
+        } else if (eventData && eventData.Warning > 0) {
+          status = 'warning';
+        } else {
+          status = realtime > 0 ? 'normal' : realtime === 0 ? 'offline' : 'nodata';
+        }
+
         const marker = L.marker(
           [site.position.lat, site.position.lng],
           {
@@ -212,6 +243,10 @@ export class MapContainer implements AfterViewInit {
     //   .addTo(this.map)
     //   .bindPopup('Bangkok')
     //   .openPopup();
+  }
+
+  ngOnDestroy(): void {
+    this.eventSub?.unsubscribe();
   }
 
   // ✅ icon ที่ขึ้นแน่นอน
