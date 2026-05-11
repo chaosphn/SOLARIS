@@ -110,6 +110,10 @@
                             <i class="material-icons">settings</i>
                             SETTINGS
                             </button>
+                            <button class="tooltip-btn d-flex-ct" (click)="openProfile()">
+                            <i class="material-icons">manage_accounts</i>
+                            PROFILE
+                            </button>
                             <button class="tooltip-btn d-flex-ct" (click)="logOut()">
                             <i class="material-icons">logout</i>
                             LOGOUT
@@ -207,3 +211,7 @@
     </div>
     <p-toast position="bottom-right" />
 </div>
+
+@if (showProfileDialog) {
+    <app-profile-dialog (onClose)="closeProfile()" />
+}

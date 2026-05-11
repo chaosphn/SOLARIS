@@ -402,20 +402,31 @@ export class ChartService {
         borderColor: item.borderColor,
         borderRadius: item.borderRadius,
         borderWidth: item.borderWidth,
-        data: data.records.map(function(x){
-          let res:any[] = [];
-          res[0] = new Date(x.TimeStamp).getTime() + 7 * 60 * 60 * 1000;
-          if(!isNumber(x.Value) && x.Value.toUpperCase() == "TRUE"){
-            res[1] = 1;
-          } else if(!isNumber(x.Value) && x.Value.toUpperCase() == "FALSE"){
-            res[1] = 0;
-          } else if(!isNumber(x.Value)){
-            res[1] = +(x.Value.replaceAll(",",""));
-          } else {
-            res[1] = x.Value;
-          }
-          return res;
-        })
+        data: data.records
+          .filter(x => {
+            const ts = new Date(x.TimeStamp).getTime();
+            return x.TimeStamp && !isNaN(ts);
+          })
+          .map(function(x){
+            let res: (number | null)[] = [];
+            res[0] = new Date(x.TimeStamp).getTime() + 7 * 60 * 60 * 1000;
+            if (x.Value == null) {
+              res[1] = null;
+              return res;
+            }
+            const strVal = String(x.Value);
+            if (!isNumber(x.Value) && strVal.toUpperCase() === 'TRUE') {
+              res[1] = 1;
+            } else if (!isNumber(x.Value) && strVal.toUpperCase() === 'FALSE') {
+              res[1] = 0;
+            } else if (!isNumber(x.Value)) {
+              const parsed = +(strVal.replaceAll(',', ''));
+              res[1] = isNaN(parsed) ? null : parsed;
+            } else {
+              res[1] = +x.Value;
+            }
+            return res;
+          })
       }
       switch(item.type){
         case 'line':
@@ -459,7 +470,8 @@ export class ChartService {
         borderRadius: item.borderRadius,
         borderWidth: item.borderWidth,
         data: data.records.map(function(x){
-          return +(x.Value);
+          const v = +(x.Value);
+          return isNaN(v) ? null : v;
         })
       }
       switch(item.type){

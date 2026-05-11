@@ -824,30 +824,147 @@
           {
             "name": "KKB.CALC.WH_HOUR",
             "title": "PRODUCE*kWh",
+            "time": "d",
             "options": {
               "yAxis": 0,
               "type": "column",
               "color": "#19D6B4",
               "borderColor": "#19D6B4",
-							"borderRadius": 0,
+              "borderRadius": 0,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.WH_DAY",
+            "title": "PRODUCE*kWh",
+            "time": "w",
+            "options": {
+              "yAxis": 0,
+              "type": "column",
+              "color": "#19D6B4",
+              "borderColor": "#19D6B4",
+              "borderRadius": 0,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.WH_DAY",
+            "title": "PRODUCE*kWh",
+            "time": "m",
+            "options": {
+              "yAxis": 0,
+              "type": "column",
+              "color": "#19D6B4",
+              "borderColor": "#19D6B4",
+              "borderRadius": 0,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.WH_MONTH",
+            "title": "PRODUCE*kWh",
+            "time": "y",
+            "options": {
+              "yAxis": 0,
+              "type": "column",
+              "color": "#19D6B4",
+              "borderColor": "#19D6B4",
+              "borderRadius": 0,
               "showInLegend": true
             }
           },
           {
             "name": "KKB.CALC.WH_LOSS_HOUR",
             "title": "LOSS*kWh",
+            "time": "d",
             "options": {
               "yAxis": 0,
               "type": "column",
               "color": "#FF4F52",
               "borderColor": "#FF4F52",
-							"borderRadius": 0,
+              "borderRadius": 0,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.WH_LOSS_DAY",
+            "title": "LOSS*kWh",
+            "time": "w",
+            "options": {
+              "yAxis": 0,
+              "type": "column",
+              "color": "#FF4F52",
+              "borderColor": "#FF4F52",
+              "borderRadius": 0,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.WH_LOSS_DAY",
+            "title": "LOSS*kWh",
+            "time": "m",
+            "options": {
+              "yAxis": 0,
+              "type": "column",
+              "color": "#FF4F52",
+              "borderColor": "#FF4F52",
+              "borderRadius": 0,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.WH_LOSS_MONTH",
+            "title": "LOSS*kWh",
+            "time": "y",
+            "options": {
+              "yAxis": 0,
+              "type": "column",
+              "color": "#FF4F52",
+              "borderColor": "#FF4F52",
+              "borderRadius": 0,
               "showInLegend": true
             }
           },
           {
             "name": "KKB.CALC.WH_EXPECT_HOUR",
             "title": "EXPECTED*kWh",
+            "time": "d",
+            "options": {
+              "yAxis": 1,
+              "type": "line",
+              "color": "#FFDF6C",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.WH_EXPECT_DAY",
+            "title": "EXPECTED*kWh",
+            "time": "w",
+            "options": {
+              "yAxis": 1,
+              "type": "line",
+              "color": "#FFDF6C",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.WH_EXPECT_DAY",
+            "title": "EXPECTED*kWh",
+            "time": "m",
+            "options": {
+              "yAxis": 1,
+              "type": "line",
+              "color": "#FFDF6C",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.WH_EXPECT_MONTH",
+            "title": "EXPECTED*kWh",
+            "time": "y",
             "options": {
               "yAxis": 1,
               "type": "line",

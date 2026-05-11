@@ -21,12 +21,8 @@
         overflow-y: auto;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 
-        &.user-modal {
+        &.profile-modal {
             max-width: 700px;
-        }
-
-        &.alarm-modal {
-            max-width: 600px;
         }
 
         .modal-header {
@@ -53,13 +49,9 @@
                 align-items: center;
                 transition: color 0.2s;
 
-                &:hover {
-                    color: #E74C3C;
-                }
+                &:hover { color: #E74C3C; }
 
-                i {
-                    font-size: 24px;
-                }
+                i { font-size: 24px; }
             }
         }
 
@@ -68,6 +60,7 @@
 
             .form-group {
                 margin-bottom: 20px;
+                flex: 1;
 
                 label {
                     display: block;
@@ -75,10 +68,6 @@
                     font-size: 14px;
                     font-weight: 500;
                     margin-bottom: 8px;
-                }
-
-                .title{
-                    color: var(--primary-txt);
                 }
 
                 .form-control {
@@ -91,38 +80,20 @@
                     font-size: 14px;
                     outline: none;
                     transition: border-color 0.2s;
+                    box-sizing: border-box;
 
-                    &:focus {
-                        border-color: var(--active-txt);
-                    }
-
-                    &[type="password"] {
-                        font-family: monospace;
-                    }
+                    &:focus { border-color: var(--active-txt); }
+                    &[type="password"] { font-family: monospace; }
                 }
 
-                textarea.form-control {
-                    resize: vertical;
-                    font-family: inherit;
-                }
-
-                .radio-group {
-                    display: flex;
-                    gap: 24px;
-
-                    .radio-label {
-                        display: flex;
-                        align-items: center;
-                        gap: 8px;
-                        color: var(--secondary-txt);
-                        cursor: pointer;
-
-                        input[type="radio"] {
-                            width: 18px;
-                            height: 18px;
-                            cursor: pointer;
-                        }
-                    }
+                .readonly-field {
+                    color: var(--secondary-txt);
+                    font-size: 14px;
+                    padding: 10px 12px;
+                    background-color: var(--primary-bg);
+                    border: 1px solid var(--border-color);
+                    border-radius: 4px;
+                    opacity: 0.7;
                 }
 
                 .page-access-header {
@@ -130,87 +101,12 @@
                     justify-content: space-between;
                     align-items: center;
                     margin-bottom: 12px;
-
-                    .select-buttons {
-                        display: flex;
-                        gap: 8px;
-
-                        .select-btn {
-                            background-color: var(--primary-bg);
-                            color: var(--secondary-txt);
-                            border: 1px solid var(--border-color);
-                            padding: 4px 12px;
-                            border-radius: 4px;
-                            font-size: 12px;
-                            cursor: pointer;
-                            transition: all 0.2s;
-
-                            &:hover {
-                                filter: brightness(125%);
-                                color: var(--primary-txt);
-                            }
-                        }
-                    }
                 }
 
-                .checkbox-grid-user {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                    gap: 12px;
-                    background-color: var(--primary-bg);
-                    padding: 16px;
-                    border-radius: 4px;
-                    border: 1px solid var(--border-color);
+                .title { color: var(--primary-txt); }
+                .text-muted { color: var(--secondary-txt); }
 
-                    .checkbox-label {
-                        display: flex;
-                        align-items: center;
-                        gap: 8px;
-                        color: var(--secondary-txt);
-                        cursor: pointer;
-
-                        input[type="checkbox"] {
-                            width: 16px;
-                            height: 16px;
-                            cursor: pointer;
-                        }
-
-                        .active-page{
-                            color: var(--primary-txt) !important;
-                        }
-                    }
-                }
-
-                .checkbox-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                    gap: 12px;
-                    background-color: var(--primary-bg);
-                    padding: 16px;
-                    border-radius: 4px;
-                    border: 1px solid var(--border-color);
-
-                    .checkbox-label {
-                        display: flex;
-                        align-items: center;
-                        gap: 8px;
-                        color: var(--secondary-txt);
-                        cursor: pointer;
-
-                        input[type="checkbox"] {
-                            width: 16px;
-                            height: 16px;
-                            cursor: pointer;
-                        }
-
-                        .active-page{
-                            color: var(--primary-txt) !important;
-                        }
-                    }
-                }
-
-                /* Signature section */
-
+                /* Signature */
                 .sig-row {
                     display: flex;
                     row-gap: 16px;
@@ -222,35 +118,22 @@
 
                 .sig-col {
                     flex: 1;
-                    width: 100px;
-                    .title{
-                        color: var(--primary-txt);
-                    }
-                    .text-muted{
-                        color: var(--secondary-txt);
-                    }
+                    min-width: 100px;
                 }
 
                 .sig-col-fixed {
-                    width: 400;
-                    .title{
-                        color: var(--primary-txt);
-                    }
-                    .text-muted{
-                        color: var(--secondary-txt);
-                    }
+                    flex: 0 0 auto;
                 }
 
-                .mb-8 {
-                    margin-bottom: 8px;
-                }
+                .mb-8 { margin-bottom: 8px; }
+                .mt-4 { margin-top: 4px; }
 
                 .signature-canvas {
                     border: 1px solid var(--border-color);
                     border-radius: 4px;
                     touch-action: none;
                     width: 100%;
-                    max-width: 500px;
+                    max-width: 400px;
                     height: auto;
                     background: #fff;
                 }
@@ -285,10 +168,6 @@
                     background: #fff;
                 }
 
-                .mt-4 {
-                    margin-top: 4px;
-                }
-
                 .signature-empty {
                     padding: 16px;
                     color: #666;
@@ -317,6 +196,29 @@
                     }
                 }
             }
+
+            .form-row {
+                display: flex;
+                gap: 8px;
+                margin-bottom: 0;
+
+                .form-group { margin-bottom: 20px; }
+            }
+
+            .form-section-label {
+                color: var(--primary-txt);
+                font-size: 14px;
+                font-weight: 500;
+                margin-bottom: 12px;
+                padding-bottom: 6px;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .form-footer-inline {
+                display: flex;
+                justify-content: flex-end;
+                margin-bottom: 24px;
+            }
         }
 
         .modal-footer {
@@ -340,9 +242,7 @@
                     color: var(--primary-txt);
                     border: 1px solid var(--border-color);
 
-                    &:hover {
-                        filter: brightness(125%);
-                    }
+                    &:hover { filter: brightness(125%); }
                 }
 
                 &.btn-primary {

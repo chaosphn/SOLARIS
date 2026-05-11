@@ -1,0 +1,131 @@
+<div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content profile-modal" (click)="$event.stopPropagation()">
+
+        <div class="modal-header">
+            <h2>My Profile</h2>
+            <button class="close-btn" (click)="closeModal()">
+                <i class="material-icons">close</i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <!-- Username (read-only) -->
+            <div class="form-group">
+                <label>Username</label>
+                <div class="readonly-field">{{ userData().username }}</div>
+            </div>
+
+            <!-- Full Name -->
+            <div class="form-group">
+                <label for="profileFullName">Full Name</label>
+                <input id="profileFullName" type="text" [(ngModel)]="userData().fullname"
+                       placeholder="Enter full name" class="form-control">
+            </div>
+
+            <!-- Email + Company -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="profileEmail">Email</label>
+                    <input id="profileEmail" type="email" [(ngModel)]="userData().email"
+                           placeholder="name@example.com" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="profileCompany">Company</label>
+                    <input id="profileCompany" type="text" [(ngModel)]="userData().company"
+                           placeholder="Enter company" class="form-control">
+                </div>
+            </div>
+
+            <!-- Department + Position -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="profileDepartment">Department</label>
+                    <input id="profileDepartment" type="text" [(ngModel)]="userData().department"
+                           placeholder="Enter department" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="profilePosition">Position</label>
+                    <input id="profilePosition" type="text" [(ngModel)]="userData().role"
+                           placeholder="Enter position" class="form-control">
+                </div>
+            </div>
+
+            <!-- Password change -->
+            <div class="form-section-label">Change Password</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="profileOldPw">Old Password</label>
+                    <input id="profileOldPw" type="password" [(ngModel)]="oldPassword"
+                           placeholder="Enter old password" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="profileNewPw">New Password</label>
+                    <input id="profileNewPw" type="password" [(ngModel)]="newPassword"
+                           placeholder="Enter new password" class="form-control">
+                </div>
+            </div>
+            <div class="form-footer-inline">
+                <button class="btn-primary" (click)="changePassword()">Change Password</button>
+            </div>
+
+            <!-- Signature -->
+            <div class="form-group">
+                <div class="page-access-header">
+                    <label>Signature</label>
+                </div>
+                <div class="w-100 sig-section-pad">
+                    <div class="sig-row w-100">
+                        <div class="sig-col-fixed">
+                            <div class="mb-8 title">Draw signature</div>
+                            <canvas #signatureCanvas
+                                    width="400" height="200"
+                                    class="signature-canvas"
+                                    (mousedown)="onPointerDown($event)"
+                                    (mousemove)="onPointerMove($event)"
+                                    (mouseup)="onPointerUp()"
+                                    (mouseleave)="onPointerUp()"
+                                    (touchstart)="onTouchStart($event)"
+                                    (touchmove)="onTouchMove($event)"
+                                    (touchend)="onPointerUp()"></canvas>
+                            <div class="sig-select-buttons">
+                                <button class="select-btn" (click)="clearSignature()">Clear</button>
+                                <button class="select-btn" (click)="saveCanvasSignature()">Use This</button>
+                            </div>
+                        </div>
+                        <div class="sig-col">
+                            <div class="mb-8 title">
+                                <label for="profileSigFile">Or upload image</label>
+                            </div>
+                            <input id="profileSigFile" type="file" accept="image/*"
+                                   (change)="onSignatureFileSelected($event)"/>
+                            <div class="text-muted small mt-4">Accepted: PNG/JPG; recommended transparent background.</div>
+                        </div>
+                    </div>
+                    <div class="sig-row">
+                        <div class="sig-col">
+                            <div class="mb-8 title">Preview</div>
+                            @if (signaturePreview) {
+                                <img [src]="signaturePreview" alt="Signature preview" class="signature-preview"/>
+                            } @else {
+                                <div class="signature-empty">No signature provided yet.</div>
+                            }
+                        </div>
+                    </div>
+                    <div class="sig-consent">
+                        <label class="consent-label">
+                            <input type="checkbox" [(ngModel)]="signatureConsent">
+                            <span>ฉันยินยอมให้เก็บลายเซ็นดิจิทัลนี้ไว้ในระบบ</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="closeModal()">CANCEL</button>
+            <button class="btn-primary" (click)="saveProfile()">SAVE</button>
+        </div>
+    </div>
+</div>

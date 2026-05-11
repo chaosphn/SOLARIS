@@ -441,15 +441,17 @@ export class Performance implements OnInit, OnDestroy {
                 };
                 series.push(serie)
               } else {
-                conf.tags.forEach((x, index) => {                 
-                  let data = response.find(d => d.Name == x.name);
-                  if(data && data.records){
-                    let res = this.chartOptions.getSeriesOptions(x.title, x.options, data);
-                    series.push(res);
-                  }
-                });
+                conf.tags
+                  .filter(x => !x.time || x.time === 'd')
+                  .forEach((x) => {
+                    let data = response.find(d => d.Name == x.name);
+                    if(data && data.records){
+                      let res = this.chartOptions.getSeriesOptions(x.title, x.options, data);
+                      series.push(res);
+                    }
+                  });
               }
-              
+
               // สร้าง chart config object ใหม่
               newVal[item.Group] = {
                 chart: this.chartOptions.getChartOptions(conf.chartOptions.chart),
@@ -569,28 +571,35 @@ export class Performance implements OnInit, OnDestroy {
   async onChartUpdate(data: ChartPickerModel){
     //console.log(data, this.requestHistorian())
     const findRequest = this.requestHistorian().find(x => x.Group === data.name);
-    if(findRequest){
+    const conf = this.config().chartConfig.find(x => x.name === data.name);
+    if(findRequest && conf){
       this.loadingChart.set(data.name);
-      const req: RequestHistorianModel[] = findRequest.Request.map(x => {
-        return {
-          ...x,
-          Options: {
-            ...x.Options,
-            Time: '',
-            StartTime: this.dateTimeSrv.getDateTime1(data.start),
-            EndTime: this.dateTimeSrv.getDateTime1(data.end)
-          }
-        }
-      })
+
+      const filteredTags = conf.tags.filter(x => !x.time || x.time === data.mode);
+
+      const req: RequestHistorianModel[] = conf?.chartOptions?.xAxis?.categories
+        ? findRequest.Request.map(x => ({
+            ...x,
+            Options: { ...x.Options, Time: '', StartTime: this.dateTimeSrv.getDateTime1(data.start), EndTime: this.dateTimeSrv.getDateTime1(data.end) }
+          }))
+        : filteredTags.map(tag => ({
+            Name: tag.name,
+            Options: {
+              Interval: findRequest.Request.find(r => r.Name === tag.name)?.Options?.Interval,
+              Time: '',
+              StartTime: this.dateTimeSrv.getDateTime1(data.start),
+              EndTime: this.dateTimeSrv.getDateTime1(data.end)
+            }
+          }));
+
       const response:ResponseHistorianModel[] = await this.http.getHistorian(req);
       if(response){
         // สร้าง object ใหม่แทนการ update
         this.dataChart.update(val => {
           // Clone object เดิมก่อน
           const newVal = { ...val };
-          
-          let conf = this.config().chartConfig.find(x => x.name == findRequest.Group);
-          let series: SeriesOptionsType[] | SeriesLineOptions[] | SeriesAreaOptions[] | SeriesColumnOptions[] | any[] = []; 
+
+          let series: SeriesOptionsType[] | SeriesLineOptions[] | SeriesAreaOptions[] | SeriesColumnOptions[] | any[] = [];
           if(conf){
             if(conf?.chartOptions?.xAxis?.categories){
               const categorie = conf?.chartOptions?.xAxis?.categories || [];
@@ -610,7 +619,7 @@ export class Performance implements OnInit, OnDestroy {
               };
               series.push(serie)
             } else {
-              conf.tags.forEach((x, index) => {                 
+              filteredTags.forEach((x) => {
                 let data = response.find(d => d.Name == x.name);
                 if(data && data.records){
                   let res = this.chartOptions.getSeriesOptions(x.title, x.options, data);

@@ -83,6 +83,7 @@ export interface ChartConfig{
 export interface TagsConfig{
     name: string;
     title: string;
+    time?: string;
     options: SeriesOptions;
 }
 

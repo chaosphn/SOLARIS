@@ -21,6 +21,7 @@ export class UserDialog implements OnInit, AfterViewInit {
   pageList = input<PageDataModel[]>([]);
   newPassword: string = '';
   confirmPassword: string = '';
+  signatureConsent: boolean = false;
   onClose = output();
 
   private nextUserId: number = 1;
@@ -182,6 +183,7 @@ export class UserDialog implements OnInit, AfterViewInit {
     this.canvasContext.lineCap = 'round';
     this.canvasContext.strokeStyle = '#000';
     this.signaturePreview = '';
+    this.signatureConsent = false;
   }
 
   private drawSignatureImageToCanvas(dataUrl: string): void {
@@ -351,6 +353,10 @@ export class UserDialog implements OnInit, AfterViewInit {
         return;
       }
 
+      if (this.signaturePreview && !this.signatureConsent) {
+        this.store.dispatch(sendMessage({ payload: { text: 'กรุณายินยอมให้เก็บลายเซ็นดิจิทัลก่อนบันทึก', type: 'warn' } }));
+        return;
+      }
       const body = {
         username: this.userData().username,
         password: this.userData().password,
@@ -388,6 +394,10 @@ export class UserDialog implements OnInit, AfterViewInit {
       //   return;
       // }
       
+      if (this.signaturePreview && !this.signatureConsent) {
+        this.store.dispatch(sendMessage({ payload: { text: 'กรุณายินยอมให้เก็บลายเซ็นดิจิทัลก่อนบันทึก', type: 'warn' } }));
+        return;
+      }
       const body = {
         _id: this.userData()._id,
         username: this.userData().username,

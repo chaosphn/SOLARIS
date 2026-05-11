@@ -218,6 +218,16 @@ export class Navbar implements OnInit, OnDestroy {
     this.router.navigate(['/main/setting'])
   }
 
+  showProfileDialog: boolean = false;
+
+  openProfile(): void {
+    this.showProfileDialog = true;
+  }
+
+  closeProfile(): void {
+    this.showProfileDialog = false;
+  }
+
   getPlantStatus(pointSource: string){
     const summary = this.eventSummary().find(x => x.PointSource === pointSource);
     if(summary){

@@ -761,6 +761,43 @@
           {
             "name": "KKB.CALC.WH_HOUR",
             "title": "PRODUCE*kWh",
+            "time": "d",
+            "options": {
+              "yAxis": 0,
+              "type": "column",
+              "color": "#FFDF6C",
+              "borderColor": "#E4B61A",
+							"borderRadius": 0
+            }
+          },
+          {
+            "name": "KKB.CALC.WH_DAY",
+            "title": "PRODUCE*kWh",
+            "time": "w",
+            "options": {
+              "yAxis": 0,
+              "type": "column",
+              "color": "#FFDF6C",
+              "borderColor": "#E4B61A",
+							"borderRadius": 0
+            }
+          },
+          {
+            "name": "KKB.CALC.WH_DAY",
+            "title": "PRODUCE*kWh",
+            "time": "m",
+            "options": {
+              "yAxis": 0,
+              "type": "column",
+              "color": "#FFDF6C",
+              "borderColor": "#E4B61A",
+							"borderRadius": 0
+            }
+          },
+          {
+            "name": "KKB.CALC.WH_MONTH",
+            "title": "PRODUCE*kWh",
+            "time": "y",
             "options": {
               "yAxis": 0,
               "type": "column",

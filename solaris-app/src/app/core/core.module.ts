@@ -18,6 +18,7 @@ import { Assistant } from './components/assistant/assistant';
 import { BillingUpload } from './components/billing-upload/billing-upload';
 import { ChartsModule } from '../shared/chart.module';
 import { PaymentUpload } from './components/payment-upload/payment-upload';
+import { ProfileDialog } from './components/profile-dialog/profile-dialog';
 
 
 
@@ -41,7 +42,8 @@ import { PaymentUpload } from './components/payment-upload/payment-upload';
         NotFound,
         Assistant,
         BillingUpload,
-        PaymentUpload
+        PaymentUpload,
+        ProfileDialog
     ],
     providers: [
         DatePipe,

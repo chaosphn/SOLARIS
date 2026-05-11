@@ -8,6 +8,7 @@ export interface ChartPickerModel{
   name: string;
   start: Date;
   end: Date;
+  mode: 'd' | 'w' | 'm' | 'y';
 }
 
 @Component({
@@ -39,15 +40,16 @@ export class ChartCard {
   constructor(){
     effect(() => {
       if(this.chartData()){
+        const base = this.cloneChartData(this.chartData());
         switch(this.mode()){
           case 'w':
             this.chartItems.set({
-              ...this.chartData(),
-              xAxis: this.chartData().xAxis?.categories ? this.chartData().xAxis : {
-                ...this.chartData().xAxis,
+              ...base,
+              xAxis: base.xAxis?.categories ? base.xAxis : {
+                ...base.xAxis,
                 tickInterval: 86400000,
                 labels: {
-                  ...this.chartData()?.xAxis?.labels,
+                  ...base.xAxis?.labels,
                   format: '{value:%a}'
                 }
               }
@@ -55,12 +57,12 @@ export class ChartCard {
             break;
           case 'm':
             this.chartItems.set({
-              ...this.chartData(),
-              xAxis: this.chartData().xAxis?.categories ? this.chartData().xAxis : {
-                ...this.chartData().xAxis,
+              ...base,
+              xAxis: base.xAxis?.categories ? base.xAxis : {
+                ...base.xAxis,
                 tickInterval: 604800000,
                 labels: {
-                  ...this.chartData()?.xAxis?.labels,
+                  ...base.xAxis?.labels,
                   format: '{value:%d}'
                 }
               }
@@ -68,12 +70,12 @@ export class ChartCard {
             break;
           case 'y':
             this.chartItems.set({
-              ...this.chartData(),
-              xAxis: this.chartData().xAxis?.categories ? this.chartData().xAxis : {
-                ...this.chartData().xAxis,
+              ...base,
+              xAxis: base.xAxis?.categories ? base.xAxis : {
+                ...base.xAxis,
                 tickInterval: 2678400000,
                 labels: {
-                  ...this.chartData()?.xAxis?.labels,
+                  ...base.xAxis?.labels,
                   format: '{value:%b}'
                 }
               }
@@ -81,12 +83,12 @@ export class ChartCard {
             break;
           default:
             this.chartItems.set({
-              ...this.chartData(),
-              xAxis: this.chartData().xAxis?.categories ? this.chartData().xAxis : {
-                ...this.chartData().xAxis,
+              ...base,
+              xAxis: base.xAxis?.categories ? base.xAxis : {
+                ...base.xAxis,
                 tickInterval: 7200000,
                 labels: {
-                  ...this.chartData()?.xAxis?.labels,
+                  ...base.xAxis?.labels,
                   format: '{value:%H}'
                 }
               }
@@ -100,6 +102,18 @@ export class ChartCard {
         //console.log('YYYYY')
       }
     })
+  }
+
+  private cloneChartData(data: ChartParameters): ChartParameters {
+    return {
+      ...data,
+      series: data.series?.map((s: any) => ({
+        ...s,
+        data: Array.isArray(s.data)
+          ? s.data.map((d: any) => Array.isArray(d) ? [d[0], d[1]] : d)
+          : s.data
+      }))
+    };
   }
 
   captureChart(): void {
@@ -187,7 +201,8 @@ export class ChartCard {
     let res: ChartPickerModel = {
       name: this.name(),
       start: new Date(),
-      end: new Date()
+      end: new Date(),
+      mode: this.mode()
     };
     switch(this.mode()) {
       case 'd':
