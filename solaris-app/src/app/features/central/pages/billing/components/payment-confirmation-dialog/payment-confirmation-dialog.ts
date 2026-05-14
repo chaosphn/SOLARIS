@@ -25,10 +25,15 @@ export class PaymentConfirmationDialog implements OnInit {
   loading       = signal(false);
   logs          = signal<BillingLogDataModel[]>([]);
   comment: string = '';
-  transactionReferenceNo?: string;
   userRole      = signal<string>('user');
   siteList = signal<SiteModel[]>([]);
   userName = signal<string>('');
+
+  paymentId?: string;
+  paymentdate: string = '';
+  paymentType: string = '';
+  bank: string = '';
+
   
  
   readonly stepDefs = [
@@ -158,8 +163,20 @@ export class PaymentConfirmationDialog implements OnInit {
   async approve(): Promise<void> {
     try {
       //console.log(this.siteList());
-      if(!this.transactionReferenceNo) {
-        this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Transaction Reference No. is required' } }));
+      if(!this.paymentType) {
+        this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Payment type is required' } }));
+        return;
+      }
+      if(!this.bank) {
+        this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Bank is required' } }));
+        return;
+      }
+      if(!this.paymentId) {
+        this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Account / Cheque No. is required' } }));
+        return;
+      }
+      if(!this.paymentdate) {
+        this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Payment date is required' } }));
         return;
       }
 
@@ -170,7 +187,10 @@ export class PaymentConfirmationDialog implements OnInit {
         status: 'account_approved',
         sitename: this.getSiteName(this.data.siteId),
         username: this.userName() || '',
-        paymentId: this.transactionReferenceNo || '',
+        paymentId: this.paymentId || '',
+        bank: this.bank || '',
+        paymentType: this.paymentType || '',
+        paymentDate: this.paymentdate || '',
       });
       
       if (result && result.StatusCode.toLowerCase().includes('success')) {

@@ -89,12 +89,12 @@ export class StackChart implements OnInit {
     const atcColor = this.setActiveColor();
     const bgColor = this.setBgColor();
     let count = 0;
-    let setData = setInterval(()=> {
-      count++;
-      if(count == 90){
-        clearInterval(setData);
-      }
-    }, 1000);
+    // let setData = setInterval(()=> {
+    //   count++;
+    //   if(count == 90){
+    //     clearInterval(setData);
+    //   }
+    // }, 1000);
     return index < this.getPercentage() ? atcColor : bgColor;
   }
   

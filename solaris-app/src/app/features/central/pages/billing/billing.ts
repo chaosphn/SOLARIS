@@ -334,7 +334,7 @@ export class Billing implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    
+    this.navSub?.unsubscribe();
   }
 
   async applySiteSelected(siteId: string){
@@ -364,7 +364,7 @@ export class Billing implements OnInit, OnDestroy {
       }
 
       this.loading.set(true);
-      const dt = this.date;
+      const dt = new Date(this.date);
       dt.setHours(0, 0, 0, 0);
       dt.setDate(1);
       const ts = new Date(dt).toISOString();
@@ -481,9 +481,9 @@ export class Billing implements OnInit, OnDestroy {
     const globalConfig = this.billingConfigData().find(x => x.siteId === 'global');
     //console.log('Site config:', siteConfig, 'Global config:', globalConfig);
     if(siteConfig){
-      return siteConfig.energyCost * energyAmount;
+      return siteConfig.energyCost * energyAmount * 1.07;
     } else if(globalConfig) {
-      return globalConfig.energyCost * energyAmount;
+      return globalConfig.energyCost * energyAmount * 1.07;
     }
     return 0;
   }

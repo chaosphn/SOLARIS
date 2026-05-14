@@ -47,7 +47,7 @@ export class ChartService {
         backgroundColor: item.backgroundColor || 'none',
         borderRadius: item.borderRadius || undefined,
         animation: item.animation || false,
-        margin: item.margin || [0,0,0,0,],
+        margin: item.margin || undefined,
         borderColor: item.borderColor || 'var(--chart-brd)',
         borderWidth: item.borderWidth,
       }
@@ -81,7 +81,7 @@ export class ChartService {
         },
         backgroundColor: 'none',
         animation: false,
-        margin: [0,0,0,0,],
+        margin: undefined,
         borderColor: 'var(--chart-brd)',
         borderWidth: 1
       }
@@ -117,8 +117,12 @@ export class ChartService {
         const period = this.dateSer.parseDate(item.max.toString());
         //console.log(period)
         if(period.startTime && period.endTime){
-          this.startDate = new Date(period.startTime).getTime() + 7 * 60 * 60 * 1000;
-          this.endDate = new Date(period.endTime).getTime() + 7 * 60 * 60 * 1000;
+          const startTs = new Date(period.startTime).getTime() + 7 * 60 * 60 * 1000;
+          const endTs = new Date(period.endTime).getTime() + 7 * 60 * 60 * 1000;
+          if (Number.isFinite(startTs) && Number.isFinite(endTs)) {
+            this.startDate = startTs;
+            this.endDate = endTs;
+          }
           //console.log('Start1: '+this.startDate+'\nEnd1: '+this.endDate);
         }
         if(item.max.toString().includes('d')){
@@ -400,7 +404,7 @@ export class ChartService {
         yAxis: item.yAxis || 0,
         fillOpacity: item.fillOpacity,
         borderColor: item.borderColor,
-        borderRadius: item.borderRadius,
+        borderRadius: (item.borderRadius ?? 0) > 0 ? item.borderRadius : undefined,
         borderWidth: item.borderWidth,
         data: data.records
           .filter(x => {

@@ -65,43 +65,38 @@ export class HttpService {
     private router = inject(Router);
 
 
-    getRealtime(requests: RequestRealtimeModel) {
+    async getRealtime(requests: RequestRealtimeModel) {
         const body = requests;
-        return this.httpClient.post( this.appLoadService.config.UrlApi + 'getrealtime', body).pipe(
-            map((x: any) => {
-                
-                return x;
-            })
-        ).toPromise();
+        const res: any = await firstValueFrom(
+            this.httpClient.post( this.appLoadService.config.UrlApi + 'getrealtime', body)
+        );
+        return res;
     }
 
-    getAtTime(requests: RequestAtTimeModel[]) {
+    async getAtTime(requests: RequestAtTimeModel[]) {
         const body = {
             Tags: requests[0].Tags,
             Options: {
                 StartTime: requests[0].TimeStamp
             }
         };
-        return this.httpClient.post( this.appLoadService.config.UrlApi + 'getattime', body).pipe(
-            map((x: any) => {
-                
-                return x;
-            })
-        ).toPromise();
+        const res: any = await firstValueFrom(
+            this.httpClient.post( this.appLoadService.config.UrlApi + 'getattime', body)
+        );
+        return res;
     }
 
     async getHistorian(requests: RequestHistorianModel[]) {
         const body = requests;
-        return this.httpClient.post( this.appLoadService.config.UrlApi + 'gethisdata', body).pipe(
-            map((x: any) => {
-                
-                return x;
-            })
-        ).toPromise();
+        const res: any = await firstValueFrom(
+            this.httpClient.post( this.appLoadService.config.UrlApi + 'gethisdata', body)
+        );
+        return res;
     }
 
     getConfig(path: string): Promise<any[] | undefined> {
         return this.httpClient.get<any[]>(path).toPromise();
+        
     }
 
     getConfig2(path: string): Promise<any> {

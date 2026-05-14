@@ -3,12 +3,11 @@
         <svg
             class="w-100 h-100 bz drop-shadow"
             preserveAspectRatio="xMidYMid meet"
-            viewBox="0 0 1234 681"
+            viewBox="0 0 1234 800"
             style="perspective: 800px;"
             fill="none"
             xmlns="http://www.w3.org/2000/svg">
-            <g id="gbox"  [attr.transform]="getCenterTransform('gbox')"
-                [style.opacity]="isReady ? 1 : 0"
+            <g id="gbox"  
                 >
                 @for (item of displayPanel.group; track $index; let i = $index) {
                     <g [id]="item.id"

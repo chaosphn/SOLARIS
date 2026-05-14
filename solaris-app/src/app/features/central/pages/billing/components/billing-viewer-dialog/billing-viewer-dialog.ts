@@ -145,7 +145,14 @@ export class BillingViewerDialog implements OnInit {
         type
       });
       const url = URL.createObjectURL(blob);
-      this.pdfUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(url));
+      //console.log('Document URL:', url, blob);
+      if(blob?.size > 200) {
+        this.pdfUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(url));
+      } else {
+        this.pdfUrl.set(null);
+        this.store.dispatch(sendMessage({ payload: { type: 'error', text: 'Document not available' } }));
+      }
+      //this.pdfUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(url));
     } catch (error: any) {
       this.pdfUrl.set(null);
       this.store.dispatch(sendMessage({ payload: { type: 'error', text: error?.message || 'Document not available' } }));

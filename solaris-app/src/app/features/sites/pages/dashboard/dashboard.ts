@@ -104,7 +104,7 @@ export class Dashboard implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.initPage();
+    //this.initPage();
   }
 
   ngOnDestroy(): void {

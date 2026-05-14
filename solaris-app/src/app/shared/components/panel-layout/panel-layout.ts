@@ -1,4 +1,4 @@
-import { Component, effect, input, OnInit } from '@angular/core';
+import { Component, effect, input, OnInit, signal } from '@angular/core';
 import { ColorRangeModel, PanelConfigModel, PvGroupModel, PvPanelModel } from '../../models/panel.model';
 import { DataRealtimeModel } from '../../models/response.model';
 import { isNumber } from 'highcharts';
@@ -21,7 +21,8 @@ export class PanelLayout implements OnInit {
   selectedString: string = '';
   hoverString: string | null = null;
   currentPanelIndex: number = 0;
-  isReady = false;
+  isReady = signal<boolean>(false);
+  transletePosition = signal<string>('translate(0, 0)');
 
   constructor(){
     effect(() => {
@@ -109,7 +110,7 @@ export class PanelLayout implements OnInit {
   };
   
   getGradientId(percentage: number | undefined): string {
-    const colors = this.colors();
+    const colors = this.colors() || [];
 
     if (percentage == null || !isNumber(percentage) || !colors?.length) {
       return 'gradient-default';
@@ -135,7 +136,7 @@ export class PanelLayout implements OnInit {
   }
 
   getPanelColor(pr: number | undefined){
-    if(pr != undefined && isNumber(pr)){
+    if(pr != undefined && isNumber(pr) && this.colors() && this.colors().length > 0) {
       // const gradientId = this.getGradientId(pr);
       // return `url(#${gradientId})`;
       let findColor;
@@ -154,7 +155,7 @@ export class PanelLayout implements OnInit {
   }
 
   getPanelStrokeColor(pr: number | undefined) {
-    const colors = this.colors();
+    const colors = this.colors() || [];
 
     // กัน undefined / NaN / array ว่าง
     if (pr == null || !isNumber(pr) || !colors?.length) {
@@ -266,7 +267,7 @@ export class PanelLayout implements OnInit {
 
   // Navigation methods for changing displayPanel
   navigateToPrevious() {
-    this.isReady = false;
+    this.isReady.set(false);
     if (this.panels() && this.panels().length > 0) {
       this.currentPanelIndex = this.currentPanelIndex > 0 
         ? this.currentPanelIndex - 1 
@@ -278,7 +279,7 @@ export class PanelLayout implements OnInit {
   }
 
   navigateToNext() {
-    this.isReady = false;
+    this.isReady.set(false);
     if (this.panels() && this.panels().length > 0) {
       this.currentPanelIndex = this.currentPanelIndex < this.panels().length - 1 
         ? this.currentPanelIndex + 1 
@@ -306,7 +307,7 @@ export class PanelLayout implements OnInit {
   updatePanelData(){
     this.displayPanel = { ...this.displayPanel,
       group: this.displayPanel?.group.map(item => {
-        const avg = item.panel.reduce((acc: number, cur:PvPanelModel) => { 
+        const avg = item.panel?.reduce((acc: number, cur:PvPanelModel) => { 
           acc = acc + (this.dataRealtime()[`${cur.id}`]?.Value??0)
           return acc; 
         }, 0)/item.panel.length;
@@ -348,9 +349,11 @@ export class PanelLayout implements OnInit {
               ).length
       }
     });
+    this.isReady.set(true);
+    setTimeout(() => this.getCenterTransform('gbox'), 0);
   };
 
-  getCenterTransform(id: string) {
+  getCenterTransform(id: string = 'gbox') {
     const el: any = document.getElementById(id);
     if (!el) return '';
 
@@ -360,8 +363,10 @@ export class PanelLayout implements OnInit {
     const centerY = box.y + box.height / 2;
 
     const svgCenterX = 1234 / 2;
-    const svgCenterY = (681 / 2) + 40;
-    this.isReady = true;
-    return `translate(${svgCenterX - centerX}, ${svgCenterY - centerY})`;
+    const svgCenterY = (681 / 2) + 80;
+    
+    el.setAttribute('transform', `translate(${svgCenterX - centerX}, ${svgCenterY - centerY})`);
+    return true;
+    //return `translate(${svgCenterX - centerX}, ${svgCenterY - centerY})`;
   }
 }

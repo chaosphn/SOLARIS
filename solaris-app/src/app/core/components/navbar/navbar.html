@@ -168,7 +168,7 @@
                                 <div>REPORTS</div>
                             </a>
                         </div>
-                        @if (enableDate) {
+                        @if (enableDate()) {
                             <div class="date-picker hide h-100 bz">
                                 <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
                             </div>
@@ -192,7 +192,7 @@
                             <a class="nav-link" routerLink="/main/admin" routerLinkActive="active">BILLING ADMIN</a>
                             <a class="nav-link" routerLink="/main/report-admin" routerLinkActive="active">REPORT ADMIN</a>
                         </div>
-                        @if (enableDate) {
+                        @if (enableDate()) {
                             <div class="date-picker hide h-100 bz">
                                 <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
                             </div>

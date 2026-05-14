@@ -59,7 +59,7 @@ export class Navbar implements OnInit, OnDestroy {
   mode = signal<'dark' | 'light'>('dark');
   logoUrl = signal<string>('assets/images/logo-dark.png');
   date: Date = new Date();
-  enableDate: boolean = false;
+  enableDate = signal<boolean>(false);
   enableSite: string[] = [];
 
   private auth =  inject(AuthService);
@@ -79,7 +79,7 @@ export class Navbar implements OnInit, OnDestroy {
 
     this.dateStateSubscription = this.dateState$.subscribe(state => {
       this.date = state.date;
-      this.enableDate = state.enable;
+      this.enableDate.set(state.enable);
     });
     this.navStateSubscription = this.navState$.subscribe(state => {
       this.currentNavState.set(state);

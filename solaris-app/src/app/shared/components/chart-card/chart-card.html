@@ -34,12 +34,14 @@
                     }
                 }
             </div>
-            <div class="time-box d-flex bz" style="border-radius: 4px;">
-                <div class="time" [class.active]="mode() === 'd'" (click)="setTimeRange('d')">&bull; DAY</div>
-                <div class="time" [class.active]="mode() === 'w'" (click)="setTimeRange('w')">&bull; WEEK</div>
-                <div class="time" [class.active]="mode() === 'm'" (click)="setTimeRange('m')">&bull; MONTH</div>
-                <div class="time" [class.active]="mode() === 'y'" (click)="setTimeRange('y')">&bull; YEAR</div>
-            </div>
+            @if (!fixedMode()) {
+                <div class="time-box d-flex bz" style="border-radius: 4px;">
+                    <div class="time" [class.active]="mode() === 'd'" (click)="setTimeRange('d')">&bull; DAY</div>
+                    <div class="time" [class.active]="mode() === 'w'" (click)="setTimeRange('w')">&bull; WEEK</div>
+                    <div class="time" [class.active]="mode() === 'm'" (click)="setTimeRange('m')">&bull; MONTH</div>
+                    <div class="time" [class.active]="mode() === 'y'" (click)="setTimeRange('y')">&bull; YEAR</div>
+                </div>
+            }
         </div>
     </div>
     <div [id]="name()" class="chart w-100 bz">

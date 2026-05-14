@@ -75,6 +75,11 @@ export class BillingEditorDialog implements OnInit {
     },
   };
 
+  readonly confirmationStatusOptions = Object.entries(this.statusLabelMap['confirmation']).map(([value, label]) => ({ value, label }));
+  readonly invoiceStatusOptions = Object.entries(this.statusLabelMap['invoice']).map(([value, label]) => ({ value, label }));
+  readonly paymentStatusOptions = Object.entries(this.statusLabelMap['payment']).map(([value, label]) => ({ value, label }));
+  readonly receiptStatusOptions = Object.entries(this.statusLabelMap['receipt']).map(([value, label]) => ({ value, label }));
+
   getStatusOptions(process: BillingProcessKey): Array<{ value: string; label: string }> {
     return Object.entries(this.statusLabelMap[process]).map(([value, label]) => ({ value, label }));
   }

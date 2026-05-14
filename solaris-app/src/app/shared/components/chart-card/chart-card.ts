@@ -24,6 +24,7 @@ export class ChartCard {
   dateChange = output<ChartPickerModel>();
 
   isLoading = input<string>('');
+  fixedMode = input<'d' | 'w' | 'm' | 'y'>();
   
   chartItems = signal<ChartParameters>({} as ChartParameters);
   date: Date = new Date();
@@ -100,6 +101,9 @@ export class ChartCard {
           return {} as ChartParameters;
         });
         //console.log('YYYYY')
+      }
+      if(this.fixedMode()){
+        this.mode.set(this.fixedMode()!);
       }
     })
   }

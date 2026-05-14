@@ -140,13 +140,44 @@
                     </div>
                 } 
 
-                <!-- Transaction Reference No. -->
+                <!-- Payment Details -->
                 <div class="force-energy-value bz">
                     <div class="force-energy-value__title">
-                        <span class="material-icons">payment</span>
-                        Transaction Reference No.
+                        <span class="material-icons">receipt_long</span>
+                        Payment Details
                     </div>
-                    <input type="text" class="force-energy-value__input" [(ngModel)]="transactionReferenceNo" />
+
+                    <!-- Type toggle -->
+                    <div class="payment-type-row">
+                        <label class="payment-type-opt" [class.payment-type-opt--active]="paymentType === 'transfer'">
+                            <input type="radio" name="paymentType" value="transfer" [(ngModel)]="paymentType" />
+                            <span class="material-icons">swap_horiz</span>
+                            Transfer
+                        </label>
+                        <label class="payment-type-opt" [class.payment-type-opt--active]="paymentType === 'cheque'">
+                            <input type="radio" name="paymentType" value="cheque" [(ngModel)]="paymentType" />
+                            <span class="material-icons">article</span>
+                            Cheque
+                        </label>
+                    </div>
+
+                    <!-- Bank -->
+                    <div class="pf">
+                        <span class="pf__label">Bank / ธนาคาร</span>
+                        <input type="text" class="force-energy-value__input" [(ngModel)]="bank" placeholder="Bank name…" />
+                    </div>
+
+                    <!-- Ref No. + Date -->
+                    <div class="payment-fields-grid">
+                        <div class="pf">
+                            <span class="pf__label">{{ paymentType === 'cheque' ? 'No. / เลขที่' : 'Account No. / เลขบัญชี' }}</span>
+                            <input type="text" class="force-energy-value__input" [(ngModel)]="paymentId" />
+                        </div>
+                        <div class="pf">
+                            <span class="pf__label">Date / วันที่</span>
+                            <input type="date" class="force-energy-value__input" [(ngModel)]="paymentdate" />
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Comment form -->

@@ -100,7 +100,7 @@ export class Layout implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.initPage();
+    //this.initPage();
   }
 
   ngOnDestroy(): void {

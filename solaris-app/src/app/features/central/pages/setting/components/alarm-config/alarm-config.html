@@ -65,15 +65,17 @@
                 </span>
               </td>
               <td class="action-cell">
-                <button class="action-btn edit-btn"  matTooltip="Duplicate Tag" (click)="copyTag(i)">
-                  <i class="material-icons">content_copy</i>
-                </button>
-                <button class="action-btn edit-btn" (click)="openEditModal(i)" matTooltip="Edit Tag">
-                  <i class="material-icons">edit</i>
-                </button>
-                <button class="action-btn delete-btn" (click)="confirmDeleteTag(i)" matTooltip="Delete Tag">
-                  <i class="material-icons">delete</i>
-                </button>
+                @if (userRole() === 'administrator') {
+                  <button class="action-btn edit-btn"  matTooltip="Duplicate Tag" (click)="copyTag(i)">
+                    <i class="material-icons">content_copy</i>
+                  </button>
+                  <button class="action-btn edit-btn" (click)="openEditModal(i)" matTooltip="Edit Tag">
+                    <i class="material-icons">edit</i>
+                  </button>
+                  <button class="action-btn delete-btn" (click)="confirmDeleteTag(i)" matTooltip="Delete Tag">
+                    <i class="material-icons">delete</i>
+                  </button>
+                }
               </td>
             </tr>
           }

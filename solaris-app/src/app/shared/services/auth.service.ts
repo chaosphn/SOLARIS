@@ -70,6 +70,7 @@ export class AuthService {
     logout() {
         localStorage.clear();
         sessionStorage.clear();
+        this.router.navigate(['/login']);
         //window.location.replace('https://solaris-insight.com/');
     }
 

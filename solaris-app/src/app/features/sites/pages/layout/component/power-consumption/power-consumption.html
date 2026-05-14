@@ -33,7 +33,7 @@
         <!-- <div class="section-title">ENERGY PRODUCTION</div> -->
     </div>
     <div [id]="'SOLAR'" class="w-100 h-100 chart bz">
-        @if (chart()) {
+        @if (chart() && chart().series) {
             <app-highchart
                 [chartParameter]="chart()">
             </app-highchart>

@@ -310,6 +310,9 @@ export interface UpdatePaymentAccountingReviewRequestModel {
   sitename?: string;
   username?: string;
   paymentId?: string;
+  bank?: string;
+  paymentType?: string;
+  paymentDate?: string;
 }
 
 export interface UpdatePaymentCustomerReviewRequestModel {

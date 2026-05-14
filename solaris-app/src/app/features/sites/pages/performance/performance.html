@@ -29,6 +29,7 @@
         <app-card-container [title]="'INVERTER YIELD'">
             <ng-template #container>
                 <app-chart-card
+                    [fixedMode]="'d'"
                     [name]="'INVERTER'"
                     [isLoading]="loadingChart()"
                     [chartData]="dataChart()['INVERTER']"

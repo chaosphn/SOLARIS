@@ -2,11 +2,17 @@
     <div class="layoutCard bz">
         <app-card-container [title]="'PLANT ‘ PV LAYOUT'">
             <ng-template #container>
+                @if (panelList() && panelList().length > 0) {
                 <app-panel-layout
                     [dataRealtime]="dataRealtime()"
                     [colors]="colorRange()"
                     [panels]="panelList()"
                 ></app-panel-layout>
+                } @else {
+                    <div class="w-100 h-100 d-flex-ct">
+                        <p class="text-secondary">No panel layout data available.</p>
+                    </div>
+                }
             </ng-template>
         </app-card-container>
     </div>
@@ -31,9 +37,11 @@
                         <app-piechart [vertical]="true" [enable3D]="true" [statusData]="plantStatusData()"></app-piechart>
                     </div>
                     <div [id]="'SOLAR'" class="w-100 h-100 chart bz" style="max-height: 90%;">
-                        <app-highchart
-                            [chartParameter]="dataChart()['CHART02']">
-                        </app-highchart>
+                        @if (dataChart()['CHART02'] && dataChart()['CHART02'].series) {
+                            <app-highchart
+                                [chartParameter]="dataChart()['CHART02']">
+                            </app-highchart>
+                        }
                     </div>
                </div>
             </ng-template>
