@@ -3100,7 +3100,6 @@
             "lineWidth": 0,
             "gridLineColor": "var(--chart-brd)",
             "gridLineWidth": 0,
-            "max": 6000,
             "tickInterval": 250,
             "margin": 0,
             "min": 0

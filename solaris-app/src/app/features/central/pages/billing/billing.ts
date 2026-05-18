@@ -480,7 +480,7 @@ export class Billing implements OnInit, OnDestroy {
     const siteConfig = this.billingConfigData().find(x => x.siteId === siteId);
     const globalConfig = this.billingConfigData().find(x => x.siteId === 'global');
     //console.log('Site config:', siteConfig, 'Global config:', globalConfig);
-    if(siteConfig){
+    if(siteConfig && siteConfig.energyCost && siteConfig.energyCost > 0){
       return siteConfig.energyCost * energyAmount * 1.07;
     } else if(globalConfig) {
       return globalConfig.energyCost * energyAmount * 1.07;
@@ -852,25 +852,29 @@ export class Billing implements OnInit, OnDestroy {
     if(!item || !globalConfig || !siteConfig) return;
     switch ((item.billing_process || '').toLowerCase()) {
       case 'confirmation':
-          if(item.confirmation_status === 'prepared' || item.confirmation_status === 'user_wait_for_approve'){
+          if(item.confirmation_status === 'prepared' || item.confirmation_status === 'user_wait_for_approve' || item.confirmation_status === 'user_reject' || item.confirmation_status === 'customer_reject'){
             const userCanApprove = [...globalConfig.confirmation_user, ...siteConfig.confirmation_user];
             //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
-            if(this.userRole() === 'administrator'){
-              this.openConfirmationInternalDialog(row);
-            }
-            if(user && userCanApprove.includes(user._id)){
+            const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
+            if(hasPrivilege){
+              if(this.userRole() === 'administrator' && !(user && userCanApprove.includes(user._id))){
+                this.sendingTextMessage('warn', 'You do not have permission to approve this confirmation');
+              }
               this.openConfirmationInternalDialog(row);
             } else {
               this.sendingTextMessage('warn', 'You do not have permission to approve this confirmation');
             }
           };
-          if(item.confirmation_status === 'customer_wait_for_approve'){
+          if(item.confirmation_status === 'customer_wait_for_approve' 
+            // || item.confirmation_status === 'customer_reject'
+          ){
             const userCanApprove = [...globalConfig.confirmation_customer, ...siteConfig.confirmation_customer];
             //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
-            if(this.userRole() === 'administrator'){
-              this.openConfirmationCustomerDialog(row);
-            }
-            if(user && userCanApprove.includes(user._id)){
+            const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
+            if(hasPrivilege){
+              if(this.userRole() === 'administrator' && !(user && userCanApprove.includes(user._id))){
+                this.sendingTextMessage('warn', 'You do not have permission to approve this confirmation');
+              }
               this.openConfirmationCustomerDialog(row);
             } else {
               this.sendingTextMessage('warn', 'You do not have permission to approve this confirmation');
@@ -881,10 +885,11 @@ export class Billing implements OnInit, OnDestroy {
           if(item.invoice_status === 'prepared' || item.invoice_status === 'account_wait_for_approve'){
             const userCanApprove = [...globalConfig.invoice_account, ...siteConfig.invoice_account];
             //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
-            if(this.userRole() === 'administrator'){
-              this.openInvoiceAccountingDialog(row);
-            }
-            if(user && userCanApprove.includes(user._id)){
+            const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
+            if(hasPrivilege){
+              if(this.userRole() === 'administrator' && !(user && userCanApprove.includes(user._id))){
+                this.sendingTextMessage('warn', 'You do not have permission to approve this invoice');
+              }
               this.openInvoiceAccountingDialog(row);
             } else {
               this.sendingTextMessage('warn', 'You do not have permission to approve this invoice');
@@ -895,13 +900,14 @@ export class Billing implements OnInit, OnDestroy {
           if(item.payment_status === 'customer_paid'){
             const userCanApprove = [...globalConfig.receipt_account, ...siteConfig.receipt_account];
             //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
-            if(this.userRole() === 'administrator'){
-              this.openPaymentConfirmationDialog(row);
-            }
-            if(user && userCanApprove.includes(user._id)){
+            const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
+            if(hasPrivilege){
+              if(this.userRole() === 'administrator' && !(user && userCanApprove.includes(user._id))){
+                this.sendingTextMessage('warn', 'You do not have permission to approve this payment information');
+              }
               this.openPaymentConfirmationDialog(row);
             } else {
-              this.sendingTextMessage('warn', 'You do not have permission to approve this invoice');
+              this.sendingTextMessage('warn', 'You do not have permission to approve this payment information');
             }
           };
         break;
@@ -909,25 +915,27 @@ export class Billing implements OnInit, OnDestroy {
         if(item.reciept_status === 'prepared'){
           const userCanApprove = [...globalConfig.receipt_account, ...siteConfig.receipt_account];
           //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
-          if(this.userRole() === 'administrator'){
-            this.openReceiptInternalDialog(row);
-          }
-          if(user && userCanApprove.includes(user._id)){
+          const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
+          if(hasPrivilege){
+            if(this.userRole() === 'administrator' && !(user && userCanApprove.includes(user._id))){
+                this.sendingTextMessage('warn', 'You do not have permission to approve this receipt');
+              }
             this.openReceiptInternalDialog(row);
           } else {
-            this.sendingTextMessage('warn', 'You do not have permission to approve this invoice');
+            this.sendingTextMessage('warn', 'You do not have permission to approve this receipt');
           }
         };
         if(item.reciept_status === 'customer_wait_for_approve'){
           const userCanApprove = [...globalConfig.receipt_customer, ...siteConfig.receipt_customer];
           //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
-          if(this.userRole() === 'administrator'){
-            this.openReceiptConfirmationDialog(row);
-          }
-          if(user && userCanApprove.includes(user._id)){
+          const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
+          if(hasPrivilege){
+            if(this.userRole() === 'administrator' && !(user && userCanApprove.includes(user._id))){
+              this.sendingTextMessage('warn', 'You do not have permission to approve this receipt');
+            }
             this.openReceiptConfirmationDialog(row);
           } else {
-            this.sendingTextMessage('warn', 'You do not have permission to approve this invoice');
+            this.sendingTextMessage('warn', 'You do not have permission to approve this receipt');
           }
         };
         break;

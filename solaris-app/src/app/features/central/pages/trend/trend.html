@@ -5,8 +5,13 @@
                 <div class="item w-100 h-100 bz brd">
                     <div class="item-title w-100">{{item.id}}: {{item.name | uppercase}}</div>
                     <div class="item-content w-100 h-100" >
-                        <app-highchart [chartParameter]="dataChart()[item.id]" >
-                        </app-highchart>
+                        <!-- <app-highchart [chartParameter]="dataChart()[item.id]" >
+                        </app-highchart> -->
+                        @if(isLoading() ){
+                            <app-skeleton-box></app-skeleton-box>
+                        } @else if(dataChart()[item.id]) {
+                            <app-highchart [chartParameter]="dataChart()[item.id]"></app-highchart>
+                        }
                     </div>
                 </div>
             }

@@ -2,21 +2,21 @@
     <div class="content-box w-100 h-100 bz">
         <div class="header d-flex-st w-100" style="gap: 8px;">
             <div class="item" (click)="changeTabs('user')" 
-                [ngClass]="{ 'item-active' : tabMode === 'user' }">
+                [ngClass]="{ 'item-active' : tabMode() === 'user' }">
                     USERS SETTING
             </div>
             <div class="item" (click)="changeTabs('alarm')"
-                [ngClass]="{ 'item-active' : tabMode === 'alarm' }">
+                [ngClass]="{ 'item-active' : tabMode() === 'alarm' }">
                     ALARM SETTING
             </div>
             <div class="item" (click)="changeTabs('notification')"
-                [ngClass]="{ 'item-active' : tabMode === 'notification' }">
+                [ngClass]="{ 'item-active' : tabMode() === 'notification' }">
                     NOTIFICATION CHANNELS
             </div>
         </div>
         <div class="content w-100 h-100">
             <!-- User Setting Box -->
-            @switch (tabMode) {
+            @switch (tabMode()) {
                 @case ('user') {
                     <app-user-config ></app-user-config>
                 }

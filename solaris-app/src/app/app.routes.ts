@@ -94,6 +94,11 @@ export const routes: Routes = [
                 loadChildren: () => import('./features/sites/pages/diagram/diagram-module').then(m => m.DiagramModule)
             },
             {
+                path: 'control',
+                canActivate: [PermissionGuard],
+                loadChildren: () => import('./features/sites/pages/control/control-module').then(m => m.ControlModule)
+            },
+            {
                 path: 'charts',
                 canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/sites/pages/chart/chart-module').then(m => m.ChartModule)

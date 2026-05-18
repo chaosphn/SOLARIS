@@ -10,6 +10,7 @@ export class AppInitService {
     UrlApiAuthen: undefined,
     UrlApiBilling: undefined,
     UrlApiNotification: undefined,
+    UrlApiMaintenance: undefined,
     Timer: 60,
   };
 
@@ -31,6 +32,7 @@ export class AppInitService {
       this.config.UrlApiAuthen = data.UrlApiAuthen;
       this.config.UrlApiBilling = data.UrlApiBilling;
       this.config.UrlApiNotification = data.UrlApiNotification;
+      this.config.UrlApiMaintenance = data.UrlApiMaintenance;
       this.config.Timer = data.Timer;
       
       return this.config;

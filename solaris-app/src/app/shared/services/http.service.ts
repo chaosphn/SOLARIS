@@ -54,6 +54,70 @@ import {
 import { CreateReportRequestModel, DeleteReportRequestModel, ReportConfigResponseModel, ReportResponseModel, UpdateReportRequestModel } from '../../features/central/models/report.model';
 import { AddNotificationConfigModel, DeleteNotificationConfigModel, EventConfigModel, EventConfigResponseModel, EventDataModel, EventRequestModel, EventSummaryModel, ExpressionParseResultModel, FilterEventRequestModel, NotificationConfigModel, UpdateNotificationConfigModel } from '../../features/sites/models/event.model';
 import { HolidayRequestModel, HolidayResponseModel, SetHolidayModel, SetHolidayRequestModel } from '../models/holiday.model';
+import {
+    MaintenanceResponse,
+    PlantModel,
+    GetPlantByIdRequest,
+    MaintenanceUserModel,
+    WorkOrderModel,
+    GetWorkOrderByIdRequest,
+    GetWorkOrdersByPlantRequest,
+    GetWorkOrdersByStatusRequest,
+    GetWorkOrdersByAssigneeRequest,
+    CreateWorkOrderRequest,
+    UpdateWorkOrderRequest,
+    UpdateWorkOrderStatusRequest,
+    DeleteWorkOrderRequest,
+    ChecklistItemModel,
+    GetChecklistsByWorkOrderRequest,
+    CreateChecklistRequest,
+    UpdateChecklistRequest,
+    ToggleChecklistRequest,
+    DeleteChecklistRequest,
+    WoReportModel,
+    GetReportByWorkOrderRequest,
+    CreateWoReportRequest,
+    UpdateWoReportRequest,
+    DeleteWoReportRequest,
+    WoPhotoModel,
+    GetPhotosByWorkOrderRequest,
+    UploadPhotoRequest,
+    DeletePhotoRequest,
+    WoSignatureModel,
+    GetSignatureByWorkOrderRequest,
+    CreateSignatureRequest,
+    DeleteSignatureRequest,
+    MaintenanceScheduleModel,
+    GetScheduleByIdRequest,
+    GetSchedulesByPlantRequest,
+    CreateScheduleRequest,
+    UpdateScheduleRequest,
+    DeleteScheduleRequest,
+    MaintenanceLogModel,
+    GetLogsByWorkOrderRequest,
+    DeleteLogRequest,
+} from '../models/maintenance.model';
+import {
+    CreateInverterSessionRequest,
+    DestroyInverterSessionRequest,
+    GetInverterDevicesRequest,
+    GetInverterStatusRequest,
+    SendInverterCommandRequest,
+    GetInverterCommandLogsRequest,
+    InverterSessionResponse,
+    InverterDevicesResponse,
+    InverterStatusResponse,
+    InverterCommandResponse,
+    InverterCommandLogsResponse,
+} from '../models/inverter.model';
+import {
+    MockInverterSession,
+    MockDestroySession,
+    MockInverterDevices,
+    MockInverterStatus,
+    MockCommandSuccess,
+    MockInverterCommandLogs,
+} from '../../mockup/inverter';
 
 @Injectable({
     providedIn: 'root'
@@ -853,5 +917,347 @@ export class HttpService {
         );
         return res;
     }
-    
+
+    // ─── Plants ────────────────────────────────────────────────────────────────
+
+    async getPlants() {
+        const res = await firstValueFrom(
+            this.httpClient.get<MaintenanceResponse<PlantModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'plants/get')
+        );
+        return res;
+    }
+
+    async getPlantById(body: GetPlantByIdRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse<PlantModel>>(this.appLoadService.config.UrlApiMaintenance + 'plants/find', body)
+        );
+        return res;
+    }
+
+    // ─── Users ─────────────────────────────────────────────────────────────────
+
+    async getMaintenanceUsers() {
+        const res = await firstValueFrom(
+            this.httpClient.get<MaintenanceResponse<MaintenanceUserModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'users/get')
+        );
+        return res;
+    }
+
+    // ─── Work Orders ───────────────────────────────────────────────────────────
+
+    async getAllWorkOrders() {
+        const res = await firstValueFrom(
+            this.httpClient.get<MaintenanceResponse<WorkOrderModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/work-orders/get')
+        );
+        return res;
+    }
+
+    async getWorkOrderById(body: GetWorkOrderByIdRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse<WorkOrderModel>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/work-orders/find', body)
+        );
+        return res;
+    }
+
+    async getWorkOrdersByPlant(body: GetWorkOrdersByPlantRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse<WorkOrderModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/work-orders/find-by-plant', body)
+        );
+        return res;
+    }
+
+    async getWorkOrdersByStatus(body: GetWorkOrdersByStatusRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse<WorkOrderModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/work-orders/find-by-status', body)
+        );
+        return res;
+    }
+
+    async getWorkOrdersByAssignee(body: GetWorkOrdersByAssigneeRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse<WorkOrderModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/work-orders/find-by-assignee', body)
+        );
+        return res;
+    }
+
+    async createWorkOrder(body: CreateWorkOrderRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/work-orders/set', body)
+        );
+        return res;
+    }
+
+    async updateWorkOrder(body: UpdateWorkOrderRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/work-orders/update', body)
+        );
+        return res;
+    }
+
+    async updateWorkOrderStatus(body: UpdateWorkOrderStatusRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/work-orders/update-status', body)
+        );
+        return res;
+    }
+
+    async deleteWorkOrder(body: DeleteWorkOrderRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/work-orders/delete', body)
+        );
+        return res;
+    }
+
+    // ─── Checklists ────────────────────────────────────────────────────────────
+
+    async getChecklistsByWorkOrder(body: GetChecklistsByWorkOrderRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse<ChecklistItemModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/checklists/find-by-wo', body)
+        );
+        return res;
+    }
+
+    async createChecklist(body: CreateChecklistRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/checklists/set', body)
+        );
+        return res;
+    }
+
+    async updateChecklist(body: UpdateChecklistRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/checklists/update', body)
+        );
+        return res;
+    }
+
+    async toggleChecklist(body: ToggleChecklistRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/checklists/toggle', body)
+        );
+        return res;
+    }
+
+    async deleteChecklist(body: DeleteChecklistRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/checklists/delete', body)
+        );
+        return res;
+    }
+
+    // ─── WO Reports ────────────────────────────────────────────────────────────
+
+    async getWoReport(body: GetReportByWorkOrderRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse<WoReportModel>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/reports/find-by-wo', body)
+        );
+        return res;
+    }
+
+    async createWoReport(body: CreateWoReportRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/reports/set', body)
+        );
+        return res;
+    }
+
+    async updateWoReport(body: UpdateWoReportRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/reports/update', body)
+        );
+        return res;
+    }
+
+    async deleteWoReport(body: DeleteWoReportRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/reports/delete', body)
+        );
+        return res;
+    }
+
+    // ─── Photos ────────────────────────────────────────────────────────────────
+
+    async getPhotosByWorkOrder(body: GetPhotosByWorkOrderRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse<WoPhotoModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/photos/find-by-wo', body)
+        );
+        return res;
+    }
+
+    async uploadWoPhoto(body: UploadPhotoRequest) {
+        const formData = new FormData();
+        formData.append('file', body.file, body.file.name);
+        formData.append('work_order_id', String(body.work_order_id));
+        if (body.caption) formData.append('caption', body.caption);
+        if (body.photo_type) formData.append('photo_type', body.photo_type);
+
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/photos/upload', formData)
+        );
+        return res;
+    }
+
+    async deleteWoPhoto(body: DeletePhotoRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/photos/delete', body)
+        );
+        return res;
+    }
+
+    // ─── Signatures ────────────────────────────────────────────────────────────
+
+    async getSignatureByWorkOrder(body: GetSignatureByWorkOrderRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse<WoSignatureModel>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/signatures/find-by-wo', body)
+        );
+        return res;
+    }
+
+    async createSignature(body: CreateSignatureRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/signatures/set', body)
+        );
+        return res;
+    }
+
+    async deleteSignature(body: DeleteSignatureRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/signatures/delete', body)
+        );
+        return res;
+    }
+
+    // ─── Maintenance Schedules ─────────────────────────────────────────────────
+
+    async getAllMaintenanceSchedules() {
+        const res = await firstValueFrom(
+            this.httpClient.get<MaintenanceResponse<MaintenanceScheduleModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/schedules/get')
+        );
+        return res;
+    }
+
+    async getMaintenanceScheduleById(body: GetScheduleByIdRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse<MaintenanceScheduleModel>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/schedules/find', body)
+        );
+        return res;
+    }
+
+    async getMaintenanceSchedulesByPlant(body: GetSchedulesByPlantRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse<MaintenanceScheduleModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/schedules/find-by-plant', body)
+        );
+        return res;
+    }
+
+    async createMaintenanceSchedule(body: CreateScheduleRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/schedules/set', body)
+        );
+        return res;
+    }
+
+    async updateMaintenanceSchedule(body: UpdateScheduleRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/schedules/update', body)
+        );
+        return res;
+    }
+
+    async deleteMaintenanceSchedule(body: DeleteScheduleRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/schedules/delete', body)
+        );
+        return res;
+    }
+
+    // ─── Audit Logs ────────────────────────────────────────────────────────────
+
+    async getAllMaintenanceLogs() {
+        const res = await firstValueFrom(
+            this.httpClient.get<MaintenanceResponse<MaintenanceLogModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/logs/get')
+        );
+        return res;
+    }
+
+    async getMaintenanceLogsByWorkOrder(body: GetLogsByWorkOrderRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse<MaintenanceLogModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/logs/find-by-wo', body)
+        );
+        return res;
+    }
+
+    async deleteMaintenanceLog(body: DeleteLogRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/logs/delete', body)
+        );
+        return res;
+    }
+
+    // ─── Inverter Control ──────────────────────────────────────────────────────
+    // ตั้ง INVERTER_MOCK = true เพื่อใช้ mock data แทน API จริง
+    private readonly INVERTER_MOCK = true;
+
+    async createInverterSession(body: CreateInverterSessionRequest): Promise<InverterSessionResponse> {
+        if (this.INVERTER_MOCK) return MockInverterSession;
+        const res = await firstValueFrom(
+            this.httpClient.post<InverterSessionResponse>(this.appLoadService.config.UrlApiMaintenance + 'inverter/auth', body)
+        );
+        return res;
+    }
+
+    async destroyInverterSession(body: DestroyInverterSessionRequest): Promise<InverterSessionResponse> {
+        if (this.INVERTER_MOCK) return MockDestroySession;
+        const res = await firstValueFrom(
+            this.httpClient.post<InverterSessionResponse>(this.appLoadService.config.UrlApiMaintenance + 'inverter/auth/destroy', body)
+        );
+        return res;
+    }
+
+    async getInverterDevices(body: GetInverterDevicesRequest): Promise<InverterDevicesResponse> {
+        if (this.INVERTER_MOCK) return MockInverterDevices;
+        const res = await firstValueFrom(
+            this.httpClient.post<InverterDevicesResponse>(this.appLoadService.config.UrlApiMaintenance + 'inverter/devices', body)
+        );
+        return res;
+    }
+
+    async getInverterStatus(body: GetInverterStatusRequest): Promise<InverterStatusResponse> {
+        if (this.INVERTER_MOCK) {
+            const reqIds = Array.isArray(body.devIds)
+                ? body.devIds
+                : body.devIds.split(',').map(s => s.trim());
+            const filtered = (MockInverterStatus.data ?? []).filter(
+                s => reqIds.includes(s.devId ?? '')
+            );
+            return { status: 'success', data: filtered };
+        }
+        const res = await firstValueFrom(
+            this.httpClient.post<InverterStatusResponse>(this.appLoadService.config.UrlApiMaintenance + 'inverter/status', body)
+        );
+        return res;
+    }
+
+    async sendInverterCommand(body: SendInverterCommandRequest): Promise<InverterCommandResponse> {
+        if (this.INVERTER_MOCK) return MockCommandSuccess(body.command, body.deviceSn);
+        const res = await firstValueFrom(
+            this.httpClient.post<InverterCommandResponse>(this.appLoadService.config.UrlApiMaintenance + 'inverter/control', body)
+        );
+        return res;
+    }
+
+    async getInverterCommandLogs(body: GetInverterCommandLogsRequest): Promise<InverterCommandLogsResponse> {
+        if (this.INVERTER_MOCK) {
+            const logs = body.siteId
+                ? (MockInverterCommandLogs.data ?? []).filter(l => l.site_id === body.siteId)
+                : (MockInverterCommandLogs.data ?? []);
+            const limit = body.limit ?? 50;
+            return { status: 'success', data: logs.slice(0, limit) };
+        }
+        const res = await firstValueFrom(
+            this.httpClient.post<InverterCommandLogsResponse>(this.appLoadService.config.UrlApiMaintenance + 'inverter/logs', body)
+        );
+        return res;
+    }
+
 }

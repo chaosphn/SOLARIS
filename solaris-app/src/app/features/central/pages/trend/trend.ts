@@ -61,6 +61,8 @@ export class Trend implements OnInit, OnDestroy {
   date: Date = new Date();
 
   oldStateDate: Date = new Date(this.date.setHours(0,0,0,0));
+
+  isLoading = signal<boolean>(false);
   private http = inject(HttpService);
   private store = inject(Store);
   private appInit = inject(AppInitService);
@@ -78,9 +80,6 @@ export class Trend implements OnInit, OnDestroy {
       }
     });
     this.dateState$ = this.store.select(getDateState);
-  }
-
-  ngOnInit(): void {
     this.store.dispatch(setDateEnable({ payload: true }));
     //this.initPage();
     this.dateStateSubscription = this.dateState$.subscribe(async(state) => {
@@ -120,6 +119,9 @@ export class Trend implements OnInit, OnDestroy {
         await this.initPage();
       }
     });
+  }
+
+  ngOnInit(): void {
   }
 
   ngOnDestroy(): void {
@@ -194,7 +196,7 @@ export class Trend implements OnInit, OnDestroy {
         }
         
         if (state.data_chart && Object.keys(state.data_chart).length > 0) {
-          this.dataChart.update(prev => state.data_chart);
+          this.dataChart.update(prev => JSON.parse(JSON.stringify(state.data_chart)));
           hasData = true;
         }
           resolve(hasData);
@@ -405,6 +407,7 @@ export class Trend implements OnInit, OnDestroy {
 
   async getHistorianData(){
     if (this.requestHistorian() && this.requestHistorian().length > 0) {
+      this.isLoading.set(true);
       const result = this.requestHistorian().map(async(item) => {
         const request = item.Request;
         const response:ResponseHistorianModel[] = await this.http.getHistorian(request);
@@ -460,6 +463,7 @@ export class Trend implements OnInit, OnDestroy {
         this.store.dispatch(TrendActions.loadTrendChartDataSuccess({ data: this.dataChart() }));
         this.store.dispatch(TrendActions.loadTrendHistorianDataSuccess({ data: this.dataHistorian() }));
       }
+      this.isLoading.set(false);
     }
   }
 

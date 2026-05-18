@@ -18,7 +18,7 @@ export class PagesService {
       level: 'site',
       page: [ 
         { name: 'Overview', path: 'layout' }, { name: 'Dashboard', path: 'dashboard' }, { name: 'Performance', path: 'efficiency' }
-        ,{ name: 'Realtime', path: 'realtime' }, { name: 'Diagram', path: 'diagram' }, { name: 'Charts', path: 'charts' }
+        ,{ name: 'Realtime', path: 'realtime' }, { name: 'Diagram', path: 'diagram' }, /*{ name: 'Control', path: 'control' },*/ { name: 'Charts', path: 'charts' }
         ,{ name: 'Event', path: 'event' }, { name: 'Report', path: 'report' }
       ]
     }

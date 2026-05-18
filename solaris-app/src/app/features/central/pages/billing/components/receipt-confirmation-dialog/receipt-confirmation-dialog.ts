@@ -4,6 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { HttpService } from '../../../../../../shared/services/http.service';
 import { sendMessage } from '../../../../../../store/actions/toaster.actions';
+import { ConfirmDialog, ConfirmDialogData } from '../../../../../../shared/components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-receipt-confirmation-dialog',
@@ -121,10 +122,28 @@ export class ReceiptConfirmationDialog implements OnInit {
 
   /* ================= FINAL CONFIRM ================= */
 
-  confirmAction() {
-    if (confirm('Confirm all process?')) {
-      this.confirmFinal();
-    }
+  confirmAction(): void {
+    const isApprove = true;
+    const dialogData: ConfirmDialogData = {
+      title:       'Confirmation Required',
+      message:     'Are you sure you want to approve this receipt?',
+      subMessage:  'This action cannot be undone.',
+      confirmText: isApprove ? 'Approve' : 'Cancel',
+      cancelText:  'Cancel',
+      type:        isApprove ? 'info' : 'warning',
+    };
+  
+    const ref = this.dialogs.open(ConfirmDialog, {
+      width: '480px',
+      data: dialogData,
+      panelClass: 'confirm-dialog-panel'
+    });
+  
+    ref.afterClosed().subscribe(async result => {
+      if (result === true) {
+        await this.confirmFinal();
+      }
+    });
   }
 
   async confirmFinal() {

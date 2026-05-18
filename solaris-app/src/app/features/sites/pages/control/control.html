@@ -1,0 +1,464 @@
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     LOGIN SCREEN
+═══════════════════════════════════════════════════════════════════════════ -->
+@if (sessionState() === 'login' || sessionState() === 'connecting') {
+    <div class="login-screen">
+        <div class="login-card">
+            <div class="login-icon-wrap">
+                <span class="material-icons">bolt</span>
+            </div>
+            <div class="login-title">FusionSolar Connect</div>
+            <div class="login-sub">Connect to Huawei FusionSolar to control inverters</div>
+
+            @if (loginError()) {
+                <div class="login-error">
+                    <span class="material-icons">error_outline</span>
+                    {{ loginError() }}
+                </div>
+            }
+
+            <div class="login-field">
+                <label>Username</label>
+                <input type="text"
+                       [(ngModel)]="loginUsername"
+                       placeholder="FusionSolar username"
+                       [disabled]="sessionState() === 'connecting'"
+                       (keyup.enter)="onLogin()" />
+            </div>
+            <div class="login-field">
+                <label>System Code</label>
+                <input type="password"
+                       [(ngModel)]="loginSystemCode"
+                       placeholder="System code"
+                       [disabled]="sessionState() === 'connecting'"
+                       (keyup.enter)="onLogin()" />
+            </div>
+            <div class="login-field">
+                <label>Station Code</label>
+                <input type="text"
+                       [(ngModel)]="loginStationCode"
+                       placeholder="FusionSolar station code"
+                       [disabled]="sessionState() === 'connecting'"
+                       (keyup.enter)="onLogin()" />
+                <div class="login-field-hint">Station code from FusionSolar portal, e.g. NE=XXXXXXXXXX</div>
+            </div>
+
+            <button class="login-btn"
+                    (click)="onLogin()"
+                    [disabled]="sessionState() === 'connecting'">
+                @if (sessionState() === 'connecting') {
+                    <span class="material-icons spinning">sync</span>
+                    Connecting...
+                } @else {
+                    <span class="material-icons">link</span>
+                    CONNECT
+                }
+            </button>
+        </div>
+    </div>
+}
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     MAIN CONTROL PAGE
+═══════════════════════════════════════════════════════════════════════════ -->
+@if (sessionState() === 'ready') {
+    <div class="ctrl-page">
+
+        <!-- Session Bar -->
+        <div class="session-bar">
+            <div class="session-info">
+                <span class="material-icons session-ok-icon">verified_user</span>
+                <span class="session-user">{{ loginUsername }}</span>
+                @if (sessionExpiry()) {
+                    <span class="session-expiry">· expires {{ formatDate(sessionExpiry()!) }}</span>
+                }
+            </div>
+            <div class="session-actions">
+                <button class="session-btn" (click)="loadDevices()" [disabled]="loadingDevices()">
+                    <span class="material-icons" [class.spinning]="loadingDevices()">refresh</span>
+                    Refresh Devices
+                </button>
+                <button class="session-btn logout-btn" (click)="onLogout()">
+                    <span class="material-icons">logout</span>
+                    Logout
+                </button>
+            </div>
+        </div>
+
+        <div class="ctrl-layout">
+
+            <!-- ── Device List Panel ───────────────────────────────────────── -->
+            <div class="inv-panel">
+                <div class="inv-panel-header">
+                    <div class="inv-panel-label">Inverters — {{ siteSelected() }}</div>
+                    <div class="inv-badges">
+                        <span class="badge badge-run">
+                            <span class="badge-dot"></span>
+                            {{ runningCount() }} Running
+                        </span>
+                    </div>
+                </div>
+
+                <div class="inv-list">
+                    @if (loadingDevices()) {
+                        <div class="inv-loading">
+                            <span class="material-icons spinning">sync</span>
+                            Loading devices...
+                        </div>
+                    }
+
+                    @for (device of devices(); track device.devDn) {
+                        <div class="inv-item"
+                             [class.active]="selectedDevice()?.devDn === device.devDn"
+                             (click)="selectDevice(device)">
+                            <div class="inv-dot" [ngClass]="'dot-' + getRunState(device)"></div>
+                            <div class="inv-info">
+                                <div class="inv-name">{{ device.devName || device.devDn }}</div>
+                                <div class="inv-sub">{{ device.esnCode || ('Type ' + device.devTypeId) }}</div>
+                            </div>
+                            <div class="inv-kw" [ngClass]="'kw-' + getRunState(device)">
+                                @switch (getRunState(device)) {
+                                    @case ('running') {
+                                        {{ (deviceStatusMap()[device.devDn || '']?.dataItemMap?.active_power ?? 0) | number:'1.1-1' }} kW
+                                    }
+                                    @case ('fault') { FAULT }
+                                    @case ('standby') { STANDBY }
+                                    @default { — }
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    @if (!loadingDevices() && devices().length === 0) {
+                        <div class="inv-empty">
+                            <span class="material-icons">search_off</span>
+                            No inverters found
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- ── Main Area ───────────────────────────────────────────────── -->
+            <div class="main-area">
+                <div class="main-scroll">
+
+                    @if (!selectedDevice() && !loadingDevices()) {
+                        <div class="no-device">
+                            <span class="material-icons">touch_app</span>
+                            <span>Select an inverter from the list on the left</span>
+                        </div>
+                    }
+
+                    @if (selectedDevice()) {
+
+                        <!-- Status Card -->
+                        <div class="status-card">
+                            <div class="status-left">
+                                <div class="status-icon-circle">
+                                    <span class="material-icons">bolt</span>
+                                </div>
+                                <div>
+                                    <div class="status-name">{{ selectedDevice()?.devName || selectedDevice()?.devDn }}</div>
+                                    <div class="status-model">{{ selectedDevice()?.esnCode || 'SUN2000' }}</div>
+                                </div>
+                                <div class="status-badge" [ngClass]="'badge-state-' + getStatusRunState()">
+                                    @if (getStatusRunState() === 'running') {
+                                        <div class="pulse"></div>
+                                    }
+                                    @switch (getStatusRunState()) {
+                                        @case ('running') { RUNNING }
+                                        @case ('fault') { FAULT }
+                                        @case ('standby') { STANDBY }
+                                        @default { OFFLINE }
+                                    }
+                                </div>
+                            </div>
+                            <div class="status-stats">
+                                <div class="stat-item">
+                                    <div class="stat-val blue">
+                                        {{ getActivePower() | number:'1.1-1' }}
+                                        <span class="stat-unit">kW</span>
+                                    </div>
+                                    <div class="stat-label">Active Power</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-val">
+                                        {{ getReactivePower() | number:'1.1-1' }}
+                                        <span class="stat-unit">kVar</span>
+                                    </div>
+                                    <div class="stat-label">Reactive Power</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-val green">
+                                        {{ getEfficiency() | number:'1.1-1' }}
+                                        <span class="stat-unit">%</span>
+                                    </div>
+                                    <div class="stat-label">Efficiency</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-val">
+                                        {{ getFrequency() | number:'1.2-2' }}
+                                        <span class="stat-unit">Hz</span>
+                                    </div>
+                                    <div class="stat-label">Frequency</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-val">
+                                        {{ getTemperature() | number:'1.1-1' }}
+                                        <span class="stat-unit">°C</span>
+                                    </div>
+                                    <div class="stat-label">Temperature</div>
+                                </div>
+                                <button class="refresh-status-btn"
+                                        (click)="refreshDeviceStatus()"
+                                        [disabled]="loadingStatus()">
+                                    <span class="material-icons" [class.spinning]="loadingStatus()">refresh</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Control Cards Grid -->
+                        <div class="control-grid">
+
+                            <!-- Shutdown Card -->
+                            <div class="ctrl-card">
+                                <div class="ctrl-card-header danger-accent">
+                                    <span class="material-icons" style="color:var(--status-fault)">power_settings_new</span>
+                                    <span class="ctrl-card-title">Shutdown</span>
+                                </div>
+                                <div class="ctrl-card-body">
+                                    <div class="shutdown-desc">
+                                        <span class="material-icons warn-amber">warning_amber</span>
+                                        <p>Immediately stops the inverter. Power generation will cease until the unit is restarted.</p>
+                                    </div>
+                                    <div class="shutdown-info-rows">
+                                        <div class="shutdown-info-row">
+                                            <span>Current output</span>
+                                            <span class="info-val">{{ getActivePower() | number:'1.1-1' }} kW</span>
+                                        </div>
+                                        <div class="shutdown-info-row">
+                                            <span>Status</span>
+                                            <span class="info-val">{{ getStatusRunState() | uppercase }}</span>
+                                        </div>
+                                    </div>
+                                    <button class="btn-shutdown"
+                                            (click)="openConfirmShutdown()"
+                                            [disabled]="loadingCommand()">
+                                        <span class="material-icons">power_settings_new</span>
+                                        SHUTDOWN INVERTER
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Power Limit Card -->
+                            <div class="ctrl-card">
+                                <div class="ctrl-card-header warn-accent">
+                                    <span class="material-icons" style="color:var(--status-standby)">speed</span>
+                                    <span class="ctrl-card-title">Power Limit</span>
+                                </div>
+                                <div class="ctrl-card-body">
+                                    <div class="limit-row">
+                                        <div>
+                                            <div class="limit-label">Set Limit</div>
+                                            <div class="limit-val">
+                                                {{ powerLimitPct() }}<span class="limit-unit"> %</span>
+                                            </div>
+                                        </div>
+                                        <div class="limit-note">
+                                            <span class="material-icons">info_outline</span>
+                                            100% = Full Power
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <input type="range"
+                                               class="ctrl-range"
+                                               min="0"
+                                               max="100"
+                                               [value]="powerLimitPct()"
+                                               (input)="onPowerLimitSlide($event)" />
+                                        <div class="range-labels">
+                                            <span>0%</span><span>50%</span><span>100%</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="limit-input-group">
+                                        <input type="number"
+                                               class="ctrl-number-input"
+                                               min="0"
+                                               max="100"
+                                               [value]="powerLimitPct()"
+                                               (change)="onPowerLimitInput($event)" />
+                                        <span class="unit-tag">%</span>
+                                    </div>
+
+                                    <div>
+                                        <div class="progress-labels">
+                                            <span>Target</span><span>{{ powerLimitPct() }}%</span>
+                                        </div>
+                                        <div class="progress-bar-bg">
+                                            <div class="progress-bar-fill" [style.width.%]="powerLimitPct()"></div>
+                                        </div>
+                                    </div>
+
+                                    <button class="btn-apply"
+                                            (click)="applyPowerLimit()"
+                                            [disabled]="loadingCommand()">
+                                        <span class="material-icons">check_circle_outline</span>
+                                        APPLY POWER LIMIT
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Zero Export Card -->
+                            <div class="ctrl-card">
+                                <div class="ctrl-card-header">
+                                    <span class="material-icons" style="color:var(--active-txt)">block</span>
+                                    <span class="ctrl-card-title">Zero Export</span>
+                                </div>
+                                <div class="ctrl-card-body">
+                                    <div class="toggle-row">
+                                        <button class="toggle-opt"
+                                                [class.sel-enable]="zeroExportMode() === 'enable'"
+                                                (click)="zeroExportMode.set('enable')">
+                                            <span class="material-icons">check_circle</span> ENABLE
+                                        </button>
+                                        <button class="toggle-opt"
+                                                [class.sel-disable]="zeroExportMode() === 'disable'"
+                                                (click)="zeroExportMode.set('disable')">
+                                            <span class="material-icons">cancel</span> DISABLE
+                                        </button>
+                                    </div>
+
+                                    <div class="zero-note">
+                                        <span class="material-icons">info</span>
+                                        <span>
+                                            <strong>Enable</strong> — Limits grid feed-in power to 0 W<br>
+                                            <strong>Disable</strong> — Sends START command to resume normal operation
+                                        </span>
+                                    </div>
+
+                                    <button class="btn-apply"
+                                            (click)="applyZeroExport()"
+                                            [disabled]="loadingCommand()">
+                                        <span class="material-icons">check_circle_outline</span>
+                                        APPLY ZERO EXPORT
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div><!-- /control-grid -->
+
+                    }<!-- /selectedDevice -->
+
+                    <!-- Command Log -->
+                    <div class="log-card">
+                        <div class="log-header">
+                            <div class="log-title">
+                                <span class="material-icons">history</span>
+                                Command Log
+                            </div>
+                            <button class="log-refresh-btn"
+                                    (click)="loadCommandLogs()"
+                                    [disabled]="loadingLogs()">
+                                <span class="material-icons" [class.spinning]="loadingLogs()">refresh</span>
+                            </button>
+                        </div>
+                        <div class="log-table-wrap">
+                            <table class="log-table">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>Device SN</th>
+                                        <th>Command</th>
+                                        <th>Params</th>
+                                        <th>Auth Mode</th>
+                                        <th>Sent By</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (log of commandLogs(); track log.id) {
+                                        <tr>
+                                            <td>{{ formatDate(log.created_at) }}</td>
+                                            <td class="mono">{{ log.device_sn }}</td>
+                                            <td>
+                                                <span class="log-tag" [ngClass]="'tag-' + log.command">
+                                                    {{ log.command }}
+                                                </span>
+                                            </td>
+                                            <td class="mono">{{ log.params || '—' }}</td>
+                                            <td>{{ log.auth_mode }}</td>
+                                            <td>{{ log.sent_by || '—' }}</td>
+                                            <td>
+                                                <span class="log-result"
+                                                      [ngClass]="'result-' + log.result">
+                                                    @switch (log.result) {
+                                                        @case ('SUCCESS') {
+                                                            <span class="material-icons">check_circle</span> Success
+                                                        }
+                                                        @case ('FAILED') {
+                                                            <span class="material-icons">cancel</span> Failed
+                                                        }
+                                                        @default {
+                                                            <span class="material-icons">schedule</span> Pending
+                                                        }
+                                                    }
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                    @if (commandLogs().length === 0 && !loadingLogs()) {
+                                        <tr>
+                                            <td colspan="7" class="log-empty">No command history yet</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div><!-- /main-scroll -->
+            </div><!-- /main-area -->
+
+        </div><!-- /ctrl-layout -->
+    </div><!-- /ctrl-page -->
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         CONFIRM SHUTDOWN DIALOG
+    ═══════════════════════════════════════════════════════════════════════ -->
+    @if (confirmDialog() === 'shutdown') {
+        <div class="dialog-overlay" (click)="closeConfirmDialog()">
+            <div class="dialog-box" (click)="$event.stopPropagation()">
+                <div class="dialog-header">
+                    <div class="dialog-icon-circle">
+                        <span class="material-icons">power_settings_new</span>
+                    </div>
+                    <h3>Confirm Shutdown</h3>
+                </div>
+                <div class="dialog-body">
+                    <p>You are about to <strong>Shutdown {{ selectedDevice()?.devName || selectedDevice()?.devDn }}</strong></p>
+                    <p>The inverter will stop generating power immediately and must be restarted via FusionSolar before it can resume operation.</p>
+                    <p class="dialog-warn">
+                        <span class="material-icons">warning_amber</span>
+                        This action cannot be undone immediately.
+                    </p>
+                </div>
+                <div class="dialog-actions">
+                    <button class="btn-cancel" (click)="closeConfirmDialog()">CANCEL</button>
+                    <button class="btn-confirm-danger"
+                            (click)="confirmShutdown()"
+                            [disabled]="loadingCommand()">
+                        @if (loadingCommand()) {
+                            <span class="material-icons spinning">sync</span>
+                        } @else {
+                            <span class="material-icons">power_settings_new</span>
+                        }
+                        CONFIRM SHUTDOWN
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+
+}
