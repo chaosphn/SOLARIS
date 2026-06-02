@@ -183,6 +183,14 @@ export class ConfirmationInternalDialog implements OnInit {
  
   async reject(): Promise<void> {
     try {
+      if(!this.comment || this.comment.trim() === ''){
+        this.store.dispatch(sendMessage({ payload: { type: 'error', text: 'Please provide a reason for rejection.' } }));
+        return;
+      }
+      if(this.forceEnergyValue !== undefined && this.forceEnergyValue < 0){
+        this.store.dispatch(sendMessage({ payload: { type: 'error', text: 'Force energy value cannot be negative.' } }));
+        return;
+      }
       this.loading.set(true);
       const result: any = await this.http.rejectConfirmationInternalReview({
         timestamp: this.data.timestamp,

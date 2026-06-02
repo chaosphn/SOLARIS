@@ -97,12 +97,10 @@ export class ReceiptConfirmationDialog implements OnInit {
     try {
       this.loadingLog.set(true);
 
-      const res: any = await this.http.getBillingLogData(
+      await this.http.getBillingLogData(
         this.data.siteId,
         this.data.timestamp
       );
-
-      //this.logs.set(res?.data || []);
     } finally {
       this.loadingLog.set(false);
     }
@@ -125,7 +123,7 @@ export class ReceiptConfirmationDialog implements OnInit {
   confirmAction(): void {
     const isApprove = true;
     const dialogData: ConfirmDialogData = {
-      title:       'Confirmation Required',
+      title:       'Approve Receipt',
       message:     'Are you sure you want to approve this receipt?',
       subMessage:  'This action cannot be undone.',
       confirmText: isApprove ? 'Approve' : 'Cancel',

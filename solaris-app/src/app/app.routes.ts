@@ -66,6 +66,11 @@ export const routes: Routes = [
                 canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/setting/setting-module').then(m => m.SettingModule)
             },
+            {
+                path: 'maintenance',
+                //canActivate: [PermissionGuard],
+                loadChildren: () => import('./features/central/pages/maintenance/maintenance-module').then(m => m.MaintenanceModule)
+            },
 
             // Plant Ifomation Pages
             {

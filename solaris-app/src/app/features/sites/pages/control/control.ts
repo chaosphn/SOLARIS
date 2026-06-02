@@ -12,6 +12,8 @@ import {
     InverterCommandLogModel,
     InverterRealtimeModel,
 } from '../../../../shared/models/inverter.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialog, ConfirmDialogData } from '../../../../shared/components/confirm-dialog/confirm-dialog';
 
 type SessionState = 'login' | 'connecting' | 'ready';
 type ConfirmType = 'shutdown' | null;
@@ -31,6 +33,7 @@ export class Control implements OnInit, OnDestroy {
 
     private http = inject(HttpService);
     private store = inject(Store);
+    private readonly dialogs = inject(MatDialog);
 
     // ─── Session ──────────────────────────────────────────────────────────────
     sessionState = signal<SessionState>('login');
@@ -174,6 +177,12 @@ export class Control implements OnInit, OnDestroy {
     }
 
     async selectDevice(device: InverterDeviceModel) {
+        if (this.selectedDevice()?.devName === device.devName) {
+            this.selectedDevice.set(null);
+            this.deviceStatus.set(null);
+            await this.refreshDeviceStatus();
+            return; // already selected
+        };
         this.selectedDevice.set(device);
         const devId = device.devDn || device.esnCode || '';
         const existing = this.deviceStatusMap()[devId];
@@ -225,12 +234,30 @@ export class Control implements OnInit, OnDestroy {
 
     // ─── Commands ─────────────────────────────────────────────────────────────
 
-    openConfirmShutdown() { this.confirmDialog.set('shutdown'); }
+    //openConfirmShutdown() { this.confirmDialog.set('shutdown'); }
     closeConfirmDialog() { this.confirmDialog.set(null); }
 
-    async confirmShutdown() {
-        this.closeConfirmDialog();
-        await this.sendCommand('SHUTDOWN');
+    async openConfirmShutdown() {
+        const dialogData: ConfirmDialogData = {
+            title:  'Confirm Shutdown',
+            message: `You are about to shutdown ${this.selectedDevice()?.devName || this.selectedDevice()?.devDn } \nThe inverter will stop generating power immediately and must be restarted via FusionSolar before it can resume operation.`,
+            subMessage:  'This action cannot be undone.',
+            confirmText: 'Shutdown',
+            cancelText:  'Cancel',
+            type: 'danger',
+        };
+        
+        const ref = this.dialogs.open(ConfirmDialog, {
+            width: '480px',
+            data: dialogData,
+            panelClass: 'confirm-dialog-panel'
+        });
+        
+        ref.afterClosed().subscribe(async result => {
+            if (result === true) {
+                await this.sendCommand('SHUTDOWN');
+            }
+        });
     }
 
     async applyPowerLimit() {

@@ -1,0 +1,133 @@
+<div class="container">
+
+  @if (loading()) {
+    <div class="loading-state"><i class="material-icons">sync</i>Loading work orders…</div>
+  }
+
+  @if (!loading()) {
+
+    <!-- ── 3 stat cards ── -->
+    <div class="row row-3">
+      <div class="stat-card">
+        <div class="stat-label">This week</div>
+        <div class="stat-val">{{ thisWeek.length }}</div>
+        <div class="stat-sub">tasks scheduled</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Next 30 days</div>
+        <div class="stat-val">{{ next30Days.length }}</div>
+        <div class="stat-sub">upcoming tasks</div>
+      </div>
+      <div class="stat-card" [class.crit]="overdueWorkOrders.length > 0">
+        <div class="stat-label">Overdue</div>
+        <div class="stat-val">{{ overdueWorkOrders.length }}</div>
+        <div class="stat-sub">need attention</div>
+      </div>
+    </div>
+
+    <!-- ── Gantt chart ── -->
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title"><span class="acc blue"></span>GANTT — {{ currentMonth }}</div>
+        <div class="chart-legend">
+          <div><span class="swatch" style="background:#5BC0EB"></span>Preventive</div>
+          <div><span class="swatch" style="background:#EF9F27"></span>Corrective</div>
+          <div><span class="swatch" style="background:#A78BFA"></span>Inspection</div>
+          <div><span class="swatch" style="background:#DC3545"></span>Emergency</div>
+        </div>
+      </div>
+
+      @if (workOrders().length === 0) {
+        <div class="empty-state"><i class="material-icons">view_timeline</i>No work orders found</div>
+      } @else {
+        <div class="gantt-wrap bz">
+
+          <!-- X-axis labels row -->
+          <div class="gantt-axis bz">
+            <div class="gantt-title-col"></div>
+            <div class="gantt-track-col">
+              @for (dl of dayLabels; track dl.label) {
+                <span class="gantt-day-lbl" [style.left.%]="dl.leftPct">{{ dl.label }}</span>
+              }
+              <span class="gantt-today-lbl" [style.left.%]="todayPct">TODAY</span>
+              <div class="gantt-today" [style.left.%]="todayPct"></div>
+            </div>
+          </div>
+
+          <!-- Data rows -->
+          @for (row of ganttRows; track row.wo.id) {
+            <div class="gantt-row bz">
+              <div class="gantt-title-col">
+                <span class="gantt-wo-title" [title]="row.wo.title">{{ row.wo.title }}</span>
+              </div>
+              <div class="gantt-track-col">
+                <div class="gantt-today" [style.left.%]="todayPct"></div>
+                <div class="gantt-bar"
+                  [style.left.%]="row.leftPct"
+                  [style.width.%]="row.widthPct"
+                  [style.background]="row.color"
+                  [title]="row.wo.title + ' · ' + (row.wo.due_date | date:'d MMM') + ' · ' + row.wo.type + ' · ' + row.wo.priority">
+                </div>
+              </div>
+            </div>
+          }
+
+        </div>
+      }
+    </div>
+
+    <!-- ── This week + All work orders ── -->
+    <div class="row row-2">
+
+      <div class="card">
+        <div class="card-hd"><div class="card-title"><span class="acc"></span>UPCOMING THIS WEEK</div></div>
+        @if (thisWeek.length === 0) {
+          <div class="empty-state" style="padding:16px 0"><i class="material-icons">event_available</i>No tasks this week</div>
+        } @else {
+          <div class="task-list">
+            @for (wo of thisWeek; track wo.id) {
+              <div class="task-row">
+                <div style="width:50px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--secondary-txt);flex-shrink:0">
+                  {{ wo.due_date | date:'EEE' | uppercase }}
+                </div>
+                <div class="task-info">
+                  <div class="task-name">{{ wo.title }}</div>
+                  <div class="task-site">{{ wo.plant_id }} · {{ wo.type }}</div>
+                </div>
+                <span class="badge" [ngClass]="wo.type"><span class="dot"></span>{{ wo.priority | titlecase }}</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="card">
+        <div class="card-hd"><div class="card-title"><span class="acc"></span>ALL WORK ORDERS</div></div>
+        @if (workOrders().length === 0) {
+          <div class="empty-state" style="padding:16px 0"><i class="material-icons">assignment</i>No work orders</div>
+        } @else {
+          <div class="bar-column">
+            @for (wo of workOrders().slice(0, 10); track wo.id) {
+              <div class="bar-row">
+                <span class="bar-label" style="width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ wo.title }}</span>
+                <div class="bar-track">
+                  <div class="bar-fill"
+                    [style.background]="(wo.status === 'completed' || wo.status === 'closed') ? 'var(--status-done)' : 'var(--type-preventive)'"
+                    style="width:100%;opacity:0.5">
+                  </div>
+                </div>
+                <span class="bar-val">{{ wo.due_date | date:'d MMM' }}</span>
+                <span class="badge" [ngClass]="'s-' + wo.status" style="margin-left:4px">
+                  {{ wo.status | uppercase }}
+                </span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+    </div>
+
+  }
+
+</div>

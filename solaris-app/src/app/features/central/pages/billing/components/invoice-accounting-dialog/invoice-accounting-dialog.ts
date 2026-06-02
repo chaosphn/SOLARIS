@@ -131,28 +131,25 @@ export class InvoiceAccountingDialog implements OnInit {
  
   // ─── Actions ─────────────────────────────────────────────────────────────────
  
-  confirmAction(type: 'approve' | 'reject'): void {
-    const isApprove = type === 'approve';
+  confirmAction(): void {
     const dialogData: ConfirmDialogData = {
-      title:       isApprove ? 'Approve Invoice'      : 'Reject Invoice',
-      message:     isApprove
-        ? 'Are you sure you want to approve this invoice?'
-        : 'Are you sure you want to reject this invoice?',
+      title:       'Approve Invoice',
+      message:     'Are you sure you want to approve this invoice?',
       subMessage:  'This action cannot be undone.',
-      confirmText: isApprove ? 'Approve' : 'Reject',
+      confirmText: 'Approve',
       cancelText:  'Cancel',
-      type:        isApprove ? 'info' : 'warning',
+      type:        'info',
     };
- 
+
     const ref = this.dialogs.open(ConfirmDialog, {
       width: '480px',
       data: dialogData,
       panelClass: 'confirm-dialog-panel'
     });
- 
+
     ref.afterClosed().subscribe(async result => {
       if (result === true) {
-        await this.approve()
+        await this.approve();
       }
     });
   }

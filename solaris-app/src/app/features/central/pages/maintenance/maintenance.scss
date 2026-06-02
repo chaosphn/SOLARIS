@@ -1,0 +1,89 @@
+// ── Shell layout ─────────────────────────────────────────────────────────────
+.maintenance-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: calc(100dvh - 110px);
+  overflow: hidden;
+}
+
+.maint-header {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 8px;
+  height: 42px;
+  padding: 0 16px;
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.tabs { display: flex; height: 100%; }
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 16px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--secondary-txt);
+  height: 100%;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  user-select: none;
+  transition: color 0.15s, background 0.15s;
+  .material-icons { font-size: 15px; }
+  &:hover { background: var(--primary-bg); color: var(--primary-txt); }
+  &.active {
+    color: var(--active-txt);
+    border-bottom-color: var(--active-txt);
+    font-weight: 600;
+    background: linear-gradient(180deg, transparent, rgba(228,182,26,0.04));
+  }
+}
+
+.header-actions { display: flex; align-items: center; gap: 8px; }
+
+.date-chip {
+  // display: flex;
+  // align-items: center;
+  // gap: 5px;
+  // padding: 0 10px;
+  // height: 26px;
+  // border: 1px solid var(--border-color);
+  // border-radius: 4px;
+  // font-size: 11px;
+  // font-weight: 500;
+  // letter-spacing: 0.06em;
+  // color: var(--secondary-txt);
+  // .material-icons { font-size: 13px; }
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 14px;
+  height: 28px;
+  background: var(--active-txt);
+  color: #1a1a1a;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  .material-icons { font-size: 14px; }
+  &:hover { filter: brightness(1.1); }
+}
+
+.maint-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: var(--main-bg);
+}

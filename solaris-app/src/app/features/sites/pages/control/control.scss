@@ -42,8 +42,8 @@ $danger-hover:   #c62828;
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: rgba(0, 195, 255, 0.1);
-    border: 1px solid rgba(0, 195, 255, 0.3);
+    //background: rgba(0, 195, 255, 0.1);
+    border: 1px solid var(--highlight);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -119,9 +119,9 @@ $danger-hover:   #c62828;
 .login-btn {
     width: 100%;
     padding: 11px;
-    background: rgba(0, 195, 255, 0.12);
-    border: 1px solid rgba(0, 195, 255, 0.4);
-    color: var(--active-txt);
+    background: var(--btn-bg);
+    border: 1px solid var(--btn-border);
+    color: var(--btn-color);
     border-radius: 4px;
     font-size: 0.75rem;
     font-weight: 700;
@@ -133,7 +133,7 @@ $danger-hover:   #c62828;
     gap: 7px;
     transition: background 0.2s;
     margin-top: 4px;
-    &:hover:not(:disabled) { background: rgba(0, 195, 255, 0.22); }
+    //&:hover:not(:disabled) { background: rgba(0, 195, 255, 0.22); }
     &:disabled { opacity: 0.6; cursor: not-allowed; }
     .material-icons { font-size: 18px; }
 }
@@ -286,8 +286,8 @@ $danger-hover:   #c62828;
     transition: background 0.15s, border-color 0.15s;
     &:hover  { background-color: var(--primary-bg); }
     &.active {
-        background-color: rgba(0, 195, 255, 0.07);
-        border-color: rgba(0, 195, 255, 0.3);
+        //background-color: rgba(0, 195, 255, 0.07);
+        border-color: var(--highlight);
     }
 }
 
@@ -366,8 +366,8 @@ $danger-hover:   #c62828;
 .status-icon-circle {
     width: 38px; height: 38px;
     border-radius: 50%;
-    background: rgba(0, 195, 255, 0.1);
-    border: 1px solid rgba(0, 195, 255, 0.3);
+    //background: rgba(0, 195, 255, 0.1);
+    border: 1px solid var(--highlight);
     display: flex; align-items: center; justify-content: center;
     .material-icons { font-size: 18px; color: var(--active-txt); }
 }
@@ -534,7 +534,7 @@ $danger-hover:   #c62828;
         border-radius: 50%;
         background: var(--highlight);
         cursor: pointer;
-        box-shadow: 0 0 5px rgba(0, 195, 255, 0.5);
+        //box-shadow: 0 0 5px rgba(0, 195, 255, 0.5);
     }
 }
 
@@ -605,8 +605,8 @@ $danger-hover:   #c62828;
 .btn-apply {
     width: 100%; margin-top: auto;
     padding: 9px;
-    background: rgba(0,195,255,0.08);
-    border: 1px solid rgba(0,195,255,0.3);
+    background: var(--primary-bg-50);
+    border: 1px solid var(--highlight);
     color: var(--active-txt);
     font-size: 0.7rem; font-weight: 700;
     letter-spacing: 0.06em; text-transform: uppercase;
@@ -614,7 +614,7 @@ $danger-hover:   #c62828;
     display: flex; align-items: center; justify-content: center; gap: 6px;
     transition: background 0.2s;
     .material-icons { font-size: 14px; }
-    &:hover:not(:disabled) { background: rgba(0,195,255,0.18); }
+    &:hover:not(:disabled) { filter: brightness(150%); }
     &:disabled { opacity: 0.5; cursor: not-allowed; }
 }
 

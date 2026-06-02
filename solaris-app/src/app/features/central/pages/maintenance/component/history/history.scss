@@ -1,0 +1,125 @@
+:host {
+  --status-done:     #2BB673;
+  --status-major:    #DC3545;
+  --type-preventive: #5BC0EB;
+  --type-corrective: #EF9F27;
+  --type-inspection: #A78BFA;
+}
+
+// ── Layout ────────────────────────────────────────────────────────────────────
+.container { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+
+.row   { display: grid; gap: 14px; }
+.row-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+@media (max-width: 900px) { .row-3 { grid-template-columns: 1fr; } }
+
+// ── Card ──────────────────────────────────────────────────────────────────────
+.card {
+  background-color: var(--card-bg);
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.012), transparent 40%);
+  border: 1px solid var(--border-color); border-radius: 6px; padding: 16px; position: relative;
+}
+.card-hd {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px; gap: 8px; flex-wrap: wrap;
+}
+.card-title {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.14em;
+  color: var(--primary-txt); text-transform: uppercase;
+  .acc {
+    display: inline-block; width: 3px; height: 14px; background: var(--active-txt);
+    border-radius: 1px; box-shadow: 0 0 8px -1px var(--active-txt);
+    &.amber { background: var(--type-corrective); box-shadow: 0 0 8px -1px var(--type-corrective); }
+  }
+}
+.card-sub { font-size: 10px; color: var(--secondary-txt); font-family: 'JetBrains Mono', monospace; }
+
+// ── Stat cards ────────────────────────────────────────────────────────────────
+.stat-card {
+  background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 14px 16px;
+  .stat-label { font-size: 10px; color: var(--secondary-txt); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .stat-val   { font-family: 'JetBrains Mono', monospace; font-size: 32px; font-weight: 500; color: var(--primary-txt); line-height: 1; }
+  .stat-sub   { font-size: 10px; color: var(--secondary-txt); margin-top: 6px; }
+  &.crit .stat-val { color: var(--status-major); }
+}
+
+// ── Badge ─────────────────────────────────────────────────────────────────────
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 9px; border-radius: 100vw;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.06em;
+  border: 1px solid; white-space: nowrap; text-transform: uppercase; background: transparent;
+  .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; box-shadow: 0 0 6px -1px currentColor; }
+  &.s-schedule  { color: var(--type-preventive); border-color: rgba(91,192,235,0.4); }
+  &.s-progress  { color: var(--type-corrective); border-color: rgba(239,159,39,0.5); background: rgba(239,159,39,0.08); }
+  &.s-onhold    { color: var(--secondary-txt);   border-color: rgba(102,112,121,0.4); }
+  &.s-completed { color: var(--status-done);     border-color: rgba(43,182,115,0.4); }
+  &.s-cancelled { color: var(--secondary-txt);   border-color: rgba(102,112,121,0.3); }
+  &.s-overdue   { color: var(--status-major);    border-color: rgba(220,53,69,0.5); }
+  &.s-in_progress { color: var(--type-corrective); border-color: rgba(239,159,39,0.5); background: rgba(239,159,39,0.08); }
+}
+
+// ── Filter bar ────────────────────────────────────────────────────────────────
+.filter-bar { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.filter-search {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--primary-bg); border: 1px solid var(--border-color);
+  border-radius: 4px; padding: 0 10px; height: 28px; min-width: 200px;
+  .material-icons { font-size: 15px; color: var(--secondary-txt); }
+  input {
+    background: none; border: none; outline: none;
+    color: var(--primary-txt); font-size: 12px; width: 100%;
+    &::placeholder { color: var(--secondary-txt); }
+  }
+}
+.filter-chip {
+  height: 28px; padding: 0 12px;
+  background: var(--primary-bg); border: 1px solid var(--border-color);
+  border-radius: 4px; color: var(--secondary-txt); font-size: 11px; font-weight: 500; cursor: pointer;
+  &.on { border-color: var(--active-txt); color: var(--active-txt); background: rgba(228,182,26,0.08); }
+  &:hover { color: var(--primary-txt); border-color: var(--primary-txt); }
+}
+
+// ── WO number (in timeline) ───────────────────────────────────────────────────
+.wo-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--active-txt); }
+
+// ── Timeline ─────────────────────────────────────────────────────────────────
+.timeline-label {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
+  color: var(--secondary-txt); text-transform: uppercase;
+  margin-bottom: 8px; margin-top: 16px;
+  &:first-child { margin-top: 0; }
+}
+.hist-row {
+  display: flex; gap: 12px; padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+  &:last-child { border-bottom: none; }
+}
+.hist-timeline {
+  display: flex; flex-direction: column; align-items: center;
+  width: 20px; flex-shrink: 0;
+}
+.hist-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  &.dot-done     { background: var(--status-done);     box-shadow: 0 0 6px var(--status-done); }
+  &.dot-cancel   { background: var(--secondary-txt); }
+  &.dot-progress { background: var(--type-corrective); box-shadow: 0 0 6px var(--type-corrective); }
+  &.dot-default  { background: var(--border-color); }
+}
+.hist-line   { flex: 1; width: 1px; background: var(--border-color); margin-top: 4px; }
+.hist-info   { flex: 1; min-width: 0; }
+.hist-title  { font-size: 12px; font-weight: 500; color: var(--primary-txt); }
+.hist-detail { font-size: 11px; color: var(--secondary-txt); margin-top: 2px; display: flex; align-items: center; gap: 4px; .material-icons { font-size: 12px; } }
+.hist-meta   { font-size: 10px; color: var(--secondary-txt); margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; .material-icons { font-size: 12px; } }
+.hist-right  { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+.hist-date   { font-size: 10px; color: var(--secondary-txt); font-family: 'JetBrains Mono', monospace; }
+
+// ── States ────────────────────────────────────────────────────────────────────
+.loading-state, .empty-state {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; padding: 40px 20px; color: var(--secondary-txt); font-size: 12px;
+  .material-icons { font-size: 32px; opacity: 0.4; }
+}

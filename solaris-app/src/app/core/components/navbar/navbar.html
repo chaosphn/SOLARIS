@@ -13,22 +13,22 @@
                     </div>
                     <div class="bz title">OVERVIEW</div>
                 </div>
-                <div mat-list-item routerLink="/main/performance" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
+                <!-- <div mat-list-item routerLink="/main/performance" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
                     <div class="bz">
                         <i class="material-icons">
                             speed
                         </i>
                     </div>
                     <div class="bz title">PERFORMANCE</div>
-                </div>
-                <div mat-list-item routerLink="/main/trend" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
+                </div> -->
+                <!-- <div mat-list-item routerLink="/main/trend" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
                     <div class="bz">
                         <i class="material-icons">
                             signal_cellular_alt
                         </i>
                     </div>
                     <div class="bz title">TRENDS</div>
-                </div>
+                </div> -->
                 <div mat-list-item routerLink="/main/billing/viewer" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
                     <div class="bz">
                         <i class="material-icons">
@@ -36,6 +36,22 @@
                         </i>
                     </div>
                     <div class="bz title">BILLINGS</div>
+                </div>
+                <div mat-list-item routerLink="/main/events" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
+                    <div class="bz">
+                        <i class="material-icons">
+                            notifications
+                        </i>
+                    </div>
+                    <div class="bz title">EVENTS</div>
+                </div>
+                <div mat-list-item routerLink="/main/maintenance" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
+                    <div class="bz">
+                        <i class="material-icons">
+                            engineering
+                        </i>
+                    </div>
+                    <div class="bz title">MAINTENANCE</div>
                 </div>
                 <div mat-list-item routerLink="/main/admin" routerLinkActive="active" class="btn-box logout bz" (click)="logOut()">
                     <div class="bz">
@@ -54,24 +70,27 @@
                     <label class="user-label">SEARCH</label>
                 </div>
                 <div class="w-100 d-col-ed bz card-list" style="padding: 8px;">
-                    <div class="w-100 card bz" 
-                            [ngClass]="{ 'card-active': changeBgColor(item.id) }"
-                            (click)="changeNavState('site', item.id)" 
-                            [id]="item.id" 
-                            *ngFor="let item of zoneList().siteList | filtersite : seachText; index as i; trackBy: siteTrackBy">
-                        <i class="material-icons">factory</i>
-                        <div class="title">{{ item.id + ' : ' + item.name | uppercase}}</div>
-                        <i class="material-icons event-icon" [ngClass]="getPlantStatus(item.id)">notifications_active</i>
-                    </div>
+                    @for (item of zoneList().siteList | filtersite : seachText; track $index) {
+                        <div class="w-100 card bz" 
+                                [ngClass]="{ 'card-active': changeBgColor(item.id) }"
+                                (click)="changeNavState('site', item.id)" 
+                                [id]="item.id">
+                            <i class="material-icons">factory</i>
+                            <div class="title">{{ item.id + ' : ' + item.name | uppercase}}</div>
+                            <i class="material-icons event-icon" [ngClass]="getPlantStatus(item.id)">notifications_active</i>
+                        </div>
+                    }
                 </div>
                 <div class="dropdown-wrapper">
                     <select class="site-selector" (change)="onSiteChange($event)">
                         <option>NONE</option>
-                        <option *ngFor="let item of zoneList().siteList | filtersite : seachText; index as i; trackBy: siteTrackBy"
-                                [value]="item.id"
-                                [selected]="changeBgColor(item.id)">
-                            {{ 'SITE0' + i + ' : ' + item.name | uppercase }}
-                        </option>
+                        @for (item of zoneList().siteList | filtersite : seachText; track $index) {
+                            <option
+                                    [value]="item.id"
+                                    [selected]="changeBgColor(item.id)">
+                                {{ item.id + ' : ' + item.name | uppercase }}
+                            </option>
+                        }
                     </select>
                 </div>
             </div>
@@ -155,10 +174,10 @@
                                 <i class="material-icons">account_tree</i>
                                 <div>DIAGRAM</div>
                             </a>
-                            <!-- <a class="nav-link" routerLink="/main/control" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/main/control" routerLinkActive="active">
                                 <i class="material-icons">tune</i>
                                 <div>CONTROL</div>
-                            </a> -->
+                            </a>
                             <a class="nav-link hide" routerLink="/main/charts" routerLinkActive="active">
                                 <i class="material-icons">area_chart</i>
                                 <div>CHARTS</div>
@@ -190,11 +209,12 @@
                             <a class="nav-link" routerLink="/main/performance" routerLinkActive="active">PERFORMANCE</a>
                             <a class="nav-link" routerLink="/main/trend" routerLinkActive="active">TRENDS</a>
                             <a class="nav-link" routerLink="/main/tabular" routerLinkActive="active">TABULAR</a>
-                            <a class="nav-link" routerLink="/main/events" routerLinkActive="active">EVENTS</a>
                             <a class="nav-link" routerLink="/main/reports" routerLinkActive="active">REPORTS</a>
+                            <a class="nav-link" routerLink="/main/report-admin" routerLinkActive="active">REPORT ADMIN</a>
                             <a class="nav-link" routerLink="/main/billing/viewer" routerLinkActive="active">BILLINGS</a>
                             <a class="nav-link" routerLink="/main/admin" routerLinkActive="active">BILLING ADMIN</a>
-                            <a class="nav-link" routerLink="/main/report-admin" routerLinkActive="active">REPORT ADMIN</a>
+                            <a class="nav-link" routerLink="/main/events" routerLinkActive="active">EVENTS</a>
+                            <a class="nav-link" routerLink="/main/maintenance" routerLinkActive="active">MAINTENANCE</a>
                         </div>
                         @if (enableDate()) {
                             <div class="date-picker hide h-100 bz">

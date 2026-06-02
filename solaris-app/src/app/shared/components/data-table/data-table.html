@@ -48,7 +48,9 @@
                     <input #pages list="pages" type="text" [placeholder]="'Select Page...'" (change)="goToPage(pages.value)"
                     [value]="pageNumber">
                     <datalist id="pages">
-                        <option [value]="item" *ngFor="let item of pageList">{{item}}</option>
+                        @for (item of pageList; track $index) {
+                            <option [value]="item">{{item}}</option>
+                        }
                     </datalist>  
                 </span>
                 <span class="page-icon d-flex-ct h-100 bz" >

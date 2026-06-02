@@ -23,22 +23,31 @@
           Documents
         </div>
         <div class="doc-actions">
-          <div class="doc-row" *ngFor="let p of ['confirmation','invoice','payment','receipt']">
-            <div class="doc-row__label">
-              <span class="material-icons">topic</span>
-              {{ p | titlecase }}
+          @for (p of ['confirmation','invoice','payment','receipt']; track $index) {
+            <div class="doc-row">
+              <div class="doc-row__label">
+                <span class="material-icons">topic</span>
+                {{ p | titlecase }}
+              </div>
+              <div class="doc-row__buttons">
+                @if (p === 'payment') {
+                  <button class="btn" (click)="viewDocument(p, 'unsigned')" [class.active]="activeProcess()===p && activeType()==='unsigned'">
+                    <span class="material-icons">visibility</span>
+                    View document
+                  </button>
+                } @else {
+                  <button class="btn" (click)="viewDocument(p, 'unsigned')" [class.active]="activeProcess()===p && activeType()==='unsigned'">
+                    <span class="material-icons">visibility</span>
+                    View unsigned
+                  </button>
+                  <button class="btn" (click)="viewDocument(p, 'signed')" [class.active]="activeProcess()===p && activeType()==='signed'">
+                    <span class="material-icons">verified</span>
+                    View signed
+                  </button>
+                }
+              </div>
             </div>
-            <div class="doc-row__buttons">
-              <button class="btn" (click)="viewDocument(p, 'unsigned')" [class.active]="activeProcess()===p && activeType()==='unsigned'">
-                <span class="material-icons">visibility</span>
-                View unsigned
-              </button>
-              <button class="btn" (click)="viewDocument(p, 'signed')" [class.active]="activeProcess()===p && activeType()==='signed'">
-                <span class="material-icons">verified</span>
-                View signed
-              </button>
-            </div>
-          </div>
+          }
         </div>
         <div class="pdf-wrap">
           @if (loadingPdf()) {
@@ -96,12 +105,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let lg of logs()">
-                <td>{{ lg.timestamp | date:'yyyy-MM-dd HH:mm' }}</td>
-                <td>{{ lg.processType | titlecase }}</td>
-                <td>{{ lg.action }}</td>
-                <td>{{ lg.user }}</td>
-              </tr>
+              @for (lg of logs(); track $index) {
+                <tr>
+                  <td>{{ lg.timestamp | date:'yyyy-MM-dd HH:mm' }}</td>
+                  <td>{{ lg.processType | titlecase }}</td>
+                  <td>{{ lg.action }}</td>
+                  <td>{{ lg.user }}</td>
+                </tr>
+              }
             </tbody>
           </table>
           <div class="logs__empty" *ngIf="!loadingLog() && logs().length === 0">

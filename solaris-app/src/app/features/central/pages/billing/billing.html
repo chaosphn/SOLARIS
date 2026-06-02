@@ -112,22 +112,22 @@
                                 </div>
                                 <div class="pill pill--confirmation">
                                     <span class="dot dot--confirmation"></span>
-                                    <span class="pill__label">Confirmation :</span>
+                                    <span class="pill__label">{{ getStateText('confirmation') }} :</span>
                                     <span class="pill__count">{{ billingProcessSummary().counts.confirmation }}</span>
                                 </div>
                                 <div class="pill pill--invoice">
                                     <span class="dot dot--invoice"></span>
-                                    <span class="pill__label">Invoice :</span>
+                                    <span class="pill__label">{{ getStateText('invoice') }} :</span>
                                     <span class="pill__count">{{ billingProcessSummary().counts.invoice }}</span>
                                 </div>
                                 <div class="pill pill--payment">
                                     <span class="dot dot--payment"></span>
-                                    <span class="pill__label">Payment :</span>
+                                    <span class="pill__label">{{ getStateText('payment') }} :</span>
                                     <span class="pill__count">{{ billingProcessSummary().counts.payment }}</span>
                                 </div>
                                 <div class="pill pill--receipt">
                                     <span class="dot dot--receipt"></span>
-                                    <span class="pill__label">Receipt :</span>
+                                    <span class="pill__label">{{ getStateText('receipt') }} :</span>
                                     <span class="pill__count">{{ billingProcessSummary().counts.receipt }}</span>
                                 </div>
                             </div>
@@ -182,7 +182,7 @@
                                                     [class.badge--payment]="row.billingState === 'payment'"
                                                     [class.badge--receipt]="row.billingState === 'receipt'">
                                                     <span class="badge__dot"></span>
-                                                    {{ row.billingState | titlecase }}
+                                                    {{ getStateText(row.billingState) }}
                                                 </span>
                                             </td>
 
@@ -197,7 +197,7 @@
                                                                 [class.stepper__line--active]="isStepActive(row.billingState, step.key, row)">
                                                             </div>
                                                         }
-                                                        <div class="stepper__step">
+                                                        <div class="stepper__step bz">
                                                             <div class="stepper__node"
                                                                 [class.stepper__node--done]="isStepDone(row.billingState, step.key, row)"
                                                                 [class.stepper__node--active]="isStepActive(row.billingState, step.key, row)"
@@ -220,6 +220,9 @@
                                                             } @else {
                                                                 <span class="stepper__sublabel">{{ getLabel(step.key, row) | billingStatus }}</span>
                                                             }
+                                                            @if (isStepActive(row.billingState, step.key, row) && row.billingProcess) {
+                                                                <span class="stepper__sublabel">{{ getSubLabel(row) }}</span>
+                                                            }
                                                         </div>
                                                     }
                                                 </div>
@@ -237,7 +240,8 @@
                                                         </button>
                                                     }
                                                     <button class="action-btn edit-btn" title="Manage Billing" (click)="openActionDialog(row)">
-                                                        <span class="material-icons">settings</span>
+                                                        <!-- <span class="material-icons">settings</span> -->
+                                                        <span class="action-btn__label">REVIEW</span>
                                                     </button>
                                                 </div>
                                             </td>

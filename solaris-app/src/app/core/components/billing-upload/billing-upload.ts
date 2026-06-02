@@ -75,11 +75,11 @@ export class BillingUpload implements OnInit {
           this.router.navigate(['/main/overview']);
         }
 
-        if(this.billingState.billing_process !== 'invoice') {
-          alert('Current billing process is not in "invoice" stage. Please check the billing state and try again.');
-          this.router.navigate(['/main/overview']);
-        }
-        console.log('Fetched billing state:', this.billingState);
+        // if(this.billingState.billing_process !== 'invoice') {
+        //   alert('Current billing process is not in "invoice" stage. Please check the billing state and try again.');
+        //   this.router.navigate(['/main/overview']);
+        // }
+        // console.log('Fetched billing state:', this.billingState);
       } else {
         alert('Failed to fetch billing state');
       }

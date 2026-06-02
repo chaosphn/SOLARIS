@@ -1,0 +1,132 @@
+import { Component, effect, inject, input, Input, OnInit, signal } from '@angular/core';
+import { HttpService } from '../../../../../../shared/services/http.service';
+import { PlantModel, WorkOrderModel } from '../../../../../../shared/models/maintenance.model';
+import { UserDataModel } from '../../../../../../shared/models/user.model';
+
+interface GanttRow {
+  wo: WorkOrderModel;
+  leftPct: number;
+  widthPct: number;
+  color: string;
+}
+
+@Component({
+  selector: 'app-schedule',
+  standalone: false,
+  templateUrl: './schedule.html',
+  styleUrl: './schedule.scss',
+})
+export class Schedule implements OnInit {
+
+  @Input() plantId = '';
+  plants = input<PlantModel[]>([]);
+  users = input<UserDataModel[]>([]);
+  orders = input<WorkOrderModel[]>([]);
+  date = input<Date>(new Date());
+  workOrders = signal<WorkOrderModel[]>([]);
+  loading = signal(true);
+
+  private http = inject(HttpService);
+
+  constructor() {
+    effect(() => {
+      if (this.date() && this.orders().length > 0) {
+        this.loading.set(false);
+        this.workOrders.set(this.orders());
+      } else {
+        this.loading.set(false);
+        this.workOrders.set([]);
+      }
+    });
+  }
+
+  get monthStart(): number {
+    return new Date(this.date().getFullYear(), this.date().getMonth(), 1).getTime();
+  }
+
+  get monthEnd(): number {
+    return new Date(this.date().getFullYear(), this.date().getMonth() + 1, 0, 23, 59, 59).getTime();
+  }
+
+  private readonly typeColors: Record<string, string> = {
+    preventive: '#5BC0EB', corrective: '#EF9F27',
+    inspection: '#A78BFA', emergency: '#DC3545',
+  };
+
+  async ngOnInit() {
+    //await this.loadData();
+  }
+
+  async loadData() {
+    this.loading.set(true);
+    const ts = new Date(this.date());
+    const startOfMonth = new Date(ts.getFullYear(), ts.getMonth(), 2).toISOString().slice(0, 10);
+    const endOfMonth = new Date(ts.getFullYear(), ts.getMonth() + 1, 1).toISOString().slice(0, 10);
+    try {
+      const woRes = await this.http.getWorkOrderByDate({ start_time: startOfMonth, end_time: endOfMonth });
+      if (woRes.status === 'success' && woRes.data) this.workOrders.set(woRes.data);
+    } catch (_) {}
+    this.loading.set(false);
+  }
+
+  private get monthSpan(): number {
+    return this.monthEnd - this.monthStart;
+  }
+
+  get todayPct(): number {
+    return Math.min(100, Math.max(0, (this.date().getTime() - this.monthStart) / this.monthSpan * 100));
+  }
+
+  get ganttRows(): GanttRow[] {
+    const durMs = 3 * 24 * 60 * 60 * 1000;
+    return this.workOrders().map(wo => {
+      const dueMs   = wo.due_date ? new Date(wo.due_date).getTime() : this.date().getTime();
+      const startMs = Math.max(dueMs - durMs, this.monthStart);
+      const endMs   = Math.min(dueMs + Math.round(durMs * 0.5), this.monthEnd);
+      const leftPct = Math.max(0, (startMs - this.monthStart) / this.monthSpan * 100);
+      const widthPct = Math.max(1, Math.min(100 - leftPct, (endMs - startMs) / this.monthSpan * 100));
+      return { wo, leftPct, widthPct, color: this.typeColors[wo.type] ?? '#5BC0EB' };
+    });
+  }
+
+  get dayLabels(): Array<{ label: string; leftPct: number }> {
+    const y = this.date().getFullYear();
+    const m = this.date().getMonth();
+    const daysInMonth = new Date(y, m + 1, 0).getDate();
+    return [1, 7, 14, 21, 28]
+      .filter(d => d <= daysInMonth)
+      .map(day => ({
+        label: String(day),
+        leftPct: (new Date(y, m, day).getTime() - this.monthStart) / this.monthSpan * 100,
+      }));
+  }
+
+  get thisWeek(): WorkOrderModel[] {
+    const in7 = new Date(this.date());
+    in7.setDate(in7.getDate() + 7);
+    return this.workOrders().filter(wo => {
+      if (!wo.due_date) return false;
+      const d = new Date(wo.due_date);
+      return d >= this.date() && d <= in7;
+    }).slice(0, 8);
+  }
+
+  get overdueWorkOrders(): WorkOrderModel[] {
+    return this.workOrders().filter(wo =>
+      wo.due_date &&
+      new Date(wo.due_date) < this.date() &&
+      wo.status !== 'completed' &&
+      wo.status !== 'closed'
+    );
+  }
+
+  get next30Days(): WorkOrderModel[] {
+    const in30 = new Date();
+    in30.setDate(in30.getDate() + 30);
+    return this.workOrders().filter(wo => wo.due_date && new Date(wo.due_date) <= in30);
+  }
+
+  get currentMonth(): string {
+    return this.date().toLocaleString('en', { month: 'long', year: 'numeric' }).toUpperCase();
+  }
+}

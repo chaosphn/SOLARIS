@@ -21,7 +21,9 @@ import { CustomUrlSerializer } from './shared/services/url-serialize';
     AppRoutingModule,
   ],
   providers: [
-    provideHighcharts(),
+    provideHighcharts({
+      modules: () => [import('highcharts/modules/xrange')]
+    }),
     AppInitService,
     {
       provide: APP_INITIALIZER,

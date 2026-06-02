@@ -1,0 +1,629 @@
+<div class="container">
+
+  <!-- ── Detail view ── -->
+  @if (selectedWO()) {
+    <div>
+      <!-- Breadcrumb -->
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+        <button class="btn-outline" (click)="closeDetail()">
+          <i class="material-icons">arrow_back</i>WORK ORDERS
+        </button>
+        <span style="color:var(--border-color);font-size:13px">/</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--active-txt)">
+          {{ selectedWO()!.wo_number }}
+        </span>
+        <span style="color:var(--border-color);font-size:13px">/</span>
+        <span style="font-size:12px;color:var(--primary-txt);font-weight:500">{{ selectedWO()!.title }}</span>
+        <div style="margin-left:auto;display:flex;gap:6px">
+          <button class="btn-outline"><i class="material-icons">print</i>PRINT</button>
+          <button class="btn-outline"><i class="material-icons">download</i>EXPORT PDF</button>
+        </div>
+      </div>
+
+      <div class="closeout-grid">
+        <!-- Left column -->
+        <div class="col-left">
+
+          <!-- Header card -->
+          <div class="card">
+            <div class="closeout-header">
+              <div>
+                <div class="wo-id">{{ selectedWO()!.wo_number }}</div>
+                <h2>{{ selectedWO()!.title }}</h2>
+                <div class="meta-row">
+                  <div class="meta-item"><i class="material-icons">factory</i>{{ siteName(selectedWO()!.plant_id) }}</div>
+                  @if (selectedWO()!.assigned_to) {
+                    <div class="meta-item"><i class="material-icons">person</i>{{ userDisplayNameFromId(selectedWO()!.assigned_to) }}</div>
+                  }
+                  @if (selectedWO()!.due_date) {
+                    <div class="meta-item"><i class="material-icons">event</i>Due {{ selectedWO()!.due_date | date:'d MMM yyyy' }}</div>
+                  }
+                  @if (selectedWO()!.equipment_id) {
+                    <div class="meta-item"><i class="material-icons">construction</i>{{ selectedWO()!.equipment_id }}</div>
+                  }
+                </div>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0">
+                <span class="badge" [ngClass]="statusClass(selectedWO()!.status)">
+                  <span class="dot"></span>{{ statusLabel(selectedWO()!.status) }}
+                </span>
+                @if (selectedWO()!.type) {
+                  <span class="badge" [ngClass]="selectedWO()!.type!">
+                    <span class="dot"></span>{{ selectedWO()!.type | uppercase }}
+                  </span>
+                }
+              </div>
+            </div>
+            @if (selectedWO()!.description) {
+              <p style="font-size:12px;color:var(--secondary-txt);margin-top:10px;line-height:1.6">{{ selectedWO()!.description }}</p>
+            }
+          </div>
+
+          <!-- Update status -->
+          <div class="card">
+            <div class="card-hd"><div class="card-title"><span class="acc amber"></span>UPDATE STATUS</div></div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              @for (s of statusOptions; track s) {
+                <button
+                  class="filter-chip"
+                  [disabled]="role() !== 'administrator'"
+                  [class.on]="selectedWO()!.status === s"
+                  (click)="updateStatus(selectedWO()!, s)">
+                  {{ statusLabel(s) }}
+                </button>
+              }
+            </div>
+          </div>
+
+          @if (role() === 'administrator') {
+            <!-- Edit work order -->
+            <div class="card">
+              <div class="card-hd"><div class="card-title"><span class="acc amber"></span>EDIT WORK ORDER</div></div>
+
+              <div class="field-row">
+                <div>
+                  <label class="field-label">Title</label>
+                  <input class="field-input" placeholder="e.g. Inverter check — INV-01"
+                    [value]="editForm().title"
+                    (input)="patchEditForm({title: $any($event.target).value})" />
+                </div>
+                <div>
+                  <label class="field-label">Type</label>
+                  <select class="field-select"
+                    (change)="patchEditForm({type: $any($event.target).value})">
+                    @for (t of typeOptions; track t) {
+                      <option [value]="t" [selected]="editForm().type === t">{{ t | titlecase }}</option>
+                    }
+                  </select>
+                </div>
+              </div>
+
+              <div class="field-row">
+                <div>
+                  <label class="field-label">Assigned To</label>
+                  <select class="field-select"
+                    (change)="patchEditForm({assigned_to: $any($event.target).value})">
+                    <option value="" [selected]="!editForm().assigned_to">— Unassigned —</option>
+                    @for (u of users(); track u._id) {
+                      <option [value]="u._id" [selected]="editForm().assigned_to === u._id">{{ userDisplayName(u) }}</option>
+                    }
+                  </select>
+                </div>
+                <div>
+                  <label class="field-label">Due Date</label>
+                  <input class="field-input" type="date"
+                    [value]="editForm().due_date"
+                    (input)="patchEditForm({due_date: $any($event.target).value})" />
+                </div>
+              </div>
+
+              <div class="field-row">
+                <div>
+                  <label class="field-label">Priority</label>
+                  <select class="field-select"
+                    (change)="patchEditForm({priority: $any($event.target).value})">
+                    <option value="low"      [selected]="editForm().priority === 'low'">Low</option>
+                    <option value="medium"   [selected]="editForm().priority === 'medium'">Normal</option>
+                    <option value="high"     [selected]="editForm().priority === 'high'">High</option>
+                    <option value="critical" [selected]="editForm().priority === 'critical'">Critical</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="field-label">Equipment</label>
+                  <input class="field-input" placeholder="e.g. INV-03, Panel Row A"
+                    [value]="editForm().equipment_id"
+                    (input)="patchEditForm({equipment_id: $any($event.target).value})" />
+                </div>
+              </div>
+
+              <div class="field" style="margin-bottom:0">
+                <label class="field-label">Description</label>
+                <textarea class="field-textarea" placeholder="Describe the task, symptoms, or steps required..."
+                  [value]="editForm().description"
+                  (input)="patchEditForm({description: $any($event.target).value})"></textarea>
+              </div>
+            </div>
+          }
+
+          <!-- Checklist -->
+          <div class="card">
+            <div class="card-hd">
+              <div class="card-title"><span class="acc"></span>MAINTENANCE CHECKLIST</div>
+              <span class="card-sub">{{ checklistDone() }}/{{ checklists().length }} · {{ checklistPercent() }}%</span>
+            </div>
+            @if (checklists().length > 0) {
+              <div class="cl-progress-wrap">
+                <div class="cl-progress-fill" [style.width.%]="checklistPercent()"></div>
+              </div>
+            }
+            @if (checklists().length === 0) {
+              <div class="empty-state" style="padding:12px 0">
+                <i class="material-icons">check_box_outline_blank</i>No checklist items
+              </div>
+            }
+            @for (item of checklists(); track item.id) {
+              <div class="checklist-row" [class.done]="item.is_done">
+                <label class="check-label">
+                  <input type="checkbox" [checked]="item.is_done" (change)="toggleChecklist(item)" />
+                  <div>
+                    <span>{{ item.label }}</span>
+                    @if (item.sub_label) {
+                      <div class="check-sub">{{ item.sub_label }}</div>
+                    }
+                  </div>
+                </label>
+                <span class="cl-status" [class.done]="item.is_done" [class.pending]="!item.is_done">
+                  {{ item.is_done ? 'DONE' : 'PENDING' }}
+                </span>
+                @if (role() === 'administrator') {
+                  <button class="btn-ghost" (click)="deleteChecklist(item.id)">
+                    <i class="material-icons" style="font-size:13px">close</i>
+                  </button>
+                }
+              </div>
+            }
+            @if (!checklistAdding()) {
+              <button [disabled]="role() !== 'administrator'" class="new-cl-add" style="margin-top:10px" (click)="checklistAdding.set(true)">
+                <i class="material-icons">add</i> ADD CHECKLIST ITEM
+              </button>
+            } @else {
+              <div class="new-cl-item" style="margin-top:10px">
+                <span class="new-cl-num">{{ (checklists().length + 1).toString().padStart(2, '0') }}</span>
+                <div class="new-cl-inputs">
+                  <input class="field-input" placeholder="Task label (e.g. Inspect cable conditions)"
+                    [value]="checklistNewLabel()"
+                    (input)="checklistNewLabel.set($any($event.target).value)"
+                    (keydown.enter)="addChecklist()" />
+                  <input class="field-input sub" placeholder="Sub-label / instructions (optional)"
+                    [value]="checklistNewSublabel()"
+                    (input)="checklistNewSublabel.set($any($event.target).value)"
+                    (keydown.enter)="addChecklist()" />
+                </div>
+                @if (role() === 'administrator') {
+                  <button class="btn-ghost" (click)="checklistAdding.set(false); checklistNewLabel.set(''); checklistNewSublabel.set('')">
+                    <i class="material-icons">close</i>
+                  </button>
+                }
+              </div>
+              @if (role() === 'administrator') {
+                <button class="new-cl-add" style="margin-top:6px" (click)="addChecklist()"
+                  [disabled]="!checklistNewLabel().trim() || checklistLoading()">
+                  <i class="material-icons">{{ checklistLoading() ? 'sync' : 'check' }}</i>
+                  {{ checklistLoading() ? 'SAVING…' : 'SAVE ITEM' }}
+                </button>
+              }
+            }
+          </div>
+
+          <!-- Work report -->
+          <div class="card">
+            <div class="card-hd">
+              <div class="card-title"><span class="acc"></span>WORK REPORT</div>
+              @if (report()) {
+                <span class="card-sub" style="color:var(--status-done)">
+                  <i class="material-icons" style="font-size:12px;vertical-align:-2px">check_circle</i> saved
+                </span>
+              }
+            </div>
+
+            <div class="field-row">
+              <div>
+                <label class="field-label">Work date *</label>
+                <input class="field-input" type="date"
+                  [value]="reportForm().work_date"
+                  (change)="patchReportForm({work_date: $any($event.target).value})" />
+              </div>
+              <div>
+                <label class="field-label">
+                  Duration
+                  @if (formatDuration(reportForm().duration_min)) {
+                    <span style="color:var(--active-txt);font-weight:700;margin-left:6px">
+                      {{ formatDuration(reportForm().duration_min) }}
+                    </span>
+                  }
+                </label>
+                <input class="field-input" type="number" placeholder="Auto-calculated from start/end time"
+                  [value]="reportForm().duration_min ?? ''"
+                  [readOnly]="!!(reportForm().start_time && reportForm().end_time)"
+                  [style.opacity]="(reportForm().start_time && reportForm().end_time) ? '0.6' : '1'"
+                  (input)="patchReportForm({duration_min: $any($event.target).value ? +$any($event.target).value : null})" />
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div>
+                <label class="field-label">Start time</label>
+                <input class="field-input" type="time"
+                  [value]="reportForm().start_time"
+                  (change)="onTimeChange('start_time', $any($event.target).value)" />
+              </div>
+              <div>
+                <label class="field-label">End time</label>
+                <input class="field-input" type="time"
+                  [value]="reportForm().end_time"
+                  (change)="onTimeChange('end_time', $any($event.target).value)" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field-label">Summary / what was done</label>
+              <textarea class="field-textarea" rows="3"
+                placeholder="e.g. Cleaned all panels, removed dust accumulation…"
+                [value]="reportForm().summary"
+                (input)="patchReportForm({summary: $any($event.target).value})"></textarea>
+            </div>
+
+            <div class="field-row">
+              <div>
+                <label class="field-label">Findings / issues observed</label>
+                <textarea class="field-textarea" rows="3"
+                  placeholder="e.g. 2 panels show micro-crack signs…"
+                  [value]="reportForm().findings"
+                  (input)="patchReportForm({findings: $any($event.target).value})"></textarea>
+              </div>
+              <div>
+                <label class="field-label">Spare parts used</label>
+                <textarea class="field-textarea" rows="3"
+                  placeholder="e.g. Cleaning solution 2L, brush x2…"
+                  [value]="reportForm().spare_parts_used"
+                  (input)="patchReportForm({spare_parts_used: $any($event.target).value})"></textarea>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field-label">Follow-up action</label>
+              <select class="field-select"
+                [value]="reportForm().followup_action"
+                (change)="patchReportForm({followup_action: $any($event.target).value})">
+                @for (opt of followupOptions; track opt.value) {
+                  <option [value]="opt.value">{{ opt.label }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="field">
+              <label class="field-label">Attach file (PDF / image)</label>
+              @if (report()?.report_path) {
+                <div style="font-size:11px;color:var(--secondary-txt);margin-bottom:6px;display:flex;align-items:center;gap:4px">
+                  <i class="material-icons" style="font-size:13px">attach_file</i>
+                  {{ report()!.report_path!.split('/').pop() }}
+                </div>
+              }
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" class="file-input"
+                (change)="onReportFileChange($event)" />
+              @if (reportFile()) {
+                <div style="font-size:10px;color:var(--type-preventive);margin-top:4px">
+                  <i class="material-icons" style="font-size:12px;vertical-align:-2px">upload_file</i>
+                  {{ reportFile()!.name }}
+                </div>
+              }
+            </div>
+
+            @if (report() && role() === 'administrator') {
+              <div style="display:flex;justify-content:flex-end;margin-top:4px">
+                <button class="btn-primary" (click)="submitReport()"
+                  [disabled]="!reportForm().work_date || reportSubmitting()">
+                  <i class="material-icons">{{ reportSubmitting() ? 'sync' : (report() ? 'update' : 'save') }}</i>
+                  {{ reportSubmitting() ? 'SAVING…' : (report() ? 'UPDATE REPORT' : 'SAVE REPORT') }}
+                </button>
+              </div>
+            } @else if (report() && role() !== 'administrator') {
+              <div style="display:flex;justify-content:flex-end;margin-top:4px;color:var(--secondary-txt);font-size:11px">
+               
+              </div>
+            } @else {
+              <div style="display:flex;justify-content:flex-end;margin-top:4px">
+                <button class="btn-primary" (click)="submitReport()"
+                  [disabled]="!reportForm().work_date || reportSubmitting()">
+                  <i class="material-icons">{{ reportSubmitting() ? 'sync' : (report() ? 'update' : 'save') }}</i>
+                  {{ reportSubmitting() ? 'SAVING…' : (report() ? 'UPDATE REPORT' : 'SAVE REPORT') }}
+                </button>
+              </div>
+            }
+          </div>
+
+          <!-- Bottom bar -->
+          <div class="bottom-bar">
+            <div style="display:flex;gap:8px">
+              <!-- <button class="btn-outline" (click)="closeDetail()">CANCEL</button> -->
+              <button class="btn-primary" (click)="updateWO()"
+                [disabled]="woUpdating() || !editForm().title.trim()">
+                <i class="material-icons">{{ woUpdating() ? 'sync' : 'save' }}</i>
+                {{ woUpdating() ? 'SAVING…' : 'UPDATE WORK ORDER' }}
+              </button>
+              @if(role() === 'administrator') {
+                <button class="btn-primary" (click)="updateStatus(selectedWO()!, 'closed')">
+                  <i class="material-icons">check_circle</i>CLOSE WORK ORDER
+                </button>
+              }
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn-outline" (click)="closeDetail()">CANCEL</button>
+              <!-- <button class="btn-primary" (click)="updateStatus(selectedWO()!, 'closed')">
+                <i class="material-icons">save</i>UPDATE WORK ORDER
+              </button> -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right column -->
+        <div class="col-right">
+
+          <div class="card">
+            <div class="card-hd"><div class="card-title">WORK ORDER INFO</div></div>
+            <div class="info-row"><span class="info-key">WO Number</span><span class="info-val">{{ selectedWO()!.wo_number }}</span></div>
+            <div class="info-row"><span class="info-key">Type</span><span class="info-val">{{ selectedWO()!.type | uppercase }}</span></div>
+            <div class="info-row"><span class="info-key">Priority</span><span class="info-val">{{ selectedWO()!.priority | uppercase }}</span></div>
+            <div class="info-row"><span class="info-key">Site</span><span class="info-val">{{ siteName(selectedWO()!.plant_id) }}</span></div>
+            @if (selectedWO()!.equipment_id) {
+              <div class="info-row"><span class="info-key">Equipment</span><span class="info-val">{{ selectedWO()!.equipment_id }}</span></div>
+            }
+            <div class="info-row"><span class="info-key">Created by</span><span class="info-val">{{ selectedWO()!.created_by }}</span></div>
+            @if (selectedWO()!.created_at) {
+              <div class="info-row">
+                <span class="info-key">Created on</span>
+                <span class="info-val">{{ selectedWO()!.created_at | date:'d MMM yyyy' }}</span>
+              </div>
+            }
+            @if (selectedWO()!.due_date) {
+              <div class="info-row">
+                <span class="info-key">Due date</span>
+                <span class="info-val" [class.crit]="isOverdue(selectedWO()!)">
+                  {{ selectedWO()!.due_date | date:'d MMM yyyy' }}
+                </span>
+              </div>
+            }
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-title"><i class="material-icons">info</i>AFTER CLOSING</div>
+            <div class="info-card-body">
+              The system will:<br>
+              • Set status to <strong style="color:var(--status-done)">COMPLETED</strong><br>
+              • Append to History log<br>
+              • Notify SAT Admin<br>
+            </div>
+          </div>
+
+          @if (role() === 'administrator') {
+            <div class="card">
+                <button class="btn-outline" style="width:100%;justify-content:center;color:var(--status-major);border-color:rgba(220,53,69,0.4)"
+                  (click)="deleteWO(selectedWO()!)">
+                  <i class="material-icons">delete</i>DELETE WORK ORDER
+                </button>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ── List view ── -->
+  @if (!selectedWO()) {
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <div class="filter-search">
+        <i class="material-icons">search</i>
+        <input placeholder="Search work orders…"
+          [value]="searchQuery()"
+          (input)="searchQuery.set($any($event.target).value)" />
+      </div>
+      @for (chip of [
+        {id:'all',        label:'All'},
+        {id:'draft',      label:'Draft'},
+        {id:'assigned',   label:'Assigned'},
+        {id:'in_progress',label:'In Progress'},
+        {id:'completed',  label:'Completed'},
+        {id:'closed',     label:'Closed'},
+        {id:'overdue',    label:'Overdue'}
+      ]; track chip.id) {
+        <button class="filter-chip" [class.on]="filter() === chip.id" (click)="filter.set(chip.id)">
+          {{ chip.label }}
+        </button>
+      }
+      <div style="margin-left:auto;display:flex;gap:6px">
+        <button class="btn-outline"><i class="material-icons">download</i>EXPORT</button>
+      </div>
+    </div>
+
+    <!-- WO list card -->
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title"><span class="acc amber"></span>WORK ORDERS</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span class="card-sub">{{ filteredWOs().length }} of {{ workOrders().length }}</span>
+          <button class="btn-primary" (click)="showForm.set(!showForm())">
+            <i class="material-icons">{{ showForm() ? 'close' : 'add' }}</i>
+            {{ showForm() ? 'CANCEL' : 'NEW WO' }}
+          </button>
+        </div>
+      </div>
+
+      @if (loading()) {
+        <div class="loading-state"><i class="material-icons">sync</i>Loading…</div>
+      } @else if (filteredWOs().length === 0) {
+        <div class="empty-state"><i class="material-icons">assignment</i>No work orders found</div>
+      } @else {
+        @for (wo of filteredWOs(); track wo.id) {
+          <div class="wo-row" (click)="openDetail(wo)">
+            <div class="wo-num">{{ wo.wo_number }}</div>
+            <div class="wo-icon" [ngClass]="'t-' + wo.type">
+              <i class="material-icons">{{ typeIcon(wo.type) }}</i>
+            </div>
+            <div class="wo-info">
+              <div class="wo-name">{{ wo.title }}</div>
+              <div class="wo-meta">
+                <span>{{ siteName(wo.plant_id) }}</span>
+                <span class="sep">·</span>
+                <span>{{ wo.type | titlecase }}</span>
+                @if (wo.assigned_to) {
+                  <span class="sep">·</span>
+                  <span>{{ userDisplayNameFromId(wo.assigned_to) }}</span>
+                }
+              </div>
+            </div>
+            <div class="wo-right">
+              <span class="badge" [ngClass]="isOverdue(wo) ? 's-overdue' : statusClass(wo.status)">
+                <span class="dot"></span>
+                {{ isOverdue(wo) ? 'OVERDUE' : statusLabel(wo.status) }}
+              </span>
+              @if (wo.due_date) {
+                <span class="wo-due" [class.wo-overdue]="isOverdue(wo)">
+                  Due {{ wo.due_date | date:'d MMM' }}
+                </span>
+              }
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- New WO form -->
+    @if (showForm()) {
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title"><span class="acc"></span>NEW WORK ORDER</div>
+          <span class="card-sub">Fill in details below</span>
+        </div>
+
+        <div class="field-row">
+          <div>
+            <label class="field-label">Site / Plant</label>
+            <select class="field-select"
+              [value]="form().plant_id || plantId"
+              (change)="patchForm({plant_id: $any($event.target).value})">
+              <option value="">— Select plant —</option>
+              @for (p of plants(); track p.id) {
+                <option [value]="p.id">{{ p.name }}</option>
+              }
+            </select>
+          </div>
+          <div>
+            <label class="field-label">Type</label>
+            <select class="field-select"
+              [value]="form().type"
+              (change)="patchForm({type: $any($event.target).value})">
+              @for (t of typeOptions; track t) {
+                <option [value]="t">{{ t | titlecase }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Task Title</label>
+          <input class="field-input" placeholder="e.g. Inverter check — INV-01"
+            [value]="form().title"
+            (input)="patchForm({title: $any($event.target).value})" />
+        </div>
+
+        <div class="field-row">
+          <div>
+            <label class="field-label">Assigned To</label>
+            <select class="field-select"
+              [value]="form().assigned_to"
+              (change)="patchForm({assigned_to: $any($event.target).value})">
+              <option value="">— Unassigned —</option>
+              @for (u of users(); track u._id) {
+                <option [value]="u._id">{{ userDisplayName(u) }}</option>
+              }
+            </select>
+          </div>
+          <div>
+            <label class="field-label">Due Date</label>
+            <input class="field-input" type="date"
+              data-date-format="DD/MM/YYYY"
+              [value]="form().due_date"
+              (input)="patchForm({due_date: $any($event.target).value})" />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div>
+            <label class="field-label">Priority</label>
+            <select class="field-select"
+              [value]="form().priority"
+              (change)="patchForm({priority: $any($event.target).value})">
+              <option value="low">Low</option>
+              <option value="medium">Normal</option>
+              <option value="high">High</option>
+              <option value="critical">Critical</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label">Equipment</label>
+            <input class="field-input" placeholder="e.g. INV-03, Panel Row A"
+              [value]="form().equipment_id"
+              (input)="patchForm({equipment_id: $any($event.target).value})" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Description</label>
+          <textarea class="field-textarea" placeholder="Describe the task, symptoms, or steps required..."
+            [value]="form().description"
+            (input)="patchForm({description: $any($event.target).value})"></textarea>
+        </div>
+
+        <div class="new-cl-section">
+          <div class="new-cl-hd">
+            <span class="field-label" style="margin-bottom:0">Maintenance Checklist</span>
+            <span class="card-sub">{{ newWoChecklists().length }} items</span>
+          </div>
+          @for (item of newWoChecklists(); track $index; let i = $index) {
+            <div class="new-cl-item">
+              <div class="new-cl-num">
+                <span >{{ (i + 1).toString().padStart(2, '0') }}</span>
+              </div>
+              <div class="new-cl-inputs">
+                <input class="field-input" placeholder="Task label (e.g. Inspect cable conditions)"
+                  [value]="item.label"
+                  (input)="patchNewWoChecklist(i, {label: $any($event.target).value})" />
+                <input class="field-input sub" placeholder="Sub-label / instructions (optional)"
+                  [value]="item.sub_label"
+                  (input)="patchNewWoChecklist(i, {sub_label: $any($event.target).value})" />
+              </div>
+              <button class="btn-ghost d-flex-ct" (click)="removeNewWoChecklist(i)">
+                <i class="material-icons">close</i>
+              </button>
+            </div>
+          }
+          <button class="new-cl-add" (click)="addNewWoChecklist()">
+            <i class="material-icons">add</i> ADD CHECKLIST ITEM
+          </button>
+        </div>
+
+        <div class="form-footer">
+          <button class="btn-outline" (click)="cancelNewWO()">CANCEL</button>
+          <button class="btn-primary" (click)="submitNewWO()" [disabled]="!form().title">
+            <i class="material-icons">check</i>CREATE WORK ORDER
+          </button>
+        </div>
+      </div>
+    }
+
+  }
+
+</div>

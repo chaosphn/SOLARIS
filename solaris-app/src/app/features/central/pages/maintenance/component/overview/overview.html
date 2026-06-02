@@ -1,0 +1,182 @@
+<div class="container bz">
+
+  @if (loading()) {
+    <div class="loading-state">
+      <i class="material-icons">sync</i>Loading maintenance data…
+    </div>
+  }
+
+  @if (!loading()) {
+
+    <!-- ── 4 Metric tiles ── -->
+    <div class="row row-4">
+      <div class="card metric-card">
+        <div class="card-hd"><div class="card-title"><span class="acc green"></span>SCHEDULED</div></div>
+        <div class="metric-val">{{ scheduledCount() }}</div>
+        <div class="metric-label">open work orders</div>
+        <div class="metric-change neutral">draft + open status</div>
+      </div>
+      <div class="card metric-card">
+        <div class="card-hd"><div class="card-title"><span class="acc amber"></span>IN PROGRESS</div></div>
+        <div class="metric-val warn">{{ inProgressCount() }}</div>
+        <div class="metric-label">active work orders</div>
+        <div class="metric-change neutral">currently in progress</div>
+      </div>
+      <div class="card metric-card">
+        <div class="card-hd"><div class="card-title"><span class="acc red"></span>OVERDUE</div></div>
+        <div class="metric-val crit">{{ overdueCount() }}</div>
+        <div class="metric-label">require attention</div>
+        <div class="metric-change dn"><i class="material-icons">warning</i>past due date</div>
+      </div>
+      <div class="card metric-card">
+        <div class="card-hd"><div class="card-title"><span class="acc blue"></span>COMPLETED</div></div>
+        <div class="metric-val">{{ completedCount() }}</div>
+        <div class="metric-label">all-time completed</div>
+        <div class="metric-change up">{{ kpis().availability }}% on time</div>
+      </div>
+    </div>
+
+    <!-- ── Donut + KPIs + Calendar ── -->
+    <div class="row row-3">
+
+      <div class="card">
+        <div class="card-hd"><div class="card-title"><span class="acc"></span>TASK TYPE BREAKDOWN</div></div>
+        <div class="donut-wrap bz">
+          <app-piechart
+            [statusData]="donutData()"
+            [high]="140"
+            [enable3D]="false"
+            [vertical]="false">
+          </app-piechart>
+          <!-- <div class="donut-legend">
+            @for (d of donutData(); track d.label) {
+              <div class="legend-row">
+                <span class="legend-dot" [style.background]="d.color"></span>
+                <span class="legend-name">{{ d.label }}</span>
+                <span class="legend-val">{{ d.count }}</span>
+              </div>
+            }
+          </div> -->
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd"><div class="card-title"><span class="acc"></span>MAINTENANCE KPIs</div></div>
+        <div class="kpi-list bz">
+          <div class="kpi-row">
+            <div class="kpi-name">Total Work Orders</div>
+            <div class="kpi-val">{{ workOrders().length }}<span class="unit">WOs</span></div>
+          </div>
+          <div class="kpi-row">
+            <div class="kpi-name">Completed</div>
+            <div class="kpi-val good">{{ completedCount() }}<span class="unit">WOs</span></div>
+          </div>
+          <div class="kpi-row">
+            <div class="kpi-name">On-time completion</div>
+            <div class="kpi-val" [class.good]="kpis().availability >= 80">{{ kpis().availability }}<span class="unit">%</span></div>
+          </div>
+          <div class="kpi-row">
+            <div class="kpi-name">Overdue</div>
+            <div class="kpi-val" [class.crit]="overdueCount() > 0">{{ overdueCount() }}<span class="unit">WOs</span></div>
+          </div>
+          <div class="kpi-row">
+            <div class="kpi-name">Maintenance Schedules</div>
+            <div class="kpi-val">{{ schedules().length }}<span class="unit">items</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd"><div class="card-title"><span class="acc"></span>{{ currentMonth() }}</div></div>
+        <div class="cal-grid bz">
+          @for (d of weekDays; track d) {
+            <div class="cal-header">{{ d }}</div>
+          }
+          @for (cell of calendarCells(); track $index) {
+            @if (cell.blank) {
+              <div class="cal-day" style="opacity:0.15"></div>
+            } @else {
+              <div class="cal-day" [class.today]="cell.today" [class.has-task]="cell.hasTasks && !cell.today">
+                {{ cell.day }}
+                @if (cell.hasTasks && !cell.today) {
+                  <div class="cal-dot" [style.background]="calDotColor(cell.taskType)"></div>
+                }
+              </div>
+            }
+          }
+        </div>
+        <div class="chart-legend bz" style="margin-top:8px;justify-content:space-between">
+          <div><span class="swatch" style="background:var(--status-done)"></span>Prev</div>
+          <div><span class="swatch" style="background:var(--type-corrective)"></span>Corr</div>
+          <div><span class="swatch" style="background:var(--type-inspection)"></span>Insp</div>
+          <div><span class="swatch" style="background:var(--status-major)"></span>Emer</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Upcoming + Status breakdown ── -->
+    <div class="row row-2-1">
+
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title"><span class="acc amber"></span>UPCOMING &amp; ACTIVE TASKS</div>
+        </div>
+        @if (activeWorkOrders().length === 0) {
+          <div class="empty-state"><i class="material-icons">check_circle</i>No active tasks</div>
+        } @else {
+          <div class="task-list">
+            @for (wo of activeWorkOrders(); track wo.id) {
+              <div class="task-row clickable" (click)="selectWO.emit(wo.id)">
+                <div class="task-icon" [ngClass]="'t-' + wo.type">
+                  <i class="material-icons">{{ typeIcon(wo.type) }}</i>
+                </div>
+                <div class="task-info">
+                  <div class="task-name">{{ wo.title }}</div>
+                  <div class="task-site">{{ wo.plant_id }} · {{ wo.type | titlecase }}</div>
+                </div>
+                <div class="task-meta">
+                  <span class="badge" [ngClass]="isOverdue(wo) ? 's-overdue' : statusClass(wo.status)">
+                    <span class="dot"></span>
+                    {{ isOverdue(wo) ? 'OVERDUE' : statusLabel(wo.status) }}
+                  </span>
+                  @if (wo.due_date) {
+                    <span class="task-due">Due {{ wo.due_date | date:'d MMM' }}</span>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="card">
+        <div class="card-hd"><div class="card-title"><span class="acc"></span>WO STATUS BREAKDOWN</div></div>
+        <div class="bar-row">
+          <span class="bar-label">Open</span>
+          <div class="bar-track"><div class="bar-fill" [style.width.%]="workOrders().length ? scheduledCount() / workOrders().length * 100 : 0" style="background:var(--type-preventive)"></div></div>
+          <span class="bar-val">{{ scheduledCount() }}</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">In Prog</span>
+          <div class="bar-track"><div class="bar-fill" [style.width.%]="workOrders().length ? inProgressCount() / workOrders().length * 100 : 0" style="background:var(--type-corrective)"></div></div>
+          <span class="bar-val">{{ inProgressCount() }}</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">Done</span>
+          <div class="bar-track"><div class="bar-fill" [style.width.%]="workOrders().length ? completedCount() / workOrders().length * 100 : 0" style="background:var(--status-done)"></div></div>
+          <span class="bar-val">{{ completedCount() }}</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">Overdue</span>
+          <div class="bar-track"><div class="bar-fill" [style.width.%]="workOrders().length ? overdueCount() / workOrders().length * 100 : 0" style="background:var(--status-major)"></div></div>
+          <span class="bar-val">{{ overdueCount() }}</span>
+        </div>
+      </div>
+
+      
+    </div>
+
+  }
+
+</div>

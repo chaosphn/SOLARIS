@@ -44,9 +44,11 @@
 
                 <div class="suggested-prompts">
                     <div class="prompts-label">Suggested Prompts</div>
-                    <button class="prompt-btn" *ngFor="let prompt of suggestedPrompts" (click)="selectPrompt(prompt)">
-                        {{ prompt }}
-                    </button>
+                    @for (prompt of suggestedPrompts; track $index) {
+                        <button class="prompt-btn" (click)="selectPrompt(prompt)">
+                            {{ prompt }}
+                        </button>
+                    }
                 </div>
             } @else {
                 <div class="w-100 h-100 d-col bz" style="row-gap: 16px;">

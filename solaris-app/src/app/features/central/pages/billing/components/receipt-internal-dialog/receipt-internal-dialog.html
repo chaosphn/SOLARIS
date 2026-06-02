@@ -208,7 +208,7 @@
 
             <!-- Approve / Reject buttons -->
             <div class="action-footer">
-                <button class="btn-approve" (click)="confirmAction('submit')" [disabled]="loading()">
+                <button class="btn-approve" (click)="confirmAction()" [disabled]="loading()">
                     <span class="material-icons">check_circle</span>
                     {{ loading() ? 'Processing…' : 'Submit' }}
                 </button>

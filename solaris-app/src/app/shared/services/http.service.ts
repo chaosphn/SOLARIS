@@ -64,6 +64,7 @@ import {
     GetWorkOrdersByPlantRequest,
     GetWorkOrdersByStatusRequest,
     GetWorkOrdersByAssigneeRequest,
+    GetWorkOrdersByDateRangeRequest,
     CreateWorkOrderRequest,
     UpdateWorkOrderRequest,
     UpdateWorkOrderStatusRequest,
@@ -79,10 +80,6 @@ import {
     CreateWoReportRequest,
     UpdateWoReportRequest,
     DeleteWoReportRequest,
-    WoPhotoModel,
-    GetPhotosByWorkOrderRequest,
-    UploadPhotoRequest,
-    DeletePhotoRequest,
     WoSignatureModel,
     GetSignatureByWorkOrderRequest,
     CreateSignatureRequest,
@@ -96,6 +93,8 @@ import {
     MaintenanceLogModel,
     GetLogsByWorkOrderRequest,
     DeleteLogRequest,
+    GetWorkOrderByDateRequest,
+    GetLogsByDateRangeRequest,
 } from '../models/maintenance.model';
 import {
     CreateInverterSessionRequest,
@@ -922,7 +921,7 @@ export class HttpService {
 
     async getPlants() {
         const res = await firstValueFrom(
-            this.httpClient.get<MaintenanceResponse<PlantModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'plants/get')
+            this.httpClient.get<MaintenanceResponse<any>>(this.appLoadService.config.UrlApiMaintenance + 'plants/get')
         );
         return res;
     }
@@ -948,6 +947,13 @@ export class HttpService {
     async getAllWorkOrders() {
         const res = await firstValueFrom(
             this.httpClient.get<MaintenanceResponse<WorkOrderModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/work-orders/get')
+        );
+        return res;
+    }
+
+    async getWorkOrderByDate(body: GetWorkOrderByDateRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse<WorkOrderModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/work-orders/find-by-date', body)
         );
         return res;
     }
@@ -1008,6 +1014,13 @@ export class HttpService {
         return res;
     }
 
+    async getWorkOrdersByDateRange(body: GetWorkOrdersByDateRangeRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse<WorkOrderModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/work-orders/find-by-date', body)
+        );
+        return res;
+    }
+
     // ─── Checklists ────────────────────────────────────────────────────────────
 
     async getChecklistsByWorkOrder(body: GetChecklistsByWorkOrderRequest) {
@@ -1055,15 +1068,38 @@ export class HttpService {
     }
 
     async createWoReport(body: CreateWoReportRequest) {
+        const formData = new FormData();
+        formData.append('work_order_id', String(body.work_order_id));
+        formData.append('submitted_by', body.submitted_by);
+        formData.append('work_date', body.work_date);
+        if (body.start_time) formData.append('start_time', body.start_time);
+        if (body.end_time) formData.append('end_time', body.end_time);
+        if (body.duration_min != null) formData.append('duration_min', String(body.duration_min));
+        if (body.summary) formData.append('summary', body.summary);
+        if (body.findings) formData.append('findings', body.findings);
+        if (body.spare_parts_used) formData.append('spare_parts_used', body.spare_parts_used);
+        if (body.followup_action) formData.append('followup_action', body.followup_action);
+        if (body.file) formData.append('file', body.file, body.file.name);
         const res = await firstValueFrom(
-            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/reports/set', body)
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/reports/set', formData)
         );
         return res;
     }
 
     async updateWoReport(body: UpdateWoReportRequest) {
+        const formData = new FormData();
+        formData.append('id', String(body.id));
+        if (body.work_date) formData.append('work_date', body.work_date);
+        if (body.start_time) formData.append('start_time', body.start_time);
+        if (body.end_time) formData.append('end_time', body.end_time);
+        if (body.duration_min != null) formData.append('duration_min', String(body.duration_min));
+        if (body.summary) formData.append('summary', body.summary);
+        if (body.findings) formData.append('findings', body.findings);
+        if (body.spare_parts_used) formData.append('spare_parts_used', body.spare_parts_used);
+        if (body.followup_action) formData.append('followup_action', body.followup_action);
+        if (body.file) formData.append('file', body.file, body.file.name);
         const res = await firstValueFrom(
-            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/reports/update', body)
+            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/reports/update', formData)
         );
         return res;
     }
@@ -1071,35 +1107,6 @@ export class HttpService {
     async deleteWoReport(body: DeleteWoReportRequest) {
         const res = await firstValueFrom(
             this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/reports/delete', body)
-        );
-        return res;
-    }
-
-    // ─── Photos ────────────────────────────────────────────────────────────────
-
-    async getPhotosByWorkOrder(body: GetPhotosByWorkOrderRequest) {
-        const res = await firstValueFrom(
-            this.httpClient.post<MaintenanceResponse<WoPhotoModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/photos/find-by-wo', body)
-        );
-        return res;
-    }
-
-    async uploadWoPhoto(body: UploadPhotoRequest) {
-        const formData = new FormData();
-        formData.append('file', body.file, body.file.name);
-        formData.append('work_order_id', String(body.work_order_id));
-        if (body.caption) formData.append('caption', body.caption);
-        if (body.photo_type) formData.append('photo_type', body.photo_type);
-
-        const res = await firstValueFrom(
-            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/photos/upload', formData)
-        );
-        return res;
-    }
-
-    async deleteWoPhoto(body: DeletePhotoRequest) {
-        const res = await firstValueFrom(
-            this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/photos/delete', body)
         );
         return res;
     }
@@ -1186,6 +1193,14 @@ export class HttpService {
         );
         return res;
     }
+
+    async getMaintenanceLogsByDateRange(body: GetLogsByDateRangeRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post<MaintenanceResponse<MaintenanceLogModel[]>>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/logs/find-by-date', body)
+        );
+        return res;
+    }
+
 
     async deleteMaintenanceLog(body: DeleteLogRequest) {
         const res = await firstValueFrom(

@@ -1,0 +1,103 @@
+<div class="container">
+
+  @if (loading()) {
+    <div class="loading-state"><i class="material-icons">sync</i>Loading history…</div>
+  }
+
+  @if (!loading()) {
+
+    <!-- ── Stat cards ── -->
+    <div class="row row-3">
+      <div class="stat-card">
+        <div class="stat-label">Total Logs</div>
+        <div class="stat-val">{{ logs().length }}</div>
+        <div class="stat-sub">activity entries</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Completed WOs</div>
+        <div class="stat-val">{{ completedWOs().length }}</div>
+        <div class="stat-sub">successfully closed</div>
+      </div>
+      <div class="stat-card" [class.crit]="cancelledWOs().length > 0">
+        <div class="stat-label">Cancelled WOs</div>
+        <div class="stat-val">{{ cancelledWOs().length }}</div>
+        <div class="stat-sub">cancelled / void</div>
+      </div>
+    </div>
+
+    <!-- ── Filter bar ── -->
+    <div class="filter-bar">
+      <div class="filter-search">
+        <i class="material-icons">search</i>
+        <input placeholder="Search by WO number, action, user…"
+          [value]="searchQuery()"
+          (input)="searchQuery.set($any($event.target).value)" />
+      </div>
+      @for (chip of [
+        {id:'all',         label:'All'},
+        {id:'assigned',    label:'Assigned'},
+        {id:'in_progress', label:'In Progress'},
+        {id:'completed',   label:'Completed'},
+        {id:'closed',      label:'Closed'},
+        {id:'cancelled',   label:'Cancelled'}
+      ]; track chip.id) {
+        <button class="filter-chip" [class.on]="filter() === chip.id" (click)="filter.set(chip.id)">
+          {{ chip.label }}
+        </button>
+      }
+    </div>
+
+    <!-- ── Timeline ── -->
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title"><span class="acc amber"></span>ACTIVITY LOG</div>
+        <span class="card-sub">{{ filteredLogs().length }} entries</span>
+      </div>
+
+      @if (filteredLogs().length === 0) {
+        <div class="empty-state"><i class="material-icons">history</i>No history entries found</div>
+      } @else {
+        @for (group of grouped(); track group.month) {
+          <div class="timeline-label">{{ group.month }}</div>
+          @for (log of group.items; track log.id) {
+            <div class="hist-row">
+              <div class="hist-timeline">
+                <div class="hist-dot" [ngClass]="dotClass(log)"></div>
+                <div class="hist-line"></div>
+              </div>
+              <div class="hist-info">
+                <div class="hist-title">
+                  <span class="wo-num" style="font-size:10px;margin-right:8px">{{ log.wo_number ?? '—' }}</span>
+                  {{ log.action }}
+                </div>
+                <div class="hist-meta">
+                  @if (log.from_status) {
+                    <span class="badge" [ngClass]="'s-' + log.from_status">
+                      <span class="dot"></span>{{ log.from_status | titlecase }}
+                    </span>
+                    <i class="material-icons" style="font-size:12px;color:var(--secondary-txt)">arrow_forward</i>
+                  }
+                  @if (log.to_status) {
+                    <span class="badge" [ngClass]="'s-' + log.to_status">
+                      <span class="dot"></span>{{ log.to_status | titlecase }}
+                    </span>
+                  }
+                </div>
+              </div>
+              <div class="hist-right">
+                @if (log.user) {
+                  <div class="hist-detail" style="display:flex;align-items:center;gap:4px">
+                    <i class="material-icons" style="font-size:12px">person</i>{{ log.user }}
+                  </div>
+                }
+                <div class="hist-date">{{ log.timestamp | date:'d MMM yyyy, HH:mm' }}</div>
+              </div>
+            </div>
+          }
+        }
+      }
+    </div>
+
+  }
+
+</div>

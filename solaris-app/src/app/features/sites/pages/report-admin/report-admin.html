@@ -105,32 +105,34 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let config of siteConfigs()">
-                                <td>
-                                    <div class="site-name bz">
-                                        <i class="material-icons bz">location_on</i>
-                                        {{ getSiteName(config.siteId) }}
-                                    </div>
-                                </td>
-                                <td class="email-cell">
-                                    @if (config.receivedBy) {
-                                        <span class="email-content">{{ config.receivedBy }}</span>
-                                    } @else {
-                                        <span class="email-default">Using default emails</span>
-                                    }
-                                </td>
-                                <td class="action-cell">
-                            
-                                    @if (userRole() === 'administrator') {
-                                        <button class="action-btn edit-btn" (click)="editSiteConfig(config)" title="Edit">
-                                            <i class="material-icons">edit</i>
-                                        </button>
-                                        <button class="action-btn delete-btn" (click)="confirmDeleteSiteConfig(config.id)" title="Delete">
-                                            <i class="material-icons">delete</i>
-                                        </button>
-                                    }
-                                </td>
-                            </tr>
+                            @for (config of siteConfigs(); track $index) {
+                                <tr>
+                                    <td>
+                                        <div class="site-name bz">
+                                            <i class="material-icons bz">location_on</i>
+                                            {{ getSiteName(config.siteId) }}
+                                        </div>
+                                    </td>
+                                    <td class="email-cell">
+                                        @if (config.receivedBy) {
+                                            <span class="email-content">{{ config.receivedBy }}</span>
+                                        } @else {
+                                            <span class="email-default">Using default emails</span>
+                                        }
+                                    </td>
+                                    <td class="action-cell">
+                                
+                                        @if (userRole() === 'administrator') {
+                                            <button class="action-btn edit-btn" (click)="editSiteConfig(config)" title="Edit">
+                                                <i class="material-icons">edit</i>
+                                            </button>
+                                            <button class="action-btn delete-btn" (click)="confirmDeleteSiteConfig(config.id)" title="Delete">
+                                                <i class="material-icons">delete</i>
+                                            </button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>

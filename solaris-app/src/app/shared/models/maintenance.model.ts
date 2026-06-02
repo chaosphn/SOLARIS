@@ -25,6 +25,7 @@ export interface MaintenanceUserModel {
     id: string | number;
     username: string;
     name?: string;
+    Email?: string;
     email?: string;
     role?: string;
     [key: string]: any;
@@ -32,57 +33,80 @@ export interface MaintenanceUserModel {
 
 // ─── Work Orders ──────────────────────────────────────────────────────────────
 
-export type WorkOrderStatus = 'draft' | 'open' | 'in_progress' | 'on_hold' | 'completed' | 'cancelled';
+export type WorkOrderStatus = 'draft' | 'assigned' | 'in_progress' | 'completed' | 'closed' | 'cancelled';
 export type WorkOrderPriority = 'low' | 'medium' | 'high' | 'critical';
-export type WorkOrderType = 'corrective' | 'preventive' | 'inspection' | 'emergency';
+export type WorkOrderType = 'preventive' | 'corrective' | 'inspection' | 'emergency';
 
 export interface WorkOrderModel {
     id: number;
     wo_number: string;
     plant_id: string;
+    created_by: string;
+    assigned_to?: string;
+    type: WorkOrderType;
+    priority: WorkOrderPriority;
+    status: WorkOrderStatus;
     title: string;
     description?: string;
-    type?: WorkOrderType;
-    priority?: WorkOrderPriority;
-    status: WorkOrderStatus;
-    assigned_to?: string;
-    created_by: string;
-    scheduled_date?: string;
+    equipment_id?: string;
     due_date?: string;
-    completed_date?: string;
-    notes?: string;
     created_at?: string;
     updated_at?: string;
 }
 
+export interface GetWorkOrderByDateRequest {
+    start_time: string;
+    end_time: string;
+}
+
+
 export interface GetWorkOrderByIdRequest {
     id: number;
+    start_time?: string;
+    end_time?: string;
 }
 
 export interface GetWorkOrdersByPlantRequest {
     plant_id: string;
+    start_time?: string;
+    end_time?: string;
 }
 
 export interface GetWorkOrdersByStatusRequest {
     status: WorkOrderStatus;
+    start_time?: string;
+    end_time?: string;
 }
 
 export interface GetWorkOrdersByAssigneeRequest {
     assigned_to: string;
+    start_time?: string;
+    end_time?: string;
+}
+
+export interface GetWorkOrdersByDateRangeRequest {
+    start_time?: string;
+    end_time?: string;
+}
+
+export interface ChecklistInlineRequest {
+    label: string;
+    seq?: number;
+    sub_label?: string;
 }
 
 export interface CreateWorkOrderRequest {
     plant_id: string;
-    title: string;
     created_by: string;
+    title: string;
     description?: string;
     type?: WorkOrderType;
     priority?: WorkOrderPriority;
     status?: WorkOrderStatus;
     assigned_to?: string;
-    scheduled_date?: string;
+    equipment_id?: string;
     due_date?: string;
-    notes?: string;
+    checklists?: ChecklistInlineRequest[];
 }
 
 export interface UpdateWorkOrderRequest {
@@ -91,10 +115,9 @@ export interface UpdateWorkOrderRequest {
     description?: string;
     type?: WorkOrderType;
     priority?: WorkOrderPriority;
-    assigned_to?: string;
-    scheduled_date?: string;
+    assigned_to?: string | null;
+    equipment_id?: string;
     due_date?: string;
-    notes?: string;
 }
 
 export interface UpdateWorkOrderStatusRequest {
@@ -111,11 +134,11 @@ export interface DeleteWorkOrderRequest {
 export interface ChecklistItemModel {
     id: number;
     work_order_id: number;
+    seq: number;
     label: string;
-    is_checked: boolean;
-    order?: number;
-    created_at?: string;
-    updated_at?: string;
+    sub_label?: string;
+    is_done: number;
+    done_at?: string;
 }
 
 export interface GetChecklistsByWorkOrderRequest {
@@ -125,13 +148,16 @@ export interface GetChecklistsByWorkOrderRequest {
 export interface CreateChecklistRequest {
     work_order_id: number;
     label: string;
-    order?: number;
+    seq?: number;
+    sub_label?: string;
 }
 
 export interface UpdateChecklistRequest {
     id: number;
     label?: string;
-    order?: number;
+    seq?: number;
+    sub_label?: string;
+    is_done?: number;
 }
 
 export interface ToggleChecklistRequest {
@@ -144,18 +170,22 @@ export interface DeleteChecklistRequest {
 
 // ─── Reports ──────────────────────────────────────────────────────────────────
 
+export type FollowupAction = 'none' | 'monitor' | 'schedule_next' | 'escalate';
+
 export interface WoReportModel {
     id: number;
     work_order_id: number;
-    work_date: string;
     submitted_by: string;
+    work_date: string;
+    start_time?: string;
+    end_time?: string;
+    duration_min?: number;
     summary?: string;
     findings?: string;
-    actions_taken?: string;
-    recommendations?: string;
-    next_service_date?: string;
-    created_at?: string;
-    updated_at?: string;
+    spare_parts_used?: string;
+    report_path?: string;
+    followup_action: FollowupAction;
+    submitted_at?: string;
 }
 
 export interface GetReportByWorkOrderRequest {
@@ -166,50 +196,30 @@ export interface CreateWoReportRequest {
     work_order_id: number;
     submitted_by: string;
     work_date: string;
+    start_time?: string;
+    end_time?: string;
+    duration_min?: number;
     summary?: string;
     findings?: string;
-    actions_taken?: string;
-    recommendations?: string;
-    next_service_date?: string;
+    spare_parts_used?: string;
+    followup_action?: FollowupAction;
+    file?: File;
 }
 
 export interface UpdateWoReportRequest {
     id: number;
     work_date?: string;
+    start_time?: string;
+    end_time?: string;
+    duration_min?: number;
     summary?: string;
     findings?: string;
-    actions_taken?: string;
-    recommendations?: string;
-    next_service_date?: string;
+    spare_parts_used?: string;
+    followup_action?: FollowupAction;
+    file?: File;
 }
 
 export interface DeleteWoReportRequest {
-    id: number;
-}
-
-// ─── Photos ───────────────────────────────────────────────────────────────────
-
-export interface WoPhotoModel {
-    id: number;
-    work_order_id: number;
-    file_path: string;
-    caption?: string;
-    photo_type?: string;
-    created_at?: string;
-}
-
-export interface GetPhotosByWorkOrderRequest {
-    work_order_id: number;
-}
-
-export interface UploadPhotoRequest {
-    file: File;
-    work_order_id: number;
-    caption?: string;
-    photo_type?: string;
-}
-
-export interface DeletePhotoRequest {
     id: number;
 }
 
@@ -219,9 +229,9 @@ export interface WoSignatureModel {
     id: number;
     work_order_id: number;
     signed_by: string;
+    signer_name?: string;
     signature_data?: string;
     signed_at?: string;
-    created_at?: string;
 }
 
 export interface GetSignatureByWorkOrderRequest {
@@ -231,6 +241,7 @@ export interface GetSignatureByWorkOrderRequest {
 export interface CreateSignatureRequest {
     work_order_id: number;
     signed_by: string;
+    signer_name?: string;
     signature_data?: string;
 }
 
@@ -240,19 +251,18 @@ export interface DeleteSignatureRequest {
 
 // ─── Maintenance Schedules ────────────────────────────────────────────────────
 
+export type ScheduleTaskType = 'preventive' | 'inspection' | 'cleaning' | 'calibration' | 'other';
+export type ScheduleRecurrence = 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly';
+
 export interface MaintenanceScheduleModel {
     id: number;
     plant_id: string;
+    task_type: ScheduleTaskType;
     title: string;
     description?: string;
-    frequency?: string;
-    cron?: string;
-    next_due?: string;
-    last_done?: string;
-    assigned_to?: string;
-    is_active?: boolean;
-    created_at?: string;
-    updated_at?: string;
+    recurrence: ScheduleRecurrence;
+    next_due_date?: string;
+    is_active: number;
 }
 
 export interface GetScheduleByIdRequest {
@@ -266,24 +276,21 @@ export interface GetSchedulesByPlantRequest {
 export interface CreateScheduleRequest {
     plant_id: string;
     title: string;
+    task_type?: ScheduleTaskType;
     description?: string;
-    frequency?: string;
-    cron?: string;
-    next_due?: string;
-    assigned_to?: string;
-    is_active?: boolean;
+    recurrence?: ScheduleRecurrence;
+    next_due_date?: string;
+    is_active?: number;
 }
 
 export interface UpdateScheduleRequest {
     id: number;
     title?: string;
+    task_type?: ScheduleTaskType;
     description?: string;
-    frequency?: string;
-    cron?: string;
-    next_due?: string;
-    last_done?: string;
-    assigned_to?: string;
-    is_active?: boolean;
+    recurrence?: ScheduleRecurrence;
+    next_due_date?: string;
+    is_active?: number;
 }
 
 export interface DeleteScheduleRequest {
@@ -294,17 +301,23 @@ export interface DeleteScheduleRequest {
 
 export interface MaintenanceLogModel {
     id: number;
-    work_order_id: number;
+    work_order_id?: number;
     wo_number?: string;
     action: string;
     from_status?: string;
     to_status?: string;
     user?: string;
-    created_at?: string;
+    note?: string;
+    timestamp?: string;
 }
 
 export interface GetLogsByWorkOrderRequest {
     work_order_id: number;
+}
+
+export interface GetLogsByDateRangeRequest {
+    start_date?: string;
+    end_date?: string;
 }
 
 export interface DeleteLogRequest {

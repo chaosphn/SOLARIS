@@ -154,26 +154,25 @@ export class ReceiptInternalDialog implements OnInit {
  
   // ─── Actions ─────────────────────────────────────────────────────────────────
  
-  confirmAction(type: 'submit'): void {
-    const isApprove = type === 'submit';
+  confirmAction(): void {
     const dialogData: ConfirmDialogData = {
-      title:       'Submit Transaction No.',
-      message:     'Are you sure you want to submit this transaction no.?',
+      title:       'Submit Receipt',
+      message:     'Are you sure you want to submit this receipt?',
       subMessage:  'This action cannot be undone.',
-      confirmText: isApprove ? 'Submit' : 'Cancel',
+      confirmText: 'Submit',
       cancelText:  'Cancel',
-      type:        isApprove ? 'info' : 'warning',
+      type:        'info',
     };
- 
+
     const ref = this.dialogs.open(ConfirmDialog, {
       width: '480px',
       data: dialogData,
       panelClass: 'confirm-dialog-panel'
     });
- 
+
     ref.afterClosed().subscribe(async result => {
       if (result === true) {
-        await this.approve()
+        await this.approve();
       }
     });
   }

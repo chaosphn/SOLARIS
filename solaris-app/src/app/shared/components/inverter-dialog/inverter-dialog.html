@@ -183,25 +183,32 @@
     <!-- Historical Charts Section -->
     <div class="section-label">Historical Charts</div>
     <div class="chart-tabs">
-      <button
-        *ngFor="let item of data.deviceConfig.Historical"
-        class="tab-btn"
-        [class.active]="activeChart === item.Name"
-        (click)="activeChart = item.Name">
-        {{ item.Title }}
-      </button>
+      @for (item of data.deviceConfig.Historical; track $index) {
+        <button
+          class="tab-btn"
+          [class.active]="activeChart === item.Name"
+          (click)="activeChart = item.Name">
+          {{ item.Title }}
+        </button>
+      }
     </div>
 
     <div class="chart-container">
-      <ng-container *ngFor="let item of data.deviceConfig.Historical">
-        <div class="chart-wrapper" *ngIf="activeChart === item.Name">
-          <div class="chart-loading" *ngIf="!dataChart()[item.Name]">
-            <div class="spinner"></div>
-            <span>Loading chart...</span>
-          </div>
-          <app-highchart [chartParameter]="dataChart()[item.Name]"></app-highchart>
-        </div>
-      </ng-container>
+      @for (item of data.deviceConfig.Historical; track $index) {
+        <ng-container >
+          @if (activeChart === item.Name) {
+            <div class="chart-wrapper">
+              @if (!dataChart()[item.Name]) {
+                <div class="chart-loading">
+                  <div class="spinner"></div>
+                  <span>Loading chart...</span>
+                </div>
+              }
+              <app-highchart [chartParameter]="dataChart()[item.Name]"></app-highchart>
+            </div>
+          }
+        </ng-container>
+      }
     </div>
 
   </div>

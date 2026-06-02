@@ -58,10 +58,10 @@ export class Billing implements OnInit, OnDestroy {
   private readonly billingStatusKeys: ReadonlyArray<BillingStatusKey> = ['prepared', 'onprogress', 'complete', 'delay'];
   private readonly billingProcessKeys: ReadonlyArray<BillingProcessKey> = ['confirmation', 'invoice', 'payment', 'receipt'];
   readonly stepDefs: { key: string; label: string }[] = [
-    { key: 'confirmation', label: 'Confirmation' },
-    { key: 'invoice',      label: 'Invoice'      },
-    { key: 'payment',      label: 'Payment'      },
-    { key: 'receipt',      label: 'Reciept'      },
+    { key: 'confirmation', label: 'ใบยืนยันหน่วยไฟ' },
+    { key: 'invoice',      label: 'ใบแจ้งหนี้'      },
+    { key: 'payment',      label: 'การชำระเงิน'      },
+    { key: 'receipt',      label: 'ใบเสร็จ-ใบกำกับภาษี'      },
   ];
    
   private readonly stepOrder = ['confirmation', 'invoice', 'payment', 'receipt'];
@@ -71,15 +71,15 @@ export class Billing implements OnInit, OnDestroy {
     confirmation: {
       prepared: 'Prepared',
       user_sending: 'User sent',
-      user_wait_for_approve: 'Waiting for user approval',
+      user_wait_for_approve: 'Waiting approval',
       user_approved: 'User approved',
       user_reject: 'User rejected',
       account_sending: 'Account sent',
-      account_wait_for_approve: 'Waiting for account approval',
+      account_wait_for_approve: 'Waiting approval',
       account_approved: 'Account approved',
       account_reject: 'Account rejected',
       customer_sending: 'Customer sent',
-      customer_wait_for_approve: 'Waiting for customer approval',
+      customer_wait_for_approve: 'Waiting approval',
       customer_reject: 'Customer rejected',
       customer_approved: 'Customer approved',
       complete: 'Completed',
@@ -87,30 +87,30 @@ export class Billing implements OnInit, OnDestroy {
     invoice: {
       prepared: 'Prepared',
       user_sending: 'User sent invoice',
-      user_wait_for_approve: 'Waiting for user approval (invoice)',
+      user_wait_for_approve: 'Waiting approval',
       user_approved: 'User approved',
       user_reject: 'User rejected',
       account_sending: 'Account sent invoice',
-      account_wait_for_approve: 'Waiting for account approval (invoice)',
+      account_wait_for_approve: 'Waiting approval',
       account_approved: 'Account approved',
       account_reject: 'Account rejected',
       customer_sending: 'Customer sent/responded to invoice',
-      customer_wait_for_approve: 'Waiting for customer approval (invoice)',
+      customer_wait_for_approve: 'Waiting approval',
       customer_reject: 'Customer rejected',
       customer_approved: 'Customer approved',
       complete: 'Completed',
     },
     payment: {
       prepared: 'Prepared',
-      wait_for_payment: 'Waiting for payment',
+      wait_for_payment: 'Waiting payment',
       customer_paid: 'Customer paid',
-      account_approved: 'Account confirmed payment',
+      account_approved: 'Confirmed payment',
       complete: 'Completed',
     },
     receipt: {
       prepared: 'Prepared',
       customer_sending: 'Customer sent receipt/documents',
-      customer_wait_for_approve: 'Waiting for approval',
+      customer_wait_for_approve: 'Waiting approval',
       customer_reject: 'Rejected',
       customer_approved: 'Approved',
       complete: 'Completed',
@@ -169,8 +169,8 @@ export class Billing implements OnInit, OnDestroy {
   });
 
   // ─── Table pagination ────────────────────────────────────────────────────────
-  pageSizeOptions: number[] = [10, 20, 50, 100];
-  pageSize = signal<number>(10);
+  pageSizeOptions: number[] = [5, 10, 20, 50, 100];
+  pageSize = signal<number>(5);
   currentPage = signal<number>(1); // 1-based
 
   billingTableRows = computed(() => {
@@ -624,13 +624,13 @@ export class Billing implements OnInit, OnDestroy {
    
   isStepActive(currentProcess: string, stepKey: string, item: BillingTableRow): boolean {
     if(stepKey === 'confirmation'){
-      return item.confirmationStatus !== 'complete' && item.confirmationStatus !== '' && item.confirmationStatus !== null && item.confirmationStatus !== 'prepared';
+      return item.confirmationStatus !== 'complete' && item.confirmationStatus !== '' && item.confirmationStatus !== null;
     } else if(stepKey === 'invoice'){
-      return item.invoiceStatus !== 'complete' && item.invoiceStatus !== '' && item.invoiceStatus !== null && item.invoiceStatus !== 'prepared';
+      return item.invoiceStatus !== 'complete' && item.invoiceStatus !== '' && item.invoiceStatus !== null;
     } else if(stepKey === 'payment'){
-      return item.paymentStatus !== 'complete' && item.paymentStatus !== '' && item.paymentStatus !== null && item.paymentStatus !== 'prepared';
+      return item.paymentStatus !== 'complete' && item.paymentStatus !== '' && item.paymentStatus !== null;
     } else if(stepKey === 'receipt'){
-      return item.receiptStatus !== 'complete' && item.receiptStatus !== '' && item.receiptStatus !== null && item.receiptStatus !== 'prepared';
+      return item.receiptStatus !== 'complete' && item.receiptStatus !== '' && item.receiptStatus !== null;
     }
 
     return (currentProcess || '').toLowerCase() === stepKey;
@@ -980,6 +980,71 @@ export class Billing implements OnInit, OnDestroy {
     this.store.dispatch(sendMessage({ 
       payload: { type, text }
     }));
+  }
+
+  getStateText(status: string): string {
+    const s = (status || '').trim();
+    if (!s) return '';
+    const key = s.toLowerCase();
+    const mapped = this.stepDefs.find(x => x.key === key)?.label;
+    if (mapped) return mapped ;
+    return status;
+  }
+
+  getSubLabel(row: BillingTableRow) {
+    const item = this.billingState().find(x => x.id === row.id);
+    const globalConfig = this.billingConfigData().find(x => x.siteId === 'global');
+    const siteConfig = this.billingConfigData().find(x => x.siteId === item?.siteId);
+    console.log('Getting sublabel for process:', item, 'with global config:', globalConfig, 'and site config:', siteConfig);
+    switch ((item?.billing_process || '').toLowerCase()) {
+      case 'confirmation':
+        if(item?.confirmation_status === 'user_wait_for_approve'){
+          const confirmationUserIds = [...(globalConfig?.confirmation_user || []), ...(siteConfig?.confirmation_user || [])];
+          const userNames = this.userList().filter(u => confirmationUserIds.includes(u._id)).map(u => u.username);
+          return `( ${userNames.join(', ')} )`;
+        } else if(item?.confirmation_status === 'customer_wait_for_approve'){
+          const confirmationCustomerIds = [...(globalConfig?.confirmation_customer || []), ...(siteConfig?.confirmation_customer || [])];
+          const userNames = this.userList().filter(u => confirmationCustomerIds.includes(u._id)).map(u => u.username);
+          return `( ${userNames.join(', ')} )`;
+        }
+        break;
+      case 'invoice':
+        if(item?.invoice_status === 'account_wait_for_approve' || item?.invoice_status === 'account_approved'){
+          const invoiceAccountIds = [...(globalConfig?.invoice_account || []), ...(siteConfig?.invoice_account || [])];
+          const userNames = this.userList().filter(u => invoiceAccountIds.includes(u._id)).map(u => u.username);
+          return `( ${userNames.join(', ')} )`;
+        } else if(item?.invoice_status === 'customer_wait_for_approve'){
+          const invoiceCustomerIds = [...(globalConfig?.invoice_customer || []), ...(siteConfig?.invoice_customer || [])];
+          const userNames = this.userList().filter(u => invoiceCustomerIds.includes(u._id)).map(u => u.username);
+          return `( ${userNames.join(', ')} )`;
+        }
+        break;
+      case 'payment':
+        if(item?.payment_status === 'wait_for_payment'){
+          const paymentCustomerIds = [...(globalConfig?.invoice_customer || []), ...(siteConfig?.invoice_customer || [])];
+          const userNames = this.userList().filter(u => paymentCustomerIds.includes(u._id)).map(u => u.username);
+          return `( ${userNames.join(', ')} )`;
+        } else if(item?.payment_status === 'account_approved' || item?.payment_status === 'customer_paid'){
+          const paymentAccountIds = [...(globalConfig?.receipt_account || []), ...(siteConfig?.receipt_account || [])];
+          const userNames = this.userList().filter(u => paymentAccountIds.includes(u._id)).map(u => u.username);
+          return `( ${userNames.join(', ')} )`;
+        }
+        break;
+      case 'receipt':
+        if(item?.reciept_status === 'prepared' || item?.reciept_status === 'account_approved'){
+          const receiptAccountIds = [...(globalConfig?.receipt_account || []), ...(siteConfig?.receipt_account || [])];
+          const userNames = this.userList().filter(u => receiptAccountIds.includes(u._id)).map(u => u.username);
+          return `( ${userNames.join(', ')} )`;
+        } else if(item?.reciept_status === 'customer_wait_for_approve'){
+          const receiptCustomerIds = [...(globalConfig?.receipt_customer || []), ...(siteConfig?.receipt_customer || [])];
+          const userNames = this.userList().filter(u => receiptCustomerIds.includes(u._id)).map(u => u.username);
+          return `( ${userNames.join(', ')} )`;
+        }
+        break;
+      default:
+        break;
+    }
+    return 'xxxxxxxxxxxx';
   }
 
 }

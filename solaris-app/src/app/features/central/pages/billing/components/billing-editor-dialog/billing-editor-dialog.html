@@ -68,7 +68,9 @@
               <option *ngIf="m.confirmation_status && !isKnownStatus('confirmation', m.confirmation_status)" [ngValue]="m.confirmation_status">
                 {{ getStatusLabel('confirmation', m.confirmation_status) }}
               </option>
-              <option *ngFor="let opt of confirmationStatusOptions" [ngValue]="opt.value">{{ opt.label }}</option>
+              @for (opt of confirmationStatusOptions; track $index) {
+                <option [ngValue]="opt.value">{{ opt.label }}</option>
+              }
             </select>
           </div>
 
@@ -78,7 +80,9 @@
               <option *ngIf="m.invoice_status && !isKnownStatus('invoice', m.invoice_status)" [ngValue]="m.invoice_status">
                 {{ getStatusLabel('invoice', m.invoice_status) }}
               </option>
-              <option *ngFor="let opt of invoiceStatusOptions" [ngValue]="opt.value">{{ opt.label }}</option>
+              @for (opt of invoiceStatusOptions; track $index) {
+                <option [ngValue]="opt.value">{{ opt.label }}</option>
+              }
             </select>
           </div>
 
@@ -93,7 +97,9 @@
               <option *ngIf="m.payment_status && !isKnownStatus('payment', m.payment_status)" [ngValue]="m.payment_status">
                 {{ getStatusLabel('payment', m.payment_status) }}
               </option>
-              <option *ngFor="let opt of paymentStatusOptions" [ngValue]="opt.value">{{ opt.label }}</option>
+              @for (opt of paymentStatusOptions; track $index) {
+                <option [ngValue]="opt.value">{{ opt.label }}</option>
+              }
             </select>
           </div>
 
@@ -103,7 +109,9 @@
               <option *ngIf="m.reciept_status && !isKnownStatus('receipt', m.reciept_status)" [ngValue]="m.reciept_status">
                 {{ getStatusLabel('receipt', m.reciept_status) }}
               </option>
-              <option *ngFor="let opt of receiptStatusOptions" [ngValue]="opt.value">{{ opt.label }}</option>
+              @for (opt of receiptStatusOptions; track $index) {
+                <option [ngValue]="opt.value">{{ opt.label }}</option>
+              }
             </select>
           </div>
 

@@ -28,7 +28,7 @@ export class BillingViewerDialog implements OnInit {
   loadingLog = signal(false);
   loadingPdf = signal(false);
 
-  activeProcess = signal<BillingDocumentProcessType>('confirmation');
+  activeProcess = signal<BillingDocumentProcessType | null>(null);
   activeType = signal<BillingDocumentType>('unsigned');
   pdfUrl = signal<SafeResourceUrl | null>(null);
 

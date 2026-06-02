@@ -123,10 +123,10 @@ export class PaymentUpload implements OnInit {
   addFile(file: File): void {
     const maxSize = 10 * 1024 * 1024;
 
-    if (file.type !== 'application/pdf') {
-      alert('Only PDF allowed');
-      return;
-    }
+    // if (file.type !== 'application/pdf') {
+    //   alert('Only PDF allowed');
+    //   return;
+    // }
 
     if (file.size > maxSize) {
       alert('File too large (max 10MB)');

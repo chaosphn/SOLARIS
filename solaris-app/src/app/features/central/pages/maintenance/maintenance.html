@@ -1,0 +1,80 @@
+<div class="maintenance-wrapper">
+
+  <!-- Tab header -->
+  <div class="maint-header">
+    <div class="tabs">
+      <div class="nav-link" [class.active]="activeTab() === 'overview'" (click)="setTab('overview')">
+        <i class="material-icons">grid_view</i>OVERVIEW
+      </div>
+      <div class="nav-link" [class.active]="activeTab() === 'schedule'" (click)="setTab('schedule')">
+        <i class="material-icons">view_timeline</i>SCHEDULE
+      </div>
+      <div class="nav-link" [class.active]="activeTab() === 'workorders'" (click)="setTab('workorders')">
+        <i class="material-icons">assignment</i>WORK ORDERS
+      </div>
+      <div class="nav-link" [class.active]="activeTab() === 'history'" (click)="setTab('history')">
+        <i class="material-icons">history</i>HISTORY
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <div class="date-chip">
+        <!-- <i class="material-icons">calendar_today</i>
+        {{ today | date:'MMM yyyy' | uppercase }} -->
+        <app-date-picker [initdate]="today()" [type]="'month'" [scale]="0.75" (selectDate)="onDateSelect($event)"></app-date-picker>
+      </div>
+      <!-- <button class="btn-primary" (click)="setTab('workorders')">
+        <i class="material-icons">add</i>NEW WO
+      </button> -->
+    </div>
+  </div>
+
+  <!-- Tab content -->
+  <div class="maint-body">
+
+    @if (activeTab() === 'overview') {
+      <app-overview 
+        [plantId]="plantId()" 
+        [date]="today()" 
+        [plants]="plants()"
+        [users]="users()"
+        [orders]="workOrders()"
+        (selectWO)="openCloseout($event)">
+      </app-overview>
+    }
+
+    @if (activeTab() === 'schedule') {
+      <app-schedule 
+        [plantId]="plantId()" 
+        [date]="today()"
+        [plants]="plants()"
+        [users]="users()"
+        [orders]="workOrders()">
+      </app-schedule>
+    }
+
+    @if (activeTab() === 'workorders') {
+      <app-work-order
+        [date]="today()"
+        [plantId]="plantId()"
+        [closeoutWoId]="closeoutWoId()"
+        [plants]="plants()"
+        [users]="users()"
+        [orders]="workOrders()"
+        (selectWO)="openCloseout($event)"
+        (exitCloseout)="exitCloseout()"
+      ></app-work-order>
+    }
+
+    @if (activeTab() === 'history') {
+      <app-history 
+        [plantId]="plantId()" 
+        [date]="today()"
+        [plants]="plants()"
+        [users]="users()"
+        [orders]="workOrders()"
+      ></app-history>
+    }
+
+  </div>
+</div>

@@ -32,7 +32,7 @@ export class EventDetails {
         ...item.xAxis,
         plotLines: [
           {
-            value: new Date(this.event()?.StartTime || 0).getTime(), // จุดที่อยาก mark
+            value: new Date(this.event()?.StartTime || 0).getTime() + (7 * 60 * 60 * 1000), // จุดที่อยาก mark
             color: '#ff0000',
             width: 2,
             dashStyle: 'Dash',
@@ -44,7 +44,7 @@ export class EventDetails {
             zIndex: 5
           },
           ...(this.event()?.EndTime ? [{
-            value: new Date(this.event()?.EndTime || 0).getTime(),
+            value: new Date(this.event()?.EndTime || 0).getTime() + (7 * 60 * 60 * 1000),
             color: '#ff0000',
             width: 2,
             // label: {
@@ -151,7 +151,7 @@ export class EventDetails {
   createEventChartSeries(data: ResponseHistorianModel[]) {
     const series: SeriesLineOptions[] = data.map((item, index) => {
       const points = item.records.map(value => {
-        return [new Date(value.TimeStamp).getTime(), parseFloat(value.Value)];
+        return [new Date(value.TimeStamp).getTime() + 7 * 60 * 60 * 1000, parseFloat(value.Value)];
       });
       return {
         type: 'line',

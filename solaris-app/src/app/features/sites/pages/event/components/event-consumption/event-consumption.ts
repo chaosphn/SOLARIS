@@ -109,7 +109,7 @@ export class EventConsumption {
 
     // วนลูปและสร้างข้อมูลสำหรับแต่ละจุด
     sortedEvents.forEach(event => {
-      const timestamp = new Date(event.StartTime).getTime();
+      const timestamp = new Date(event.StartTime).getTime() + 7 * 60 * 60 * 1000; // ปรับเวลาเป็น UTC+7
       const type = event.Level as keyof typeof counters;
       
       // เพิ่มจำนวนสะสมของ type นั้น

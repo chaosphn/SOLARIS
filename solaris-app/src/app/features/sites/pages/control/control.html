@@ -352,71 +352,73 @@
                     }<!-- /selectedDevice -->
 
                     <!-- Command Log -->
-                    <div class="log-card">
-                        <div class="log-header">
-                            <div class="log-title">
-                                <span class="material-icons">history</span>
-                                Command Log
+                    @if (selectedDevice()) {
+                        <div class="log-card">
+                            <div class="log-header">
+                                <div class="log-title">
+                                    <span class="material-icons">history</span>
+                                    Command Log
+                                </div>
+                                <button class="log-refresh-btn"
+                                        (click)="loadCommandLogs()"
+                                        [disabled]="loadingLogs()">
+                                    <span class="material-icons" [class.spinning]="loadingLogs()">refresh</span>
+                                </button>
                             </div>
-                            <button class="log-refresh-btn"
-                                    (click)="loadCommandLogs()"
-                                    [disabled]="loadingLogs()">
-                                <span class="material-icons" [class.spinning]="loadingLogs()">refresh</span>
-                            </button>
-                        </div>
-                        <div class="log-table-wrap">
-                            <table class="log-table">
-                                <thead>
-                                    <tr>
-                                        <th>Timestamp</th>
-                                        <th>Device SN</th>
-                                        <th>Command</th>
-                                        <th>Params</th>
-                                        <th>Auth Mode</th>
-                                        <th>Sent By</th>
-                                        <th>Result</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for (log of commandLogs(); track log.id) {
+                            <div class="log-table-wrap">
+                                <table class="log-table">
+                                    <thead>
                                         <tr>
-                                            <td>{{ formatDate(log.created_at) }}</td>
-                                            <td class="mono">{{ log.device_sn }}</td>
-                                            <td>
-                                                <span class="log-tag" [ngClass]="'tag-' + log.command">
-                                                    {{ log.command }}
-                                                </span>
-                                            </td>
-                                            <td class="mono">{{ log.params || '—' }}</td>
-                                            <td>{{ log.auth_mode }}</td>
-                                            <td>{{ log.sent_by || '—' }}</td>
-                                            <td>
-                                                <span class="log-result"
-                                                      [ngClass]="'result-' + log.result">
-                                                    @switch (log.result) {
-                                                        @case ('SUCCESS') {
-                                                            <span class="material-icons">check_circle</span> Success
-                                                        }
-                                                        @case ('FAILED') {
-                                                            <span class="material-icons">cancel</span> Failed
-                                                        }
-                                                        @default {
-                                                            <span class="material-icons">schedule</span> Pending
-                                                        }
-                                                    }
-                                                </span>
-                                            </td>
+                                            <th>Timestamp</th>
+                                            <th>Device SN</th>
+                                            <th>Command</th>
+                                            <th>Params</th>
+                                            <th>Auth Mode</th>
+                                            <th>Sent By</th>
+                                            <th>Result</th>
                                         </tr>
-                                    }
-                                    @if (commandLogs().length === 0 && !loadingLogs()) {
-                                        <tr>
-                                            <td colspan="7" class="log-empty">No command history yet</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @for (log of commandLogs(); track log.id) {
+                                            <tr>
+                                                <td>{{ formatDate(log.created_at) }}</td>
+                                                <td class="mono">{{ log.device_sn }}</td>
+                                                <td>
+                                                    <span class="log-tag" [ngClass]="'tag-' + log.command">
+                                                        {{ log.command }}
+                                                    </span>
+                                                </td>
+                                                <td class="mono">{{ log.params || '—' }}</td>
+                                                <td>{{ log.auth_mode }}</td>
+                                                <td>{{ log.sent_by || '—' }}</td>
+                                                <td>
+                                                    <span class="log-result"
+                                                        [ngClass]="'result-' + log.result">
+                                                        @switch (log.result) {
+                                                            @case ('SUCCESS') {
+                                                                <span class="material-icons">check_circle</span> Success
+                                                            }
+                                                            @case ('FAILED') {
+                                                                <span class="material-icons">cancel</span> Failed
+                                                            }
+                                                            @default {
+                                                                <span class="material-icons">schedule</span> Pending
+                                                            }
+                                                        }
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        }
+                                        @if (commandLogs().length === 0 && !loadingLogs()) {
+                                            <tr>
+                                                <td colspan="7" class="log-empty">No command history yet</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
+                    }
 
                 </div><!-- /main-scroll -->
             </div><!-- /main-area -->
@@ -427,7 +429,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════
          CONFIRM SHUTDOWN DIALOG
     ═══════════════════════════════════════════════════════════════════════ -->
-    @if (confirmDialog() === 'shutdown') {
+    <!-- @if (confirmDialog() === 'shutdown') {
         <div class="dialog-overlay" (click)="closeConfirmDialog()">
             <div class="dialog-box" (click)="$event.stopPropagation()">
                 <div class="dialog-header">
@@ -459,6 +461,6 @@
                 </div>
             </div>
         </div>
-    }
+    } -->
 
 }
