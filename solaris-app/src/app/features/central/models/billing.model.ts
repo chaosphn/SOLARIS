@@ -51,6 +51,9 @@ export interface BillingConfigModel {
   ftRate: number;
   scheduleDate: string;
   scheduleTime: string;
+
+  contactType: string;
+  contactCost: string;
   
   confirmation_user: string[];
   confirmation_account: string[];

@@ -11,7 +11,6 @@ import { getAllConfig, getZoneConfig } from '../../../../store/selectors/site.se
 import { sendMessage } from '../../../../store/actions/toaster.actions';
 import { ExampleEvents } from '../../../../mockup/event';
 import { EventDataModel, EventRequestModel, FilterEventRequestModel } from '../../models/event.model';
-import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-event',
@@ -219,11 +218,13 @@ export class Events implements OnInit, OnDestroy {
     this.currentPage.update(p => Math.min(this.totalPages(), p + 1));
   }
 
-  exportEventListCsv(): void {
+  async exportEventListCsv(): Promise<void> {
     const data = this.eventList();
     if (!data || data.length === 0) {
-      return; // nothing to export
-    } 
+      return;
+    }
+
+    const XLSX = await import('xlsx');
 
     const events = this.eventList().map((item: EventDataModel, index: number) => {
       return {
@@ -235,14 +236,11 @@ export class Events implements OnInit, OnDestroy {
     })
 
     const stArr = this.date.toLocaleDateString().split('/');
-    //const enArr = this.end.toLocaleDateString().split('/');
     const findName = `SolarisEvent at ${stArr[1]}${stArr[0]}${stArr[2]}`;
 
-    // convert objects array into a worksheet
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(events);
+    const worksheet = XLSX.utils.json_to_sheet(events);
     const csv: string = XLSX.utils.sheet_to_csv(worksheet);
 
-    // create a blob and trigger download
     const blob: Blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link: HTMLAnchorElement = document.createElement('a');
     const url = window.URL.createObjectURL(blob);

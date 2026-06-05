@@ -36,10 +36,30 @@
                 </div>
             </div>
 
+            <!-- Contract Type -->
+            <div class="form-group">
+                <label>Contract Type</label>
+                <div class="radio-group">
+                    <label class="checkbox-label" [ngClass]="{ 'active': siteConfig().contactType === 'PPA' }">
+                        <input type="radio" name="siteContactType" value="PPA"
+                               [(ngModel)]="siteConfig().contactType" [disabled]="mode() === 'view'"
+                               (change)="onContactTypeChange()" />
+                        <span>PPA</span>
+                    </label>
+                    <label class="checkbox-label" [ngClass]="{ 'active': siteConfig().contactType === 'FLOATING' }">
+                        <input type="radio" name="siteContactType" value="FLOATING"
+                               [(ngModel)]="siteConfig().contactType" [disabled]="mode() === 'view'"
+                               (change)="onContactTypeChange()" />
+                        <span>Floating Rate</span>
+                    </label>
+                </div>
+            </div>
+
+
             <!-- Config Fields -->
             <div class="card-box w-100 d-flex">
                 <!-- Normal Meter Fields -->
-                @if (siteConfig().meterType === 'normal') {
+                <!-- @if (siteConfig().meterType === 'normal') {
                     <div class="card d-col-st">
                         <div class="title">
                             <i class="material-icons" style="font-size: 16px;">settings</i>
@@ -49,10 +69,10 @@
                             <input type="number" step="0.0001" [(ngModel)]="siteConfig().energyCost" disabled="{{ mode() === 'view' }}" />
                         </div>
                     </div>
-                }
+                } -->
 
                 <!-- TOU Meter Fields -->
-                @if (siteConfig().meterType === 'tou') {
+                <!-- @if (siteConfig().meterType === 'tou') {
                     <div class="card d-col-st" >
                         <div class="title">
                             <i class="material-icons" style="font-size: 16px;">settings</i>
@@ -74,7 +94,7 @@
                             <input type="number" step="0.0001" [(ngModel)]="siteConfig().offpeakCost" disabled="{{ mode() === 'view' }}" />
                         </div>
                     </div>
-                }
+                } -->
 
                 <!-- Common Fields -->
                 <div class="card d-col-st">
@@ -95,6 +115,55 @@
                     <div class="text-field">
                         <input type="number" step="0.0001" [(ngModel)]="siteConfig().ftRate" disabled="{{ mode() === 'view' }}" />
                     </div>
+                </div>
+            </div>
+
+            <!-- Contract Cost per year/month -->
+            <div class="contact-cost-section">
+                <div class="contact-cost-header">
+                    <span>CONTRACT COST (PER {{ siteConfig().contactType === 'FLOATING' ? 'MONTH' : 'YEAR' }})</span>
+                    @if (mode() !== 'view' && siteConfig().contactType !== 'FLOATING') {
+                        <button type="button" class="btn-add-row" (click)="addContactCostEntry()">
+                            <i class="material-icons">add</i> ADD YEAR
+                        </button>
+                    }
+                </div>
+                <div class="contact-cost-table">
+                    <div class="cost-row-header">
+                        <span class="col-year">{{ siteConfig().contactType === 'FLOATING' ? 'Month' : 'Year' }}</span>
+                        @if (siteConfig().meterType !== 'tou') {
+                            <span class="col-cost">Cost (฿/kWh)</span>
+                        } @else {
+                            <span class="col-cost">Onpeak (฿/kWh)</span>
+                            <span class="col-cost">Offpeak (฿/kWh)</span>
+                        }
+                        @if (mode() !== 'view' && siteConfig().contactType !== 'FLOATING') {
+                            <span class="col-action"></span>
+                        }
+                    </div>
+                    @for (entry of contactCostEntries(); track $index) {
+                        <div class="cost-row">
+                            <input class="col-year" type="number" [(ngModel)]="entry.year"
+                                   [disabled]="mode() === 'view' || siteConfig().contactType === 'FLOATING'"
+                                   [attr.min]="siteConfig().contactType === 'FLOATING' ? 1 : 2020"
+                                   [attr.max]="siteConfig().contactType === 'FLOATING' ? 12 : 2099"
+                                   [placeholder]="siteConfig().contactType === 'FLOATING' ? 'Month' : 'Year'" />
+                            @if (siteConfig().meterType !== 'tou') {
+                                <input class="col-cost" type="number" step="0.0001" [(ngModel)]="entry.cost"
+                                       [disabled]="mode() === 'view'" placeholder="0.0000" />
+                            } @else {
+                                <input class="col-cost" type="number" step="0.0001" [(ngModel)]="entry.onpeak"
+                                       [disabled]="mode() === 'view'" placeholder="0.0000" />
+                                <input class="col-cost" type="number" step="0.0001" [(ngModel)]="entry.offpeak"
+                                       [disabled]="mode() === 'view'" placeholder="0.0000" />
+                            }
+                            @if (mode() !== 'view' && siteConfig().contactType !== 'FLOATING') {
+                                <button type="button" class="col-action btn-remove-row" (click)="removeContactCostEntry($index)">
+                                    <i class="material-icons">remove</i>
+                                </button>
+                            }
+                        </div>
+                    }
                 </div>
             </div>
 

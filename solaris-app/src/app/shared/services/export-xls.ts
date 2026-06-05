@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
-import * as XLSX from 'xlsx';
 import { ResponseHistorianModel } from '../models/response.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExportXls {
-  exportToExcel(data: ResponseHistorianModel[], fileName: string): void {
+  async exportToExcel(data: ResponseHistorianModel[], fileName: string): Promise<void> {
     const headers = ['TimeStamp'];
     const rows:any[] = [];
 
     if(data.length > 0){
+      const XLSX = await import('xlsx');
+
       data.forEach(record => {
         headers.push(record.Name);
       });
-  
+
       data[0].records.forEach((item, index)=> {
         const row = [item.TimeStamp];
         data.forEach( x => {
@@ -23,8 +24,8 @@ export class ExportXls {
         rows.push(row);
       })
 
-      const sheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet([headers, ...rows]);
-      const workbook: XLSX.WorkBook = { Sheets: { 'data': sheet }, SheetNames: ['data'] };
+      const sheet = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+      const workbook = { Sheets: { 'data': sheet }, SheetNames: ['data'] };
       const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
       this.saveAsExcelFile(excelBuffer, fileName);
     }

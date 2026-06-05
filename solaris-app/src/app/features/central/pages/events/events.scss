@@ -353,8 +353,9 @@
 }
 
 .active-event{
-    //filter: brightness(125%);
+    filter: brightness(125%);
     background-color: var(--secondary-bg-50);
+    border-bottom: 2px solid #4A90E2;
 }
 
 @media (max-width: 1700px) {

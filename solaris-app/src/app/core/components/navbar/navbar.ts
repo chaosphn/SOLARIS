@@ -61,6 +61,7 @@ export class Navbar implements OnInit, OnDestroy {
   date: Date = new Date();
   enableDate = signal<boolean>(false);
   enableSite: string[] = [];
+  enablePage = signal<string[]>([]);
 
   private auth =  inject(AuthService);
   private http =  inject(HttpService);
@@ -127,6 +128,10 @@ export class Navbar implements OnInit, OnDestroy {
     } else {
       this.mode.set('dark');
       this.theme.setTheme('dark');
+    }
+    const pages = localStorage.getItem('pages');
+    if(pages){
+      this.enablePage.set(JSON.parse(pages));
     }
     this.getSiteConfig();
     this.getEventSummary();
@@ -218,14 +223,14 @@ export class Navbar implements OnInit, OnDestroy {
     this.router.navigate(['/main/setting'])
   }
 
-  showProfileDialog: boolean = false;
+  showProfileDialog = signal<boolean>(false);
 
   openProfile(): void {
-    this.showProfileDialog = true;
+    this.showProfileDialog.set(true);
   }
 
   closeProfile(): void {
-    this.showProfileDialog = false;
+    this.showProfileDialog.set(false);
   }
 
   getPlantStatus(pointSource: string){
@@ -288,7 +293,11 @@ export class Navbar implements OnInit, OnDestroy {
     //this.router.navigate(['/main/overview']);
   }
 
-  changeNavState(state: string, name: string){
+  changeNavState(state: string, name: string, isEnabled: boolean = true){
+    if(!isEnabled){
+      this.messageService.add({ severity: 'warn', summary: 'Site Disabled', detail: 'This site is currently disabled.' });
+      return;
+    }
     if(state == 'site' && this.currentNavState().name != 'site'){
       this.store.dispatch(addState({
         payload: {
@@ -405,6 +414,14 @@ export class Navbar implements OnInit, OnDestroy {
 
   openDialog() {
     this.dialog.open('assistant');
+  }
+
+  checkPageAvailable(page: string): boolean {
+    if(this.enablePage().length == 0){
+      return false;
+    } else {
+      return this.enablePage().includes(page);
+    }
   }
 
 

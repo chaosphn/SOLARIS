@@ -34,7 +34,9 @@ export class Login implements OnInit {
     ////console.log(this.isEven())
     if(this.form.username != '' && this.form.password != ''){
       try {
-        const response = await this.authService.login(this.form.username, this.form.password); 
+        const username = this.form.username?.toString() || '';
+        const password = this.form.password?.toString() || '';
+        const response = await this.authService.login(username.trim(), password.trim());
         if(response.success){
           const destination = sessionStorage.getItem('navigate');
           if(destination){

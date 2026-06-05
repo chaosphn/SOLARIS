@@ -41,21 +41,92 @@
                         <!-- Report Mode Selection -->
                         <div class="mode-selection">
                             <label class="checkbox-label" [ngClass]="{ 'active' : globalConfig().billingMode === 'manual' }">
-                                <input type="radio" name="reportMode" value="manual" 
+                                <input type="radio" name="reportMode" value="manual"
                                     [(ngModel)]="globalConfig().billingMode">
                                 <span>Manual Report</span>
                             </label>
                             <label class="checkbox-label" [ngClass]="{ 'active' : globalConfig().billingMode === 'auto' }">
-                                <input type="radio" name="reportMode" value="auto" 
+                                <input type="radio" name="reportMode" value="auto"
                                     [(ngModel)]="globalConfig().billingMode">
                                 <span>Auto Report</span>
                             </label>
                         </div>
 
+                        <!-- Contract Type Selection -->
+                        <div class="mode-selection">
+                            <label class="checkbox-label" [ngClass]="{ 'active' : globalConfig().contactType === 'PPA' }">
+                                <input type="radio" name="contactType" value="PPA"
+                                    (change)="onContactTypeChange()"
+                                    [(ngModel)]="globalConfig().contactType">
+                                <span>PPA</span>
+                            </label>
+                            <label class="checkbox-label" [ngClass]="{ 'active' : globalConfig().contactType === 'FLOATING' }">
+                                <input type="radio" name="contactType" value="FLOATING"
+                                    (change)="onContactTypeChange()"
+                                    [(ngModel)]="globalConfig().contactType">
+                                <span>Floating Rate</span>
+                            </label>
+                        </div>
+
+                        <div class="contact-cost-section w-100">
+                            <div class="contact-cost-header">
+                                <span>CONTRACT COST (PER {{ globalConfig().contactType === 'FLOATING' ? 'MONTH' : 'YEAR' }})</span>
+                                @if (userRole() === 'administrator' && globalConfig().contactType !== 'FLOATING') {
+                                    <button type="button" class="btn-add-row" (click)="addGlobalContactCostEntry()">
+                                        <i class="material-icons">add</i> ADD YEAR
+                                    </button>
+                                }
+                            </div>
+                            <div class="contact-cost-table">
+                                <div class="cost-row-header">
+                                    <span class="col-year">{{ globalConfig().contactType === 'FLOATING' ? 'Month' : 'Year' }}</span>
+                                    @if (globalConfig().meterType !== 'tou') {
+                                        <span class="col-cost">Cost (฿/kWh)</span>
+                                    } @else {
+                                        <span class="col-cost">Onpeak (฿/kWh)</span>
+                                        <span class="col-cost">Offpeak (฿/kWh)</span>
+                                    }
+                                    @if (userRole() === 'administrator') {
+                                        <span class="col-action"></span>
+                                    }
+                                </div>
+                                @for (entry of globalContactCostEntries(); track $index) {
+                                    <div class="cost-row">
+                                        <input class="col-year" type="number" [(ngModel)]="entry.year"
+                                                [disabled]="userRole() !== 'administrator' || globalConfig().contactType === 'FLOATING'"
+                                                [attr.min]="globalConfig().contactType === 'FLOATING' ? 1 : 2020"
+                                                [attr.max]="globalConfig().contactType === 'FLOATING' ? 12 : 2099"
+                                                [placeholder]="globalConfig().contactType === 'FLOATING' ? 'Month' : 'Year'" />
+                                        @if (globalConfig().meterType !== 'tou') {
+                                            <input class="col-cost" type="number" step="0.001"
+                                                    [(ngModel)]="entry.cost"
+                                                    [disabled]="userRole() !== 'administrator'"
+                                                    placeholder="0.000" />
+                                        } @else {
+                                            <input class="col-cost" type="number" step="0.001"
+                                                    [(ngModel)]="entry.onpeak"
+                                                    [disabled]="userRole() !== 'administrator'"
+                                                    placeholder="0.000" />
+                                            <input class="col-cost" type="number" step="0.001"
+                                                    [(ngModel)]="entry.offpeak"
+                                                    [disabled]="userRole() !== 'administrator'"
+                                                    placeholder="0.000" />
+                                        }
+                                        @if (userRole() === 'administrator' && globalConfig().contactType !== 'FLOATING') {
+                                            <button type="button" class="col-action btn-remove-row"
+                                                    (click)="removeGlobalContactCostEntry($index)">
+                                                <i class="material-icons">remove</i>
+                                            </button>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
                         <div class="main">
                             <div class="card-box w-100 d-flex">
                                 <!-- Normal Meter Fields -->
-                                @if (globalConfig().meterType === 'normal') {
+                                <!-- @if (globalConfig().meterType === 'normal') {
                                     <div class="card d-col-st">
                                         <div class="title">
                                             <i class="material-icons" style="font-size: 16px;">settings</i>
@@ -65,10 +136,10 @@
                                             <input type="number" step="0.0001" [(ngModel)]="globalConfig().energyCost" />
                                         </div>
                                     </div>
-                                }
+                                } -->
 
                                 <!-- TOU Meter Fields -->
-                                @if (globalConfig().meterType === 'tou') {
+                                <!-- @if (globalConfig().meterType === 'tou') {
                                     <div class="card d-col-st">
                                         <div class="title">
                                             <i class="material-icons" style="font-size: 16px;">settings</i>
@@ -90,7 +161,7 @@
                                             <input type="number" step="0.0001" [(ngModel)]="globalConfig().offpeakCost" />
                                         </div>
                                     </div>
-                                }
+                                } -->
 
                                 <!-- Common Fields -->
                                 <div class="card d-col-st">
@@ -139,6 +210,8 @@
                                         </div>
                                     </div>
                                 }
+
+                                <!-- Contract Cost per year -->
 
                                 <!-- User Assignments -->
                                 <div class="user-assignments-selection w-100">
@@ -333,12 +406,12 @@
                                         <tr>
                                             <th>Site Name</th>
                                             <th>Meter Mode</th>
-                                            <th>Energy Cost</th>
+                                            <th>Contract Type</th>
+                                            <!-- <th>Energy Cost</th>
                                             <th>Onpeak Cost</th>
-                                            <th>Offpeak Cost</th>
+                                            <th>Offpeak Cost</th> -->
                                             <th>Discount Cost</th>
                                             <th>FT Cost</th>
-                                            <!-- <th>Email List</th> -->
                                             <th style="text-align: center;">Actions</th>
                                         </tr>
                                     </thead>
@@ -347,9 +420,14 @@
                                             <tr>
                                                 <td>{{ getSiteName(config.siteId) }}</td>
                                                 <td>{{ config.meterType === 'normal' ? 'Normal' : 'TOU' }}</td>
-                                                <td>{{ config.meterType === 'normal' ? config.energyCost : '-' }}</td>
-                                                <td>{{ config.meterType === 'tou' ? config.onpeakCost : '-' }}</td>
-                                                <td>{{ config.meterType === 'tou' ? config.offpeakCost : '-' }}</td>
+                                                <td>
+                                                    <span class="contract-badge" [ngClass]="config.contactType === 'PPA' ? 'badge-ppa' : 'badge-floating'">
+                                                        {{ config.contactType === 'FLOATING' ? 'Floating Rate' : config.contactType  || '-' }}
+                                                    </span>
+                                                </td>
+                                                <!-- <td>{{ config.meterType === 'normal' ? config.energyCost : '-' }}</td> -->
+                                                <!-- <td>{{ config.meterType === 'tou' ? config.onpeakCost : '-' }}</td>
+                                                <td>{{ config.meterType === 'tou' ? config.offpeakCost : '-' }}</td> -->
                                                 <td>{{ config.discountRate }}</td>
                                                 <td>{{ config.ftRate }}</td>
                                                 <!-- <td class="email-cell">{{ config.receivedBy || '-' }}</td> -->

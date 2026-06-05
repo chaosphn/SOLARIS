@@ -78,8 +78,8 @@
         <div class="state-grid">
           <div class="state-item"><label>Billing Status : </label><span>{{ data.status || '---' }}</span></div>
           <div class="state-item"><label>Billing Process : </label><span>{{ data.billing_process || '---' }}</span></div>
-          <div class="state-item"><label>Energy Amount : </label><span>{{ data.energy_amount >= 0 ? data.energy_amount : '---' }}</span></div>
-          <div class="state-item"><label>Forced Energy : </label><span>{{ data.forced_energy_amount >= 0 ? data.forced_energy_amount : '---' }}</span></div>
+          <div class="state-item"><label>Energy Amount : </label><span>{{ (data.energy_amount >= 0 ? data.energy_amount : 0) | number:'1.2-3' }}</span></div>
+          <div class="state-item"><label>Forced Energy : </label><span>{{ (data.forced_energy_amount >= 0 ? data.forced_energy_amount : 0) | number:'1.2-3' }}</span></div>
           <div class="state-item"><label>Confirmation : </label><span>{{ humanizeBillingStatus('confirmation', data.confirmation_status) || '---' }}</span></div>
           <div class="state-item"><label>Invoice : </label><span>{{ humanizeBillingStatus('invoice', data.invoice_status) || '---' }}</span></div>
           <div class="state-item"><label>Payment : </label><span>{{ humanizeBillingStatus('payment', data.payment_status) || '---' }}</span></div>

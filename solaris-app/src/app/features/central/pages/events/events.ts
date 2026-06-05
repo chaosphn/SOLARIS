@@ -8,7 +8,6 @@ import { Store } from '@ngrx/store';
 import { Datetime } from '../../../../shared/services/datetime';
 import { getNavState } from '../../../../store/selectors/nav.selectors';
 import { getAllConfig } from '../../../../store/selectors/site.selectors';
-import * as XLSX from 'xlsx';
 
 
 @Component({
@@ -262,11 +261,13 @@ export class Events2 implements OnInit, OnDestroy {
     this.currentPage.update(p => Math.min(this.totalPages(), p + 1));
   }
 
-  exportEventListCsv(): void {
+  async exportEventListCsv(): Promise<void> {
     const data = this.eventList();
     if (!data || data.length === 0) {
-      return; // nothing to export
-    } 
+      return;
+    }
+
+    const XLSX = await import('xlsx');
 
     const events = this.eventList().map((item: EventDataModel, index: number) => {
       return {
@@ -281,11 +282,9 @@ export class Events2 implements OnInit, OnDestroy {
     const enArr = this.end.toLocaleDateString().split('/');
     const findName = `SolarisEvent at ${stArr[1]}${stArr[0]}${stArr[2]} - ${enArr[1]}${enArr[0]}${enArr[2]}`;
 
-    // convert objects array into a worksheet
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(events);
+    const worksheet = XLSX.utils.json_to_sheet(events);
     const csv: string = XLSX.utils.sheet_to_csv(worksheet);
 
-    // create a blob and trigger download
     const blob: Blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link: HTMLAnchorElement = document.createElement('a');
     const url = window.URL.createObjectURL(blob);

@@ -1,7 +1,7 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { ChartParameters } from '../../../../../../shared/models/highchart.model';
 import { ChartService } from '../../../../../../shared/services/chart.service';
-import { SeriesAreaOptions, SeriesColumnOptions, SeriesLineOptions, SeriesOptionsType } from 'highcharts/highcharts';
+import { SeriesAreaOptions, SeriesColumnOptions, SeriesLineOptions, SeriesOptionsType } from 'highcharts';
 import { HttpService } from '../../../../../../shared/services/http.service';
 import { ResponseHistorianModel } from '../../../../../../shared/models/response.model';
 import { RequestHistorianModel } from '../../../../../../shared/models/request.model';

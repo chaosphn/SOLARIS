@@ -10,6 +10,7 @@
 			"capacity": "23.29",
 			"siteList": [
 				{
+					"enabled": true,
 					"id": "KKB",
 					"name": "Khon Kaen Brewery",
 					"project": "KKB",
@@ -23,6 +24,7 @@
 					"cod": "2026-01-23T17:00:00.000Z"
 				},
 				{
+					"enabled": false,
 					"id": "KMD",
 					"name": "Singha Kameda",
 					"project": "KMD",
@@ -36,6 +38,7 @@
 					"cod": ""
 				},
 				{
+					"enabled": false,
 					"id": "VFP1",
 					"name": "Vara Food Phase1",
 					"project": "VFP1",
@@ -49,6 +52,7 @@
 					"cod": ""
 				},
 				{
+					"enabled": false,
 					"id": "PSC",
 					"name": "P.S.C. Starch Products",
 					"project": "PSC",
@@ -62,6 +66,7 @@
 					"cod": ""
 				},
 				{
+					"enabled": false,
 					"id": "SPC",
 					"name": "Singha Park Chiangrai",
 					"project": "SPC",
@@ -75,6 +80,7 @@
 					"cod": ""
 				},
 				{
+					"enabled": false,
 					"id": "VFP2",
 					"name": "Vara Food Phase2",
 					"project": "VFP2",
@@ -88,6 +94,7 @@
 					"cod": ""
 				},
 				{
+					"enabled": false,
 					"id": "SRB",
 					"name": "Suratthani Beverage",
 					"project": "SRB",
@@ -101,6 +108,7 @@
 					"cod": ""
 				},
 				{
+					"enabled": false,
 					"id": "WNB2",
 					"name": "Wang Noi Beverage 2",
 					"project": "WNB2",
@@ -114,6 +122,7 @@
 					"cod": ""
 				},
 				{
+					"enabled": false,
 					"id": "BAB",
 					"name": "Boonwawd Asia Beverage",
 					"project": "BAB",
@@ -127,6 +136,7 @@
 					"cod": ""
 				},
 				{
+					"enabled": false,
 					"id": "SBC",
 					"name": "Singha Beverage",
 					"project": "SBC",

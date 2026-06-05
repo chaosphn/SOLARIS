@@ -8,6 +8,7 @@ export interface ConfigModel{
 }
 
 export interface SiteModel{
+    enabled: boolean;
     id: string;
     name: string;
     project: string;

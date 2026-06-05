@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Datetime } from './datetime';
-import { ChartOptions, LegendOptions, PlotOptions, ResponsiveOptions, SeriesOptionsType, TitleOptions, TooltipOptions, XAxisOptions, YAxisOptions, isNumber } from 'highcharts/highcharts';
+import { ChartOptions, LegendOptions, PlotOptions, ResponsiveOptions, SeriesOptionsType, TitleOptions, TooltipOptions, XAxisOptions, YAxisOptions, isNumber } from 'highcharts';
 import { SeriesOptions } from '../models/config.model';
 import { ResponseHistorianModel } from '../models/response.model';
 

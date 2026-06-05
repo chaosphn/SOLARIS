@@ -2,7 +2,7 @@ import { Component, computed, inject, input, signal } from '@angular/core';
 import { PlantStatusData } from '../../../../../../shared/components/piechart/piechart';
 import { ChartParameters } from '../../../../../../shared/models/highchart.model';
 import { ChartService } from '../../../../../../shared/services/chart.service';
-import { SeriesAreaOptions, SeriesColumnOptions, SeriesLineOptions, SeriesOptionsType } from 'highcharts/highcharts';
+import { SeriesAreaOptions, SeriesColumnOptions, SeriesLineOptions, SeriesOptionsType } from 'highcharts';
 import { EventDataModel } from '../../../../models/event.model';
 
 @Component({

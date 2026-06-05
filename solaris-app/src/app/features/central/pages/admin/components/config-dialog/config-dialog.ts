@@ -8,6 +8,13 @@ import { getAllConfig } from '../../../../../../store/selectors/site.selectors';
 import { sendMessage } from '../../../../../../store/actions/toaster.actions';
 import { UserDataModel } from '../../../../../../shared/models/user.model';
 
+interface ContactCostEntry {
+  year: number;
+  cost: number;
+  onpeak: number;
+  offpeak: number;
+}
+
 @Component({
   selector: 'app-config-dialog',
   standalone: false,
@@ -24,17 +31,82 @@ export class ConfigDialog implements OnInit {
   onSave = output<BillingConfigModel>();
   siteList = signal<SiteModel[]>([]);
   userList = signal<UserDataModel[]>([]);
+  contactCostEntries = signal<ContactCostEntry[]>([{ year: new Date().getFullYear(), cost: 0, onpeak: 0, offpeak: 0 }]);
 
   private httpSrv = inject(HttpService);
   private store = inject(Store);
 
   constructor(){
     effect(() => {
-      //console.log(this.siteInput())
       if(this.siteInput() && this.siteInput()?.id && this.siteInput().id > 0){
         this.siteConfig.set(this.siteInput());
+        const isTou = this.siteInput().meterType === 'tou';
+        const isFloating = this.siteInput().contactType === 'FLOATING';
+        this.contactCostEntries.set(this.parseContactCost(this.siteInput().contactCost, isTou, isFloating));
       }
     })
+  }
+
+  private parseContactCost(str: string | null | undefined, isTou: boolean, isFloating: boolean): ContactCostEntry[] {
+    if (isFloating) {
+      const monthMap = new Map<number, { cost: number; onpeak: number; offpeak: number }>();
+      if (str && str.trim() !== '') {
+        str.split(',').forEach(entry => {
+          const parts = entry.trim().split(':');
+          const month = +(parts[0] ?? 0);
+          if (month >= 1 && month <= 12) {
+            monthMap.set(month, isTou
+              ? { cost: 0, onpeak: +(parts[1] ?? 0), offpeak: +(parts[2] ?? 0) }
+              : { cost: +(parts[1] ?? 0), onpeak: 0, offpeak: 0 }
+            );
+          }
+        });
+      }
+      return Array.from({ length: 12 }, (_, i) => {
+        const month = i + 1;
+        const existing = monthMap.get(month);
+        return { year: month, cost: existing?.cost ?? 0, onpeak: existing?.onpeak ?? 0, offpeak: existing?.offpeak ?? 0 };
+      });
+    }
+    if (!str || str.trim() === '') {
+      return [{ year: new Date().getFullYear(), cost: 0, onpeak: 0, offpeak: 0 }];
+    }
+    const entries = str.split(',').map(entry => {
+      const parts = entry.trim().split(':');
+      if (isTou) {
+        return { year: +(parts[0] ?? 0), cost: 0, onpeak: +(parts[1] ?? 0), offpeak: +(parts[2] ?? 0) };
+      }
+      return { year: +(parts[0] ?? 0), cost: +(parts[1] ?? 0), onpeak: 0, offpeak: 0 };
+    }).filter(e => e.year > 0);
+    return entries.length > 0 ? entries : [{ year: new Date().getFullYear(), cost: 0, onpeak: 0, offpeak: 0 }];
+  }
+
+  private serializeContactCost(entries: ContactCostEntry[], isTou: boolean, isFloating: boolean): string {
+    return entries
+      .filter(e => isFloating ? (e.year >= 1 && e.year <= 12) : e.year > 0)
+      .map(e => {
+        const key = isFloating ? String(e.year).padStart(2, '0') : String(e.year);
+        return isTou ? `${key}:${e.onpeak}:${e.offpeak}` : `${key}:${e.cost}`;
+      })
+      .join(', ');
+  }
+
+  addContactCostEntry(): void {
+    const lastYear = this.contactCostEntries().at(-1)?.year ?? new Date().getFullYear();
+    this.contactCostEntries.update(entries => [
+      ...entries,
+      { year: lastYear + 1, cost: 0, onpeak: 0, offpeak: 0 }
+    ]);
+  }
+
+  removeContactCostEntry(index: number): void {
+    this.contactCostEntries.update(entries => entries.filter((_, i) => i !== index));
+  }
+
+  onContactTypeChange(): void {
+    const isTou = this.siteConfig().meterType === 'tou';
+    const isFloating = this.siteConfig().contactType === 'FLOATING';
+    this.contactCostEntries.set(this.parseContactCost('', isTou, isFloating));
   }
 
   ngOnInit(): void {
@@ -62,6 +134,7 @@ export class ConfigDialog implements OnInit {
   }
 
   getEmptySiteConfig(): BillingConfigModel {
+    const cost = `${new Date().getFullYear()}:0.00`;
     return {
       id: 0,
       siteId: '',
@@ -72,6 +145,8 @@ export class ConfigDialog implements OnInit {
       offpeakCost: 0,
       discountRate: 0,
       ftRate: 0,
+      contactType: 'PPA',
+      contactCost: cost,
       scheduleDate: '',
       scheduleTime: '',
       confirmation_user: [],
@@ -104,8 +179,12 @@ export class ConfigDialog implements OnInit {
       return this.sendMessageToState('warn', 'Site id is un selectd or invalid');
     }
 
+    const isTou = this.siteConfig().meterType === 'tou';
+    const isFloating = this.siteConfig().contactType === 'FLOATING';
+    const contactCost = this.serializeContactCost(this.contactCostEntries(), isTou, isFloating);
+
     if(this.siteConfig().id > 0){
-      const request: UpdateBillingRequestModel = this.siteConfig();
+      const request: UpdateBillingRequestModel = { ...this.siteConfig(), contactCost };
       const result = await this.httpSrv.updateBillingConfig(request);
       if(result && result.StatusCode && result.StatusCode.toLowerCase().includes('success')){
         this.sendMessageToState('success', 'Billing configuration updated successfully.');
@@ -132,7 +211,9 @@ export class ConfigDialog implements OnInit {
         invoice_customer: this.siteConfig().invoice_customer,
         receipt_user: this.siteConfig().receipt_user,
         receipt_account: this.siteConfig().receipt_account,
-        receipt_customer: this.siteConfig().receipt_customer
+        receipt_customer: this.siteConfig().receipt_customer,
+        contactType: this.siteConfig().contactType,
+        contactCost
       };
       const result = await this.httpSrv.addBillingConfig(request);
       if(result && result.StatusCode && result.StatusCode.toLowerCase().includes('success')){

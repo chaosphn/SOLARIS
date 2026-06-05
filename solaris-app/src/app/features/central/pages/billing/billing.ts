@@ -480,10 +480,30 @@ export class Billing implements OnInit, OnDestroy {
     const siteConfig = this.billingConfigData().find(x => x.siteId === siteId);
     const globalConfig = this.billingConfigData().find(x => x.siteId === 'global');
     //console.log('Site config:', siteConfig, 'Global config:', globalConfig);
-    if(siteConfig && siteConfig.energyCost && siteConfig.energyCost > 0){
-      return siteConfig.energyCost * energyAmount * 1.07;
+    if(siteConfig && siteConfig.contactCost && siteConfig.contactCost.length > 0){
+      const year = this.date.getFullYear().toString();
+      const contactCost = siteConfig.contactCost.split(',').find(x => x.trim().startsWith(year))?.split(':')[1].trim();
+      if(contactCost && !isNaN(Number(contactCost))){
+        if(siteConfig.contactType === 'PPA'){
+          return Number(contactCost) * energyAmount * 1.07;
+        } else {
+          return Number(contactCost) * energyAmount * 1.07;
+        }
+      } else {
+        return 0;
+      }
     } else if(globalConfig) {
-      return globalConfig.energyCost * energyAmount * 1.07;
+      const year = this.date.getFullYear().toString();
+      const contactCost = globalConfig.contactCost.split(',').find(x => x.trim().startsWith(year))?.split(':')[1].trim();
+      if(contactCost && !isNaN(Number(contactCost))){
+        if(globalConfig.contactType === 'PPA'){
+          return Number(contactCost) * energyAmount * 1.07;
+        } else {
+          return Number(contactCost) * energyAmount * 1.07;
+        }
+      } else {
+        return 0;
+      }
     }
     return 0;
   }
@@ -492,9 +512,9 @@ export class Billing implements OnInit, OnDestroy {
     const siteConfig = this.billingConfigData().find(x => x.siteId === siteId);
     const globalConfig = this.billingConfigData().find(x => x.siteId === 'global');
     if(siteConfig){
-      return siteConfig.meterType === 'tou' ? 'TOU Rate' : 'Fixed Rate';
+      return siteConfig.contactType === 'PPA' ? 'PPA' : 'Floating Rate';
     } else if(globalConfig) {
-      return globalConfig.meterType === 'tou' ? 'TOU Rate' : 'Fixed Rate';
+      return globalConfig.contactType === 'PPA' ? 'PPA' : 'Floating Rate';
     } else {
       return '---';
     }

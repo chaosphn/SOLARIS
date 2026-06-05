@@ -1,5 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { BillingConfigModel, CreateBillingRequestModel, DeleteBillingRequestModel, UpdateBillingRequestModel } from '../../models/billing.model';
+
+interface ContactCostEntry {
+  year: number;
+  cost: number;
+  onpeak: number;
+  offpeak: number;
+}
 import { HttpService } from '../../../../shared/services/http.service';
 import { Store } from '@ngrx/store';
 import { sendMessage } from '../../../../store/actions/toaster.actions';
@@ -21,6 +28,7 @@ export class Admin implements OnInit {
 
   showModal: boolean = false;
   globalConfig = signal<BillingConfigModel>({} as BillingConfigModel);
+  globalContactCostEntries = signal<ContactCostEntry[]>([{ year: new Date().getFullYear(), cost: 0, onpeak: 0, offpeak: 0 }]);
   siteConfigs = signal<BillingConfigModel[]>([]);
   newSiteConfig: BillingConfigModel = this.getEmptySiteConfig();
   displayedColumns: string[] = [
@@ -125,12 +133,78 @@ export class Admin implements OnInit {
       const global = result.data.find(x => x.siteId === 'global');
       if(global){
         this.globalConfig.set(global);
+        const isTou = global.meterType === 'tou';
+        const isFloating = global.contactType === 'FLOATING';
+        this.globalContactCostEntries.set(this.parseContactCost(global.contactCost, isTou, isFloating));
       }
       const sites = result.data.filter(x => x.siteId !== 'global');
       if(sites){
         this.siteConfigs.set(sites);
       }
     }
+  }
+
+  onContactTypeChange(): void {
+    const isTou = this.globalConfig().meterType === 'tou';
+    const isFloating = this.globalConfig().contactType === 'FLOATING';
+    this.globalContactCostEntries.set(this.parseContactCost('', isTou, isFloating));
+  }
+
+  parseContactCost(str: string | null | undefined, isTou: boolean, isFloating: boolean): ContactCostEntry[] {
+    if (isFloating) {
+      const monthMap = new Map<number, { cost: number; onpeak: number; offpeak: number }>();
+      if (str && str.trim() !== '') {
+        str.split(',').forEach(entry => {
+          const parts = entry.trim().split(':');
+          const month = +(parts[0] ?? 0);
+          if (month >= 1 && month <= 12) {
+            monthMap.set(month, isTou
+              ? { cost: 0, onpeak: +(parts[1] ?? 0), offpeak: +(parts[2] ?? 0) }
+              : { cost: +(parts[1] ?? 0), onpeak: 0, offpeak: 0 }
+            );
+          }
+        });
+      }
+      return Array.from({ length: 12 }, (_, i) => {
+        const month = i + 1;
+        const existing = monthMap.get(month);
+        return { year: month, cost: existing?.cost ?? 0, onpeak: existing?.onpeak ?? 0, offpeak: existing?.offpeak ?? 0 };
+      });
+    }
+    if (!str || str.trim() === '') {
+      return [{ year: new Date().getFullYear(), cost: 0, onpeak: 0, offpeak: 0 }];
+    }
+    const entries = str.split(',').map(entry => {
+      const parts = entry.trim().split(':');
+      if (isTou) {
+        return { year: +(parts[0] ?? 0), cost: 0, onpeak: +(parts[1] ?? 0), offpeak: +(parts[2] ?? 0) };
+      }
+      return { year: +(parts[0] ?? 0), cost: +(parts[1] ?? 0), onpeak: 0, offpeak: 0 };
+    }).filter(e => e.year > 0);
+    return entries.length > 0 ? entries : [{ year: new Date().getFullYear(), cost: 0, onpeak: 0, offpeak: 0 }];
+  }
+
+  private serializeContactCost(entries: ContactCostEntry[], isTou: boolean, isFloating: boolean): string {
+    return entries
+      .filter(e => isFloating ? (e.year >= 1 && e.year <= 12) : e.year > 0)
+      .map(e => {
+        const key = isFloating ? String(e.year).padStart(2, '0') : String(e.year);
+        return isTou ? `${key}:${e.onpeak}:${e.offpeak}` : `${key}:${e.cost}`;
+      })
+      .join(', ');
+  }
+
+  addGlobalContactCostEntry(): void {
+    const isFloating = this.globalConfig().contactType === 'FLOATING';
+    const lastKey = this.globalContactCostEntries().at(-1)?.year ?? (isFloating ? new Date().getMonth() + 1 : new Date().getFullYear());
+    this.globalContactCostEntries.update(entries => [
+      ...entries,
+      { year: lastKey + 1, cost: 0, onpeak: 0, offpeak: 0 }
+    ]);
+  }
+
+  removeGlobalContactCostEntry(index: number): void {
+    this.globalContactCostEntries.update(entries => entries.filter((_, i) => i !== index));
   }
 
   async initializeUserData() {
@@ -147,7 +221,7 @@ export class Admin implements OnInit {
       this.store.select(getAllConfig())
     );
     if(res && res[0]){
-      ////console.log(res)
+      console.log(res)
       this.siteList.set(res[0].siteList);
     };
   }
@@ -157,11 +231,14 @@ export class Admin implements OnInit {
   }
 
   getEmptySiteConfig(): BillingConfigModel {
+    const cost = `${new Date().getFullYear()}:0.00`;
     return {
       id: 0,
       siteId: '',
       meterType: 'normal',
       billingMode: 'manual',
+      contactType: 'PPA',
+      contactCost: cost,
       energyCost: 0,
       onpeakCost: 0,
       offpeakCost: 0,
@@ -203,17 +280,17 @@ export class Admin implements OnInit {
 
   async saveGlobalSettings() {
   
-    if (this.globalConfig().meterType === 'normal' && !this.globalConfig().energyCost) {
-      return this.sendMessageToState('warn', 'Please enter the energy cost.');
-    }
+    // if (this.globalConfig().meterType === 'normal' && !this.globalConfig().energyCost) {
+    //   return this.sendMessageToState('warn', 'Please enter the energy cost.');
+    // }
   
-    if (this.globalConfig().meterType === 'tou' && !this.globalConfig().onpeakCost) {
-      return this.sendMessageToState('warn', 'Please enter the on-peak energy cost.');
-    }
+    // if (this.globalConfig().meterType === 'tou' && !this.globalConfig().onpeakCost) {
+    //   return this.sendMessageToState('warn', 'Please enter the on-peak energy cost.');
+    // }
   
-    if (this.globalConfig().meterType === 'tou' && !this.globalConfig().offpeakCost) {
-      return this.sendMessageToState('warn', 'Please enter the off-peak energy cost.');
-    }
+    // if (this.globalConfig().meterType === 'tou' && !this.globalConfig().offpeakCost) {
+    //   return this.sendMessageToState('warn', 'Please enter the off-peak energy cost.');
+    // }
   
     if (this.globalConfig().billingMode === 'auto' && !this.globalConfig().scheduleDate) {
       return this.sendMessageToState('warn', 'Please select a billing schedule date.');
@@ -223,8 +300,12 @@ export class Admin implements OnInit {
       return this.sendMessageToState('warn', 'Please select a billing schedule time.');
     }
   
+    const isTou = this.globalConfig().meterType === 'tou';
+    const isFloating = this.globalConfig().contactType === 'FLOATING';
+    const contactCost = this.serializeContactCost(this.globalContactCostEntries(), isTou, isFloating);
+
     if (this.globalConfig().id > 0) {
-      const request: UpdateBillingRequestModel = this.globalConfig();
+      const request: UpdateBillingRequestModel = { ...this.globalConfig(), contactCost };
       const result = await this.httpSrv.updateBillingConfig(request);
   
       if (result?.StatusCode?.toLowerCase().includes('success')) {
@@ -245,6 +326,8 @@ export class Admin implements OnInit {
         ftRate: this.globalConfig().ftRate,
         scheduleDate: this.globalConfig().scheduleDate,
         scheduleTime: this.globalConfig().scheduleTime,
+        contactType: this.globalConfig().contactType,
+        contactCost,
         confirmation_user: this.globalConfig().confirmation_user,
         confirmation_account: this.globalConfig().confirmation_account,
         confirmation_customer: this.globalConfig().confirmation_customer,

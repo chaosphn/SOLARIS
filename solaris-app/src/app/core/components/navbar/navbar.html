@@ -72,10 +72,14 @@
                 <div class="w-100 d-col-ed bz card-list" style="padding: 8px;">
                     @for (item of zoneList().siteList | filtersite : seachText; track $index) {
                         <div class="w-100 card bz" 
-                                [ngClass]="{ 'card-active': changeBgColor(item.id) }"
-                                (click)="changeNavState('site', item.id)" 
+                                [ngClass]="{ 'card-active': changeBgColor(item.id), 'card-disabled': !item.enabled }"
+                                (click)="changeNavState('site', item.id, item.enabled)" 
                                 [id]="item.id">
-                            <i class="material-icons">factory</i>
+                            @if (item.enabled) {
+                                 <i class="material-icons">factory</i>
+                            } @else {
+                                <i class="material-icons" >domain_disabled</i>
+                            }
                             <div class="title">{{ item.id + ' : ' + item.name | uppercase}}</div>
                             <i class="material-icons event-icon" [ngClass]="getPlantStatus(item.id)">notifications_active</i>
                         </div>
@@ -152,41 +156,41 @@
                 @case ('site') {
                     <head class="content-header hide1 d-flex-sb w-100 bz" >
                         <div class="d-flex h-100 w-100 bz">
-                            <a class="nav-link" routerLink="/main/layout" routerLinkActive="active">
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('layout') }" routerLink="/main/layout" routerLinkActive="active">
                                 <i class="material-icons">solar_power</i>
                                 <div>OVERVIEW</div>
                             </a>
-                            <a class="nav-link" routerLink="/main/dashboard" routerLinkActive="active">
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('dashboard') }" routerLink="/main/dashboard" routerLinkActive="active">
                                 <i class="material-icons">dashboard</i>
                                 <div>DASHBOARD</div>
                             </a>
                             <!-- <a class="nav-link" routerLink="/main/dashboard" routerLinkActive="active">DASHBOARD2</a> -->
-                            <a class="nav-link" routerLink="/main/efficiency" routerLinkActive="active">
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('efficiency') }" routerLink="/main/efficiency" routerLinkActive="active">
                                 <i class="material-icons">speed</i>
                                 <div>PERFORMANCE</div>
                             </a>
                             <!-- <a class="nav-link" routerLink="/main/performance" routerLinkActive="active">PERFORMANCE</a> -->
-                            <a class="nav-link" routerLink="/main/realtime" routerLinkActive="active">
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('realtime') }" routerLink="/main/realtime" routerLinkActive="active">
                                 <i class="material-icons">construction</i>
                                 <div>REALTIME</div>
                             </a>
-                            <a class="nav-link" routerLink="/main/diagram" routerLinkActive="active">
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('diagram') }" routerLink="/main/diagram" routerLinkActive="active">
                                 <i class="material-icons">account_tree</i>
                                 <div>DIAGRAM</div>
                             </a>
-                            <a class="nav-link" routerLink="/main/control" routerLinkActive="active">
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('control') }" routerLink="/main/control" routerLinkActive="active">
                                 <i class="material-icons">tune</i>
                                 <div>CONTROL</div>
                             </a>
-                            <a class="nav-link hide" routerLink="/main/charts" routerLinkActive="active">
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('charts') }" routerLink="/main/charts" routerLinkActive="active">
                                 <i class="material-icons">area_chart</i>
                                 <div>CHARTS</div>
                             </a>
-                            <a class="nav-link hide" routerLink="/main/event" routerLinkActive="active">
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('event') }" routerLink="/main/event" routerLinkActive="active">
                                 <i class="material-icons">notifications_active</i>
                                 <div>EVENTS</div>
                             </a>
-                            <a class="nav-link" routerLink="/main/report" routerLinkActive="active">
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('report') }" routerLink="/main/report" routerLinkActive="active">
                                 <i class="material-icons">description</i>
                                 <div>REPORTS</div>
                             </a>
@@ -205,16 +209,16 @@
                 @case ('zone') {
                     <head class="content-header hide d-flex-sb w-100" >
                         <div class="d-flex h-100 w-100 bz">
-                            <a class="nav-link" routerLink="/main/overview" routerLinkActive="active">OVERVIEW</a>
-                            <a class="nav-link" routerLink="/main/performance" routerLinkActive="active">PERFORMANCE</a>
-                            <a class="nav-link" routerLink="/main/trend" routerLinkActive="active">TRENDS</a>
-                            <a class="nav-link" routerLink="/main/tabular" routerLinkActive="active">TABULAR</a>
-                            <a class="nav-link" routerLink="/main/reports" routerLinkActive="active">REPORTS</a>
-                            <a class="nav-link" routerLink="/main/report-admin" routerLinkActive="active">REPORT ADMIN</a>
-                            <a class="nav-link" routerLink="/main/billing/viewer" routerLinkActive="active">BILLINGS</a>
-                            <a class="nav-link" routerLink="/main/admin" routerLinkActive="active">BILLING ADMIN</a>
-                            <a class="nav-link" routerLink="/main/events" routerLinkActive="active">EVENTS</a>
-                            <a class="nav-link" routerLink="/main/maintenance" routerLinkActive="active">MAINTENANCE</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/overview" routerLinkActive="active">OVERVIEW</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('performance') }" routerLink="/main/performance" routerLinkActive="active">PERFORMANCE</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('trend') }" routerLink="/main/trend" routerLinkActive="active">TRENDS</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('tabular') }" routerLink="/main/tabular" routerLinkActive="active">TABULAR</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('reports') }" routerLink="/main/reports" routerLinkActive="active">REPORTS</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('report-admin') }" routerLink="/main/report-admin" routerLinkActive="active">REPORT ADMIN</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('billing') }" routerLink="/main/billing/viewer" routerLinkActive="active">BILLINGS</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('admin') }" routerLink="/main/admin" routerLinkActive="active">BILLING ADMIN</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('events') }" routerLink="/main/events" routerLinkActive="active">EVENTS</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('maintenance') }" routerLink="/main/maintenance" routerLinkActive="active">MAINTENANCE</a>
                         </div>
                         @if (enableDate()) {
                             <div class="date-picker hide h-100 bz">
@@ -236,6 +240,6 @@
     <p-toast position="bottom-right" />
 </div>
 
-@if (showProfileDialog) {
+@if (showProfileDialog()) {
     <app-profile-dialog (onClose)="closeProfile()" />
 }

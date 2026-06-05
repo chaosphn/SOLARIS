@@ -283,6 +283,17 @@
                 color: var(--active-txt) !important;
             }
         }
+        .card-disabled{
+            //padding-left: 8px;
+            // background-color: var(--primary-bg);
+            // border-radius: 4px;
+            .material-icons{
+                color: var(--secondary-txt) !important;
+            }
+            .title{
+                color: var(--secondary-txt) !important;
+            }
+        }
 
     }
     
@@ -375,6 +386,10 @@
 
 .dropdown-wrapper{
     display: none;
+}
+
+.hide-page {
+    display: none !important;
 }
 
 .site-selector {
