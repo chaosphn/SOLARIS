@@ -1064,7 +1064,7 @@ export class Billing implements OnInit, OnDestroy {
       default:
         break;
     }
-    return 'xxxxxxxxxxxx';
+    return '';
   }
 
 }

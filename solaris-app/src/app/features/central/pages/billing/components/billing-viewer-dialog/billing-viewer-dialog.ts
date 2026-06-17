@@ -31,6 +31,7 @@ export class BillingViewerDialog implements OnInit {
   activeProcess = signal<BillingDocumentProcessType | null>(null);
   activeType = signal<BillingDocumentType>('unsigned');
   pdfUrl = signal<SafeResourceUrl | null>(null);
+  rawPdfUrl = signal<string | null>(null);
 
   // Human-friendly labels for billing process statuses (aligned with SOLARIS_REPORT/services/billings-state.js)
   private readonly statusLabelMap: Record<BillingProcessKey, Record<string, string>> = {
@@ -134,6 +135,8 @@ export class BillingViewerDialog implements OnInit {
   }
 
   async viewDocument(process: any, type: BillingDocumentType): Promise<void> {
+    this.pdfUrl.set(null);
+    this.rawPdfUrl.set(null);
     try {
       this.loadingPdf.set(true);
       this.activeProcess.set(process);
@@ -145,8 +148,8 @@ export class BillingViewerDialog implements OnInit {
         type
       });
       const url = URL.createObjectURL(blob);
-      //console.log('Document URL:', url, blob);
       if(blob?.size > 200) {
+        this.rawPdfUrl.set(url);
         this.pdfUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(url));
       } else {
         this.pdfUrl.set(null);
@@ -159,6 +162,28 @@ export class BillingViewerDialog implements OnInit {
     } finally {
       this.loadingPdf.set(false);
     }
+  }
+
+  downloadDocument(): void {
+    const url = this.rawPdfUrl();
+    if (!url) return;
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${this.activeProcess()}_${this.activeType()}_${this.data.siteId}_${this.data.timestamp}.pdf`;
+    a.click();
+  }
+
+  printDocument(): void {
+    const url = this.rawPdfUrl();
+    if (!url) return;
+    const iframe = document.createElement('iframe');
+    iframe.style.cssText = 'position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;';
+    iframe.src = url;
+    document.body.appendChild(iframe);
+    iframe.onload = () => {
+      iframe.contentWindow?.print();
+      //setTimeout(() => document.body.removeChild(iframe), 1000);
+    };
   }
 
   close(): void {

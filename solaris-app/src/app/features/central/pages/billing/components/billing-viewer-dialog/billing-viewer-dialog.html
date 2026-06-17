@@ -48,6 +48,16 @@
               </div>
             </div>
           }
+          <div class="file-actions">
+            <button class="file-btn" (click)="downloadDocument()" [disabled]="!pdfUrl() || loadingPdf()">
+              <span class="material-icons">download</span>
+              Download
+            </button>
+            <button class="file-btn" (click)="printDocument()" [disabled]="!pdfUrl() || loadingPdf()">
+              <span class="material-icons">print</span>
+              Print
+            </button>
+          </div>
         </div>
         <div class="pdf-wrap">
           @if (loadingPdf()) {
@@ -63,7 +73,7 @@
             </div>
           }
           @if (pdfUrl() && !loadingPdf()) {
-            <div class="pdf-view" >
+            <div class="pdf-view">
               <iframe [src]="pdfUrl()" class="pdf-iframe" frameborder="0"></iframe>
             </div>
           }
