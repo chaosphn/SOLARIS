@@ -1,7 +1,7 @@
-<div class="dialog-root">
+<div class="dialog-root bz">
 
     <!-- ─── Header ─────────────────────────────────────────────────────────── -->
-    <div class="dialog-header">
+    <div class="dialog-header bz">
         <span class="dialog-title">Customer Payment Confirmation</span>
         <button class="icon-btn" (click)="close()">
             <span class="material-icons">close</span>
@@ -9,7 +9,7 @@
     </div>
 
     <!-- ─── Body ───────────────────────────────────────────────────────────── -->
-    <div class="dialog-body">
+    <div class="dialog-body bz">
 
         <!-- Left — PDF Preview -->
         <div class="pane-left">
@@ -168,15 +168,31 @@
                     </div>
 
                     <!-- Ref No. + Date -->
-                    <div class="payment-fields-grid">
+                     <div class="pf">
+                        <span class="pf__label">{{ paymentType === 'cheque' ? 'No. / เลขที่' : 'Account No. / เลขบัญชี' }}</span>
+                        <input type="text" class="force-energy-value__input" [(ngModel)]="paymentId" />
+                    </div>
+                    <!-- <div class="payment-fields-grid">
                         <div class="pf">
                             <span class="pf__label">{{ paymentType === 'cheque' ? 'No. / เลขที่' : 'Account No. / เลขบัญชี' }}</span>
                             <input type="text" class="force-energy-value__input" [(ngModel)]="paymentId" />
                         </div>
                         <div class="pf">
                             <span class="pf__label">Date / วันที่</span>
-                            <input type="date" class="force-energy-value__input" [(ngModel)]="paymentdate" />
+                            <app-date-picker
+                                [initdate]="paymentdateObj"
+                                type="day"
+                                (selectDate)="onPaymentDateSelect($event)"
+                            />
                         </div>
+                    </div> -->
+                    <div class="pf">
+                        <span class="pf__label">Date / วันที่</span>
+                        <app-date-picker
+                            [initdate]="paymentdateObj"
+                            type="day"
+                            (selectDate)="onPaymentDateSelect($event)"
+                        />
                     </div>
                 </div>
 

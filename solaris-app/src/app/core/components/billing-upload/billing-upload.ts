@@ -23,6 +23,7 @@ export class BillingUpload implements OnInit {
   isDragOver = false;
   isUploading = false;
   sendDate: string = '';
+  sendDateObj: Date = new Date();
   userName: string = '';
 
   // ✅ New filename format
@@ -37,6 +38,10 @@ export class BillingUpload implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
+    const yyyy = this.sendDateObj.getFullYear();
+    const mm = String(this.sendDateObj.getMonth() + 1).padStart(2, '0');
+    const dd = String(this.sendDateObj.getDate()).padStart(2, '0');
+    this.sendDate = `${yyyy}-${mm}-${dd}`;
     const segments = this.router.url.split('/');
     const billingId = segments[segments.length - 1];
     if(billingId) {
@@ -90,7 +95,8 @@ export class BillingUpload implements OnInit {
   };
 
   goBack(): void {
-    this.location.back();
+    this.router.navigate(['/main/overview']);
+    //this.location.back();
   }
 
   onFileSelected(event: Event): void {
@@ -146,7 +152,26 @@ export class BillingUpload implements OnInit {
 
   removeFile(): void {
     this.uploadedFile = null;
-    this.sendDate = '';
+    const yyyy = new Date().getFullYear();
+    const mm = String(new Date().getMonth() + 1).padStart(2, '0');
+    const dd = String(new Date().getDate()).padStart(2, '0');
+    this.sendDate = `${yyyy}-${mm}-${dd}`;
+    this.sendDateObj = new Date();
+  }
+
+  onSelectDate(date: Date): void {
+    const today = new Date();
+    today.setHours(23, 59, 59, 999);
+    if (date > today) {
+      alert('Please select a date that is not in the future');
+      //this.sendDate = '';
+      return;
+    }
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    this.sendDate = `${yyyy}-${mm}-${dd}`;
+    this.sendDateObj = date;
   }
 
   clearFile(): void {

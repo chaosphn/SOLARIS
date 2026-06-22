@@ -49,7 +49,7 @@ export class Maintenance implements OnInit {
   async loadPlants() {
     try {
       const res = await this.http.getPlants();
-      if (res.status === 'success' && res.data && res.data.siteList) this.plants.set(res.data.siteList);
+      if (res.status === 'success' && res.data && res.data.length > 0) this.plants.set(res.data);
     } catch (_) {}
   }
 

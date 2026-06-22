@@ -258,6 +258,7 @@ export class Billing implements OnInit, OnDestroy {
   sessionId = signal<string>('');
   sessionData = signal<BillingSessionModel | null>(null);
   userRole = signal<string>('user');
+  superAdmin = signal<boolean>(false);
   userList = signal<UserDataModel[]>([]);
   billingConfigData = signal<BillingConfigModel[]>([]);
 
@@ -309,6 +310,12 @@ export class Billing implements OnInit, OnDestroy {
     const role = localStorage.getItem('role');
     if(role){
       this.userRole.set(role);
+    }
+    const superAdmin = localStorage.getItem('superadmin');
+    if(superAdmin && superAdmin === 'true'){
+      this.superAdmin.set(true);
+    } else {
+      this.superAdmin.set(false);
     }
     const urlParts = this.router.url.split('/');
     const sessionId = urlParts[urlParts.length - 1];
@@ -474,38 +481,43 @@ export class Billing implements OnInit, OnDestroy {
 
   getBillingAmount(siteId: string) {
     const billing = this.billingState().find(x => x.siteId === siteId);
-    //console.log('Calculating billing amount for siteId:', siteId, 'billing record:', billing);
     const energyAmount = billing?.forced_energy_amount && billing.forced_energy_amount > 0 ? billing.forced_energy_amount : billing?.energy_amount || 0;
-    //console.log('Energy amount for billing calculation:', energyAmount);
     const siteConfig = this.billingConfigData().find(x => x.siteId === siteId);
     const globalConfig = this.billingConfigData().find(x => x.siteId === 'global');
-    //console.log('Site config:', siteConfig, 'Global config:', globalConfig);
-    if(siteConfig && siteConfig.contactCost && siteConfig.contactCost.length > 0){
-      const year = this.date.getFullYear().toString();
-      const contactCost = siteConfig.contactCost.split(',').find(x => x.trim().startsWith(year))?.split(':')[1].trim();
-      if(contactCost && !isNaN(Number(contactCost))){
-        if(siteConfig.contactType === 'PPA'){
-          return Number(contactCost) * energyAmount * 1.07;
-        } else {
-          return Number(contactCost) * energyAmount * 1.07;
-        }
-      } else {
-        return 0;
-      }
-    } else if(globalConfig) {
-      const year = this.date.getFullYear().toString();
-      const contactCost = globalConfig.contactCost.split(',').find(x => x.trim().startsWith(year))?.split(':')[1].trim();
-      if(contactCost && !isNaN(Number(contactCost))){
-        if(globalConfig.contactType === 'PPA'){
-          return Number(contactCost) * energyAmount * 1.07;
-        } else {
-          return Number(contactCost) * energyAmount * 1.07;
-        }
-      } else {
-        return 0;
-      }
+    const config = (siteConfig && siteConfig.contactCost && siteConfig.contactCost.length > 0) ? siteConfig : globalConfig;
+    if (!config) return 0;
+    const billDate = billing?.timestamp ? new Date(billing.timestamp) : this.date;
+    const contactCost = this.resolveContactCost(config.contactCost, config.contactType, billDate);
+    if (contactCost === null) return 0;
+    return contactCost * energyAmount * 1.07;
+  }
+
+  private resolveContactCost(contactCost: string, contactType: string, billDate: Date): number | null {
+    const entries = contactCost.split(',').map(x => x.trim());
+    if (contactType === 'PPA') {
+      // format: mm/yyyy:cost — each entry marks the start of a 12-month period
+      // find the last period whose start date <= billDate
+      const parsed = entries
+        .map(x => {
+          const colonIdx = x.indexOf(':');
+          if (colonIdx === -1) return null;
+          const key = x.slice(0, colonIdx).trim();
+          const value = x.slice(colonIdx + 1).trim();
+          const [mm, yyyy] = key.split('/');
+          if (!mm || !yyyy || isNaN(Number(value))) return null;
+          return { date: new Date(Number(yyyy), Number(mm) - 1, 1), cost: Number(value) };
+        })
+        .filter((x): x is { date: Date; cost: number } => x !== null)
+        .sort((a, b) => a.date.getTime() - b.date.getTime());
+      const match = [...parsed].reverse().find(x => x.date <= billDate);
+      return match ? match.cost : null;
+    } else {
+      // Floating format: mm:cost — lookup by month of the bill
+      const mm = (billDate.getMonth() + 1).toString().padStart(2, '0');
+      const entry = entries.find(x => x.startsWith(mm + ':'));
+      const value = entry?.split(':')[1]?.trim();
+      return value && !isNaN(Number(value)) ? Number(value) : null;
     }
-    return 0;
   }
 
   getContractType(siteId: string): string {
@@ -1015,7 +1027,7 @@ export class Billing implements OnInit, OnDestroy {
     const item = this.billingState().find(x => x.id === row.id);
     const globalConfig = this.billingConfigData().find(x => x.siteId === 'global');
     const siteConfig = this.billingConfigData().find(x => x.siteId === item?.siteId);
-    console.log('Getting sublabel for process:', item, 'with global config:', globalConfig, 'and site config:', siteConfig);
+    //console.log('Getting sublabel for process:', item, 'with global config:', globalConfig, 'and site config:', siteConfig);
     switch ((item?.billing_process || '').toLowerCase()) {
       case 'confirmation':
         if(item?.confirmation_status === 'user_wait_for_approve'){

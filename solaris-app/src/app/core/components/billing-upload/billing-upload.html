@@ -2,16 +2,15 @@
   <!-- Header -->
   <div class="page-header">
     <div class="header-content">
-      <button class="btn-back" (click)="goBack()">
-        ← Back
-      </button>
-
       <div class="header-title">
-        <h1>Upload Signed Invoice</h1>
+        <p class="header-main-title">Upload Signed Invoice</p>
         <p class="header-subtitle">
           Upload signed invoice and provide document send date
         </p>
       </div>
+      <button class="btn-back" (click)="goBack()">
+        Back To HomePage
+      </button>
     </div>
   </div>
 
@@ -72,11 +71,10 @@
       <div class="send-date-section" *ngIf="uploadedFile">
         <label class="date-label">📅 Document Send Date</label>
 
-        <input
-          type="date"
-          class="date-input"
-          [(ngModel)]="sendDate"
-          [max]="getTodayDate()"
+        <app-date-picker
+          [initdate]="sendDateObj"
+          type="day"
+          (selectDate)="onSelectDate($event)"
         />
 
         <p class="date-hint">

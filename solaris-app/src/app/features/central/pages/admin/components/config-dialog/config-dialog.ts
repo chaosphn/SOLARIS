@@ -10,6 +10,7 @@ import { UserDataModel } from '../../../../../../shared/models/user.model';
 
 interface ContactCostEntry {
   year: number;
+  month: number;
   cost: number;
   onpeak: number;
   offpeak: number;
@@ -31,7 +32,7 @@ export class ConfigDialog implements OnInit {
   onSave = output<BillingConfigModel>();
   siteList = signal<SiteModel[]>([]);
   userList = signal<UserDataModel[]>([]);
-  contactCostEntries = signal<ContactCostEntry[]>([{ year: new Date().getFullYear(), cost: 0, onpeak: 0, offpeak: 0 }]);
+  contactCostEntries = signal<ContactCostEntry[]>([{ year: new Date().getFullYear(), month: 1, cost: 0, onpeak: 0, offpeak: 0 }]);
 
   private httpSrv = inject(HttpService);
   private store = inject(Store);
@@ -65,37 +66,57 @@ export class ConfigDialog implements OnInit {
       return Array.from({ length: 12 }, (_, i) => {
         const month = i + 1;
         const existing = monthMap.get(month);
-        return { year: month, cost: existing?.cost ?? 0, onpeak: existing?.onpeak ?? 0, offpeak: existing?.offpeak ?? 0 };
+        return { year: month, month: month, cost: existing?.cost ?? 0, onpeak: existing?.onpeak ?? 0, offpeak: existing?.offpeak ?? 0 };
       });
     }
     if (!str || str.trim() === '') {
-      return [{ year: new Date().getFullYear(), cost: 0, onpeak: 0, offpeak: 0 }];
+      return [{ year: new Date().getFullYear(), month: 1, cost: 0, onpeak: 0, offpeak: 0 }];
     }
+    // PPA format: "mm/yyyy:cost" or legacy "year:cost"
     const entries = str.split(',').map(entry => {
       const parts = entry.trim().split(':');
+      const dateParts = (parts[0] ?? '').split('/');
+      const month = dateParts.length > 1 ? +(dateParts[0] ?? 1) : 1;
+      const year = dateParts.length > 1 ? +(dateParts[1] ?? 0) : +(dateParts[0] ?? 0);
       if (isTou) {
-        return { year: +(parts[0] ?? 0), cost: 0, onpeak: +(parts[1] ?? 0), offpeak: +(parts[2] ?? 0) };
+        return { year, month, cost: 0, onpeak: +(parts[1] ?? 0), offpeak: +(parts[2] ?? 0) };
       }
-      return { year: +(parts[0] ?? 0), cost: +(parts[1] ?? 0), onpeak: 0, offpeak: 0 };
+      return { year, month, cost: +(parts[1] ?? 0), onpeak: 0, offpeak: 0 };
     }).filter(e => e.year > 0);
-    return entries.length > 0 ? entries : [{ year: new Date().getFullYear(), cost: 0, onpeak: 0, offpeak: 0 }];
+    return entries.length > 0 ? entries : [{ year: new Date().getFullYear(), month: 1, cost: 0, onpeak: 0, offpeak: 0 }];
   }
 
   private serializeContactCost(entries: ContactCostEntry[], isTou: boolean, isFloating: boolean): string {
     return entries
       .filter(e => isFloating ? (e.year >= 1 && e.year <= 12) : e.year > 0)
       .map(e => {
-        const key = isFloating ? String(e.year).padStart(2, '0') : String(e.year);
+        const key = isFloating
+          ? String(e.year).padStart(2, '0')
+          : `${String(e.month ?? 1).padStart(2, '0')}/${String(e.year)}`;
         return isTou ? `${key}:${e.onpeak}:${e.offpeak}` : `${key}:${e.cost}`;
       })
       .join(', ');
   }
 
+  private validateContactCostEntries(entries: ContactCostEntry[], contactType: string): string | null {
+    if (contactType === 'PPA') {
+      if (entries.length === 0) return 'Please add at least one contract cost entry.';
+      const invalid = entries.some(e => !e.month || e.month < 1 || e.month > 12 || !e.year || e.year < 2000);
+      if (invalid) return 'PPA entries must have a valid month (01–12) and year (≥ 2000).';
+    }
+    if (contactType === 'FLOATING') {
+      if (entries.length !== 12) return 'Floating rate must have exactly 12 monthly entries.';
+    }
+    return null;
+  }
+
   addContactCostEntry(): void {
-    const lastYear = this.contactCostEntries().at(-1)?.year ?? new Date().getFullYear();
+    const last = this.contactCostEntries().at(-1);
+    const lastYear = last?.year ?? new Date().getFullYear();
+    const lastMonth = last?.month ?? 1;
     this.contactCostEntries.update(entries => [
       ...entries,
-      { year: lastYear + 1, cost: 0, onpeak: 0, offpeak: 0 }
+      { year: lastYear + 1, month: lastMonth, cost: 0, onpeak: 0, offpeak: 0 }
     ]);
   }
 
@@ -181,6 +202,10 @@ export class ConfigDialog implements OnInit {
 
     const isTou = this.siteConfig().meterType === 'tou';
     const isFloating = this.siteConfig().contactType === 'FLOATING';
+
+    const entryError = this.validateContactCostEntries(this.contactCostEntries(), this.siteConfig().contactType);
+    if (entryError) return this.sendMessageToState('warn', entryError);
+
     const contactCost = this.serializeContactCost(this.contactCostEntries(), isTou, isFloating);
 
     if(this.siteConfig().id > 0){

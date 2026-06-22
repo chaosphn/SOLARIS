@@ -79,24 +79,33 @@
                             </div>
                             <div class="contact-cost-table">
                                 <div class="cost-row-header">
-                                    <span class="col-year">{{ globalConfig().contactType === 'FLOATING' ? 'Month' : 'Year' }}</span>
+                                    @if (globalConfig().contactType === 'FLOATING') {
+                                        <span class="col-month">Month</span>
+                                    } @else {
+                                        <span class="col-month">Month</span>
+                                        <span class="col-year">Year</span>
+                                    }
                                     @if (globalConfig().meterType !== 'tou') {
                                         <span class="col-cost">Cost (฿/kWh)</span>
                                     } @else {
                                         <span class="col-cost">Onpeak (฿/kWh)</span>
                                         <span class="col-cost">Offpeak (฿/kWh)</span>
                                     }
-                                    @if (userRole() === 'administrator') {
+                                    @if (userRole() === 'administrator' && globalConfig().contactType !== 'FLOATING') {
                                         <span class="col-action"></span>
                                     }
                                 </div>
                                 @for (entry of globalContactCostEntries(); track $index) {
                                     <div class="cost-row">
-                                        <input class="col-year" type="number" [(ngModel)]="entry.year"
-                                                [disabled]="userRole() !== 'administrator' || globalConfig().contactType === 'FLOATING'"
-                                                [attr.min]="globalConfig().contactType === 'FLOATING' ? 1 : 2020"
-                                                [attr.max]="globalConfig().contactType === 'FLOATING' ? 12 : 2099"
-                                                [placeholder]="globalConfig().contactType === 'FLOATING' ? 'Month' : 'Year'" />
+                                        @if (globalConfig().contactType === 'FLOATING') {
+                                            <input class="col-month" type="number" [(ngModel)]="entry.year"
+                                                   [disabled]="true" min="1" max="12" placeholder="MM" />
+                                        } @else {
+                                            <input class="col-month" type="number" [(ngModel)]="entry.month"
+                                                   [disabled]="userRole() !== 'administrator'" min="1" max="12" placeholder="MM" />
+                                            <input class="col-year" type="number" [(ngModel)]="entry.year"
+                                                   [disabled]="userRole() !== 'administrator'" min="2020" max="2099" placeholder="YYYY" />
+                                        }
                                         @if (globalConfig().meterType !== 'tou') {
                                             <input class="col-cost" type="number" step="0.001"
                                                     [(ngModel)]="entry.cost"

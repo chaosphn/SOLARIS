@@ -31,8 +31,17 @@ export class PaymentConfirmationDialog implements OnInit {
 
   paymentId?: string;
   paymentdate: string = '';
+  paymentdateObj: Date = new Date();
   paymentType: string = '';
   bank: string = '';
+
+  onPaymentDateSelect(date: Date): void {
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    this.paymentdate = `${yyyy}-${mm}-${dd}`;
+    this.paymentdateObj = date;
+  }
 
   
  
@@ -59,6 +68,10 @@ export class PaymentConfirmationDialog implements OnInit {
  
   ngOnInit(): void {
     //this.loadPdf();
+    const yyyy = this.paymentdateObj.getFullYear();
+    const mm = String(this.paymentdateObj.getMonth() + 1).padStart(2, '0');
+    const dd = String(this.paymentdateObj.getDate()).padStart(2, '0');
+    this.paymentdate = `${yyyy}-${mm}-${dd}`;
     const us = localStorage.getItem('user');
     if(us) {
       this.userName.set(us);

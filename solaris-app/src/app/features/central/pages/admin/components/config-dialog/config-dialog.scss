@@ -327,7 +327,7 @@
                 &:hover { background-color: #F25C4C; }
             }
         }
-
+        .col-month { width: 60px; flex-shrink: 0; }
         .col-year { width: 90px; flex-shrink: 0; }
         .col-cost { flex: 1; width: 90px; }
         .col-action { width: 30px; flex-shrink: 0; }

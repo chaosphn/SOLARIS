@@ -75,10 +75,10 @@ export class PaymentUpload implements OnInit {
           this.router.navigate(['/main/overview']);
         }
 
-        if(this.billingState.billing_process !== 'payment') {
-          alert('Current billing process is not in "payment" stage. Please check the billing state and try again.');
-          this.router.navigate(['/main/overview']);
-        }
+        //if(this.billingState.billing_process !== 'payment') {
+          //alert('Current billing process is not in "payment" stage. Please check the billing state and try again.');
+          //this.router.navigate(['/main/overview']);
+        //}
         console.log('Fetched billing state:', this.billingState);
       } else {
         alert('Failed to fetch billing state');
@@ -90,7 +90,7 @@ export class PaymentUpload implements OnInit {
   };
 
   goBack(): void {
-    this.location.back();
+    this.router.navigate(['/main/overview']);
   }
 
   onFileSelected(event: Event): void {

@@ -31,6 +31,22 @@ export class ReceiptInternalDialog implements OnInit {
   userName = signal<string>('');
   file: File | null = null;
   send_date: string = '';
+  sendDateObj: Date = new Date();
+
+  onSendDateSelect(date: Date): void {
+    const today = new Date();
+    today.setHours(23, 59, 59, 999);
+    if (date > today) {
+      this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Please select a date that is not in the future' } }));
+      //this.send_date = '';
+      return;
+    }
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    this.send_date = `${yyyy}-${mm}-${dd}`;
+    this.sendDateObj = date;
+  }
   
  
   readonly stepDefs = [
@@ -56,6 +72,10 @@ export class ReceiptInternalDialog implements OnInit {
  
   ngOnInit(): void {
     //this.loadPdf();
+    const yyyy = this.sendDateObj.getFullYear();
+    const mm = String(this.sendDateObj.getMonth() + 1).padStart(2, '0');
+    const dd = String(this.sendDateObj.getDate()).padStart(2, '0');
+    this.send_date = `${yyyy}-${mm}-${dd}`;
     const us = localStorage.getItem('user');
     if(us) {
       this.userName.set(us);

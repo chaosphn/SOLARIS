@@ -169,11 +169,11 @@
                         <span class="material-icons">event</span>
                         Send Date <span class="field-required">*</span>
                     </div>
-                    <input
-                        type="date"
-                        class="field-input"
-                        [(ngModel)]="send_date"
-                        [max]="today" />
+                    <app-date-picker
+                        [initdate]="sendDateObj"
+                        type="day"
+                        (selectDate)="onSendDateSelect($event)"
+                    />
                 </div>
 
                 <!-- Receipt File Upload ──────────────────────── -->

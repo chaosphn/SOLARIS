@@ -15,7 +15,7 @@
     "chartOptions": {
         "chart":{
             "zooming": {
-                "type": "xy",
+                "type": "x",
                 "resetButton": {
                   "position": {
                     "y": -40,

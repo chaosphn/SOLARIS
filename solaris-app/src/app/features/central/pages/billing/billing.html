@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="btn-group d-flex">
-            @if (userRole() === 'administrator' && !checkIsNowMonth()) {
+            @if (superAdmin() === true && !checkIsNowMonth()) {
                 <button class="submit d-flex-ct brd h-100" (click)="generateReport()">
                     {{ loading4() ? 'GENERATING...' : 'GENERATE' }}
                 </button>
