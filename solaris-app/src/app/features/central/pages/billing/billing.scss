@@ -4,6 +4,8 @@
     align-items: stretch;
     row-gap: 16px;
     padding: 16px;
+    overflow-y: auto;
+    max-height: calc(100vh - 110px);
 }
 
 // ─── Header ───────────────────────────────────────────────────────────────────
@@ -29,14 +31,28 @@
 
 .datepicker {
     height: 40px;
-    width: 180px;
+    width: 160px;
+    position: relative;
+    .label{
+        position: absolute;
+        top: -7px;
+        left: 10px;
+        z-index: 10;
+        font-size: 10px;
+        padding: 1px 8px;
+        background-color: var(--primary-bg);
+        border-radius: 2px;
+        color: var(--primary-txt);
+    }
 }
 
 // ─── Content area ─────────────────────────────────────────────────────────────
 
 .content {
-    overflow-y: auto;
-    height: calc(100vh - 228px);
+    // overflow-y: auto;
+    // height: calc(100vh - 228px);
+    //min-height: calc(100vh - 240px);
+    height: auto;
 }
 
 // ─── Dropdown ─────────────────────────────────────────────────────────────────
@@ -169,6 +185,7 @@
 .billing-wrapper {
     display: flex;
     flex-direction: column;
+    height: 100%;
     gap: 12px;
 }
 
@@ -432,12 +449,12 @@
 }
 
 .td-site {
-    color: var(--secondary-txt) !important;
+    color: var(--primary-txt) !important;
     font-size: 14px !important;
 }
 
 .td-ctype {
-    color: var(--secondary-txt) !important;
+    color: var(--primary-txt) !important;
     font-size: 14px !important;
     white-space: nowrap;
 }
@@ -697,11 +714,122 @@
     display: inline-block;
 }
 
+// ─── Report Table ─────────────────────────────────────────────────────────────
+
+.report-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 12px;
+}
+
+.report-table {
+    margin-top: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.rpt-tbl {
+    border-collapse: collapse;
+    font-size: 13px;
+
+    .rpt-th-site {
+        text-align: center;
+        padding: 12px 14px;
+        font-size: 15px;
+        font-weight: 600;
+        background-color: var(--thead-bg);
+        color: var(--thead-txt);
+        border-bottom: 1px solid var(--thead-border);
+        letter-spacing: 0.04em;
+    }
+
+    .rpt-th-subtitle {
+        text-align: center;
+        padding: 8px 14px;
+        font-size: 13px;
+        font-weight: 500;
+        background-color: var(--thead-bg);
+        color: var(--secondary-txt);
+        border-bottom: 1px solid var(--thead-border);
+    }
+
+    .rpt-th-col {
+        padding: 10px 16px;
+        font-size: 13px;
+        font-weight: 500;
+        background-color: var(--thead-bg);
+        color: var(--thead-txt);
+        border-bottom: 1px solid var(--thead-border);
+        white-space: nowrap;
+        letter-spacing: 0.03em;
+    }
+
+    td {
+        padding: 10px 16px;
+        border-bottom: 1px solid var(--trow-border);
+        border-right: 1px solid var(--trow-border);
+        color: var(--trow-txt);
+        white-space: nowrap;
+    }
+
+    td:last-child {
+        border-right: none;
+    }
+
+    
+
+    tfoot td {
+        padding: 10px 16px;
+        border-top: 2px solid var(--thead-border);
+        border-bottom: none;
+        background-color: var(--thead-bg);
+        font-weight: 600;
+        color: var(--thead-txt);
+    }
+
+    .rpt-row {
+        transition: background-color 0.15s ease;
+
+        &:hover td {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        &:last-child td {
+            border-bottom: none;
+        }
+    }
+}
+
+.rpt-td-empty {
+    text-align: center;
+    padding: 32px 16px !important;
+    color: var(--secondary-txt);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    .material-icons {
+        font-size: 18px;
+    }
+}
+
+.ta-r {
+    text-align: right !important;
+}
+
+.ta-c {
+    text-align: center !important;
+}
+
 // ─── Responsive ───────────────────────────────────────────────────────────────
 
 @media (max-width: 500px) {
-    .content {
+    .container {
         overflow-y: auto;
-        height: calc(100vh - 428px) !important;
+        height: calc(100vh - 200px) !important;
     }
 }

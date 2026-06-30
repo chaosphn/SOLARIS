@@ -255,6 +255,14 @@ export class ConfigDialog implements OnInit {
     }));
   }
 
+  setSiteInvoiceAccount(index: number, value: string): void {
+    this.siteConfig.update(config => {
+      const account = [...(config.invoice_account ?? [])];
+      account[index] = value;
+      return { ...config, invoice_account: account };
+    });
+  }
+
   onChangeSiteId(event: any){
     //console.log(event?.target?.value)
     this.siteConfig.update(val => {

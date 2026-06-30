@@ -22,6 +22,8 @@ import { ReceiptInternalDialog } from './components/receipt-internal-dialog/rece
 import { UserDataModel } from '../../../../shared/models/user.model';
 import { BillingViewerDialog } from './components/billing-viewer-dialog/billing-viewer-dialog';
 import { BillingEditorDialog } from './components/billing-editor-dialog/billing-editor-dialog';
+import { InvoiceCustomerDialog } from './components/invoice-customer-dialog/invoice-customer-dialog';
+import { ExportXls } from '../../../../shared/services/export-xls';
 
 @Component({
   selector: 'app-billing',
@@ -43,6 +45,8 @@ export class Billing implements OnInit, OnDestroy {
   navSub?: Subscription;
   pdfurl = signal<string>('');
   date: Date = new Date();
+  start: Date = new Date(new Date().setMonth(0));
+  end: Date = new Date(new Date().setMonth(11));
   loading = signal<Boolean>(false);
   loading2 = signal<Boolean>(false);
   loading3 = signal<Boolean>(false);
@@ -51,7 +55,11 @@ export class Billing implements OnInit, OnDestroy {
   isDropdownOpen1 = false;
   isDropdownOpen2 = false;
   options: DropdownOption[] = [];
-  selectedReport?: DropdownOption;
+  selectedReport?: DropdownOption = {
+    value: 'billing',
+    label: 'Billing',
+    icon: 'receipt_long'
+  };
   selectedSite?: DropdownOption;
 
   // Billing summaries and table view models
@@ -102,7 +110,7 @@ export class Billing implements OnInit, OnDestroy {
     },
     payment: {
       prepared: 'Prepared',
-      wait_for_payment: 'Waiting payment',
+      wait_for_payment: 'Waiting payment Confirmed',
       customer_paid: 'Customer paid',
       account_approved: 'Confirmed payment',
       complete: 'Completed',
@@ -234,12 +242,65 @@ export class Billing implements OnInit, OnDestroy {
     const end = Math.min(total, page * size);
     return `${start}–${end} of ${total}`;
   });
+  reportRows = computed(() => {
+    const state = this.billingState();
+    const configData = this.billingConfigData();
+
+    const months: Date[] = [];
+    const s = new Date(this.start);
+    s.setDate(1); s.setHours(0, 0, 0, 0);
+    const e = new Date(this.end);
+    e.setDate(1); e.setHours(0, 0, 0, 0);
+    let cur = new Date(s);
+    while (cur <= e) {
+      months.push(new Date(cur));
+      cur = new Date(cur);
+      cur.setMonth(cur.getMonth() + 1);
+    }
+
+    const siteId = this.selectedSite?.value || '';
+    const siteConfig = configData.find(x => x.siteId === siteId);
+    const globalConfig = configData.find(x => x.siteId === 'global');
+    const config = (siteConfig && siteConfig.contactCost && siteConfig.contactCost.length > 0) ? siteConfig : globalConfig;
+
+    return months.map(month => {
+      const billing = state.find(x => {
+        const d = new Date(x.timestamp);
+        return d.getFullYear() === month.getFullYear() && d.getMonth() === month.getMonth();
+      });
+
+      const priceAmount = billing?.price_amount;
+      const unitPrice = config ? (this.resolveContactCost(config.contactCost, config.contactType, month) ?? null) : null;
+      const energy = billing ? (billing.forced_energy_amount && billing.forced_energy_amount > 0 ? billing.forced_energy_amount : billing.energy_amount || 0) : null;
+      if(priceAmount && priceAmount > 0){
+        const amount = priceAmount;
+        const vat = priceAmount !== null ? priceAmount * 0.07 : null;
+        const total = priceAmount !== null && vat !== null ? priceAmount + vat : null;
+        return { month, unitPrice, energy, amount, vat, total };
+      } else {
+        const amount = (unitPrice !== null && energy !== null) ? unitPrice * energy : null;
+        const vat = amount !== null ? amount * 0.07 : null;
+        const total = amount !== null && vat !== null ? amount + vat : null;
+        return { month, unitPrice, energy, amount, vat, total };
+      }
+    });
+  });
+
+  reportTotals = computed(() => {
+    const rows = this.reportRows();
+    const energy = rows.reduce((s, r) => s + (r.energy ?? 0), 0);
+    const amount = rows.reduce((s, r) => s + (r.amount ?? 0), 0);
+    const vat = rows.reduce((s, r) => s + (r.vat ?? 0), 0);
+    const total = rows.reduce((s, r) => s + (r.total ?? 0), 0);
+    return { energy, amount, vat, total };
+  });
+
   reportOptions = computed(() => {
     const res: DropdownOption[] = this.config().map(x => (
       {
         value: x.type,
         label: x.name,
-        icon: 'calendar_today'
+        icon: 'receipt_long'
       }
     ))
     return res;
@@ -263,6 +324,7 @@ export class Billing implements OnInit, OnDestroy {
   billingConfigData = signal<BillingConfigModel[]>([]);
 
   private http = inject(HttpService);
+  private xlsxSrv = inject(ExportXls);
   private store = inject(Store);
   private dateTimeSrv = inject(Datetime);
   private router = inject(Router);
@@ -360,6 +422,33 @@ export class Billing implements OnInit, OnDestroy {
     }
   }
 
+  async viewBillingData(){
+    if(this.selectedReport?.value === 'billing'){
+      await this.getBillingStateData();
+    }
+    if(this.selectedReport?.value === 'report'){
+      await this.getBillingStateDataByPeriod();
+    }
+  }
+
+  async exportReport() {
+    if(!this.selectedSite) {
+      this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Please select site !' } }));
+      return;
+    }
+    const rows = this.reportRows();
+    if(rows.length === 0) {
+      this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'No data to export. Please click VIEW first.' } }));
+      return;
+    }
+    const siteName = this.selectedSite.label || '';
+    const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const startLabel = `${monthNames[this.start.getMonth()]}${this.start.getFullYear()}`;
+    const endLabel = `${monthNames[this.end.getMonth()]}${this.end.getFullYear()}`;
+    const fileName = `${siteName}_ElectricityReport_${startLabel}-${endLabel}`;
+    await this.xlsxSrv.exportBillingReport(siteName, rows, this.reportTotals(), fileName);
+  }
+
   async getBillingStateData(){
     try {
 
@@ -376,6 +465,56 @@ export class Billing implements OnInit, OnDestroy {
       dt.setDate(1);
       const ts = new Date(dt).toISOString();
       const data: BillingStateResponseModel = await this.http.getBillingStateData(ts);
+      if(data && data.status === 'success' && data.data){
+        if(this.selectedSite?.value === 'all'){
+          const siteAvaiable = data.data.filter(x => this.siteList().findIndex(y => y.id === x.siteId) >= 0);
+          this.billingState.set(siteAvaiable);
+        } else {
+          this.billingState.set(data.data.filter(x => x.siteId === this.selectedSite?.value));
+        }
+        this.currentPage.set(1);
+      } else {
+        this.billingState.set([]);
+        this.currentPage.set(1);
+        this.store.dispatch(sendMessage({ 
+          payload: { type: 'error', text: 'Failed to get billing state data' }
+        }));
+      }
+      //console.log(this.billingState())
+    } catch (error: any) {
+      this.billingState.set([]);
+      this.currentPage.set(1);
+      this.store.dispatch(sendMessage({ 
+        payload: { type: 'error', text: error.message || 'Failed to get billing state data' }
+      }));
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  async getBillingStateDataByPeriod(){
+    try {
+
+      if(!this.selectedSite){
+        this.store.dispatch(sendMessage({ 
+          payload: { type: 'warn', text: 'Please select site !' }
+        }));
+        return;
+      }
+
+      this.loading.set(true);
+      const st = new Date(this.start);
+      st.setHours(0, 0, 0, 0);
+      st.setDate(1);
+      const start = new Date(st).toISOString();
+      const en = new Date(this.end);
+      en.setHours(0, 0, 0, 0);
+      en.setDate(1);
+      const end = new Date(en).toISOString();
+      const data: BillingStateResponseModel = await this.http.getBillingStatesByPeriod({
+        start: start,
+        end: end
+      });
       if(data && data.status === 'success' && data.data){
         if(this.selectedSite?.value === 'all'){
           const siteAvaiable = data.data.filter(x => this.siteList().findIndex(y => y.id === x.siteId) >= 0);
@@ -429,7 +568,7 @@ export class Billing implements OnInit, OnDestroy {
 
   async getConfig(){
     try {
-      const config = await this.http.getConfig2(`assets/central/reports/configurations/reports.config.json`);
+      const config = await this.http.getConfig2(`assets/central/billings/configurations/billings.config.json`);
       if(config){
         this.config.set(config);
       } else {
@@ -448,18 +587,16 @@ export class Billing implements OnInit, OnDestroy {
     event.stopPropagation();
     this.selectedReport = option;
     this.isDropdownOpen1 = false;
-    switch (option.value) {
-      case "daily":
-        this.mode.set('d');
-        break;
-      case "monthly":
-        this.mode.set('m');
-        break;
-      case "yearly":
-        this.mode.set('y');
-        break;
-      default:
-        break;
+    if(option.value === 'report'){
+      this.date = new Date();
+      this.billingState.set([]);
+      this.selectedSite = undefined;
+    }
+    if(option.value === 'billing'){
+      this.billingState.set([]);
+      this.start = new Date(new Date().setMonth(0));
+      this.end = new Date(new Date().setMonth(11));
+      this.selectedSite = undefined;
     }
   }
 
@@ -479,8 +616,20 @@ export class Billing implements OnInit, OnDestroy {
     this.date = event;
   }
 
+  onStartSelect(event: any) {
+    this.start = event;
+  }
+
+  onEndSelect(event: any) {
+    this.end = event;
+  }
+
   getBillingAmount(siteId: string) {
     const billing = this.billingState().find(x => x.siteId === siteId);
+    const priceAmount = billing?.price_amount && billing?.price_amount > 0 ? billing?.price_amount : undefined;
+    if(priceAmount){
+      return priceAmount*1.07;
+    }
     const energyAmount = billing?.forced_energy_amount && billing.forced_energy_amount > 0 ? billing.forced_energy_amount : billing?.energy_amount || 0;
     const siteConfig = this.billingConfigData().find(x => x.siteId === siteId);
     const globalConfig = this.billingConfigData().find(x => x.siteId === 'global');
@@ -524,9 +673,9 @@ export class Billing implements OnInit, OnDestroy {
     const siteConfig = this.billingConfigData().find(x => x.siteId === siteId);
     const globalConfig = this.billingConfigData().find(x => x.siteId === 'global');
     if(siteConfig){
-      return siteConfig.contactType === 'PPA' ? 'PPA' : 'Floating Rate';
+      return siteConfig.contactType === 'PPA' ? 'Private PPA' : 'Floating Rate';
     } else if(globalConfig) {
-      return globalConfig.contactType === 'PPA' ? 'PPA' : 'Floating Rate';
+      return globalConfig.contactType === 'PPA' ? 'Private PPA' : 'Floating Rate';
     } else {
       return '---';
     }
@@ -655,6 +804,7 @@ export class Billing implements OnInit, OnDestroy {
   }
    
   isStepActive(currentProcess: string, stepKey: string, item: BillingTableRow): boolean {
+    //console.log(currentProcess,stepKey, item )
     if(stepKey === 'confirmation'){
       return item.confirmationStatus !== 'complete' && item.confirmationStatus !== '' && item.confirmationStatus !== null;
     } else if(stepKey === 'invoice'){
@@ -804,6 +954,30 @@ export class Billing implements OnInit, OnDestroy {
     });
   }
 
+  openInvoiceCustomerDialog(row: BillingTableRow): void {
+    const item = this.billingState().find(x => x.id === row.id);
+    if(!item) return;
+    const data: BillingDetailDialogData = {
+      row: item,
+      siteList: this.siteList(),
+    };
+    const ref = this.dialogs.open(InvoiceCustomerDialog, {
+      width: '90vw',
+      maxWidth: '1200px',
+      height: '90vh',
+      data: data,
+      panelClass: 'billing-detail-panel',
+      disableClose: false,
+    });
+  
+    ref.afterClosed().subscribe(result => {
+      if (result?.action) {
+        // refresh table หลัง approve/reject
+        this.getBillingStateData();
+      }
+    });
+  }
+
   openPaymentConfirmationDialog(row: BillingTableRow): void {
     const item = this.billingState().find(x => x.id === row.id);
     if(!item) return;
@@ -927,9 +1101,22 @@ export class Billing implements OnInit, OnDestroy {
               this.sendingTextMessage('warn', 'You do not have permission to approve this invoice');
             }
           };
+          if(item.invoice_status === 'customer_wait_for_approve'){
+            const userCanApprove = [...globalConfig.invoice_customer, ...siteConfig.invoice_customer];
+            //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
+            const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
+            if(hasPrivilege){
+              if(this.userRole() === 'administrator' && !(user && userCanApprove.includes(user._id))){
+                this.sendingTextMessage('warn', 'You do not have permission to approve this invoice');
+              }
+              this.openInvoiceCustomerDialog(row);
+            } else {
+              this.sendingTextMessage('warn', 'You do not have permission to approve this invoice');
+            }
+          };
         break;
       case 'payment':
-          if(item.payment_status === 'customer_paid'){
+          if(item.payment_status === 'customer_paid' || item.payment_status === 'wait_for_payment'){
             const userCanApprove = [...globalConfig.receipt_account, ...siteConfig.receipt_account];
             //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
             const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
@@ -942,6 +1129,7 @@ export class Billing implements OnInit, OnDestroy {
               this.sendingTextMessage('warn', 'You do not have permission to approve this payment information');
             }
           };
+          
         break;
       case 'receipt':
         if(item.reciept_status === 'prepared'){
@@ -1038,12 +1226,27 @@ export class Billing implements OnInit, OnDestroy {
           const confirmationCustomerIds = [...(globalConfig?.confirmation_customer || []), ...(siteConfig?.confirmation_customer || [])];
           const userNames = this.userList().filter(u => confirmationCustomerIds.includes(u._id)).map(u => u.username);
           return `( ${userNames.join(', ')} )`;
+        } else if(item?.confirmation_status === 'customer_reject'){
+          const confirmationUserIds = [...(globalConfig?.confirmation_user || []), ...(siteConfig?.confirmation_user || [])];
+          const userNames = this.userList().filter(u => confirmationUserIds.includes(u._id)).map(u => u.username);
+          return `( ${userNames.join(', ')} )`;
+        } else if(item?.confirmation_status === 'user_reject'){
+          return `( Administrator )`;
         }
         break;
       case 'invoice':
         if(item?.invoice_status === 'account_wait_for_approve' || item?.invoice_status === 'account_approved'){
           const invoiceAccountIds = [...(globalConfig?.invoice_account || []), ...(siteConfig?.invoice_account || [])];
-          const userNames = this.userList().filter(u => invoiceAccountIds.includes(u._id)).map(u => u.username);
+          // const userNames = this.userList().filter(u => invoiceAccountIds.includes(u._id)).map(u => u.username);
+          const userNames = invoiceAccountIds.map(x => {
+            const userData = this.userList().find(u => u._id === x);
+            if(userData){
+              return userData.username
+            } else {
+              return 'unknow'
+            }
+          });
+          //console.log(globalConfig?.invoice_account, invoiceAccountIds, userNames)
           return `( ${userNames.join(', ')} )`;
         } else if(item?.invoice_status === 'customer_wait_for_approve'){
           const invoiceCustomerIds = [...(globalConfig?.invoice_customer || []), ...(siteConfig?.invoice_customer || [])];
@@ -1053,7 +1256,7 @@ export class Billing implements OnInit, OnDestroy {
         break;
       case 'payment':
         if(item?.payment_status === 'wait_for_payment'){
-          const paymentCustomerIds = [...(globalConfig?.invoice_customer || []), ...(siteConfig?.invoice_customer || [])];
+          const paymentCustomerIds = [...(globalConfig?.receipt_account || []), ...(siteConfig?.receipt_account || [])];
           const userNames = this.userList().filter(u => paymentCustomerIds.includes(u._id)).map(u => u.username);
           return `( ${userNames.join(', ')} )`;
         } else if(item?.payment_status === 'account_approved' || item?.payment_status === 'customer_paid'){

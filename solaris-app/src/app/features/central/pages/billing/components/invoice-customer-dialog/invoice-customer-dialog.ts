@@ -9,13 +9,14 @@ import { sendMessage } from '../../../../../../store/actions/toaster.actions';
 import { SiteModel } from '../../../../../../shared/models/config.model';
 import { BillingDetailDialogData } from '../confirmation-internal-dialog/confirmation-internal-dialog';
 
+
 @Component({
-  selector: 'app-payment-confirmation-dialog',
+  selector: 'app-invoice-customer-dialog',
   standalone: false,
-  templateUrl: './payment-confirmation-dialog.html',
-  styleUrl: './payment-confirmation-dialog.scss'
+  templateUrl: './invoice-customer-dialog.html',
+  styleUrl: './invoice-customer-dialog.scss',
 })
-export class PaymentConfirmationDialog implements OnInit {
+export class InvoiceCustomerDialog implements OnInit {
  
   data: BillingStateDataModel;
  
@@ -25,24 +26,28 @@ export class PaymentConfirmationDialog implements OnInit {
   loading       = signal(false);
   logs          = signal<BillingLogDataModel[]>([]);
   comment: string = '';
+  transactionReferenceNo?: string;
   userRole      = signal<string>('user');
   siteList = signal<SiteModel[]>([]);
   userName = signal<string>('');
+  file: File | null = null;
+  send_date: string = '';
+  sendDateObj: Date = new Date();
 
-  paymentId?: string;
-  paymentdate: string = '';
-  paymentdateObj: Date = new Date();
-  paymentType: string = '';
-  bank: string = '';
-
-  onPaymentDateSelect(date: Date): void {
+  onSendDateSelect(date: Date): void {
+    const today = new Date();
+    today.setHours(23, 59, 59, 999);
+    if (date > today) {
+      this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Please select a date that is not in the future' } }));
+      //this.send_date = '';
+      return;
+    }
     const yyyy = date.getFullYear();
     const mm = String(date.getMonth() + 1).padStart(2, '0');
     const dd = String(date.getDate()).padStart(2, '0');
-    this.paymentdate = `${yyyy}-${mm}-${dd}`;
-    this.paymentdateObj = date;
+    this.send_date = `${yyyy}-${mm}-${dd}`;
+    this.sendDateObj = date;
   }
-
   
  
   readonly stepDefs = [
@@ -54,7 +59,7 @@ export class PaymentConfirmationDialog implements OnInit {
  
   private readonly stepOrder = ['confirmation', 'invoice', 'payment', 'receipt'];
  
-  private dialogRef  = inject(MatDialogRef<PaymentConfirmationDialog>);
+  private dialogRef  = inject(MatDialogRef<InvoiceCustomerDialog>);
   private dialogData = inject<BillingDetailDialogData>(MAT_DIALOG_DATA);
   private http       = inject(HttpService);
   private store      = inject(Store);
@@ -68,10 +73,10 @@ export class PaymentConfirmationDialog implements OnInit {
  
   ngOnInit(): void {
     //this.loadPdf();
-    const yyyy = this.paymentdateObj.getFullYear();
-    const mm = String(this.paymentdateObj.getMonth() + 1).padStart(2, '0');
-    const dd = String(this.paymentdateObj.getDate()).padStart(2, '0');
-    this.paymentdate = `${yyyy}-${mm}-${dd}`;
+    const yyyy = this.sendDateObj.getFullYear();
+    const mm = String(this.sendDateObj.getMonth() + 1).padStart(2, '0');
+    const dd = String(this.sendDateObj.getDate()).padStart(2, '0');
+    this.send_date = `${yyyy}-${mm}-${dd}`;
     const us = localStorage.getItem('user');
     if(us) {
       this.userName.set(us);
@@ -135,7 +140,7 @@ export class PaymentConfirmationDialog implements OnInit {
       this.loadingLog.set(true);
       const res: any = await this.http.getBillingLogData(this.data.siteId, this.data.timestamp);
       if (res?.status === 'success' && res.data) {
-        this.logs.set(res.data.filter((log: BillingLogDataModel) => log.processType === 'payment'));
+        this.logs.set(res.data.filter((log: BillingLogDataModel) => log.processType === 'invoice'));
         await this.loadPdf();
       } else {
         this.logs.set([]);
@@ -146,15 +151,36 @@ export class PaymentConfirmationDialog implements OnInit {
       this.loadingLog.set(false);
     }
   }
+
+  get today(): string {
+    return new Date().toISOString().split('T')[0];
+  }
+
+  onFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      this.file = input.files[0];
+    }
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    const f = event.dataTransfer?.files?.[0];
+    if (f) this.file = f;
+  }
+
+  clearFile(): void {
+    this.file = null;
+  }
  
   // ─── Actions ─────────────────────────────────────────────────────────────────
  
   confirmAction(): void {
     const dialogData: ConfirmDialogData = {
-      title:       'Confirm Payment Submission',
-      message:     'Are you sure you want to submit this payment?',
+      title:       'Approve Invoice',
+      message:     'Are you sure you want to approve this invoice?',
       subMessage:  'This action cannot be undone.',
-      confirmText: 'Submit',
+      confirmText: 'Approve',
       cancelText:  'Cancel',
       type:        'info',
     };
@@ -175,34 +201,24 @@ export class PaymentConfirmationDialog implements OnInit {
   async approve(): Promise<void> {
     try {
       //console.log(this.siteList());
-      if(!this.paymentType) {
-        this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Payment type is required' } }));
-        return;
-      }
-      if(!this.bank) {
-        this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Bank is required' } }));
-        return;
-      }
-      if(!this.paymentId) {
-        this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Account / Cheque No. is required' } }));
-        return;
-      }
-      if(!this.paymentdate) {
-        this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Payment date is required' } }));
+      if(!this.send_date) {
+        this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Send Date is required' } }));
         return;
       }
 
+      // if(!this.file) {
+      //   this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Receipt file is required' } }));
+      //   return;
+      // }
+
       this.loading.set(true);
-      const result: any = await this.http.updatePaymentAccountingReview({
+      const result: any = await this.http.updateInvoiceCustomerReview({
         timestamp: this.data.timestamp,
         pointsource: this.data.siteId,
-        status: 'account_approved',
+        status: 'customer_approved',
         sitename: this.getSiteName(this.data.siteId),
         username: this.userName() || '',
-        paymentId: this.paymentId || '',
-        bank: this.bank || '',
-        paymentType: this.paymentType || '',
-        paymentDate: this.paymentdate || '',
+        sendDate: this.send_date
       });
       
       if (result && result.StatusCode.toLowerCase().includes('success')) {

@@ -32,7 +32,7 @@ export class ReceiptConfirmationDialog implements OnInit {
   userName = signal<string>('');
 
   // 🔥 PROCESS
-  processes = ['confirmation', 'invoice', 'payment', 'receipt'];
+  processes = ['confirmation', 'invoice', 'receipt'];
   selectedProcess = 'confirmation';
 
   stepDefs = [

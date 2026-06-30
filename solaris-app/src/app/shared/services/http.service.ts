@@ -24,6 +24,7 @@ import {
     BillingResponseModel,
     BillingStateByIdRequestModel,
     BillingStateByIdResponseModel,
+    BillingStateByPeriodRequestModel,
     BillingStateBySiteIdAndTimestampRequestModel,
     BillingStateBySiteIdAndTimestampResponseModel,
     BillingStateBySiteIdRequestModel,
@@ -743,6 +744,13 @@ export class HttpService {
         return res;
     };
 
+    async getBillingStatesByPeriod(body: BillingStateByPeriodRequestModel) {
+        const res = await firstValueFrom(
+            this.httpClient.post<BillingStateBySiteIdAndTimestampResponseModel>(this.appLoadService.config.UrlApiBilling + 'billings/state/find-by-period', body)
+        );
+        return res;
+    };
+
     async getBillingStateData(timestamp: string) {
         const body = {
             timestamp: timestamp
@@ -832,7 +840,9 @@ export class HttpService {
 
     async updateInvoiceCustomerReview(body: UpdateInvoiceCustomerReviewRequestModel) {
         const formData = new FormData();
-        formData.append('file', body.file, body.file.name);
+        if(body.file){
+            formData.append('file', body.file, body.file.name);
+        }
         formData.append('timestamp', body.timestamp);
         formData.append('pointsource', body.pointsource);
         if (body.status) formData.append('status', body.status);
@@ -871,7 +881,9 @@ export class HttpService {
 
     async updateReceiptAccountingReview(body: UpdateReceiptAccountingReviewRequestModel) {
         const formData = new FormData();
-        formData.append('file', body.file, body.file.name);
+        if(body.file){
+            formData.append('file', body.file, body.file.name);
+        }
         formData.append('timestamp', body.timestamp);
         formData.append('pointsource', body.pointsource);
         if (body.status) formData.append('status', body.status);

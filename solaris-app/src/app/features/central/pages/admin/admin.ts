@@ -315,9 +315,24 @@ export class Admin implements OnInit {
     if (this.globalConfig().billingMode === 'auto' && !this.globalConfig().scheduleDate) {
       return this.sendMessageToState('warn', 'Please select a billing schedule date.');
     }
-  
+
     if (this.globalConfig().billingMode === 'auto' && !this.globalConfig().scheduleTime) {
       return this.sendMessageToState('warn', 'Please select a billing schedule time.');
+    }
+
+    const confirmationUser = this.globalConfig().confirmation_user ?? [];
+    if (confirmationUser.filter(v => !!v).length < 1) {
+      return this.sendMessageToState('warn', 'Please select at least 1 user for Reviewed By (Internal).');
+    }
+
+    const invoiceAccount = this.globalConfig().invoice_account ?? [];
+    if (invoiceAccount.filter(v => !!v).length < 2) {
+      return this.sendMessageToState('warn', 'Please select 2 users for Verified By (Accounting).');
+    }
+
+    const receiptUser = this.globalConfig().receipt_account ?? [];
+    if (receiptUser.filter(v => !!v).length < 1) {
+      return this.sendMessageToState('warn', 'Please select at least 1 user for Recorded By (Internal).');
     }
   
     const isTou = this.globalConfig().meterType === 'tou';
@@ -567,6 +582,14 @@ export class Admin implements OnInit {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     return emails.every(email => emailRegex.test(email));
+  }
+
+  setInvoiceAccount(index: number, value: string): void {
+    this.globalConfig.update(config => {
+      const account = [...(config.invoice_account ?? [])];
+      account[index] = value;
+      return { ...config, invoice_account: account };
+    });
   }
 
   getSiteName(id: string){

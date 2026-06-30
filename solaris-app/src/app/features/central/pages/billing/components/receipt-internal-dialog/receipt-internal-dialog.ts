@@ -205,10 +205,10 @@ export class ReceiptInternalDialog implements OnInit {
         return;
       }
 
-      if(!this.file) {
-        this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Receipt file is required' } }));
-        return;
-      }
+      // if(!this.file) {
+      //   this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Receipt file is required' } }));
+      //   return;
+      // }
 
       this.loading.set(true);
       const result: any = await this.http.updateReceiptAccountingReview({
@@ -217,8 +217,7 @@ export class ReceiptInternalDialog implements OnInit {
         status: 'account_approved',
         sitename: this.getSiteName(this.data.siteId),
         username: this.userName() || '',
-        sendDate: this.send_date,
-        file: this.file
+        sendDate: this.send_date
       });
       
       if (result && result.StatusCode.toLowerCase().includes('success')) {

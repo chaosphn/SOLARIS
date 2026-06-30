@@ -633,9 +633,17 @@
 // ─── Responsive ───────────────────────────────────────────────────────────────
 
 @media (max-width: 800px) {
+    .dialog-root {
+        width: 90vw;
+        height: 100vh;
+        max-width: none;
+        max-height: none;
+        border-radius: 0;
+    }
+
     .dialog-body {
         grid-template-columns: 1fr;
-        grid-template-rows: 40% 1fr;
+        grid-template-rows: 45vh 1fr;
         overflow-y: auto;
     }
 
@@ -644,12 +652,31 @@
         border-bottom: 1px solid var(--border-color);
     }
 
-    .dialog-root {
-        width: 100vw;
-        height: 100vh;
-        max-width: none;
-        max-height: none;
-        border-radius: 0;
+    .pane-right {
+        overflow-y: auto;
+        min-height: 320px;
+    }
+
+    .meta-row {
+        flex-wrap: wrap;
+    }
+
+    // Unpin both absolute elements so they sit in normal flow while pane-right scrolls
+    .action-footer {
+        position: static;
+        padding: 0;
+        background: transparent;
+    }
+
+    .force-energy-value {
+        position: static;
+        width: 100%;
+    }
+
+    .btn-approve,
+    .btn-reject {
+        padding: 12px 16px;
+        min-height: 44px;
     }
 }
 

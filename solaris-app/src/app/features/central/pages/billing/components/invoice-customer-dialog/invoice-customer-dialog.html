@@ -2,7 +2,7 @@
 
     <!-- ─── Header ─────────────────────────────────────────────────────────── -->
     <div class="dialog-header">
-        <span class="dialog-title">Receipt Accounting Review</span>
+        <span class="dialog-title">Invoice Customer Review</span>
         <button class="icon-btn" (click)="close()">
             <span class="material-icons">close</span>
         </button>
@@ -95,50 +95,48 @@
                 </div>
 
                 <!-- Activity log -->
-                @if (userRole() === 'administrator') {
-                    <div class="log-section">
-                        <div class="log-section__title">
-                            <span class="material-icons">history</span>
-                            Activity Log
-                        </div>
-                        <div class="log-list">
-                            @if (loadingLog()) {
-                                <div class="log-empty">
-                                    <span class="material-icons spin">sync</span> Loading…
-                                </div>
-                            } @else if (logs().length === 0) {
-                                <div class="log-empty">No activity yet</div>
-                            } @else {
-                                @for (log of logs(); track log.id) {
-                                    <div class="log-item">
-                                        <div class="log-item__dot"
-                                            [class.log-item__dot--approve]="log.action === 'approve'"
-                                            [class.log-item__dot--reject]="log.action === 'reject'"
-                                            [class.log-item__dot--send]="log.action === 'send'">
-                                        </div>
-                                        <div class="log-item__body">
-                                            <div class="log-item__top">
-                                                <span class="log-item__user">{{ log.user }}</span>
-                                                <span class="log-item__action"
-                                                    [class.log-item__action--approve]="log.action === 'approve'"
-                                                    [class.log-item__action--reject]="log.action === 'reject'">
-                                                    {{ log.action | titlecase}}
-                                                </span>
-                                            </div>
-                                            <div class="log-item__meta">
-                                                <span>{{ log.processType | titlecase }}</span>
-                                                <span class="log-item__time">{{ log.timestamp | date: 'dd MMM yy, HH:mm' }}</span>
-                                            </div>
-                                            @if (log.from_action) {
-                                                <div class="log-item__from">from: {{ log.from_action | titlecase }}</div>
-                                            }
-                                        </div>
-                                    </div>
-                                }
-                            }
-                        </div>
+                <div class="log-section">
+                    <div class="log-section__title">
+                        <span class="material-icons">history</span>
+                        Activity Log
                     </div>
-                } 
+                    <div class="log-list">
+                        @if (loadingLog()) {
+                            <div class="log-empty">
+                                <span class="material-icons spin">sync</span> Loading…
+                            </div>
+                        } @else if (logs().length === 0) {
+                            <div class="log-empty">No activity yet</div>
+                        } @else {
+                            @for (log of logs(); track log.id) {
+                                <div class="log-item">
+                                    <div class="log-item__dot"
+                                        [class.log-item__dot--approve]="log.action === 'approve'"
+                                        [class.log-item__dot--reject]="log.action === 'reject'"
+                                        [class.log-item__dot--send]="log.action === 'send'">
+                                    </div>
+                                    <div class="log-item__body">
+                                        <div class="log-item__top">
+                                            <span class="log-item__user">{{ log.user }}</span>
+                                            <span class="log-item__action"
+                                                [class.log-item__action--approve]="log.action === 'approve'"
+                                                [class.log-item__action--reject]="log.action === 'reject'">
+                                                {{ log.action | titlecase}}
+                                            </span>
+                                        </div>
+                                        <div class="log-item__meta">
+                                            <span>{{ log.processType | titlecase }}</span>
+                                            <span class="log-item__time">{{ log.timestamp | date: 'dd MMM yy, HH:mm' }}</span>
+                                        </div>
+                                        @if (log.from_action) {
+                                            <div class="log-item__from">from: {{ log.from_action | titlecase }}</div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
 
                 <!-- Transaction Reference No. -->
                 <!-- <div class="force-energy-value bz">
