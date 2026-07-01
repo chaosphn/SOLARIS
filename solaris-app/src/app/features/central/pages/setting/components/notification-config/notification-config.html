@@ -27,7 +27,7 @@
               <td colspan="4" class="empty-row">No notification channel configured</td>
             </tr>
           }
-          @for (noti of notificationConfig(); track noti.id; let i = $index) {
+          @for (noti of tableRowConfig(); track noti.id; let i = $index) {
             <tr [class.selected-row]="editingIndex === i">
               <td>
                 <span class="noti-icon">{{ getNotiIcon(noti.type) }}</span>
@@ -56,6 +56,40 @@
             </tr>
           }
         </tbody>
+        <tfoot>
+          <tr class="tbl-footer-row">
+            <td colspan="4">
+              <div class="tbl-footer">
+                <div class="tbl-footer__left">
+                  <span class="tbl-footer__label">Rows per page</span>
+                  <select class="tbl-footer__select"
+                    [value]="pageSize()"
+                    (change)="setPageSizeFromEvent($event)"
+                    [disabled]="notificationConfig().length === 0">
+                    @for (opt of pageSizeOptions; track $index) {
+                      <option [value]="opt">{{ opt }}</option>
+                    }
+                  </select>
+                </div>
+                <div class="tbl-footer__right">
+                  <span class="tbl-footer__range">{{ pageRangeText() }}</span>
+                  <button class="tbl-footer__btn"
+                    (click)="prevPage()"
+                    [disabled]="currentPage() <= 1 || notificationConfig().length === 0"
+                    title="Previous page">
+                    <span class="material-icons">chevron_left</span>
+                  </button>
+                  <button class="tbl-footer__btn"
+                    (click)="nextPage()"
+                    [disabled]="currentPage() >= totalPages() || notificationConfig().length === 0"
+                    title="Next page">
+                    <span class="material-icons">chevron_right</span>
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   </div>

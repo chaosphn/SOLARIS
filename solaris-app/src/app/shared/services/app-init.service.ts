@@ -11,6 +11,7 @@ export class AppInitService {
     UrlApiBilling: undefined,
     UrlApiNotification: undefined,
     UrlApiMaintenance: undefined,
+    UrlApiMasterData: undefined,
     Timer: 60,
   };
 
@@ -33,6 +34,7 @@ export class AppInitService {
       this.config.UrlApiBilling = data.UrlApiBilling;
       this.config.UrlApiNotification = data.UrlApiNotification;
       this.config.UrlApiMaintenance = data.UrlApiMaintenance;
+      this.config.UrlApiMasterData = data.UrlApiMasterData;
       this.config.Timer = data.Timer;
       
       return this.config;

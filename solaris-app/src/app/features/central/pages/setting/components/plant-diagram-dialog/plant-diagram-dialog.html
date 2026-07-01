@@ -1,0 +1,48 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content diagram-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ readonly() ? 'View Diagram' : (diagramData().id ? 'Replace Diagram' : 'Upload Single Line Diagram') }}</h2>
+      <button class="close-btn" (click)="closeModal()">
+        <i class="material-icons">close</i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <fieldset [disabled]="readonly()" class="fieldset-reset">
+      <div class="form-group">
+        <label for="diagramSiteSelect">Site ID <span class="req">*</span></label>
+        <select id="diagramSiteSelect" [(ngModel)]="diagramData().siteid" [disabled]="!!diagramData().id" class="form-control">
+          <option value="">-- Select site --</option>
+          @for (p of plants(); track p.id) {
+            <option [value]="p.siteid">{{ p.siteid }} — {{ p.name }}</option>
+          }
+        </select>
+      </div>
+
+      @if (readonly()) {
+        <div class="form-group">
+          <label>Current File</label>
+          <div class="file-chosen">{{ currentFileName() }}</div>
+        </div>
+      } @else {
+        <div class="form-group">
+          <label for="diagramFileInput">File <span class="req">*</span> <span class="hint">(PDF / image, max 10 MB)</span></label>
+          <input id="diagramFileInput" type="file" accept=".pdf,image/*" (change)="onFileSelected($event)" class="form-control file-input">
+          @if (selectedFileName()) {
+            <div class="file-chosen">{{ selectedFileName() }}</div>
+          }
+        </div>
+      }
+      </fieldset>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="closeModal()" [disabled]="uploading()">{{ readonly() ? 'Close' : 'Cancel' }}</button>
+      @if (!readonly()) {
+        <button class="btn-primary" (click)="submit()" [disabled]="uploading()">
+          {{ uploading() ? 'Uploading...' : (diagramData().id ? 'Replace' : 'Upload') }}
+        </button>
+      }
+    </div>
+  </div>
+</div>

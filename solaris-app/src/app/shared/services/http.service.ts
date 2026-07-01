@@ -98,6 +98,28 @@ import {
     GetLogsByDateRangeRequest,
 } from '../models/maintenance.model';
 import {
+    MasterDataResponse,
+    PlantInformationModel,
+    CreatePlantRequest,
+    UpdatePlantRequest,
+    FindPlantByIdRequest,
+    FindPlantBySiteRequest,
+    TogglePlantRequest,
+    DeletePlantRequest,
+    PlantSlaModel,
+    CreateSlaRequest,
+    UpdateSlaRequest,
+    FindSlaByIdRequest,
+    FindSlaBySiteRequest,
+    FindSlaByDateRequest,
+    DeleteSlaRequest,
+    PlantDiagramModel,
+    FindDiagramByIdRequest,
+    FindDiagramsBySiteRequest,
+    DeleteDiagramRequest,
+    DownloadDiagramRequest,
+} from '../models/masterdata.model';
+import {
     CreateInverterSessionRequest,
     DestroyInverterSessionRequest,
     GetInverterDevicesRequest,
@@ -1285,6 +1307,142 @@ export class HttpService {
             this.httpClient.post<InverterCommandLogsResponse>(this.appLoadService.config.UrlApiMaintenance + 'inverter/logs', body)
         );
         return res;
+    }
+
+    // ─── Master Data: Plant Information ───────────────────────────────────────
+    async getMasterPlants(includeDisabled: boolean = false) {
+        const url = this.appLoadService.config.UrlApiMasterData + 'plants/get' + (includeDisabled ? '?all=true' : '');
+        return await firstValueFrom(
+            this.httpClient.get<MasterDataResponse<PlantInformationModel[]>>(url)
+        );
+    }
+
+    async findPlant(body: FindPlantByIdRequest) {
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse<PlantInformationModel>>(this.appLoadService.config.UrlApiMasterData + 'plants/find', body)
+        );
+    }
+
+    async findPlantBySite(body: FindPlantBySiteRequest) {
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse<PlantInformationModel>>(this.appLoadService.config.UrlApiMasterData + 'plants/find-by-site', body)
+        );
+    }
+
+    async createPlant(body: CreatePlantRequest) {
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse>(this.appLoadService.config.UrlApiMasterData + 'plants/set', body)
+        );
+    }
+
+    async updatePlant(body: UpdatePlantRequest) {
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse>(this.appLoadService.config.UrlApiMasterData + 'plants/update', body)
+        );
+    }
+
+    async togglePlant(body: TogglePlantRequest) {
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse>(this.appLoadService.config.UrlApiMasterData + 'plants/toggle', body)
+        );
+    }
+
+    async deletePlant(body: DeletePlantRequest) {
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse>(this.appLoadService.config.UrlApiMasterData + 'plants/delete', body)
+        );
+    }
+
+    // ─── Master Data: Plant SLA (yearly) ──────────────────────────────────────
+    async getAllSla() {
+        return await firstValueFrom(
+            this.httpClient.get<MasterDataResponse<PlantSlaModel[]>>(this.appLoadService.config.UrlApiMasterData + 'sla/get')
+        );
+    }
+
+    async findSla(body: FindSlaByIdRequest) {
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse<PlantSlaModel>>(this.appLoadService.config.UrlApiMasterData + 'sla/find', body)
+        );
+    }
+
+    async findSlaBySite(body: FindSlaBySiteRequest) {
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse<PlantSlaModel[]>>(this.appLoadService.config.UrlApiMasterData + 'sla/find-by-site', body)
+        );
+    }
+
+    async findSlaByDate(body: FindSlaByDateRequest) {
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse<PlantSlaModel[]>>(this.appLoadService.config.UrlApiMasterData + 'sla/find-by-date', body)
+        );
+    }
+
+    async createSla(body: CreateSlaRequest) {
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse>(this.appLoadService.config.UrlApiMasterData + 'sla/set', body)
+        );
+    }
+
+    async updateSla(body: UpdateSlaRequest) {
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse>(this.appLoadService.config.UrlApiMasterData + 'sla/update', body)
+        );
+    }
+
+    async deleteSla(body: DeleteSlaRequest) {
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse>(this.appLoadService.config.UrlApiMasterData + 'sla/delete', body)
+        );
+    }
+
+    // ─── Master Data: Plant Diagram (SLD) ─────────────────────────────────────
+    async getDiagrams() {
+        return await firstValueFrom(
+            this.httpClient.get<MasterDataResponse<PlantDiagramModel[]>>(this.appLoadService.config.UrlApiMasterData + 'diagrams/get')
+        );
+    }
+
+    async findDiagram(body: FindDiagramByIdRequest) {
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse<PlantDiagramModel>>(this.appLoadService.config.UrlApiMasterData + 'diagrams/find', body)
+        );
+    }
+
+    async findDiagramsBySite(body: FindDiagramsBySiteRequest) {
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse<PlantDiagramModel[]>>(this.appLoadService.config.UrlApiMasterData + 'diagrams/find-by-site', body)
+        );
+    }
+
+    async createDiagram(siteid: string, file: File, user?: string) {
+        const formData = new FormData();
+        formData.append('siteid', siteid);
+        formData.append('file', file, file.name);
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse>(this.appLoadService.config.UrlApiMasterData + 'diagrams/set', formData, { headers: user ? { user } : {} })
+        );
+    }
+
+    async updateDiagram(id: number, file: File, user?: string) {
+        const formData = new FormData();
+        formData.append('id', String(id));
+        formData.append('file', file, file.name);
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse>(this.appLoadService.config.UrlApiMasterData + 'diagrams/update', formData, { headers: user ? { user } : {} })
+        );
+    }
+
+    async deleteDiagram(body: DeleteDiagramRequest) {
+        return await firstValueFrom(
+            this.httpClient.post<MasterDataResponse>(this.appLoadService.config.UrlApiMasterData + 'diagrams/delete', body)
+        );
+    }
+
+    async downloadDiagram(body: DownloadDiagramRequest): Promise<Blob> {
+        return await firstValueFrom(
+            this.httpClient.post(this.appLoadService.config.UrlApiMasterData + 'diagrams/download', body, { responseType: 'blob' })
+        );
     }
 
 }

@@ -1,0 +1,107 @@
+<div class="sla-box bz">
+  <div class="head bz">
+    <div class="topic bz">PLANT SLA (YEARLY)</div>
+    <div class="btn-group">
+      @if (userRole() === 'administrator') {
+        <button class="bz" (click)="openAddSlaModal()">ADD SLA</button>
+      }
+    </div>
+  </div>
+  <div class="main">
+    <div class="sla-table-wrapper">
+      <table class="sla-table">
+        <thead>
+          <tr>
+            <th>Site ID</th>
+            <th>Year</th>
+            <th>Energy Delivery</th>
+            <th>Availability</th>
+            <th>Performance</th>
+            <th>CAPEX</th>
+            <th>OPEX</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (sla of tableRowConfig(); track sla.id) {
+            <tr>
+              <td>{{ getSiteNameById(sla.siteid) }}</td>
+              <td>{{ getYear(sla.timestamp) }}</td>
+              <td>{{ sla.energy_delivery | number:'1.0-0'}} kWh</td>
+              <td>{{ sla.availability }} %</td>
+              <td>{{ sla.performance }} %</td>
+              <td>{{ sla.capex | number:'1.0-0'}} THB</td>
+              <td>{{ sla.opex | number:'1.0-0'}} THB</td>
+              <td class="action-cell">
+                @if (userRole() === 'administrator') {
+                  <button class="action-btn copy-btn" (click)="copySla(sla)" title="Copy to next year">
+                    <i class="material-icons">content_copy</i>
+                  </button>
+                  <button class="action-btn edit-btn" (click)="openEditSlaModal(sla)" title="Edit">
+                    <i class="material-icons">edit</i>
+                  </button>
+                  <button class="action-btn delete-btn" (click)="confirmDeleteSla(sla)" title="Delete">
+                    <i class="material-icons">delete</i>
+                  </button>
+                } @else {
+                  <button class="action-btn view-btn" (click)="openViewSlaModal(sla)" title="View">
+                    <i class="material-icons">visibility</i>
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+          @if (tableRowConfig().length === 0) {
+            <tr>
+              <td colspan="8" class="empty-row">No SLA records found</td>
+            </tr>
+          }
+        </tbody>
+        <tfoot>
+          <tr class="tbl-footer-row">
+            <td colspan="8">
+              <div class="tbl-footer">
+                <div class="tbl-footer__left">
+                  <span class="tbl-footer__label">Rows per page</span>
+                  <select class="tbl-footer__select"
+                    [value]="pageSize()"
+                    (change)="setPageSizeFromEvent($event)"
+                    [disabled]="slaList().length === 0">
+                    @for (opt of pageSizeOptions; track $index) {
+                      <option [value]="opt">{{ opt }}</option>
+                    }
+                  </select>
+                </div>
+                <div class="tbl-footer__right">
+                  <span class="tbl-footer__range">{{ pageRangeText() }}</span>
+                  <button class="tbl-footer__btn"
+                    (click)="prevPage()"
+                    [disabled]="currentPage() <= 1 || slaList().length === 0"
+                    title="Previous page">
+                    <span class="material-icons">chevron_left</span>
+                  </button>
+                  <button class="tbl-footer__btn"
+                    (click)="nextPage()"
+                    [disabled]="currentPage() >= totalPages() || slaList().length === 0"
+                    title="Next page">
+                    <span class="material-icons">chevron_right</span>
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
+@if (showSlaModal) {
+  <app-plant-sla-dialog
+    [slaList]="slaList()"
+    [slaData]="newSla"
+    [plants]="plants()"
+    [readonly]="viewMode"
+    (onClose)="closeSlaModal()"
+  ></app-plant-sla-dialog>
+}

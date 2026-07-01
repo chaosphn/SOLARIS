@@ -60,7 +60,7 @@ export class Setting implements OnInit {
   private nextUserId: number = 1;
   private nextAlarmId: number = 1;
 
-  tabMode = signal<'user' | 'notification' | 'alarm'>('user');
+  tabMode = signal<'user' | 'notification' | 'alarm' | 'plant' | 'sla' | 'diagram'>('user');
 
   siteList = signal<SiteModel[]>([]);
   private store = inject(Store);
@@ -81,7 +81,7 @@ export class Setting implements OnInit {
     this.initializeUserData();
   }
 
-  changeTabs(name: 'user' | 'notification' | 'alarm'): void {
+  changeTabs(name: 'user' | 'notification' | 'alarm' | 'plant' | 'sla' | 'diagram'): void {
     this.tabMode.set(name);
   }
 

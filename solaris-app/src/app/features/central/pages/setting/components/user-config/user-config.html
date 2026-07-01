@@ -24,7 +24,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (user of users(); track $index) {
+          @for (user of tableRowConfig(); track $index) {
             <tr>
               <td>{{ user.username }}</td>
               <td>
@@ -73,6 +73,40 @@
             </tr>
           }
         </tbody>
+        <tfoot>
+          <tr class="tbl-footer-row">
+            <td colspan="6">
+              <div class="tbl-footer">
+                <div class="tbl-footer__left">
+                  <span class="tbl-footer__label">Rows per page</span>
+                  <select class="tbl-footer__select"
+                    [value]="pageSize()"
+                    (change)="setPageSizeFromEvent($event)"
+                    [disabled]="users().length === 0">
+                    @for (opt of pageSizeOptions; track $index) {
+                      <option [value]="opt">{{ opt }}</option>
+                    }
+                  </select>
+                </div>
+                <div class="tbl-footer__right">
+                  <span class="tbl-footer__range">{{ pageRangeText() }}</span>
+                  <button class="tbl-footer__btn"
+                    (click)="prevPage()"
+                    [disabled]="currentPage() <= 1 || users().length === 0"
+                    title="Previous page">
+                    <span class="material-icons">chevron_left</span>
+                  </button>
+                  <button class="tbl-footer__btn"
+                    (click)="nextPage()"
+                    [disabled]="currentPage() >= totalPages() || users().length === 0"
+                    title="Next page">
+                    <span class="material-icons">chevron_right</span>
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   </div>

@@ -13,6 +13,18 @@
                 [ngClass]="{ 'item-active' : tabMode() === 'notification' }">
                     NOTIFICATION CHANNELS
             </div>
+            <div class="item" (click)="changeTabs('plant')"
+                [ngClass]="{ 'item-active' : tabMode() === 'plant' }">
+                    PLANTS SETTING
+            </div>
+            <div class="item" (click)="changeTabs('sla')"
+                [ngClass]="{ 'item-active' : tabMode() === 'sla' }">
+                    SLA SETTING
+            </div>
+            <div class="item" (click)="changeTabs('diagram')"
+                [ngClass]="{ 'item-active' : tabMode() === 'diagram' }">
+                    DIAGRAM SETTING
+            </div>
         </div>
         <div class="content w-100 h-100">
             <!-- User Setting Box -->
@@ -25,6 +37,15 @@
                 }
                 @case ('notification') {
                     <app-notification-config></app-notification-config>
+                }
+                @case ('plant') {
+                    <app-plant-config></app-plant-config>
+                }
+                @case ('sla') {
+                    <app-plant-sla-config></app-plant-sla-config>
+                }
+                @case ('diagram') {
+                    <app-plant-diagram-config></app-plant-diagram-config>
                 }
             }
         </div>

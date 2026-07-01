@@ -1,0 +1,65 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content sla-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ readonly() ? 'View SLA' : (slaData().id ? 'Edit SLA' : 'Add New SLA') }}</h2>
+      <button class="close-btn" (click)="closeModal()">
+        <i class="material-icons">close</i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <fieldset [disabled]="readonly()" class="fieldset-reset">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="slaSiteSelect">Site ID <span class="req">*</span></label>
+          <select id="slaSiteSelect" [(ngModel)]="slaData().siteid" [disabled]="!!slaData().id" class="form-control">
+            <option value="">-- Select site --</option>
+            @for (p of plants(); track p.id) {
+              <option [value]="p.siteid">{{ p.siteid }} — {{ p.name }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="slaYearInput">Year <span class="req">*</span></label>
+          <input id="slaYearInput" type="number" [value]="year()" (input)="setYear($any($event.target).value)"
+            placeholder="2026" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="energyInput">Energy Warranty (kWh)</label>
+          <input id="energyInput" type="number" step="any" [(ngModel)]="slaData().energy_delivery" placeholder="0.0" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="availInput">Availability (%)</label>
+          <input id="availInput" type="number" step="any" [(ngModel)]="slaData().availability" placeholder="98.7" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="perfInput">Performance (%)</label>
+          <input id="perfInput" type="number" step="any" [(ngModel)]="slaData().performance" placeholder="87.3" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="capexInput">CAPEX (฿)</label>
+          <input id="capexInput" type="number" step="any" [(ngModel)]="slaData().capex" placeholder="350000000" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="opexInput">OPEX (฿/yr)</label>
+        <input id="opexInput" type="number" step="any" [(ngModel)]="slaData().opex" placeholder="14200000" class="form-control">
+      </div>
+      </fieldset>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="closeModal()">{{ readonly() ? 'Close' : 'Cancel' }}</button>
+      @if (!readonly()) {
+        <button class="btn-primary" (click)="submit()">{{ slaData().id ? 'Save Changes' : 'Add SLA' }}</button>
+      }
+    </div>
+  </div>
+</div>
