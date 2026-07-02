@@ -148,7 +148,7 @@ export class Overview implements OnInit, OnDestroy {
       this.store.dispatch(OverviewActions.loadOverviewConfigTimeStamp({ timestamp: new Date() }));
     }
 
-    await this.getMapConfig();
+    //await this.getMapConfig();
     
     this.getRequest();
     await this.getData();
@@ -252,6 +252,7 @@ export class Overview implements OnInit, OnDestroy {
         Order: item.Order,
         Request: item.Tags.filter(x => x.Timestamp).reduce((acc: RequestAtTimeModel[], cur: RealtimeConfig) => {
           const timestamp = cur.Timestamp ? this.dateTimeSrv.getTime(cur.Timestamp) : null;
+    
           const findItem = acc.find(x => x.TimeStamp === timestamp);
           if(findItem){
             findItem.Tags.push(cur.Tagname);
@@ -306,6 +307,7 @@ export class Overview implements OnInit, OnDestroy {
     // Only fetch data if it doesn't exist or needs refresh
     if (!this.dataRealtime() || Object.keys(this.dataRealtime()).length === 0 || shouldRefresh) {
       await this.getRealtimeData();
+      await this.getAtTimeData();
       this.store.dispatch(OverviewActions.loadOverviewConfigTimeStamp({ timestamp: new Date() }))
     }
     //await this.getAtTimeData();
@@ -356,23 +358,32 @@ export class Overview implements OnInit, OnDestroy {
       for await (const req of this.requestAttime()) {
         const result = req.Request.map(async(item) => {
           const request = item;
-          const response:ResponseRealtimeModel[] = await this.http.getAtTime([request]);
+          const response:ResponseHistorianModel[] = await this.http.getAtTime([request]);
           if(response){
             response.map(data => {
+              const realtimeFornmatValue = {
+                Max: data.Max,
+                Min: data.Min,
+                Name: data.Name,
+                TimeStamp: data.records.length > 0 ? data.records[0].TimeStamp : '',
+                Unit: data.Unit,
+                Value: data.records.length > 0 ? parseFloat(data.records[0].Value.toString().replaceAll(',', '')) : null
+              };
               const conf = this.config().realtimeConfig.find(x => x.Group == req.Group)?.Tags.find(y => y.Tagname == data.Name && y.Timestamp);
               if (conf) {
                 this.dataRealtime.update(val => ({
                   ...val,
-                  [conf.Title]: data
+                  [conf.Title]: realtimeFornmatValue
                 }));
               }
-              this.responseRealtime.update(val => [...val, data]);
+              this.responseRealtime.update(val => [...val, realtimeFornmatValue]);
             });
           }
           return response;
         });
         const res = await Promise.allSettled(result);
       }
+      //console.log('AtTime Data:', this.dataRealtime());
       this.store.dispatch(OverviewActions.loadOverviewRealtimeDataSuccess({ data: this.dataRealtime() }));
     }
   }

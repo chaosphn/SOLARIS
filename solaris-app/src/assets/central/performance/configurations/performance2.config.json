@@ -12,8 +12,19 @@
         ]
       },
       {
-        "Group": "yield",
+        "Group": "revenue",
         "Order": 1,
+        "Tags": [
+          {
+            "Title": "KKB_REVENUE",
+            "Timestamp": "BOD",
+            "Tagname": "KKB.CALC.REVENUE_DAY"
+          }
+        ]
+      },
+      {
+        "Group": "yield",
+        "Order": 2,
         "Tags": [
           {
             "Title": "KKB_YIELD",
@@ -24,7 +35,7 @@
       },
       {
         "Group": "insolation",
-        "Order": 2,
+        "Order": 3,
         "Tags": [
           {
             "Title": "KKB_INSO",
@@ -35,12 +46,23 @@
       },
       {
         "Group": "performance",
-        "Order": 3,
+        "Order": 4,
         "Tags": [
           {
             "Title": "KKB_PR",
             "Timestamp": "BOD",
             "Tagname": "KKB.CALC.PR_DAY"
+          }
+        ]
+      },
+      {
+        "Group": "availability",
+        "Order": 5,
+        "Tags": [
+          {
+            "Title": "KKB_AVAI",
+            "Timestamp": "BOD",
+            "Tagname": "KKB.CALC.AVAI_DAY"
           }
         ]
       }

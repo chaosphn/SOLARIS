@@ -1,0 +1,121 @@
+<div class="container w-100 h-100 bz">
+    <div class="infomation">
+        <div class="box d-col-st bz">
+            <div class="title">ENERGY TODAY</div>
+            <div class="value-box" [matTooltip]="tooltipSrv.getTooltip(today_curr())" matTooltipPosition="above">
+                <div class="value">{{ today_curr()?.Value | numberFomat: '1.0-0' }}</div>
+                <div class="unit">kWh</div>
+            </div>
+            @if (checkValueStatus(today_curr()?.Value, today_prev()?.Value) === 'nodata') {
+                <div class="diff" style="color: var(--secondary-txt)">
+                    <i class="material-icons bz">remove</i>
+                    <div class="message bz">no data</div>
+                </div>
+            } @else {
+                <div class="diff" [style.color]="checkValueStatus(today_curr()?.Value, today_prev()?.Value) === 'plus' ? '#4CAF82' : 'tomato'">
+                    @if (checkValueStatus(today_curr()?.Value, today_prev()?.Value) === 'plus') {
+                        <i class="material-icons bz">arrow_drop_up</i>
+                    } @else {
+                        <i class="material-icons bz">arrow_drop_down</i>
+                    }
+                    <div class="message bz">{{ getDiffValue(today_curr()?.Value, today_prev()?.Value) | numberFomat: '1.0-0' }}% vs yesterday</div>
+                </div>
+            }
+        </div>
+        <div class="box d-col-st bz">
+            <div class="title">ENERGY MTD</div>
+            <div class="value-box" [matTooltip]="tooltipSrv.getTooltip(month_curr())" matTooltipPosition="above">
+                <div class="value">{{ (month_curr()?.Value >= 0 ? month_curr()?.Value/1000 : 0) | numberFomat: '1.0-1' }}</div>
+                <div class="unit">MWh</div>
+            </div>
+            @if (checkValueStatus(month_curr()?.Value, month_prev()?.Value) === 'nodata') {
+                <div class="diff" style="color: var(--secondary-txt)">
+                    <i class="material-icons bz">remove</i>
+                    <div class="message bz">no data</div>
+                </div>
+            } @else {
+                <div class="diff" [style.color]="checkValueStatus(month_curr()?.Value, (month_prev()?.Value/12)) === 'plus' ? '#4CAF82' : 'var(--secondary-txt)'">
+                    <div class="message bz">{{ getTargetPercent(month_curr()?.Value, (month_prev()?.Value/12)) | numberFomat: '1.0-1' }}% of target</div>
+                </div>
+            }
+        </div>
+        <div class="box d-col-st bz">
+            <div class="title">PERFORMANCE RATIO</div>
+            <div class="value-box" [matTooltip]="tooltipSrv.getTooltip(pr_curr())" matTooltipPosition="above">
+                <div class="value">{{ pr_curr()?.Value | numberFomat: '1.0-1' }}</div>
+                <div class="unit">%</div>
+            </div>
+            @if (checkValueStatus(pr_curr()?.Value, pr_prev()?.Value) === 'nodata') {
+                <div class="diff" style="color: var(--secondary-txt)">
+                    <i class="material-icons bz">remove</i>
+                    <div class="message bz">no data</div>
+                </div>
+            } @else {
+                <div class="diff" [style.color]="checkValueStatus(pr_curr()?.Value, pr_prev()?.Value) === 'plus' ? '#4CAF82' : 'tomato'">
+                    @if (checkValueStatus(pr_curr()?.Value, pr_prev()?.Value) === 'plus') {
+                        <i class="material-icons bz">arrow_drop_up</i>
+                    } @else {
+                        <i class="material-icons bz">arrow_drop_down</i>
+                    }
+                    <div class="message bz">{{ getDiffValue(pr_curr()?.Value, pr_prev()?.Value) | numberFomat: '1.0-1' }}% MoM</div>
+                </div>
+            }
+        </div>
+        <div class="box d-col-st bz">
+            <div class="title">AVAILABILITY</div>
+            <div class="value-box" [matTooltip]="tooltipSrv.getTooltip(avai_curr())" matTooltipPosition="above">
+                <div class="value">{{ avai_curr()?.Value | numberFomat: '1.0-1' }}</div>
+                <div class="unit">%</div>
+            </div>
+            @if (checkSLA(avai_curr()) === 'nodata') {
+                <div class="diff" style="color: var(--secondary-txt)">
+                    <i class="material-icons bz">remove</i>
+                    <div class="message bz">no data</div>
+                </div>
+            } @else {
+                <div class="diff" [style.color]="checkSLA(avai_curr()) === 'pass' ? '#4CAF82' : 'tomato'">
+                    <div class="message bz">SLA ≥ {{ avai_prev()?.Value | numberFomat: '1.0-1' }}% {{ checkSLA(avai_curr()) === 'pass' ? '✓' : '✗' }}</div>
+                </div>
+            }
+        </div>
+        <div class="box d-col-st bz">
+            <div class="title">REVENUE TODAY</div>
+            <div class="value-box" [matTooltip]="tooltipSrv.getTooltip(revenue_curr())" matTooltipPosition="above">
+                <div class="value">฿ {{ revenue_curr()?.Value | numberFomat: '1.0-2' }}</div>
+                <div class="unit">M</div>
+            </div>
+            @if (checkValueStatus(revenue_curr()?.Value, revenue_prev()?.Value) === 'nodata') {
+                <div class="diff" style="color: var(--secondary-txt)">
+                    <i class="material-icons bz">remove</i>
+                    <div class="message bz">no data</div>
+                </div>
+            } @else {
+                <div class="diff" [style.color]="checkValueStatus(revenue_curr()?.Value, revenue_prev()?.Value) === 'plus' ? '#4CAF82' : 'tomato'">
+                    @if (checkValueStatus(revenue_curr()?.Value, revenue_prev()?.Value) === 'plus') {
+                        <i class="material-icons bz">arrow_drop_up</i>
+                    } @else {
+                        <i class="material-icons bz">arrow_drop_down</i>
+                    }
+                    <div class="message bz">{{ getDiffValue(revenue_curr()?.Value, revenue_prev()?.Value) | numberFomat: '1.0-0' }}% vs yesterday</div>
+                </div>
+            }
+        </div>
+        <div class="box d-col-st bz">
+            <div class="title">CO₂ TODAY</div>
+            <div class="value-box" [matTooltip]="tooltipSrv.getTooltip(co2_curr())" matTooltipPosition="above">
+                <div class="value">{{ co2_curr()?.Value | numberFomat: '1.0-0' }}</div>
+                <div class="unit">tCO₂</div>
+            </div>
+            @if (checkValueStatus(co2_curr()?.Value, co2_prev()?.Value) === 'nodata') {
+                <div class="diff" style="color: var(--secondary-txt)">
+                    <i class="material-icons bz">remove</i>
+                    <div class="message bz">no data</div>
+                </div>
+            } @else {
+                <div class="diff" [style.color]="'var(--secondary-txt)'">
+                    <div class="message bz">accummulate {{ co2_prev()?.Value | numberFomat: '1.0-0' }}t</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

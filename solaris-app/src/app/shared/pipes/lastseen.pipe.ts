@@ -25,9 +25,9 @@ export class LastseenPipe implements PipeTransform {
             lastTime = parseInt(m.toString())+"M";
             break;
         }
-        return lastTime;
+        return lastTime === "0M" ? "now" : lastTime;
       } else {
-        return "0M";
+        return "now";
       }
     } else {
       //console.log("---")

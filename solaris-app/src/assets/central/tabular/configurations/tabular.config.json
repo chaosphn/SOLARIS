@@ -56,7 +56,11 @@
         "Tags": [
           {
             "Title": "KKB_PR",
-            "Tagname": "KKB.CALC.PR"
+            "Tagname": "KKB.CALC.PR_DAY"
+          },
+          {
+            "Title": "KKB_AVAI",
+            "Tagname": "KKB.CALC.AVAI"
           }
         ]
       },

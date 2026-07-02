@@ -1,0 +1,41 @@
+<div class="container w-100 h-100 bz">
+    <div class="grid w-100 bz">
+        <div class="stat bz">
+            <div class="label">REVENUE TODAY</div>
+            <div class="value-box" [matTooltip]="tooltipSrv.getTooltip(today())" matTooltipPosition="above">
+                <span class="value ">฿ {{ toMillion(revenueToday()) | numberFomat: '1.0-2' }}M</span>
+            </div>
+        </div>
+        <div class="stat bz">
+            <div class="label">THIS MONTH</div>
+            <div class="value-box" [matTooltip]="tooltipSrv.getTooltip(month())" matTooltipPosition="above">
+                <span class="value ">฿ {{ toMillion(revenueMonth()) | numberFomat: '1.0-1' }}M</span>
+            </div>
+        </div>
+        <div class="stat bz">
+            <div class="label">ANNUAL EST.</div>
+            <div class="value-box">
+                <span class="value ">฿{{ toMillion(annualEstimate()) | numberFomat: '1.0-0' }}M</span>
+            </div>
+        </div>
+        <div class="stat bz">
+            <div class="label">ENERGY VALUE</div>
+            <div class="value-box">
+                <span class="value">{{ tariff() | numberFomat: '1.0-2' }}</span>
+                <span class="unit">฿/kWh</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-box w-100 bz">
+        <div class="progress-head">
+            <span class="progress-label">Revenue vs PPA Target</span>
+            <span class="progress-diff" [style.color]="ppaDiff() >= 0 ? '#4CAF82' : 'tomato'">
+                {{ ppaDiff() >= 0 ? '+' : '' }}{{ ppaDiff() | numberFomat: '1.0-1' }}%
+            </span>
+        </div>
+        <div class="progress-track bz">
+            <div class="progress-fill bz" [style.width.%]="ppaPercent()"></div>
+        </div>
+    </div>
+</div>

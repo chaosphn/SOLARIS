@@ -1,6 +1,7 @@
 .container{
     padding: 16px;
-    height: calc(100vh - 120px);
+    height: auto;
+    max-height: calc(100vh - 106px);
     overflow-y: auto;
 }
 
@@ -9,6 +10,52 @@
     grid-template-columns: 1fr;
     grid-template-rows: repeat(4, 1fr);
     row-gap: 16px;
+}
+
+.row{
+    position: relative;
+    .summary{
+        position: absolute;
+        top: 8px;
+        right: 16px;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 4px 0px;
+
+        .summary-item{
+            display: flex;
+            align-items: center;
+            min-width: 44px;
+            gap: 8px;
+            .summary-label{
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 0.08em;
+                color: var(--secondary-txt);
+                text-transform: uppercase;
+                line-height: 1;
+            }
+
+            .summary-value{
+                font-size: 16px;
+                font-weight: 700;
+                color: var(--primary-txt);
+                line-height: 1;
+
+                &.min { color: #64b5f6; }
+                &.max { color: #ffb74d; }
+            }
+        }
+
+        .summary-divider{
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--border-color);
+        }
+    }
 }
 
 .item{
@@ -27,8 +74,9 @@
 
 @media only screen and (max-width: 1024px) {
     .container{
-        height: 95vh;
-        overflow-y: scroll;
+        height: auto;
+        max-height: calc(100vh - 106px);
+        overflow-y: auto;
     }
     
     .row-grid{
@@ -59,11 +107,12 @@
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 768px) {
     .container{
         padding: 8px;
+        height: auto;
+        max-height: calc(100vh - 220px);
         overflow-y: auto;
-        height: calc(100vh - 300px);
     }
     
     .row-grid{
@@ -76,6 +125,12 @@
         grid-template-rows: repeat(auto-fill, minmax(180px, 1fr));
         row-gap: 12px;
         height: auto;
+    }
+
+    .row{
+        .summary{
+            display: none;
+        }
     }
 
     .content{

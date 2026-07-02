@@ -95,6 +95,7 @@ export interface SeriesOptions{
     name: string;
     visible?: boolean;
     showInLegend?: boolean;
+    dashStyle?: string;
     yAxis?: number;
     data?: any[];
     fillOpacity?: number; 

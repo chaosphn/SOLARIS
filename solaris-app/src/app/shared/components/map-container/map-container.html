@@ -1,1 +1,24 @@
-<div id="map" class="w-100 h-100"></div>
+
+<div class="container w-100 h-100">
+    <div id="map" class="w-100 h-100"></div>
+    <div class="label d-flex">
+        <div class="item">
+            <div class="dot normal-bg"></div>
+            <div class="topic">Normal</div>
+            <div class="val normal-icon">{{siteStatus().normal}}</div>
+        </div>
+        <div class="item">
+            <div class="dot warning-bg"></div>
+            <div class="topic">Warning</div>
+            <div class="val warning-icon">{{siteStatus().warn}}</div>
+        </div><div class="item">
+            <div class="dot major-bg"></div>
+            <div class="topic">Alarm</div>
+            <div class="val major-icon">{{siteStatus().alarm}}</div>
+        </div><div class="item">
+            <div class="dot"></div>
+            <div class="topic">Off Line</div>
+            <div class="val">{{siteStatus().offline}}</div>
+        </div>
+    </div>
+</div>

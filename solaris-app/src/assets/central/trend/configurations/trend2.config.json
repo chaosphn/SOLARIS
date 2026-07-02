@@ -6,10 +6,12 @@
         "Tags": [
           {
             "Title": "KKB_ENERGY",
+            "Timestamp": "BOD",
             "Tagname": "KKB.CALC.WH_DAY"
           },
           {
             "Title": "KKB_PR",
+            "Timestamp": "BOD",
             "Tagname": "KKB.CALC.PR_DAY"
           }
         ]
@@ -20,18 +22,22 @@
         "Tags": [
           {
             "Title": "OVERALL_ENERGY",
+            "Timestamp": "BOD",
             "Tagname": "OVERALL.CALC.WH_DAY"
           },
           {
             "Title": "OVERALL_PR",
+            "Timestamp": "BOD",
             "Tagname": "OVERALL.CALC.PR_DAY"
           },
           {
             "Title": "OVERALL_YIELD",
+            "Timestamp": "BOY",
             "Tagname": "OVERALL.CALC.YIELD_YEAR"
           },
           {
             "Title": "OVERALL_AVAI",
+            "Timestamp": "BOD",
             "Tagname": "KKB.CALC.AVAI"
           }
         ]
@@ -252,8 +258,7 @@
                 "yAxis": 0,
                 "type": "area",
                 "color": "#E4B61A",
-                "fillOpacity": 0.125,
-                "showInLegend": true
+                "fillOpacity": 0.125
                 
             }
           },
@@ -264,8 +269,7 @@
               "yAxis": 1,
               "type": "area",
               "color": "#3ddffc",
-              "fillOpacity": 0.125,
-              "showInLegend": true
+              "fillOpacity": 0.125
                       
             }
           }
@@ -379,12 +383,7 @@
             "max": "t"
           },
           "legend": {
-            "enabled": true,
-            "align":"right",
-            "verticalAlign": "top",
-            "y": -10,
-            "layout": "vertical",
-            "itemWidth": 100
+            
           },
           "plotOptions":{
             

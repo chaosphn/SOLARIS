@@ -13,6 +13,9 @@ export class EnergyConsumption {
   month = input<ResponseRealtimeModel>();
   year = input<ResponseRealtimeModel>();
   total = input<ResponseRealtimeModel>();
+  today_expect = input<ResponseRealtimeModel>();
+  month_expect = input<ResponseRealtimeModel>();
+  year_expect = input<ResponseRealtimeModel>();
 
   chartData = input<ChartParameters>({} as ChartParameters);
 

@@ -156,7 +156,7 @@ export class Datetime {
           const dtres = this.getDateTime1(dateTime);
           return dtres;
       }
-      else if (p === 'y') {
+      else if (p === 'ytd') {
           const dateTime = date ? new Date(date) : new Date();
           dateTime.setDate(dateTime.getDate() - 1);
           dateTime.setHours(0);

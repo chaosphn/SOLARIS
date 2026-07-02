@@ -17,22 +17,24 @@
         <div class="info-item w-100">
             <div class="label">THIS MONTH:</div>
             <div class="value " [matTooltip]="getTooltip(month())" matTooltipPosition="above">
-                {{ month()?.Value | numberFomat: '1.0-1'}}
+                {{ (month()?.Value ? month()?.Value /1000 : 0) | numberFomat: '1.0-1'}}
             </div>
             <div class="unit">
-                {{ month()?.Unit??'---' }}
+                <!-- {{ month()?.Unit??'---' }} -->
+                MWh
             </div>
         </div>
         <div class="info-item w-100">
             <div class="label">THIS YEAR:</div>
             <div class="value " [matTooltip]="getTooltip(year())" matTooltipPosition="above">
-                {{ year()?.Value | numberFomat: '1.0-1'}}
+                {{ (year()?.Value ? year()?.Value /1000 : 0) | numberFomat: '1.0-1'}}
             </div>
             <div class="unit ">
-                {{ year()?.Unit??'---' }}
+                <!-- {{ year()?.Unit??'---' }} -->
+                MWh 
             </div>
         </div>
-        <div class="info-item w-100">
+        <!-- <div class="info-item w-100">
             <div class="label">LIFETIME:</div>
             <div class="value " [matTooltip]="getTooltip(total())" matTooltipPosition="above">
                 {{ total()?.Value | numberFomat: '1.0-1'}}
@@ -40,6 +42,6 @@
             <div class="unit ">
                 {{ total()?.Unit??'---' }}
             </div>
-        </div>
+        </div> -->
     </div>
 </div>

@@ -9,6 +9,8 @@ import { EnvironmentCard } from './component/environment-card/environment-card';
 import { MapConsumption } from './component/map-consumption/map-consumption';
 import { EnergyConsumption } from './component/energy-consumption/energy-consumption';
 import { ChartsModule } from '../../../../shared/chart.module';
+import { SummaryCard } from './component/summary-card/summary-card';
+import { FinancialSummary } from './component/financial-summary/financial-summary';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import { ChartsModule } from '../../../../shared/chart.module';
     PowerConsumsion,
     EnvironmentCard,
     MapConsumption,
-    EnergyConsumption
+    EnergyConsumption,
+    SummaryCard,
+    FinancialSummary
   ],
   imports: [
     CommonModule,

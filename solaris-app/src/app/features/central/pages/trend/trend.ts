@@ -90,14 +90,11 @@ export class Trend implements OnInit, OnDestroy {
         if(new Date(pageDate).getTime() != new Date(stateDate).getTime()){
           
           this.date = new Date(stateDate);
-          const hasConfig = await this.loadFromStoreIfExists();
-          if(!hasConfig){
-            await this.getConfig();
-          }
-
+          await this.getConfig();
+          this.getAttimeRequest();
+          await this.getAtTimeData();
           this.getHistorianRequest();
           await this.getHistorianData();
-
         } else {
           //console.log('xxxx')
           await this.initPage();
@@ -206,7 +203,10 @@ export class Trend implements OnInit, OnDestroy {
 
   async getConfig() {
     try {
-      const config = await this.http.getConfig2(`assets/central/trend/configurations/trend.config.json`);
+      const path = this.date.getDate() === new Date().getDate() ? 
+        `assets/central/trend/configurations/trend.config.json` :
+        `assets/central/trend/configurations/trend2.config.json` ;
+      const config = await this.http.getConfig2(path);
       if (config) {
         this.config.set(config);
         this.store.dispatch(TrendActions.loadTrendConfigSuccess({ config }));
@@ -260,7 +260,7 @@ export class Trend implements OnInit, OnDestroy {
         Group: item.Group,
         Order: item.Order,
         Request: item.Tags.filter(x => x.Timestamp).reduce((acc: RequestAtTimeModel[], cur: RealtimeConfig) => {
-          const timestamp = cur.Timestamp ? this.dateTimeSrv.getTime(cur.Timestamp) : null;
+          const timestamp = cur.Timestamp ? this.dateTimeSrv.getTime(cur.Timestamp, this.date) : null;
           const findItem = acc.find(x => x.TimeStamp === timestamp);
           if(findItem){
             findItem.Tags.push(cur.Tagname);
@@ -381,27 +381,36 @@ export class Trend implements OnInit, OnDestroy {
 
   async getAtTimeData(){
     if (this.requestAttime() && this.requestAttime().length > 0) {
-      const result = this.requestAttime().map(async(item) => {
-        const request = item.Request;
-        const response:ResponseRealtimeModel[] = await this.http.getAtTime(request);
-        if(response){
-          response.map(data => {
-            const conf = this.config().realtimeConfig.find(x => x.Group == item.Group)?.Tags.find(y => y.Tagname == data.Name && y.Timestamp);
-            if (conf) {
-              this.dataRealtime.update(val => ({
-                ...val,
-                [conf.Title]: data
-              }));
-            }
-            this.responseRealtime.update(val => [...val, data]);
-          });
-        }
-        return response;
-      });
-      const res = await Promise.allSettled(result);
-      if (res) {
-        this.store.dispatch(TrendActions.loadTrendRealtimeDataSuccess({ data: this.dataRealtime() }));
+      for await (const req of this.requestAttime()) {
+        const result = req.Request.map(async(item) => {
+          const request = item;
+          const response:ResponseHistorianModel[] = await this.http.getAtTime([request]);
+          if(response){
+            response.map(data => {
+              const realtimeFornmatValue = {
+                Max: data.Max,
+                Min: data.Min,
+                Name: data.Name,
+                TimeStamp: data.records.length > 0 ? data.records[0].TimeStamp : '',
+                Unit: data.Unit,
+                Value: data.records.length > 0 ? parseFloat(data.records[0].Value.toString().replaceAll(',', '')) : null
+              };
+              const conf = this.config().realtimeConfig.find(x => x.Group == req.Group)?.Tags.find(y => y.Tagname == data.Name && y.Timestamp);
+              if (conf) {
+                this.dataRealtime.update(val => ({
+                  ...val,
+                  [conf.Title]: realtimeFornmatValue
+                }));
+              }
+              this.responseRealtime.update(val => [...val, realtimeFornmatValue]);
+            });
+          }
+          return response;
+        });
+        const res = await Promise.allSettled(result);
       }
+      //console.log('AtTime Data:', this.dataRealtime());
+      this.store.dispatch(TrendActions.loadTrendRealtimeDataSuccess({ data: this.dataRealtime() }));
     }
   }
 
@@ -428,12 +437,16 @@ export class Trend implements OnInit, OnDestroy {
                 }
               })
               //console.log(item.Group, series, response);
-              
+              let xAxisOptions = this.chartOptions.getXAxisoptions({});
+              if(request && request.length > 0 && request[0].Options?.StartTime){
+                xAxisOptions.min = new Date(request[0].Options.StartTime).getTime()+(7*60*60*1000);
+                xAxisOptions.max = new Date(request[0].Options.EndTime).getTime()+(7*60*60*1000);
+              }
               // สร้าง chart config object ใหม่
               newVal[item.Group] = {
                 chart: this.chartOptions.getChartOptions(conf.chartOptions.chart),
                 title: this.chartOptions.getTitleOptions(conf.chartOptions.title),
-                xAxis: this.chartOptions.getXAxisoptions({}),
+                xAxis: xAxisOptions,
                 yAxis: this.chartOptions.getYAxisoptions(conf.chartOptions.yAxis),
                 legend: this.chartOptions.getLegendOptions(conf.chartOptions.legend),
                 plotOptions: this.chartOptions.getPlotOptions(conf.chartOptions.plotOptions),

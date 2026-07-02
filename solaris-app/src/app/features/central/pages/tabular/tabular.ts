@@ -65,7 +65,10 @@ export class Tabular implements OnInit, OnDestroy {
 
   tableConfig = signal<TabularConfigModel[]>([]);
   sortKey = signal<string>('');
-  sortType = signal<string>('asc');
+  sortType = signal<string>('');
+  searchText = signal<string>('');
+  statusFilter = signal<string>('all');
+  refreshing = signal<boolean>(false);
   tableData = computed(() => {
     const sites = this.siteList();
     const config = this.tableConfig();
@@ -124,6 +127,64 @@ export class Tabular implements OnInit, OnDestroy {
     });;
   });
 
+  filteredData = computed(() => {
+    const search = this.searchText().toLowerCase().trim();
+    const status = this.statusFilter();
+    return this.tableData().filter(row => {
+      const matchSearch = !search ||
+        row.Id?.toString().toLowerCase().includes(search) ||
+        row.Name?.toString().toLowerCase().includes(search) ||
+        row.Province?.toString().toLowerCase().includes(search);
+      if(!matchSearch){
+        return false;
+      }
+      if(status === 'all'){
+        return true;
+      }
+      const ts = row.SEEN;
+      const st = this.getPlantStatus(row.Id);
+      const isStale = this.isSeenStale(ts);
+      switch(status){
+        case 'issue':
+          return st === 'major' || st === 'minor' || st === 'warning' || isStale;
+        case 'warning':
+          return st === 'warning' || isStale;
+        case 'alarm':
+          return st === 'major' || st === 'minor';
+        default:
+          return true;
+      }
+    });
+  });
+
+  tableSummary = computed(() => {
+    const rows = this.filteredData();
+    const num = (val: any) => {
+      const v = parseFloat(val);
+      return isNaN(v) ? null : v;
+    };
+    const sum = (key: string) => rows.reduce((acc, r) => acc + (num(r[key]) ?? 0), 0);
+    const avg = (key: string) => {
+      const vals = rows.map(r => num(r[key])).filter((v): v is number => v !== null);
+      return vals.length > 0 ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
+    };
+    return {
+      count: rows.length,
+      Capacity: sum('Capacity'),
+      POWER: sum('POWER'),
+      ENERGY: sum('ENERGY'),
+      ENERGYMTD: sum('ENERGYMTD'),
+      ENERGYYTD: sum('ENERGYYTD'),
+      PR: avg('PR'),
+      AVAI: avg('AVAI'),
+      TD: avg('TD'),
+      MTD: avg('MTD'),
+      YTD: avg('YTD'),
+      IRR: avg('IRR'),
+      PV: avg('PV'),
+      AMB: avg('AMB')
+    };
+  });
 
   private http = inject(HttpService);
   private store = inject(Store);
@@ -487,9 +548,9 @@ export class Tabular implements OnInit, OnDestroy {
         const request = item.Request;
         const response:ResponseHistorianModel[] = await this.http.getHistorian(request);
         if(response){
-          // สร้าง object ใหม่แทนการ update
+          // Create a new object instead of mutating the existing one
           this.dataChart.update(val => {
-            // Clone object เดิมก่อน
+            // Clone the existing object first
             const newVal = { ...val };
             
             let conf = this.config().chartConfig.find(x => x.name == item.Group);
@@ -504,7 +565,7 @@ export class Tabular implements OnInit, OnDestroy {
               })
               //console.log(item.Group, series, response);
               
-              // สร้าง chart config object ใหม่
+              // Create a new chart config object
               newVal[item.Group] = {
                 chart: this.chartOptions.getChartOptions(conf.chartOptions.chart),
                 title: this.chartOptions.getTitleOptions(conf.chartOptions.title),
@@ -515,7 +576,7 @@ export class Tabular implements OnInit, OnDestroy {
                 series: [...series] // Clone array
               };
             }
-            // Return object ใหม่ทั้งหมด
+            // Return the entire new object
             return newVal;
           });
           
@@ -555,18 +616,26 @@ export class Tabular implements OnInit, OnDestroy {
   }
 
   getLastSeen(item: string){
-      const timestamp = item;;
-      const ts = new Date(timestamp);
+      if(!item || item === '---'){
+        return 'gray';
+      }
+      const ts = new Date(item);
+      if(isNaN(ts.getTime())){
+        return 'gray';
+      }
       if(this.date >= ts ){
         const time = this.date.getTime() - (ts.getTime());
         const m = time/(60 * 1000);
         let className: string = "gray";
         switch(true){
-          case m >= 60:
-            className = 'danger';
+          case m >= 1440:
+            className = 'seen-danger';
             break;
-          case m >= 10 && m < 60:
-            className = 'warning';
+          case m >= 60:
+            className = 'seen-warning';
+            break;
+          case m < 1:
+            className = 'seen-now';
             break;
           default:
             className = 'gray';
@@ -574,13 +643,70 @@ export class Tabular implements OnInit, OnDestroy {
         }
         return className;
       } else {
-        return "gray";
+        return "seen-now";
       }
+  }
+
+  isSeenStale(item: string): boolean {
+    if(!item || item === '---'){
+      return true;
+    }
+    const ts = new Date(item);
+    if(isNaN(ts.getTime())){
+      return true;
+    }
+    const minutesDiff = (this.date.getTime() - ts.getTime()) / (60 * 1000);
+    return minutesDiff >= 60;
   }
 
   sortDatatable(key: string, type: string){
     this.sortKey.set(key);
     this.sortType.set(type);
+  }
+
+  getValueLevel(val: any, good: number, warn: number){
+    const v = parseFloat(val);
+    if(isNaN(v)){
+      return 'gray';
+    }
+    if(v >= good){
+      return 'val-good';
+    }
+    if(v >= warn){
+      return 'val-warn';
+    }
+    return 'val-bad';
+  }
+
+  async refresh(){
+    if(this.refreshing()){
+      return;
+    }
+    this.refreshing.set(true);
+    try {
+      this.sortKey.set('');
+      this.sortType.set('');
+      this.date = new Date();
+      await this.updateData();
+    } finally {
+      this.refreshing.set(false);
+    }
+  }
+
+  exportCSV(){
+    const headers = ['SEEN','CODE','SITE','LOCATION','CAPACITY (MWp)','POWER (kW)','ENERGY TODAY (MWh)','ENERGY MTD (MWh)','ENERGY YTD (MWh)','PR (%)','AVAI (%)','YIELD TODAY (kWh/kWp)','YIELD MTD (kWh/kWp)','YIELD YTD (kWh/kWp)','IRR (W/m2)','PVTEMP (C)','AMBTEMP (C)'];
+    const keys = ['SEEN','Id','Name','Province','Capacity','POWER','ENERGY','ENERGYMTD','ENERGYYTD','PR','AVAI','TD','MTD','YTD','IRR','PV','AMB'];
+    const lines = [headers.join(',')];
+    this.filteredData().forEach(row => {
+      lines.push(keys.map(k => `"${row[k] ?? ''}"`).join(','));
+    });
+    const blob = new Blob(['﻿' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `tabular_${new Date().toISOString().slice(0, 19).replaceAll(':', '-')}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
   }
 
   tranformNumber(val: string){

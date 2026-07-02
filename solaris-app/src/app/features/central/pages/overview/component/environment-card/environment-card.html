@@ -1,5 +1,5 @@
 <div class="envi-container w-100 h-100 bz">
-   <div class="bz d-flex-ct">
+   <div class="bz d-flex-st">
         <app-polygon-card 
         [bgcolor]="'#F90808'" 
         [data]="reduction()"
@@ -8,7 +8,7 @@
         [value]="reduction()?.Value | numberFomat: '1.0-0'" 
         [unit]="'kgCO₂'"></app-polygon-card>
    </div>
-   <div class="bz d-flex-ct">
+   <div class="bz d-flex-st">
         <app-polygon-card 
         [bgcolor]="'#FF9213'" 
         [data]="credit()"
@@ -17,7 +17,7 @@
         [value]="credit()?.Value | numberFomat: '1.0-0'" 
         [unit]="'tCO₂'"></app-polygon-card>
     </div>
-    <div class="bz d-flex-ct">
+    <div class="bz d-flex-st">
         <app-polygon-card 
         [bgcolor]="'#4AC631'" 
         [data]="tree()"
@@ -26,7 +26,7 @@
         [value]="tree()?.Value | numberFomat: '1.0-0'" 
         [unit]="'Trees'"></app-polygon-card>
    </div>
-   <div class="bz d-flex-ct">
+   <div class="bz d-flex-st">
         <app-polygon-card 
         [bgcolor]="'#F90808'" 
         [data]="oil()"

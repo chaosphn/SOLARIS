@@ -1,58 +1,50 @@
 <div class="sidenav-container bz" [ngClass]="{ 'sidenav-hided' : isHided }">
     @if (!isHided) {
-        <div class="sidenav bz ">
+        <div class="sidenav bz">
             <div class="logo w-100 d-flex-ct ">
                 <img [src]="logoUrl()" class="img" alt="" height="42px" (click)="show()">
             </div>
-            <div class="btn-group d-col-sb bz">
-                <div mat-list-item routerLink="/main/overview" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
+            <div class="btn-group d-col-sb ">
+                <div mat-list-item routerLink="/main/overview" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('overview', zoneList().title)">
                     <div class="bz">
                         <i class="material-icons">
-                            grid_view
+                            space_dashboard
                         </i>
                     </div>
                     <div class="bz title">OVERVIEW</div>
                 </div>
-                <!-- <div mat-list-item routerLink="/main/performance" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
+                <div  mat-list-item routerLink="/main/layout" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('operation', zoneList().title)">
                     <div class="bz">
                         <i class="material-icons">
-                            speed
+                            settings_input_component
                         </i>
                     </div>
-                    <div class="bz title">PERFORMANCE</div>
+                    <div class="bz title">OPERATIONS</div>
+                </div>
+                <!-- <div mat-list-item routerLink="/main/trend" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
+                    <div class="bz">
+                        <i class="material-icons">
+                            query_stats
+                        </i>
+                    </div>
+                    <div class="bz title">ANALYTICS </div>
                 </div> -->
-                <div mat-list-item routerLink="/main/trend" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
+                <div mat-list-item routerLink="/main/billing/viewer" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('financial', zoneList().title)">
                     <div class="bz">
                         <i class="material-icons">
-                            signal_cellular_alt
+                            account_balance_wallet
                         </i>
                     </div>
-                    <div class="bz title">TRENDS </div>
+                    <div class="bz title">FINANCIAL & PPA</div>
                 </div>
-                <div mat-list-item routerLink="/main/billing/viewer" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
+                <div mat-list-item routerLink="/main/reports" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('admin', zoneList().title)">
                     <div class="bz">
                         <i class="material-icons">
-                            receipt
+                            admin_panel_settings
                         </i>
                     </div>
-                    <div class="bz title">BILLINGS</div>
+                    <div class="bz title">REPORTS & ADMIN</div>
                 </div>
-                <div mat-list-item routerLink="/main/events" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
-                    <div class="bz">
-                        <i class="material-icons">
-                            notifications
-                        </i>
-                    </div>
-                    <div class="bz title">EVENTS</div>
-                </div>
-                <!-- <div mat-list-item routerLink="/main/maintenance" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('zone', zoneList().title)">
-                    <div class="bz">
-                        <i class="material-icons">
-                            engineering
-                        </i>
-                    </div>
-                    <div class="bz title">MAINTENANCE</div>
-                </div> -->
                 <div mat-list-item routerLink="/main/admin" routerLinkActive="active" class="btn-box logout bz" (click)="logOut()">
                     <div class="bz">
                         <i class="material-icons">
@@ -62,8 +54,8 @@
                 </div>
             </div>
             <div class="sidenav-search d-col bz">
-                <div class="search-topic w-100">
-                    <div>Plant List</div>
+                <div class="search-topic w-100 d-flex-ct" style="justify-content: flex-start; gap: 8px;">
+                    <div class="plant-list">Plant List <div class="plant-count-badge">{{ zoneList().siteList.length }}</div></div>
                 </div>
                 <div class="search-box input-group w-100 ">
                     <input [(ngModel)]="seachText" required="" type="text" name="text" autocomplete="off" class="input bz w-100">
@@ -73,7 +65,7 @@
                     @for (item of zoneList().siteList | filtersite : seachText; track $index) {
                         <div class="w-100 card bz" 
                                 [ngClass]="{ 'card-active': changeBgColor(item.id), 'card-disabled': !item.enabled }"
-                                (click)="changeNavState('site', item.id, item.enabled)" 
+                                (click)="changeNavState('operation', item.id, item.enabled)" 
                                 [id]="item.id">
                             @if (item.enabled) {
                                  <i class="material-icons">factory</i>
@@ -105,7 +97,7 @@
     }
     <div class="content bz" >
         <div >
-            <div class="topnav d-flex-sb w-100">
+            <div class="topnav d-flex-sb w-100 bz">
                 <div class="d-flex title"> 
                      <div style="background-color: var(--logo-bg); padding: 4px 8px; border-radius: 4px;" class="d-flex-ct bz">
                         <img src="assets/images/client.png" class="img" alt="" height="32px">
@@ -153,84 +145,114 @@
                 </div>
             </div>
             @switch ((navState$ | async)?.name) {
-                @case ('site') {
+                @case ('overview') {
                     <head class="content-header hide1 d-flex-sb w-100 bz" >
                         <div class="d-flex h-100 w-100 bz">
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('layout') }" routerLink="/main/layout" routerLinkActive="active">
-                                <i class="material-icons">solar_power</i>
-                                <div>OVERVIEW</div>
-                            </a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('dashboard') }" routerLink="/main/dashboard" routerLinkActive="active">
-                                <i class="material-icons">dashboard</i>
-                                <div>DASHBOARD</div>
-                            </a>
-                            <!-- <a class="nav-link" routerLink="/main/dashboard" routerLinkActive="active">DASHBOARD2</a> -->
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('efficiency') }" routerLink="/main/efficiency" routerLinkActive="active">
-                                <i class="material-icons">speed</i>
-                                <div>PERFORMANCE</div>
-                            </a>
-                            <!-- <a class="nav-link" routerLink="/main/performance" routerLinkActive="active">PERFORMANCE</a> -->
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('realtime') }" routerLink="/main/realtime" routerLinkActive="active">
-                                <i class="material-icons">construction</i>
-                                <div>REALTIME</div>
-                            </a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('diagram') }" routerLink="/main/diagram" routerLinkActive="active">
-                                <i class="material-icons">account_tree</i>
-                                <div>DIAGRAM</div>
-                            </a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('control') }" routerLink="/main/control" routerLinkActive="active">
-                                <i class="material-icons">tune</i>
-                                <div>CONTROL</div>
-                            </a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('charts') }" routerLink="/main/charts" routerLinkActive="active">
-                                <i class="material-icons">area_chart</i>
-                                <div>CHARTS</div>
-                            </a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('event') }" routerLink="/main/event" routerLinkActive="active">
-                                <i class="material-icons">notifications_active</i>
-                                <div>EVENTS</div>
-                            </a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('report') }" routerLink="/main/report" routerLinkActive="active">
-                                <i class="material-icons">description</i>
-                                <div>REPORTS</div>
-                            </a>
-                        </div>
-                        @if (enableDate()) {
-                            <div class="date-picker hide h-100 bz">
-                                <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
-                            </div>
-                        } 
-                        <!-- <div class="ai-btn hide" (click)="openDialog()">
-                            <i class="material-icons">auto_awesome</i>
-                            <div>Ask SolarisAI</div>
-                        </div> -->
-                    </head>
-                }
-                @case ('zone') {
-                    <head class="content-header hide d-flex-sb w-100" >
-                        <div class="d-flex h-100 w-100 bz">
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/overview" routerLinkActive="active">OVERVIEW</a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('performance') }" routerLink="/main/performance" routerLinkActive="active">PERFORMANCE</a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('trend') }" routerLink="/main/trend" routerLinkActive="active">TRENDS</a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('tabular') }" routerLink="/main/tabular" routerLinkActive="active">TABULAR</a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('reports') }" routerLink="/main/reports" routerLinkActive="active">REPORTS</a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('report-admin') }" routerLink="/main/report-admin" routerLinkActive="active">REPORT ADMIN</a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('billing') }" routerLink="/main/billing/viewer" routerLinkActive="active">BILLINGS</a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('admin') }" routerLink="/main/admin" routerLinkActive="active">BILLING ADMIN</a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('events') }" routerLink="/main/events" routerLinkActive="active">EVENTS</a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('maintenance') }" routerLink="/main/maintenance" routerLinkActive="active">MAINTENANCE</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/overview" routerLinkActive="active"><i class="material-icons">dashboard</i><div>OVERVIEW</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/performance" routerLinkActive="active"><i class="material-icons">speed</i><div>PERFORMANCE</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/trend" routerLinkActive="active"><i class="material-icons">area_chart</i><div>TRENDS</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/tabular" routerLinkActive="active"><i class="material-icons">table_chart</i><div>TABULAR</div></a>
                         </div>
                         @if (enableDate()) {
                             <div class="date-picker hide h-100 bz">
                                 <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
                             </div>
                         }
-                        <!-- <div class="ai-btn hide" (click)="openDialog()">
-                            <i class="material-icons">auto_awesome</i>
-                            <div>Ask SolarisAI</div>
-                        </div> -->
                     </head>
                 }
+                @case ('operation') {
+                    <head class="content-header hide1 d-flex-sb w-100 bz" >
+                        <div class="d-flex h-100 w-100 bz">
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/layout" routerLinkActive="active"><i class="material-icons">solar_power</i><div>OVERVIEW</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/dashboard" routerLinkActive="active"><i class="material-icons">dashboard</i><div>DASHBOARD</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/efficiency" routerLinkActive="active"><i class="material-icons">speed</i><div>PERFORMANCE</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/realtime" routerLinkActive="active"><i class="material-icons">construction</i><div>REALTIME</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/diagram" routerLinkActive="active"><i class="material-icons">account_tree</i><div>DIAGRAM</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/control" routerLinkActive="active"><i class="material-icons">tune</i><div>CONTROL</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/charts" routerLinkActive="active"><i class="material-icons">area_chart</i><div>VISUALIZATION</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/maintenance" routerLinkActive="active"><i class="material-icons">build</i><div>MAINTENANCE</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/event" routerLinkActive="active"><i class="material-icons">notifications_active</i><div>ALARM & EVENTS</div></a>
+                        </div>
+                        @if (enableDate()) {
+                            <div class="date-picker hide h-100 bz">
+                                <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
+                            </div>
+                        } 
+                    </head>
+                }
+                @case ('financial') {
+                    <head class="content-header hide1 d-flex-sb w-100 bz" >
+                        <div class="d-flex h-100 w-100 bz">
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/overview" routerLinkActive="active"><i class="material-icons">solar_power</i><div>CONTRACT OVERVIEW</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/billing/viewer" routerLinkActive="active"><i class="material-icons">solar_power</i><div>BILLINGS</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/performance" routerLinkActive="active"><i class="material-icons">solar_power</i><div>REVENUE PERFORMANCE</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/trend" routerLinkActive="active"><i class="material-icons">solar_power</i><div>ENERGY DELIVERY</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/tabular" routerLinkActive="active"><i class="material-icons">solar_power</i><div>TARIFF ESCALATION</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/tabular" routerLinkActive="active"><i class="material-icons">solar_power</i><div>SLA / COMPLIANCE</div></a>
+                        </div>
+                        @if (enableDate()) {
+                            <div class="date-picker hide h-100 bz">
+                                <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
+                            </div>
+                        }
+                    </head>
+                }
+                @case ('admin') {
+                    <head class="content-header hide1 d-flex-sb w-100 bz" >
+                        <div class="d-flex h-100 w-100 bz">
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/reports" routerLinkActive="active"><i class="material-icons">solar_power</i><div>REPORTS</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/report-admin" routerLinkActive="active"><i class="material-icons">solar_power</i><div>REPORT ADMIN</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/admin" routerLinkActive="active"><i class="material-icons">solar_power</i><div>BILLING ADMIN</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/settings" routerLinkActive="active"><i class="material-icons">solar_power</i><div>SETTINGS</div></a>
+                        </div>
+                        @if (enableDate()) {
+                            <div class="date-picker hide h-100 bz">
+                                <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
+                            </div>
+                        }
+                    </head>
+                }
+                <!-- @case ('sitexzzz') {
+                    <head class="content-header hide1 d-flex-sb w-100 bz" >
+                        <div class="d-flex h-100 w-100 bz">
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/layout" routerLinkActive="active"><i class="material-icons">solar_power</i><div>OVERVIEW</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/dashboard" routerLinkActive="active"><i class="material-icons">dashboard</i><div>DASHBOARD</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/efficiency" routerLinkActive="active"><i class="material-icons">speed</i><div>PERFORMANCE</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/realtime" routerLinkActive="active"><i class="material-icons">construction</i><div>REALTIME</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/diagram" routerLinkActive="active"><i class="material-icons">account_tree</i><div>DIAGRAM</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/control" routerLinkActive="active"><i class="material-icons">tune</i><div>CONTROL</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/charts" routerLinkActive="active"><i class="material-icons">area_chart</i><div>CHARTS</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/event" routerLinkActive="active"><i class="material-icons">notifications_active</i><div>ALARM & EVENTS</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/report" routerLinkActive="active"><i class="material-icons">description</i><div>REPORTS</div></a>
+                        </div>
+                        @if (enableDate()) {
+                            <div class="date-picker hide h-100 bz">
+                                <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
+                            </div>
+                        } 
+                    </head>
+                }
+                @case ('zone') {
+                    <head class="content-header hide d-flex-sb w-100" >
+                        <div class="d-flex h-100 w-100 bz">
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/overview" routerLinkActive="active">OVERVIEW</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/performance" routerLinkActive="active">PERFORMANCE</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/trend" routerLinkActive="active">TRENDS</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/tabular" routerLinkActive="active">TABULAR</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/reports" routerLinkActive="active">REPORTS</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/report-admin" routerLinkActive="active">REPORT ADMIN</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/billing/viewer" routerLinkActive="active">BILLINGS</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/admin" routerLinkActive="active">BILLING ADMIN</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/events" routerLinkActive="active">EVENTS</a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/maintenance" routerLinkActive="active">MAINTENANCE</a>
+                        </div>
+                        @if (enableDate()) {
+                            <div class="date-picker hide h-100 bz">
+                                <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
+                            </div>
+                        }
+                    </head>
+                } -->
             }
         </div>
         <div class="content-box bz no-pm w-100">

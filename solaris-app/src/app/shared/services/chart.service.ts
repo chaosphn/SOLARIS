@@ -336,6 +336,7 @@ export class ChartService {
           return s;
         },
         useHTML: true,
+        itemWidth: item.itemWidth || undefined
       } 
       return initLegend;
     } else {
@@ -406,6 +407,7 @@ export class ChartService {
         borderColor: item.borderColor,
         borderRadius: (item.borderRadius ?? 0) > 0 ? item.borderRadius : undefined,
         borderWidth: item.borderWidth,
+        dashStyle: item.dashStyle || undefined,
         data: data.records
           .filter(x => {
             const ts = new Date(x.TimeStamp).getTime();

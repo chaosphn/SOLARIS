@@ -1,17 +1,65 @@
 <div class="container w-100 bz ">
     @if (dataChart()) {
+        <div class="main-chart w-100 bz">
+            <app-card-container [title]="'OVERALL GENERATION '" >
+                <ng-template #container>
+                    <div class="item-content w-100 bz" >
+                        @if(isLoading() ){
+                            <app-skeleton-box></app-skeleton-box>
+                        } @else if(dataChart()['OVERALL']) {
+                            <app-highchart [chartParameter]="dataChart()['OVERALL']"></app-highchart>
+                        }
+                    </div>
+                    <div class="summary-content w-100">
+                        <div class="summary-item w-100 h-100 bz">
+                            <div class="summary-title">ENERGY</div>
+                            <div class="summary-value">{{dataRealtime()['OVERALL_ENERGY']?.Value | numberFomat: '1.0-0'}} kWh</div>
+                        </div>
+                        <div class="summary-item w-100 h-100 bz">
+                            <div class="summary-title">PR</div>
+                            <div class="summary-value">{{dataRealtime()['OVERALL_PR']?.Value | numberFomat: '1.1-1'}} %</div>
+                        </div>
+                        <div class="summary-item w-100 h-100 bz">
+                            <div class="summary-title">YIELD</div>
+                            <div class="summary-value">{{dataRealtime()['OVERALL_YIELD']?.Value | numberFomat: '1.1-1'}} kWh/kWp</div>
+                        </div>
+                        <div class="summary-item w-100 h-100 bz">
+                            <div class="summary-title">AVAILABILITY</div>
+                            <div class="summary-value">{{dataRealtime()['OVERALL_AVAI']?.Value | numberFomat: '1.1-1'}} %</div>
+                        </div>
+                    </div>
+                </ng-template>
+            </app-card-container>
+        </div>
         <div class="w-100 h-100 bz row-grid" >
             @for (item of siteList(); track item.id) {
-                <div class="item w-100 h-100 bz brd">
-                    <div class="item-title w-100">{{item.id}}: {{item.name | uppercase}}</div>
+                <div class="item w-100 h-100 bz bz">
+                    <div class="item-title w-100">
+                        <div class="title-icon">
+                            {{item.id}}
+                        </div>
+                        <div class="title-text">
+                            {{item.name | uppercase}}
+                        </div>
+                    </div>
                     <div class="item-content w-100 h-100" >
-                        <!-- <app-highchart [chartParameter]="dataChart()[item.id]" >
-                        </app-highchart> -->
                         @if(isLoading() ){
                             <app-skeleton-box></app-skeleton-box>
                         } @else if(dataChart()[item.id]) {
                             <app-highchart [chartParameter]="dataChart()[item.id]"></app-highchart>
                         }
+                    </div>
+                    <div class="item-footer w-100 bz">
+                        <div class="footer-item1 bz">
+                            <div>ENERGY</div>
+                            <div class="value">{{dataRealtime()[item.id+'_ENERGY']?.Value | numberFomat: '1.0-0'}}</div>
+                            <div>kWh</div>
+                        </div>
+                        <div class="footer-item2 bz">
+                            <div>PR</div>
+                            <div class="value">{{dataRealtime()[item.id+'_PR']?.Value | numberFomat: '1.1-1'}}</div>
+                            <div>%</div>
+                        </div>
                     </div>
                 </div>
             }

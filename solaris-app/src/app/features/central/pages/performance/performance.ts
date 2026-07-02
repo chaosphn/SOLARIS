@@ -1,4 +1,4 @@
-import { Component, inject, OnChanges, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnChanges, OnDestroy, OnInit, signal } from '@angular/core';
 import { GroupHistorianConfigModel, GroupReatimeConfigModel, HistorianConfig, PageConfigModel, RealtimeConfig, SiteModel } from '../../../../shared/models/config.model';
 import { HttpService } from '../../../../shared/services/http.service';
 import { Store } from '@ngrx/store';
@@ -50,6 +50,50 @@ export class Performance implements OnInit, OnDestroy {
 
   zoneSelected = signal<string>('overall');
   cardProperty = signal<any[]>([]);
+
+  energySummary      = computed(() => this.calcSummary('_ENERGY'));
+  revenueSummary     = computed(() => this.calcSummary('_REVENUE'));
+  yieldSummary       = computed(() => this.calcSummary('_YIELD'));
+  insoSummary        = computed(() => this.calcSummary('_INSO'));
+  prSummary          = computed(() => this.calcSummary('_PR'));
+  availabilitySummary = computed(() => this.calcSummary('_AVAI'));
+
+  sortedEnergySites       = computed(() => this.sortSites('_ENERGY'));
+  sortedRevenueSites      = computed(() => this.sortSites('_REVENUE'));
+  sortedYieldSites        = computed(() => this.sortSites('_YIELD'));
+  sortedInsoSites         = computed(() => this.sortSites('_INSO'));
+  sortedPrSites           = computed(() => this.sortSites('_PR'));
+  sortedAvailabilitySites = computed(() => this.sortSites('_AVAI'));
+
+  private sortSites(suffix: string): SiteModel[] {
+    const data = this.dataRealtime();
+    return [...this.siteList()].sort((a, b) => {
+      const va = parseFloat(data[a.id + suffix]?.Value?.toString() || '');
+      const vb = parseFloat(data[b.id + suffix]?.Value?.toString() || '');
+      const aValid = !isNaN(va);
+      const bValid = !isNaN(vb);
+      if (!aValid && !bValid) return 0;
+      if (!aValid) return 1;
+      if (!bValid) return -1;
+      return vb - va;
+    });
+  }
+
+  private calcSummary(suffix: string) {
+    const sites = this.siteList();
+    const data  = this.dataRealtime();
+    if (!sites.length || !Object.keys(data).length) return null;
+    const values = sites
+      .map(s => parseFloat(data[s.id + suffix]?.Value?.toString() || ''))
+      .filter(v => !isNaN(v));
+    if (!values.length) return null;
+    return {
+      avg:  values.reduce((a, b) => a + b, 0) / values.length,
+      min:  Math.min(...values),
+      max:  Math.max(...values),
+      unit: data[sites[0].id + suffix]?.Unit || ''
+    };
+  }
   
   timers?: Subscription;
   dateStateSubscription?: Subscription;

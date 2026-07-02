@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, input, inject, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, effect, input, inject, OnDestroy, signal } from '@angular/core';
 import * as L from 'leaflet';
 import { DataRealtimeModel } from '../../models/response.model';
 import { SiteModel } from '../../models/config.model';
@@ -23,6 +23,12 @@ export class MapContainer implements AfterViewInit, OnDestroy {
 
   dataRealtime = input<DataRealtimeModel>();
   siteList = input<SiteModel[]>([]);
+  siteStatus = signal<any>({
+    normal: 0,
+    warn: 0,
+    alarm: 0,
+    offline: 0
+  });
   theme = 'dark';
 
   private store = inject(Store);
@@ -35,6 +41,12 @@ export class MapContainer implements AfterViewInit, OnDestroy {
     });
 
     effect(() => {
+      this.siteStatus.set({
+        normal: 0,
+        warn: 0,
+        alarm: 0,
+        offline: 0
+      });
       const sites = this.siteList();
 
       // 🔒 กัน crash
@@ -56,12 +68,45 @@ export class MapContainer implements AfterViewInit, OnDestroy {
         let status: string;
         if (eventData && eventData.Major > 0) {
           status = 'critical';
+          this.siteStatus.update(val => {
+            return {
+              ...val,
+              alarm: val.alarm + 1
+            }
+          });
         } else if (eventData && eventData.Minor > 0) {
           status = 'warning';
+          this.siteStatus.update(val => {
+            return {
+              ...val,
+              alarm: val.alarm + 1
+            }
+          });
         } else if (eventData && eventData.Warning > 0) {
           status = 'warning';
+          this.siteStatus.update(val => {
+            return {
+              ...val,
+              warn: val.warn + 1
+            }
+          });
         } else {
           status = realtime > 0 ? 'normal' : realtime === 0 ? 'offline' : 'nodata';
+          if(realtime > 0){
+            this.siteStatus.update(val => {
+              return {
+                ...val,
+                normal: val.normal + 1
+              }
+            });
+          } else {
+            this.siteStatus.update(val => {
+              return {
+                ...val,
+                offline: val.offline + 1
+              }
+            });
+          }
         }
 
         const marker = L.marker(
@@ -90,7 +135,16 @@ export class MapContainer implements AfterViewInit, OnDestroy {
               font-size: 13px;
               color: var(--secondary-txt);
               margin-bottom: 12px;
-            ">📍 ${site.location}</div>
+              display: flex;
+              align-items: center;
+              gap: 6px;
+            ">
+              <i class="material-icons" style="
+                  font-size: 18px;
+                  color: var(--secondary-txt);
+              ">pin_drop</i>
+              <div>${site.location}</div>
+            </div>
             
             <div style="
               display: grid;
@@ -106,7 +160,15 @@ export class MapContainer implements AfterViewInit, OnDestroy {
                 color: var(--secondary-txt);
                 border: 1px solid var(--border-color);
               ">
-                <div style="color: var(--secondary-txt); font-size: 11px; margin-bottom: 2px;">⚡ Capacity</div>
+                <div style="color: var(--secondary-txt); font-size: 11px; margin-bottom: 2px; display: flex;
+                  align-items: center;
+                  gap: 4px;">
+                  <i class="material-icons" style="
+                    font-size: 18px;
+                    color: var(--secondary-txt);
+                  ">bolt</i>
+                  <div>Capacity</div>
+                </div>
                 <div style="font-weight: 600; color: var(--primary-txt);">${site.capacity} MW</div>
               </div>
               <div style="
@@ -117,7 +179,15 @@ export class MapContainer implements AfterViewInit, OnDestroy {
                 color: var(--secondary-txt);
                 border: 1px solid var(--border-color);
               ">
-                <div style="color: var(--secondary-txt); font-size: 11px; margin-bottom: 2px;">📊 Status</div>
+                <div style="color: var(--secondary-txt); font-size: 11px; margin-bottom: 2px; display: flex;
+                  align-items: center;
+                  gap: 4px;">
+                  <i class="material-icons" style="
+                    font-size: 18px;
+                    color: var(--secondary-txt);
+                  ">settings</i>
+                  <div>Status</div>
+                </div>
                 <div style="
                   font-weight: 700;
                   color: ${this.getColorByStatus(status)};
@@ -142,7 +212,7 @@ export class MapContainer implements AfterViewInit, OnDestroy {
                 border-bottom: 1px solid var(--border-color);
                 font-size: 13px;
               ">
-                <span style="color: var(--secondary-txt);">🔌 Power</span>
+                <span style="color: var(--secondary-txt);">Power</span>
                 <span style="font-weight: 600; color: var(--primary-txt);">
                   ${realtime?.toFixed(2) ?? 'N/A'} ${realtime !== undefined ? 'kW' : ''}
                 </span>
@@ -154,7 +224,7 @@ export class MapContainer implements AfterViewInit, OnDestroy {
                 border-bottom: 1px solid var(--border-color);
                 font-size: 13px;
               ">
-                <span style="color: var(--secondary-txt);">⚙️ Energy</span>
+                <span style="color: var(--secondary-txt);">Energy</span>
                 <span style="font-weight: 600; color: var(--primary-txt);">
                   ${energy?.toFixed(2) ?? 'N/A'} ${energy !== undefined ? 'kWh' : ''}
                 </span>
@@ -165,7 +235,7 @@ export class MapContainer implements AfterViewInit, OnDestroy {
                 padding: 6px 0;
                 font-size: 13px;
               ">
-                <span style="color: var(--secondary-txt);">📈 PR</span>
+                <span style="color: var(--secondary-txt);">PR</span>
                 <span style="font-weight: 600; color: var(--primary-txt);">
                   ${pr?.toFixed(2) ?? 'N/A'} ${pr !== undefined ? '%' : ''}
                 </span>
@@ -278,24 +348,6 @@ export class MapContainer implements AfterViewInit, OnDestroy {
   //     iconAnchor: [10, 10]
   //   });
   // }
-  private createIcon(color: string = '#FBE134'): L.DivIcon {
-    return L.divIcon({
-      className: '',
-      html: `
-        <div style="width:30px;height:30px;">
-          <svg viewBox="0 0 24 24" width="30" height="30">
-            <path 
-              d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z" 
-              fill="${color}"
-            />
-            <circle cx="12" cy="9" r="3" fill="#16171B"/>
-          </svg>
-        </div>
-      `,
-      iconSize: [30, 30],
-      iconAnchor: [15, 30]
-    });
-  }
 
   private createSolarIcon(color: string = '#ff3b3b'): L.DivIcon {
     return L.divIcon({
@@ -311,12 +363,12 @@ export class MapContainer implements AfterViewInit, OnDestroy {
             />
 
             <!-- inner circle -->
-            <circle cx="24" cy="19" r="13" fill="#ffffff">
+            <circle cx="24" cy="19" r="14" fill="#ffffff">
             </circle>
 
             <!-- solar panel icon -->
-            <g transform="translate(16,11)">
-              <rect x="0" y="4" width="16" height="10" fill="#16171B" rx="1"/>
+            <g transform="translate(16,9)">
+              <rect x="0" y="4" width="16" height="10" fill="${color}" rx="1"/>
               
               <!-- grid lines -->
               <line x1="4" y1="4" x2="4" y2="14" stroke="#ffffff" stroke-width="0.5"/>
@@ -327,8 +379,8 @@ export class MapContainer implements AfterViewInit, OnDestroy {
               <line x1="0" y1="10" x2="16" y2="10" stroke="#ffffff" stroke-width="0.5"/>
 
               <!-- stand -->
-              <line x1="8" y1="14" x2="8" y2="18" stroke="#16171B" stroke-width="1"/>
-              <line x1="4" y1="18" x2="12" y2="18" stroke="#16171B" stroke-width="1"/>
+              <line x1="8" y1="14" x2="8" y2="18" stroke="${color}" stroke-width="1"/>
+              <line x1="4" y1="18" x2="12" y2="18" stroke="${color}" stroke-width="1"/>
             </g>
 
           </svg>
@@ -343,7 +395,7 @@ export class MapContainer implements AfterViewInit, OnDestroy {
     switch (status) {
       case 'critical': return '#ff3b3b';   // 🔴 alarm
       case 'warning': return '#FBE134';    // 🟡 warning
-      case 'normal': return '#22c55e';     // 🟢 normal
+      case 'normal': return '#22C55E';     // 🟢 normal
       default: return '#667079';           // ⚪ offline
     }
   }

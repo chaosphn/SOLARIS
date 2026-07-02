@@ -2,12 +2,22 @@
 	{
 		"minVal": 0,
 		"maxVal": 300,
+		"activeColor": "#63C6F0",
+		"bgColor": "var(--stack-bg)",
+		"bdRadius": "0px",
+		"rangeVal": 20,
+		"verleLabel": false,
+		"legend": false
+	},
+	{
+		"minVal": 0,
+		"maxVal": 300,
 		"activeColor": "#19D6B4",
 		"bgColor": "var(--stack-bg)",
 		"bdRadius": "0px",
-		"rangeVal": 15,
+		"rangeVal": 20,
 		"verleLabel": false,
-		"legend": true
+		"legend": false
 	},
 	{
 		"minVal": 0,
@@ -15,9 +25,9 @@
 		"activeColor": "#346AE7",
 		"bgColor": "var(--stack-bg)",
 		"bdRadius": "0px",
-		"rangeVal": 15,
+		"rangeVal": 20,
 		"verleLabel": false,
-		"legend": true
+		"legend": false
 	},
 	{
 		"minVal": 0,
@@ -25,9 +35,9 @@
 		"activeColor": "#DEB266",
 		"bgColor": "var(--stack-bg)",
 		"bdRadius": "0px",
-		"rangeVal": 15,
+		"rangeVal": 20,
 		"verleLabel": false,
-		"legend": true
+		"legend": false
 	},
 	{
 		"minVal": 0,
@@ -35,8 +45,18 @@
 		"activeColor": "#FF4F52",
 		"bgColor": "var(--stack-bg)",
 		"bdRadius": "0px",
-		"rangeVal": 15,
+		"rangeVal": 20,
 		"verleLabel": false,
-		"legend": true
+		"legend": false
+	},
+	{
+		"minVal": 0,
+		"maxVal": 30,
+		"activeColor": "#7B91E1",
+		"bgColor": "var(--stack-bg)",
+		"bdRadius": "0px",
+		"rangeVal": 20,
+		"verleLabel": false,
+		"legend": false
 	}
 ]

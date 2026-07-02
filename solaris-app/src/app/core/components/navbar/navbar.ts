@@ -84,7 +84,7 @@ export class Navbar implements OnInit, OnDestroy {
     });
     this.navStateSubscription = this.navState$.subscribe(state => {
       this.currentNavState.set(state);
-      //console.log('NAV STATE:', state);
+      console.log('NAV STATE:', state);
       // if(!state.name && !state.location && !this.router.url.includes('billing')){
       //   this.router.navigate(['/'])
       // }
@@ -194,15 +194,15 @@ export class Navbar implements OnInit, OnDestroy {
         this.zoneList.set(zonselected);
         this.store.dispatch(addState({
           payload: {
-            name: 'zone',
+            name: 'overview',
             location: zonselected.title
           }
         }));
       } else {
         this.store.dispatch(addState({
           payload: {
-            name: 'overall',
-            location: 'TH'
+            name: 'overview',
+            location: 'overview'
           }
         }));
       }
@@ -298,7 +298,7 @@ export class Navbar implements OnInit, OnDestroy {
       this.messageService.add({ severity: 'warn', summary: 'Site Disabled', detail: 'This site is currently disabled.' });
       return;
     }
-    if(state == 'site' && this.currentNavState().name != 'site'){
+    if(state == 'operation' && this.currentNavState().name != 'operation'){
       this.store.dispatch(addState({
         payload: {
           name: state,
@@ -329,7 +329,7 @@ export class Navbar implements OnInit, OnDestroy {
   onSiteChange(event: Event) {
     const selectEl = event.target as HTMLSelectElement;
     const value = selectEl.value;
-    this.changeNavState('site', value);
+    this.changeNavState('operation', value);
   }
 
   searchValue(){

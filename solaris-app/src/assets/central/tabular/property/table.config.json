@@ -60,6 +60,11 @@
         "Size": 1
     },
     {
+        "Name": "AVAI",
+        "Display": "AVAI\n(%)",
+        "Size": 1
+    },
+    {
         "Name": "TD",
         "Display": "YIELD TODAY\n(kWh/kWp)",
         "Size": 1
