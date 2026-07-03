@@ -8,11 +8,9 @@
             <div class="chip-group bz">
                 <div class="chip bz" [class.active]="statusFilter() === 'all'" (click)="statusFilter.set('all')">All</div>
                 <div class="chip bz" [class.active]="statusFilter() === 'issue'" (click)="statusFilter.set('issue')">Issues</div>
-                <div class="chip bz" [class.active]="statusFilter() === 'warning'" (click)="statusFilter.set('warning')">Warning</div>
-                <div class="chip bz" [class.active]="statusFilter() === 'alarm'" (click)="statusFilter.set('alarm')">Alarm</div>
             </div>
             <div class="toolbar-right bz">
-                <div class="count">Showing {{ filteredData().length }} / {{ tableData().length }} sites</div>
+                <!-- <div class="count">Showing {{ filteredData().length }} / {{ tableData().length }} sites</div> -->
                 <button class="tool-btn bz" (click)="exportCSV()">
                     <i class="material-icons">download</i>
                     EXPORT CSV
@@ -24,41 +22,24 @@
             </div>
         </div>
     </div>
-    <div class="table-content w-100 h-100 bz" >
-        <table class="tablebox w-100 ">
+    <div class="table-content w-100 bz" >
+        <table class="tablebox w-100 brd">
             <tr class="header ">
-                <th class=" title gray">i
-                    <div class="filter-box brd">
-                        <!-- <app-filter-box></app-filter-box> -->
-                    </div>
-                </th>
+                <th class=" title gray">CODE</th>
+                <th class=" title gray">STATUS</th>
                 <th class=" title gray">
                     <!-- <div class="filter-box bz">
                         <app-filter-box [Response]="responseRealtime()"
                         [text]="''"
                         ></app-filter-box>
                     </div> -->
-                    <i class="material-icons gray" >
+                    <!-- <i class="material-icons gray" >
                         visibility
-                    </i>
-                    <div class="filter-box bz">
-                    </div>
+                    </i> -->
+                    LAST SEEN
                 </th>
-                <th class=" title gray">CODE
-                    <div class="filter-box bz">
-
-                    </div>
-                </th>
-                <th class=" title gray">SITE
-                    <div class="filter-box bz">
-
-                    </div>
-                </th>
-                <th class=" title gray">LOCATION
-                    <div class="filter-box bz">
-
-                    </div>
-                </th>
+                <th class=" title gray">SITE</th>
+                <th class=" title gray">LOCATION</th>
                 <th class=" title gray" [class.sorted]="sortKey() === 'Capacity'">CAP. <br> (MWp)
                     @if (sortKey() === 'Capacity') {
                         <i class="material-icons sort-ind">{{ sortType() === 'desc' ? 'arrow_drop_down' : 'arrow_drop_up' }}</i>
@@ -122,12 +103,33 @@
                         <i class="material-icons bz" (click)="sortDatatable('AVAI', 'asc')">expand_more</i>
                     </div>
                 </th>
-                <!-- <th class=" title gray">OPR <br>(%)
+                <th class=" title gray" [class.sorted]="sortKey() === 'LOSS'">LOSS <br>(kWh)
+                    @if (sortKey() === 'LOSS') {
+                        <i class="material-icons sort-ind">{{ sortType() === 'desc' ? 'arrow_drop_down' : 'arrow_drop_up' }}</i>
+                    }
                     <div class="filter-box bz">
-                        <i class="material-icons bz" (click)="sortDatatable('OPR', 'desc')">expand_less</i>
-                        <i class="material-icons bz" (click)="sortDatatable('OPR', 'asc')">expand_more</i>
+                       <i class="material-icons bz" (click)="sortDatatable('LOSS', 'desc')">expand_less</i>
+                        <i class="material-icons bz" (click)="sortDatatable('LOSS', 'asc')">expand_more</i>
                     </div>
-                </th> -->
+                </th>
+                <th class=" title gray" [class.sorted]="sortKey() === 'REV_TD'">REV. TODAY <br>(฿)
+                    @if (sortKey() === 'REV_TD') {
+                        <i class="material-icons sort-ind">{{ sortType() === 'desc' ? 'arrow_drop_down' : 'arrow_drop_up' }}</i>
+                    }
+                    <div class="filter-box bz">
+                        <i class="material-icons bz" (click)="sortDatatable('REV_TD', 'desc')">expand_less</i>
+                        <i class="material-icons bz" (click)="sortDatatable('REV_TD', 'asc')">expand_more</i>
+                    </div>
+                </th>
+                <th class=" title gray" [class.sorted]="sortKey() === 'REV_MTD'">REV. MTD <br>(฿)
+                    @if (sortKey() === 'REV_MTD') {
+                        <i class="material-icons sort-ind">{{ sortType() === 'desc' ? 'arrow_drop_down' : 'arrow_drop_up' }}</i>
+                    }
+                    <div class="filter-box bz">
+                        <i class="material-icons bz" (click)="sortDatatable('REV_MTD', 'desc')">expand_less</i>
+                        <i class="material-icons bz" (click)="sortDatatable('REV_MTD', 'asc')">expand_more</i>
+                    </div>
+                </th>
                 <th class=" title gray" [class.sorted]="sortKey() === 'TD'">YIELD TODAY <br>(kWh/kWp)
                     @if (sortKey() === 'TD') {
                         <i class="material-icons sort-ind">{{ sortType() === 'desc' ? 'arrow_drop_down' : 'arrow_drop_up' }}</i>
@@ -185,7 +187,8 @@
             </tr>
             @for (item of filteredData(); track $index) {
                 <tr class="row " >
-                    <td class=" value d-flex-ct">
+                    <td class=" value gray">{{item.Id}}</td>
+                    <td class=" value status">
                         @switch (getPlantStatus(item.Id)) {
                             @case ('info') {
                                 <div class="icon-box d-flex-ct st-normal">
@@ -220,9 +223,8 @@
                         }
                     </td>
                     <td class=" value" [ngClass]="getLastSeen(item.SEEN)" >{{item.SEEN | lastseen: date}}</td>
-                    <td class=" value gray">{{item.Id}}</td>
-                    <td class=" value gray">{{item.Name}}</td>
-                    <td class=" value gray">{{item.Province}}</td>
+                    <td class=" value gray">{{item.Name | uppercase}}</td>
+                    <td class=" value gray">{{item.Province | uppercase}}</td>
                     <td class=" value gray" [class.sorted]="sortKey() === 'Capacity'">{{item.Capacity}}</td>
                     <td class=" value gray" [class.sorted]="sortKey() === 'POWER'">{{item.POWER | numberFomat: '1.0-0'}}</td>
                     <td class=" value gray" [class.sorted]="sortKey() === 'ENERGY'">{{item.ENERGY | numberFomat: '1.0-0'}}</td>
@@ -230,7 +232,9 @@
                     <td class=" value gray" [class.sorted]="sortKey() === 'ENERGYYTD'">{{item.ENERGYYTD | numberFomat: '1.0-0'}}</td>
                     <td class=" value" [ngClass]="[getValueLevel(item.PR, 80, 60), sortKey() === 'PR' ? 'sorted' : '']">{{item.PR | numberFomat: '1.0-1'}}</td>
                     <td class=" value" [ngClass]="[getValueLevel(item.AVAI, 97, 90), sortKey() === 'AVAI' ? 'sorted' : '']">{{item.AVAI | numberFomat: '1.0-1'}}</td>
-                    <!-- <td class=" value gray">{{item.OPR | numberFomat: '1.0-1'}}</td> -->
+                    <td class=" value gray" [class.sorted]="sortKey() === 'LOSS'">{{item.LOSS | numberFomat: '1.0-0'}}</td>
+                    <td class=" value gray" [class.sorted]="sortKey() === 'REV_TD'">{{item.REV_TD | numberFomat: '1.0-0'}}</td>
+                    <td class=" value gray" [class.sorted]="sortKey() === 'REV_MTD'">{{item.REV_MTD | numberFomat: '1.0-0'}}</td>
                     <td class=" value gray" [class.sorted]="sortKey() === 'TD'">{{item.TD | numberFomat: '1.0-2'}}</td>
                     <td class=" value gray" [class.sorted]="sortKey() === 'MTD'">{{item.MTD | numberFomat: '1.0-0'}}</td>
                     <td class=" value gray" [class.sorted]="sortKey() === 'YTD'">{{item.YTD | numberFomat: '1.0-0'}}</td>
@@ -256,6 +260,9 @@
                         <span class="avg-tag">avg</span> {{ tableSummary().AVAI | numberFomat: '1.0-1' }}
                     } @else { --- }
                 </td>
+                <td class=" value" [class.sorted]="sortKey() === 'LOSS'">{{ tableSummary().LOSS | numberFomat: '1.0-0' }}</td>
+                <td class=" value" [class.sorted]="sortKey() === 'REV_TD'">{{ tableSummary().REV_TD | numberFomat: '1.0-0' }}</td>
+                <td class=" value" [class.sorted]="sortKey() === 'REV_MTD'">{{ tableSummary().REV_MTD | numberFomat: '1.0-0' }}</td>
                 <td class=" value" [class.sorted]="sortKey() === 'TD'">
                     @if (tableSummary().TD !== null) {
                         <span class="avg-tag">avg</span> {{ tableSummary().TD | numberFomat: '1.0-2' }}

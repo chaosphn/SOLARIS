@@ -138,6 +138,7 @@
     height: 60px;
     position: sticky;
     top: 0px;
+    z-index: 30;
     // left: 0;
     //display: grid;
     //grid-template-columns: repeat(19, auto);
@@ -213,6 +214,12 @@
         color: var(--trow-txt);
     }
 
+    .value.status{
+        // display: flex;
+        // justify-content: center;
+        height: 100%;
+    }
+
     .value.sorted{
         color: var(--active-txt);
         font-weight: 600;
@@ -262,9 +269,86 @@
     filter: brightness(125%);
 }
 
+@media only screen and (max-width: 1500px) {
+
+    .header .title:nth-child(-n+2){
+        position: sticky;
+        z-index: 20;
+    }
+
+    .row .value:nth-child(-n+2){
+        position: sticky;
+        z-index: 10;
+        background-color: var(--trow-bg);
+    }
+
+    .header .title:nth-child(1),
+    .row .value:nth-child(1){
+        left: 0px;
+        width: 64px;
+        min-width: 64px;
+        max-width: 64px;
+    }
+
+    .header .title:nth-child(2),
+    .row .value:nth-child(2){
+        left: 64px;
+        width: 44px;
+        min-width: 44px;
+        max-width: 44px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        border-right: 1px solid var(--border-color);
+    }
+
+    // .header .title:nth-child(3),
+    // .row .value:nth-child(3){
+    //     left: 108px;
+    //     width: 56px;
+    //     min-width: 56px;
+    //     max-width: 56px;
+    // }
+
+    // .header .title:nth-child(4),
+    // .row .value:nth-child(4){
+    //     left: 164px;
+    //     width: 160px;
+    //     min-width: 160px;
+    //     max-width: 160px;
+    //     overflow: hidden;
+    //     text-overflow: ellipsis;
+    //     white-space: nowrap;
+    //     border-right: 1px solid var(--border-color);
+    // }
+
+}
+
+@media only screen and (max-width: 900px) {
+
+    .toolbar{
+        .search-box{
+            flex: 1 1 100%;
+            min-width: 0;
+        }
+        .chip-group{
+            flex: 1 1 auto;
+            overflow-x: auto;
+        }
+        .toolbar-right{
+            width: 100%;
+            margin-left: 0;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+    }
+
+}
+
 .footer{
     position: sticky;
     bottom: 0px;
+    z-index: 30;
     .value{
         padding: 8px 6px;
         text-align: center;
@@ -353,109 +437,6 @@
     display: none;
 }
 
-// @media only screen and (max-width: 1024px) {
-    
-//     .container{
-//         max-width: 100vw;
-//         width: 100%;
-//     }
-
-//     .table-content .tablebox{
-//         display: grid;
-//         grid-template-columns: repeat(2, 1fr);
-//         column-gap: 8px;
-//     }
-
-//     table, thead, tbody, th, td, tr { 
-// 		display: block; 
-// 	}
-
-//     .header{
-//         display: none;
-//     }
-
-// 	thead tr { 
-// 		position: absolute;
-// 		top: -9999px;
-// 		left: -9999px;
-// 	}
-	
-// 	.row { 
-//         //border: 1px solid #ff0000;
-//         padding: 0px;
-//         margin: 8px 0px;
-//         overflow-y: visible;
-//         .value{ 
-//             padding: 2px 0px 2px 60%;
-//             text-align: left; 
-//             font-size: 10px;
-//             //background-color: #25282c67;
-//             //border: 1px solid #ff0000;
-//         }
-//     }
-
-//     .normal{
-//         background-color: #00FFA3;
-//         border-radius: 50%;
-//         font-size: 10px;
-//         padding: 2px;
-//         font-weight: 500;
-//         color: #222529;
-//     }
-    
-//     .st-danger{
-//         background-color: #EE4400;
-//         border-radius: 50%;
-//         font-size: 10px;
-//         padding: 2px;
-//         font-weight: 500;
-//         width: 12px;
-//         color: #222529;
-//     }
-	
-// 	td { 
-// 		/* Behave  like a "row" */
-// 		border: none;
-// 		border-bottom: 1px solid var(--border-color); 
-// 		position: relative;
-// 		//padding:0px 0px 0px 50%; 
-// 	}
-	
-// 	td:before { 
-// 		/* Now like a table header */
-// 		position: absolute;
-// 		/* Top/left values mimic padding */
-//         //border: 1px solid #15ff00;
-// 		top: 50%;
-// 		left: 6px;
-// 		width: 45%;
-//         padding-left: 24px !important; 
-//         transform: translateY(-50%);
-// 		white-space: nowrap;
-//         text-align: start;
-//         font-size: 10px;
-//         background-color: #222529;
-// 	}
-	
-// 	td:nth-of-type(1):before { content: "STATUS";
-//     color: #99aabb; }
-//     td:nth-of-type(2):before { content: "UPDATED"; }
-//     td:nth-of-type(3):before { content: "CODE"; }
-//     td:nth-of-type(4):before { content: "SITE"; }
-//     td:nth-of-type(5):before { content: "PROVINCE"; }
-//     td:nth-of-type(6):before { content: "DISTRICT"; }
-//     td:nth-of-type(7):before { content: "CAPACITY (MWp)"; }
-//     td:nth-of-type(8):before { content: "POWER (kW)"; }
-//     td:nth-of-type(9):before { content: "TODAY (MWH)"; }
-//     td:nth-of-type(10):before { content: "PR (%)"; }
-//     td:nth-of-type(11):before { content: "OPR (%)"; }
-//     td:nth-of-type(12):before { content: "MTH (kWh/kWp)"; }
-//     td:nth-of-type(13):before { content: "YTH (kWh/kWp)"; }
-//     td:nth-of-type(14):before { content: "PYRANO (W/m2)"; }
-//     td:nth-of-type(15):before { content: "PVTEMP1 (Deg. C)"; }
-//     td:nth-of-type(16):before { content: "PVTEMP2 (Deg. C)"; }
-//     td:nth-of-type(17):before { content: "AMBTEMP (Deg. C)"; }
-// }
 
 @media only screen and (max-width: 768px) {
 
@@ -463,7 +444,7 @@
         max-width: 100vw;
         width: 100%;
         height: 100%;
-        max-height: calc(100vh - 106px);
+        max-height: calc(100vh - 220px);
         overflow-y: auto;
     }
 

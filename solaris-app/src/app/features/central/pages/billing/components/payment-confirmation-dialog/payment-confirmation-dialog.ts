@@ -114,8 +114,8 @@ export class PaymentConfirmationDialog implements OnInit {
         {
           timestamp: this.data.timestamp,
           pointsource: this.data.siteId,
-          process: 'payment',
-          type: this.logs().filter(log => log.processType === this.data.billing_process).find(log => log.action.endsWith('_approve') && !log.action.includes('wait_for')) ? 'signed' : 'unsigned'
+          process: 'invoice',
+          type: 'signed'
         }
       );
       if(blob instanceof Blob && blob.size > 0) {

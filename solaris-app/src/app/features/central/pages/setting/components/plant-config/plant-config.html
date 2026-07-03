@@ -1,0 +1,111 @@
+<div class="plant-box bz">
+  <div class="head bz">
+    <div class="topic bz">PLANT INFORMATION</div>
+    <div class="btn-group">
+      @if (userRole() === 'administrator') {
+        <button class="bz" (click)="openAddPlantModal()">ADD PLANT</button>
+      }
+    </div>
+  </div>
+  <div class="main">
+    <div class="plant-table-wrapper">
+      <table class="plant-table">
+        <thead>
+          <tr>
+            <th>Site ID</th>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Capacity</th>
+            <th>Group</th>
+            <th>COD</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (plant of tableRowConfig(); track plant.id) {
+            <tr>
+              <td>{{ plant.siteid }}</td>
+              <td>{{ plant.name }}</td>
+              <td>{{ plant.company }}</td>
+              <td>{{ plant.capacity }} MWp</td>
+              <td>{{ plant.group }}</td>
+              <td>{{ plant.cod | date: 'dd/MM/yyyy'}}</td>
+              <td>
+                <span class="status-badge" [class.enabled]="plant.enable === 1" [class.disabled]="plant.enable !== 1">
+                  {{ plant.enable === 1 ? 'Enabled' : 'Disabled' }}
+                </span>
+              </td>
+              <td class="action-cell">
+                @if (userRole() === 'administrator') {
+                  <button class="action-btn toggle-btn" (click)="togglePlantEnable(plant)"
+                    [title]="plant.enable === 1 ? 'Disable' : 'Enable'">
+                    <i class="material-icons">{{ plant.enable === 1 ? 'toggle_on' : 'toggle_off' }}</i>
+                  </button>
+                  <button class="action-btn edit-btn" (click)="openEditPlantModal(plant)" title="Edit">
+                    <i class="material-icons">edit</i>
+                  </button>
+                  <button class="action-btn delete-btn" (click)="confirmDeletePlant(plant)" title="Delete">
+                    <i class="material-icons">delete</i>
+                  </button>
+                } @else {
+                  <button class="action-btn view-btn" (click)="openViewPlantModal(plant)" title="View">
+                    <i class="material-icons">visibility</i>
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+          @if (tableRowConfig().length === 0) {
+            <tr>
+              <td colspan="8" class="empty-row">No plants found</td>
+            </tr>
+          }
+        </tbody>
+        <tfoot>
+          <tr class="tbl-footer-row">
+            <td colspan="8">
+              <div class="tbl-footer">
+                <div class="tbl-footer__left">
+                  <span class="tbl-footer__label">Rows per page</span>
+                  <select class="tbl-footer__select"
+                    [value]="pageSize()"
+                    (change)="setPageSizeFromEvent($event)"
+                    [disabled]="plants().length === 0">
+                    @for (opt of pageSizeOptions; track $index) {
+                      <option [value]="opt">{{ opt }}</option>
+                    }
+                  </select>
+                </div>
+                <div class="tbl-footer__right">
+                  <span class="tbl-footer__range">{{ pageRangeText() }}</span>
+                  <button class="tbl-footer__btn"
+                    (click)="prevPage()"
+                    [disabled]="currentPage() <= 1 || plants().length === 0"
+                    title="Previous page">
+                    <span class="material-icons">chevron_left</span>
+                  </button>
+                  <button class="tbl-footer__btn"
+                    (click)="nextPage()"
+                    [disabled]="currentPage() >= totalPages() || plants().length === 0"
+                    title="Next page">
+                    <span class="material-icons">chevron_right</span>
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
+@if (showPlantModal) {
+  <app-plant-dialog
+    [plantList]="plants()"
+    [plantData]="newPlant"
+    [readonly]="viewMode"
+    (onClose)="closePlantModal()"
+  ></app-plant-dialog>
+}

@@ -1,13 +1,13 @@
 <div class="dialog-container bz">
-  <div class="dialog-header d-flex-sb">
-    <div class="header-left d-flex-c">
+  <div class="dialog-header d-flex-sb bz bz">
+    <div class="header-left d-flex-c bz">
       <div class="title bz">Billing Viewer</div>
       <div class="subtitle bz">
         <span class="material-icons">factory</span>
         {{ getSiteName(data.siteId) }} ({{ data.siteId }})
         <span class="dot"></span>
         <span class="material-icons">event</span>
-        {{ data.timestamp | date:'yyyy-MM-dd' }}
+        {{ data.timestamp | date:'MMM-yyyy' }}
       </div>
     </div>
     <div class="close-btn" (click)="close()">
@@ -15,15 +15,15 @@
     </div>
   </div>
 
-  <div class="dialog-content">
-    <div class="grid">
-      <div class="panel">
+  <div class="dialog-content bz">
+    <div class="grid bz">
+      <div class="panel bz">
         <div class="panel__title">
           <span class="material-icons">description</span>
           Documents
         </div>
         <div class="doc-actions">
-          @for (p of ['confirmation','invoice','payment','receipt']; track $index) {
+          @for (p of ['confirmation','invoice','receipt']; track $index) {
             <div class="doc-row">
               <div class="doc-row__label">
                 <span class="material-icons">topic</span>
@@ -80,7 +80,7 @@
         </div>
       </div>
 
-      <div class="panel">
+      <div class="panel bz">
         <div class="panel__title">
           <span class="material-icons">info</span>
           Billing State

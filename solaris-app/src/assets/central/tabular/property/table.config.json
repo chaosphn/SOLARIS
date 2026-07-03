@@ -65,6 +65,11 @@
         "Size": 1
     },
     {
+        "Name": "LOSS",
+        "Display": "LOSS\n(kWh)",
+        "Size": 1
+    },
+    {
         "Name": "TD",
         "Display": "YIELD TODAY\n(kWh/kWp)",
         "Size": 1
@@ -77,6 +82,16 @@
     {
         "Name": "YTD",
         "Display": "YIELD YTD\n(kWh/kWp)",
+        "Size": 1
+    },
+    {
+        "Name": "REV_TD",
+        "Display": "REV. TODAY\n(฿)",
+        "Size": 1
+    },
+    {
+        "Name": "REV_MTD",
+        "Display": "REV. MTD\n(฿)",
         "Size": 1
     },
     {

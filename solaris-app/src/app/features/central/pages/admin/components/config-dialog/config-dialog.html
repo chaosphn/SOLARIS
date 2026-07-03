@@ -230,11 +230,23 @@
                         </div> -->
                         <div class="form-group">
                             <label>Verified By (Accounting)</label>
-                            <mat-select multiple [(ngModel)]="siteConfig().invoice_account" class="user-select" disabled="{{ mode() === 'view' }}">
+                            <!-- <mat-select multiple [(ngModel)]="siteConfig().invoice_account" class="user-select" disabled="{{ mode() === 'view' }}">
                                 @for (user of userList(); track user._id) {
                                     <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
                                 }
-                            </mat-select>
+                            </mat-select> -->
+                            <div class="d-flex" style="gap: 8px;">
+                                <mat-select [ngModel]="siteConfig().invoice_account[0]" (ngModelChange)="setSiteInvoiceAccount(0, $event)" class="user-select" [disabled]="mode() === 'view'">
+                                    @for (user of userList(); track user._id) {
+                                        <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                    }
+                                </mat-select>
+                                <mat-select [ngModel]="siteConfig().invoice_account[1]" (ngModelChange)="setSiteInvoiceAccount(1, $event)" class="user-select" [disabled]="mode() === 'view'">
+                                    @for (user of userList(); track user._id) {
+                                        <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                    }
+                                </mat-select>
+                            </div>
                         </div>
                         <div class="icon-group ">
                             <i class="material-icons">arrow_forward</i>

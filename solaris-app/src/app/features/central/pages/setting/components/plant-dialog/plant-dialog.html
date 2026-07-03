@@ -1,0 +1,111 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content plant-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ readonly() ? 'View Plant' : (plantData().id ? 'Edit Plant' : 'Add New Plant') }}</h2>
+      <button class="close-btn" (click)="closeModal()">
+        <i class="material-icons">close</i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <fieldset [disabled]="readonly()" class="fieldset-reset">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="siteidInput">Site ID <span class="req">*</span></label>
+          <input id="siteidInput" type="text" [(ngModel)]="plantData().siteid"
+            [readonly]="!!plantData().id" placeholder="e.g. KKB" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="nameInput">Name</label>
+          <input id="nameInput" type="text" [(ngModel)]="plantData().name" placeholder="Plant name" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="projectInput">Project</label>
+          <input id="projectInput" type="text" [(ngModel)]="plantData().project" placeholder="Project code" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="groupInput">Group</label>
+          <input id="groupInput" type="text" [(ngModel)]="plantData().group" placeholder="e.g. boonrawd" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="locationInput">Location</label>
+        <input id="locationInput" type="text" [(ngModel)]="plantData().location" placeholder="Location" class="form-control">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="companyInput">Company</label>
+          <input id="companyInput" type="text" [(ngModel)]="plantData().company" placeholder="Company (EN)" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="companyThInput">Company (TH)</label>
+          <input id="companyThInput" type="text" [(ngModel)]="plantData().company_th" placeholder="บริษัท (TH)" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="branchInput">Branch</label>
+          <input id="branchInput" type="text" [(ngModel)]="plantData().branch" placeholder="e.g. 00000" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="taxidInput">Tax ID</label>
+          <input id="taxidInput" type="text" [(ngModel)]="plantData().taxid" placeholder="Tax ID" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="addressInput">Address</label>
+        <textarea id="addressInput" rows="2" [(ngModel)]="plantData().address" placeholder="Address (EN)" class="form-control"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="addressThInput">Address (TH)</label>
+        <textarea id="addressThInput" rows="2" [(ngModel)]="plantData().address_th" placeholder="ที่อยู่ (TH)" class="form-control"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="latInput">Latitude</label>
+          <input id="latInput" type="number" step="any" [(ngModel)]="plantData().position_lat" placeholder="16.3345" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="lngInput">Longitude</label>
+          <input id="lngInput" type="number" step="any" [(ngModel)]="plantData().position_long" placeholder="102.8241" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="capacityInput">Capacity (MWp)</label>
+          <input id="capacityInput" type="number" step="any" [(ngModel)]="plantData().capacity" placeholder="4.219" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="codInput">COD</label>
+          <input id="codInput" type="text" [(ngModel)]="plantData().cod" placeholder="YYYY-MM-DD or ISO" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="checkbox-inline">
+          <input type="checkbox" [checked]="plantData().enable === 1"
+            (change)="setEnable($any($event.target).checked)">
+          <span>Enabled</span>
+        </label>
+      </div>
+      </fieldset>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="closeModal()">{{ readonly() ? 'Close' : 'Cancel' }}</button>
+      @if (!readonly()) {
+        <button class="btn-primary" (click)="submit()">{{ plantData().id ? 'Save Changes' : 'Add Plant' }}</button>
+      }
+    </div>
+  </div>
+</div>

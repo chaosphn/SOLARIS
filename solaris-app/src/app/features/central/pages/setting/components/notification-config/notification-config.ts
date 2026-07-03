@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import {
   AddNotificationConfigModel,
   DeleteNotificationConfigModel,
@@ -61,6 +61,33 @@ export class NotificationConfig implements OnInit {
 
   userRole = signal<string>('user');
 
+  pageSizeOptions: number[] = [10, 20, 50, 100];
+  pageSize = signal<number>(10);
+  currentPage = signal<number>(1);
+
+  tableRowConfig = computed(() => {
+    const end = this.currentPage() * this.pageSize();
+    const start = end - this.pageSize();
+    return this.notificationConfig().slice(start, end);
+  });
+
+  totalRows = computed(() => this.notificationConfig().length);
+  totalPages = computed(() => {
+    const total = this.totalRows();
+    const size = this.pageSize();
+    return Math.max(1, Math.ceil(total / Math.max(1, size)));
+  });
+
+  pageRangeText = computed(() => {
+    const total = this.totalRows();
+    if (total === 0) return '0–0 of 0';
+    const size = Math.max(1, this.pageSize());
+    const page = Math.min(Math.max(1, this.currentPage()), this.totalPages());
+    const start = (page - 1) * size + 1;
+    const end = Math.min(total, page * size);
+    return `${start}–${end} of ${total}`;
+  });
+
   private service = inject(HttpService);
   private store = inject(Store);
   private dialogs = inject(MatDialog);
@@ -80,6 +107,22 @@ export class NotificationConfig implements OnInit {
     } else {
       this.notificationConfig.set([]);
     }
+    this.currentPage.set(1);
+  }
+
+  setPageSizeFromEvent(ev: Event) {
+    const value = Number((ev.target as HTMLSelectElement)?.value);
+    const nextSize = Number.isFinite(value) && value > 0 ? value : 10;
+    this.pageSize.set(nextSize);
+    this.currentPage.set(1);
+  }
+
+  prevPage() {
+    this.currentPage.update(p => Math.max(1, p - 1));
+  }
+
+  nextPage() {
+    this.currentPage.update(p => Math.min(this.totalPages(), p + 1));
   }
 
   // ─── Helpers ────────────────────────────────────────────────────────────────

@@ -14,8 +14,6 @@ import * as TabularActions from '../../store/actions/tabular.action';
 import * as TabularSelectors from '../../store/selectors/tabular.selector';
 import { getNavState } from '../../../../store/selectors/nav.selectors';
 import { getZoneConfig } from '../../../../store/selectors/site.selectors';
-import { MapConfigModel } from '../../../../shared/models/svg.model';
-import { PlantStatusData } from '../../../../shared/components/piechart/piechart';
 import { getDateState } from '../../../../store/selectors/date.selectors';
 import { setDateEnable } from '../../../../store/actions/date.actions';
 import { TabularConfigModel } from '../../models/tabular.model';
@@ -98,7 +96,8 @@ export class Tabular implements OnInit, OnDestroy {
               break;
             case 'location':
             case 'province': // Handle both location and province
-              row[h.Name] = item.location;
+              const locationParts = item.location.split(',').map(part => part.trim());
+              row[h.Name] = locationParts.length > 0 ? locationParts[locationParts.length-1] : item.location;
               break;
             case 'capacity':
               row[h.Name] = item.capacity;
@@ -177,9 +176,12 @@ export class Tabular implements OnInit, OnDestroy {
       ENERGYYTD: sum('ENERGYYTD'),
       PR: avg('PR'),
       AVAI: avg('AVAI'),
+      LOSS: sum('LOSS'),
       TD: avg('TD'),
       MTD: avg('MTD'),
       YTD: avg('YTD'),
+      REV_TD: sum('REV_TD'),
+      REV_MTD: sum('REV_MTD'),
       IRR: avg('IRR'),
       PV: avg('PV'),
       AMB: avg('AMB')
@@ -694,8 +696,8 @@ export class Tabular implements OnInit, OnDestroy {
   }
 
   exportCSV(){
-    const headers = ['SEEN','CODE','SITE','LOCATION','CAPACITY (MWp)','POWER (kW)','ENERGY TODAY (MWh)','ENERGY MTD (MWh)','ENERGY YTD (MWh)','PR (%)','AVAI (%)','YIELD TODAY (kWh/kWp)','YIELD MTD (kWh/kWp)','YIELD YTD (kWh/kWp)','IRR (W/m2)','PVTEMP (C)','AMBTEMP (C)'];
-    const keys = ['SEEN','Id','Name','Province','Capacity','POWER','ENERGY','ENERGYMTD','ENERGYYTD','PR','AVAI','TD','MTD','YTD','IRR','PV','AMB'];
+    const headers = ['CODE','SEEN','SITE','LOCATION','CAPACITY (MWp)','POWER (kW)','ENERGY TODAY (MWh)','ENERGY MTD (MWh)','ENERGY YTD (MWh)','PR (%)','AVAI (%)','LOSS (kWh)','YIELD TODAY (kWh/kWp)','YIELD MTD (kWh/kWp)','YIELD YTD (kWh/kWp)','REVENUE TODAY (THB)','REVENUE MTD (THB)','IRR (W/m2)','PVTEMP (C)','AMBTEMP (C)'];
+    const keys = ['Id','SEEN','Name','Province','Capacity','POWER','ENERGY','ENERGYMTD','ENERGYYTD','PR','AVAI','LOSS','TD','MTD','YTD','REV_TD','REV_MTD','IRR','PV','AMB'];
     const lines = [headers.join(',')];
     this.filteredData().forEach(row => {
       lines.push(keys.map(k => `"${row[k] ?? ''}"`).join(','));

@@ -11,13 +11,7 @@
            {
             "Title": "KKB_TIMEREF",
             "Tagname": "KKB.SLG01.WAC"
-          }
-        ]
-      },
-      {
-        "Group": "energy",
-        "Order": 0,
-        "Tags": [
+          },
           {
             "Title": "KKB_ENERGY",
             "Tagname": "KKB.CALC.WH_DAY"
@@ -29,13 +23,19 @@
           {
             "Title": "KKB_ENERGYYTD",
             "Tagname": "KKB.CALC.WH_YEAR"
-          }
-        ]
-      },
-      {
-        "Group": "yield",
-        "Order": 1,
-        "Tags": [
+          },
+          {
+            "Title": "KKB_PR",
+            "Tagname": "KKB.CALC.PR_DAY"
+          },
+          {
+            "Title": "KKB_AVAI",
+            "Tagname": "KKB.CALC.AVAI"
+          },
+          {
+            "Title": "KKB_LOSS",
+            "Tagname": "KKB.CALC.WH_LOSS"
+          },
           {
             "Title": "KKB_TD",
             "Tagname": "KKB.CALC.YIELD"
@@ -47,47 +47,23 @@
           {
             "Title": "KKB_YTD",
             "Tagname": "KKB.CALC.YIELD_YEAR"
-          }
-        ]
-      },
-      {
-        "Group": "performance",
-        "Order": 3,
-        "Tags": [
-          {
-            "Title": "KKB_PR",
-            "Tagname": "KKB.CALC.PR_DAY"
           },
           {
-            "Title": "KKB_AVAI",
-            "Tagname": "KKB.CALC.AVAI"
-          }
-        ]
-      },
-      {
-        "Group": "irradiance",
-        "Order": 2,
-        "Tags": [
+            "Title": "KKB_REV_TD",
+            "Tagname": "KKB.CALC.REVENUE_DAY"
+          },
+          {
+            "Title": "KKB_REV_MTD",
+            "Tagname": "KKB.CALC.REVENUE_MONTH"
+          },
           {
             "Title": "KKB_IRR",
             "Tagname": "KKB.CALC.PYRANO"
-          }
-        ]
-      },
-      {
-        "Group": "pvtemp",
-        "Order": 2,
-        "Tags": [
+          },
           {
             "Title": "KKB_PV",
             "Tagname": "KKB.CALC.PVTEMP"
-          }
-        ]
-      },
-      {
-        "Group": "amnient",
-        "Order": 2,
-        "Tags": [
+          },
           {
             "Title": "KKB_AMB",
             "Tagname": "KKB.CALC.AMBTEMP"

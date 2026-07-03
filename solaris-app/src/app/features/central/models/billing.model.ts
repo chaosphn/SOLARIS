@@ -120,6 +120,7 @@ export interface BillingStateDataModel {
   status: string;
   payment_id: string;
   energy_amount: number;
+  price_amount: number;
   forced_energy_amount: number;
   billing_process: string;
   confirmation_status: string;
@@ -162,6 +163,11 @@ export interface BillingStateBySiteIdResponseModel extends ApiSuccessResponseMod
 export interface BillingStateBySiteIdAndTimestampRequestModel {
   siteId: string;
   timestamp: string;
+}
+
+export interface BillingStateByPeriodRequestModel {
+  start: string;
+  end: string;
 }
 
 export interface BillingStateBySiteIdAndTimestampResponseModel extends ApiSuccessResponseModel<BillingStateDataModel[]> {}
@@ -299,7 +305,7 @@ export interface UpdateInvoiceAccountingReviewRequestModel {
 export interface UpdateInvoiceCustomerReviewRequestModel {
   timestamp: string;
   pointsource: string;
-  file: File;
+  file?: File;
   status?: string;
   sitename?: string;
   username?: string;
@@ -331,7 +337,7 @@ export interface UpdatePaymentCustomerReviewRequestModel {
 export interface UpdateReceiptAccountingReviewRequestModel {
   timestamp: string;
   pointsource: string;
-  file: File;
+  file?: File;
   status?: string;
   sitename?: string;
   username?: string;
