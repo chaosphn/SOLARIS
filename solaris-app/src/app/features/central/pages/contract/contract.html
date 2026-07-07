@@ -1,0 +1,384 @@
+<div class="container w-100 bz">
+    @if (!selectedSiteId()) {
+        <div class="kpi-grid w-100 bz">
+            <div class="kpi bz">
+                <div class="label">TOTAL CONTRACT</div>
+                <div class="value">{{ summary().totalContract }}</div>
+                <div class="sub">PPA {{ summary().ppaCount }} · FLOATING {{ summary().floatingCount }}</div>
+            </div>
+            <div class="kpi bz">
+                <div class="label">ALL PLANT CAPACITY</div>
+                <div class="value">{{ summary().totalCapacity | numberFomat: '1.0-1' }} <span class="unit">MWp</span></div>
+                <div class="sub">{{ siteList().length }} sites</div>
+            </div>
+            <div class="kpi accent bz">
+                <div class="label">AVG TARIFF</div>
+                @if (summary().avgTariff !== null) {
+                    <div class="value highlight">{{ summary().avgTariff | numberFomat: '1.0-2' }} <span class="unit">฿/kWh</span></div>
+                } @else {
+                    <div class="value">---</div>
+                }
+                <div class="sub">current period</div>
+            </div>
+            <div class="kpi bz">
+                <div class="label">AVG CONTRACT PROGRESS</div>
+                @if (summary().avgProgress !== null) {
+                    <div class="value">{{ summary().avgProgress | numberFomat: '1.0-1' }}%</div>
+                    <div class="track bz">
+                        <div class="fill" [style.width.%]="summary().avgProgress"></div>
+                    </div>
+                } @else {
+                    <div class="value">---</div>
+                    <div class="sub">no PPA contract</div>
+                }
+            </div>
+            <div class="kpi good bz">
+                <div class="label">TOTAL REVENUE THIS MONTH</div>
+                @if (summary().totalRevenue !== null) {
+                    <div class="value up">฿ {{ summary().totalRevenue | numberFomat: '1.0-0' }}</div>
+                } @else {
+                    <div class="value">---</div>
+                }
+                <div class="sub">energy MTD × tariff</div>
+            </div>
+        </div>
+
+        <div class="summary-cards w-100 bz">
+            <div class="sum-card bz">
+                <div class="sum-head bz">CONTRACT COVERAGE</div>
+                <div class="donut-row h-100 bz">
+                    <svg width="116" height="116" viewBox="0 0 112 112">
+                        <circle cx="56" cy="56" r="42" fill="none" stroke="var(--stack-bg)" stroke-width="13"></circle>
+                        <g transform="rotate(-90 56 56)" fill="none" stroke-width="13">
+                            <circle cx="56" cy="56" r="42" stroke="var(--highlight)" [attr.stroke-dasharray]="donut().ppaDash" stroke-dashoffset="0"></circle>
+                            <circle cx="56" cy="56" r="42" stroke="#4DA3FF" [attr.stroke-dasharray]="donut().floatDash" [attr.stroke-dashoffset]="donut().floatOffset"></circle>
+                        </g>
+                        <text x="56" y="53" text-anchor="middle" font-size="20" font-weight="600" style="fill: var(--primary-txt)">{{ donut().coveragePercent | numberFomat: '1.0-0' }}%</text>
+                        <text x="56" y="69" text-anchor="middle" font-size="10" style="fill: var(--secondary-txt)">{{ donut().contracted }} / {{ donut().total }} sites</text>
+                    </svg>
+                    <div class="donut-legend bz">
+                        <div class="lg bz"><span class="dot dot-ppa"></span> PPA <span class="n highlight">{{ donut().ppaCount }}</span></div>
+                        <div class="lg bz"><span class="dot dot-float"></span> Floating <span class="n blue">{{ donut().floatingCount }}</span></div>
+                        <div class="lg bz"><span class="dot dot-none"></span> <span class="dim">No contract</span> <span class="n dim">{{ donut().noContractCount }}</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sum-card bz">
+                <div class="sum-head bz">REVENUE BY CONTRACT TYPE · THIS MONTH</div>
+                @if (revenueSplit().total > 0) {
+                    <div class="rev-bars bz">
+                        <div class="rev-row bz">
+                            <div class="rev-top bz">
+                                <span>Private PPA <span class="dim">· {{ summary().ppaCount }} site</span></span>
+                                <span class="rev-amt highlight">฿ {{ revenueSplit().ppaRevenue | numberFomat: '1.0-0' }} · {{ revenueSplit().ppaPercent | numberFomat: '1.0-0' }}%</span>
+                            </div>
+                            <div class="rev-track bz"><div class="rev-fill" [style.width.%]="revenueSplit().ppaPercent"></div></div>
+                        </div>
+                        <div class="rev-row bz">
+                            <div class="rev-top bz">
+                                <span>Floating Rate <span class="dim">· {{ summary().floatingCount }} site</span></span>
+                                <span class="rev-amt blue">฿ {{ revenueSplit().floatingRevenue | numberFomat: '1.0-0' }} · {{ revenueSplit().floatingPercent | numberFomat: '1.0-0' }}%</span>
+                            </div>
+                            <div class="rev-track bz"><div class="rev-fill fill-float" [style.width.%]="revenueSplit().floatingPercent"></div></div>
+                        </div>
+                    </div>
+                    <div class="rev-foot bz">
+                        <span>
+                            <span class="k">avg PPA</span>
+                            @if (revenueSplit().avgPpaTariff !== null) {
+                                <span class="highlight">{{ revenueSplit().avgPpaTariff | numberFomat: '1.0-2' }}</span>
+                            } @else {
+                                <span class="dim">---</span>
+                            }
+                        </span>
+                        <span>
+                            <span class="k">avg Floating</span>
+                            @if (revenueSplit().avgFloatingTariff !== null) {
+                                <span class="blue">{{ revenueSplit().avgFloatingTariff | numberFomat: '1.0-2' }}</span>
+                            } @else {
+                                <span class="dim">---</span>
+                            }
+                        </span>
+                        <span><span class="k">total</span> <span class="up">฿ {{ revenueSplit().total | numberFomat: '1.0-0' }}</span></span>
+                    </div>
+                } @else {
+                    <div class="empty-note bz">no revenue data this month</div>
+                }
+            </div>
+
+            <div class="sum-card bz">
+                <div class="sum-head bz">WARRANTY DELIVERY · THIS YEAR</div>
+                @if (warrantyYear().hasData) {
+                    <div class="hero bz">
+                        <div class="hero-big">฿{{ formatShort(warrantyYear().estTotal) }}</div>
+                        <div class="hero-cap">est. value this year · warranty energy × tariff</div>
+                        <div class="hero-stats bz">
+                            <div class="hs bz">
+                                <div class="l">WARRANTY / YR</div>
+                                <div class="v">{{ warrantyYear().warrantyEnergy / 1000 | numberFomat: '1.0-0' }}<span class="u"> MWh</span></div>
+                            </div>
+                            <div class="hs bz">
+                                <div class="l">PRODUCED YTD</div>
+                                <div class="v">{{ warrantyYear().producedEnergy / 1000 | numberFomat: '1.0-0' }}<span class="u"> MWh</span></div>
+                            </div>
+                        </div>
+                        <div class="hero-consumed bz">
+                            <div class="hc-top bz">
+                                <span class="dim">delivered vs warranty</span>
+                                <span [ngClass]="warrantyYear().progressPercent >= 100 ? 'up' : 'dim'">{{ warrantyYear().progressPercent | numberFomat: '1.0-1' }}%</span>
+                            </div>
+                            <div class="track bz"><div class="fill fill-earned" [style.width.%]="warrantyYear().progressPercent < 100 ? warrantyYear().progressPercent : 100"></div></div>
+                        </div>
+                    </div>
+                } @else {
+                    <div class="empty-note bz">no SLA warranty data</div>
+                }
+            </div>
+        </div>
+
+        <div class="table-content w-100 bz">
+            <table class="tablebox w-100">
+                <tr class="header">
+                    <th class="title">SITE NAME</th>
+                    <th class="title">CONTRACT TYPE</th>
+                    <th class="title">TARIFF RATE <br>(฿/kWh)</th>
+                    <th class="title">NEXT ESCALATION</th>
+                    <th class="title">PERIOD</th>
+                    <th class="title">REVENUE <br>(THIS MONTH)</th>
+                    <th class="title">CONTRACT PROGRESS</th>
+                    <th class="title"></th>
+                </tr>
+                @for (row of tableRows(); track row.site.id) {
+                    <tr class="row" [class.clickable]="row.parsed" (click)="row.parsed && selectSite(row.site.id)">
+                        <td class="value site-cell">
+                            <div class="site-name">{{ row.site.name | uppercase}}</div>
+                            <!-- <div class="site-code">{{ row.site.id | uppercase }}</div> -->
+                        </td>
+                        <td class="value">
+                            @if (row.config) {
+                                <span class="badge" [ngClass]="row.parsed?.isSchedule ? 'badge-ppa' : 'badge-floating'">
+                                    {{ row.config.contactType === 'PPA' ? 'Private PPA' : row.config.contactType === 'FLOATING' ? 'Floating Rate' : '---' }}
+                                </span>
+                            } @else {
+                                <span class="badge badge-none">NO CONTRACT</span>
+                            }
+                        </td>
+                        <td class="value">
+                            @if (row.parsed && row.parsed.currentRate !== null) {
+                                <span class="rate">{{ row.parsed.currentRate | numberFomat: '1.0-4' }}</span>
+                            } @else {
+                                <span class="dim">---</span>
+                            }
+                        </td>
+                        <td class="value">
+                            @if (row.parsed && row.parsed.nextRate !== null) {
+                                @if (row.parsed.isSchedule) {
+                                    <span class="up">+{{ row.parsed.nextDiffPercent | numberFomat: '1.0-1' }}%</span>
+                                    <span class="dim"> → {{ row.parsed.nextRate | numberFomat: '1.0-2' }} · {{ row.parsed.nextLabel }}</span>
+                                } @else {
+                                    <span [ngClass]="(row.parsed.nextDiffPercent ?? 0) >= 0 ? 'up' : 'down'">{{ (row.parsed.nextDiffPercent ?? 0) >= 0 ? '+' : '' }}{{ row.parsed.nextDiffPercent | numberFomat: '1.0-1' }}%</span>
+                                    <span class="dim"> → {{ row.parsed.nextRate | numberFomat: '1.0-4' }} · {{ row.parsed.nextLabel }}</span>
+                                }
+                            } @else {
+                                <span class="dim">---</span>
+                            }
+                        </td>
+                        <td class="value">
+                            @if (row.parsed) {
+                                {{ row.parsed.periodLabel }}
+                            } @else {
+                                <span class="dim">---</span>
+                            }
+                        </td>
+                        <td class="value">
+                            @if (row.revenueMtd !== null) {
+                                <span class="up">฿ {{ row.revenueMtd | numberFomat: '1.0-0' }}</span>
+                            } @else {
+                                <span class="dim">---</span>
+                            }
+                        </td>
+                        <td class="value">
+                            @if (row.parsed && row.parsed.progress !== null) {
+                                <div class="progress-cell">
+                                    <div class="track bz">
+                                        <div class="fill" [class.fill-year]="row.parsed.progressKind === 'year'" [style.width.%]="row.parsed.progress"></div>
+                                    </div>
+                                    <span class="pct">{{ row.parsed.progress | numberFomat: '1.0-1' }}%</span>
+                                </div>
+                            } @else {
+                                <span class="dim">---</span>
+                            }
+                        </td>
+                        <td class="value">
+                            @if (row.parsed) {
+                                <i class="material-icons chevron">chevron_right</i>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="foot-note bz">PROGRESS: PPA = contract elapsed · FLOATING = year cycle · click a row for contract detail</div>
+    } @else {
+        @if (selectedRow(); as row) {
+            <button class="back-btn bz" (click)="backToList()">
+                <i class="material-icons">arrow_back</i>
+                BACK TO CONTRACTS
+            </button>
+            <div class="detail-card w-100 bz">
+                <div class="detail-head bz">
+                    <div class="head-left bz">
+                        <div class="code-box bz" [class.code-floating]="!row.parsed?.isSchedule">{{ row.site.id | uppercase }}</div>
+                        <div>
+                            <div class="head-name">{{ row.site.name }} · Contract #{{ row.config?.id }}</div>
+                            <div class="head-meta">
+                                created by {{ row.config?.createdBy ?? '---' }}
+                                @if (row.config?.updatedAt) {
+                                    · updated {{ row.config?.updatedAt | date: 'dd/MM/yyyy' }} by {{ row.config?.updatedBy }}
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="head-badges bz">
+                        <span class="badge" [ngClass]="row.parsed?.isSchedule ? 'badge-ppa' : 'badge-floating'">{{ row.config?.contactType | uppercase }}</span>
+                        <span class="badge badge-none">{{ row.config?.billingMode | uppercase }}</span>
+                        <span class="badge badge-none">METER: {{ row.config?.meterType | uppercase }}</span>
+                    </div>
+                </div>
+
+                @if (row.parsed && row.parsed.progress !== null) {
+                    <div class="detail-progress bz">
+                        <span class="p-label">{{ row.parsed.progressKind === 'contract' ? 'CONTRACT PROGRESS' : 'YEAR CYCLE' }}</span>
+                        <div class="track bz">
+                            <div class="fill" [class.fill-year]="row.parsed.progressKind === 'year'" [style.width.%]="row.parsed.progress"></div>
+                        </div>
+                        <span class="p-value" [class.blue]="row.parsed.progressKind === 'year'">{{ row.parsed.progress | numberFomat: '1.0-1' }}%</span>
+                        @if (row.parsed.remainingYears !== null) {
+                            <span class="p-sub">{{ row.parsed.remainingYears | numberFomat: '1.0-1' }} years left</span>
+                        } @else {
+                            <span class="p-sub">rate ปรับรายเดือน</span>
+                        }
+                    </div>
+                }
+
+                <div class="detail-grid bz">
+                    <div class="panel bz">
+                        <div class="panel-head bz" [class.head-floating]="!row.parsed?.isSchedule">
+                            {{ row.parsed?.isSchedule ? 'TARIFF SCHEDULE (฿/kWh)' : 'TARIFF PROFILE — MONTHLY (฿/kWh)' }}
+                        </div>
+                        @if (row.parsed && row.parsed.rates.length > 0) {
+                            <div class="chart-cols bz">
+                                @for (p of row.parsed.rates; track p.key) {
+                                    <div class="chart-col" [matTooltip]="p.key + ' : ' + p.rate" matTooltipPosition="above">
+                                        <div class="chart-bar" [class.bar-current]="p.current" [class.bar-floating]="!row.parsed.isSchedule" [style.height.%]="p.height"></div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="chart-labels bz">
+                                @for (p of row.parsed.rates; track p.key) {
+                                    <span>
+                                        @if (p.showLabel) {
+                                            {{ p.label }}
+                                        }
+                                    </span>
+                                }
+                            </div>
+                            <div class="chart-note">
+                                highlight = current period ({{ row.parsed.currentLabel }} → {{ row.parsed.currentRate | numberFomat: '1.0-4' }})
+                            </div>
+                        }
+                    </div>
+                    <div class="panel bz">
+                        <div class="panel-head bz" [class.head-floating]="!row.parsed?.isSchedule">CONTRACT DETAIL</div>
+                        <div class="detail-rows bz">
+                            <div class="rowline">
+                                <span class="rl">Current tariff {{ row.parsed?.isSchedule ? '' : '(' + row.parsed?.currentLabel + ')' }}</span>
+                                <span class="highlight">{{ row.parsed?.currentRate | numberFomat: '1.0-4' }} ฿/kWh</span>
+                            </div>
+                            @if (row.parsed?.isSchedule) {
+                                <div class="rowline">
+                                    <span class="rl">Next escalation</span>
+                                    @if (row.parsed?.nextRate !== null) {
+                                        <span class="up">{{ row.parsed?.nextRate | numberFomat: '1.0-2' }} ฿ · {{ row.parsed?.nextLabel }} (+{{ row.parsed?.nextDiffPercent | numberFomat: '1.0-1' }}%)</span>
+                                    } @else {
+                                        <span class="dim">---</span>
+                                    }
+                                </div>
+                                <div class="rowline">
+                                    <span class="rl">Period</span>
+                                    <span>{{ row.parsed?.periodLabel }}</span>
+                                </div>
+                            } @else {
+                                <div class="rowline">
+                                    <span class="rl">Next month ({{ row.parsed?.nextLabel }})</span>
+                                    <span>{{ row.parsed?.nextRate | numberFomat: '1.0-4' }} ฿/kWh</span>
+                                </div>
+                                <div class="rowline">
+                                    <span class="rl">Average / Range</span>
+                                    <span>{{ row.parsed?.avgRate | numberFomat: '1.0-4' }} · {{ row.parsed?.minRate | numberFomat: '1.0-4' }} – {{ row.parsed?.maxRate | numberFomat: '1.0-4' }}</span>
+                                </div>
+                            }
+                            <div class="rowline">
+                                <span class="rl">Energy this month</span>
+                                @if (row.energyMtd !== null) {
+                                    <span>{{ row.energyMtd | numberFomat: '1.0-0' }} kWh</span>
+                                } @else {
+                                    <span class="dim">---</span>
+                                }
+                            </div>
+                            <div class="rowline">
+                                <span class="rl">Revenue this month</span>
+                                @if (row.revenueMtd !== null) {
+                                    <span class="up">฿ {{ row.revenueMtd | numberFomat: '1.0-0' }}</span>
+                                } @else {
+                                    <span class="dim">---</span>
+                                }
+                            </div>
+                            <div class="rowline">
+                                <span class="rl">Capacity</span>
+                                <span>{{ row.site.capacity }} MWp</span>
+                            </div>
+                            <div class="rowline">
+                                <span class="rl">FT / Discount</span>
+                                <span>{{ row.config?.ftRate ?? 0 }} / {{ row.config?.discountRate ?? 0 }}%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (row.config) {
+                    <div class="workflow-box bz">
+                        <div class="panel-head bz" [class.head-floating]="!row.parsed?.isSchedule">BILLING WORKFLOW</div>
+                        <div class="workflow bz">
+                            @for (stage of getWorkflow(row.config); track stage.label; let i = $index; let last = $last) {
+                                <div class="stage bz">
+                                    <div class="stage-label">{{ i + 1 }} · {{ stage.label }}</div>
+                                    <div class="stage-chips bz">
+                                        @if (stage.user > 0) {
+                                            <span class="chip">user <b>{{ stage.user }}</b></span>
+                                        }
+                                        @if (stage.account > 0) {
+                                            <span class="chip">account <b>{{ stage.account }}</b></span>
+                                        }
+                                        @if (stage.customer > 0) {
+                                            <span class="chip">customer <b>{{ stage.customer }}</b></span>
+                                        }
+                                        @if (stage.user === 0 && stage.account === 0 && stage.customer === 0) {
+                                            <span class="chip dim">—</span>
+                                        }
+                                    </div>
+                                </div>
+                                @if (!last) {
+                                    <div class="stage-arrow d-flex-ct">
+                                        <i class="material-icons">arrow_forward</i>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>

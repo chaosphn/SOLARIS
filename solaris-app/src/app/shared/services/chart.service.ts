@@ -28,14 +28,14 @@ export class ChartService {
               x: item.zooming?.resetButton?.position?.x || undefined,
               y: item.zooming?.resetButton?.position?.y || -40,
               verticalAlign: item.zooming?.resetButton?.position?.verticalAlign || 'bottom',
-              align: item.zooming?.resetButton?.position?.align || undefined
+              align: item.zooming?.resetButton?.position?.align || 'right'
             },
             theme: {
-              fill: item.zooming?.resetButton?.theme?.fill || '#FD674E',
+              fill: item.zooming?.resetButton?.theme?.fill || '#E7CD47',
               style: item.zooming?.resetButton?.theme?.style || {color: 'white'},
               states: {
                 hover: {
-                  fill: item.zooming?.resetButton?.theme?.fill || '#FD674E',
+                  fill: item.zooming?.resetButton?.theme?.fill || '#E7CD47',
                   style: item.zooming?.resetButton?.theme?.style || {
                     color: 'white',
                   },

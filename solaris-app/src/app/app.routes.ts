@@ -123,6 +123,19 @@ export const routes: Routes = [
                 canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/sites/pages/report-admin/report-admin-module').then(m => m.ReportAdminModule)
             },
+
+            //PPA Analysis
+
+            {
+                path: 'contract',
+                canActivate: [PermissionGuard],
+                loadChildren: () => import('./features/central/pages/contract/contract-module').then(m => m.ContractModule)
+            },
+            {
+                path: 'revenue',
+                canActivate: [PermissionGuard],
+                loadChildren: () => import('./features/central/pages/revenue-performance/revenue-performance-module').then(m => m.RevenuePerformanceModule)
+            },
         ]
     },
     // {

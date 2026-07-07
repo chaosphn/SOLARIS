@@ -725,8 +725,10 @@ export class Tabular implements OnInit, OnDestroy {
   }
 
   async getEventSummary(){
+    const now = new Date();
+    now.setHours(0,0,0,0);
     const request = {
-      StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000).toISOString(),
+      StartTime: new Date(now).toISOString(),
       EndTime: new Date().toISOString()
     }
     const result = await this.http.getSummaryAlarmEventData(request);

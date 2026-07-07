@@ -10,11 +10,6 @@
             "Tagname": "OVERALL.CALC.WH_DAY"
           },
           {
-            "Title": "WH_TARGET",
-            "Timestamp": "BOY",
-            "Tagname": "KKB.CALC.WH_WTY"
-          },
-          {
             "Title": "AVAI_TARGET",
             "Timestamp": "BOY",
             "Tagname": "KKB.CALC.AVAI_WTY"
@@ -30,7 +25,12 @@
           },
           {
             "Title": "REVENUE",
-            "Tagname": "OVERALL.CALC.CREDIT"
+            "Tagname": "OVERALL.CALC.REVENUE_DAY"
+          },
+          {
+            "Title": "REVENUE_YTD",
+            "Timestamp": "YTD",
+            "Tagname": "OVERALL.CALC.REVENUE_DAY"
           }
         ]
       },
@@ -68,6 +68,11 @@
             "Tagname": "OVERALL.CALC.WH_MONTH"
           },
           {
+            "Title": "MONTHLY_TARGET",
+            "Timestamp": "BOM",
+            "Tagname": "KKB.CALC.WH_WTY_MONTH"
+          },
+          {
             "Title": "YEARLY",
             "Tagname": "OVERALL.CALC.WH_YEAR"
           },
@@ -93,6 +98,10 @@
           },
           {
             "Title": "REDUCTION",
+            "Tagname": "OVERALL.CALC.CARBON_DAY"
+          },
+          {
+            "Title": "REDUCTION_TOT",
             "Tagname": "OVERALL.CALC.CARBON"
           },
           {

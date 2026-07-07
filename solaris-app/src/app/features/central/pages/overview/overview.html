@@ -4,15 +4,15 @@
             [today_curr]="dataRealtime()['TODAY'] || {}"
             [today_prev]="dataRealtime()['YESTERDAY'] || {}"
             [month_curr]="dataRealtime()['MONTHLY'] || {}"
-            [month_prev]="dataRealtime()['WH_TARGET'] || {}"
+            [month_prev]="dataRealtime()['MONTHLY_TARGET'] || {}"
             [pr_curr]="dataRealtime()['PR'] || {}"
             [pr_prev]="dataRealtime()['PR_TARGET'] || {}"
             [avai_curr]="dataRealtime()['AVAI'] || {}"
             [avai_prev]="dataRealtime()['AVAI_TARGET'] || {}"
             [revenue_curr]="dataRealtime()['REVENUE'] || {}"
-            [revenue_prev]="dataRealtime()['CAPACITY'] || {}"
-            [co2_curr]="dataRealtime()['CREDIT'] || {}"
-            [co2_prev]="dataRealtime()['CARBON'] || {}"
+            [revenue_prev]="dataRealtime()['REVENUE_YTD'] || {}"
+            [co2_curr]="dataRealtime()['REDUCTION'] || {}"
+            [co2_prev]="dataRealtime()['REDUCTION_TOT'] || {}"
         ></app-summary-card>
     </div>
     <div class="powerCard bz w-100 h-100">

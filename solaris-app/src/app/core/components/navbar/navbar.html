@@ -29,7 +29,7 @@
                     </div>
                     <div class="bz title">ANALYTICS </div>
                 </div> -->
-                <div mat-list-item routerLink="/main/billing/viewer" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('financial', zoneList().title)">
+                <div mat-list-item routerLink="/main/contract" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('financial', zoneList().title)">
                     <div class="bz">
                         <i class="material-icons">
                             account_balance_wallet
@@ -183,12 +183,13 @@
                 @case ('financial') {
                     <head class="content-header hide1 d-flex-sb w-100 bz" >
                         <div class="d-flex h-100 w-100 bz">
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/overview" routerLinkActive="active"><i class="material-icons">solar_power</i><div>CONTRACT OVERVIEW</div></a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/billing/viewer" routerLinkActive="active"><i class="material-icons">solar_power</i><div>BILLINGS</div></a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/performance" routerLinkActive="active"><i class="material-icons">solar_power</i><div>REVENUE PERFORMANCE</div></a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/trend" routerLinkActive="active"><i class="material-icons">solar_power</i><div>ENERGY DELIVERY</div></a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/tabular" routerLinkActive="active"><i class="material-icons">solar_power</i><div>TARIFF ESCALATION</div></a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/tabular" routerLinkActive="active"><i class="material-icons">solar_power</i><div>SLA / COMPLIANCE</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/contract" routerLinkActive="active"><i class="material-icons">handshake</i><div>CONTRACT</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/billing/viewer" routerLinkActive="active"><i class="material-icons">receipt_long</i><div>BILLINGS</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/revenue" routerLinkActive="active"><i class="material-icons">monetization_on</i><div>REVENUE</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/trend" routerLinkActive="active"><i class="material-icons">electrical_services</i><div>COMPLIANCE</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/trend" routerLinkActive="active"><i class="material-icons">currency_exchange</i><div>FINANCIAL</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/tabular" routerLinkActive="active"><i class="material-icons">gavel</i><div>TARIFF</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/tabular" routerLinkActive="active"><i class="material-icons">policy</i><div>SLA / COMPLIANCE</div></a>
                         </div>
                         @if (enableDate()) {
                             <div class="date-picker hide h-100 bz">
@@ -203,7 +204,7 @@
                             <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/reports" routerLinkActive="active"><i class="material-icons">solar_power</i><div>REPORTS</div></a>
                             <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/report-admin" routerLinkActive="active"><i class="material-icons">solar_power</i><div>REPORT ADMIN</div></a>
                             <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/admin" routerLinkActive="active"><i class="material-icons">solar_power</i><div>BILLING ADMIN</div></a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/settings" routerLinkActive="active"><i class="material-icons">solar_power</i><div>SETTINGS</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/setting" routerLinkActive="active"><i class="material-icons">solar_power</i><div>SETTINGS</div></a>
                         </div>
                         @if (enableDate()) {
                             <div class="date-picker hide h-100 bz">

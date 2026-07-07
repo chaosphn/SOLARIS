@@ -1,0 +1,189 @@
+<div class="container w-100 bz">
+    @if (analytics().hasData) {
+        <!-- ───────── KPI strip ───────── -->
+        <div class="kpi-strip w-100 bz">
+            <div class="k bz" style="border-top-color: var(--active-txt)">
+                <div class="l">THIS MONTH</div>
+                <div class="v accent">฿{{ formatShort(analytics().thisMonthActual) }}</div>
+                @if (analytics().thisMonthVar !== null) {
+                    <div class="d" [style.color]="analytics().thisMonthVar! >= 0 ? '#4CAF82' : 'tomato'">
+                        {{ analytics().thisMonthVar! >= 0 ? '▲ +' : '▼ ' }}{{ analytics().thisMonthVar | numberFomat: '1.0-1' }}% vs tgt
+                    </div>
+                } @else { <div class="d dim">no data</div> }
+            </div>
+            <div class="k bz" style="border-top-color: #4DA3FF">
+                <div class="l">YTD</div>
+                <div class="v blue">฿{{ formatShort(analytics().ytdActual) }}</div>
+                <div class="d dim">plan ฿{{ formatShort(analytics().ytdTarget) }}</div>
+            </div>
+            <div class="k bz" style="border-top-color: #4CAF82">
+                <div class="l">ACHIEVEMENT</div>
+                @if (analytics().achievement !== null) {
+                    <div class="v" >{{ analytics().achievement | numberFomat: '1.0-1' }}%</div>
+                } @else { <div class="v">---</div> }
+                <div class="d dim">YTD vs plan</div>
+            </div>
+            <div class="k bz">
+                <div class="l">ANNUAL FORECAST</div>
+                <div class="v">฿{{ formatShort(analytics().annualForecast) }}</div>
+                @if (analytics().annualForecastVsPlan !== null) {
+                    <div class="d" [style.color]="analytics().annualForecastVsPlan! >= 0 ? '#4CAF82' : 'tomato'">
+                        {{ analytics().annualForecastVsPlan! >= 0 ? '▲ +' : '▼ ' }}{{ analytics().annualForecastVsPlan | numberFomat: '1.0-1' }}% vs plan
+                    </div>
+                } @else { <div class="d dim">—</div> }
+            </div>
+            <div class="k bz" style="border-top-color: #E05D4E">
+                <div class="l">REVENUE AT RISK</div>
+                <div class="v risk">฿{{ formatShort(analytics().lostRev) }}</div>
+                <div class="d dim">{{ analytics().downtimePct | numberFomat: '1.0-1' }}% downtime</div>
+            </div>
+            <div class="k bz">
+                <div class="l">BLENDED TARIFF</div>
+                @if (analytics().blendedTariff !== null) {
+                    <div class="v">{{ analytics().blendedTariff | numberFomat: '1.0-2' }}</div>
+                } @else { <div class="v">---</div> }
+                <div class="d dim">฿/kWh</div>
+            </div>
+        </div>
+
+        <!-- ───────── main grid (grid-template-areas) ───────── -->
+        <div class="rp-grid w-100 bz">
+            <!-- row 1 -->
+            <div class="card area-monthly bz">
+                <div class="card-head bz">MONTHLY REVENUE — ACTUAL · FORECAST · TARGET (12M)</div>
+                <div class="chart-lg bz">
+                    <app-highchart [chartParameter]="monthlyChart()"></app-highchart>
+                </div>
+            </div>
+
+            <div class="card area-bysite bz">
+                <div class="card-head bz">REVENUE BY SITE — THIS MONTH</div>
+                <div class="chart-lg bz">
+                    <app-highchart [chartParameter]="siteChart()"></app-highchart>
+                </div>
+            </div>
+
+            <!-- row 2 -->
+            <div class="card area-matrix bz">
+                <div class="card-head bz">SITE PERFORMANCE MATRIX 
+                    <!-- <span class="hint">sorted by variance ▾</span> -->
+                </div>
+                <div class="matrix-scroll bz">
+                    <table class="matrix">
+                        <tr class="mh">
+                            <th>SITE</th><th>TYPE</th><th class="r">THIS MONTH</th><th class="r">YTD</th><th class="r">TARGET</th><th class="r">VAR</th><th class="c">6M</th><th class="c">STATUS</th>
+                        </tr>
+                        @for (row of analytics().rows; track row.siteId) {
+                            <tr class="mr">
+                                <td>{{ row.siteName | uppercase}}</td>
+                                <td>
+                                    @if (row.type) {
+                                        <span class="tag" [ngClass]="row.isSchedule ? 'tag-ppa' : 'tag-float'">{{ row.isSchedule ? 'PPA' : 'Float' }}</span>
+                                    } @else { <span class="dim">---</span> }
+                                </td>
+                                <td class="r">
+                                    @if (row.thisMonth !== null) { <span class="accent">฿{{ formatShort(row.thisMonth) }}</span> } @else { <span class="dim">---</span> }
+                                </td>
+                                <td class="r">
+                                    @if (row.ytd !== null) { ฿{{ formatShort(row.ytd) }} } @else { <span class="dim">---</span> }
+                                </td>
+                                <td class="r dim">
+                                    @if (row.target !== null) { ฿{{ formatShort(row.target) }} } @else { --- }
+                                </td>
+                                <td class="r" [style.color]="statusColor(row.status)">
+                                    @if (row.variancePct !== null) { {{ row.variancePct >= 0 ? '+' : '' }}{{ row.variancePct | numberFomat: '1.0-1' }}% } @else { --- }
+                                </td>
+                                <td class="c">
+                                    @if (row.spark.length > 0) {
+                                        <svg width="60" height="16" viewBox="0 0 60 16"><polyline [attr.points]="sparkPoints(row.spark)" fill="none" [attr.stroke]="statusColor(row.status)" stroke-width="1.5"/></svg>
+                                    } @else { <span class="dim">---</span> }
+                                </td>
+                                <td class="c"><span class="pill" [ngClass]="'pill-' + row.status">{{ row.status === 'above' ? '▲ above' : row.status === 'near' ? '≈ near' : row.status === 'below' ? '▼ below' : '—' }}</span></td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+                <div class="matrix-foot">{{ analytics().siteCount }} sites · <span class="g">{{ analytics().aboveCount }} above</span> · <span class="y">{{ analytics().nearCount }} near</span> · <span class="r">{{ analytics().belowCount }} below</span></div>
+            </div>
+
+            <div class="card area-trend bz">
+                <div class="card-head bz">TREND ANALYSIS</div>
+                <div class="trend-rows bz">
+                    <div class="tr"><span class="k1">Best Month</span><span class="v accent">{{ analytics().best.m >= 0 ? monthLabel(analytics().best.m) : '—' }} · ฿{{ formatShort(analytics().best.v) }}</span></div>
+                    <div class="tr"><span class="k1">Worst Month</span><span class="v risk">{{ analytics().worst.m >= 0 ? monthLabel(analytics().worst.m) : '—' }} · ฿{{ formatShort(analytics().worst.v) }}</span></div>
+                    <div class="tr"><span class="k1">Monthly Average</span><span class="v">฿{{ formatShort(analytics().avg) }}</span></div>
+                    <div class="tr"><span class="k1">Volatility (σ)</span><span class="v">±฿{{ formatShort(analytics().volatility) }}</span></div>
+                    <div class="tr"><span class="k1">Momentum (H2 vs H1)</span>
+                        @if (analytics().momentum !== null) {
+                            <span class="v" [style.color]="analytics().momentum! >= 0 ? '#4CAF82' : 'tomato'">{{ analytics().momentum! >= 0 ? '+' : '' }}{{ analytics().momentum | numberFomat: '1.0-1' }}%</span>
+                        } @else { <span class="v dim">—</span> }
+                    </div>
+                    <div class="tr"><span class="k1">Projected Annual</span><span class="v">฿{{ formatShort(analytics().annualForecast) }}</span></div>
+                </div>
+            </div>
+
+            <!-- row 3 -->
+            <div class="card area-cumulative bz">
+                <div class="card-head bz">CUMULATIVE REVENUE VS PLAN</div>
+                <div class="chart-md bz">
+                    <app-highchart [chartParameter]="cumulativeChart()"></app-highchart>
+                </div>
+            </div>
+
+            <div class="card area-variance bz">
+                <div class="card-head bz">VARIANCE DECOMPOSITION · THIS MONTH
+                    <span class="hint">why {{ (analytics().thisMonthActual ?? 0) - analytics().thisMonthTarget >= 0 ? '+' : '' }}฿{{ formatShort((analytics().thisMonthActual ?? 0) - analytics().thisMonthTarget) }}</span>
+                </div>
+                <div class="waterfall bz">
+                    <div class="wf-col">
+                        <div class="wf-bar base" style="height: 70%"></div>
+                        <div class="wf-val">฿{{ formatShort(analytics().thisMonthTarget) }}</div>
+                        <div class="wf-lbl">Target</div>
+                    </div>
+                    <div class="wf-op">+</div>
+                    <div class="wf-col">
+                        <div class="wf-bar" [ngClass]="analytics().volumeEffect >= 0 ? 'pos' : 'neg'" style="height: 26%"></div>
+                        <div class="wf-val" [style.color]="analytics().volumeEffect >= 0 ? '#4CAF82' : 'tomato'">{{ analytics().volumeEffect >= 0 ? '+' : '' }}฿{{ formatShort(analytics().volumeEffect) }}</div>
+                        <div class="wf-lbl">Volume</div>
+                    </div>
+                    <div class="wf-op">{{ analytics().priceEffect >= 0 ? '+' : '−' }}</div>
+                    <div class="wf-col">
+                        <div class="wf-bar" [ngClass]="analytics().priceEffect >= 0 ? 'pos' : 'neg'" style="height: 14%"></div>
+                        <div class="wf-val" [style.color]="analytics().priceEffect >= 0 ? '#4CAF82' : 'tomato'">{{ analytics().priceEffect >= 0 ? '+' : '' }}฿{{ formatShort(analytics().priceEffect) }}</div>
+                        <div class="wf-lbl">Price</div>
+                    </div>
+                    <div class="wf-op">=</div>
+                    <div class="wf-col">
+                        <div class="wf-bar actual" style="height: 72%"></div>
+                        <div class="wf-val accent">฿{{ formatShort(analytics().thisMonthActual) }}</div>
+                        <div class="wf-lbl">Actual</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card area-mix bz">
+                <div class="card-head bz">REVENUE MIX · THIS MONTH</div>
+                <div class="mix-row bz">
+                    <svg width="104" height="104" viewBox="0 0 112 112">
+                        <circle cx="56" cy="56" r="42" fill="none" stroke="var(--stack-bg)" stroke-width="14"></circle>
+                        <g transform="rotate(-90 56 56)" fill="none" stroke-width="14">
+                            <circle cx="56" cy="56" r="42" stroke="var(--active-txt)" [attr.stroke-dasharray]="mixDonut().ppaDash"></circle>
+                            <circle cx="56" cy="56" r="42" stroke="#4DA3FF" [attr.stroke-dasharray]="mixDonut().floatDash" [attr.stroke-dashoffset]="mixDonut().floatOffset"></circle>
+                        </g>
+                        <text x="56" y="53" text-anchor="middle" font-size="14" font-weight="600" style="fill: var(--primary-txt)">฿{{ formatShort(analytics().mixTotal) }}</text>
+                        <text x="56" y="69" text-anchor="middle" font-size="9" style="fill: var(--secondary-txt)">this month</text>
+                    </svg>
+                    <div class="mix-legend bz">
+                        <div class="ml"><span class="dot" style="background: var(--active-txt)"></span> Private PPA <span class="n accent">฿{{ formatShort(analytics().ppaRev) }} · {{ mixDonut().ppaPct | numberFomat: '1.0-0' }}%</span></div>
+                        <div class="ml"><span class="dot" style="background: #4DA3FF"></span> Floating <span class="n blue">฿{{ formatShort(analytics().floatRev) }} · {{ mixDonut().floatPct | numberFomat: '1.0-0' }}%</span></div>
+                        <div class="ml"><span class="dim">Blended tariff</span> <span class="n">{{ analytics().blendedTariff | numberFomat: '1.0-2' }} ฿/kWh</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    } @else {
+        <div class="empty bz">
+            @if (loading()) { Loading revenue data… } @else { No contracted sites with revenue data. }
+        </div>
+    }
+</div>
