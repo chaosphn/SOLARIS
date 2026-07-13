@@ -38,7 +38,8 @@ export class PagesService {
         { name: 'Delivery', path: 'delivery' },
         { name: 'Financial', path: 'financial' }, 
         { name: 'Tariff', path: 'tariff' }, 
-        { name: 'SLA / Complaince', path: 'sla' }
+        { name: 'SLA / Complaince', path: 'sla' }, 
+        { name: 'Delivery Report', path: 'bill-report' }
       ]
     },
     {

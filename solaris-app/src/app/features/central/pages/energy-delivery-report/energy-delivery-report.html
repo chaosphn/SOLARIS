@@ -1,0 +1,185 @@
+<div class="container w-100 bz">
+
+    <!-- header -->
+    <div class="report-head w-100 bz">
+        <span class="bar"></span>
+        <span class="title">Energy Delivery Report — SLA &amp; Billing</span>
+        <!-- <div class="month-sel bz">
+            <app-date-picker [initdate]="month()" [type]="'month'" (selectDate)="onMonthSelect($event)"></app-date-picker>
+        </div> -->
+        <span class="actions">
+            <div class="month-sel bz">
+                <app-date-picker [initdate]="month()" [type]="'month'" [scale]="0.9" (selectDate)="onMonthSelect($event)"></app-date-picker>
+            </div>
+        </span>
+    </div>
+
+    @if (analytics().hasData && !loading()) {
+        <!-- summary KPIs -->
+        <div class="kpi-strip w-100 bz">
+            <div class="k bz" style="border-top-color: #4CAF82">
+                <div class="l">GUARANTEED → ACTUAL</div>
+                <div class="v">{{ mwh(analytics().summary.totalGuaranteed) }} <span class="mini">→</span> <span class="g">{{ mwh(analytics().summary.totalActual) }}</span> <span class="mini">MWh</span></div>
+                <div class="d" [style.color]="achvColor(analytics().summary.achievement)">achievement {{ pct(analytics().summary.achievement) }}</div>
+            </div>
+            <div class="k bz" style="border-top-color: #4CAF82">
+                <div class="l">TOTAL AMOUNT</div>
+                <div class="v g">฿{{ baht(analytics().summary.totalAmount) }}</div>
+                <div class="d dim">billed this month</div>
+            </div>
+            <div class="k bz" style="border-top-color: #E4B61A">
+                <div class="l">SLA COMPLIANT</div>
+                <div class="v">{{ analytics().summary.compliantSites }} <span class="mini">/ {{ analytics().summary.trackedSites }}</span></div>
+                <div class="d dim">{{ analytics().summary.breachSites }} breach · {{ analytics().summary.warningSites }} warning</div>
+            </div>
+            <div class="k bz" style="border-top-color: #E05D4E">
+                <div class="l">PENALTY · BONUS</div>
+                <div class="v"><span class="r-txt">{{ money(analytics().summary.penaltyTotal) }}</span> <span class="dim">·</span> <span class="g">{{ money(analytics().summary.bonusTotal) }}</span></div>
+                <div class="d" [style.color]="analytics().summary.netSla >= 0 ? '#4CAF82' : '#E05D4E'">net {{ money(analytics().summary.netSla) }}</div>
+            </div>
+            <div class="k bz" style="border-top-color: #4DA3FF">
+                <div class="l">COMPLETED · OUTSTANDING</div>
+                <div class="v">{{ analytics().summary?.completedCount }}<span class="mini">/{{ analytics().summary.trackedSites }}</span> <span class="dim">·</span> <span class="r-txt">{{ money(analytics().summary.outstanding) }}</span></div>
+                <div class="d dim">{{ analytics().summary.notBilled }} not billed</div>
+            </div>
+        </div>
+
+        <!-- merged table -->
+        <div class="card w-100 bz">
+            <div class="card-head bz">SITE REPORT · SLA + BILLING
+                <span class="leg">
+                    <i><span class="sw" style="background:#4CAF82"></span>met/paid</i>
+                    <i><span class="sw" style="background:#4DA3FF"></span>invoiced</i>
+                    <i><span class="sw" style="background:#E4B61A"></span>warn/pending</i>
+                    <i><span class="sw" style="background:#E05D4E"></span>breach/reject</i>
+                </span>
+            </div>
+            <div class="board-scroll bz">
+                <table class="matrix">
+                    <thead>
+                        <tr class="mh">
+                            <th>SITE</th><th class="r">GUARANTEED</th><th class="r">ACTUAL (MWh)</th><th class="r">ACHV %</th>
+                            <th class="r">AMOUNT (฿)</th><th class="r">PENALTY</th><th class="r">BONUS</th>
+                            <th class="c">SLA</th><th class="c">BILL STATUS</th><th class="r">UPDATED</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (r of analytics().rows; track r.siteId) {
+                            <tr class="mr" [class.clickable]="r.billStatus !== 'none'" [class.active]="selectedBill()?.siteId === r.siteId" (click)="openBill(r.siteId)">
+                                <td class="site">{{ r.siteName }}</td>
+                                <td class="r dim">{{ mwh(r.guaranteed) }}</td>
+                                <td class="r">@if (r.actual !== null) { {{ mwh(r.actual) }} } @else { <span class="dim">—</span> }</td>
+                                <td class="r" [style.color]="achvColor(r.achievement)">{{ pct(r.achievement) }}</td>
+                                <td class="r">@if (r.amount !== null) { <span class="g">{{ baht(r.amount) }}</span> } @else { <span class="dim">—</span> }</td>
+                                <td class="r">@if (r.penalty > 0) { <span class="r-txt">{{ baht(r.penalty) }}</span> } @else { <span class="dim">—</span> }</td>
+                                <td class="r">@if (r.bonus > 0) { <span class="g">{{ baht(r.bonus) }}</span> } @else { <span class="dim">—</span> }</td>
+                                <td class="c"><span class="pill" [ngClass]="'sla-' + r.slaStatus">{{ r.slaStatus }}</span></td>
+                                <td class="c"><span class="bpill" [ngClass]="'bill-' + r.billStatus">{{ billLabel(r.billStatus) }}</span></td>
+                                <td class="r updated">{{ r.updated ? (r.updated | date:'dd MMM HH:mm') : '—' }}</td>
+                            </tr>
+                        }
+                        <tr class="mr total">
+                            <td class="site">TOTAL ({{ analytics().summary.trackedSites }} sites)</td>
+                            <td class="r">{{ mwh(analytics().summary.totalGuaranteed) }}</td>
+                            <td class="r">{{ mwh(analytics().summary.totalActual) }}</td>
+                            <td class="r" [style.color]="achvColor(analytics().summary.achievement)">{{ pct(analytics().summary.achievement) }}</td>
+                            <td class="r g">{{ baht(analytics().summary.totalAmount) }}</td>
+                            <td class="r r-txt">{{ baht(analytics().summary.penaltyTotal) }}</td>
+                            <td class="r g">{{ baht(analytics().summary.bonusTotal) }}</td>
+                            <td class="c dim">{{ analytics().summary.compliantSites }} met</td>
+                            <td class="c dim">{{ analytics().summary.completedCount }} done</td>
+                            <td class="r"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- inline bill viewer -->
+        @if (selectedBill(); as b) {
+            <div class="card viewer w-100 bz">
+                <!-- header -->
+                <div class="v-head bz">
+                    <span class="v-bar"></span>
+                    <div>
+                        <div class="v-site">{{ siteName(b.siteId) }}</div>
+                        <div class="v-sub">Bill · {{ b.timestamp | date:'MMMM yyyy' }} · {{ b.siteId }}</div>
+                    </div>
+                    <span class="v-badge" [ngClass]="'bill-' + overallStatus()">{{ billLabel(overallStatus()) }}</span>
+                    <span class="v-close" (click)="closeBill()">✕</span>
+                </div>
+
+                <!-- workflow stepper -->
+                <div class="stepper bz">
+                    <div class="step-line"></div>
+                    <div class="step-fill" [style.width.%]="progressPct()"></div>
+                    @for (s of stages(); track s.key) {
+                        <div class="step">
+                            <div class="step-node" [style.background]="stepBg(s.state)" [style.color]="s.state === 'pending' ? '#667079' : '#16171B'">
+                                {{ s.state === 'done' ? '✓' : s.index }}
+                            </div>
+                            <div class="step-label">{{ s.label }}</div>
+                            <div class="step-status" [style.color]="stepTextColor(s.state)">{{ s.statusText }}</div>
+                        </div>
+                    }
+                </div>
+
+                <!-- stat tiles -->
+                <div class="v-tiles bz">
+                    <div class="v-tile"><div class="vt-l">Billed Energy</div><div class="vt-v">{{ (b.energy_amount >= 0 ? b.energy_amount : 0) | number:'1.0-0' }} <span class="mini">kWh</span></div></div>
+                    <div class="v-tile"><div class="vt-l">Forced Energy</div><div class="vt-v" [class.dimv]="!(b.forced_energy_amount > 0)">{{ b.forced_energy_amount > 0 ? (b.forced_energy_amount | number:'1.0-0') + ' kWh' : '—' }}</div></div>
+                    <div class="v-tile accent"><div class="vt-l">Amount</div><div class="vt-v g">฿{{ b.price_amount | number:'1.0-0' }}</div></div>
+                </div>
+
+                <!-- docs + logs -->
+                <div class="viewer-grid bz">
+                    <div>
+                        <div class="vp-title">Documents</div>
+                        <div class="doc-rows">
+                            @for (p of ['confirmation','invoice','receipt']; track p) {
+                                <div class="doc-row bz">
+                                    <span class="doc-lbl">{{ p | titlecase }}</span>
+                                    <span class="doc-btns">
+                                        <button class="vbtn" [class.on]="activeProcess()===p && activeType()==='unsigned'" (click)="viewDocument($any(p), 'unsigned')">Unsigned</button>
+                                        <button class="vbtn" [class.on]="activeProcess()===p && activeType()==='signed'" (click)="viewDocument($any(p), 'signed')">Signed</button>
+                                    </span>
+                                </div>
+                            }
+                        </div>
+                        <div class="file-actions bz">
+                            <button class="vbtn" [disabled]="!pdfUrl() || loadingPdf()" (click)="downloadDocument()">↓ Download</button>
+                            <button class="vbtn" [disabled]="!pdfUrl() || loadingPdf()" (click)="printDocument()">⎙ Print</button>
+                        </div>
+                        <div class="pdf-wrap bz">
+                            @if (loadingPdf()) { <div class="pdf-msg dim">Loading document…</div> }
+                            @else if (!pdfUrl()) { <div class="pdf-msg dim">No document selected</div> }
+                            @else { <iframe [src]="pdfUrl()" class="pdf-iframe" frameborder="0"></iframe> }
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="vp-title">Activity Log</div>
+                        @if (loadingLog()) { <div class="pdf-msg dim">Loading logs…</div> }
+                        @else if (logs().length === 0) { <div class="pdf-msg dim">No logs</div> }
+                        @else {
+                            <div class="timeline bz">
+                                <div class="tl-line"></div>
+                                @for (lg of logs(); track $index) {
+                                    <div class="tl-item">
+                                        <span class="tl-dot" [style.background]="logColor(lg.action)"></span>
+                                        <div class="tl-action">{{ lg.action }}</div>
+                                        <div class="tl-meta">{{ lg.processType | titlecase }} · {{ lg.user }} · {{ lg.timestamp | date:'dd MMM HH:mm' }}</div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    } @else {
+        <div class="empty bz">
+            @if (loading()) { Loading bill data… } @else { No data for {{ monthLabel() }}. }
+        </div>
+    }
+</div>

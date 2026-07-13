@@ -1,0 +1,182 @@
+<div class="container w-100 bz">
+    @if (analytics().hasData) {
+
+        <!-- KPI strip -->
+        <div class="kpi-strip w-100 bz">
+            <div class="k bz" style="border-top-color: #4CAF82">
+                <div class="l">AVAILABILITY</div>
+                @if (analytics().avgAvai !== null) {
+                    <div class="v" [style.color]="(analytics().avgWarrAvai === null || analytics().avgAvai! >= analytics().avgWarrAvai!) ? '#4CAF82' : '#E05D4E'">{{ pct(analytics().avgAvai) }}</div>
+                    <div class="d" [style.color]="(analytics().avgWarrAvai === null || analytics().avgAvai! >= analytics().avgWarrAvai!) ? '#4CAF82' : '#E05D4E'">{{ (analytics().avgWarrAvai === null || analytics().avgAvai! >= analytics().avgWarrAvai!) ? '✓' : '✗' }} warranty ≥ {{ num(analytics().avgWarrAvai) }}%</div>
+                } @else { <div class="v">---</div> }
+            </div>
+            <div class="k bz" style="border-top-color: #4CAF82">
+                <div class="l">PERFORMANCE (PR)</div>
+                @if (analytics().avgPr !== null) {
+                    <div class="v" [style.color]="(analytics().avgWarrPr === null || analytics().avgPr! >= analytics().avgWarrPr!) ? '#4CAF82' : '#E05D4E'">{{ pct(analytics().avgPr) }}</div>
+                    <div class="d" [style.color]="(analytics().avgWarrPr === null || analytics().avgPr! >= analytics().avgWarrPr!) ? '#4CAF82' : '#E05D4E'">{{ (analytics().avgWarrPr === null || analytics().avgPr! >= analytics().avgWarrPr!) ? '✓' : '✗' }} warranty ≥ {{ num(analytics().avgWarrPr) }}%</div>
+                } @else { <div class="v">---</div> }
+            </div>
+            <div class="k bz" style="border-top-color: #4CAF82">
+                <div class="l">ENERGY DELIVERY</div>
+                @if (analytics().energyDeliveryPct !== null) {
+                    <div class="v" [style.color]="analytics().energyDeliveryPct! >= analytics().energyTarget ? '#4CAF82' : '#E05D4E'">{{ pct(analytics().energyDeliveryPct) }}</div>
+                    <div class="d" [style.color]="analytics().energyDeliveryPct! >= analytics().energyTarget ? '#4CAF82' : '#E05D4E'">{{ analytics().energyDeliveryPct! >= analytics().energyTarget ? '✓' : '✗' }} warranty ≥ {{ analytics().energyTarget }}%</div>
+                } @else { <div class="v">---</div> }
+            </div>
+            <div class="k bz" style="border-top-color: #E4B61A">
+                <div class="l">COMPLIANT SITES</div>
+                <div class="v">{{ analytics().compliantSites }} <span class="mini">/ {{ analytics().trackedSites }}</span></div>
+                <div class="d dim">all 3 SLA met</div>
+            </div>
+            <div class="k bz" style="border-top-color: #E4B61A">
+                <div class="l">PPA HEALTH SCORE <span class="tag">proxy</span></div>
+                <div class="v y">{{ num(analytics().healthScore) }} <span class="mini">/100</span></div>
+                <div class="d dim">0.3A + 0.3PR + 0.4E</div>
+            </div>
+            <div class="k bz" style="border-top-color: #E05D4E">
+                <div class="l">PENALTY · BONUS</div>
+                <div class="v"><span class="r-txt">{{ money(analytics().penaltyTotal) }}</span> <span class="dim">·</span> <span class="g">{{ money(analytics().bonusTotal) }}</span></div>
+                <div class="d" [style.color]="analytics().netSla >= 0 ? '#4CAF82' : '#E05D4E'">net {{ money(analytics().netSla) }}</div>
+            </div>
+        </div>
+
+        <div class="sla-grid w-100 bz">
+
+            <!-- gauges -->
+            <div class="card area-gauges bz">
+                <div class="card-head bz">SLA THRESHOLDS — ACTUAL vs WARRANTY</div>
+                <div class="gauge-block bz">
+                    <div class="gauge-row bz"><span class="dim">Availability</span><span class="g">{{ pct(analytics().avgAvai) }}</span></div>
+                    <div class="gtrack bz">
+                        <div class="gfill" [style.width.%]="gaugePct(analytics().avgAvai)" [style.background]="(analytics().avgWarrAvai === null || (analytics().avgAvai ?? 0) >= analytics().avgWarrAvai!) ? '#4CAF82' : '#E05D4E'"></div>
+                        @if (analytics().avgWarrAvai !== null) { <div class="gmark" [style.left.%]="analytics().avgWarrAvai!"></div> }
+                    </div>
+                    <div class="gcap dim">warranty {{ num(analytics().avgWarrAvai) }}%</div>
+                </div>
+                <div class="gauge-block bz">
+                    <div class="gauge-row bz"><span class="dim">Performance (PR)</span><span class="g">{{ pct(analytics().avgPr) }}</span></div>
+                    <div class="gtrack bz">
+                        <div class="gfill" [style.width.%]="gaugePct(analytics().avgPr)" [style.background]="(analytics().avgWarrPr === null || (analytics().avgPr ?? 0) >= analytics().avgWarrPr!) ? '#4CAF82' : '#E05D4E'"></div>
+                        @if (analytics().avgWarrPr !== null) { <div class="gmark" [style.left.%]="analytics().avgWarrPr!"></div> }
+                    </div>
+                    <div class="gcap dim">warranty {{ num(analytics().avgWarrPr) }}%</div>
+                </div>
+                <div class="gauge-block bz">
+                    <div class="gauge-row bz"><span class="dim">Energy delivery</span><span class="g">{{ pct(analytics().energyDeliveryPct) }}</span></div>
+                    <div class="gtrack bz">
+                        <div class="gfill" [style.width.%]="gaugePct(analytics().energyDeliveryPct)" [style.background]="(analytics().energyDeliveryPct ?? 0) >= analytics().energyTarget ? '#4CAF82' : '#E05D4E'"></div>
+                        <div class="gmark" [style.left.%]="analytics().energyTarget"></div>
+                    </div>
+                    <div class="gcap dim">warranty {{ analytics().energyTarget }}%</div>
+                </div>
+            </div>
+
+            <!-- trend -->
+            <div class="card area-trend bz">
+                <div class="card-head bz">SLA TREND — ENERGY COMPLIANCE % (12M) <span class="hint">warranty {{ analytics().energyTarget }}% dashed</span></div>
+                <svg viewBox="0 0 860 188" class="trend-svg">
+                    <line x1="40" y1="14" x2="40" y2="160" stroke="var(--chart-brd)" stroke-width="1"/>
+                    <line x1="40" y1="160" x2="852" y2="160" stroke="var(--chart-brd)" stroke-width="1"/>
+                    <text x="8" y="30" fill="var(--secondary-txt)" font-size="11">110</text>
+                    <text x="8" y="90" fill="var(--secondary-txt)" font-size="11">100</text>
+                    <text x="14" y="146" fill="var(--secondary-txt)" font-size="11">90</text>
+                    <line x1="40" y1="88" x2="852" y2="88" stroke="#4CAF82" stroke-width="1" stroke-dasharray="4 4" opacity="0.35"/>
+                    <line x1="40" y1="118" x2="852" y2="118" stroke="#E05D4E" stroke-width="1" stroke-dasharray="4 4" opacity="0.35"/>
+                    <polyline [attr.points]="trendLine()" fill="none" stroke="#E4B61A" stroke-width="2.5"/>
+                    @for (p of trendPoints(); track p.month) {
+                        @if (p.y !== null) { <circle [attr.cx]="p.x" [attr.cy]="p.y" r="3" fill="#E4B61A"/> }
+                    }
+                    @for (p of trendPoints(); track p.month) {
+                        <text [attr.x]="p.x" y="178" fill="var(--secondary-txt)" font-size="10" text-anchor="middle">{{ p.month }}</text>
+                    }
+                </svg>
+            </div>
+
+            <!-- scorecard -->
+            <div class="card area-scorecard bz">
+                <div class="card-head bz">SITE COMPLIANCE SCORECARD <span class="hint">worst first · vs warranty per metric</span></div>
+                <div class="board-scroll bz">
+                    <table class="matrix">
+                        <thead>
+                            <tr class="mh">
+                                <th>SITE</th><th class="r">AVAILABILITY</th><th class="r">PR</th><th class="r">ENERGY %</th>
+                                <th class="r">PENALTY</th><th class="r">BONUS</th><th class="c">STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (r of analytics().rows; track r.siteId) {
+                                <tr class="mr">
+                                    <td class="site">{{ r.siteName }}</td>
+                                    <td class="r">
+                                        @if (r.availability !== null) {
+                                            <span [style.color]="(r.warrAvai === null || r.availability >= r.warrAvai) ? '#4CAF82' : '#E05D4E'">{{ pct(r.availability) }}{{ (r.warrAvai !== null && r.availability < r.warrAvai) ? ' ✗' : '' }}</span>
+                                        } @else { <span class="dim">---</span> }
+                                    </td>
+                                    <td class="r">
+                                        @if (r.pr !== null) {
+                                            <span [style.color]="(r.warrPr === null || r.pr >= r.warrPr) ? '#4CAF82' : '#E4B61A'">{{ pct(r.pr) }}</span>
+                                        } @else { <span class="dim">---</span> }
+                                    </td>
+                                    <td class="r">
+                                        @if (r.energyAchv !== null) {
+                                            <span [style.color]="statusColor(r.energyAchv >= 100 ? 'met' : r.energyAchv >= analytics().energyTarget ? 'warning' : 'breach')">{{ pct(r.energyAchv) }}</span>
+                                        } @else { <span class="dim">---</span> }
+                                    </td>
+                                    <td class="r">@if (r.penalty > 0) { <span class="r-txt">{{ money(r.penalty) }}</span> } @else { <span class="dim">—</span> }</td>
+                                    <td class="r">@if (r.bonus > 0) { <span class="g">{{ money(r.bonus) }}</span> } @else { <span class="dim">—</span> }</td>
+                                    <td class="c"><span class="pill" [ngClass]="'pill-' + r.status">{{ r.status }}</span></td>
+                                </tr>
+                            }
+                            <tr class="mr total">
+                                <td class="site">PORTFOLIO</td>
+                                <td class="r g">{{ pct(analytics().avgAvai) }}</td>
+                                <td class="r g">{{ pct(analytics().avgPr) }}</td>
+                                <td class="r g">{{ pct(analytics().energyDeliveryPct) }}</td>
+                                <td class="r r-txt">{{ money(analytics().penaltyTotal) }}</td>
+                                <td class="r g">{{ money(analytics().bonusTotal) }}</td>
+                                <td class="c"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- checklist -->
+            <div class="card area-checklist bz">
+                <div class="card-head bz">SLA CHECKLIST <span class="hint">{{ analytics().passedChecks }} / {{ analytics().checklist.length }} passed · auto</span></div>
+                <div class="check-grid h-100 bz">
+                    @for (c of analytics().checklist; track c.label) {
+                        <div class="check-item bz">
+                            <span [style.color]="c.pass ? '#4CAF82' : '#E05D4E'">{{ c.pass ? '✓' : '✗' }}</span>
+                            <span>{{ c.label }}</span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- health + penalty/bonus -->
+            <div class="card area-health bz">
+                <div class="card-head bz">HEALTH SCORE · PENALTY / BONUS</div>
+                <div class="health-head bz">
+                    <span class="hs-v y">{{ num(analytics().healthScore) }}</span><span class="dim">/100</span>
+                    <span class="tag" style="margin-left:auto">proxy</span>
+                </div>
+                <div class="hs-row dim">Availability · 30%</div>
+                <div class="hs-track bz"><div class="hs-fill" [style.width.%]="gaugePct(analytics().healthAvai)" style="background:#4CAF82"></div></div>
+                <div class="hs-row dim">Performance · 30%</div>
+                <div class="hs-track bz"><div class="hs-fill" [style.width.%]="gaugePct(analytics().healthPr)" style="background:#4CAF82"></div></div>
+                <div class="hs-row dim">Energy · 40%</div>
+                <div class="hs-track bz" style="margin-bottom:12px"><div class="hs-fill" [style.width.%]="gaugePct(analytics().healthEnergy)" style="background:#E4B61A"></div></div>
+                <div class="pline"><span class="k2">Penalty (shortfall × tariff)</span><span class="r-txt">{{ money(analytics().penaltyTotal) }}</span></div>
+                <div class="pline"><span class="k2">Bonus (surplus × tariff)</span><span class="g">{{ money(analytics().bonusTotal) }}</span></div>
+                <div class="pline"><span class="k2">Net SLA position</span><span [style.color]="analytics().netSla >= 0 ? '#4CAF82' : '#E05D4E'" style="font-weight:600">{{ money(analytics().netSla) }}</span></div>
+            </div>
+
+        </div>
+    } @else {
+        <div class="empty bz">
+            @if (loading()) { Loading SLA data… } @else { No sites with SLA warranty. }
+        </div>
+    }
+</div>

@@ -156,6 +156,16 @@ export const routes: Routes = [
                 //canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/financial-analysis/financial-analysis-module').then(m => m.FinancialAnalysisModule)
             },
+            {
+                path: 'sla',
+                //canActivate: [PermissionGuard],
+                loadChildren: () => import('./features/central/pages/sla-compliance/sla-compliance-module').then(m => m.SlaComplianceModule)
+            },
+            {
+                path: 'bill-report',
+                //canActivate: [PermissionGuard],
+                loadChildren: () => import('./features/central/pages/energy-delivery-report/energy-delivery-report-module').then(m => m.EnergyDeliveryReportModule)
+            },
         ]
     },
     // {

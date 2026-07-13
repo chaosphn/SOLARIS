@@ -55,7 +55,12 @@
             </div>
             <div class="sidenav-search d-col bz">
                 <div class="search-topic w-100 d-flex-ct" style="justify-content: flex-start; gap: 8px;">
-                    <div class="plant-list">Plant List <div class="plant-count-badge">{{ zoneList().siteList.length }}</div></div>
+                    <div class="plant-list">
+                        Plant List 
+                        <div class="plant-count-badge">
+                            <div>{{ zoneList().siteList.length }}</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="search-box input-group w-100 ">
                     <input [(ngModel)]="seachText" required="" type="text" name="text" autocomplete="off" class="input bz w-100">
@@ -190,6 +195,7 @@
                             <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/financial" routerLinkActive="active"><i class="material-icons">currency_exchange</i><div>FINANCIAL</div></a>
                             <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/tariff" routerLinkActive="active"><i class="material-icons">gavel</i><div>TARIFF</div></a>
                             <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/sla" routerLinkActive="active"><i class="material-icons">policy</i><div>SLA / COMPLIANCE</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/bill-report" routerLinkActive="active"><i class="material-icons">policy</i><div>DELIVERY REPORT</div></a>
                         </div>
                         @if (enableDate()) {
                             <div class="date-picker hide h-100 bz">
