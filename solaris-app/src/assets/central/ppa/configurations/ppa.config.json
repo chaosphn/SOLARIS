@@ -1,0 +1,37 @@
+{
+    "realtimeConfig": [
+        {
+            "Group": "realtime",
+            "Order": 0,
+            "Tags": [
+                {
+                    "Title": "AVAI",
+                    "Tagname": "{SITE}.CALC.AVAI"
+                },
+                {
+                    "Title": "PR_MONTH",
+                    "Tagname": "{SITE}.CALC.PR_MONTH"
+                }
+            ]
+        }
+    ],
+    "historianConfig": [
+        {
+            "Group": "monthlyEnergy",
+            "Order": 0,
+            "Tags": [
+                {
+                    "Title": "WH_MONTH",
+                    "Tagname": "{SITE}.CALC.WH_MONTH",
+                    "Options": {
+                        "Time": "",
+                        "Interval": 0,
+                        "StartTime": "BOM",
+                        "EndTime": ""
+                    }
+                }
+            ]
+        }
+    ],
+    "chartConfig": []
+}

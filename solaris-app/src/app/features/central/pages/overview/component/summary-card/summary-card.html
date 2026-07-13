@@ -1,5 +1,5 @@
 <div class="container w-100 h-100 bz">
-    <div class="infomation">
+    <div class="infomation h-100">
         <div class="box d-col-st bz">
             <div class="title">ENERGY TODAY</div>
             <div class="value-box" [matTooltip]="tooltipSrv.getTooltip(today_curr())" matTooltipPosition="above">
@@ -34,8 +34,8 @@
                     <div class="message bz">no data</div>
                 </div>
             } @else {
-                <div class="diff" [style.color]="checkValueStatus(month_curr()?.Value, (month_prev()?.Value/12)) === 'plus' ? '#4CAF82' : 'var(--secondary-txt)'">
-                    <div class="message bz">{{ getTargetPercent(month_curr()?.Value, (month_prev()?.Value/12)) | numberFomat: '1.0-1' }}% of target</div>
+                <div class="diff" [style.color]="checkValueStatus(month_curr()?.Value, (month_prev()?.Value)) === 'plus' ? '#4CAF82' : 'var(--secondary-txt)'">
+                    <div class="message bz">{{ getTargetPercent(month_curr()?.Value, (month_prev()?.Value)) | numberFomat: '1.0-1' }}% of target</div>
                 </div>
             }
         </div>

@@ -1,0 +1,136 @@
+<div class="container w-100 bz">
+    @if (analytics().hasData) {
+        <!-- KPI strip -->
+        <div class="kpi-strip w-100 bz">
+            <div class="k bz" style="border-top-color: #FBE134">
+                <div class="l">BLENDED TARIFF · NOW</div>
+                <div class="v y">{{ fmtRate(analytics().blendedNow) }}<span class="u"> ฿/kWh</span></div>
+                <div class="d dim">weighted by warranty energy</div>
+            </div>
+            <div class="k bz" style="border-top-color: #4DA3FF">
+                <div class="l">NEXT ESCALATION</div>
+                @if (analytics().nextEscalation) {
+                    <div class="v">{{ fmtMonthKey(analytics().nextEscalation!.monthKey) }}</div>
+                    <div class="d g">{{ analytics().nextEscalation!.siteId }} {{ fmtPct(analytics().nextEscalation!.pct) }} → {{ fmtRate(analytics().nextEscalation!.to) }} ฿</div>
+                } @else { <div class="v">—</div> <div class="d dim">no upcoming step</div> }
+            </div>
+            <div class="k bz">
+                <div class="l">AVG ANNUAL ESCALATION</div>
+                <div class="v">{{ fmtPct(analytics().avgAnnualEscalationPct) }}<span class="u"> /yr</span></div>
+                <div class="d dim">PPA · CAGR of blended</div>
+            </div>
+            <div class="k bz">
+                <div class="l">TARIFF RANGE</div>
+                <div class="v">{{ fmtRate(analytics().minRate) }}–{{ fmtRate(analytics().maxRate) }}</div>
+                <div class="d dim">฿/kWh across contracts</div>
+            </div>
+            <div class="k bz" style="border-top-color: #4CAF82">
+                <div class="l">LIFETIME GROWTH</div>
+                <div class="v g">{{ fmtPct(analytics().lifetimeGrowthPct) }}</div>
+                <div class="d dim">first → last period</div>
+            </div>
+            <div class="k bz">
+                <div class="l">CONTRACT TYPES</div>
+                <div class="v">{{ analytics().ppaCount }}<span class="u"> PPA</span> · {{ analytics().floatingCount }}<span class="u"> FLT</span></div>
+                <div class="d dim">escalating vs floating</div>
+            </div>
+        </div>
+
+        <div class="te-grid w-100 bz">
+            <!-- row 1 : curve + upcoming -->
+            <div class="card area-curve bz">
+                <div class="card-head bz">TARIFF STEP CURVE — BLENDED (฿/kWh)
+                    <!-- <span class="leg">
+                        <i><span class="sw" style="background:#FBE134"></span>past</i>
+                        <i><span class="sw" style="background:#FBE134;opacity:0.5"></span>future</i>
+                    </span> -->
+                </div>
+                <div class="chart-lg bz"><app-highchart [chartParameter]="stepCurveChart()"></app-highchart></div>
+            </div>
+
+            <div class="card area-upcoming bz">
+                <div class="card-head bz">UPCOMING ESCALATIONS <span class="hint">next steps</span></div>
+                <div class="up-list bz">
+                    @for (ev of analytics().upcoming.slice(0, 8); track $index) {
+                        <div class="up-row bz">
+                            <span class="up-date dim">{{ fmtMonthKey(ev.monthKey) }}</span>
+                            <span class="up-site">{{ ev.siteId }}</span>
+                            <span class="up-rate dim">{{ fmtRate(ev.from) }} → {{ fmtRate(ev.to) }}</span>
+                            <span class="up-pct g">{{ fmtPct(ev.pct) }}</span>
+                        </div>
+                    } @empty {
+                        <div class="dim" style="font-size:12px">No upcoming escalations</div>
+                    }
+                    @if (analytics().floatingCount > 0) {
+                        <div class="up-foot dim">+ {{ analytics().floatingCount }} floating contract(s) — rolling avg, no fixed schedule</div>
+                    }
+                </div>
+            </div>
+
+            <!-- row 2 : full schedule matrix (all years, scroll) -->
+            <div class="card area-matrix bz">
+                <div class="card-head bz">FULL SCHEDULE MATRIX — ฿/kWh BY SITE × YEAR
+                    <span class="leg">
+                        <i><span class="sw" style="background:#9fe1cb"></span>low</i>
+                        <i><span class="sw" style="background:#EF9F27"></span></i>
+                        <i><span class="sw" style="background:#E05D4E"></span>high</i>
+                        <i><span class="sw" style="background:#FBE134"></span>current year</i>
+                    </span>
+                </div>
+                <div class="matrix-scroll bz">
+                    <table class="matrix te-matrix">
+                        <thead>
+                            <tr class="mh">
+                                <th class="sticky-col">SITE</th>
+                                <th class="c">TYPE</th>
+                                @for (y of analytics().years; track y) {
+                                    <th class="c" [class.cur]="y === analytics().curYear">{{ y }}</th>
+                                }
+                                <th class="c">GROWTH</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (row of analytics().matrix; track row.siteId) {
+                                <tr class="mr">
+                                    <td class="sticky-col site">{{ row.siteId }}</td>
+                                    <td class="c" [style.color]="row.isSchedule ? '#FBE134' : '#4DA3FF'">{{ row.isSchedule ? 'PPA' : 'FLT' }}</td>
+                                    @for (cell of row.cells; track cell.year) {
+                                        <td class="c cell"
+                                            [class.cur]="cell.isCurrent"
+                                            [style.background]="cell.rate !== null ? cell.color : 'transparent'"
+                                            [style.color]="cell.rate !== null ? '#1a1d24' : 'var(--secondary-txt)'">
+                                            {{ cell.rate !== null ? fmtRate(cell.rate) : '·' }}
+                                        </td>
+                                    }
+                                    <td class="c">
+                                        @if (row.growthPct !== null) { <span class="g">{{ fmtPct(row.growthPct) }}</span> } @else { <span class="dim">—</span> }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="matrix-foot">{{ analytics().years.length }} years ({{ analytics().years[0] }}–{{ analytics().years[analytics().years.length - 1] }}) · {{ analytics().matrix.length }} sites · เลื่อนแนวนอนดูทุกปี</div>
+            </div>
+
+            <!-- row 3 : revenue per period + economics -->
+            <div class="card area-revenue bz">
+                <div class="card-head bz">REVENUE PER PERIOD — WARRANTY × TARIFF (฿M / {{ 5 }}-YR)</div>
+                <div class="chart-lg bz"><app-highchart [chartParameter]="revenuePeriodChart()"></app-highchart></div>
+            </div>
+
+            <div class="card area-econ bz">
+                <div class="card-head bz">PORTFOLIO SUMMARY</div>
+                <div class="pline"><span class="k2">PPA blended (now)</span><span class="y" style="font-weight:600">{{ fmtRate(analytics().blendedNow) }} ฿/kWh</span></div>
+                <div class="pline"><span class="k2">Tariff range</span><span>{{ fmtRate(analytics().minRate) }}–{{ fmtRate(analytics().maxRate) }} ฿</span></div>
+                <div class="pline"><span class="k2">Avg escalation</span><span>{{ fmtPct(analytics().avgAnnualEscalationPct) }} /yr</span></div>
+                <div class="pline"><span class="k2">Weighted remaining</span><span>{{ fmtYears(analytics().weightedRemainingYears) }} ปี</span></div>
+                <div class="pline"><span class="k2">Lifetime revenue (est.)</span><span class="g" style="font-weight:600">฿{{ formatShort(analytics().lifetimeRevenue) }}</span></div>
+            </div>
+        </div>
+    } @else {
+        <div class="empty bz">
+            @if (loading()) { Loading tariff schedule… } @else { No contracts with tariff schedule. }
+        </div>
+    }
+</div>

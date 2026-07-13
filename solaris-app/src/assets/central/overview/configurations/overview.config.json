@@ -65,6 +65,7 @@
           },
           {
             "Title": "MONTHLY",
+            "Timestamp": "BOM",
             "Tagname": "OVERALL.CALC.WH_MONTH"
           },
           {
@@ -207,6 +208,16 @@
           {
             "Title": "PERFORMANCE",
             "Tagname": "KKB.CALC.PR_DAY",
+            "Options": {
+              "Time": "",
+              "Interval": 0,
+              "StartTime": "*-7d",
+              "EndTime": "NOW"
+            }
+          },
+          {
+            "Title": "AVAI",
+            "Tagname": "KKB.CALC.AVAI_DAY",
             "Options": {
               "Time": "",
               "Interval": 0,
@@ -495,7 +506,7 @@
         "name": "CHART03",
         "tags": [
           {
-            "name": "KKB.CALC.AVAI",
+            "name": "KKB.CALC.AVAI_DAY",
             "title": "AVAILABILITY*%",
             "options": {
               "yAxis": 0,
@@ -583,7 +594,7 @@
               "tickInterval": 20,
               "margin": 0,
               "min": 0,
-              "max": 120
+              "max": 200
             }
           ],
           "xAxis": {

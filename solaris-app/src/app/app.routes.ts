@@ -94,6 +94,11 @@ export const routes: Routes = [
                 loadChildren: () => import('./features/sites/pages/realtime/realtime-module').then(m => m.RealtimeModule)
             },
             {
+                path: 'topology',
+                canActivate: [PermissionGuard],
+                loadChildren: () => import('./features/sites/pages/topology/topology-module').then(m => m.TopologyModule)
+            },
+            {
                 path: 'diagram',
                 canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/sites/pages/diagram/diagram-module').then(m => m.DiagramModule)
@@ -135,6 +140,21 @@ export const routes: Routes = [
                 path: 'revenue',
                 canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/revenue-performance/revenue-performance-module').then(m => m.RevenuePerformanceModule)
+            },
+            {
+                path: 'delivery',
+                //canActivate: [PermissionGuard],
+                loadChildren: () => import('./features/central/pages/energy-delivery/energy-delivery-module').then(m => m.EnergyDeliveryModule)
+            },
+            {
+                path: 'tariff',
+                //canActivate: [PermissionGuard],
+                loadChildren: () => import('./features/central/pages/tariff-escalation/tariff-escalation-module').then(m => m.TariffEscalationModule)
+            },
+            {
+                path: 'financial',
+                //canActivate: [PermissionGuard],
+                loadChildren: () => import('./features/central/pages/financial-analysis/financial-analysis-module').then(m => m.FinancialAnalysisModule)
             },
         ]
     },

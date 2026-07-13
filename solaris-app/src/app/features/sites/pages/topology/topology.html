@@ -1,0 +1,35 @@
+<div class="w-100 h-100 container bz">
+    <div class="btn-group">
+        @for (item of diagramList(); track $index) {
+            <button [ngClass]="{ 'active' : selectedDiagram().path === item.path}" class="btn" (click)="changeTabs(item)">{{ getFileName(item.path, item.file_type) }}</button>
+        }
+    </div>
+    <div class="infoCard w-100 h-100 bz">
+        <app-card-container [title]="'SYSTEM TOPOLOGY'">
+            <ng-template #container>
+                <div class="contentBox d-flex bz">
+                    @if (loadingPreview()) {
+                        <div class="state-box bz">
+                            <span class="material-icons spin">sync</span>
+                            <p>Loading diagram...</p>
+                        </div>
+                    } @else if (rawPreviewUrl().length > 0 && isImage()) {
+                        <img [src]="rawPreviewUrl()" class="content-image" alt="Plant topology diagram">
+                    } @else if (rawPreviewUrl().length > 0 && isPdf()) {
+                        <pdf-viewer [src]="rawPreviewUrl()"
+                            [render-text]="true"
+                            [original-size]="false"
+                            [fit-to-page]="true"
+                            class="content-frame"
+                        ></pdf-viewer>
+                    } @else {
+                        <div class="state-box bz">
+                            <span class="material-icons">broken_image</span>
+                            <p>No diagram available for this site</p>
+                        </div>
+                    }
+                </div>
+            </ng-template>
+        </app-card-container>
+    </div>
+</div>

@@ -7,6 +7,7 @@ import { ChnagePasswordRequestModel, UserDataModel } from '../../../../../../sha
 import { PageDataModel } from '../../../../../../shared/models/page.model';
 import { HttpService } from '../../../../../../shared/services/http.service';
 import { sendMessage } from '../../../../../../store/actions/toaster.actions';
+import { PagesService } from '../../../../../../shared/services/pages.service';
 
 @Component({
   selector: 'app-user-dialog',
@@ -19,6 +20,10 @@ export class UserDialog implements OnInit, AfterViewInit {
   userList = input<UserDataModel[]>([]);
   userData = input<UserDataModel>(this.getEmptyUser());
   pageList = input<PageDataModel[]>([]);
+  overviewPage: any[] = [];
+  operationPage: any[] = [];
+  financialPage: any[] = [];
+  adminPage: any[] = [];
   newPassword: string = '';
   confirmPassword: string = '';
   signatureConsent: boolean = false;
@@ -29,6 +34,7 @@ export class UserDialog implements OnInit, AfterViewInit {
   siteList = signal<SiteModel[]>([]);
   private store = inject(Store);
   private service = inject(HttpService);
+  private pageSrv = inject(PagesService);
 
   @ViewChild('signatureCanvas') signatureCanvas?: ElementRef<HTMLCanvasElement>;
   private canvasContext: CanvasRenderingContext2D | null = null;
@@ -41,6 +47,10 @@ export class UserDialog implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.overviewPage = this.pageSrv.getCentralPages();
+    this.operationPage = this.pageSrv.getSitePages();
+    this.financialPage = this.pageSrv.getFinancialPages();
+    this.adminPage = this.pageSrv.getBillingPages();
     this.getSiteConfig();
     this.initializeMockData();
     this.getUserSignature();

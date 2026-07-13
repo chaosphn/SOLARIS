@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, signal, AfterViewInit } from '@angular/core';
 import { SiteModel, SiteStateModel, ZoneModel } from '../../../shared/models/config.model';
 import { DateStateModel, NavbarStateModel } from '../../../shared/models/navigate.model';
 import { Observable, Subscription, timer } from 'rxjs';
@@ -26,6 +26,7 @@ import { FloatingDialogService } from '../../../shared/pipes/floating-dialog.ser
 import { EventSummaryModel } from '../../../features/sites/models/event.model';
 import { setEventSummary } from '../../../store/actions/event.actions';
 import { getEventSummary } from '../../../store/selectors/event.selectors';
+import { PagesService } from '../../../shared/services/pages.service';
 
 
 @Component({
@@ -34,7 +35,7 @@ import { getEventSummary } from '../../../store/selectors/event.selectors';
   styleUrl: './navbar.scss',
   standalone: false
 })
-export class Navbar implements OnInit, OnDestroy {
+export class Navbar implements OnInit, OnDestroy, AfterViewInit {
   navState$: Observable<NavbarStateModel>;
   dateState$: Observable<DateStateModel>;
   toastState$: Observable<ToastStateModel>;
@@ -65,6 +66,7 @@ export class Navbar implements OnInit, OnDestroy {
 
   private auth =  inject(AuthService);
   private http =  inject(HttpService);
+  private pageSrv = inject(PagesService);
   private router =  inject(Router);
   private appInit =  inject(AppInitService);
   private store = inject(Store);
@@ -118,6 +120,25 @@ export class Navbar implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log(this.router.url)
+    const routPage = this.router.url.split('/');
+    console.log(routPage)
+    switch (routPage.length) {
+      case 3:
+        const pgGroup = this.pageSrv.getPageGroup(routPage[2]);
+        if(pgGroup){
+          console.log(pgGroup)
+          this.store.dispatch(addState({
+            payload: {
+              name: pgGroup.level,
+              location: 'OVERALL'
+            }
+          }));
+        }
+        break;
+      default:
+        break;
+    } 
     this.user = localStorage.getItem('user') || '---';
     this.role = localStorage.getItem('role') || '---';
     const theme = localStorage.getItem('theme');
@@ -138,6 +159,10 @@ export class Navbar implements OnInit, OnDestroy {
     if(this.appInit.config.Timer){
       this.startTimer(this.appInit.config.Timer * 60000);
     }
+  }
+
+  ngAfterViewInit(): void {
+    
   }
 
   ngOnDestroy(): void {
@@ -192,19 +217,19 @@ export class Navbar implements OnInit, OnDestroy {
       if(filterSite && filterSite.zoneList.length == 1){
         const zonselected = filterSite.zoneList[0];
         this.zoneList.set(zonselected);
-        this.store.dispatch(addState({
-          payload: {
-            name: 'overview',
-            location: zonselected.title
-          }
-        }));
+        // this.store.dispatch(addState({
+        //   payload: {
+        //     name: 'overview',
+        //     location: zonselected.title
+        //   }
+        // }));
       } else {
-        this.store.dispatch(addState({
-          payload: {
-            name: 'overview',
-            location: 'overview'
-          }
-        }));
+        // this.store.dispatch(addState({
+        //   payload: {
+        //     name: 'overview',
+        //     location: 'overview'
+        //   }
+        // }));
       }
     }
   }
@@ -421,6 +446,14 @@ export class Navbar implements OnInit, OnDestroy {
       return false;
     } else {
       return this.enablePage().includes(page);
+    }
+  }
+
+  checkGroupPageAvailable(group: string): boolean {
+    if(this.enablePage().length == 0){
+      return false;
+    } else {
+      return this.pageSrv.isHasPageGroup(this.enablePage(), group);
     }
   }
 

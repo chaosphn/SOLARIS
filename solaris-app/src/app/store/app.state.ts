@@ -14,6 +14,7 @@ import { tagsReducer } from './reducers/tags.reducer';
 import { diagramReducer } from '../features/sites/store/reducers/diagram.reducer';
 import { toastReducer } from './reducers/toaster.reducer';
 import { tabularReducer } from '../features/central/store/reducers/tabular.reducer';
+import { ppaReducer } from '../features/central/store/reducers/ppa.reducer';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { tabularReducer } from '../features/central/store/reducers/tabular.reduc
       trend: trendReducer ,
       performance: performanceReducer,
       tabular: tabularReducer,
+      ppa: ppaReducer,
       layout: layoutReducer,
       dashboard: dashboardReducer,
       efficiency: efficiencyReducer,

@@ -1,0 +1,131 @@
+<div class="container w-100 bz">
+    @if (analytics().hasData) {
+        <!-- KPI strip -->
+        <div class="kpi-strip w-100 bz">
+            <div class="k bz" style="border-top-color: #4CAF82">
+                <div class="l">ENERGY ACHIEVEMENT</div>
+                @if (analytics().achievement !== null) {
+                    <div class="v" [style.color]="analytics().achievement! >= 100 ? '#4CAF82' : 'tomato'">{{ analytics().achievement | numberFomat: '1.0-1' }}%</div>
+                } @else { <div class="v">---</div> }
+                <div class="d dim">{{ toGWh(analytics().ytdActual) }} / {{ toGWh(analytics().ytdContracted) }} GWh</div>
+            </div>
+            <div class="k bz" style="border-top-color: #4CAF82">
+                <div class="l">AVAILABILITY</div>
+                @if (analytics().avgAvai !== null) {
+                    <div class="v" [style.color]="(analytics().avgWarrAvai === null || analytics().avgAvai! >= analytics().avgWarrAvai!) ? '#4CAF82' : 'tomato'">{{ analytics().avgAvai | numberFomat: '1.0-1' }}%</div>
+                } @else { <div class="v">---</div> }
+                <div class="d dim">warranty ≥ {{ analytics().avgWarrAvai !== null ? (analytics().avgWarrAvai | numberFomat: '1.0-0') : '--' }}%</div>
+            </div>
+            <div class="k bz" style="border-top-color: #FBE134">
+                <div class="l">PERFORMANCE (PR)</div>
+                @if (analytics().avgPr !== null) {
+                    <div class="v y">{{ analytics().avgPr | numberFomat: '1.0-1' }}%</div>
+                } @else { <div class="v">---</div> }
+                <div class="d dim">warranty ≥ {{ analytics().avgWarrPr !== null ? (analytics().avgWarrPr | numberFomat: '1.0-0') : '--' }}%</div>
+            </div>
+            <div class="k bz">
+                <div class="l">COMPLIANT SITES</div>
+                <div class="v">{{ analytics().metCount }} / {{ analytics().trackedCount }}</div>
+                <div class="d dim">energy + avail</div>
+            </div>
+            <div class="k bz" style="border-top-color: #E05D4E">
+                <div class="l">SHORTFALL · YTD</div>
+                <div class="v risk">{{ toGWh(analytics().ytdShortfall) }}<span class="u"> GWh</span></div>
+                <div class="d dim">{{ analytics().breachCount }} breach</div>
+            </div>
+            <div class="k bz" style="border-top-color: #E05D4E">
+                <div class="l">PENALTY · YTD</div>
+                <div class="v risk">฿{{ formatShort(analytics().totalPenalty) }}</div>
+                <div class="d dim">shortfall × tariff</div>
+            </div>
+        </div>
+
+        <div class="ed-grid w-100 bz">
+            <!-- row 1 -->
+            <div class="card area-delivery bz">
+                <div class="card-head bz">MONTHLY DELIVERY — ACTUAL VS CONTRACTED (GWh)</div>
+                <div class="chart-lg bz"><app-highchart [chartParameter]="deliveryChart()"></app-highchart></div>
+            </div>
+            <div class="card area-cumulative bz">
+                <div class="card-head bz">CUMULATIVE DELIVERY VS CONTRACTED (GWh)</div>
+                <div class="chart-lg bz"><app-highchart [chartParameter]="cumulativeChart()"></app-highchart></div>
+            </div>
+
+            <!-- row 2 : heatmap -->
+            <div class="card area-heatmap bz">
+                <div class="card-head bz">MONTHLY COMPLIANCE HEATMAP — ENERGY ACHIEVEMENT % (SITE × MONTH)
+                    <span class="leg">
+                        <i><span class="sw" style="background:#4CAF82"></span>≥100</i>
+                        <i><span class="sw" style="background:#FBE134"></span>90–100</i>
+                        <i><span class="sw" style="background:#E05D4E"></span>&lt;90</i>
+                        <i><span class="sw" style="background:#3B444D"></span>n/a</i>
+                    </span>
+                </div>
+                <div class="heatmap-scroll bz">
+                    <div class="heatmap bz">
+                        <div class="hlabel"></div>
+                        @for (mth of monthHeader; track $index) { <div class="hcol">{{ mth }}</div> }
+                        @for (row of analytics().heatmap; track row.siteId) {
+                            <div class="hlabel">{{ row.siteId }}</div>
+                            @for (cell of row.cells; track $index) {
+                                <div class="cell" [style.background]="heatColor(cell)" [matTooltip]="cell !== null ? (cell | numberFomat: '1.0-0') + '%' : 'n/a'" matTooltipPosition="above"></div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- row 3 : matrix + penalty -->
+            <div class="card area-matrix bz">
+                <div class="card-head bz">SITE COMPLIANCE MATRIX <span class="hint">this month · worst first</span></div>
+                <div class="matrix-scroll bz">
+                    <table class="matrix">
+                        <tr class="mh">
+                            <th>SITE</th><th class="r">ACTUAL</th><th class="r">CONTR.</th><th class="r">ENERGY</th><th class="r">AVAIL</th><th class="r">PENALTY</th><th class="c">STATUS</th>
+                        </tr>
+                        @for (row of analytics().rows; track row.siteId) {
+                            <tr class="mr">
+                                <td>{{ row.siteName }}</td>
+                                <td class="r">@if (row.actual !== null) { {{ toGWh(row.actual) }} } @else { <span class="dim">---</span> }</td>
+                                <td class="r dim">@if (row.contracted !== null) { {{ toGWh(row.contracted) }} } @else { --- }</td>
+                                <td class="r" [style.color]="statusColor(row.status)">
+                                    @if (row.achievement !== null) { {{ row.achievement | numberFomat: '1.0-1' }}% } @else { --- }
+                                </td>
+                                <td class="r">
+                                    @if (row.availability !== null) {
+                                        <span [style.color]="(row.availWarranty === null || row.availability >= row.availWarranty) ? '#4CAF82' : '#E05D4E'">{{ row.availability | numberFomat: '1.0-1' }}%</span>
+                                    } @else { <span class="dim">---</span> }
+                                </td>
+                                <td class="r">@if (row.penalty > 0) { <span class="risk">฿{{ formatShort(row.penalty) }}</span> } @else { <span class="dim">—</span> }</td>
+                                <td class="c"><span class="pill" [ngClass]="'pill-' + row.status">{{ statusLabel(row.status) }}</span></td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+                <div class="matrix-foot">{{ analytics().siteCount }} sites · <span class="g">{{ analytics().metCount }} met</span> · <span class="y">{{ analytics().warnCount }} warning</span> · <span class="r">{{ analytics().breachCount }} breach</span></div>
+            </div>
+
+            <div class="card area-penalty bz">
+                <div class="card-head bz">AVAILABILITY &amp; PENALTY</div>
+                <div class="gauge-cap dim">Portfolio availability · warranty {{ analytics().avgWarrAvai !== null ? (analytics().avgWarrAvai | numberFomat: '1.0-0') : '--' }}%</div>
+                <div class="gauge bz">
+                    <div class="gtrack bz">
+                        <div class="gfill" [style.width.%]="analytics().avgAvai ?? 0" [style.background]="(analytics().avgWarrAvai === null || (analytics().avgAvai ?? 0) >= analytics().avgWarrAvai!) ? '#4CAF82' : '#E05D4E'"></div>
+                        @if (analytics().avgWarrAvai !== null) { <div class="gmark" [style.left.%]="analytics().avgWarrAvai!"></div> }
+                    </div>
+                    <span class="g gval">{{ analytics().avgAvai !== null ? (analytics().avgAvai | numberFomat: '1.0-1') : '--' }}%</span>
+                </div>
+                <div class="pline"><span class="k2">Sites below avail warranty</span><span class="y">{{ analytics().belowAvail }} / {{ analytics().trackedCount }}</span></div>
+                <div class="pline"><span class="k2">Energy shortfall (YTD)</span><span class="r">{{ toGWh(analytics().ytdShortfall) }} GWh</span></div>
+                <div class="pline"><span class="k2">Penalty — energy LD</span><span class="r">฿{{ formatShort(analytics().ytdPenalty) }}</span></div>
+                <div class="pline"><span class="k2">Penalty — availability LD</span><span class="dim">฿{{ formatShort(analytics().availPenalty) }}</span></div>
+                <div class="pline"><span class="k2">Total penalty YTD</span><span class="r" style="font-weight:600">฿{{ formatShort(analytics().totalPenalty) }}</span></div>
+                <div class="pline"><span class="k2">Over-delivery (surplus)</span><span class="g">{{ toGWh(analytics().bonus) }} GWh</span></div>
+            </div>
+        </div>
+    } @else {
+        <div class="empty bz">
+            @if (loading()) { Loading delivery data… } @else { No sites with SLA warranty (energy_delivery). }
+        </div>
+    }
+</div>

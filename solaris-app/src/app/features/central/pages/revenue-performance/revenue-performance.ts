@@ -1,16 +1,17 @@
 import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Store } from '@ngrx/store';
 import { Subscription, timer } from 'rxjs';
-import { SiteModel, PageConfigModel } from '../../../../shared/models/config.model';
-import { HttpService } from '../../../../shared/services/http.service';
-import { Datetime } from '../../../../shared/services/datetime';
+import { SiteModel } from '../../../../shared/models/config.model';
 import { AppInitService } from '../../../../shared/services/app-init.service';
 import { ChartService } from '../../../../shared/services/chart.service';
-import { ResponseHistorianModel, ResponseRealtimeModel } from '../../../../shared/models/response.model';
 import { ChartParameters } from '../../../../shared/models/highchart.model';
-import { PlantInformationModel, PlantSlaModel, FindSlaByDateRequest } from '../../../../shared/models/masterdata.model';
+import { PlantSlaModel } from '../../../../shared/models/masterdata.model';
 import { BillingConfigModel } from '../../models/billing.model';
 import { parseContactCost } from '../../models/contract.model';
 import { MONTH_LABELS, RevMonthPoint, SiteRevRow, rateForMonth } from '../../models/revenue-performance.model';
+import { PpaDataLoader } from '../../services/ppa-data-loader';
+import { selectPpaSiteList, selectPpaBillingConfigs, selectPpaSlaData, selectPpaRealtimeData, selectPpaMonthlyEnergy } from '../../store/selectors/ppa.selector';
 
 const C_ACTUAL = '#4DA3FF';
 const C_FORECAST = '#5A3A34';
@@ -29,21 +30,21 @@ const C_GRID = 'var(--chart-brd)';
 })
 export class RevenuePerformance implements OnInit, OnDestroy {
 
-  config = signal<PageConfigModel>({ realtimeConfig: [], historianConfig: [], chartConfig: [] });
-  siteList = signal<SiteModel[]>([]);
-  billingConfigs = signal<BillingConfigModel[]>([]);
-  slaData = signal<Record<string, PlantSlaModel>>({});
-  realtimeData = signal<Record<string, number>>({});   // key = `${siteId}_${Title}` เช่น KKB_AVAI, KKB_PR_MONTH
-  monthlyEnergy = signal<Record<string, (number | null)[]>>({});   // kWh ต่อเดือน (index 0-11 = Jan-Dec ปีปัจจุบัน)
+  private store = inject(Store);
+  private ppaLoader = inject(PpaDataLoader);
+  private appInit = inject(AppInitService);
+  private chartSrv = inject(ChartService);
+
+  // ข้อมูลกลางอ่านจาก ngrx store (โหลดครั้งเดียวผ่าน PpaDataLoader ใช้ร่วมกับหน้าอื่นในกลุ่ม PPA)
+  siteList = toSignal(this.store.select(selectPpaSiteList), { initialValue: [] as SiteModel[] });
+  billingConfigs = toSignal(this.store.select(selectPpaBillingConfigs), { initialValue: [] as BillingConfigModel[] });
+  slaData = toSignal(this.store.select(selectPpaSlaData), { initialValue: {} as Record<string, PlantSlaModel> });
+  realtimeData = toSignal(this.store.select(selectPpaRealtimeData), { initialValue: {} as Record<string, number> });
+  monthlyEnergy = toSignal(this.store.select(selectPpaMonthlyEnergy), { initialValue: {} as Record<string, (number | null)[]> });
   loading = signal<boolean>(true);
 
   timers?: Subscription;
   date: Date = new Date();
-
-  private httpSrv = inject(HttpService);
-  private dateTimeSrv = inject(Datetime);
-  private appInit = inject(AppInitService);
-  private chartSrv = inject(ChartService);
 
   // ───────── core analytics (ทุก panel derive จาก object นี้) ─────────
   analytics = computed(() => {
@@ -349,158 +350,18 @@ export class RevenuePerformance implements OnInit, OnDestroy {
   }
 
   // ───────── lifecycle ─────────
-  ngOnInit(): void {
-    this.initPage();
+  async ngOnInit(): Promise<void> {
+    this.loading.set(true);
+    await this.ppaLoader.ensureLoaded();
+    this.loading.set(false);
+    if (this.appInit.config.Timer) {
+      this.timers = timer(this.appInit.config.Timer * 60000, this.appInit.config.Timer * 60000)
+        .subscribe(() => this.ppaLoader.ensureLoaded(true));
+    }
   }
 
   ngOnDestroy(): void {
     this.timers?.unsubscribe();
-  }
-
-  async initPage() {
-    this.timers?.unsubscribe();
-    this.loading.set(true);
-    await this.getConfig();
-    await this.getSiteListData();
-    await Promise.all([
-      this.getSlaData(),
-      this.getRealtimeData(),
-      this.getMonthlyEnergyData()
-    ]);
-    this.loading.set(false);
-    if (this.appInit.config.Timer) {
-      this.timers = timer(this.appInit.config.Timer * 60000, this.appInit.config.Timer * 60000).subscribe(() => this.updateData());
-    }
-  }
-
-  async updateData() {
-    this.date = new Date();
-    await Promise.all([this.getSlaData(), this.getRealtimeData(), this.getMonthlyEnergyData()]);
-  }
-
-  async getConfig() {
-    const config = await this.httpSrv.getConfig2('assets/central/revenue-performance/configurations/revenue.config.json');
-    if (config) {
-      this.config.set(config);
-    }
-  }
-
-  // แทน {SITE} ใน template tag ด้วย siteId จริง
-  private resolveTag(template: string, siteId: string): string {
-    return template.replace('{SITE}', siteId);
-  }
-
-  async getSiteListData() {
-    const res = await this.httpSrv.getMasterPlants();
-    if (res && res.status === 'success' && res.data) {
-      this.siteList.set(res.data.map(p => this.toSiteModel(p)));
-      await this.getBillingConfigData();
-    }
-  }
-
-  private toSiteModel(plant: PlantInformationModel): SiteModel {
-    return {
-      enabled: plant.enable === 1,
-      id: plant.siteid,
-      name: plant.name ?? plant.siteid,
-      project: plant.project ?? '',
-      location: plant.location ?? '',
-      position: { lat: plant.position_lat ?? 0, lng: plant.position_long ?? 0 },
-      capacity: plant.capacity != null ? plant.capacity.toString() : '0',
-      cod: plant.cod ?? ''
-    };
-  }
-
-  async getBillingConfigData() {
-    const res = await this.httpSrv.getBillingConfig();
-    if (res && res.status === 'success') {
-      this.billingConfigs.set(res.data.filter(x => x.siteId !== 'global'));
-    }
-  }
-
-  async getSlaData() {
-    const year = this.date.getFullYear();
-    const body: FindSlaByDateRequest = { start_time: `${year - 1}-12-31`, end_time: `${year}-12-31` };
-    const res = await this.httpSrv.findSlaByDate(body);
-    if (res && res.status === 'success' && res.data) {
-      const map: Record<string, PlantSlaModel> = {};
-      for (const sla of res.data) {
-        if (new Date(sla.timestamp).getFullYear() !== year) { continue; }
-        const existing = map[sla.siteid];
-        if (!existing || new Date(sla.timestamp).getTime() > new Date(existing.timestamp).getTime()) {
-          map[sla.siteid] = sla;
-        }
-      }
-      this.slaData.set(map);
-    }
-  }
-
-  // realtime — อ่านทุก tag ใน config.realtimeConfig (AVAI, PR_MONTH) ยิงครั้งเดียว
-  // เก็บเป็น map key `${siteId}_${Title}` เช่น KKB_AVAI, KKB_PR_MONTH
-  async getRealtimeData() {
-    const sites = this.siteList();
-    const groups = this.config().realtimeConfig;
-    if (sites.length === 0 || groups.length === 0) { return; }
-
-    const suffixToTitle = new Map<string, string>();
-    const tags: string[] = [];
-    for (const g of groups) {
-      for (const t of g.Tags) {
-        suffixToTitle.set(t.Tagname.replace('{SITE}.', ''), t.Title);
-        sites.forEach(s => tags.push(this.resolveTag(t.Tagname, s.id)));
-      }
-    }
-
-    const response: ResponseRealtimeModel[] = await this.httpSrv.getRealtime({ Tags: tags });
-    if (response) {
-      const map: Record<string, number> = {};
-      response.forEach(d => {
-        const parts = d.Name.split('.');
-        const siteId = parts[0];
-        const title = suffixToTitle.get(parts.slice(1).join('.'));
-        const v = parseFloat(d.Value?.toString().replaceAll(',', '') ?? '');
-        if (title && !isNaN(v)) { map[`${siteId}_${title}`] = v; }
-      });
-      this.realtimeData.set(map);
-    }
-  }
-
-  // energy รายเดือน 12M — อ่าน WH_MONTH ผ่าน getAtTime ที่ต้นเดือนแต่ละเดือน (เร็วกว่า gethistorian, ยิง parallel)
-  // tag + convention การอ่าน (StartTime=BOM) มาจาก config
-  async getMonthlyEnergyData() {
-    const sites = this.siteList();
-    const group = this.config().historianConfig.find(g => g.Group === 'monthlyEnergy');
-    const tag = group?.Tags.find(t => t.Title === 'WH_MONTH');
-    if (sites.length === 0 || !tag) { return; }
-
-    const year = this.date.getFullYear();
-    const curMonth = this.date.getMonth();
-    const tags = sites.map(s => this.resolveTag(tag.Tagname, s.id));
-    const period = tag.Options.StartTime || 'BOM';
-
-    const energy: Record<string, (number | null)[]> = {};
-    sites.forEach(s => energy[s.id] = new Array(12).fill(null));
-
-    const jobs: Promise<void>[] = [];
-    for (let m = 0; m <= curMonth; m++) {
-      const ts = this.dateTimeSrv.getTime(period, new Date(year, m, 1));
-      jobs.push(this.fetchMonthEnergy(tags, ts, m, energy));
-    }
-    await Promise.all(jobs);
-    this.monthlyEnergy.set(energy);
-  }
-
-  private async fetchMonthEnergy(tags: string[], timeStamp: string, monthPos: number, energy: Record<string, (number | null)[]>) {
-    const response: ResponseHistorianModel[] = await this.httpSrv.getAtTime([{ Tags: tags, TimeStamp: timeStamp }]);
-    if (response) {
-      response.forEach(data => {
-        const siteId = data.Name.split('.')[0];
-        const record = data.records && data.records.length > 0 ? data.records[0] : null;
-        if (record && energy[siteId]) {
-          energy[siteId][monthPos] = parseFloat(record.Value.toString().replaceAll(',', ''));
-        }
-      });
-    }
   }
 
   // ───────── helpers (template) ─────────

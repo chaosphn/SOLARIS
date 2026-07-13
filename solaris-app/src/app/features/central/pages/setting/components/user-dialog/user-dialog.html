@@ -143,7 +143,7 @@
                     Central Management Pages
                 </div>
                 <div class="checkbox-grid-user">
-                    @for (page of pageList()[0].page; track $index) {
+                    @for (page of overviewPage; track $index) {
                         <label class="checkbox-label" >
                             <input type="checkbox" 
                                     [checked]="hasPageAccess(page.path)"
@@ -156,7 +156,33 @@
                     Site Management Pages
                 </div>
                 <div class="checkbox-grid-user">
-                    @for (page of pageList()[1].page; track $index) {
+                    @for (page of operationPage; track $index) {
+                        <label class="checkbox-label" >
+                            <input type="checkbox" 
+                                    [checked]="hasPageAccess(page.path)"
+                                    (change)="togglePageAccess(page.path)">
+                            <span [ngClass]="{ 'active-page' : hasPageAccess(page.path) }">{{ page.name }}</span>
+                        </label>
+                    }
+                </div>
+                <div class="w-100 title pb-2" [style]="{ padding: '8px 0' }">
+                    Site Management Pages
+                </div>
+                <div class="checkbox-grid-user">
+                    @for (page of financialPage; track $index) {
+                        <label class="checkbox-label" >
+                            <input type="checkbox" 
+                                    [checked]="hasPageAccess(page.path)"
+                                    (change)="togglePageAccess(page.path)">
+                            <span [ngClass]="{ 'active-page' : hasPageAccess(page.path) }">{{ page.name }}</span>
+                        </label>
+                    }
+                </div>
+                <div class="w-100 title pb-2" [style]="{ padding: '8px 0' }">
+                    Site Management Pages
+                </div>
+                <div class="checkbox-grid-user">
+                    @for (page of adminPage; track $index) {
                         <label class="checkbox-label" >
                             <input type="checkbox" 
                                     [checked]="hasPageAccess(page.path)"
