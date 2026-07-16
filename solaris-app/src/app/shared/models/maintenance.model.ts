@@ -223,6 +223,11 @@ export interface DeleteWoReportRequest {
     id: number;
 }
 
+export interface DownloadWoReportRequest {
+    id?: number;
+    work_order_id?: number;
+}
+
 // ─── Signatures ───────────────────────────────────────────────────────────────
 
 export interface WoSignatureModel {

@@ -58,42 +58,53 @@
         <div class="empty-state"><i class="material-icons">history</i>No history entries found</div>
       } @else {
         @for (group of grouped(); track group.month) {
-          <div class="timeline-label">{{ group.month }}</div>
-          @for (log of group.items; track log.id) {
-            <div class="hist-row">
-              <div class="hist-timeline">
-                <div class="hist-dot" [ngClass]="dotClass(log)"></div>
-                <div class="hist-line"></div>
-              </div>
-              <div class="hist-info">
-                <div class="hist-title">
-                  <span class="wo-num" style="font-size:10px;margin-right:8px">{{ log.wo_number ?? '—' }}</span>
-                  {{ log.action }}
-                </div>
-                <div class="hist-meta">
-                  @if (log.from_status) {
-                    <span class="badge" [ngClass]="'s-' + log.from_status">
-                      <span class="dot"></span>{{ log.from_status | titlecase }}
-                    </span>
-                    <i class="material-icons" style="font-size:12px;color:var(--secondary-txt)">arrow_forward</i>
-                  }
-                  @if (log.to_status) {
-                    <span class="badge" [ngClass]="'s-' + log.to_status">
-                      <span class="dot"></span>{{ log.to_status | titlecase }}
-                    </span>
-                  }
-                </div>
-              </div>
-              <div class="hist-right">
-                @if (log.user) {
-                  <div class="hist-detail" style="display:flex;align-items:center;gap:4px">
-                    <i class="material-icons" style="font-size:12px">person</i>{{ log.user }}
-                  </div>
+          <div class="log-month">{{ group.month }}</div>
+          <div class="tablescroll">
+            <table class="log-table">
+              <thead>
+                <tr>
+                  <th>WO Number</th>
+                  <th>Action</th>
+                  <th>Status Change</th>
+                  <th>User</th>
+                  <th class="ta-r">Timestamp</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (log of group.items; track log.id) {
+                  <tr>
+                    <td><span class="wo-num">{{ log.wo_number ?? '—' }}</span></td>
+                    <td><span class="log-action" [class.created]="log.action === 'created'">{{ log.action }}</span></td>
+                    <td>
+                      @if (log.from_status || log.to_status) {
+                        <span class="log-change">
+                          @if (log.from_status) {
+                            <span class="badge" [ngClass]="'s-' + log.from_status"><span class="dot"></span>{{ log.from_status | titlecase }}</span>
+                          }
+                          @if (log.from_status && log.to_status) {
+                            <i class="material-icons">arrow_forward</i>
+                          }
+                          @if (log.to_status) {
+                            <span class="badge" [ngClass]="'s-' + log.to_status"><span class="dot"></span>{{ log.to_status | titlecase }}</span>
+                          }
+                        </span>
+                      } @else {
+                        <span class="log-dash">—</span>
+                      }
+                    </td>
+                    <td>
+                      @if (log.user) {
+                        <span class="log-user"><i class="material-icons">person</i>{{ log.user }}</span>
+                      } @else {
+                        <span class="log-dash">—</span>
+                      }
+                    </td>
+                    <td class="ta-r"><span class="log-time">{{ log.timestamp | date:'d MMM yyyy, HH:mm' }}</span></td>
+                  </tr>
                 }
-                <div class="hist-date">{{ log.timestamp | date:'d MMM yyyy, HH:mm' }}</div>
-              </div>
-            </div>
-          }
+              </tbody>
+            </table>
+          </div>
         }
       }
     </div>

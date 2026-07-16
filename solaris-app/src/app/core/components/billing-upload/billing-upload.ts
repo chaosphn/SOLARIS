@@ -59,7 +59,6 @@ export class BillingUpload implements OnInit {
       this.fileNamePattern = new RegExp(pattern);
 
       this.getBillingState();
-      console.log('Decoded billingId:', data, this.billingStateData, this.billingState);
     } else {
       alert('Invalid billing ID');
       this.router.navigate(['/main/overview']);
@@ -84,7 +83,6 @@ export class BillingUpload implements OnInit {
         //   alert('Current billing process is not in "invoice" stage. Please check the billing state and try again.');
         //   this.router.navigate(['/main/overview']);
         // }
-        // console.log('Fetched billing state:', this.billingState);
       } else {
         alert('Failed to fetch billing state');
       }
@@ -218,9 +216,7 @@ export class BillingUpload implements OnInit {
       };
 
       const res = await this.httpService.updateInvoiceCustomerReview(payload);
-      if (res && res.StatusCode.toLowerCase().includes('success')) {
-        console.log('Upload response:', res);
-      } else {
+      if (!res || !res.StatusCode.toLowerCase().includes('success')) {
         throw new Error(res?.Message || 'Upload failed');
       }
 

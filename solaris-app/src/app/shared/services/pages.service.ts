@@ -25,7 +25,7 @@ export class PagesService {
         { name: 'Equipment', path: 'realtime' }, 
         { name: 'Topology', path: 'topology' }, 
         { name: 'Diagram', path: 'diagram' }, 
-        { name: 'Control', path: 'control' },
+        { name: 'Maintenance', path: 'maintenance' },
         { name: 'Visualization', path: 'charts' },
         { name: 'Alarm & Events', path: 'event' }
       ]

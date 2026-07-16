@@ -26,7 +26,6 @@ export class AppInitService {
         this.http.get('assets/config.json')
       );
       
-      //console.log('Config loaded:', data);
       
       // Update config object
       this.config.UrlApi = data.UrlApi;

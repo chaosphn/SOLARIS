@@ -348,7 +348,6 @@ export class Billing implements OnInit, OnDestroy {
 
     effect(() => {
       if(this.siteList() && !this.selectedSite){
-        //console.log(this.siteList(), this.siteSelected())
         const urlParts = this.router.url.split('/');
         const sessionId = urlParts[urlParts.length - 1];
         if(sessionId !== 'viewer'){
@@ -388,10 +387,8 @@ export class Billing implements OnInit, OnDestroy {
       if(sessiondata && sessionObj && sessionObj.pointsource && sessionObj.timestamp){
         this.sessionData.set(sessionObj);
         this.siteSelected.set(sessionObj.pointsource);
-        //console.log('siteOptions', this.siteOptions());
         const selectedOption = this.siteOptions().find(x => x.value === sessionObj.pointsource);
         if(selectedOption !== undefined){
-          //console.log('selectedOption', selectedOption);
           this.selectedSite = selectedOption;
         }
         this.date = new Date(sessionObj.timestamp);
@@ -412,7 +409,6 @@ export class Billing implements OnInit, OnDestroy {
     );
 
     const site = res[0]?.siteList.find(x => x.id === siteId);
-    //console.log(site, res)
     if(site){
       this.selectedSite = {
         value: siteId,
@@ -480,7 +476,6 @@ export class Billing implements OnInit, OnDestroy {
           payload: { type: 'error', text: 'Failed to get billing state data' }
         }));
       }
-      //console.log(this.billingState())
     } catch (error: any) {
       this.billingState.set([]);
       this.currentPage.set(1);
@@ -530,7 +525,6 @@ export class Billing implements OnInit, OnDestroy {
           payload: { type: 'error', text: 'Failed to get billing state data' }
         }));
       }
-      //console.log(this.billingState())
     } catch (error: any) {
       this.billingState.set([]);
       this.currentPage.set(1);
@@ -804,7 +798,6 @@ export class Billing implements OnInit, OnDestroy {
   }
    
   isStepActive(currentProcess: string, stepKey: string, item: BillingTableRow): boolean {
-    //console.log(currentProcess,stepKey, item )
     if(stepKey === 'confirmation'){
       return item.confirmationStatus !== 'complete' && item.confirmationStatus !== '' && item.confirmationStatus !== null;
     } else if(stepKey === 'invoice'){
@@ -1060,7 +1053,6 @@ export class Billing implements OnInit, OnDestroy {
       case 'confirmation':
           if(item.confirmation_status === 'prepared' || item.confirmation_status === 'user_wait_for_approve' || item.confirmation_status === 'user_reject' || item.confirmation_status === 'customer_reject'){
             const userCanApprove = [...globalConfig.confirmation_user, ...siteConfig.confirmation_user];
-            //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
             const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
             if(hasPrivilege){
               if(this.userRole() === 'administrator' && !(user && userCanApprove.includes(user._id))){
@@ -1075,7 +1067,6 @@ export class Billing implements OnInit, OnDestroy {
             // || item.confirmation_status === 'customer_reject'
           ){
             const userCanApprove = [...globalConfig.confirmation_customer, ...siteConfig.confirmation_customer];
-            //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
             const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
             if(hasPrivilege){
               if(this.userRole() === 'administrator' && !(user && userCanApprove.includes(user._id))){
@@ -1090,7 +1081,6 @@ export class Billing implements OnInit, OnDestroy {
       case 'invoice':
           if(item.invoice_status === 'prepared' || item.invoice_status === 'account_wait_for_approve'){
             const userCanApprove = [...globalConfig.invoice_account, ...siteConfig.invoice_account];
-            //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
             const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
             if(hasPrivilege){
               if(this.userRole() === 'administrator' && !(user && userCanApprove.includes(user._id))){
@@ -1103,7 +1093,6 @@ export class Billing implements OnInit, OnDestroy {
           };
           if(item.invoice_status === 'customer_wait_for_approve'){
             const userCanApprove = [...globalConfig.invoice_customer, ...siteConfig.invoice_customer];
-            //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
             const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
             if(hasPrivilege){
               if(this.userRole() === 'administrator' && !(user && userCanApprove.includes(user._id))){
@@ -1118,7 +1107,6 @@ export class Billing implements OnInit, OnDestroy {
       case 'payment':
           if(item.payment_status === 'customer_paid' || item.payment_status === 'wait_for_payment'){
             const userCanApprove = [...globalConfig.receipt_account, ...siteConfig.receipt_account];
-            //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
             const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
             if(hasPrivilege){
               if(this.userRole() === 'administrator' && !(user && userCanApprove.includes(user._id))){
@@ -1134,7 +1122,6 @@ export class Billing implements OnInit, OnDestroy {
       case 'receipt':
         if(item.reciept_status === 'prepared'){
           const userCanApprove = [...globalConfig.receipt_account, ...siteConfig.receipt_account];
-          //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
           const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
           if(hasPrivilege){
             if(this.userRole() === 'administrator' && !(user && userCanApprove.includes(user._id))){
@@ -1147,7 +1134,6 @@ export class Billing implements OnInit, OnDestroy {
         };
         if(item.reciept_status === 'customer_wait_for_approve'){
           const userCanApprove = [...globalConfig.receipt_customer, ...siteConfig.receipt_customer];
-          //console.log('User can approve list:', userCanApprove, 'Current user ID:', user);
           const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
           if(hasPrivilege){
             if(this.userRole() === 'administrator' && !(user && userCanApprove.includes(user._id))){
@@ -1215,7 +1201,6 @@ export class Billing implements OnInit, OnDestroy {
     const item = this.billingState().find(x => x.id === row.id);
     const globalConfig = this.billingConfigData().find(x => x.siteId === 'global');
     const siteConfig = this.billingConfigData().find(x => x.siteId === item?.siteId);
-    //console.log('Getting sublabel for process:', item, 'with global config:', globalConfig, 'and site config:', siteConfig);
     switch ((item?.billing_process || '').toLowerCase()) {
       case 'confirmation':
         if(item?.confirmation_status === 'user_wait_for_approve'){
@@ -1246,7 +1231,6 @@ export class Billing implements OnInit, OnDestroy {
               return 'unknow'
             }
           });
-          //console.log(globalConfig?.invoice_account, invoiceAccountIds, userNames)
           return `( ${userNames.join(', ')} )`;
         } else if(item?.invoice_status === 'customer_wait_for_approve'){
           const invoiceCustomerIds = [...(globalConfig?.invoice_customer || []), ...(siteConfig?.invoice_customer || [])];

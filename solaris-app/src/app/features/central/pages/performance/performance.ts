@@ -111,7 +111,7 @@ export class Performance implements OnInit, OnDestroy {
     this.navState$ = this.store.select(getNavState);
     this.navState$.subscribe(async (state) => {
       const res = await firstValueFrom(
-        this.store.select(getZoneConfig(state.location))
+        this.store.select(getZoneConfig('ALL'))
       );
       if(res && res.siteList){
         this.siteList.set(res.siteList);
@@ -136,7 +136,6 @@ export class Performance implements OnInit, OnDestroy {
           this.store.select(PerformanceSelectors.selectPerformanceAtTimeRequests)
         );
         if(oldData.filter(x => x.Request.length > 0).length > 0){
-          //console.log(oldData)
           this.store.dispatch(PerformanceActions.resetPerformanceState())
         }
         await this.initPage();
@@ -341,7 +340,6 @@ export class Performance implements OnInit, OnDestroy {
     if(req){
       const sortedReq = req.sort((a,b) => a.Order - b.Order);
       this.requestAttime.set(sortedReq);
-      //console.log(this.requestAttime())
       this.store.dispatch(PerformanceActions.loadPerformanceAtTimeData({ requests: sortedReq }));
     }
   }
@@ -384,7 +382,6 @@ export class Performance implements OnInit, OnDestroy {
     }
     //await this.getAtTimeData();
     if (!this.dataHistorian() || Object.keys(this.dataHistorian()).length === 0 || shouldRefresh) {
-      //console.log(this.dataHistorian(), shouldRefresh)
       await this.getHistorianData();
       this.store.dispatch(PerformanceActions.loadPerformanceConfigTimeStamp({ timestamp: new Date() }))
     }
@@ -403,7 +400,6 @@ export class Performance implements OnInit, OnDestroy {
         const minutesDiff = timeDiff / (1000 * 60); // Convert to minutes
         
         if (minutesDiff > 2) {
-          //console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
           resolve(true);
         } else {
           resolve(false);
@@ -507,7 +503,6 @@ export class Performance implements OnInit, OnDestroy {
                   series.push(res);
                 }
               })
-              //console.log(item.Group, series, response);
               
               // สร้าง chart config object ใหม่
               newVal[item.Group] = {

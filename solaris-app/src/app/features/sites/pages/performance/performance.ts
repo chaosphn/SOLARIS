@@ -88,7 +88,6 @@ export class Performance implements OnInit, OnDestroy {
   constructor(){
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {
-      //console.log(state.location)
       this.siteSelected.set(state.location);
       const res = await firstValueFrom(
         this.store.select(getZoneConfig(state.location))
@@ -345,7 +344,6 @@ export class Performance implements OnInit, OnDestroy {
         const minutesDiff = timeDiff / (1000 * 60); // Convert to minutes
         
         if (minutesDiff > 2) {
-          //console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
           resolve(true);
         } else {
           resolve(false);
@@ -458,7 +456,6 @@ export class Performance implements OnInit, OnDestroy {
                 title: this.chartOptions.getTitleOptions(conf.chartOptions.title),
                 xAxis: this.chartOptions.getXAxisoptions(conf.chartOptions.xAxis),
                 yAxis: this.chartOptions.getYAxisoptions(conf.chartOptions.yAxis).map((yAxisOption, index) => {
-                  //console.log('yAxisOption', yAxisOption);
                   if(yAxisOption?.plotLines && yAxisOption.plotLines.length > 0){
                     let plotLine = yAxisOption.plotLines.map((pl: any) => {
                         let val = 0;
@@ -505,7 +502,6 @@ export class Performance implements OnInit, OnDestroy {
                           val = count > 0 ? total / count : 0;
                         }
                         const label = pl.label?.text.replace('{value}', val.toFixed(2));
-                        //console.log('pl', pl, val, label);
                         return {
                           ...pl,
                           value: val,
@@ -515,7 +511,6 @@ export class Performance implements OnInit, OnDestroy {
                           }
                         };
                     });
-                    //console.log('plotLine', yAxisOption.plotLines, plotLine);
                     return {
                       ...yAxisOption,
                       plotLines: plotLine
@@ -530,7 +525,6 @@ export class Performance implements OnInit, OnDestroy {
               };
             }
             // Return object ใหม่ทั้งหมด
-            //console.log('newVal', newVal);
             return newVal;
           });
           
@@ -569,7 +563,6 @@ export class Performance implements OnInit, OnDestroy {
   }
 
   async onChartUpdate(data: ChartPickerModel){
-    //console.log(data, this.requestHistorian())
     const findRequest = this.requestHistorian().find(x => x.Group === data.name);
     const conf = this.config().chartConfig.find(x => x.name === data.name);
     if(findRequest && conf){
@@ -636,7 +629,6 @@ export class Performance implements OnInit, OnDestroy {
                 this.chartOptions.getXAxisoptions(conf.chartOptions.xAxis) : 
                 this.chartOptions.getXAxisoptions({}),
               yAxis: this.chartOptions.getYAxisoptions(conf.chartOptions.yAxis).map((yAxisOption, index) => {
-                //console.log('yAxisOption', yAxisOption);
                 if(yAxisOption?.plotLines && yAxisOption.plotLines.length > 0){
                   let plotLine = yAxisOption.plotLines.map((pl: any) => {
                       let val = 0;
@@ -683,7 +675,6 @@ export class Performance implements OnInit, OnDestroy {
                         val = count > 0 ? total / count : 0;
                       }
                       const label = pl.label?.text.replace('{value}', val.toFixed(2));
-                      //console.log('pl', pl, val, label);
                       return {
                         ...pl,
                         value: val,
@@ -693,7 +684,6 @@ export class Performance implements OnInit, OnDestroy {
                         }
                       };
                   });
-                  //console.log('plotLine', yAxisOption.plotLines, plotLine);
                   return {
                     ...yAxisOption,
                     plotLines: plotLine
@@ -706,7 +696,6 @@ export class Performance implements OnInit, OnDestroy {
               plotOptions: this.chartOptions.getPlotOptions(conf.chartOptions.plotOptions),
               series: [...series] // Clone array
             };
-            //console.log('newVal', newVal);
           }
           // Return object ใหม่ทั้งหมด
           return newVal;

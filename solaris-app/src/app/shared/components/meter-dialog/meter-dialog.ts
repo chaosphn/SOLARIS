@@ -110,7 +110,6 @@ export class MeterDialog implements OnInit {
       }
     });
 
-    //console.log('Realtime:', this.dataRealtime());
   }
 
   async getHistorianData(): Promise<void> {
@@ -164,7 +163,6 @@ export class MeterDialog implements OnInit {
     });
 
     await Promise.all(requestGroup);
-    //console.log('Chart data:', this.dataChart());
   }
 
   onClose(): void {

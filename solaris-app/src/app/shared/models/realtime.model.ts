@@ -30,6 +30,18 @@ export interface TagsListConfig{
     name: string;
     equipments: Equipments[];
     parameters: TagParameter[];
+    mapping?: { [param: string]: StatusMapping };
+}
+
+export interface StatusMapping{
+    type: 'enum' | 'bitfield';
+    values?: { [code: string]: { label: string; level: string } };
+    bits?: { bit: number; name: string; level: string }[];
+}
+
+export interface DecodedAlarm{
+    name: string;
+    level: string;
 }
 
 export interface Equipments{

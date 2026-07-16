@@ -30,8 +30,6 @@ export class Login implements OnInit {
   }
 
    async login(): Promise<any> {
-    //console.log(this.form)
-    ////console.log(this.isEven())
     if(this.form.username != '' && this.form.password != ''){
       try {
         const username = this.form.username?.toString() || '';

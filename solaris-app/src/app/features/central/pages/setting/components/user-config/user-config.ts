@@ -130,7 +130,6 @@ export class UserConfig implements OnInit {
   }
 
   saveUserChanges(): void {
-    //console.log('Saving all user changes:', this.users);
     alert('User changes saved successfully!');
   }
 
@@ -202,7 +201,6 @@ export class UserConfig implements OnInit {
 
     dialogRef.afterClosed().subscribe(async result => {
       if (result === true) {
-        ////console.log('User confirmed deletion of user with id:', id);
         await this.deleteUser(id);
       }
     });

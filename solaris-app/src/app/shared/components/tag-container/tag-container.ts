@@ -36,13 +36,13 @@ export class TagContainer implements OnChanges, OnDestroy {
   private http = inject(HttpService);
   private store = inject(Store);
 
+  isShowDialog = signal<boolean>(true);
+
   constructor(){
     // effect(() => {
     //   if(this.siteName()){
-    //     //console.log(this.tagConfig())
     //     const tagState: any = this.store.select(TagsSelectors.getTagsGroupWithName(this.siteName()))
     //       .subscribe((tag) => {
-    //         //console.log(tag)
     //         if(tag && tag.length > 0){
     //           this.tagsGroup.set(tag);
     //         } else {
@@ -58,7 +58,6 @@ export class TagContainer implements OnChanges, OnDestroy {
     if(this.tagConfig()){
       const tagState: any = this.store.select(TagsSelectors.getTagsGroupWithName(this.siteName()))
         .subscribe((tag) => {
-          //console.log(tag)
           if(tag && tag.length > 0){
             //this.tagsGroup.set(tag);
             const tags = this.getTagsGroup();
@@ -97,6 +96,10 @@ export class TagContainer implements OnChanges, OnDestroy {
       type: type,
       value: event.toISOString()
     })
+  }
+
+  toggleDialog(){
+    this.isShowDialog.set(!this.isShowDialog());
   }
 
   getTagsGroup(): GroupTags[] {
@@ -144,7 +147,6 @@ export class TagContainer implements OnChanges, OnDestroy {
         parameters: param,
       };
     });
-    //console.log(res);
     return res;
   }
 
@@ -268,7 +270,6 @@ export class TagContainer implements OnChanges, OnDestroy {
   }
 
   checkResult(){
-    //console.log(this.tagsGroup())
   }
 
   sunmitTags(){
@@ -338,7 +339,6 @@ export class TagContainer implements OnChanges, OnDestroy {
       alias = Object.entries(param).map(([key, value]) => value);
       request = request.concat(alias);
     });
-    //console.log(request);
     this.clrDatas.emit()
     this.getHisData(request);
   } 
@@ -365,7 +365,7 @@ export class TagContainer implements OnChanges, OnDestroy {
         this.isLoading.emit(false);
         return data;
       })
-      .catch( err => console.log(err));
+      .catch(() => {});
     });
   }
 

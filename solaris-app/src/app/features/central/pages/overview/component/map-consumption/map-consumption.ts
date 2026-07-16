@@ -49,7 +49,6 @@ export class MapConsumption {
 
   handleProvinceHover = (provinceId: string | null) => {
     this.hoverprovince = provinceId;
-    //console.log(this.hoverprovince)
   };
 
   getProvinceStyle = (provinceId: string, idx: number) => {
@@ -75,7 +74,6 @@ export class MapConsumption {
     }
     const pvnName = provinceId.replaceAll(" ", "").toLowerCase();
     const findProvince = this.sites().find(x => x.location.replaceAll(" ", "").toLowerCase() === pvnName);
-    //console.log(pvnName, findProvince?.location);
     return findProvince ? `${color}` : 'var(--map-bg)'
   }
 

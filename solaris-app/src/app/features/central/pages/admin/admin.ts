@@ -241,7 +241,6 @@ export class Admin implements OnInit {
       this.store.select(getAllConfig())
     );
     if(res && res[0]){
-      console.log(res)
       this.siteList.set(res[0].siteList);
     };
   }

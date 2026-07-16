@@ -1,4 +1,4 @@
-import { Component, inject, input, ChangeDetectionStrategy, effect} from '@angular/core';
+import { Component, inject, input, ChangeDetectionStrategy } from '@angular/core';
 import { ResponseRealtimeModel } from '../../../../../../shared/models/response.model';
 import { TooltipFormat } from '../../../../../../shared/services/tooltip-format';
 
@@ -27,13 +27,6 @@ export class SummaryCard {
   tooltipSrv = inject(TooltipFormat);
 
   slaTarget = 97;
-
-  constructor() {
-    effect(() => {
-      // console.log('today_curr', this.today_curr());
-      // console.log('today_prev', this.today_prev());
-    })
-  }
 
   checkValueStatus(cur: number | undefined, prev: number | undefined){
     if(!cur || !prev){

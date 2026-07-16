@@ -342,7 +342,6 @@ export class NotificationConfig implements OnInit {
   // ─── Save All Changes ────────────────────────────────────────────────────────
 
   // saveChanges(): void {
-  //   //console.log('Saving notification config:', this.notificationConfig);
   //   const result = await this.service.updateNotificationConfig
   // }
 

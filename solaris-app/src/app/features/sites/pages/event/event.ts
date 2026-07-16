@@ -23,6 +23,16 @@ export class Events implements OnInit, OnDestroy {
   navState$: Observable<NavbarStateModel>;
   config = signal<DropdownItems[]>([]);
   mode = signal<'d' | 'w' | 'm' | 'y'>('d');
+  searchText = signal<string>('');
+  activePreset = signal<number | null>(null);
+  presetOptions: { d: number; l: string }[] = [
+    { d: 1, l: '1D' },
+    { d: 7, l: '7D' },
+    { d: 30, l: '30D' },
+  ];
+
+  // dropdown filters ยกเว้น Equipment (แทนด้วย search)
+  filterDropdowns = computed(() => this.config().filter(x => x.name !== 'Equipment'));
 
   siteList = signal<SiteModel[]>([]);
   siteSelected = signal<string>('');
@@ -30,7 +40,8 @@ export class Events implements OnInit, OnDestroy {
 
   navSub?: Subscription;
   pdfurl = signal<string>('');
-  date: Date = new Date();
+  start: Date = new Date();
+  end: Date = new Date();
   loading = signal<Boolean>(false);
   loading2 = signal<Boolean>(false);
 
@@ -43,7 +54,21 @@ export class Events implements OnInit, OnDestroy {
   pageSize = signal<number>(15);
   currentPage = signal<number>(1); // 1-based
 
-  totalRows = computed(() => this.eventList().length);
+  filteredEvents = computed(() => {
+    const q = this.searchText().toLowerCase().trim();
+    const rows = this.eventList();
+    if (!q) return rows;
+    return rows.filter(x =>
+      (x.Item || '').toLowerCase().includes(q) ||
+      (x.Group || '').toLowerCase().includes(q) ||
+      (x.Location || '').toLowerCase().includes(q) ||
+      (x.Message || '').toLowerCase().includes(q) ||
+      (x.Type || '').toLowerCase().includes(q) ||
+      (x.Level || '').toLowerCase().includes(q)
+    );
+  });
+
+  totalRows = computed(() => this.filteredEvents().length);
   totalPages = computed(() => {
     const total = this.totalRows();
     const size = this.pageSize();
@@ -51,7 +76,7 @@ export class Events implements OnInit, OnDestroy {
   });
 
   pagedEventList = computed(() => {
-    const rows = this.eventList();
+    const rows = this.filteredEvents();
     const size = Math.max(1, this.pageSize());
     const page = Math.min(Math.max(1, this.currentPage()), this.totalPages());
     const start = (page - 1) * size;
@@ -75,35 +100,38 @@ export class Events implements OnInit, OnDestroy {
   constructor(){
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {
-      //console.log(state.location)
       this.siteSelected.set(state.location);
       const res = await firstValueFrom(
         this.store.select(getAllConfig())
       );
       if(res && res[0]){
-        //console.log(res)
         this.siteList.set(res[0].siteList);
       };
+      await this.getConfig();
+      await this.getAlarmEventData();
     });
   }
 
   ngOnInit(): void {
+    const dt = new Date().setDate(this.start.getDate() + 1);
+    this.end = new Date(dt);
     this.getConfig();
     this.getAlarmEventData();
   }
 
   ngOnDestroy(): void {
-    
+
   }
 
   async getAlarmEventData(){
-    const dt = this.date.setHours(0,0,0,0);
-    const st = new Date(dt).toISOString();
-    const en = new Date(dt).setDate(this.date.getDate() + 1);
+    const dt1 = this.start.setHours(0,0,0,0);
+    const st = new Date(dt1).toISOString();
+    const dt2 = this.end.setHours(0,0,0,0);
+    const en = new Date(dt2).toISOString();
     const request: EventRequestModel = {
       PointSource: this.siteSelected(),
       StartTime: st,
-      EndTime: new Date(en).toISOString()
+      EndTime: en
     }
 
     const result = await this.http.getFilteredAlarmEventData(request);
@@ -133,6 +161,23 @@ export class Events implements OnInit, OnDestroy {
     }
   }
 
+  // preset ช่วงเวลา: 1D/7D/30D → set start/end แล้วดึงข้อมูลเลย
+  setPreset(days: number) {
+    const end = new Date();
+    end.setDate(end.getDate() + 1);
+    const start = new Date(end);
+    start.setDate(start.getDate() - days);
+    this.start = start;
+    this.end = end;
+    this.activePreset.set(days);
+    this.onSelectEvent();
+  }
+
+  onSearchInput(value: string) {
+    this.searchText.set(value);
+    this.currentPage.set(1);
+  }
+
   toggleDropdown(event: Event, item: DropdownItems) {
     event.stopPropagation();
     item.opened = !item.opened;
@@ -152,8 +197,15 @@ export class Events implements OnInit, OnDestroy {
     return item;
   }
 
-  async onDateSelect(event: any) {
-    this.date = event;
+  async onStartDateSelect(event: any) {
+    this.start = event;
+    this.activePreset.set(null);
+    //await this.getAlarmEventData();
+  }
+
+  async onEndDateSelect(event: any) {
+    this.end = event;
+    this.activePreset.set(null);
     //await this.getAlarmEventData();
   }
 
@@ -174,14 +226,14 @@ export class Events implements OnInit, OnDestroy {
   }
 
   async onSelectEvent() {
-    const dt = this.date.setHours(0,0,0,0);
-    const st = new Date(dt).toISOString();
-    const en = new Date(dt).setDate(this.date.getDate() + 1);
-    //console.log('Selected Event:', this.selectedOptions);
+    const dt1 = this.start.setHours(0,0,0,0);
+    const st = new Date(dt1).toISOString();
+    const dt2 = this.end.setHours(0,0,0,0);
+    const en = new Date(dt2).toISOString();
     const request: FilterEventRequestModel = {
       PointSource: this.siteSelected(),
       StartTime: st,
-      EndTime: new Date(en).toISOString(),
+      EndTime: en,
       Type: this.selectedOptions['Type']?.value || undefined,
       Level: this.selectedOptions['Level']?.value || undefined,
       Assets: this.selectedOptions['Equipment']?.value || undefined,
@@ -235,8 +287,9 @@ export class Events implements OnInit, OnDestroy {
       }
     })
 
-    const stArr = this.date.toLocaleDateString().split('/');
-    const findName = `SolarisEvent at ${stArr[1]}${stArr[0]}${stArr[2]}`;
+    const stArr = this.start.toLocaleDateString().split('/');
+    const enArr = this.end.toLocaleDateString().split('/');
+    const findName = `SolarisEvent at ${stArr[1]}${stArr[0]}${stArr[2]} - ${enArr[1]}${enArr[0]}${enArr[2]}`;
 
     const worksheet = XLSX.utils.json_to_sheet(events);
     const csv: string = XLSX.utils.sheet_to_csv(worksheet);

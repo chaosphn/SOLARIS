@@ -86,7 +86,6 @@ export class Dashboard implements OnInit, OnDestroy {
   constructor(){
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {
-      //console.log(state.location)
       this.siteSelected.set(state.location);
       const res = await firstValueFrom(
         this.store.select(getSiteConfig(state.location))
@@ -394,7 +393,6 @@ export class Dashboard implements OnInit, OnDestroy {
                     series.push(res);
                   }
                 })
-              //console.log(item.Group, series, response);
               
               // สร้าง chart config object ใหม่
               newVal[item.Group] = {
@@ -446,7 +444,6 @@ export class Dashboard implements OnInit, OnDestroy {
   }
 
   async onChartUpdate(data: ChartPickerModel){
-    //console.log(data, this.requestHistorian())
     const findRequest = this.requestHistorian().find(x => x.Group === data.name);
     const conf = this.config().chartConfig.find(x => x.name === data.name);
     if(findRequest && conf){

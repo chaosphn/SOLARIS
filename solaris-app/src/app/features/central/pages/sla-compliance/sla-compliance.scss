@@ -118,6 +118,8 @@
     .sla-grid{ grid-template-columns: 1fr; grid-template-areas: "gauges" "trend" "scorecard" "checklist" "health"; }
 }
 @media (max-width: 768px) {
+    .container{ padding: 8px; height:calc(100vh - 220px); }
     .kpi-strip{ grid-template-columns: repeat(2, 1fr); }
     .check-grid{ grid-template-columns: 1fr; }
 }
+

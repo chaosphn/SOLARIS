@@ -58,7 +58,6 @@ export class InverterDialog implements OnInit {
         });
       }
     }
-    //console.log(this.dataRealtime())
   }
 
   async getHistorianData(){
@@ -116,7 +115,6 @@ export class InverterDialog implements OnInit {
       }
     });
     await Promise.all(requestGroup);
-    //console.log(this.dataChart())
   }
 
   onClose(): void {

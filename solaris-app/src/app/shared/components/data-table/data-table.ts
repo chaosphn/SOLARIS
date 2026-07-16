@@ -32,7 +32,6 @@ export class DataTable implements OnChanges {
   private dateTimeSrv = inject(Datetime);
   constructor(){
     // effect(() => {
-    //   console.log(this.data())
     //   const data = this.data();
     //   if(data.length === 0) return; // Don't process if data is empty
       
@@ -84,7 +83,6 @@ export class DataTable implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-      console.log(this.data(), this.start(), this.end() )
       const data = this.data();
       if(data.length === 0) return; // Don't process if data is empty
       
@@ -105,7 +103,6 @@ export class DataTable implements OnChanges {
           })
         }
       });
-      console.log(this.timestampList, this.dataTable())
       this.tableRange = 20;
       this.pageNumber = "1";
   }
@@ -118,7 +115,7 @@ export class DataTable implements OnChanges {
     // else {
     //   const res = parseInt(val.replace(',', '')).toFixed(0);
     //   if(res != "NaN"){
-    //     ////console.log(res)
+    //     //
     //     return res;
     //   } else if(val)  {
     //     return val; 
@@ -162,7 +159,6 @@ export class DataTable implements OnChanges {
   }
 
   onSelectedRange(value: string){
-    //console.log(value);
     this.tableRange = parseInt(value);
     this.pageNumber = "1";
     const fullTimestamps = this.generateTimestampList();
@@ -226,7 +222,6 @@ export class DataTable implements OnChanges {
 
   exportToExcel(): void {
     const date = this.dateTimeSrv.getDateTime1(new Date());
-    //console.log(this.data());
     this.excelExportService.exportToExcel(this.data().filter(x => x.records.length > 0), 'exported_data_'+date.slice(0,10));
   }
 

@@ -43,14 +43,12 @@ export class TagDialog implements OnInit{
         return new Promise<string>(resolve => resolve(searchTerm));
       })
     ).subscribe(searchTerm => {
-      //console.log('Searching tags with term:', searchTerm);
       this.searchInput.set(searchTerm);
       this.updateFilteredTags();
     });
   }
 
   updateTagSearchInput(value: string) {
-    //console.log('Tag search input changed:', value);
     this.searchSubject.next(value);
   }
 
@@ -83,7 +81,6 @@ export class TagDialog implements OnInit{
     try {
       const tag: any = await this.httpService.getTagConfigByPointSource(siteCode || this.siteSelected());
       if(tag){
-        //console.log(tag);
         this.tagList.set(Array.isArray(tag) ? tag : [tag]);
         this.filteredTags.set(this.tagList());
       } else {
@@ -100,7 +97,6 @@ export class TagDialog implements OnInit{
 
   copyToClipboard(text: string) {
     navigator.clipboard.writeText(text).then(() => {
-      //console.log('Tag name copied to clipboard:', text);
       // Optional: Show a toast notification here
     }).catch(err => {
       //console.error('Failed to copy to clipboard:', err);

@@ -9,7 +9,7 @@
         "inverterCard inverterCard inverterCard inverterCard"
     ;
     grid-gap: 16px; 
-    max-height: 100vh;
+    max-height: calc(100vh - 106px);
     overflow-y: auto;
 }
 
@@ -35,7 +35,7 @@
             "inverterCard inverterCard inverterCard inverterCard"
         ;
         grid-gap: 16px; 
-        max-height: calc(100vh - 100px);
+        max-height: calc(100vh - 106px);
         overflow-y: auto;
     }
     
@@ -61,7 +61,7 @@
             "inverterCard inverterCard inverterCard inverterCard"
         ;
         grid-gap: 16px; 
-        max-height: calc(100vh - 100px);
+        max-height: calc(100vh - 106px);
         overflow-y: auto;
     }
 
@@ -70,7 +70,7 @@
     }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 768px) {
     .container{
         padding: 8px;
         display: grid;
@@ -86,11 +86,9 @@
             "inverterCard"
         ;
         grid-gap: 8px; 
-        max-height: calc(100vh - 250px);
+        max-height: calc(100vh - 220px);
+        overflow-x: hidden;
         overflow-y: auto;
     }
 }
 
-@media (max-width: 500px) {
-    
-}

@@ -28,15 +28,10 @@
                 </div>
                 <div class="d-flex h-100 btn-group" style="column-gap: 8px;">
                     @if (selectedOption.value !== 'data-table') {
-                        <label class="config-check d-flex-ct bz h-100" style="column-gap: 6px; cursor: pointer;">
-                            <input 
-                                type="checkbox" 
-                                [(ngModel)]="isCombinedChart"
-                                (change)="toggleCombineChart($event)"
-                                style="width: 16px; height: 16px; cursor: pointer;">
-                            <!-- <i class="material-icons" style="font-size: 16px;">line_axis</i> -->
-                            <span>SPLITE</span>
-                        </label>
+                        <button class="config d-flex-ct bz h-100" [class.active]="isCombinedChart" style="column-gap: 4px;" (click)="toggleCombineChart()">
+                            <i class="material-icons" style="font-size: 16px;">{{ isCombinedChart ? 'merge' : 'call_split' }}</i>
+                            {{ isCombinedChart ? 'COMBINED' : 'SPLIT' }}
+                        </button>
                     }
                     <button class="config d-flex-ct bz h-100" style="column-gap: 4px;" (click)="captureChart()">
                         @if (loadingImg()) {
@@ -74,11 +69,11 @@
                     @default {
                         <div class="chart-group w-100 bz" [id]="'combined-chart'">
                             <!-- Combined Chart View -->
-                            @if (!isCombinedChart && combinedChartParameter()) {
+                            @if (isCombinedChart && combinedChartParameter()) {
                                 <div class="w-100 bz chart-box h-100" >
                                     <div class="chart w-100 h-100 bz" >
                                         <ng-container>
-                                            <app-highchart [chartParameter]="combinedChartParameter()!" id="combined-chart">
+                                            <app-highchart [chartParameter]="combinedChartParameter()!" id="combined-chart" (chartReady)="onChartRebind()">
                                             </app-highchart>
                                         </ng-container>
                                     </div>
@@ -86,13 +81,13 @@
                             }
                             
                             <!-- Individual Charts View -->
-                            @if (isCombinedChart) {
+                            @if (!isCombinedChart) {
                                 <ng-container >
                                     @for (item of chartParameter(); track $index; let i = $index) {
                                         <div class="w-100 bz chart-box h-100">
                                             <div class="chart w-100 h-100 bz" >
                                                 <ng-container>
-                                                    <app-highchart [chartParameter]="item" [id]="'chart-' + i">
+                                                    <app-highchart [chartParameter]="item" [id]="'chart-' + i" (chartReady)="onChartRebind()">
                                                     </app-highchart>
                                                 </ng-container>
                                             </div>

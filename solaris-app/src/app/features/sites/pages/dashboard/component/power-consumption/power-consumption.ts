@@ -15,11 +15,11 @@ export class PowerConsumption {
   percent = input<ResponseRealtimeModel>();
 
   title1 = input<string>('');
-  value1 =  input<ResponseRealtimeModel>();
+  value1 =  input<string>('');
   unit1 = input<string>('');
 
   title2 = input<string>('');
-  value2 =  input<ResponseRealtimeModel>();
+  value2 =  input<string>('');
   unit2 = input<string>('');
 
   tooltipSrv = inject(TooltipFormat);

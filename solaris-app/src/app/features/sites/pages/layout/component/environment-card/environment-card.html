@@ -1,56 +1,39 @@
-<div class="envi-container w-100 h-100 bz">
-   <div class="bz d-flex-ct">
-        <app-polygon-card 
-        [bgcolor]="'#E4B61A'" 
-        [icon]="'solar_power'" 
-        [data]="item1()"
-        [title]="title1()" 
-        [value]="(item1()?.Value | number: '1.0-1') || '---'" 
-        [unit]="item1()?.Unit || '-'"></app-polygon-card>
-   </div>
-   <div class="bz d-flex-ct">
-        <app-polygon-card 
-        [bgcolor]="'#FF9213'" 
-        [icon]="'thermostat'" 
-        [data]="item2()"
-        [title]="title2()" 
-        [value]="(item2()?.Value | number: '1.0-1') || '---'" 
-        [unit]="item2()?.Unit || '-'"></app-polygon-card>
+<div class="ws-card w-100 h-100 bz">
+
+  <!-- 4 metric tiles -->
+  <div class="ws-tiles bz">
+    <div class="ws-tile bz">
+      <span class="ti-icon" style="background:#FEB019"><span class="material-icons">solar_power</span></span>
+      <div class="ti-val">{{ (item2()?.Value | number: '1.0-1') || '---' }}</div>
+      <div class="ti-unit">{{ item2()?.Unit || '°C' }} {{ title2() }}</div>
     </div>
-    <div class="bz d-flex-ct">
-        <app-polygon-card 
-        [bgcolor]="'#F90808'" 
-        [icon]="'thermostat'" 
-        [data]="item3()"
-        [title]="title3()" 
-        [value]="(item3()?.Value | number: '1.0-1') || '---'" 
-        [unit]="item3()?.Unit || '-'"></app-polygon-card>
-   </div>
-   <div class="bz d-flex-ct">
-        <app-polygon-card 
-        [bgcolor]="'#FF9213'" 
-        [icon]="'solar_power'" 
-        [data]="item4()"
-        [title]="title4()" 
-        [value]="(item4()?.Value | number: '1.0-1') || '---'" 
-        [unit]="item4()?.Unit || '-'"></app-polygon-card>
+    <div class="ws-tile bz">
+      <span class="ti-icon" style="background:#FF4560"><span class="material-icons">thermostat</span></span>
+      <div class="ti-val">{{ (item3()?.Value | number: '1.0-1') || '---' }}</div>
+      <div class="ti-unit">{{ item3()?.Unit || '°C' }} {{ title3() }}</div>
     </div>
-    <div class="bz d-flex-ct">
-          <app-polygon-card 
-          [bgcolor]="'#34ccfb'" 
-          [icon]="'air'" 
-          [data]="item5()"
-          [title]="title5()" 
-          [value]="(item5()?.Value | number: '1.0-1') || '---'" 
-          [unit]="item5()?.Unit || '-'"></app-polygon-card>
-     </div>
-     <div class="bz d-flex-ct">
-          <app-polygon-card 
-          [bgcolor]="'#4AC631'" 
-          [icon]="'co2'" 
-          [data]="item6()"
-          [title]="title6()" 
-          [value]="(item6()?.Value / 1000 | number: '1.0-1') || '---'" 
-          [unit]="item6()?.Unit || '-'"></app-polygon-card>
-     </div>
+    <div class="ws-tile bz">
+      <span class="ti-icon" style="background:#38649F"><span class="material-icons">air</span></span>
+      <div class="ti-val">{{ (item5()?.Value | number: '1.0-1') || '---' }}</div>
+      <div class="ti-unit">{{ item5()?.Unit || 'm/s' }} {{ title5() }}</div>
+    </div>
+    <div class="ws-tile bz">
+      <span class="ti-icon" style="background:#00E396"><span class="material-icons">co2</span></span>
+      <div class="ti-val">{{ (item6()?.Value / 1000 | number: '1.0-1') || '---' }}</div>
+      <div class="ti-unit">k-ton {{ title6() }}</div>
+    </div>
+  </div>
+
+  <!-- footer stats -->
+  <div class="ws-foot bz">
+    <div class="ws-stat">
+      <div class="wf-l">{{ title1() }}</div>
+      <div class="wf-v" style="color: var(--active-txt);">{{ (item1()?.Value | number: '1.0-0') || '---' }} <span class="wf-u">{{ 'W/m²' }}</span></div>
+    </div>
+    <div class="ws-div"></div>
+    <div class="ws-stat">
+      <div class="wf-l">{{ title4() }}</div>
+      <div class="wf-v">{{ (item4()?.Value | number: '1.0-2') || '---' }} <span class="wf-u">{{ 'kWh/m²' }}</span></div>
+    </div>
+  </div>
 </div>

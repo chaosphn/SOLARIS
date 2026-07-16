@@ -616,6 +616,7 @@
     }
 
     .dialog-body {
+        height: 100%;
         grid-template-columns: 1fr;
         grid-template-rows: 45vh 1fr;
         overflow-y: auto;
@@ -629,6 +630,13 @@
     .pane-right {
         overflow-y: auto;
         min-height: 320px;
+    }
+
+    // action-panel was flex:1 + overflow:hidden — clipped content (Account No.,
+    // Date, Submit) instead of scrolling once it grew taller than the space
+    // left in pane-right.
+    .action-panel {
+        overflow: visible;
     }
 
     .meta-row {

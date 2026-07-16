@@ -199,7 +199,6 @@ export class ReceiptInternalDialog implements OnInit {
  
   async approve(): Promise<void> {
     try {
-      //console.log(this.siteList());
       if(!this.send_date) {
         this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Send Date is required' } }));
         return;

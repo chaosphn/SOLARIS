@@ -398,7 +398,7 @@
 
 @media (max-width: 800px) {
     .dialog-container {
-        width: 94.5vw;
+        width: 100%;
         height: 100vh;
         border-radius: 0;
         max-width: 100vw;
@@ -412,6 +412,7 @@
 
     .dialog-content{
       width: 100%;
+      overflow-x: hidden;
     }
 
     .grid {
@@ -423,7 +424,7 @@
     }
 
     .panel{
-      width: 97%;
+      width: 95%;
     }
 
     .panel:not(:last-child) {

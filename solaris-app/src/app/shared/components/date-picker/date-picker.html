@@ -36,10 +36,36 @@
                 ></mat-datepicker>
             </mat-form-field>
         }
+        @case ('datetime') {
+            <div class="datetime-wrap">
+                <mat-form-field class="date-field" [style.--custom-height]="height + 'px'">
+                    <input
+                        matInput
+                        [matDatepicker]="datetimePicker"
+                        [(ngModel)]="selectedDate"
+                        (dateChange)="onDateSelect($event)"
+                        [id]="uniqueId"
+                        readonly
+                    />
+                    <mat-datepicker-toggle matIconSuffix [for]="datetimePicker"></mat-datepicker-toggle>
+                    <mat-datepicker
+                        #datetimePicker
+                        panelClass="custom-datepicker-panel"
+                    ></mat-datepicker>
+                </mat-form-field>
+                <input
+                    type="time"
+                    class="time-input"
+                    [id]="uniqueId + '-time'"
+                    [value]="selectedTime"
+                    (change)="onTimeChange($event)"
+                />
+            </div>
+        }
         @default {
             <mat-form-field class="date-field" [style.--custom-height]="height + 'px'">
-                <input 
-                    matInput 
+                <input
+                    matInput
                     [matDatepicker]="dayPicker"
                     [(ngModel)]="selectedDate"
                     (dateChange)="onDateSelect($event)"
@@ -47,7 +73,7 @@
                     readonly
                 />
                 <mat-datepicker-toggle matIconSuffix [for]="dayPicker"></mat-datepicker-toggle>
-                <mat-datepicker 
+                <mat-datepicker
                     #dayPicker
                     panelClass="custom-datepicker-panel"
                 ></mat-datepicker>

@@ -81,8 +81,8 @@
         <div class="box d-col-st bz">
             <div class="title">REVENUE TODAY</div>
             <div class="value-box" [matTooltip]="tooltipSrv.getTooltip(revenue_curr())" matTooltipPosition="above">
-                <div class="value">฿ {{ revenue_curr()?.Value | numberFomat: '1.0-2' }}</div>
-                <div class="unit">M</div>
+                <div class="value">฿ {{ revenue_curr()?.Value | numberFomat: '1.0-0' }}</div>
+                <div class="unit">THB</div>
             </div>
             @if (checkValueStatus(revenue_curr()?.Value, revenue_prev()?.Value) === 'nodata') {
                 <div class="diff" style="color: var(--secondary-txt)">

@@ -17,7 +17,7 @@ import { PlantStatusData } from '../../../../shared/components/piechart/piechart
 import { setDateEnable } from '../../../../store/actions/date.actions';
 import { ColorRangeModel, PanelConfigModel } from '../../../../shared/models/panel.model';
 import { ChartPickerModel } from '../../../../shared/components/chart-card/chart-card';
-import { AliasList, RealtimeDataModel, TagParameter, TagsConfigList, TagsListConfig } from '../../../../shared/models/realtime.model';
+import { AliasList, DecodedAlarm, RealtimeDataModel, StatusMapping, TagParameter, TagsConfigList, TagsListConfig } from '../../../../shared/models/realtime.model';
 import { TooltipFormat } from '../../../../shared/services/tooltip-format';
 @Component({
   selector: 'app-realtime',
@@ -51,19 +51,44 @@ export class Realtime implements OnInit, OnDestroy {
     });
     return value;
   });
+  sortKey = signal<string>('');
+  sortType = signal<string>('');
+
   tableData = computed(() => {
     const item: any[] = [];
+    const key = this.sortKey();
+    const type = this.sortType();
     if(this.tableRow() && this.tableHeader() && this.responseRealtime()){
       this.tableRow().forEach(x => {
         let row:any = {};
+        let latest = '';
         this.tableHeader().forEach( i => {
-          row[i.name] = this.responseRealtime().find( d => d.Name.includes( x + '.' + i.name));
+          if(i.name === 'NAME' || i.name === 'LASTSEEN'){
+            return;
+          }
+          const cell = this.responseRealtime().find( d => d.Name.includes( x + '.' + i.name));
+          row[i.name] = cell;
+          if(cell?.TimeStamp && (!latest || new Date(cell.TimeStamp) > new Date(latest))){
+            latest = cell.TimeStamp;
+          }
         });
         row['NAME'] = {Name: x, Value: x, Unit: '', TimeStamp: '', Min: 0, Max: 0};
+        row['LASTSEEN'] = latest || '---';
         item.push(row);
       });
     }
-    //console.log(item)
+    if(key){
+      item.sort((a,b) => {
+        if(key === 'LASTSEEN'){
+          const av = a.LASTSEEN === '---' ? 0 : new Date(a.LASTSEEN).getTime();
+          const bv = b.LASTSEEN === '---' ? 0 : new Date(b.LASTSEEN).getTime();
+          return type === 'asc' ? av - bv : bv - av;
+        }
+        const av = this.tranformNumber(a[key]?.Value);
+        const bv = this.tranformNumber(b[key]?.Value);
+        return type === 'asc' ? av - bv : bv - av;
+      });
+    }
     return item;
   });
 
@@ -104,7 +129,6 @@ export class Realtime implements OnInit, OnDestroy {
   constructor(){
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {
-      //console.log(state.location)
       this.siteSelected.set(state.location);
       const res = await firstValueFrom(
         this.store.select(getZoneConfig(state.location))
@@ -166,7 +190,7 @@ export class Realtime implements OnInit, OnDestroy {
     this.getRealtimeRequest();
     await this.getRealtimeData();
     if(this.appInit.config.Timer){
-      //this.startTimer(this.appInit.config.Timer * 60000);
+      this.startTimer(this.appInit.config.Timer * 60000);
     }
 
   }
@@ -193,6 +217,11 @@ export class Realtime implements OnInit, OnDestroy {
     let tagList: string[] = [];
     let gname = this.tagsGroupConfig().find(x => x.Status == true);
     let aname = gname?.Alias.find(x => x.status == true);
+    const group = this.configTags().find(x => x.name == gname?.Name);
+    const lastseenParam = group?.parameters.find(p => p.name == 'LASTSEEN');
+    if(lastseenParam){
+      this.tableHeader.update(val => [...val, lastseenParam]);
+    }
     const eqpName = this.configTags().find(x => x.name == gname?.Name)?.equipments.map(x => x.name).sort((a, b) => {
       if (a < b) { return -1; }
       if (a > b) { return 1; }
@@ -227,7 +256,6 @@ export class Realtime implements OnInit, OnDestroy {
       return acc;
     }, tagList);
     if(request){  
-      //console.log(request);
     }
   }
 
@@ -324,17 +352,69 @@ export class Realtime implements OnInit, OnDestroy {
     return item;
   }
 
-  sortDatatable(item: any){
-    const key = item.key;
-    const type = item.type;
-    const tableSorted = this.tableData().sort((a,b) => {
-      if (type === 'asc') {
-        return this.tranformNumber(a[key].Value) - this.tranformNumber(b[key].Value);
-      } else {
-        return this.tranformNumber(b[key].Value) - this.tranformNumber(a[key].Value);
+  sortDatatable(key: string, type: string){
+    this.sortKey.set(key);
+    this.sortType.set(type);
+  }
+
+  getLastSeen(item: string){
+    if(!item || item === '---'){
+      return 'gray';
+    }
+    const ts = new Date(item);
+    if(isNaN(ts.getTime())){
+      return 'gray';
+    }
+    if(this.date >= ts){
+      const m = (this.date.getTime() - ts.getTime()) / (60 * 1000);
+      switch(true){
+        case m >= 1440: return 'seen-danger';
+        case m >= 60: return 'seen-warning';
+        case m < 60: return 'seen-now';
+        default: return 'gray';
       }
-    })
-    ////console.log(tableSorted)
+    }
+    return 'seen-now';
+  }
+
+  private activeGroupMapping(param: string): StatusMapping | undefined {
+    const gname = this.tagsGroupConfig().find(x => x.Status == true);
+    const group = this.configTags().find(x => x.name == gname?.Name);
+    return group?.mapping?.[param];
+  }
+
+  decodeStatus(param: string, value: any): { label: string; level: string } {
+    const map = this.activeGroupMapping(param);
+    if(value == null || value === ''){
+      return { label: '---', level: 'gray' };
+    }
+    const code = parseInt(value.toString().trim(), value.toString().trim().startsWith('0x') ? 16 : 10);
+    const hit = map?.values?.[code.toString()];
+    if(hit){
+      return hit;
+    }
+    return { label: value.toString(), level: 'gray' };
+  }
+
+  decodeAlarm(param: string, value: any): DecodedAlarm[] {
+    const map = this.activeGroupMapping(param);
+    if(value == null || value === '' || !map?.bits){
+      return [];
+    }
+    const code = parseInt(value.toString().trim(), value.toString().trim().startsWith('0x') ? 16 : 10);
+    if(isNaN(code) || code === 0){
+      return [];
+    }
+    return map.bits.filter(b => (code & (1 << b.bit)) !== 0);
+  }
+
+  alarmLevelClass(level: string): string {
+    switch(level){
+      case 'Major': return 'lv-major';
+      case 'Minor': return 'lv-minor';
+      case 'Warning': return 'lv-warning';
+      default: return 'lv-minor';
+    }
   }
 
   tranformNumber(val: string){
@@ -342,7 +422,6 @@ export class Realtime implements OnInit, OnDestroy {
       val = "-1";
     }
     const res = parseFloat(val);
-    //console.log(res)
     if(res >= 0){
       return res;
     } else {

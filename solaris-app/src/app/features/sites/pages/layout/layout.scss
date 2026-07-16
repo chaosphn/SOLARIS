@@ -37,7 +37,7 @@
             "layoutCard layoutCard layoutCard layoutCard energyCard energyCard energyCard energyCard" 
             "layoutCard layoutCard layoutCard layoutCard environmentCard environmentCard environmentCard environmentCard";
         grid-gap: 16px; 
-        max-height: 100vh;
+        max-height: calc(100vh - 106px);
         overflow-y: auto;
     }
 }
@@ -61,7 +61,7 @@
             "environmentCard"
         ;
         grid-gap: 16px; 
-        max-height: calc(100vh - 120px);
+        max-height: calc(100vh - 106px);
         overflow-y: auto;
     }
     .layoutCard{
@@ -97,7 +97,7 @@
             "environmentCard"
         ;
         grid-gap: 16px; 
-        max-height: calc(100vh - 220px);
+        max-height: calc(100vh - 106px);
         overflow-y: auto;
     }
     .layoutCard{
@@ -114,7 +114,7 @@
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .container{
         padding: 8px;
         display: grid;
@@ -147,5 +147,8 @@
     }
     .environmentCard{
         height: 250px;
+    }
+    .piechart{
+        scale: 0.9;
     }
 }

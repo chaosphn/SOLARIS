@@ -148,6 +148,21 @@
     }
 }
 @media (max-width: 768px) {
-    .container{ padding: 8px; }
+    .container{ padding: 8px; height:calc(100vh - 220px);}
     .kpi-strip{ grid-template-columns: repeat(2, 1fr); }
+    .area-delivery{ grid-area: delivery; }
+    .area-cumulative{ grid-area: cumulative; }
+    .area-heatmap{ grid-area: heatmap; }
+    .area-matrix{ grid-area: matrix; display: none; }
+    .area-penalty{ grid-area: penalty; }
+    .matrix-scroll{ max-width: 100%; overflow-x: auto; }
+    .heatmap{
+        display: grid;
+        grid-template-columns: 40px repeat(12, minmax(10px, 1fr));
+        gap: 3px;
+        align-items: center;
+        .hlabel{ font-size: 11px; color: var(--secondary-txt); text-align: right; padding-right: 6px; white-space: nowrap; }
+        .hcol{ font-size: 11px; color: var(--secondary-txt); text-align: center; }
+        .cell{ height: 28px; border-radius: 2px; cursor: default; }
+    }
 }

@@ -48,7 +48,7 @@
         },
         {
           "Title": "REDUCTION",
-          "Tagname": "KKB.SLG01.CABON"
+          "Tagname": "KKB.CALC.CARBON_DAY"
         }
       ]
     },
@@ -143,6 +143,90 @@
         {
           "Title": "INV01_STR21",
           "Tagname": "KKB.INV01.I21"
+        },
+        {
+          "Title": "INV01_STV01",
+          "Tagname": "KKB.INV01.V01"
+        },
+        {
+          "Title": "INV01_STV02",
+          "Tagname": "KKB.INV01.V02"
+        },
+        {
+          "Title": "INV01_STV03",
+          "Tagname": "KKB.INV01.V03"
+        },
+        {
+          "Title": "INV01_STV04",
+          "Tagname": "KKB.INV01.V04"
+        },
+        {
+          "Title": "INV01_STV05",
+          "Tagname": "KKB.INV01.V05"
+        },
+        {
+          "Title": "INV01_STV06",
+          "Tagname": "KKB.INV01.V06"
+        },
+        {
+          "Title": "INV01_STV07",
+          "Tagname": "KKB.INV01.V07"
+        },
+        {
+          "Title": "INV01_STV08",
+          "Tagname": "KKB.INV01.V08"
+        },
+        {
+          "Title": "INV01_STV09",
+          "Tagname": "KKB.INV01.V09"
+        },
+        {
+          "Title": "INV01_STV10",
+          "Tagname": "KKB.INV01.V10"
+        },
+        {
+          "Title": "INV01_STV11",
+          "Tagname": "KKB.INV01.V11"
+        },
+        {
+          "Title": "INV01_STV12",
+          "Tagname": "KKB.INV01.V12"
+        },
+        {
+          "Title": "INV01_STV13",
+          "Tagname": "KKB.INV01.V13"
+        },
+        {
+          "Title": "INV01_STV14",
+          "Tagname": "KKB.INV01.V14"
+        },
+        {
+          "Title": "INV01_STV15",
+          "Tagname": "KKB.INV01.V15"
+        },
+        {
+          "Title": "INV01_STV16",
+          "Tagname": "KKB.INV01.V16"
+        },
+        {
+          "Title": "INV01_STV17",
+          "Tagname": "KKB.INV01.V17"
+        },
+        {
+          "Title": "INV01_STV18",
+          "Tagname": "KKB.INV01.V18"
+        },
+        {
+          "Title": "INV01_STV19",
+          "Tagname": "KKB.INV01.V19"
+        },
+        {
+          "Title": "INV01_STV20",
+          "Tagname": "KKB.INV01.V20"
+        },
+        {
+          "Title": "INV01_STV21",
+          "Tagname": "KKB.INV01.V21"
         }
       ]
     },
@@ -237,6 +321,90 @@
         {
           "Title": "INV02_STR21",
           "Tagname": "KKB.INV02.I21"
+        },
+        {
+          "Title": "INV02_STV01",
+          "Tagname": "KKB.INV02.V01"
+        },
+        {
+          "Title": "INV02_STV02",
+          "Tagname": "KKB.INV02.V02"
+        },
+        {
+          "Title": "INV02_STV03",
+          "Tagname": "KKB.INV02.V03"
+        },
+        {
+          "Title": "INV02_STV04",
+          "Tagname": "KKB.INV02.V04"
+        },
+        {
+          "Title": "INV02_STV05",
+          "Tagname": "KKB.INV02.V05"
+        },
+        {
+          "Title": "INV02_STV06",
+          "Tagname": "KKB.INV02.V06"
+        },
+        {
+          "Title": "INV02_STV07",
+          "Tagname": "KKB.INV02.V07"
+        },
+        {
+          "Title": "INV02_STV08",
+          "Tagname": "KKB.INV02.V08"
+        },
+        {
+          "Title": "INV02_STV09",
+          "Tagname": "KKB.INV02.V09"
+        },
+        {
+          "Title": "INV02_STV10",
+          "Tagname": "KKB.INV02.V10"
+        },
+        {
+          "Title": "INV02_STV11",
+          "Tagname": "KKB.INV02.V11"
+        },
+        {
+          "Title": "INV02_STV12",
+          "Tagname": "KKB.INV02.V12"
+        },
+        {
+          "Title": "INV02_STV13",
+          "Tagname": "KKB.INV02.V13"
+        },
+        {
+          "Title": "INV02_STV14",
+          "Tagname": "KKB.INV02.V14"
+        },
+        {
+          "Title": "INV02_STV15",
+          "Tagname": "KKB.INV02.V15"
+        },
+        {
+          "Title": "INV02_STV16",
+          "Tagname": "KKB.INV02.V16"
+        },
+        {
+          "Title": "INV02_STV17",
+          "Tagname": "KKB.INV02.V17"
+        },
+        {
+          "Title": "INV02_STV18",
+          "Tagname": "KKB.INV02.V18"
+        },
+        {
+          "Title": "INV02_STV19",
+          "Tagname": "KKB.INV02.V19"
+        },
+        {
+          "Title": "INV02_STV20",
+          "Tagname": "KKB.INV02.V20"
+        },
+        {
+          "Title": "INV02_STV21",
+          "Tagname": "KKB.INV02.V21"
         }
       ]
     },
@@ -331,6 +499,90 @@
         {
           "Title": "INV03_STR21",
           "Tagname": "KKB.INV03.I21"
+        },
+        {
+          "Title": "INV03_STV01",
+          "Tagname": "KKB.INV03.V01"
+        },
+        {
+          "Title": "INV03_STV02",
+          "Tagname": "KKB.INV03.V02"
+        },
+        {
+          "Title": "INV03_STV03",
+          "Tagname": "KKB.INV03.V03"
+        },
+        {
+          "Title": "INV03_STV04",
+          "Tagname": "KKB.INV03.V04"
+        },
+        {
+          "Title": "INV03_STV05",
+          "Tagname": "KKB.INV03.V05"
+        },
+        {
+          "Title": "INV03_STV06",
+          "Tagname": "KKB.INV03.V06"
+        },
+        {
+          "Title": "INV03_STV07",
+          "Tagname": "KKB.INV03.V07"
+        },
+        {
+          "Title": "INV03_STV08",
+          "Tagname": "KKB.INV03.V08"
+        },
+        {
+          "Title": "INV03_STV09",
+          "Tagname": "KKB.INV03.V09"
+        },
+        {
+          "Title": "INV03_STV10",
+          "Tagname": "KKB.INV03.V10"
+        },
+        {
+          "Title": "INV03_STV11",
+          "Tagname": "KKB.INV03.V11"
+        },
+        {
+          "Title": "INV03_STV12",
+          "Tagname": "KKB.INV03.V12"
+        },
+        {
+          "Title": "INV03_STV13",
+          "Tagname": "KKB.INV03.V13"
+        },
+        {
+          "Title": "INV03_STV14",
+          "Tagname": "KKB.INV03.V14"
+        },
+        {
+          "Title": "INV03_STV15",
+          "Tagname": "KKB.INV03.V15"
+        },
+        {
+          "Title": "INV03_STV16",
+          "Tagname": "KKB.INV03.V16"
+        },
+        {
+          "Title": "INV03_STV17",
+          "Tagname": "KKB.INV03.V17"
+        },
+        {
+          "Title": "INV03_STV18",
+          "Tagname": "KKB.INV03.V18"
+        },
+        {
+          "Title": "INV03_STV19",
+          "Tagname": "KKB.INV03.V19"
+        },
+        {
+          "Title": "INV03_STV20",
+          "Tagname": "KKB.INV03.V20"
+        },
+        {
+          "Title": "INV03_STV21",
+          "Tagname": "KKB.INV03.V21"
         }
       ]
     },
@@ -343,7 +595,7 @@
           "Tagname": "KKB.INV04.EFF"
         },
         {
-          "Title": "INV042_STR01",
+          "Title": "INV04_STR01",
           "Tagname": "KKB.INV04.I01"
         },
         {
@@ -425,6 +677,90 @@
         {
           "Title": "INV04_STR21",
           "Tagname": "KKB.INV04.I21"
+        },
+        {
+          "Title": "INV04_STV01",
+          "Tagname": "KKB.INV04.V01"
+        },
+        {
+          "Title": "INV04_STV02",
+          "Tagname": "KKB.INV04.V02"
+        },
+        {
+          "Title": "INV04_STV03",
+          "Tagname": "KKB.INV04.V03"
+        },
+        {
+          "Title": "INV04_STV04",
+          "Tagname": "KKB.INV04.V04"
+        },
+        {
+          "Title": "INV04_STV05",
+          "Tagname": "KKB.INV04.V05"
+        },
+        {
+          "Title": "INV04_STV06",
+          "Tagname": "KKB.INV04.V06"
+        },
+        {
+          "Title": "INV04_STV07",
+          "Tagname": "KKB.INV04.V07"
+        },
+        {
+          "Title": "INV04_STV08",
+          "Tagname": "KKB.INV04.V08"
+        },
+        {
+          "Title": "INV04_STV09",
+          "Tagname": "KKB.INV04.V09"
+        },
+        {
+          "Title": "INV04_STV10",
+          "Tagname": "KKB.INV04.V10"
+        },
+        {
+          "Title": "INV04_STV11",
+          "Tagname": "KKB.INV04.V11"
+        },
+        {
+          "Title": "INV04_STV12",
+          "Tagname": "KKB.INV04.V12"
+        },
+        {
+          "Title": "INV04_STV13",
+          "Tagname": "KKB.INV04.V13"
+        },
+        {
+          "Title": "INV04_STV14",
+          "Tagname": "KKB.INV04.V14"
+        },
+        {
+          "Title": "INV04_STV15",
+          "Tagname": "KKB.INV04.V15"
+        },
+        {
+          "Title": "INV04_STV16",
+          "Tagname": "KKB.INV04.V16"
+        },
+        {
+          "Title": "INV04_STV17",
+          "Tagname": "KKB.INV04.V17"
+        },
+        {
+          "Title": "INV04_STV18",
+          "Tagname": "KKB.INV04.V18"
+        },
+        {
+          "Title": "INV04_STV19",
+          "Tagname": "KKB.INV04.V19"
+        },
+        {
+          "Title": "INV04_STV20",
+          "Tagname": "KKB.INV04.V20"
+        },
+        {
+          "Title": "INV04_STV21",
+          "Tagname": "KKB.INV04.V21"
         }
       ]
     },
@@ -519,6 +855,90 @@
         {
           "Title": "INV05_STR21",
           "Tagname": "KKB.INV05.I21"
+        },
+        {
+          "Title": "INV05_STV01",
+          "Tagname": "KKB.INV05.V01"
+        },
+        {
+          "Title": "INV05_STV02",
+          "Tagname": "KKB.INV05.V02"
+        },
+        {
+          "Title": "INV05_STV03",
+          "Tagname": "KKB.INV05.V03"
+        },
+        {
+          "Title": "INV05_STV04",
+          "Tagname": "KKB.INV05.V04"
+        },
+        {
+          "Title": "INV05_STV05",
+          "Tagname": "KKB.INV05.V05"
+        },
+        {
+          "Title": "INV05_STV06",
+          "Tagname": "KKB.INV05.V06"
+        },
+        {
+          "Title": "INV05_STV07",
+          "Tagname": "KKB.INV05.V07"
+        },
+        {
+          "Title": "INV05_STV08",
+          "Tagname": "KKB.INV05.V08"
+        },
+        {
+          "Title": "INV05_STV09",
+          "Tagname": "KKB.INV05.V09"
+        },
+        {
+          "Title": "INV05_STV10",
+          "Tagname": "KKB.INV05.V10"
+        },
+        {
+          "Title": "INV05_STV11",
+          "Tagname": "KKB.INV05.V11"
+        },
+        {
+          "Title": "INV05_STV12",
+          "Tagname": "KKB.INV05.V12"
+        },
+        {
+          "Title": "INV05_STV13",
+          "Tagname": "KKB.INV05.V13"
+        },
+        {
+          "Title": "INV05_STV14",
+          "Tagname": "KKB.INV05.V14"
+        },
+        {
+          "Title": "INV05_STV15",
+          "Tagname": "KKB.INV05.V15"
+        },
+        {
+          "Title": "INV05_STV16",
+          "Tagname": "KKB.INV05.V16"
+        },
+        {
+          "Title": "INV05_STV17",
+          "Tagname": "KKB.INV05.V17"
+        },
+        {
+          "Title": "INV05_STV18",
+          "Tagname": "KKB.INV05.V18"
+        },
+        {
+          "Title": "INV05_STV19",
+          "Tagname": "KKB.INV05.V19"
+        },
+        {
+          "Title": "INV05_STV20",
+          "Tagname": "KKB.INV05.V20"
+        },
+        {
+          "Title": "INV05_STV21",
+          "Tagname": "KKB.INV05.V21"
         }
       ]
     },
@@ -613,6 +1033,90 @@
         {
           "Title": "INV06_STR21",
           "Tagname": "KKB.INV06.I21"
+        },
+        {
+          "Title": "INV06_STV01",
+          "Tagname": "KKB.INV06.V01"
+        },
+        {
+          "Title": "INV06_STV02",
+          "Tagname": "KKB.INV06.V02"
+        },
+        {
+          "Title": "INV06_STV03",
+          "Tagname": "KKB.INV06.V03"
+        },
+        {
+          "Title": "INV06_STV04",
+          "Tagname": "KKB.INV06.V04"
+        },
+        {
+          "Title": "INV06_STV05",
+          "Tagname": "KKB.INV06.V05"
+        },
+        {
+          "Title": "INV06_STV06",
+          "Tagname": "KKB.INV06.V06"
+        },
+        {
+          "Title": "INV06_STV07",
+          "Tagname": "KKB.INV06.V07"
+        },
+        {
+          "Title": "INV06_STV08",
+          "Tagname": "KKB.INV06.V08"
+        },
+        {
+          "Title": "INV06_STV09",
+          "Tagname": "KKB.INV06.V09"
+        },
+        {
+          "Title": "INV06_STV10",
+          "Tagname": "KKB.INV06.V10"
+        },
+        {
+          "Title": "INV06_STV11",
+          "Tagname": "KKB.INV06.V11"
+        },
+        {
+          "Title": "INV06_STV12",
+          "Tagname": "KKB.INV06.V12"
+        },
+        {
+          "Title": "INV06_STV13",
+          "Tagname": "KKB.INV06.V13"
+        },
+        {
+          "Title": "INV06_STV14",
+          "Tagname": "KKB.INV06.V14"
+        },
+        {
+          "Title": "INV06_STV15",
+          "Tagname": "KKB.INV06.V15"
+        },
+        {
+          "Title": "INV06_STV16",
+          "Tagname": "KKB.INV06.V16"
+        },
+        {
+          "Title": "INV06_STV17",
+          "Tagname": "KKB.INV06.V17"
+        },
+        {
+          "Title": "INV06_STV18",
+          "Tagname": "KKB.INV06.V18"
+        },
+        {
+          "Title": "INV06_STV19",
+          "Tagname": "KKB.INV06.V19"
+        },
+        {
+          "Title": "INV06_STV20",
+          "Tagname": "KKB.INV06.V20"
+        },
+        {
+          "Title": "INV06_STV21",
+          "Tagname": "KKB.INV06.V21"
         }
       ]
     },
@@ -707,6 +1211,90 @@
         {
           "Title": "INV07_STR21",
           "Tagname": "KKB.INV07.I21"
+        },
+        {
+          "Title": "INV07_STV01",
+          "Tagname": "KKB.INV07.V01"
+        },
+        {
+          "Title": "INV07_STV02",
+          "Tagname": "KKB.INV07.V02"
+        },
+        {
+          "Title": "INV07_STV03",
+          "Tagname": "KKB.INV07.V03"
+        },
+        {
+          "Title": "INV07_STV04",
+          "Tagname": "KKB.INV07.V04"
+        },
+        {
+          "Title": "INV07_STV05",
+          "Tagname": "KKB.INV07.V05"
+        },
+        {
+          "Title": "INV07_STV06",
+          "Tagname": "KKB.INV07.V06"
+        },
+        {
+          "Title": "INV07_STV07",
+          "Tagname": "KKB.INV07.V07"
+        },
+        {
+          "Title": "INV07_STV08",
+          "Tagname": "KKB.INV07.V08"
+        },
+        {
+          "Title": "INV07_STV09",
+          "Tagname": "KKB.INV07.V09"
+        },
+        {
+          "Title": "INV07_STV10",
+          "Tagname": "KKB.INV07.V10"
+        },
+        {
+          "Title": "INV07_STV11",
+          "Tagname": "KKB.INV07.V11"
+        },
+        {
+          "Title": "INV07_STV12",
+          "Tagname": "KKB.INV07.V12"
+        },
+        {
+          "Title": "INV07_STV13",
+          "Tagname": "KKB.INV07.V13"
+        },
+        {
+          "Title": "INV07_STV14",
+          "Tagname": "KKB.INV07.V14"
+        },
+        {
+          "Title": "INV07_STV15",
+          "Tagname": "KKB.INV07.V15"
+        },
+        {
+          "Title": "INV07_STV16",
+          "Tagname": "KKB.INV07.V16"
+        },
+        {
+          "Title": "INV07_STV17",
+          "Tagname": "KKB.INV07.V17"
+        },
+        {
+          "Title": "INV07_STV18",
+          "Tagname": "KKB.INV07.V18"
+        },
+        {
+          "Title": "INV07_STV19",
+          "Tagname": "KKB.INV07.V19"
+        },
+        {
+          "Title": "INV07_STV20",
+          "Tagname": "KKB.INV07.V20"
+        },
+        {
+          "Title": "INV07_STV21",
+          "Tagname": "KKB.INV07.V21"
         }
       ]
     },
@@ -801,6 +1389,90 @@
         {
           "Title": "INV08_STR21",
           "Tagname": "KKB.INV08.I21"
+        },
+        {
+          "Title": "INV08_STV01",
+          "Tagname": "KKB.INV08.V01"
+        },
+        {
+          "Title": "INV08_STV02",
+          "Tagname": "KKB.INV08.V02"
+        },
+        {
+          "Title": "INV08_STV03",
+          "Tagname": "KKB.INV08.V03"
+        },
+        {
+          "Title": "INV08_STV04",
+          "Tagname": "KKB.INV08.V04"
+        },
+        {
+          "Title": "INV08_STV05",
+          "Tagname": "KKB.INV08.V05"
+        },
+        {
+          "Title": "INV08_STV06",
+          "Tagname": "KKB.INV08.V06"
+        },
+        {
+          "Title": "INV08_STV07",
+          "Tagname": "KKB.INV08.V07"
+        },
+        {
+          "Title": "INV08_STV08",
+          "Tagname": "KKB.INV08.V08"
+        },
+        {
+          "Title": "INV08_STV09",
+          "Tagname": "KKB.INV08.V09"
+        },
+        {
+          "Title": "INV08_STV10",
+          "Tagname": "KKB.INV08.V10"
+        },
+        {
+          "Title": "INV08_STV11",
+          "Tagname": "KKB.INV08.V11"
+        },
+        {
+          "Title": "INV08_STV12",
+          "Tagname": "KKB.INV08.V12"
+        },
+        {
+          "Title": "INV08_STV13",
+          "Tagname": "KKB.INV08.V13"
+        },
+        {
+          "Title": "INV08_STV14",
+          "Tagname": "KKB.INV08.V14"
+        },
+        {
+          "Title": "INV08_STV15",
+          "Tagname": "KKB.INV08.V15"
+        },
+        {
+          "Title": "INV08_STV16",
+          "Tagname": "KKB.INV08.V16"
+        },
+        {
+          "Title": "INV08_STV17",
+          "Tagname": "KKB.INV08.V17"
+        },
+        {
+          "Title": "INV08_STV18",
+          "Tagname": "KKB.INV08.V18"
+        },
+        {
+          "Title": "INV08_STV19",
+          "Tagname": "KKB.INV08.V19"
+        },
+        {
+          "Title": "INV08_STV20",
+          "Tagname": "KKB.INV08.V20"
+        },
+        {
+          "Title": "INV08_STV21",
+          "Tagname": "KKB.INV08.V21"
         }
       ]
     },
@@ -895,6 +1567,90 @@
         {
           "Title": "INV09_STR21",
           "Tagname": "KKB.INV09.I21"
+        },
+        {
+          "Title": "INV09_STV01",
+          "Tagname": "KKB.INV09.V01"
+        },
+        {
+          "Title": "INV09_STV02",
+          "Tagname": "KKB.INV09.V02"
+        },
+        {
+          "Title": "INV09_STV03",
+          "Tagname": "KKB.INV09.V03"
+        },
+        {
+          "Title": "INV09_STV04",
+          "Tagname": "KKB.INV09.V04"
+        },
+        {
+          "Title": "INV09_STV05",
+          "Tagname": "KKB.INV09.V05"
+        },
+        {
+          "Title": "INV09_STV06",
+          "Tagname": "KKB.INV09.V06"
+        },
+        {
+          "Title": "INV09_STV07",
+          "Tagname": "KKB.INV09.V07"
+        },
+        {
+          "Title": "INV09_STV08",
+          "Tagname": "KKB.INV09.V08"
+        },
+        {
+          "Title": "INV09_STV09",
+          "Tagname": "KKB.INV09.V09"
+        },
+        {
+          "Title": "INV09_STV10",
+          "Tagname": "KKB.INV09.V10"
+        },
+        {
+          "Title": "INV09_STV11",
+          "Tagname": "KKB.INV09.V11"
+        },
+        {
+          "Title": "INV09_STV12",
+          "Tagname": "KKB.INV09.V12"
+        },
+        {
+          "Title": "INV09_STV13",
+          "Tagname": "KKB.INV09.V13"
+        },
+        {
+          "Title": "INV09_STV14",
+          "Tagname": "KKB.INV09.V14"
+        },
+        {
+          "Title": "INV09_STV15",
+          "Tagname": "KKB.INV09.V15"
+        },
+        {
+          "Title": "INV09_STV16",
+          "Tagname": "KKB.INV09.V16"
+        },
+        {
+          "Title": "INV09_STV17",
+          "Tagname": "KKB.INV09.V17"
+        },
+        {
+          "Title": "INV09_STV18",
+          "Tagname": "KKB.INV09.V18"
+        },
+        {
+          "Title": "INV09_STV19",
+          "Tagname": "KKB.INV09.V19"
+        },
+        {
+          "Title": "INV09_STV20",
+          "Tagname": "KKB.INV09.V20"
+        },
+        {
+          "Title": "INV09_STV21",
+          "Tagname": "KKB.INV09.V21"
         }
       ]
     },
@@ -989,6 +1745,90 @@
         {
           "Title": "INV10_STR21",
           "Tagname": "KKB.INV10.I21"
+        },
+        {
+          "Title": "INV10_STV01",
+          "Tagname": "KKB.INV10.V01"
+        },
+        {
+          "Title": "INV10_STV02",
+          "Tagname": "KKB.INV10.V02"
+        },
+        {
+          "Title": "INV10_STV03",
+          "Tagname": "KKB.INV10.V03"
+        },
+        {
+          "Title": "INV10_STV04",
+          "Tagname": "KKB.INV10.V04"
+        },
+        {
+          "Title": "INV10_STV05",
+          "Tagname": "KKB.INV10.V05"
+        },
+        {
+          "Title": "INV10_STV06",
+          "Tagname": "KKB.INV10.V06"
+        },
+        {
+          "Title": "INV10_STV07",
+          "Tagname": "KKB.INV10.V07"
+        },
+        {
+          "Title": "INV10_STV08",
+          "Tagname": "KKB.INV10.V08"
+        },
+        {
+          "Title": "INV10_STV09",
+          "Tagname": "KKB.INV10.V09"
+        },
+        {
+          "Title": "INV10_STV10",
+          "Tagname": "KKB.INV10.V10"
+        },
+        {
+          "Title": "INV10_STV11",
+          "Tagname": "KKB.INV10.V11"
+        },
+        {
+          "Title": "INV10_STV12",
+          "Tagname": "KKB.INV10.V12"
+        },
+        {
+          "Title": "INV10_STV13",
+          "Tagname": "KKB.INV10.V13"
+        },
+        {
+          "Title": "INV10_STV14",
+          "Tagname": "KKB.INV10.V14"
+        },
+        {
+          "Title": "INV10_STV15",
+          "Tagname": "KKB.INV10.V15"
+        },
+        {
+          "Title": "INV10_STV16",
+          "Tagname": "KKB.INV10.V16"
+        },
+        {
+          "Title": "INV10_STV17",
+          "Tagname": "KKB.INV10.V17"
+        },
+        {
+          "Title": "INV10_STV18",
+          "Tagname": "KKB.INV10.V18"
+        },
+        {
+          "Title": "INV10_STV19",
+          "Tagname": "KKB.INV10.V19"
+        },
+        {
+          "Title": "INV10_STV20",
+          "Tagname": "KKB.INV10.V20"
+        },
+        {
+          "Title": "INV10_STV21",
+          "Tagname": "KKB.INV10.V21"
         }
       ]
     },
@@ -1083,6 +1923,90 @@
         {
           "Title": "INV11_STR21",
           "Tagname": "KKB.INV11.I21"
+        },
+        {
+          "Title": "INV11_STV01",
+          "Tagname": "KKB.INV11.V01"
+        },
+        {
+          "Title": "INV11_STV02",
+          "Tagname": "KKB.INV11.V02"
+        },
+        {
+          "Title": "INV11_STV03",
+          "Tagname": "KKB.INV11.V03"
+        },
+        {
+          "Title": "INV11_STV04",
+          "Tagname": "KKB.INV11.V04"
+        },
+        {
+          "Title": "INV11_STV05",
+          "Tagname": "KKB.INV11.V05"
+        },
+        {
+          "Title": "INV11_STV06",
+          "Tagname": "KKB.INV11.V06"
+        },
+        {
+          "Title": "INV11_STV07",
+          "Tagname": "KKB.INV11.V07"
+        },
+        {
+          "Title": "INV11_STV08",
+          "Tagname": "KKB.INV11.V08"
+        },
+        {
+          "Title": "INV11_STV09",
+          "Tagname": "KKB.INV11.V09"
+        },
+        {
+          "Title": "INV11_STV10",
+          "Tagname": "KKB.INV11.V10"
+        },
+        {
+          "Title": "INV11_STV11",
+          "Tagname": "KKB.INV11.V11"
+        },
+        {
+          "Title": "INV11_STV12",
+          "Tagname": "KKB.INV11.V12"
+        },
+        {
+          "Title": "INV11_STV13",
+          "Tagname": "KKB.INV11.V13"
+        },
+        {
+          "Title": "INV11_STV14",
+          "Tagname": "KKB.INV11.V14"
+        },
+        {
+          "Title": "INV11_STV15",
+          "Tagname": "KKB.INV11.V15"
+        },
+        {
+          "Title": "INV11_STV16",
+          "Tagname": "KKB.INV11.V16"
+        },
+        {
+          "Title": "INV11_STV17",
+          "Tagname": "KKB.INV11.V17"
+        },
+        {
+          "Title": "INV11_STV18",
+          "Tagname": "KKB.INV11.V18"
+        },
+        {
+          "Title": "INV11_STV19",
+          "Tagname": "KKB.INV11.V19"
+        },
+        {
+          "Title": "INV11_STV20",
+          "Tagname": "KKB.INV11.V20"
+        },
+        {
+          "Title": "INV11_STV21",
+          "Tagname": "KKB.INV11.V21"
         }
       ]
     },
@@ -1177,6 +2101,90 @@
         {
           "Title": "INV12_STR21",
           "Tagname": "KKB.INV12.I21"
+        },
+        {
+          "Title": "INV12_STV01",
+          "Tagname": "KKB.INV12.V01"
+        },
+        {
+          "Title": "INV12_STV02",
+          "Tagname": "KKB.INV12.V02"
+        },
+        {
+          "Title": "INV12_STV03",
+          "Tagname": "KKB.INV12.V03"
+        },
+        {
+          "Title": "INV12_STV04",
+          "Tagname": "KKB.INV12.V04"
+        },
+        {
+          "Title": "INV12_STV05",
+          "Tagname": "KKB.INV12.V05"
+        },
+        {
+          "Title": "INV12_STV06",
+          "Tagname": "KKB.INV12.V06"
+        },
+        {
+          "Title": "INV12_STV07",
+          "Tagname": "KKB.INV12.V07"
+        },
+        {
+          "Title": "INV12_STV08",
+          "Tagname": "KKB.INV12.V08"
+        },
+        {
+          "Title": "INV12_STV09",
+          "Tagname": "KKB.INV12.V09"
+        },
+        {
+          "Title": "INV12_STV10",
+          "Tagname": "KKB.INV12.V10"
+        },
+        {
+          "Title": "INV12_STV11",
+          "Tagname": "KKB.INV12.V11"
+        },
+        {
+          "Title": "INV12_STV12",
+          "Tagname": "KKB.INV12.V12"
+        },
+        {
+          "Title": "INV12_STV13",
+          "Tagname": "KKB.INV12.V13"
+        },
+        {
+          "Title": "INV12_STV14",
+          "Tagname": "KKB.INV12.V14"
+        },
+        {
+          "Title": "INV12_STV15",
+          "Tagname": "KKB.INV12.V15"
+        },
+        {
+          "Title": "INV12_STV16",
+          "Tagname": "KKB.INV12.V16"
+        },
+        {
+          "Title": "INV12_STV17",
+          "Tagname": "KKB.INV12.V17"
+        },
+        {
+          "Title": "INV12_STV18",
+          "Tagname": "KKB.INV12.V18"
+        },
+        {
+          "Title": "INV12_STV19",
+          "Tagname": "KKB.INV12.V19"
+        },
+        {
+          "Title": "INV12_STV20",
+          "Tagname": "KKB.INV12.V20"
+        },
+        {
+          "Title": "INV12_STV21",
+          "Tagname": "KKB.INV12.V21"
         }
       ]
     },
@@ -1271,6 +2279,90 @@
         {
           "Title": "INV13_STR21",
           "Tagname": "KKB.INV13.I21"
+        },
+        {
+          "Title": "INV13_STV01",
+          "Tagname": "KKB.INV13.V01"
+        },
+        {
+          "Title": "INV13_STV02",
+          "Tagname": "KKB.INV13.V02"
+        },
+        {
+          "Title": "INV13_STV03",
+          "Tagname": "KKB.INV13.V03"
+        },
+        {
+          "Title": "INV13_STV04",
+          "Tagname": "KKB.INV13.V04"
+        },
+        {
+          "Title": "INV13_STV05",
+          "Tagname": "KKB.INV13.V05"
+        },
+        {
+          "Title": "INV13_STV06",
+          "Tagname": "KKB.INV13.V06"
+        },
+        {
+          "Title": "INV13_STV07",
+          "Tagname": "KKB.INV13.V07"
+        },
+        {
+          "Title": "INV13_STV08",
+          "Tagname": "KKB.INV13.V08"
+        },
+        {
+          "Title": "INV13_STV09",
+          "Tagname": "KKB.INV13.V09"
+        },
+        {
+          "Title": "INV13_STV10",
+          "Tagname": "KKB.INV13.V10"
+        },
+        {
+          "Title": "INV13_STV11",
+          "Tagname": "KKB.INV13.V11"
+        },
+        {
+          "Title": "INV13_STV12",
+          "Tagname": "KKB.INV13.V12"
+        },
+        {
+          "Title": "INV13_STV13",
+          "Tagname": "KKB.INV13.V13"
+        },
+        {
+          "Title": "INV13_STV14",
+          "Tagname": "KKB.INV13.V14"
+        },
+        {
+          "Title": "INV13_STV15",
+          "Tagname": "KKB.INV13.V15"
+        },
+        {
+          "Title": "INV13_STV16",
+          "Tagname": "KKB.INV13.V16"
+        },
+        {
+          "Title": "INV13_STV17",
+          "Tagname": "KKB.INV13.V17"
+        },
+        {
+          "Title": "INV13_STV18",
+          "Tagname": "KKB.INV13.V18"
+        },
+        {
+          "Title": "INV13_STV19",
+          "Tagname": "KKB.INV13.V19"
+        },
+        {
+          "Title": "INV13_STV20",
+          "Tagname": "KKB.INV13.V20"
+        },
+        {
+          "Title": "INV13_STV21",
+          "Tagname": "KKB.INV13.V21"
         }
       ]
     },
@@ -1365,6 +2457,90 @@
         {
           "Title": "INV14_STR21",
           "Tagname": "KKB.INV14.I21"
+        },
+        {
+          "Title": "INV14_STV01",
+          "Tagname": "KKB.INV14.V01"
+        },
+        {
+          "Title": "INV14_STV02",
+          "Tagname": "KKB.INV14.V02"
+        },
+        {
+          "Title": "INV14_STV03",
+          "Tagname": "KKB.INV14.V03"
+        },
+        {
+          "Title": "INV14_STV04",
+          "Tagname": "KKB.INV14.V04"
+        },
+        {
+          "Title": "INV14_STV05",
+          "Tagname": "KKB.INV14.V05"
+        },
+        {
+          "Title": "INV14_STV06",
+          "Tagname": "KKB.INV14.V06"
+        },
+        {
+          "Title": "INV14_STV07",
+          "Tagname": "KKB.INV14.V07"
+        },
+        {
+          "Title": "INV14_STV08",
+          "Tagname": "KKB.INV14.V08"
+        },
+        {
+          "Title": "INV14_STV09",
+          "Tagname": "KKB.INV14.V09"
+        },
+        {
+          "Title": "INV14_STV10",
+          "Tagname": "KKB.INV14.V10"
+        },
+        {
+          "Title": "INV14_STV11",
+          "Tagname": "KKB.INV14.V11"
+        },
+        {
+          "Title": "INV14_STV12",
+          "Tagname": "KKB.INV14.V12"
+        },
+        {
+          "Title": "INV14_STV13",
+          "Tagname": "KKB.INV14.V13"
+        },
+        {
+          "Title": "INV14_STV14",
+          "Tagname": "KKB.INV14.V14"
+        },
+        {
+          "Title": "INV14_STV15",
+          "Tagname": "KKB.INV14.V15"
+        },
+        {
+          "Title": "INV14_STV16",
+          "Tagname": "KKB.INV14.V16"
+        },
+        {
+          "Title": "INV14_STV17",
+          "Tagname": "KKB.INV14.V17"
+        },
+        {
+          "Title": "INV14_STV18",
+          "Tagname": "KKB.INV14.V18"
+        },
+        {
+          "Title": "INV14_STV19",
+          "Tagname": "KKB.INV14.V19"
+        },
+        {
+          "Title": "INV14_STV20",
+          "Tagname": "KKB.INV14.V20"
+        },
+        {
+          "Title": "INV14_STV21",
+          "Tagname": "KKB.INV14.V21"
         }
       ]
     },
@@ -1459,6 +2635,90 @@
         {
           "Title": "INV15_STR21",
           "Tagname": "KKB.INV15.I21"
+        },
+        {
+          "Title": "INV15_STV01",
+          "Tagname": "KKB.INV15.V01"
+        },
+        {
+          "Title": "INV15_STV02",
+          "Tagname": "KKB.INV15.V02"
+        },
+        {
+          "Title": "INV15_STV03",
+          "Tagname": "KKB.INV15.V03"
+        },
+        {
+          "Title": "INV15_STV04",
+          "Tagname": "KKB.INV15.V04"
+        },
+        {
+          "Title": "INV15_STV05",
+          "Tagname": "KKB.INV15.V05"
+        },
+        {
+          "Title": "INV15_STV06",
+          "Tagname": "KKB.INV15.V06"
+        },
+        {
+          "Title": "INV15_STV07",
+          "Tagname": "KKB.INV15.V07"
+        },
+        {
+          "Title": "INV15_STV08",
+          "Tagname": "KKB.INV15.V08"
+        },
+        {
+          "Title": "INV15_STV09",
+          "Tagname": "KKB.INV15.V09"
+        },
+        {
+          "Title": "INV15_STV10",
+          "Tagname": "KKB.INV15.V10"
+        },
+        {
+          "Title": "INV15_STV11",
+          "Tagname": "KKB.INV15.V11"
+        },
+        {
+          "Title": "INV15_STV12",
+          "Tagname": "KKB.INV15.V12"
+        },
+        {
+          "Title": "INV15_STV13",
+          "Tagname": "KKB.INV15.V13"
+        },
+        {
+          "Title": "INV15_STV14",
+          "Tagname": "KKB.INV15.V14"
+        },
+        {
+          "Title": "INV15_STV15",
+          "Tagname": "KKB.INV15.V15"
+        },
+        {
+          "Title": "INV15_STV16",
+          "Tagname": "KKB.INV15.V16"
+        },
+        {
+          "Title": "INV15_STV17",
+          "Tagname": "KKB.INV15.V17"
+        },
+        {
+          "Title": "INV15_STV18",
+          "Tagname": "KKB.INV15.V18"
+        },
+        {
+          "Title": "INV15_STV19",
+          "Tagname": "KKB.INV15.V19"
+        },
+        {
+          "Title": "INV15_STV20",
+          "Tagname": "KKB.INV15.V20"
+        },
+        {
+          "Title": "INV15_STV21",
+          "Tagname": "KKB.INV15.V21"
         }
       ]
     },
@@ -1553,6 +2813,90 @@
         {
           "Title": "INV16_STR21",
           "Tagname": "KKB.INV16.I21"
+        },
+        {
+          "Title": "INV16_STV01",
+          "Tagname": "KKB.INV16.V01"
+        },
+        {
+          "Title": "INV16_STV02",
+          "Tagname": "KKB.INV16.V02"
+        },
+        {
+          "Title": "INV16_STV03",
+          "Tagname": "KKB.INV16.V03"
+        },
+        {
+          "Title": "INV16_STV04",
+          "Tagname": "KKB.INV16.V04"
+        },
+        {
+          "Title": "INV16_STV05",
+          "Tagname": "KKB.INV16.V05"
+        },
+        {
+          "Title": "INV16_STV06",
+          "Tagname": "KKB.INV16.V06"
+        },
+        {
+          "Title": "INV16_STV07",
+          "Tagname": "KKB.INV16.V07"
+        },
+        {
+          "Title": "INV16_STV08",
+          "Tagname": "KKB.INV16.V08"
+        },
+        {
+          "Title": "INV16_STV09",
+          "Tagname": "KKB.INV16.V09"
+        },
+        {
+          "Title": "INV16_STV10",
+          "Tagname": "KKB.INV16.V10"
+        },
+        {
+          "Title": "INV16_STV11",
+          "Tagname": "KKB.INV16.V11"
+        },
+        {
+          "Title": "INV16_STV12",
+          "Tagname": "KKB.INV16.V12"
+        },
+        {
+          "Title": "INV16_STV13",
+          "Tagname": "KKB.INV16.V13"
+        },
+        {
+          "Title": "INV16_STV14",
+          "Tagname": "KKB.INV16.V14"
+        },
+        {
+          "Title": "INV16_STV15",
+          "Tagname": "KKB.INV16.V15"
+        },
+        {
+          "Title": "INV16_STV16",
+          "Tagname": "KKB.INV16.V16"
+        },
+        {
+          "Title": "INV16_STV17",
+          "Tagname": "KKB.INV16.V17"
+        },
+        {
+          "Title": "INV16_STV18",
+          "Tagname": "KKB.INV16.V18"
+        },
+        {
+          "Title": "INV16_STV19",
+          "Tagname": "KKB.INV16.V19"
+        },
+        {
+          "Title": "INV16_STV20",
+          "Tagname": "KKB.INV16.V20"
+        },
+        {
+          "Title": "INV16_STV21",
+          "Tagname": "KKB.INV16.V21"
         }
       ]
     },
@@ -1647,6 +2991,90 @@
         {
           "Title": "INV17_STR21",
           "Tagname": "KKB.INV17.I21"
+        },
+        {
+          "Title": "INV17_STV01",
+          "Tagname": "KKB.INV17.V01"
+        },
+        {
+          "Title": "INV17_STV02",
+          "Tagname": "KKB.INV17.V02"
+        },
+        {
+          "Title": "INV17_STV03",
+          "Tagname": "KKB.INV17.V03"
+        },
+        {
+          "Title": "INV17_STV04",
+          "Tagname": "KKB.INV17.V04"
+        },
+        {
+          "Title": "INV17_STV05",
+          "Tagname": "KKB.INV17.V05"
+        },
+        {
+          "Title": "INV17_STV06",
+          "Tagname": "KKB.INV17.V06"
+        },
+        {
+          "Title": "INV17_STV07",
+          "Tagname": "KKB.INV17.V07"
+        },
+        {
+          "Title": "INV17_STV08",
+          "Tagname": "KKB.INV17.V08"
+        },
+        {
+          "Title": "INV17_STV09",
+          "Tagname": "KKB.INV17.V09"
+        },
+        {
+          "Title": "INV17_STV10",
+          "Tagname": "KKB.INV17.V10"
+        },
+        {
+          "Title": "INV17_STV11",
+          "Tagname": "KKB.INV17.V11"
+        },
+        {
+          "Title": "INV17_STV12",
+          "Tagname": "KKB.INV17.V12"
+        },
+        {
+          "Title": "INV17_STV13",
+          "Tagname": "KKB.INV17.V13"
+        },
+        {
+          "Title": "INV17_STV14",
+          "Tagname": "KKB.INV17.V14"
+        },
+        {
+          "Title": "INV17_STV15",
+          "Tagname": "KKB.INV17.V15"
+        },
+        {
+          "Title": "INV17_STV16",
+          "Tagname": "KKB.INV17.V16"
+        },
+        {
+          "Title": "INV17_STV17",
+          "Tagname": "KKB.INV17.V17"
+        },
+        {
+          "Title": "INV17_STV18",
+          "Tagname": "KKB.INV17.V18"
+        },
+        {
+          "Title": "INV17_STV19",
+          "Tagname": "KKB.INV17.V19"
+        },
+        {
+          "Title": "INV17_STV20",
+          "Tagname": "KKB.INV17.V20"
+        },
+        {
+          "Title": "INV17_STV21",
+          "Tagname": "KKB.INV17.V21"
         }
       ]
     },
@@ -1741,6 +3169,90 @@
         {
           "Title": "INV18_STR21",
           "Tagname": "KKB.INV18.I21"
+        },
+        {
+          "Title": "INV18_STV01",
+          "Tagname": "KKB.INV18.V01"
+        },
+        {
+          "Title": "INV18_STV02",
+          "Tagname": "KKB.INV18.V02"
+        },
+        {
+          "Title": "INV18_STV03",
+          "Tagname": "KKB.INV18.V03"
+        },
+        {
+          "Title": "INV18_STV04",
+          "Tagname": "KKB.INV18.V04"
+        },
+        {
+          "Title": "INV18_STV05",
+          "Tagname": "KKB.INV18.V05"
+        },
+        {
+          "Title": "INV18_STV06",
+          "Tagname": "KKB.INV18.V06"
+        },
+        {
+          "Title": "INV18_STV07",
+          "Tagname": "KKB.INV18.V07"
+        },
+        {
+          "Title": "INV18_STV08",
+          "Tagname": "KKB.INV18.V08"
+        },
+        {
+          "Title": "INV18_STV09",
+          "Tagname": "KKB.INV18.V09"
+        },
+        {
+          "Title": "INV18_STV10",
+          "Tagname": "KKB.INV18.V10"
+        },
+        {
+          "Title": "INV18_STV11",
+          "Tagname": "KKB.INV18.V11"
+        },
+        {
+          "Title": "INV18_STV12",
+          "Tagname": "KKB.INV18.V12"
+        },
+        {
+          "Title": "INV18_STV13",
+          "Tagname": "KKB.INV18.V13"
+        },
+        {
+          "Title": "INV18_STV14",
+          "Tagname": "KKB.INV18.V14"
+        },
+        {
+          "Title": "INV18_STV15",
+          "Tagname": "KKB.INV18.V15"
+        },
+        {
+          "Title": "INV18_STV16",
+          "Tagname": "KKB.INV18.V16"
+        },
+        {
+          "Title": "INV18_STV17",
+          "Tagname": "KKB.INV18.V17"
+        },
+        {
+          "Title": "INV18_STV18",
+          "Tagname": "KKB.INV18.V18"
+        },
+        {
+          "Title": "INV18_STV19",
+          "Tagname": "KKB.INV18.V19"
+        },
+        {
+          "Title": "INV18_STV20",
+          "Tagname": "KKB.INV18.V20"
+        },
+        {
+          "Title": "INV18_STV21",
+          "Tagname": "KKB.INV18.V21"
         }
       ]
     },
@@ -1835,6 +3347,90 @@
         {
           "Title": "INV19_STR21",
           "Tagname": "KKB.INV19.I21"
+        },
+        {
+          "Title": "INV19_STV01",
+          "Tagname": "KKB.INV19.V01"
+        },
+        {
+          "Title": "INV19_STV02",
+          "Tagname": "KKB.INV19.V02"
+        },
+        {
+          "Title": "INV19_STV03",
+          "Tagname": "KKB.INV19.V03"
+        },
+        {
+          "Title": "INV19_STV04",
+          "Tagname": "KKB.INV19.V04"
+        },
+        {
+          "Title": "INV19_STV05",
+          "Tagname": "KKB.INV19.V05"
+        },
+        {
+          "Title": "INV19_STV06",
+          "Tagname": "KKB.INV19.V06"
+        },
+        {
+          "Title": "INV19_STV07",
+          "Tagname": "KKB.INV19.V07"
+        },
+        {
+          "Title": "INV19_STV08",
+          "Tagname": "KKB.INV19.V08"
+        },
+        {
+          "Title": "INV19_STV09",
+          "Tagname": "KKB.INV19.V09"
+        },
+        {
+          "Title": "INV19_STV10",
+          "Tagname": "KKB.INV19.V10"
+        },
+        {
+          "Title": "INV19_STV11",
+          "Tagname": "KKB.INV19.V11"
+        },
+        {
+          "Title": "INV19_STV12",
+          "Tagname": "KKB.INV19.V12"
+        },
+        {
+          "Title": "INV19_STV13",
+          "Tagname": "KKB.INV19.V13"
+        },
+        {
+          "Title": "INV19_STV14",
+          "Tagname": "KKB.INV19.V14"
+        },
+        {
+          "Title": "INV19_STV15",
+          "Tagname": "KKB.INV19.V15"
+        },
+        {
+          "Title": "INV19_STV16",
+          "Tagname": "KKB.INV19.V16"
+        },
+        {
+          "Title": "INV19_STV17",
+          "Tagname": "KKB.INV19.V17"
+        },
+        {
+          "Title": "INV19_STV18",
+          "Tagname": "KKB.INV19.V18"
+        },
+        {
+          "Title": "INV19_STV19",
+          "Tagname": "KKB.INV19.V19"
+        },
+        {
+          "Title": "INV19_STV20",
+          "Tagname": "KKB.INV19.V20"
+        },
+        {
+          "Title": "INV19_STV21",
+          "Tagname": "KKB.INV19.V21"
         }
       ]
     },
@@ -1929,6 +3525,90 @@
         {
           "Title": "INV20_STR21",
           "Tagname": "KKB.INV20.I21"
+        },
+        {
+          "Title": "INV20_STV01",
+          "Tagname": "KKB.INV20.V01"
+        },
+        {
+          "Title": "INV20_STV02",
+          "Tagname": "KKB.INV20.V02"
+        },
+        {
+          "Title": "INV20_STV03",
+          "Tagname": "KKB.INV20.V03"
+        },
+        {
+          "Title": "INV20_STV04",
+          "Tagname": "KKB.INV20.V04"
+        },
+        {
+          "Title": "INV20_STV05",
+          "Tagname": "KKB.INV20.V05"
+        },
+        {
+          "Title": "INV20_STV06",
+          "Tagname": "KKB.INV20.V06"
+        },
+        {
+          "Title": "INV20_STV07",
+          "Tagname": "KKB.INV20.V07"
+        },
+        {
+          "Title": "INV20_STV08",
+          "Tagname": "KKB.INV20.V08"
+        },
+        {
+          "Title": "INV20_STV09",
+          "Tagname": "KKB.INV20.V09"
+        },
+        {
+          "Title": "INV20_STV10",
+          "Tagname": "KKB.INV20.V10"
+        },
+        {
+          "Title": "INV20_STV11",
+          "Tagname": "KKB.INV20.V11"
+        },
+        {
+          "Title": "INV20_STV12",
+          "Tagname": "KKB.INV20.V12"
+        },
+        {
+          "Title": "INV20_STV13",
+          "Tagname": "KKB.INV20.V13"
+        },
+        {
+          "Title": "INV20_STV14",
+          "Tagname": "KKB.INV20.V14"
+        },
+        {
+          "Title": "INV20_STV15",
+          "Tagname": "KKB.INV20.V15"
+        },
+        {
+          "Title": "INV20_STV16",
+          "Tagname": "KKB.INV20.V16"
+        },
+        {
+          "Title": "INV20_STV17",
+          "Tagname": "KKB.INV20.V17"
+        },
+        {
+          "Title": "INV20_STV18",
+          "Tagname": "KKB.INV20.V18"
+        },
+        {
+          "Title": "INV20_STV19",
+          "Tagname": "KKB.INV20.V19"
+        },
+        {
+          "Title": "INV20_STV20",
+          "Tagname": "KKB.INV20.V20"
+        },
+        {
+          "Title": "INV20_STV21",
+          "Tagname": "KKB.INV20.V21"
         }
       ]
     },
@@ -2023,6 +3703,90 @@
         {
           "Title": "INV21_STR21",
           "Tagname": "KKB.INV21.I21"
+        },
+        {
+          "Title": "INV21_STV01",
+          "Tagname": "KKB.INV21.V01"
+        },
+        {
+          "Title": "INV21_STV02",
+          "Tagname": "KKB.INV21.V02"
+        },
+        {
+          "Title": "INV21_STV03",
+          "Tagname": "KKB.INV21.V03"
+        },
+        {
+          "Title": "INV21_STV04",
+          "Tagname": "KKB.INV21.V04"
+        },
+        {
+          "Title": "INV21_STV05",
+          "Tagname": "KKB.INV21.V05"
+        },
+        {
+          "Title": "INV21_STV06",
+          "Tagname": "KKB.INV21.V06"
+        },
+        {
+          "Title": "INV21_STV07",
+          "Tagname": "KKB.INV21.V07"
+        },
+        {
+          "Title": "INV21_STV08",
+          "Tagname": "KKB.INV21.V08"
+        },
+        {
+          "Title": "INV21_STV09",
+          "Tagname": "KKB.INV21.V09"
+        },
+        {
+          "Title": "INV21_STV10",
+          "Tagname": "KKB.INV21.V10"
+        },
+        {
+          "Title": "INV21_STV11",
+          "Tagname": "KKB.INV21.V11"
+        },
+        {
+          "Title": "INV21_STV12",
+          "Tagname": "KKB.INV21.V12"
+        },
+        {
+          "Title": "INV21_STV13",
+          "Tagname": "KKB.INV21.V13"
+        },
+        {
+          "Title": "INV21_STV14",
+          "Tagname": "KKB.INV21.V14"
+        },
+        {
+          "Title": "INV21_STV15",
+          "Tagname": "KKB.INV21.V15"
+        },
+        {
+          "Title": "INV21_STV16",
+          "Tagname": "KKB.INV21.V16"
+        },
+        {
+          "Title": "INV21_STV17",
+          "Tagname": "KKB.INV21.V17"
+        },
+        {
+          "Title": "INV21_STV18",
+          "Tagname": "KKB.INV21.V18"
+        },
+        {
+          "Title": "INV21_STV19",
+          "Tagname": "KKB.INV21.V19"
+        },
+        {
+          "Title": "INV21_STV20",
+          "Tagname": "KKB.INV21.V20"
+        },
+        {
+          "Title": "INV21_STV21",
+          "Tagname": "KKB.INV21.V21"
         }
       ]
     },
@@ -2117,6 +3881,90 @@
         {
           "Title": "INV22_STR21",
           "Tagname": "KKB.INV22.I21"
+        },
+        {
+          "Title": "INV22_STV01",
+          "Tagname": "KKB.INV22.V01"
+        },
+        {
+          "Title": "INV22_STV02",
+          "Tagname": "KKB.INV22.V02"
+        },
+        {
+          "Title": "INV22_STV03",
+          "Tagname": "KKB.INV22.V03"
+        },
+        {
+          "Title": "INV22_STV04",
+          "Tagname": "KKB.INV22.V04"
+        },
+        {
+          "Title": "INV22_STV05",
+          "Tagname": "KKB.INV22.V05"
+        },
+        {
+          "Title": "INV22_STV06",
+          "Tagname": "KKB.INV22.V06"
+        },
+        {
+          "Title": "INV22_STV07",
+          "Tagname": "KKB.INV22.V07"
+        },
+        {
+          "Title": "INV22_STV08",
+          "Tagname": "KKB.INV22.V08"
+        },
+        {
+          "Title": "INV22_STV09",
+          "Tagname": "KKB.INV22.V09"
+        },
+        {
+          "Title": "INV22_STV10",
+          "Tagname": "KKB.INV22.V10"
+        },
+        {
+          "Title": "INV22_STV11",
+          "Tagname": "KKB.INV22.V11"
+        },
+        {
+          "Title": "INV22_STV12",
+          "Tagname": "KKB.INV22.V12"
+        },
+        {
+          "Title": "INV22_STV13",
+          "Tagname": "KKB.INV22.V13"
+        },
+        {
+          "Title": "INV22_STV14",
+          "Tagname": "KKB.INV22.V14"
+        },
+        {
+          "Title": "INV22_STV15",
+          "Tagname": "KKB.INV22.V15"
+        },
+        {
+          "Title": "INV22_STV16",
+          "Tagname": "KKB.INV22.V16"
+        },
+        {
+          "Title": "INV22_STV17",
+          "Tagname": "KKB.INV22.V17"
+        },
+        {
+          "Title": "INV22_STV18",
+          "Tagname": "KKB.INV22.V18"
+        },
+        {
+          "Title": "INV22_STV19",
+          "Tagname": "KKB.INV22.V19"
+        },
+        {
+          "Title": "INV22_STV20",
+          "Tagname": "KKB.INV22.V20"
+        },
+        {
+          "Title": "INV22_STV21",
+          "Tagname": "KKB.INV22.V21"
         }
       ]
     },
@@ -2211,6 +4059,90 @@
         {
           "Title": "INV23_STR21",
           "Tagname": "KKB.INV23.I21"
+        },
+        {
+          "Title": "INV23_STV01",
+          "Tagname": "KKB.INV23.V01"
+        },
+        {
+          "Title": "INV23_STV02",
+          "Tagname": "KKB.INV23.V02"
+        },
+        {
+          "Title": "INV23_STV03",
+          "Tagname": "KKB.INV23.V03"
+        },
+        {
+          "Title": "INV23_STV04",
+          "Tagname": "KKB.INV23.V04"
+        },
+        {
+          "Title": "INV23_STV05",
+          "Tagname": "KKB.INV23.V05"
+        },
+        {
+          "Title": "INV23_STV06",
+          "Tagname": "KKB.INV23.V06"
+        },
+        {
+          "Title": "INV23_STV07",
+          "Tagname": "KKB.INV23.V07"
+        },
+        {
+          "Title": "INV23_STV08",
+          "Tagname": "KKB.INV23.V08"
+        },
+        {
+          "Title": "INV23_STV09",
+          "Tagname": "KKB.INV23.V09"
+        },
+        {
+          "Title": "INV23_STV10",
+          "Tagname": "KKB.INV23.V10"
+        },
+        {
+          "Title": "INV23_STV11",
+          "Tagname": "KKB.INV23.V11"
+        },
+        {
+          "Title": "INV23_STV12",
+          "Tagname": "KKB.INV23.V12"
+        },
+        {
+          "Title": "INV23_STV13",
+          "Tagname": "KKB.INV23.V13"
+        },
+        {
+          "Title": "INV23_STV14",
+          "Tagname": "KKB.INV23.V14"
+        },
+        {
+          "Title": "INV23_STV15",
+          "Tagname": "KKB.INV23.V15"
+        },
+        {
+          "Title": "INV23_STV16",
+          "Tagname": "KKB.INV23.V16"
+        },
+        {
+          "Title": "INV23_STV17",
+          "Tagname": "KKB.INV23.V17"
+        },
+        {
+          "Title": "INV23_STV18",
+          "Tagname": "KKB.INV23.V18"
+        },
+        {
+          "Title": "INV23_STV19",
+          "Tagname": "KKB.INV23.V19"
+        },
+        {
+          "Title": "INV23_STV20",
+          "Tagname": "KKB.INV23.V20"
+        },
+        {
+          "Title": "INV23_STV21",
+          "Tagname": "KKB.INV23.V21"
         }
       ]
     },
@@ -2305,6 +4237,90 @@
         {
           "Title": "INV24_STR21",
           "Tagname": "KKB.INV24.I21"
+        },
+        {
+          "Title": "INV24_STV01",
+          "Tagname": "KKB.INV24.V01"
+        },
+        {
+          "Title": "INV24_STV02",
+          "Tagname": "KKB.INV24.V02"
+        },
+        {
+          "Title": "INV24_STV03",
+          "Tagname": "KKB.INV24.V03"
+        },
+        {
+          "Title": "INV24_STV04",
+          "Tagname": "KKB.INV24.V04"
+        },
+        {
+          "Title": "INV24_STV05",
+          "Tagname": "KKB.INV24.V05"
+        },
+        {
+          "Title": "INV24_STV06",
+          "Tagname": "KKB.INV24.V06"
+        },
+        {
+          "Title": "INV24_STV07",
+          "Tagname": "KKB.INV24.V07"
+        },
+        {
+          "Title": "INV24_STV08",
+          "Tagname": "KKB.INV24.V08"
+        },
+        {
+          "Title": "INV24_STV09",
+          "Tagname": "KKB.INV24.V09"
+        },
+        {
+          "Title": "INV24_STV10",
+          "Tagname": "KKB.INV24.V10"
+        },
+        {
+          "Title": "INV24_STV11",
+          "Tagname": "KKB.INV24.V11"
+        },
+        {
+          "Title": "INV24_STV12",
+          "Tagname": "KKB.INV24.V12"
+        },
+        {
+          "Title": "INV24_STV13",
+          "Tagname": "KKB.INV24.V13"
+        },
+        {
+          "Title": "INV24_STV14",
+          "Tagname": "KKB.INV24.V14"
+        },
+        {
+          "Title": "INV24_STV15",
+          "Tagname": "KKB.INV24.V15"
+        },
+        {
+          "Title": "INV24_STV16",
+          "Tagname": "KKB.INV24.V16"
+        },
+        {
+          "Title": "INV24_STV17",
+          "Tagname": "KKB.INV24.V17"
+        },
+        {
+          "Title": "INV24_STV18",
+          "Tagname": "KKB.INV24.V18"
+        },
+        {
+          "Title": "INV24_STV19",
+          "Tagname": "KKB.INV24.V19"
+        },
+        {
+          "Title": "INV24_STV20",
+          "Tagname": "KKB.INV24.V20"
+        },
+        {
+          "Title": "INV24_STV21",
+          "Tagname": "KKB.INV24.V21"
         }
       ]
     },
@@ -2399,6 +4415,90 @@
         {
           "Title": "INV25_STR21",
           "Tagname": "KKB.INV25.I21"
+        },
+        {
+          "Title": "INV25_STV01",
+          "Tagname": "KKB.INV25.V01"
+        },
+        {
+          "Title": "INV25_STV02",
+          "Tagname": "KKB.INV25.V02"
+        },
+        {
+          "Title": "INV25_STV03",
+          "Tagname": "KKB.INV25.V03"
+        },
+        {
+          "Title": "INV25_STV04",
+          "Tagname": "KKB.INV25.V04"
+        },
+        {
+          "Title": "INV25_STV05",
+          "Tagname": "KKB.INV25.V05"
+        },
+        {
+          "Title": "INV25_STV06",
+          "Tagname": "KKB.INV25.V06"
+        },
+        {
+          "Title": "INV25_STV07",
+          "Tagname": "KKB.INV25.V07"
+        },
+        {
+          "Title": "INV25_STV08",
+          "Tagname": "KKB.INV25.V08"
+        },
+        {
+          "Title": "INV25_STV09",
+          "Tagname": "KKB.INV25.V09"
+        },
+        {
+          "Title": "INV25_STV10",
+          "Tagname": "KKB.INV25.V10"
+        },
+        {
+          "Title": "INV25_STV11",
+          "Tagname": "KKB.INV25.V11"
+        },
+        {
+          "Title": "INV25_STV12",
+          "Tagname": "KKB.INV25.V12"
+        },
+        {
+          "Title": "INV25_STV13",
+          "Tagname": "KKB.INV25.V13"
+        },
+        {
+          "Title": "INV25_STV14",
+          "Tagname": "KKB.INV25.V14"
+        },
+        {
+          "Title": "INV25_STV15",
+          "Tagname": "KKB.INV25.V15"
+        },
+        {
+          "Title": "INV25_STV16",
+          "Tagname": "KKB.INV25.V16"
+        },
+        {
+          "Title": "INV25_STV17",
+          "Tagname": "KKB.INV25.V17"
+        },
+        {
+          "Title": "INV25_STV18",
+          "Tagname": "KKB.INV25.V18"
+        },
+        {
+          "Title": "INV25_STV19",
+          "Tagname": "KKB.INV25.V19"
+        },
+        {
+          "Title": "INV25_STV20",
+          "Tagname": "KKB.INV25.V20"
+        },
+        {
+          "Title": "INV25_STV21",
+          "Tagname": "KKB.INV25.V21"
         }
       ]
     },
@@ -2493,6 +4593,90 @@
         {
           "Title": "INV26_STR21",
           "Tagname": "KKB.INV26.I21"
+        },
+        {
+          "Title": "INV26_STV01",
+          "Tagname": "KKB.INV26.V01"
+        },
+        {
+          "Title": "INV26_STV02",
+          "Tagname": "KKB.INV26.V02"
+        },
+        {
+          "Title": "INV26_STV03",
+          "Tagname": "KKB.INV26.V03"
+        },
+        {
+          "Title": "INV26_STV04",
+          "Tagname": "KKB.INV26.V04"
+        },
+        {
+          "Title": "INV26_STV05",
+          "Tagname": "KKB.INV26.V05"
+        },
+        {
+          "Title": "INV26_STV06",
+          "Tagname": "KKB.INV26.V06"
+        },
+        {
+          "Title": "INV26_STV07",
+          "Tagname": "KKB.INV26.V07"
+        },
+        {
+          "Title": "INV26_STV08",
+          "Tagname": "KKB.INV26.V08"
+        },
+        {
+          "Title": "INV26_STV09",
+          "Tagname": "KKB.INV26.V09"
+        },
+        {
+          "Title": "INV26_STV10",
+          "Tagname": "KKB.INV26.V10"
+        },
+        {
+          "Title": "INV26_STV11",
+          "Tagname": "KKB.INV26.V11"
+        },
+        {
+          "Title": "INV26_STV12",
+          "Tagname": "KKB.INV26.V12"
+        },
+        {
+          "Title": "INV26_STV13",
+          "Tagname": "KKB.INV26.V13"
+        },
+        {
+          "Title": "INV26_STV14",
+          "Tagname": "KKB.INV26.V14"
+        },
+        {
+          "Title": "INV26_STV15",
+          "Tagname": "KKB.INV26.V15"
+        },
+        {
+          "Title": "INV26_STV16",
+          "Tagname": "KKB.INV26.V16"
+        },
+        {
+          "Title": "INV26_STV17",
+          "Tagname": "KKB.INV26.V17"
+        },
+        {
+          "Title": "INV26_STV18",
+          "Tagname": "KKB.INV26.V18"
+        },
+        {
+          "Title": "INV26_STV19",
+          "Tagname": "KKB.INV26.V19"
+        },
+        {
+          "Title": "INV26_STV20",
+          "Tagname": "KKB.INV26.V20"
+        },
+        {
+          "Title": "INV26_STV21",
+          "Tagname": "KKB.INV26.V21"
         }
       ]
     },
@@ -2587,6 +4771,90 @@
         {
           "Title": "INV27_STR21",
           "Tagname": "KKB.INV27.I21"
+        },
+        {
+          "Title": "INV27_STV01",
+          "Tagname": "KKB.INV27.V01"
+        },
+        {
+          "Title": "INV27_STV02",
+          "Tagname": "KKB.INV27.V02"
+        },
+        {
+          "Title": "INV27_STV03",
+          "Tagname": "KKB.INV27.V03"
+        },
+        {
+          "Title": "INV27_STV04",
+          "Tagname": "KKB.INV27.V04"
+        },
+        {
+          "Title": "INV27_STV05",
+          "Tagname": "KKB.INV27.V05"
+        },
+        {
+          "Title": "INV27_STV06",
+          "Tagname": "KKB.INV27.V06"
+        },
+        {
+          "Title": "INV27_STV07",
+          "Tagname": "KKB.INV27.V07"
+        },
+        {
+          "Title": "INV27_STV08",
+          "Tagname": "KKB.INV27.V08"
+        },
+        {
+          "Title": "INV27_STV09",
+          "Tagname": "KKB.INV27.V09"
+        },
+        {
+          "Title": "INV27_STV10",
+          "Tagname": "KKB.INV27.V10"
+        },
+        {
+          "Title": "INV27_STV11",
+          "Tagname": "KKB.INV27.V11"
+        },
+        {
+          "Title": "INV27_STV12",
+          "Tagname": "KKB.INV27.V12"
+        },
+        {
+          "Title": "INV27_STV13",
+          "Tagname": "KKB.INV27.V13"
+        },
+        {
+          "Title": "INV27_STV14",
+          "Tagname": "KKB.INV27.V14"
+        },
+        {
+          "Title": "INV27_STV15",
+          "Tagname": "KKB.INV27.V15"
+        },
+        {
+          "Title": "INV27_STV16",
+          "Tagname": "KKB.INV27.V16"
+        },
+        {
+          "Title": "INV27_STV17",
+          "Tagname": "KKB.INV27.V17"
+        },
+        {
+          "Title": "INV27_STV18",
+          "Tagname": "KKB.INV27.V18"
+        },
+        {
+          "Title": "INV27_STV19",
+          "Tagname": "KKB.INV27.V19"
+        },
+        {
+          "Title": "INV27_STV20",
+          "Tagname": "KKB.INV27.V20"
+        },
+        {
+          "Title": "INV27_STV21",
+          "Tagname": "KKB.INV27.V21"
         }
       ]
     },

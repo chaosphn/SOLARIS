@@ -21,13 +21,14 @@ export class DatePickers implements OnInit, OnChanges {
   private dateAdapter = inject(DateAdapter);
   private dateFormats = inject(MAT_DATE_FORMATS);
   selectedDate: Date = new Date();
+  selectedTime: string = '00:00';
   uniqueId: string = '';
   private dateTimeSrv = inject(Datetime);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['initdate']) {
-      //console.log(this.initdate)
       this.selectedDate = this.initdate;
+      this.selectedTime = this.formatTime(this.initdate);
     }
 
     if (changes['type']) {
@@ -37,18 +38,38 @@ export class DatePickers implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.selectedDate = this.initdate;
+    this.selectedTime = this.formatTime(this.initdate);
     this.uniqueId = `datepicker-${Math.random().toString(36).substr(2, 9)}`;
   }
 
   onDateSelect(event: any): void {
-    //console.log(event.value._d)
     if (event.value._d) {
-      this.selectDate.emit(new Date(event.value));
+      if (this.type === 'datetime') {
+        this.emitDateTime(new Date(event.value), this.selectedTime);
+      } else {
+        this.selectDate.emit(new Date(event.value));
+      }
     }
   }
 
+  onTimeChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    if (!value) return;
+    this.selectedTime = value;
+    this.emitDateTime(this.selectedDate, value);
+  }
+
+  private formatTime(d: Date): string {
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
+  private emitDateTime(datePart: Date, timeStr: string): void {
+    const [h, m] = timeStr.split(':').map(Number);
+    this.selectDate.emit(new Date(datePart.getFullYear(), datePart.getMonth(), datePart.getDate(), h || 0, m || 0));
+  }
+
   onMonthSelected(event: any, datepicker: any): void {
-    //console.log(event)
     if(event._d){
       const date = new Date(event._d);
       const selectedDate1 = new Date(date.getFullYear(), date.getMonth(), 1);

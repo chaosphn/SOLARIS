@@ -2,7 +2,7 @@
 .maintenance-wrapper {
   display: flex;
   flex-direction: column;
-  height: calc(100dvh - 110px);
+  max-height: calc(100dvh - 106px);
   overflow: hidden;
 }
 
@@ -41,7 +41,7 @@
     color: var(--active-txt);
     border-bottom-color: var(--active-txt);
     font-weight: 600;
-    background: linear-gradient(180deg, transparent, rgba(228,182,26,0.04));
+    background: var(--primary-bg);
   }
 }
 
@@ -86,4 +86,24 @@
   overflow-y: auto;
   overflow-x: hidden;
   background-color: var(--main-bg);
+}
+
+
+@media (max-width: 768px) {
+  .maintenance-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 220px);
+    overflow: hidden;
+  }
+
+  .nav-link {
+    padding: 0 8px;
+    font-size: 11px;
+    .material-icons { font-size: 15px; display: none; }
+  }
+
+  .header-actions{
+    display: none;
+  }
 }

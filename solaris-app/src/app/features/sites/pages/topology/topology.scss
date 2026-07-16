@@ -35,7 +35,7 @@
         font-size: 12px;
         padding: 8px 12px;
         border: none;
-        background-color: var(--secondary-bg-50);
+        background-color: var(--primary-bg);
         color: var(--primary-txt);
         font-weight: 500;
         cursor: pointer;
@@ -113,4 +113,14 @@
 }
 @keyframes spin {
     to { transform: rotate(360deg); }
+}
+
+
+@media (max-width: 768px) {
+    .container{
+        padding: 8px;
+        max-height: calc(100vh - 220px);
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
 }

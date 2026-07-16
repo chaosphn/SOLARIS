@@ -88,13 +88,11 @@ export class Events2 implements OnInit, OnDestroy {
   constructor(){
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {
-      //console.log(state.location)
       this.siteSelected.set(state.location);
       const res = await firstValueFrom(
         this.store.select(getAllConfig())
       );
       if(res && res[0]){
-        //console.log(res)
         this.siteList.set(res[0].siteList);
       };
     });
@@ -181,7 +179,6 @@ export class Events2 implements OnInit, OnDestroy {
       this.selectedSite = option;
     }
     
-    //console.log('Selected:', option.value);
   }
 
   async onDateSelect(event: any) {
@@ -220,7 +217,6 @@ export class Events2 implements OnInit, OnDestroy {
     const st = new Date(dt1).toISOString();
     const dt2 = this.end.setHours(0,0,0,0);
     const en = new Date(dt2).toISOString();
-    //console.log('Selected Event:', this.selectedOptions);
     const request: FilterEventRequestModel = {
       PointSource: this.selectedSite?.value || undefined,
       StartTime: st,

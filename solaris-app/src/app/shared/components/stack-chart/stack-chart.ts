@@ -37,7 +37,6 @@ export class StackChart implements OnInit {
     this.chartItems.set(Array(this.rangeVal()).fill(0).map((_, i) => i));
     const test = this.getPercentage();
     this.range = this.setRange();
-    //console.log(this.value())
   }
 
   ngOnInit() {
@@ -77,7 +76,6 @@ export class StackChart implements OnInit {
         return 100;
       } else {
         const percent = ((parseFloat(this.value().replaceAll(",",""))/this.maxVal())*this.rangeVal()).toFixed(0);
-        //console.log(percent)
         return parseInt(percent);
       }
     } else {

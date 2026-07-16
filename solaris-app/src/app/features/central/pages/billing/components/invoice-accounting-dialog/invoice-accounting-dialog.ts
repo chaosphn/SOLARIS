@@ -156,7 +156,6 @@ export class InvoiceAccountingDialog implements OnInit {
  
   async approve(): Promise<void> {
     try {
-      //console.log(this.siteList());
 
       this.loading.set(true);
       const result: any = await this.http.updateInvoiceAccountingReview({

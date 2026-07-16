@@ -33,7 +33,7 @@
         <app-card-container [title]="'PLANT SUMMARY'" >
             <ng-template #container>
                 <div class="energy-content w-100 h-100 bz" style="margin-top: 4px; row-gap: 8px;">
-                    <div class="w-100 h-100 bz d-flex-ct">
+                    <div class="piechart w-100 h-100 bz d-flex-ct">
                         <app-piechart [vertical]="true" [enable3D]="true" [statusData]="plantStatusData()"></app-piechart>
                     </div>
                     <div [id]="'SOLAR'" class="w-100 h-100 chart bz" style="max-height: 90%;">
@@ -52,11 +52,11 @@
             <ng-template #container>
                 <app-environment-card
                     [title1]="'IRRADIANTION'"
-                    [title2]="'MODULE TEMP'"
-                    [title3]="'AMBIENT TEMP'"
+                    [title2]="'PV'"
+                    [title3]="'AMB'"
                     [title4]="'INSOLATION'"
-                    [title5]="'WIND SPEED'"
-                    [title6]="'CO₂ REDUCTION'"
+                    [title5]="'WIND'"
+                    [title6]="'CO₂'"
                     [item1]="dataRealtime()['PYRANO']"
                     [item2]="dataRealtime()['PVTEMP']"
                     [item3]="dataRealtime()['AMBTEMP']"

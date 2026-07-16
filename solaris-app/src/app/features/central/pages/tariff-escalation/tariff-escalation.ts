@@ -47,7 +47,6 @@ export class TariffEscalation implements OnInit, OnDestroy {
     const a = this.analytics();
     const cur = a.curYear;
     const r2 = (v: number | null) => v == null ? null : Math.round(v * 100) / 100;
-    console.log(a.blendedByYear, a.blendedByYear.map((v, i) => i == 0 ? r2(v) : a.years[i-1] <= cur ? r2(v) : null))
     return this.baseChart(
       a.years.map(String),
       [

@@ -13,6 +13,12 @@
                 "width": "5.25rem"
             },
             {
+                "name": "LASTSEEN",
+                "title": "LAST SEEN",
+                "width": "6rem",
+                "type": "lastseen"
+            },
+            {
                 "name": "W",
                 "title": "W",
                 "uom": "kW",
@@ -235,6 +241,12 @@
                 "width": "5.25rem"
             },
             {
+                "name": "LASTSEEN",
+                "title": "LAST SEEN",
+                "width": "6rem",
+                "type": "lastseen"
+            },
+            {
                 "name": "WAC",
                 "title": "WAC",
                 "uom": "kW",
@@ -381,6 +393,12 @@
                 "name": "id",
                 "title": "NAME",
                 "width": "5.25rem"
+            },
+            {
+                "name": "LASTSEEN",
+                "title": "LAST SEEN",
+                "width": "6rem",
+                "type": "lastseen"
             },
             {
                 "name": "WAC",
@@ -718,94 +736,6 @@
                 "factor": 1
             },
             {
-                "name": "WH_IMPORT_PREV",
-                "title": "WH PREV.",
-                "uom": "kWh",
-                "width": "5.25rem",
-                "sheets": [
-                    "import energy"
-                ],
-                "dp": 2,
-                "factor": 1
-            },
-            {
-                "name": "WH_IMPORT_PREV_R1",
-                "title": "WH PREV.\nRATE 1",
-                "uom": "kWh",
-                "width": "5.25rem",
-                "sheets": [
-                    "import energy"
-                ],
-                "dp": 2,
-                "factor": 1
-            },
-            {
-                "name": "WH_IMPORT_PREV_R2",
-                "title": "WH PREV.\nRATE 2",
-                "uom": "kWh",
-                "width": "5.25rem",
-                "sheets": [
-                    "import energy"
-                ],
-                "dp": 2,
-                "factor": 1
-            },
-            {
-                "name": "WH_IMPORT_PREV_R3",
-                "title": "WH PREV.\nRATE 3",
-                "uom": "kWh",
-                "width": "5.25rem",
-                "sheets": [
-                    "import energy"
-                ],
-                "dp": 2,
-                "factor": 1
-            },
-            {
-                "name": "WH_IMPORT_CURR",
-                "title": "WH CURR.",
-                "uom": "kWh",
-                "width": "5.25rem",
-                "sheets": [
-                    "import energy"
-                ],
-                "dp": 2,
-                "factor": 1
-            },
-            {
-                "name": "WH_IMPORT_CURR_R1",
-                "title": "WH CURR.\nRATE 1",
-                "uom": "kWh",
-                "width": "5.25rem",
-                "sheets": [
-                    "import energy"
-                ],
-                "dp": 2,
-                "factor": 1
-            },
-            {
-                "name": "WH_IMPORT_CURR_R2",
-                "title": "WH CURR.\nRATE 2",
-                "uom": "kWh",
-                "width": "5.25rem",
-                "sheets": [
-                    "import energy"
-                ],
-                "dp": 2,
-                "factor": 1
-            },
-            {
-                "name": "WH_IMPORT_CURR_R3",
-                "title": "WH CURR.\nRATE 3",
-                "uom": "kWh",
-                "width": "5.25rem",
-                "sheets": [
-                    "import energy"
-                ],
-                "dp": 2,
-                "factor": 1
-            },
-            {
                 "name": "WH_EXPORT",
                 "title": "WH",
                 "uom": "kWh",
@@ -892,96 +822,7 @@
                 ],
                 "dp": 2,
                 "factor": 1
-            },
-            {
-                "name": "WH_EXPORT_PREV",
-                "title": "WH PREV.",
-                "uom": "kWh",
-                "width": "5.25rem",
-                "sheets": [
-                    "export energy"
-                ],
-                "dp": 2,
-                "factor": 1
-            },
-            {
-                "name": "WH_EXPORT_PREV_R1",
-                "title": "WH PREV.\nRATE 1",
-                "uom": "kWh",
-                "width": "5.25rem",
-                "sheets": [
-                    "export energy"
-                ],
-                "dp": 2,
-                "factor": 1
-            },
-            {
-                "name": "WH_EXPORT_PREV_R2",
-                "title": "WH PREV.\nRATE 2",
-                "uom": "kWh",
-                "width": "5.25rem",
-                "sheets": [
-                    "export energy"
-                ],
-                "dp": 2,
-                "factor": 1
-            },
-            {
-                "name": "WH_EXPORT_PREV_R3",
-                "title": "WH PREV.\nRATE 3",
-                "uom": "kWh",
-                "width": "5.25rem",
-                "sheets": [
-                    "export energy"
-                ],
-                "dp": 2,
-                "factor": 1
-            },
-            {
-                "name": "WH_EXPORT_CURR",
-                "title": "WH CURR.",
-                "uom": "kWh",
-                "width": "5.25rem",
-                "sheets": [
-                    "export energy"
-                ],
-                "dp": 2,
-                "factor": 1
-            },
-            {
-                "name": "WH_EXPORT_CURR_R1",
-                "title": "WH CURR.\nRATE 1",
-                "uom": "kWh",
-                "width": "5.25rem",
-                "sheets": [
-                    "export energy"
-                ],
-                "dp": 2,
-                "factor": 1
-            },
-            {
-                "name": "WH_EXPORT_CURR_R2",
-                "title": "WH CURR.\nRATE 2",
-                "uom": "kWh",
-                "width": "5.25rem",
-                "sheets": [
-                    "export energy"
-                ],
-                "dp": 2,
-                "factor": 1
-            },
-            {
-                "name": "WH_EXPORT_CURR_R3",
-                "title": "WH CURR.\nRATE 3",
-                "uom": "kWh",
-                "width": "5.25rem",
-                "sheets": [
-                    "export energy"
-                ],
-                "dp": 2,
-                "factor": 1
             }
-
         ]
     },
     {
@@ -1020,6 +861,12 @@
                 "name": "id",
                 "title": "NAME",
                 "width": "5.25rem"
+            },
+            {
+                "name": "LASTSEEN",
+                "title": "LAST SEEN",
+                "width": "6rem",
+                "type": "lastseen"
             },
             {
                 "name": "WAC",
@@ -1660,58 +1507,152 @@
                 "name": "DSTATUS",
                 "title": "STATUS",
                 "uom": "-",
-                "width": "4.25rem",
+                "width": "12rem",
                 "sheets": [
                     "STATUS"
                 ],
                 "dp": 1,
-                "factor": 1
-            },
-            {
-                "name": "FAULT",
-                "title": "FAULT",
-                "uom": "-",
-                "width": "4.25rem",
-                "sheets": [
-                    "STATUS"
-                ],
-                "dp": 1,
-                "factor": 1
+                "factor": 1,
+                "dataType": "status"
             },
             {
                 "name": "ALARM1",
                 "title": "ALARM 1",
                 "uom": "-",
-                "width": "4.25rem",
+                "width": "13rem",
                 "sheets": [
                     "STATUS"
                 ],
                 "dp": 1,
-                "factor": 1
+                "factor": 1,
+                "dataType": "alarm"
             },
             {
                 "name": "ALARM2",
                 "title": "ALARM 2",
                 "uom": "-",
-                "width": "4.25rem",
+                "width": "13rem",
                 "sheets": [
                     "STATUS"
                 ],
                 "dp": 1,
-                "factor": 1
+                "factor": 1,
+                "dataType": "alarm"
             },
             {
                 "name": "ALARM3",
                 "title": "ALARM 3",
                 "uom": "-",
-                "width": "4.25rem",
+                "width": "13rem",
                 "sheets": [
                     "STATUS"
                 ],
                 "dp": 1,
-                "factor": 1
+                "factor": 1,
+                "dataType": "alarm"
             }
-        ]
+        ],
+        "mapping": {
+            "DSTATUS": {
+                "type": "enum",
+                "values": {
+                    "0": { "label": "Standby: initializing", "level": "idle" },
+                    "1": { "label": "Standby: detecting insulation resistance", "level": "idle" },
+                    "2": { "label": "Standby: detecting irradiation", "level": "idle" },
+                    "3": { "label": "Standby: grid detecting", "level": "idle" },
+                    "256": { "label": "Starting", "level": "idle" },
+                    "512": { "label": "On-grid", "level": "run" },
+                    "513": { "label": "Grid connection: power limited", "level": "warn" },
+                    "514": { "label": "Grid connection: self-derating", "level": "warn" },
+                    "515": { "label": "Off-grid running", "level": "run" },
+                    "768": { "label": "Shutdown: fault", "level": "fault" },
+                    "769": { "label": "Shutdown: command", "level": "idle" },
+                    "770": { "label": "Shutdown: OVGR", "level": "warn" },
+                    "771": { "label": "Shutdown: communication disconnected", "level": "warn" },
+                    "772": { "label": "Shutdown: power limited", "level": "warn" },
+                    "773": { "label": "Shutdown: manual startup required", "level": "warn" },
+                    "774": { "label": "Shutdown: DC switches disconnected", "level": "idle" },
+                    "775": { "label": "Shutdown: rapid cutoff", "level": "warn" },
+                    "776": { "label": "Shutdown: input underpower", "level": "warn" },
+                    "1025": { "label": "Grid scheduling: cosφ-P curve", "level": "idle" },
+                    "1026": { "label": "Grid scheduling: Q-U curve", "level": "idle" },
+                    "1027": { "label": "Grid scheduling: PF-U curve", "level": "idle" },
+                    "1028": { "label": "Grid scheduling: dry contact", "level": "idle" },
+                    "1029": { "label": "Grid scheduling: Q-P curve", "level": "idle" },
+                    "1280": { "label": "Spot-check ready", "level": "idle" },
+                    "1281": { "label": "Spot-checking", "level": "idle" },
+                    "1536": { "label": "Inspecting", "level": "idle" },
+                    "1792": { "label": "AFCI self check", "level": "idle" },
+                    "2048": { "label": "I-V scanning", "level": "idle" },
+                    "2304": { "label": "DC input detection", "level": "idle" },
+                    "2560": { "label": "Running: off-grid charging", "level": "run" },
+                    "40960": { "label": "Standby: no irradiation", "level": "idle" }
+                }
+            },
+            "ALARM1": {
+                "type": "bitfield",
+                "bits": [
+                    { "bit": 0, "name": "High String Input Voltage", "level": "Major" },
+                    { "bit": 1, "name": "DC Arc Fault", "level": "Major" },
+                    { "bit": 2, "name": "String Reverse Connection", "level": "Major" },
+                    { "bit": 3, "name": "String Current Backfeed", "level": "Warning" },
+                    { "bit": 4, "name": "Abnormal String Power", "level": "Warning" },
+                    { "bit": 5, "name": "AFCI Self-Check Fail", "level": "Major" },
+                    { "bit": 6, "name": "Phase Wire Short-Circuited to PE", "level": "Major" },
+                    { "bit": 7, "name": "Grid Loss", "level": "Major" },
+                    { "bit": 8, "name": "Grid Undervoltage", "level": "Major" },
+                    { "bit": 9, "name": "Grid Overvoltage", "level": "Major" },
+                    { "bit": 10, "name": "Grid Volt. Imbalance", "level": "Major" },
+                    { "bit": 11, "name": "Grid Overfrequency", "level": "Major" },
+                    { "bit": 12, "name": "Grid Underfrequency", "level": "Major" },
+                    { "bit": 13, "name": "Unstable Grid Frequency", "level": "Major" },
+                    { "bit": 14, "name": "Output Overcurrent", "level": "Major" },
+                    { "bit": 15, "name": "Output DC Component Overhigh", "level": "Major" }
+                ]
+            },
+            "ALARM2": {
+                "type": "bitfield",
+                "bits": [
+                    { "bit": 0, "name": "Abnormal Residual Current", "level": "Major" },
+                    { "bit": 1, "name": "Abnormal Grounding", "level": "Major" },
+                    { "bit": 2, "name": "Low Insulation Resistance", "level": "Major" },
+                    { "bit": 3, "name": "Overtemperature", "level": "Minor" },
+                    { "bit": 4, "name": "Device Fault", "level": "Major" },
+                    { "bit": 5, "name": "Upgrade Failed or Version Mismatch", "level": "Minor" },
+                    { "bit": 6, "name": "License Expired", "level": "Warning" },
+                    { "bit": 7, "name": "Faulty Monitoring Unit", "level": "Minor" },
+                    { "bit": 8, "name": "Faulty Power Collector", "level": "Major" },
+                    { "bit": 9, "name": "Battery abnormal", "level": "Minor" },
+                    { "bit": 10, "name": "Active Islanding", "level": "Major" },
+                    { "bit": 11, "name": "Passive Islanding", "level": "Major" },
+                    { "bit": 12, "name": "Transient AC Overvoltage", "level": "Major" },
+                    { "bit": 13, "name": "Peripheral port short circuit", "level": "Warning" },
+                    { "bit": 14, "name": "Churn output overload", "level": "Major" },
+                    { "bit": 15, "name": "Abnormal PV module configuration", "level": "Major" }
+                ]
+            },
+            "ALARM3": {
+                "type": "bitfield",
+                "bits": [
+                    { "bit": 0, "name": "Optimizer fault", "level": "Warning" },
+                    { "bit": 1, "name": "Built-in PID operation abnormal", "level": "Minor" },
+                    { "bit": 2, "name": "High input string voltage to ground", "level": "Major" },
+                    { "bit": 3, "name": "External Fan Abnormal", "level": "Major" },
+                    { "bit": 4, "name": "Battery Reverse Connection", "level": "Major" },
+                    { "bit": 5, "name": "On-grid/Off-grid controller abnormal", "level": "Major" },
+                    { "bit": 6, "name": "PV String Loss", "level": "Warning" },
+                    { "bit": 7, "name": "Internal Fan Abnormal", "level": "Major" },
+                    { "bit": 8, "name": "DC Protection Unit Abnormal", "level": "Major" },
+                    { "bit": 9, "name": "EL Unit Abnormal", "level": "Minor" },
+                    { "bit": 10, "name": "Active Adjustment Instruction Abnormal", "level": "Major" },
+                    { "bit": 11, "name": "Reactive Adjustment Instruction Abnormal", "level": "Major" },
+                    { "bit": 12, "name": "CT Wiring Abnormal", "level": "Major" },
+                    { "bit": 13, "name": "DC Arc Fault (ADMC, clear manually)", "level": "Major" },
+                    { "bit": 14, "name": "DC Switch Abnormal", "level": "Minor" },
+                    { "bit": 15, "name": "Allowable discharge capacity of battery is low", "level": "Warning" }
+                ]
+            }
+        }
     },
     {
         "name": "WEATHER",
@@ -1728,6 +1669,12 @@
                 "name": "id",
                 "title": "NAME",
                 "width": "5.25rem"
+            },
+            {
+                "name": "LASTSEEN",
+                "title": "LAST SEEN",
+                "width": "6rem",
+                "type": "lastseen"
             },
             {
                 "name": "IRR",
@@ -1778,6 +1725,82 @@
                 "title": "WIND SPEED",
                 "uom": "m/s",
                 "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            }
+        ]
+    },
+    {
+        "name": "DATA INTERFACE",
+        "equipments": [
+            {
+                "name": "INTERFACE"
+            }
+        ],
+        "parameters": [
+            {
+                "name": "id",
+                "title": "NAME",
+                "width": "5.25rem"
+            },
+            {
+                "name": "LASTSEEN",
+                "title": "LAST SEEN",
+                "width": "6rem",
+                "type": "lastseen"
+            },
+            {
+                "name": "UPTIME",
+                "title": "UPTIME",
+                "uom": "s",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "CPU_TEMP",
+                "title": "CPU TEMP",
+                "uom": "°C",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "CPU_LOAD",
+                "title": "CPU LOAD",
+                "uom": "%",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "RAM_USED_PCT",
+                "title": "RAM USED",
+                "uom": "%",
+                "width": "5rem",
+                "sheets": [
+                    "overview"
+                ],
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "DISK_USED_PCT",
+                "title": "DISK USED",
+                "uom": "%",
+                "width": "5.5rem",
                 "sheets": [
                     "overview"
                 ],

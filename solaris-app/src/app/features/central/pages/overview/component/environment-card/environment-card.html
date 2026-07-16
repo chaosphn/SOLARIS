@@ -1,16 +1,16 @@
 <div class="envi-container w-100 h-100 bz">
    <div class="bz d-flex-st">
         <app-polygon-card 
-        [bgcolor]="'#F90808'" 
+        [bgcolor]="'#4A9BD0'" 
         [data]="reduction()"
-        [title]="'CO₂ REDUCTION'"
+        [title]="'ENERGY TOTAL'"
         [icon]="'filter_drama'" 
-        [value]="reduction()?.Value | numberFomat: '1.0-0'" 
-        [unit]="'kgCO₂'"></app-polygon-card>
+        [value]="(reduction()?.Value/1000000) | numberFomat: '1.0-2'" 
+        [unit]="'GWh'"></app-polygon-card>
    </div>
    <div class="bz d-flex-st">
         <app-polygon-card 
-        [bgcolor]="'#FF9213'" 
+        [bgcolor]="'#E2902C'" 
         [data]="credit()"
         [title]="'CO₂ CREDIT'" 
         [icon]="'filter_drama'" 
@@ -19,20 +19,20 @@
     </div>
     <div class="bz d-flex-st">
         <app-polygon-card 
-        [bgcolor]="'#4AC631'" 
+        [bgcolor]="'#57B94A'" 
         [data]="tree()"
         [title]="'TREE SAVING'" 
         [icon]="'forest'"
-        [value]="tree()?.Value | numberFomat: '1.0-0'" 
-        [unit]="'Trees'"></app-polygon-card>
+        [value]="(tree()?.Value/1000) | numberFomat: '1.0-1'" 
+        [unit]="'k-Trees'"></app-polygon-card>
    </div>
    <div class="bz d-flex-st">
         <app-polygon-card 
-        [bgcolor]="'#F90808'" 
+        [bgcolor]="'#D8453B'" 
         [data]="oil()"
         [title]="'OIL SAVING'"
         [icon]="'oil_barrel'" 
-        [value]="oil()?.Value | numberFomat: '1.0-0'" 
-        [unit]="'Lites'"></app-polygon-card>
+        [value]="(oil()?.Value/1000) | numberFomat: '1.0-0'" 
+        [unit]="'k-Lites'"></app-polygon-card>
     </div>
 </div>

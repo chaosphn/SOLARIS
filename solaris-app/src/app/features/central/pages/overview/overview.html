@@ -51,7 +51,7 @@
         <app-card-container [title]="'Sustainability'">
             <ng-template #container>
                 <app-environment-card
-                    [reduction]="dataRealtime()['REDUCTION'] || {}"
+                    [reduction]="dataRealtime()['TOTAL'] || {}"
                     [credit]="dataRealtime()['CREDIT'] || {}"
                     [tree]="dataRealtime()['TREE'] || {}"
                     [oil]="dataRealtime()['OIL'] || {}"
@@ -82,10 +82,11 @@
                     }
                 </div> -->
                 <app-financial-summary
-                    [today]="dataRealtime()['TODAY'] || {}"
-                    [month]="dataRealtime()['MONTHLY'] || {}"
-                    [target]="dataRealtime()['MONTHLY_EXPRECTD'] || {}"
-                    [tariff]="3.85"
+                    [today]="dataRealtime()['REVENUE_MONTH'] || {}"
+                    [month]="dataRealtime()['REVENUE_YEAR'] || {}"
+                    [target]="dataRealtime()['WH_TARGET'] || {}"
+                    [month_wh]="dataRealtime()['YEARLY']"
+                    [tariff]="(dataRealtime()['REVENUE_MONTH']?.Value ?? 0)/(dataRealtime()['MONTHLY']?.Value ?? 1)"
                 ></app-financial-summary>
             </ng-template>
         </app-card-container>

@@ -52,41 +52,7 @@ export class Overview implements OnInit, OnDestroy {
   zoneSelected = signal<string>('overall');
   mapConfig = signal<MapConfigModel>({} as MapConfigModel);
   eventSummary = signal<EventSummaryModel[]>([]);
-  plantStatusData = computed(() => {
-    if(this.dataRealtime() && this.siteList() && this.siteList().length > 0){
-      let normalCount = 0;
-      let unhealthyCount = 0;
-      let noDataCount = 0;
 
-      for (const site of this.siteList()) {
-        // Check for events first (higher priority)
-        const eventData = this.eventSummary().find(e => e.PointSource === site.id);
-
-        if (eventData && (eventData.Major > 0 || eventData.Minor > 0 || eventData.Warning > 0)) {
-          unhealthyCount++;
-        } else {
-          // Fall back to status value if no event
-          const statusValue = this.dataRealtime()[site.id + '_STATUS']?.Value;
-          if (statusValue === 1) {
-            normalCount++;
-          } else if (statusValue === 2) {
-            unhealthyCount++;
-          } else {
-            noDataCount++;
-          }
-        }
-      }
-
-      const data: PlantStatusData[] = [
-        { label: 'NORMAL', count: normalCount || 0, percentage: normalCount / this.siteList().length * 100 || 0, color: '#00E396', unit: 'Sites' },
-        { label: 'UNHEALTHY', count: unhealthyCount || 0, percentage: unhealthyCount / this.siteList().length * 100 || 0, color: '#FEB019', unit: 'Sites' },
-        { label: 'NODATA', count: noDataCount || 0, percentage: noDataCount / this.siteList().length * 100 || 0, color: '#FF4F52', unit: 'Sites' }
-      ];
-      return data;
-    } else {
-      return [];
-    }
-  });
 
   timers?: Subscription;
   navSub?: Subscription;
@@ -102,25 +68,10 @@ export class Overview implements OnInit, OnDestroy {
       this.eventSummary.set(data);
     });
 
-    effect(() => {
-      if(this.dataRealtime()){
-        const pr1 = ((this.dataRealtime()['RUNNING']?.Value || 0)/this.siteList().length)*100;
-        const pr2 = ((this.dataRealtime()['UNHEALTHY']?.Value || 0)/this.siteList().length)*100;
-        const pr3 = ((this.dataRealtime()['NODATA']?.Value || 0)/this.siteList().length)*100;
-        const data: PlantStatusData[] = [
-          { label: 'RUNNING', count: this.dataRealtime()['RUNNING']?.Value || 0, percentage: pr1, color: '#00E396', unit: 'sites' },
-          { label: 'UNHEALTHY', count: this.dataRealtime()['UNHEALTHY']?.Value || 0, percentage: pr2, color: '#FEB019', unit: 'sites' },
-          { label: 'NODATA', count: this.dataRealtime()['NODATA']?.Value || 0, percentage: pr3, color: '#FF4F52', unit: 'sites' }
-        ];
-        return data;
-      } else {
-        return [];
-      }
-    })
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {
       const res = await firstValueFrom(
-        this.store.select(getZoneConfig(state.location))
+        this.store.select(getZoneConfig('ALL'))
       );
       if(res && res.siteList){
         this.siteList.set(res.siteList);
@@ -369,7 +320,11 @@ export class Overview implements OnInit, OnDestroy {
                 Unit: data.Unit,
                 Value: data.records.length > 0 ? parseFloat(data.records[0].Value.toString().replaceAll(',', '')) : null
               };
-              const conf = this.config().realtimeConfig.find(x => x.Group == req.Group)?.Tags.find(y => y.Tagname == data.Name && y.Timestamp);
+              const conf = this.config().realtimeConfig
+                .find(x => x.Group == req.Group)?.Tags
+                  .find(y => 
+                    y.Tagname == data.Name && y.Timestamp && this.dateTimeSrv.getTime(y.Timestamp) === this.dateTimeSrv.getDateTime1(realtimeFornmatValue.TimeStamp)
+                );
               if (conf) {
                 this.dataRealtime.update(val => ({
                   ...val,
@@ -383,7 +338,6 @@ export class Overview implements OnInit, OnDestroy {
         });
         const res = await Promise.allSettled(result);
       }
-      //console.log('AtTime Data:', this.dataRealtime());
       this.store.dispatch(OverviewActions.loadOverviewRealtimeDataSuccess({ data: this.dataRealtime() }));
     }
   }
@@ -409,13 +363,15 @@ export class Overview implements OnInit, OnDestroy {
                   series.push(res);
                 }
               })
-              //console.log(item.Group, series, response);
               
               // สร้าง chart config object ใหม่
+              const findChartConf = this.config().historianConfig.find(x => x.Group == item.Group)?.Tags.find(y => y.Tagname == response[0]?.Name);
+              const start = findChartConf?.Options.StartTime ? this.dateTimeSrv.getTime(findChartConf?.Options.StartTime) : undefined;
+              const end = findChartConf?.Options.EndTime ? this.dateTimeSrv.getTime(findChartConf?.Options.EndTime) : undefined;
               newVal[item.Group] = {
                 chart: this.chartOptions.getChartOptions(conf.chartOptions.chart),
                 title: this.chartOptions.getTitleOptions(conf.chartOptions.title),
-                xAxis: this.chartOptions.getXAxisoptions(conf.chartOptions.xAxis),
+                xAxis: this.chartOptions.getXAxisoptions(conf.chartOptions.xAxis, start, end),
                 yAxis: this.chartOptions.getYAxisoptions(conf.chartOptions.yAxis),
                 legend: this.chartOptions.getLegendOptions(conf.chartOptions.legend),
                 plotOptions: this.chartOptions.getPlotOptions(conf.chartOptions.plotOptions),
@@ -462,7 +418,6 @@ export class Overview implements OnInit, OnDestroy {
 
   async onZoneChanges(event: string){
     this.zoneSelected.update(prev => event);
-    //console.log(this.zoneSelected())
     await this.getMapConfig();
   }
 

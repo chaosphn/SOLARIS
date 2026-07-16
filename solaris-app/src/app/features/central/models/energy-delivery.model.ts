@@ -46,7 +46,7 @@ export function complianceStatus(achievement: number | null, avai: number | null
 
 /** achievement % → สีสำหรับ heatmap */
 export function heatColor(pct: number | null): string {
-    if (pct == null) { return '#3B444D'; }
+    if (pct == null) { return 'var(--secondary-bg)'; }
     if (pct >= 100) { return '#4CAF82'; }
     if (pct >= 90) { return '#FBE134'; }
     return '#E05D4E';

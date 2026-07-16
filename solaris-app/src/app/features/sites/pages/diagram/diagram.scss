@@ -1,17 +1,12 @@
 .container{
     padding: 16px 16px 16px;
-    display: flex;
-    justify-content: center;
-    max-height: calc(100vh - 100px);
-    overflow-x: hidden;
+    max-height: calc(100vh - 106px);
     position: relative;
 }
 
 .contentBox{
-    overflow-x: auto;
     overflow-y: auto;
     padding-top: 32px;
-    //justify-content: center;
     height: calc(100% - 16px);
 }
 
@@ -35,7 +30,7 @@
         font-size: 12px;
         padding: 8px 12px;
         border: none;
-        background-color: var(--secondary-bg-50);
+        background-color: var(--secondary-bg);
         color: var(--primary-txt);
         font-weight: 500;
         cursor: pointer;
@@ -60,5 +55,14 @@
 .svg-diagram-container {
     svg text {
         font-family: 'Inter', sans-serif;
+    }
+}
+
+@media (max-width: 768px) {
+    .container{
+        padding: 8px;
+        max-height: calc(100vh - 220px);
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 }

@@ -21,11 +21,11 @@
                     [percent]="dataRealtime()['PR']"
 
                     [title1]="'ACTIVE POWER'"
-                    [value1]="dataRealtime()['POWER']"
+                    [value1]="(dataRealtime()['POWER']?.Value | number: '1.0-0') ?? ''"
                     [unit1]="'kW'"
 
                     [title2]="'TODAY YIELD'"
-                    [value2]="dataRealtime()['YIELD']"
+                    [value2]="(dataRealtime()['YIELD']?.Value | number: '1.0-2') ?? ''"
                     [unit2]="'kWp/kWh'"
                ></app-power-consumption>
             </ng-template>
@@ -41,12 +41,12 @@
                     [percent]="dataRealtime()['TODAY']"
 
                     [title1]="'MONTHLY ENERGY'"
-                    [value1]="dataRealtime()['MONTHLY']"
-                    [unit1]="dataRealtime()['MONTHLY']?.Unit || ''"
+                    [value1]="((dataRealtime()['MONTHLY']?.Value/1000) | number: '1.0-0') ?? ''"
+                    [unit1]="'MWh'"
 
                     [title2]="'YEARLY ENERGY'"
-                    [value2]="dataRealtime()['YEARLY']"
-                    [unit2]="dataRealtime()['YEARLY']?.Unit || ''"
+                    [value2]="((dataRealtime()['YEARLY']?.Value/1000) | number: '1.0-1') ?? ''"
+                    [unit2]="'MWh'"
             ></app-power-consumption>
             </ng-template>
         </app-card-container>
@@ -57,7 +57,7 @@
                 <app-weather-station
                     [icon1]="'solar_power'"
                     [data1]="dataRealtime()['PVTEMP']"
-                    [color1]="'#FEB019'"
+                    [color1]="'#E3A92B'"
 
                     [icon2]="'thermostat'"
                     [data2]="dataRealtime()['AMBTEMP']"
@@ -69,7 +69,7 @@
 
                     [icon4]="'co2'"
                     [data4]="dataRealtime()['REDUCTION']"
-                    [color4]="'#00E396'"
+                    [color4]="'#34C08A'"
 
                     [title1]="'IRRADIATION'"
                     [value1]="dataRealtime()['PYRANO']"

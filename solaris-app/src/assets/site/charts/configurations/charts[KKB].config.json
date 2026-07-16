@@ -1261,6 +1261,54 @@
         ]
     },
     {
+        "name": "DATA INTERFACE",
+        "equipments": [
+            {
+                "name": "ALL"
+            },
+            {
+                "name": "INTERFACE"
+            }
+        ],
+        "parameters": [
+            {
+                "name": "UPTIME",
+                "scale": "UPTIME",
+                "uom": "s",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "CPU_TEMP",
+                "scale": "CPUTEMP",
+                "uom": "°C",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "CPU_LOAD",
+                "scale": "LOAD",
+                "uom": "%",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "RAM_USED_PCT",
+                "scale": "LOAD",
+                "uom": "%",
+                "dp": 1,
+                "factor": 1
+            },
+            {
+                "name": "DISK_USED_PCT",
+                "scale": "LOAD",
+                "uom": "%",
+                "dp": 1,
+                "factor": 1
+            }
+        ]
+    },
+    {
         "name": "CALCULATION",
         "equipments": [
             {

@@ -36,7 +36,6 @@ export class MapContainer implements AfterViewInit, OnDestroy {
   constructor() {
     this.eventSummary$ = this.store.select(getEventSummary);
     this.eventSub = this.eventSummary$.subscribe(data => {
-      //console.log('Received event summary data:', data);
       this.eventSummaryData = data;
     });
 
@@ -62,7 +61,6 @@ export class MapContainer implements AfterViewInit, OnDestroy {
 
         // Get event data for this site
         const eventData = this.eventSummaryData.find(e => e.PointSource === site.id);
-        //console.log('Event data for site', site.id, eventData);
 
         // Determine status based on realtime data and events
         let status: string;
@@ -393,9 +391,9 @@ export class MapContainer implements AfterViewInit, OnDestroy {
 
   private getColorByStatus(status: string): string {
     switch (status) {
-      case 'critical': return '#ff3b3b';   // 🔴 alarm
-      case 'warning': return '#FBE134';    // 🟡 warning
-      case 'normal': return '#22C55E';     // 🟢 normal
+      case 'critical': return '#E0463C';   // 🔴 alarm
+      case 'warning': return '#E3A92B';    // 🟡 warning
+      case 'normal': return '#34C08A';     // 🟢 normal
       default: return '#667079';           // ⚪ offline
     }
   }

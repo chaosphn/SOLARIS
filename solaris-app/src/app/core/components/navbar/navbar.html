@@ -4,7 +4,7 @@
             <div class="logo w-100 d-flex-ct ">
                 <img [src]="logoUrl()" class="img" alt="" height="42px" (click)="show()">
             </div>
-            <div class="btn-group d-col-sb ">
+            <div class="btn-group d-col-sb ิผ">
                 @if (checkGroupPageAvailable('overview')) {
                 <div mat-list-item routerLink="/main/overview" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('overview', zoneList().title)">
                     <div class="bz">
@@ -39,7 +39,7 @@
                 <div mat-list-item routerLink="/main/billing/viewer" routerLinkActive="active" class="btn-box bz" (click)="changeNavState('admin', zoneList().title)">
                     <div class="bz">
                         <i class="material-icons">
-                            admin_panel_settings
+                            assignment
                         </i>
                     </div>
                     <div class="bz title">ฺBILLING & REPORT</div>
@@ -53,7 +53,7 @@
                     </div>
                 </div>
             </div>
-            <div class="sidenav-search d-col bz">
+            <div class="sidenav-search d-col ิผ">
                 <div class="search-topic w-100 d-flex-ct" style="justify-content: flex-start; gap: 8px;">
                     <div class="plant-list">
                         Plant List 
@@ -66,7 +66,7 @@
                     <input [(ngModel)]="seachText" required="" type="text" name="text" autocomplete="off" class="input bz w-100">
                     <label class="user-label">SEARCH</label>
                 </div>
-                <div class="w-100 d-col-ed bz card-list" style="padding: 8px;">
+                <div class="w-100 d-col-ed bz card-list ิผ" style="padding: 8px;">
                     @for (item of zoneList().siteList | filtersite : seachText; track $index) {
                         <div class="w-100 card bz" 
                                 [ngClass]="{ 'card-active': changeBgColor(item.id), 'card-disabled': !item.enabled }"
@@ -95,8 +95,11 @@
                     </select>
                 </div>
             </div>
+            <div class="copy1">
+                Note: SLA-related figures (Warranty, Energy, PR, Avai) <br> are sample values for demonstration only.
+            </div>
             <div class="copy">
-                © Authorize reserved by SAT Solutions
+                © 2026 SAT Solutions. All rights reserved.
             </div>
         </div>
     }
@@ -110,6 +113,12 @@
                      <div>BOON RAWD CENTRAL <br> PV INFORMATION SYSTEM</div>
                 </div>
                 <div class="d-flex" style="gap: 16px;">
+                    <div class="user-logo bell d-flex-ct" (click)="openMyWorkOrders()" matTooltip="My work orders this month" matTooltipPosition="below">
+                        <i class="material-icons">notifications</i>
+                        @if (woBadge() > 0) {
+                            <span class="wo-badge">{{ woBadge() > 99 ? '99+' : woBadge() }}</span>
+                        }
+                    </div>
                     <div class="user-logo d-flex-ct" style="margin-right: 24px;" (click)="changTheme()">
                         @if (mode() === 'dark') {
                             <i class="material-icons">nightlight</i>
@@ -191,11 +200,11 @@
                         <div class="d-flex h-100 w-100 bz">
                             <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/contract" routerLinkActive="active"><i class="material-icons">handshake</i><div>CONTRACT</div></a>
                             <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/revenue" routerLinkActive="active"><i class="material-icons">monetization_on</i><div>REVENUE</div></a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/delivery" routerLinkActive="active"><i class="material-icons">electrical_services</i><div>COMPLIANCE</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/delivery" routerLinkActive="active"><i class="material-icons">electrical_services</i><div>ENERGY DELIVERY</div></a>
                             <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/financial" routerLinkActive="active"><i class="material-icons">currency_exchange</i><div>FINANCIAL</div></a>
                             <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/tariff" routerLinkActive="active"><i class="material-icons">gavel</i><div>TARIFF</div></a>
                             <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/sla" routerLinkActive="active"><i class="material-icons">policy</i><div>SLA / COMPLIANCE</div></a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/bill-report" routerLinkActive="active"><i class="material-icons">policy</i><div>DELIVERY REPORT</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/bill-report" routerLinkActive="active"><i class="material-icons">request_quote</i><div>DELIVERY REPORT</div></a>
                         </div>
                         @if (enableDate()) {
                             <div class="date-picker hide h-100 bz">
@@ -208,10 +217,10 @@
                     <head class="content-header hide1 d-flex-sb w-100 bz" >
                         <div class="d-flex h-100 w-100 bz">
                             <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/billing/viewer" routerLinkActive="active"><i class="material-icons">receipt_long</i><div>BILLINGS</div></a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/admin" routerLinkActive="active"><i class="material-icons">solar_power</i><div>BILLING ADMIN</div></a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/reports" routerLinkActive="active"><i class="material-icons">solar_power</i><div>REPORTS</div></a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/report-admin" routerLinkActive="active"><i class="material-icons">solar_power</i><div>REPORT ADMIN</div></a>
-                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/setting" routerLinkActive="active"><i class="material-icons">solar_power</i><div>SETTINGS</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/admin" routerLinkActive="active"><i class="material-icons">admin_panel_settings</i><div>BILLING ADMIN</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/reports" routerLinkActive="active"><i class="material-icons">analytics</i><div>REPORTS</div></a>
+                            <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/report-admin" routerLinkActive="active"><i class="material-icons">settings</i><div>REPORT ADMIN</div></a>
+                            <!-- <a class="nav-link" [ngClass]="{ 'hide-page': !checkPageAvailable('overview') }" routerLink="/main/setting" routerLinkActive="active"><i class="material-icons">settings</i><div>SETTINGS</div></a> -->
                         </div>
                         @if (enableDate()) {
                             <div class="date-picker hide h-100 bz">

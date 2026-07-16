@@ -2,7 +2,6 @@ import { Component, effect, input, OnInit, signal } from '@angular/core';
 import { ColorRangeModel, PanelConfigModel, PvGroupModel, PvPanelModel } from '../../models/panel.model';
 import { DataRealtimeModel } from '../../models/response.model';
 import { isNumber } from 'highcharts';
-import { opacity } from 'html2canvas/dist/types/css/property-descriptors/opacity';
 
 @Component({
   selector: 'app-panel-layout',
@@ -30,9 +29,7 @@ export class PanelLayout implements OnInit {
         this.displayPanel= this.panels()[0];
       }
       if(this.dataRealtime()){
-        ////console.log(this.dataRealtime())
         this.updatePanelData();
-        //console.log(this.displayPanel)
       }
     });
   }
@@ -182,7 +179,8 @@ export class PanelLayout implements OnInit {
     if(!inv.toLowerCase().includes('inverter')){
       return inv;
     }
-    return `${inv} : STRING ${str.split('_').find(x => x.includes('STR'))?.replaceAll('STR', '')} : ${this.dataRealtime()[str]?.Value??'---'} A`;
+    const vKey = str.replace('STR', 'STV');
+    return `${inv} : STRING ${str.split('_').find(x => x.includes('STR'))?.replaceAll('STR', '')} : ${this.dataRealtime()[str]?.Value??'---'} A ${this.dataRealtime()[vKey]?.Value??'---'} V`;
   }
 
   isSelectedGreoup(id: string) {
@@ -311,7 +309,6 @@ export class PanelLayout implements OnInit {
           acc = acc + (this.dataRealtime()[`${cur.id}`]?.Value??0)
           return acc; 
         }, 0)/item.panel.length;
-        //console.log(avg);
         const panels = item.panel.map(x => {
           let val = this.dataRealtime()[`${x.id}`]?.Value??0;
           return {

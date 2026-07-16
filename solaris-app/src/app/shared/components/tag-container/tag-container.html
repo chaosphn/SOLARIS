@@ -1,4 +1,12 @@
-<div class="container w-100 h-100 bz">
+<div class="tag-dialog brd">
+    <div>SELECT TAGS</div>
+    @if (isShowDialog()) {
+        <div (click)="toggleDialog()"><i class="material-icons">unfold_less_double</i></div>
+    } @else { 
+        <div (click)="toggleDialog()"><i class="material-icons">unfold_more_double</i></div>
+     }
+</div>
+<div [ngClass]="{'hide': !isShowDialog()}" class="container w-100 h-100 bz">
     <div class="period-container bz w-100 d-flex">
         <div class="period-box bz w-100 d-flex-sb" >
             <div class="date-left bz" style="scale: 0.75; width: 200px;">

@@ -271,6 +271,14 @@
 
 @media only screen and (max-width: 1500px) {
 
+    .header .title{
+        font-size: 10px;
+    }
+
+    .row .value{
+        font-size: 11px;
+    }
+
     .header .title:nth-child(-n+2){
         position: sticky;
         z-index: 20;
@@ -330,17 +338,37 @@
         .search-box{
             flex: 1 1 100%;
             min-width: 0;
+            input{
+                font-size: 12px;
+            }
         }
         .chip-group{
             flex: 1 1 auto;
             overflow-x: auto;
+            .chip{
+                font-size: 12px;
+            }
         }
         .toolbar-right{
             width: 100%;
             margin-left: 0;
             justify-content: space-between;
             flex-wrap: wrap;
+            .count{
+                font-size: 12px;
+            }
+            .tool-btn{
+                font-size: 12px;
+            }
         }
+    }
+
+    .header .title{
+        font-size: 10px;
+    }
+
+    .row .value{
+        font-size: 11px;
     }
 
 }
@@ -450,5 +478,22 @@
 
     .footer{
         display: none;
+    }
+
+    .header .title{
+        font-size: 10px;
+    }
+
+    .row .value{
+        font-size: 11px;
+    }
+
+    .toolbar{
+        .search-box input,
+        .chip-group .chip,
+        .toolbar-right .count,
+        .toolbar-right .tool-btn{
+            font-size: 11px;
+        }
     }
 }

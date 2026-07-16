@@ -52,3 +52,13 @@
   letter-spacing: 0em;
   line-height: 1.2;
 }
+
+@media (max-width: 768px) {
+    .label {
+      font-size: 10px;
+    }
+
+    .value {
+      font-size: 12px;
+    }
+}

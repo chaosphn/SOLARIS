@@ -97,7 +97,6 @@ export class Overview implements OnInit {
       const iso = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')} 00:00:00`;
       const isoDate = new Date(iso).toISOString();
       const dayWos = wos.filter(w => w.due_date && w.due_date === isoDate);
-      //console.log('Day', d, 'WOs:', dayWos, 'iso:', iso, 'isoDate:', isoDate);
       const topType = dayWos[0]?.type;
       cells.push({ blank: false, day: d, today: d === today, hasTasks: dayWos.length > 0, taskType: topType });
     }

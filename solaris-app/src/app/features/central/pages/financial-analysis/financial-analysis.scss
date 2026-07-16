@@ -201,3 +201,11 @@
     }
     .kpi-strip{ grid-template-columns: repeat(3, minmax(0,1fr)); }
 }
+
+
+@media (max-width: 768px) {
+    .container{
+        padding: 8px;
+        height:calc(100vh - 220px);
+    }
+}

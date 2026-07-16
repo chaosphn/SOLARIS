@@ -114,19 +114,16 @@ export class Setting implements OnInit {
   }
 
   openEditUserModal(user: UserDataModel | any): void {
-    //console.log('Editing user:', user);
     this.editingUser = user;
     this.newUser = { ...user, pageAccess: [...user.pageAccess] };
     this.showUserModal = true;
   }
 
   saveUserChanges(): void {
-    //console.log('Saving all user changes:', this.users);
     alert('User changes saved successfully!');
   }
 
   async deleteUser(id: string | any): Promise<void> {
-    //console.log('Deleting user with id:', id);
     if (confirm('Are you sure you want to delete this user?')) {
       const response = await this.service.deleteUserConfig(id);
       if (response && response.success) {
@@ -210,8 +207,6 @@ export class Setting implements OnInit {
   }
 
   saveAlarmChanges(): void {
-    //console.log('Saving alarm changes:', this.editedTags);
-    //console.log('Saving notification config:', this.notificationConfig);
     alert('Alarm changes saved successfully!');
   }
 

@@ -30,7 +30,6 @@ export class LastseenPipe implements PipeTransform {
         return "now";
       }
     } else {
-      //console.log("---")
       return "---";
     }
   }

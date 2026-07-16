@@ -31,7 +31,6 @@ export class Contract implements OnInit, OnDestroy {
     const sites = this.siteList();
     const configs = this.billingConfigs();
     const realtime = this.dataRealtime();
-    //console.log(sites)
     return sites.map(site => {
       const config = configs.find(x => x.siteId === site.id) ?? null;
       const parsed = config ? parseContactCost(config.contactType, config.contactCost, this.date) : null;
@@ -198,7 +197,6 @@ export class Contract implements OnInit, OnDestroy {
     const res = await this.httpSrv.getMasterPlants();
     if(res && res.status === 'success' && res.data){
       const data = res.data.sort((a,b) => a.id - b.id).map(plant => this.toSiteModel(plant));
-      //console.log(data)
       this.siteList.set(data);
       await this.getBillingConfigData();
     };

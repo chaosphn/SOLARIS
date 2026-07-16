@@ -1,57 +1,67 @@
 [data-theme='light'] {
 
-  --main-bg: #eeeeee;
-  --card-bg: #f1efef;
-  --primary-bg: #e0e0e0;
-  --primary-bg-50: #e9e9e9;
-  --secondary-bg: #8a8a8a;
-  --secondary-bg-50: #e0e0e0;
-  
-  --primary-txt: #363636;
-  --secondary-txt: #8f8f8f;
-  --active-txt: #FFAE2A;
-  --row-txt: #363636;
+  /* Solaris — Light */
+  --main-bg: #f4f5f7;
+  --card-bg: #ffffff;
+  --primary-bg: #f7f8fa;
+  --primary-bg-50: #f7f8faf0;
+  --secondary-bg: #eceef1;
+  --secondary-bg-50: #eceef1cc;
 
-  --border-color: #c9c9c9;
+  --primary-txt: #1a1d22;
+  --secondary-txt: #8b929c;
+  --active-txt: #c68a12;
+  --row-txt: #1a1d22;
 
-  --logo-bg: #8a8a8a8a;
+  --border-color: #e2e5ea;
 
-  --highlight: #FBE134;
+  --logo-bg: #e2e5ea8a;
+
+  --highlight: #c68a12;
 
   --color-gd1: #E4B61A;
-  --color-gd2: #f7e156;
+  --color-gd2: #FBE134;
 
-  --header-bg1: #FFAE2A;
+  --header-bg1: #ecb83f;
   --header-bg2: #FBE134;
-  --header-txt: #F5F7FB;
-  
-  --map-active: #000000;
-  --map-hover: #c4c4c4;
-  --map-bg: #c4c4c4;
-  --map-txt: #4e4e4e;
-  --map-selected: #34ccfb;
+  --header-txt: #ffffff;
 
-  --thead-bg: #e2e2e2;
-  --thead-txt: #363636;
-  --thead-border: #c9c9c9;
+  --map-active: #c68a12;
+  --map-hover: #d7dbe1;
+  --map-bg: #e2e5ea;
+  --map-txt: #4a5058;
+  --map-selected: #2f7fc0;
 
-  --trow-bg: #f5f5f5;
-  --trow-txt: #363636;
-  --trow-border: #c9c9c9;
+  --thead-bg: #eef0f3;
+  --thead-txt: #1a1d22;
+  --thead-border: #e2e5ea;
 
-  --btn-bg: #ad8c51;
-  --btn-border: #E7CD47;
-  --btn-color: #F5F7FB;
+  --trow-bg: #ffffff;
+  --trow-txt: #1a1d22;
+  --trow-border: #eceef1;
 
-  --stack-bg: #cfcfcf;
+  --btn-bg: #e3a92b;
+  --btn-border: #c68a12;
+  --btn-color: #ffffff;
 
-  --chart-brd: #dadada;
-  --chart-txt: #8a949c;
+  --stack-bg: #eceef1;
+
+  --chart-brd: #e2e5ea;
+  --chart-txt: #4a5058;
   --chart-tlp: #ffffff;
 
-  --srch-bg: #e6e6e6;
-  --srch-txt: #8f8f8f;
-  --srch-focus-txt: #74797e;
+  /* Semantic (Solaris — light) */
+  --success: #1f9d63;
+  --success-mint: #0bb39a;
+  --warning: #c68a12;
+  --danger: #d13a30;
+  --info: #2f7fc0;
+  --info-soft: #4a9bd0;
+  --purple: #7b4fd0;
+
+  --srch-bg: #eef0f3;
+  --srch-txt: #8b929c;
+  --srch-focus-txt: #4a5058;
 
   --text-xlarge: 18px;
   --text-large: 16px;
@@ -59,21 +69,24 @@
   --text-small: 12px;
   --text-xsmall: 10px;
   
-  --dropdown-bg: #E0E0E0;
+  --dropdown-bg: #eceef1cc;
   --dropdown-hover-bg: #d1d1d1;
   --dropdown-txt: #363636;
   --dropdown-border: #b4b4b4;
 
-  --dropdown-menu-bg: #f1efef;
+  --dropdown-menu-bg: #ffffff;
   --dropdown-menu-hover-bg: #d1d1d1;
   --dropdown-menu-txt: #363636;
-  --dropdown-menu-border: #f1efef;
+  --dropdown-menu-border: #020202;
 
   --dropdown-item-bg: #f1efef;
   --dropdown-item-hover-bg: #d1d1d1;
-  --dropdown-item-hover-txt: #f1efef;
+  --dropdown-item-hover-txt: #363636;
   --dropdown-item-txt: #8f8f8f;
 
   --sekeleton-bg1: #dbdbdb;
   --sekeleton-bg2: #bdbdbd;
+
+  --diagram-color: #d1d1d1;
+  --diagram-txt: #8f8f8f;
 }

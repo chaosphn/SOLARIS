@@ -51,7 +51,6 @@ export class ChartService {
         borderColor: item.borderColor || 'var(--chart-brd)',
         borderWidth: item.borderWidth,
       }
-      //console.log(item)
       return initChart;
     } else {
       const defaultChart: ChartOptions = {
@@ -115,7 +114,6 @@ export class ChartService {
     if(item && Object.keys(item).length > 0){
       if(item.max != undefined && !item?.categories){
         const period = this.dateSer.parseDate(item.max.toString());
-        //console.log(period)
         if(period.startTime && period.endTime){
           const startTs = new Date(period.startTime).getTime() + 7 * 60 * 60 * 1000;
           const endTs = new Date(period.endTime).getTime() + 7 * 60 * 60 * 1000;
@@ -123,7 +121,6 @@ export class ChartService {
             this.startDate = startTs;
             this.endDate = endTs;
           }
-          //console.log('Start1: '+this.startDate+'\nEnd1: '+this.endDate);
         }
         if(item.max.toString().includes('d')){
           item.labels = {
@@ -131,7 +128,6 @@ export class ChartService {
             style: item.labels?.style,
             useHTML: true,
             formatter: function(){
-              //console.log(new Date(this.value))
               return new Date(this.value).toDateString().slice(0,3);
             },
           }
@@ -198,7 +194,6 @@ export class ChartService {
         gridLineWidth: 0,
         labels: {
             enabled: true,
-            format: "{value:%H:%M}",
             style: {
                 color: "var(--chart-txt)"
             },

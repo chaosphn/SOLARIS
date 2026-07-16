@@ -216,7 +216,7 @@
 
 @media (max-width: 768px) {
     .dialog-container {
-        width: 94.5vw;
+        width: 100%;
         height: 100vh;
         border-radius: 0;
         max-width: 100vw;
@@ -225,7 +225,6 @@
 
     .subtitle{
       display: none !important;
-      background-color: red;
     }
 
     .grid {

@@ -81,6 +81,7 @@ import {
     CreateWoReportRequest,
     UpdateWoReportRequest,
     DeleteWoReportRequest,
+    DownloadWoReportRequest,
     WoSignatureModel,
     GetSignatureByWorkOrderRequest,
     CreateSignatureRequest,
@@ -200,7 +201,6 @@ export class HttpService {
             user : username,
             password : password
         };
-        ////console.log(body)
         const res = await firstValueFrom(
             this.httpClient.post<AuthRespondModel>(this.appLoadService.config.UrlApiAuthen + 'userauthen', body)
         );
@@ -212,7 +212,6 @@ export class HttpService {
         const body = {
             token : token
         };
-        ////console.log(body)
         const res = await firstValueFrom(
             this.httpClient.post(this.appLoadService.config.UrlApiAuthen + 'refreshtoken', body)
         );
@@ -225,7 +224,6 @@ export class HttpService {
             pointsource : pointsource,
             cal : 2
         };
-        ////console.log(body)
         const res = await firstValueFrom(
             this.httpClient.post(this.appLoadService.config.UrlApi + 'getags', body)
         );
@@ -330,7 +328,6 @@ export class HttpService {
             if (!res) {
                 throw new Error('No file returned from server');
             }
-            //console.log(res)
             return res;
         } catch (error) {
             throw new Error('No file returned from server');
@@ -351,7 +348,6 @@ export class HttpService {
             if (!res) {
                 throw new Error('No file returned from server');
             }
-            //console.log(res)
             return res;
         } catch (error) {
             throw new Error('No file returned from server');
@@ -1141,6 +1137,13 @@ export class HttpService {
     async deleteWoReport(body: DeleteWoReportRequest) {
         const res = await firstValueFrom(
             this.httpClient.post<MaintenanceResponse>(this.appLoadService.config.UrlApiMaintenance + 'maintenance/reports/delete', body)
+        );
+        return res;
+    }
+
+    async downloadWoReport(body: DownloadWoReportRequest) {
+        const res = await firstValueFrom(
+            this.httpClient.post(this.appLoadService.config.UrlApiMaintenance + 'maintenance/reports/download', body, { responseType: 'blob' })
         );
         return res;
     }

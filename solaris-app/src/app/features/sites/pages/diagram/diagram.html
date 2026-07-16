@@ -8,8 +8,8 @@
         <app-card-container [title]="'SYSTEM DIAGRAM'">
             <ng-template #container>
                 @if (svgSafe()) {
-                    <div class="contentBox d-flex bz" >
-                        <div #svgContainer [innerHTML]="svgSafe()" class="content"></div>
+                    <div class="contentBox bz" >
+                        <div #svgContainer [innerHTML]="svgSafe()" class="content bz"></div>
                     </div>
                 }
             </ng-template>

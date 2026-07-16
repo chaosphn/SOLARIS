@@ -1,7 +1,13 @@
 <div class="container w-100 h-100 bz">
     <div class="header d-flex-sb w-100 bz">
         <div class="item-group d-flex">
-            @for (item of config(); track $index) {
+            <div class="search-box d-flex bz">
+                <i class="material-icons">search</i>
+                <input type="text" placeholder="Search asset / equipment / message..."
+                    [value]="searchText()"
+                    (input)="onSearchInput($any($event.target).value)">
+            </div>
+            @for (item of filterDropdowns(); track $index) {
                 <div class="dropdown-wrapper" [id]="$index">
                     <div class="custom-dropdown d-flex-ct bz h-100" 
                         [class.active]="item.opened"
@@ -27,31 +33,52 @@
                     </div>
                 </div>
             }
+            <div class="mode-group d-flex bz">
+                @for (p of presetOptions; track p.d) {
+                    <button class="mode-btn" [class.active]="activePreset() === p.d" (click)="setPreset(p.d)">{{ p.l }}</button>
+                }
+            </div>
             <div class="datepicker bz">
                 @switch (mode()) {
                     @case ('d') {
-                        <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="1"></app-date-picker>
+                        <app-date-picker [initdate]="start" (selectDate)="onStartDateSelect($event)" [type]="'day'" [scale]="1"></app-date-picker>
                     }
                     @case ('w') {
-                        <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'datetime'" [scale]="1"></app-date-picker>
+                        <app-date-picker [initdate]="start" (selectDate)="onStartDateSelect($event)" [type]="'datetime'" [scale]="1"></app-date-picker>
                     }
                     @case ('m') {
-                        <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'month'" [scale]="1"></app-date-picker>
+                        <app-date-picker [initdate]="start" (selectDate)="onStartDateSelect($event)" [type]="'month'" [scale]="1"></app-date-picker>
                     }
                     @case ('y') {
-                        <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'year'" [scale]="1"></app-date-picker>
+                        <app-date-picker [initdate]="start" (selectDate)="onStartDateSelect($event)" [type]="'year'" [scale]="1"></app-date-picker>
+                    }
+                }
+            </div>
+            <div class="datepicker bz">
+                @switch (mode()) {
+                    @case ('d') {
+                        <app-date-picker [initdate]="end" (selectDate)="onEndDateSelect($event)" [type]="'day'" [scale]="1"></app-date-picker>
+                    }
+                    @case ('w') {
+                        <app-date-picker [initdate]="end" (selectDate)="onEndDateSelect($event)" [type]="'datetime'" [scale]="1"></app-date-picker>
+                    }
+                    @case ('m') {
+                        <app-date-picker [initdate]="end" (selectDate)="onEndDateSelect($event)" [type]="'month'" [scale]="1"></app-date-picker>
+                    }
+                    @case ('y') {
+                        <app-date-picker [initdate]="end" (selectDate)="onEndDateSelect($event)" [type]="'year'" [scale]="1"></app-date-picker>
                     }
                 }
             </div>
         </div>
         <div class="btn-group d-flex">
-            <button class="submit d-flex-ct brd h-100" (click)="onSelectEvent()">{{ loading() ? 'LOADING...' : 'VIEW' }}</button>
-            <button class="submit d-flex-ct brd h-100" (click)="exportEventListCsv()">{{ loading2() ? 'LOADING...' : 'DOWNLOAD' }}</button>
+            <button class="submit d-flex-ct bz h-100" (click)="onSelectEvent()">{{ loading() ? 'LOADING...' : 'VIEW' }}</button>
+            <button class="submit d-flex-ct bz h-100" (click)="exportEventListCsv()">{{ loading2() ? 'LOADING...' : 'DOWNLOAD' }}</button>
         </div>
     </div>
     <div class="content w-100 h-100 bz">
         <div class="data-table w-100 h-100 bz">
-            <div class="main">
+            <div class="main bz">
                 <div class="table-wrapper">
                     <table class="table">
                         <thead>
@@ -92,7 +119,7 @@
                                             <i class="material-icons major">dangerous</i>
                                         }
                                     </td>
-                                    <td>{{ item.StartTime | date: 'dd/mm/yyyy hh:mm:ss'}}</td>
+                                    <td>{{ item.StartTime | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
                                     <td>{{ item.Item }}</td>
                                     <td>{{ item.Group }}</td>
                                     <td>{{ item.Location || '---' }}</td>

@@ -5,14 +5,39 @@
         "Order": 0,
         "Tags": [
           {
+            "Title": "TODAY",
+            "Timestamp": "BOD",
+            "Tagname": "OVERALL.CALC.WH_DAY"
+          },
+          {
             "Title": "YESTERDAY",
             "Timestamp": "YTD",
             "Tagname": "OVERALL.CALC.WH_DAY"
           },
           {
+            "Title": "MONTHLY",
+            "Timestamp": "BOM",
+            "Tagname": "OVERALL.CALC.WH_MONTH"
+          },
+          {
+            "Title": "MONTHLY_TARGET",
+            "Timestamp": "BOM",
+            "Tagname": "KKB.CALC.WH_WTY_MONTH"
+          },
+          {
+            "Title": "AVAI",
+            "Timestamp": "BOD",
+            "Tagname": "KKB.CALC.AVAI_DAY"
+          },
+          {
             "Title": "AVAI_TARGET",
             "Timestamp": "BOY",
             "Tagname": "KKB.CALC.AVAI_WTY"
+          },
+          {
+            "Title": "PR",
+            "Timestamp": "BOD",
+            "Tagname": "KKB.CALC.PR_DAY"
           },
           {
             "Title": "PR_TARGET",
@@ -25,12 +50,28 @@
           },
           {
             "Title": "REVENUE",
+            "Timestamp": "BOD",
             "Tagname": "OVERALL.CALC.REVENUE_DAY"
           },
           {
             "Title": "REVENUE_YTD",
             "Timestamp": "YTD",
             "Tagname": "OVERALL.CALC.REVENUE_DAY"
+          },
+          {
+            "Title": "REVENUE_MONTH",
+            "Timestamp": "BOM",
+            "Tagname": "OVERALL.CALC.REVENUE_MONTH"
+          },
+          {
+            "Title": "REVENUE_YEAR",
+            "Timestamp": "BOY",
+            "Tagname": "OVERALL.CALC.REVENUE_YEAR"
+          },
+          {
+            "Title": "WH_TARGET",
+            "Timestamp": "BOY",
+            "Tagname": "KKB.CALC.WH_WTY"
           }
         ]
       },
@@ -48,30 +89,7 @@
           },
           {
             "Title": "YIELD",
-            "Tagname": "OVERALL.CALC.YIELD_DAY"
-          },
-          {
-            "Title": "PR",
-            "Timestamp": "BOD",
-            "Tagname": "KKB.CALC.PR_DAY"
-          },
-          {
-            "Title": "AVAI",
-            "Tagname": "KKB.CALC.AVAI"
-          },
-          {
-            "Title": "TODAY",
-            "Tagname": "OVERALL.CALC.WH_DAY"
-          },
-          {
-            "Title": "MONTHLY",
-            "Timestamp": "BOM",
-            "Tagname": "OVERALL.CALC.WH_MONTH"
-          },
-          {
-            "Title": "MONTHLY_TARGET",
-            "Timestamp": "BOM",
-            "Tagname": "KKB.CALC.WH_WTY_MONTH"
+            "Tagname": "KKB.CALC.YIELD_DAY"
           },
           {
             "Title": "YEARLY",
@@ -146,57 +164,71 @@
             "Tagname": "KKB.CALC.PR"
           }
         ]
-      }
-    ],
-    "historianConfig": [
+      },
       {
-        "Group": "CHART01",
-        "Order": 0,
+        "Group": "enviroment",
+        "Order": 5,
         "Tags": [
           {
-            "Title": "CHART01_POWER",
-            "Tagname": "OVERALL.CALC.WH_HOUR",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
+            "Title": "PYRANO",
+            "Tagname": "KKB.CALC.PYRANO"
           },
           {
-            "Title": "CHART01_IRR",
-            "Tagname": "OVERALL.CALC.WH_EXPECT_HOUR",
-            "Options": {
-              "Time": "t",
-              "Interval": 0,
-              "StartTime": "MIDN",
-              "EndTime": "NOW"
-            }
+            "Title": "INSOLUTION",
+            "Tagname": "KKB.CALC.PYRANO_TODAY"
+          },
+          {
+            "Title": "AMBTEMP",
+            "Tagname": "KKB.CALC.AMBTEMP"
+          },
+          {
+            "Title": "PVTEMP",
+            "Tagname": "KKB.CALC.PVTEMP"
+          },
+          {
+            "Title": "WIND",
+            "Tagname": "KKB.CALC.WIND_SPD"
+          },
+          {
+            "Title": "REDUCTION",
+            "Tagname": "KKB.CALC.CARBON_DAY"
           }
         ]
-      },
+      }
+      ],
+    "historianConfig": [
       {
         "Group": "CHART02",
         "Order": 0,
         "Tags": [
           {
             "Title": "TODAY_ENERGY",
-            "Tagname": "OVERALL.CALC.WH_DAY",
+            "Tagname": "OVERALL.CALC.WH_MONTH",
             "Options": {
               "Time": "",
               "Interval": 0,
-              "StartTime": "*-7d",
-              "EndTime": "NOW"
+              "StartTime": "BOY",
+              "EndTime": "EOY"
+            }
+          },
+          {
+            "Title": "WARANTY_ENERGY",
+            "Tagname": "KKB.CALC.WH_WTY_MONTH",
+            "Options": {
+              "Time": "",
+              "Interval": 0,
+              "StartTime": "BOY",
+              "EndTime": "EOY"
             }
           },
           {
             "Title": "EXPECT_ENERGY",
-            "Tagname": "OVERALL.CALC.WH_EXPECT_DAY",
+            "Tagname": "OVERALL.CALC.WH_EXPECT_MONTH",
             "Options": {
               "Time": "",
               "Interval": 0,
-              "StartTime": "*-7d",
-              "EndTime": "NOW"
+              "StartTime": "BOY",
+              "EndTime": "EOY"
             }
           }
         ]
@@ -207,22 +239,22 @@
         "Tags": [
           {
             "Title": "PERFORMANCE",
-            "Tagname": "KKB.CALC.PR_DAY",
+            "Tagname": "KKB.CALC.PR_MONTH",
             "Options": {
               "Time": "",
               "Interval": 0,
-              "StartTime": "*-7d",
-              "EndTime": "NOW"
+              "StartTime": "BOY",
+              "EndTime": "EOY"
             }
           },
           {
             "Title": "AVAI",
-            "Tagname": "KKB.CALC.AVAI_DAY",
+            "Tagname": "KKB.CALC.AVAI_MONTH",
             "Options": {
               "Time": "",
               "Interval": 0,
-              "StartTime": "*-7d",
-              "EndTime": "NOW"
+              "StartTime": "BOY",
+              "EndTime": "EOY"
             }
           }
         ]
@@ -231,180 +263,42 @@
     ],
     "chartConfig": [
       {
-        "name": "CHART01",
+        "name": "CHART02",
         "tags": [
           {
-            "name": "OVERALL.CALC.WH_EXPECT_HOUR",
-            "title": "EXPECTED*kWh",
-            "options": {
-              "yAxis": 1,
-              "type": "line",
-              "color": "#3ddffc",
-              "borderColor": "#3DB1FC",
-              "dashStyle": "Dash",
-							"borderRadius": 0
-            }
-          },
-          {
-            "name": "OVERALL.CALC.WH_HOUR",
+            "name": "OVERALL.CALC.WH_MONTH",
             "title": "PRODUCE*kWh",
             "options": {
               "yAxis": 0,
               "type": "column",
               "color": "#E3A92B",
-              "borderColor": "#806426",
-							"borderRadius": 0
-            }
-          }
-        ],
-        "chartOptions": {
-          "chart": {
-            "zooming": {
-              "type": "x",
-              "resetButton": {
-                "position": {
-                  "y": -40,
-                  "verticalAlign": "bottom",
-                  "align": "right"
-                },
-                "theme": {
-                  "fill": "#E7CD47",
-                  "style": {
-                    "color": "white"
-                  },
-                  "states": {
-                    "hover": {
-                    "fill": "#E7CD47",
-                    "style": {
-                      "color": "white"
-                    }
-                    } 
-                  }
-                }
-              }
-            },
-            "backgroundColor": "none",
-            "animation": false,
-            "margin": [
-              10,
-              10,
-              30,
-              10
-            ],
-            "borderColor": "var(--chart-brd)",
-            "borderWidth": 0
-          },
-          "title": {},
-          "yAxis": [
-            {
-              "color": "var(--chart-txt)",
-              "title": {
-                "text": "",
-                "style": {
-                  "color": "var(--chart-txt)"
-                },
-                "useHTML": true
-              },
-              "opposite": true,
-              "enabled": false,
-              "lineColor": "var(--chart-txt)",
-              "labels": {
-                "enabled": false,
-                "style": {
-                  "color": "var(--chart-txt)"
-                },
-                "useHTML": true
-              },
-              "lineWidth": 0,
-              "gridLineColor": "var(--chart-brd)",
-              "gridLineWidth": 1,
-              "margin": 0,
-              "min": 0
-            },
-            {
-              "color": "var(--chart-txt)",
-              "title": {
-                "text": "",
-                "style": {
-                  "color": "var(--chart-txt)"
-                },
-                "useHTML": true
-              },
-              "enabled": false,
-              "lineColor": "var(--chart-txt)",
-              "labels": {
-                "enabled": false,
-                "style": {
-                  "color": "var(--chart-txt)"
-                },
-                "useHTML": true
-              },
-              "lineWidth": 0,
-              "gridLineColor": "var(--chart-brd)",
-              "gridLineWidth": 0,
-              "margin": 0,
-              "min": 0
-            }
-          ],
-          "xAxis": {
-            "type": "datetime",
-            "tickColor": "var(--chart-brd)",
-            "gridLineColor": "var(--chart-brd)",
-            "lineColor": "var(--chart-txt)",
-            "gridLineWidth": 1,
-            "tickInterval": 7200000,
-            "labels": {
-              "enabled": true,
-              "format": "{value:%H}",
-              "style": {
-                "color": "var(--chart-txt)"
-              },
-              "useHTML": true
-            },
-            "crosshair": {
-              "color": "var(--chart-txt)",
-              "dashStyle": "ShortDash"
-            },
-            "max": "t"
-          },
-          "legend": {},
-          "plotOptions": {
-            "series": {
-              "lineWidth": 1.5,
-              "animation": false,
-              "marker":{
-                "enabled": false
-              },
-              "opacity": 1,
+              "borderColor": "#E3A92B",
+							"borderRadius": 0,
               "showInLegend": true
             }
-          }
-        }
-      },
-      {
-        "name": "CHART02",
-        "tags": [
+          },
           {
-            "name": "OVERALL.CALC.WH_DAY",
-            "title": "PRODUCE*kWh",
+            "name": "OVERALL.CALC.WH_EXPECT_MONTH",
+            "title": "FORCAST*kWh",
             "options": {
               "yAxis": 0,
               "type": "column",
+              "color": "#34C08A",
+              "borderColor": "#34C08A",
+							"borderRadius": 0,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.WH_WTY_MONTH",
+            "title": "TARGET*kWh",
+            "options": {
+              "yAxis": 0,
+              "type": "line",
               "color": "#3ddffc",
-              "borderColor": "#3DB1FC",
+              "borderColor": "#3ddffc",
 							"borderRadius": 0,
-              "showInLegend": true
-            }
-          },
-          {
-            "name": "OVERALL.CALC.WH_EXPECT_DAY",
-            "title": "EXPECT*kWh",
-            "options": {
-              "yAxis": 0,
-              "type": "column",
-              "color": "#FFDF6C",
-              "borderColor": "#E4B61A",
-							"borderRadius": 0,
+              "dashStyle": "Dash",
               "showInLegend": true
             }
           }
@@ -478,10 +372,9 @@
             "tickColor": "var(--chart-brd)",
             "gridLineColor": "var(--chart-brd)",
             "gridLineWidth": 1,
-            "tickInterval": 86400000,
             "labels": {
               "enabled": true,
-              "format": "{value:%a}",
+              "format": "{value:%b}",
               "style": {
                 "color": "var(--chart-txt)"
               },
@@ -499,26 +392,35 @@
             "y": -10,
             "layout": "vertical"
           },
-          "plotOptions": {}
+          "plotOptions": {
+            "series": {
+              "lineWidth": 1,
+              "marker": {
+                "enabled": true,
+                "radius": 5,
+                "symbol": "rectangle"
+              }
+            }
+          }
         }
       },
       {
         "name": "CHART03",
         "tags": [
           {
-            "name": "KKB.CALC.AVAI_DAY",
+            "name": "KKB.CALC.AVAI_MONTH",
             "title": "AVAILABILITY*%",
             "options": {
               "yAxis": 0,
               "type": "line",
-              "color": "#3ddffc",
-              "borderColor": "#3DB1FC",
+              "color": "#34C08A",
+              "borderColor": "#34C08A",
 							"borderRadius": 0,
               "showInLegend": true
             }
           },
           {
-            "name": "KKB.CALC.PR_DAY",
+            "name": "KKB.CALC.PR_MONTH",
             "title": "PR*%",
             "options": {
               "yAxis": 0,
@@ -591,10 +493,10 @@
               "lineWidth": 0,
               "gridLineColor": "var(--chart-brd)",
               "gridLineWidth": 0,
-              "tickInterval": 20,
+              "tickInterval": 40,
               "margin": 0,
               "min": 0,
-              "max": 200
+              "max": 160
             }
           ],
           "xAxis": {
@@ -602,10 +504,9 @@
             "tickColor": "var(--chart-brd)",
             "gridLineColor": "var(--chart-brd)",
             "gridLineWidth": 1,
-            "tickInterval": 86400000,
             "labels": {
               "enabled": true,
-              "format": "{value:%a}",
+              "format": "{value:%b}",
               "style": {
                 "color": "var(--chart-txt)"
               },

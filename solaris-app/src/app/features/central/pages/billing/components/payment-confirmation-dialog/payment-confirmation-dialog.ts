@@ -174,7 +174,6 @@ export class PaymentConfirmationDialog implements OnInit {
  
   async approve(): Promise<void> {
     try {
-      //console.log(this.siteList());
       if(!this.paymentType) {
         this.store.dispatch(sendMessage({ payload: { type: 'warn', text: 'Payment type is required' } }));
         return;

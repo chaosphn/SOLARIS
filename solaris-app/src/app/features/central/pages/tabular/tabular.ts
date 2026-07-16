@@ -74,9 +74,6 @@ export class Tabular implements OnInit, OnDestroy {
     const key = this.sortKey();
     const type = this.sortType();
 
-    //console.log('Sites:', sites);
-    //console.log('Config:', config);
-    //console.log('Realtime:', realtime); // Check structure!
 
     const result: any[] = [];
 
@@ -115,7 +112,6 @@ export class Tabular implements OnInit, OnDestroy {
       });
     }
 
-    //console.log('Final result:', result);
     
     return result.sort((a,b) => {
       if (type === 'asc') {
@@ -303,7 +299,6 @@ export class Tabular implements OnInit, OnDestroy {
       //   `assets/central/performance/configurations/performance.config.json` :
       //   `assets/central/performance/configurations/performance2.config.json` ;
       const config = await this.http.getConfig2(`assets/central/tabular/configurations/tabular.config.json`);
-      //console.log(config)
       if (config) {
         this.config.set(config);
         this.store.dispatch(TabularActions.loadTabularConfigSuccess({ config }));
@@ -316,7 +311,6 @@ export class Tabular implements OnInit, OnDestroy {
 
   async getCardConfig(){
     const config = await this.http.getConfig2(`assets/central/tabular/property/table.config.json`);
-    //console.log(config)
     if (config) {
       this.tableConfig.set(config);
     }
@@ -399,7 +393,6 @@ export class Tabular implements OnInit, OnDestroy {
     if(req){
       const sortedReq = req.sort((a,b) => a.Order - b.Order);
       this.requestAttime.set(sortedReq);
-      //console.log(this.requestAttime())
       this.store.dispatch(TabularActions.loadTabularAtTimeData({ requests: sortedReq }));
     }
   }
@@ -442,7 +435,6 @@ export class Tabular implements OnInit, OnDestroy {
     }
     //await this.getAtTimeData();
     if (!this.dataHistorian() || Object.keys(this.dataHistorian()).length === 0 || shouldRefresh) {
-      //console.log(this.dataHistorian(), shouldRefresh)
       await this.getHistorianData();
       this.store.dispatch(TabularActions.loadTabularConfigTimeStamp({ timestamp: new Date() }))
     }
@@ -461,7 +453,6 @@ export class Tabular implements OnInit, OnDestroy {
         const minutesDiff = timeDiff / (1000 * 60); // Convert to minutes
         
         if (minutesDiff > 2) {
-          //console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
           resolve(true);
         } else {
           resolve(false);
@@ -565,7 +556,6 @@ export class Tabular implements OnInit, OnDestroy {
                   series.push(res);
                 }
               })
-              //console.log(item.Group, series, response);
               
               // Create a new chart config object
               newVal[item.Group] = {
@@ -716,7 +706,6 @@ export class Tabular implements OnInit, OnDestroy {
       val = "-1";
     }
     const res = parseFloat(val.replaceAll(",",""));
-    ////console.log(res)
     if(res >= 0){
       return res;
     } else {
@@ -742,7 +731,6 @@ export class Tabular implements OnInit, OnDestroy {
   getPlantStatus(pointSource: string){
     const summary = this.eventSummary().find(x => x.PointSource === pointSource);
     const lastseen = this.tableData().find(x => x.Id === pointSource)?.SEEN;
-    //console.log(summary, lastseen)
     if(summary){
       if(summary.Major > 0){
         return 'major'; 

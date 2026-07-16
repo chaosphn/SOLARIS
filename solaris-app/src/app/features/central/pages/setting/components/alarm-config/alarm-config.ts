@@ -115,7 +115,6 @@ export class AlarmConfig implements OnInit {
 
   async getAlarmEventData(){
     const result = await this.service.getAlarmEventConfig();
-    //console.log('Initial alarm tags:', result);
     if(result && result.length > 0){
       this.editedTags.set(result);
       this.currentPage.set(1);
@@ -127,7 +126,6 @@ export class AlarmConfig implements OnInit {
 
   async getNotificationData(){
     const result = await this.service.getNotificationConfig();
-    //console.log('Initial notification config:', result);
     if(result && result.length > 0){
       this.notificationConfig = result;
     } else {
@@ -241,7 +239,6 @@ export class AlarmConfig implements OnInit {
   async parseExpressionData(expression: string) {
     //this.exPressionResult = null; // reset previous result
     const result = await this.service.parseExpression(expression);
-    //console.log('Parsed expression result:', result);
     this.exPressionResult = result;
   }
 
@@ -288,7 +285,6 @@ export class AlarmConfig implements OnInit {
       this.newAlarmTag.ID = this.editedTags().length > 0 ? Math.max(...this.editedTags().map(t => t.ID)) + 1 : 1;
       this.editedTags.update(tags => [...tags, { ...this.newAlarmTag }]);
     }
-    //console.log('Saving alarm:', this.newAlarmTag, this.editedTags, this.editingIndex);
     this.closeAlarmModal();
   }
 

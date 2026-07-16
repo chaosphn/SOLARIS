@@ -8,6 +8,9 @@ import {
   PlantModel
 } from '../../../../../../shared/models/maintenance.model';
 import { UserDataModel } from '../../../../../../shared/models/user.model';
+import * as XLSX from 'xlsx';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 import { Store } from '@ngrx/store';
 import { sendMessage } from '../../../../../../store/actions/toaster.actions';
 
@@ -46,7 +49,7 @@ export class WorkOrder implements OnInit {
   // ── Report ──────────────────────────────────────────────────────────────────
   report           = signal<WoReportModel | null>(null);
   reportForm       = signal({
-    work_date: '', start_time: '', end_time: '',
+    work_date: '', start_time: null as Date | null, end_time: null as Date | null,
     duration_min: null as number | null,
     summary: '', findings: '', spare_parts_used: '',
     followup_action: 'none' as FollowupAction,
@@ -58,7 +61,7 @@ export class WorkOrder implements OnInit {
   form = signal({
     plant_id: '', title: '', type: 'preventive' as WorkOrderType,
     priority: 'medium' as WorkOrderModel['priority'],
-    assigned_to: '', due_date: '', description: '', equipment_id: '',
+    assigned_to: '', due_date: null as Date | null, description: '', equipment_id: '',
     checklists: [] as { label: string; sub_label: string }[],
   });
   newWoChecklists = signal<{ label: string; sub_label: string }[]>([]);
@@ -67,11 +70,12 @@ export class WorkOrder implements OnInit {
   editForm = signal({
     title: '', type: 'preventive' as WorkOrderType,
     priority: 'medium' as WorkOrderPriority,
-    assigned_to: '', due_date: '', equipment_id: '', description: '',
+    assigned_to: '', due_date: null as Date | null, equipment_id: '', description: '',
   });
   woUpdating = signal(false);
 
   role = signal<string>('user');
+  today = new Date();
 
   private http = inject(HttpService);
   private auth = inject(AuthService);
@@ -122,8 +126,8 @@ export class WorkOrder implements OnInit {
     const steps = [
       {
         label: 'Time log',
-        done: !!(rf.work_date && rf.start_time && rf.end_time),
-        inProgress: !!rf.work_date && !(rf.start_time && rf.end_time),
+        done: !!(rf.start_time && rf.end_time),
+        inProgress: !!rf.start_time && !rf.end_time,
       },
       {
         label: 'Checklist',
@@ -133,7 +137,7 @@ export class WorkOrder implements OnInit {
       {
         label: 'Work report',
         done: !!(r?.summary),
-        inProgress: !!rf.work_date && !r?.summary,
+        inProgress: !!rf.start_time && !r?.summary,
       },
       {
         label: 'Site photos',
@@ -190,14 +194,12 @@ export class WorkOrder implements OnInit {
   }
 
   private initEditForm(wo: WorkOrderModel) {
-    const dueDate = wo.due_date ? new Date(wo.due_date).getTime() : '';
-    const localDueDate = dueDate ? new Date((dueDate) + (7 * 60 * 60 * 1000)) : '';
     this.editForm.set({
       title:        wo.title        ?? '',
       type:         wo.type         ?? 'preventive',
       priority:     wo.priority     ?? 'medium',
       assigned_to:  wo.assigned_to  ?? '',
-      due_date:     localDueDate ? localDueDate.toISOString().slice(0, 10) : '',
+      due_date:     wo.due_date ? new Date(wo.due_date) : null,
       equipment_id: wo.equipment_id ?? '',
       description:  wo.description  ?? '',
     });
@@ -207,14 +209,18 @@ export class WorkOrder implements OnInit {
     this.editForm.update(f => ({ ...f, ...patch }));
   }
 
+  private toApiDateString(d: Date): string {
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  }
+
   async updateWO() {
     const wo = this.selectedWO();
     if (!wo || !this.editForm().title.trim()) return;
     this.woUpdating.set(true);
     try {
       const f = this.editForm();
-      //const date = new Date(f.due_date).getTime() + (7 * 60 * 60 * 1000); // set to end of day
-      const due_date = f.due_date ? new Date(f.due_date).toISOString().slice(0, 10) : undefined;
+      const due_date = f.due_date ? this.toApiDateString(f.due_date) : undefined;
       const body: UpdateWorkOrderRequest = {
         id:           wo.id,
         title:        f.title        || undefined,
@@ -227,10 +233,13 @@ export class WorkOrder implements OnInit {
       };
       const res = await this.http.updateWorkOrder(body);
       if (res.status === 'success') {
-        this.selectedWO.update(w => w ? { ...w, ...f } : w);
+        this.selectedWO.update(w => w ? { ...w, ...f, due_date: due_date ?? w.due_date } : w);
         await this.loadData();
+        this.store.dispatch(sendMessage({
+          payload: { type: 'success', text: 'Work order updated successfully' }
+        }));
       } else if (res.message) {
-        this.store.dispatch(sendMessage({ 
+        this.store.dispatch(sendMessage({
           payload: { type: 'error', text: res.message }
         }));
       }
@@ -261,9 +270,12 @@ export class WorkOrder implements OnInit {
 
   async toggleChecklist(item: ChecklistItemModel) {
     try {
-      await this.http.toggleChecklist({ id: item.id });
+      const res = await this.http.toggleChecklist({ id: item.id });
+      if (res.status !== 'success') {
+        if (res.message) this.store.dispatch(sendMessage({ payload: { type: 'error', text: res.message } }));
+        return;
+      }
       const updatedChecklists = await this.loadChecklists(this.selectedWO()!.id);
-      console.log(item);
       if (updatedChecklists) {
         if(!item.is_done){
           await this.updateStatus(this.selectedWO()!, 'in_progress');
@@ -283,19 +295,29 @@ export class WorkOrder implements OnInit {
     if (!label || !this.selectedWO()) return;
     this.checklistLoading.set(true);
     try {
-      await this.http.createChecklist({ work_order_id: this.selectedWO()!.id, label, sub_label });
-      this.checklistNewLabel.set('');
-      this.checklistNewSublabel.set('');
-      this.checklistAdding.set(false);
-      await this.loadChecklists(this.selectedWO()!.id);
+      const res = await this.http.createChecklist({ work_order_id: this.selectedWO()!.id, label, sub_label });
+      if (res.status === 'success') {
+        this.checklistNewLabel.set('');
+        this.checklistNewSublabel.set('');
+        this.checklistAdding.set(false);
+        await this.loadChecklists(this.selectedWO()!.id);
+        this.store.dispatch(sendMessage({ payload: { type: 'success', text: 'Checklist item added' } }));
+      } else if (res.message) {
+        this.store.dispatch(sendMessage({ payload: { type: 'error', text: res.message } }));
+      }
     } catch (_) {}
     this.checklistLoading.set(false);
   }
 
   async deleteChecklist(id: number) {
     try {
-      await this.http.deleteChecklist({ id });
-      await this.loadChecklists(this.selectedWO()!.id);
+      const res = await this.http.deleteChecklist({ id });
+      if (res.status === 'success') {
+        await this.loadChecklists(this.selectedWO()!.id);
+        this.store.dispatch(sendMessage({ payload: { type: 'success', text: 'Checklist item deleted' } }));
+      } else if (res.message) {
+        this.store.dispatch(sendMessage({ payload: { type: 'error', text: res.message } }));
+      }
     } catch (_) {}
   }
 
@@ -308,8 +330,8 @@ export class WorkOrder implements OnInit {
         this.report.set(r);
         this.reportForm.set({
           work_date:        r.work_date || '',
-          start_time:       r.start_time || '',
-          end_time:         r.end_time || '',
+          start_time:       r.start_time ? new Date(r.start_time) : null,
+          end_time:         r.end_time ? new Date(r.end_time) : null,
           duration_min:     r.duration_min ?? null,
           summary:          r.summary || '',
           findings:         r.findings || '',
@@ -319,8 +341,7 @@ export class WorkOrder implements OnInit {
       } else {
         this.report.set(null);
         this.reportForm.set({
-          work_date:        new Date().toISOString().slice(0, 10),
-          start_time: '', end_time: '', duration_min: null,
+          work_date: '', start_time: null, end_time: null, duration_min: null,
           summary: '', findings: '', spare_parts_used: '',
           followup_action: 'none',
         });
@@ -328,17 +349,22 @@ export class WorkOrder implements OnInit {
     } catch (_) {}
   }
 
+  private toApiDateTimeString(d: Date): string {
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return `${this.toApiDateString(d)} ${pad(d.getHours())}:${pad(d.getMinutes())}:00`;
+  }
+
   async submitReport() {
     const wo = this.selectedWO();
-    if (!wo || !this.reportForm().work_date) return;
+    if (!wo) return;
     if(!this.reportForm().start_time || !this.reportForm().end_time) {
-      this.store.dispatch(sendMessage({ 
+      this.store.dispatch(sendMessage({
                 payload: { type: 'warn', text: 'Please select start and end times !' }
               }));
       return;
     }
     if(this.checklists().length > 0 && !this.checklists().every(c => c.is_done)) {
-      this.store.dispatch(sendMessage({ 
+      this.store.dispatch(sendMessage({
                 payload: { type: 'warn', text: 'Please complete all checklist items !' }
               }));
       return;
@@ -346,13 +372,16 @@ export class WorkOrder implements OnInit {
     this.reportSubmitting.set(true);
     try {
       const f        = this.reportForm();
+      const start_time = this.toApiDateTimeString(f.start_time!);
+      const end_time   = this.toApiDateTimeString(f.end_time!);
+      const work_date  = this.toApiDateString(f.start_time!);
       const existing = this.report();
       if (existing) {
         const body: UpdateWoReportRequest = {
           id:               existing.id,
-          work_date:        f.work_date,
-          start_time:       f.start_time  || undefined,
-          end_time:         f.end_time    || undefined,
+          work_date,
+          start_time,
+          end_time,
           duration_min:     f.duration_min ?? undefined,
           summary:          f.summary     || undefined,
           findings:         f.findings    || undefined,
@@ -362,7 +391,10 @@ export class WorkOrder implements OnInit {
         };
         const res = await this.http.updateWoReport(body);
         if (res.status === 'success') {
-          await this.loadReport(wo.id)
+          await this.loadReport(wo.id);
+          this.store.dispatch(sendMessage({
+            payload: { type: 'success', text: 'Report updated successfully' }
+          }));
         } else if (res.message) {
           this.store.dispatch(sendMessage({
             payload: { type: 'error', text: res.message }
@@ -372,9 +404,9 @@ export class WorkOrder implements OnInit {
         const body: CreateWoReportRequest = {
           work_order_id:    wo.id,
           submitted_by:     this.currentUser(),
-          work_date:        f.work_date,
-          start_time:       f.start_time  || undefined,
-          end_time:         f.end_time    || undefined,
+          work_date,
+          start_time,
+          end_time,
           duration_min:     f.duration_min ?? undefined,
           summary:          f.summary     || undefined,
           findings:         f.findings    || undefined,
@@ -386,6 +418,9 @@ export class WorkOrder implements OnInit {
         if (res.status === 'success') {
           await this.loadReport(wo.id);
           await this.updateStatus(wo, 'completed');
+          this.store.dispatch(sendMessage({
+            payload: { type: 'success', text: 'Report submitted successfully' }
+          }));
         } else if (res.message) {
           this.store.dispatch(sendMessage({
             payload: { type: 'error', text: res.message }
@@ -402,21 +437,53 @@ export class WorkOrder implements OnInit {
     this.reportFile.set(input.files?.[0] ?? null);
   }
 
+  async downloadReportFile() {
+    const r = this.report();
+    if (!r?.report_path) return;
+    try {
+      const blob = await this.http.downloadWoReport({ id: r.id });
+      const filename = r.report_path.split('/').pop() || 'report';
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (_) {
+      this.store.dispatch(sendMessage({ payload: { type: 'error', text: 'Failed to download report file' } }));
+    }
+  }
+
+  async deleteReport() {
+    const r = this.report();
+    const wo = this.selectedWO();
+    if (!r || !wo) return;
+    try {
+      const res = await this.http.deleteWoReport({ id: r.id });
+      if (res.status === 'success') {
+        await this.loadReport(wo.id);
+        this.store.dispatch(sendMessage({ payload: { type: 'success', text: 'Report deleted successfully' } }));
+      } else if (res.message) {
+        this.store.dispatch(sendMessage({ payload: { type: 'error', text: res.message } }));
+      }
+    } catch (_) {}
+  }
+
   patchReportForm(patch: Partial<ReturnType<typeof this.reportForm>>) {
     this.reportForm.update(f => ({ ...f, ...patch }));
   }
 
-  onTimeChange(field: 'start_time' | 'end_time', value: string) {
+  onTimeChange(field: 'start_time' | 'end_time', value: Date) {
     const start = field === 'start_time' ? value : this.reportForm().start_time;
     const end   = field === 'end_time'   ? value : this.reportForm().end_time;
     this.patchReportForm({ [field]: value, duration_min: this.calcDuration(start, end) });
   }
 
-  calcDuration(start: string, end: string): number | null {
+  calcDuration(start: Date | null, end: Date | null): number | null {
     if (!start || !end) return null;
-    const [sh, sm] = start.split(':').map(Number);
-    const [eh, em] = end.split(':').map(Number);
-    const diff = (eh * 60 + em) - (sh * 60 + sm);
+    const diff = Math.round((end.getTime() - start.getTime()) / 60000);
     return diff > 0 ? diff : null;
   }
 
@@ -456,7 +523,7 @@ export class WorkOrder implements OnInit {
       priority:     f.priority,
       status:       f.assigned_to ? 'assigned' : 'draft',
       assigned_to:  f.assigned_to  || undefined,
-      due_date:     f.due_date     || undefined,
+      due_date:     f.due_date ? this.toApiDateString(f.due_date) : undefined,
       description:  f.description  || undefined,
       equipment_id: f.equipment_id || undefined,
       checklists:   this.newWoChecklists()
@@ -468,8 +535,11 @@ export class WorkOrder implements OnInit {
       if (res.status === 'success') {
         this.cancelNewWO();
         await this.loadData();
+        this.store.dispatch(sendMessage({
+          payload: { type: 'success', text: 'Work order created successfully' }
+        }));
       } else if (res.message) {
-        this.store.dispatch(sendMessage({ 
+        this.store.dispatch(sendMessage({
           payload: { type: 'error', text: res.message }
         }));
       }
@@ -481,7 +551,7 @@ export class WorkOrder implements OnInit {
     this.newWoChecklists.set([]);
     this.form.set({
       plant_id: '', title: '', type: 'preventive',
-      priority: 'medium', assigned_to: '', due_date: '', description: '', equipment_id: '',
+      priority: 'medium', assigned_to: '', due_date: null, description: '', equipment_id: '',
       checklists: [],
     });
   }
@@ -502,17 +572,27 @@ export class WorkOrder implements OnInit {
 
   async updateStatus(wo: WorkOrderModel, status: WorkOrderStatus) {
     try {
-      await this.http.updateWorkOrderStatus({ id: wo.id, status });
-      this.selectedWO.update(w => w ? { ...w, status } : w);
-      await this.loadData();
+      const res = await this.http.updateWorkOrderStatus({ id: wo.id, status });
+      if (res.status === 'success') {
+        this.selectedWO.update(w => w ? { ...w, status } : w);
+        await this.loadData();
+        this.store.dispatch(sendMessage({ payload: { type: 'success', text: 'Work order status updated' } }));
+      } else if (res.message) {
+        this.store.dispatch(sendMessage({ payload: { type: 'error', text: res.message } }));
+      }
     } catch (_) {}
   }
 
   async deleteWO(wo: WorkOrderModel) {
     try {
-      await this.http.deleteWorkOrder({ id: wo.id });
-      if (this.selectedWO()?.id === wo.id) this.closeDetail();
-      await this.loadData();
+      const res = await this.http.deleteWorkOrder({ id: wo.id });
+      if (res.status === 'success') {
+        if (this.selectedWO()?.id === wo.id) this.closeDetail();
+        await this.loadData();
+        this.store.dispatch(sendMessage({ payload: { type: 'success', text: 'Work order deleted successfully' } }));
+      } else if (res.message) {
+        this.store.dispatch(sendMessage({ payload: { type: 'error', text: res.message } }));
+      }
     } catch (_) {}
   }
 
@@ -564,5 +644,82 @@ export class WorkOrder implements OnInit {
 
   siteName(plantId: string): string {
     return this.plants().find(p => p.id === plantId)?.name ?? plantId;
+  }
+
+  // ── Export WO list → .xlsx ────────────────────────────────────────────────────
+  exportList() {
+    const rows = this.filteredWOs().map(w => ({
+      'WO Number': w.wo_number ?? '',
+      'Title':     w.title || '(no title)',
+      'Plant':     this.siteName(w.plant_id),
+      'Type':      w.type ?? '',
+      'Priority':  w.priority ?? '',
+      'Assignee':  this.userDisplayNameFromId(w.assigned_to),
+      'Status':    this.statusLabel(w.status),
+      'Due Date':  w.due_date ? new Date(w.due_date).toISOString().slice(0, 10) : '',
+    }));
+    const ws = XLSX.utils.json_to_sheet(rows);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Work Orders');
+    XLSX.writeFile(wb, `work-orders_${new Date().toISOString().slice(0, 10)}.xlsx`);
+  }
+
+  // ── Report dialog + print / pdf ───────────────────────────────────────────────
+  showReport = signal(false);
+  pdfLoading = signal(false);
+  printedAt  = signal<Date>(new Date());
+
+  openReport()  { this.printedAt.set(new Date()); this.showReport.set(true); }
+  closeReport() { this.showReport.set(false); }
+
+  reportMeta() {
+    const wo = this.selectedWO();
+    if (!wo) return [];
+    return [
+      { icon: 'factory',      label: 'Plant',     value: this.siteName(wo.plant_id) },
+      wo.assigned_to ? { icon: 'person', label: 'Assignee', value: this.userDisplayNameFromId(wo.assigned_to) } : null,
+      wo.due_date ? { icon: 'event', label: 'Due date', value: new Date(wo.due_date).toLocaleDateString() } : null,
+      wo.equipment_id ? { icon: 'construction', label: 'Equipment', value: wo.equipment_id } : null,
+      wo.priority ? { icon: 'flag', label: 'Priority', value: (wo.priority + '').toUpperCase() } : null,
+      { icon: 'category', label: 'Type', value: (wo.type ?? '—') + '' },
+    ].filter(Boolean) as { icon: string; label: string; value: string }[];
+  }
+
+  hasReportData(): boolean {
+    const rf = this.reportForm();
+    return !!this.report() || !!(rf.start_time || rf.summary || rf.findings || rf.spare_parts_used);
+  }
+
+  // print แบบในแอป — global @media print โชว์เฉพาะ .wo-report
+  printReport() {
+    setTimeout(() => window.print(), 50);
+  }
+
+  async downloadPdf() {
+    const el = document.querySelector('.wo-report') as HTMLElement | null;
+    if (!el || this.pdfLoading()) return;
+    this.pdfLoading.set(true);
+    try {
+      const canvas = await html2canvas(el, { scale: 2, backgroundColor: '#ffffff', useCORS: true });
+      const img = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+      const pw = pdf.internal.pageSize.getWidth();
+      const ph = pdf.internal.pageSize.getHeight();
+      const imgH = canvas.height * pw / canvas.width;
+      let heightLeft = imgH;
+      let position = 0;
+      pdf.addImage(img, 'PNG', 0, position, pw, imgH);
+      heightLeft -= ph;
+      while (heightLeft > 0) {
+        position -= ph;
+        pdf.addPage();
+        pdf.addImage(img, 'PNG', 0, position, pw, imgH);
+        heightLeft -= ph;
+      }
+      pdf.save(`${this.selectedWO()?.wo_number ?? 'work-order'}.pdf`);
+    } catch (_) {
+    } finally {
+      this.pdfLoading.set(false);
+    }
   }
 }

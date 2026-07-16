@@ -22,7 +22,6 @@ export class EventDetails {
   tagData = signal<ResponseHistorianModel[]>([]);
   chartParameter = computed(() => {
     if(this.event() && this.tagData().length > 0){
-      //console.log(this.event())
       let item: ChartParameters = {};
       let series: SeriesOptionsType[] | SeriesLineOptions[] | SeriesAreaOptions[] | SeriesColumnOptions[] = this.createEventChartSeries(this.tagData()); 
       item.chart = this.chartOptions.getChartOptions({});
@@ -119,7 +118,6 @@ export class EventDetails {
     effect(() => {
       if(this.event()){
         const tagNames = this.parseTagNamesAdvanced(this.event()!.Condition);
-        //console.log('Extracted Tag Names:', tagNames);
         if(tagNames.length > 0){
           this.getTagData(tagNames);
         }

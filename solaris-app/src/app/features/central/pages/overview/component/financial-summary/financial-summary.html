@@ -1,21 +1,21 @@
 <div class="container w-100 h-100 bz">
     <div class="grid w-100 bz">
         <div class="stat bz">
-            <div class="label">REVENUE TODAY</div>
+            <div class="label">REVENUE MTD</div>
             <div class="value-box" [matTooltip]="tooltipSrv.getTooltip(today())" matTooltipPosition="above">
                 <span class="value ">฿ {{ toMillion(revenueToday()) | numberFomat: '1.0-2' }}M</span>
             </div>
         </div>
         <div class="stat bz">
-            <div class="label">THIS MONTH</div>
+            <div class="label">REVENUE YTD</div>
             <div class="value-box" [matTooltip]="tooltipSrv.getTooltip(month())" matTooltipPosition="above">
                 <span class="value ">฿ {{ toMillion(revenueMonth()) | numberFomat: '1.0-1' }}M</span>
             </div>
         </div>
         <div class="stat bz">
-            <div class="label">ANNUAL EST.</div>
+            <div class="label">ANNUAL EST. MTD</div>
             <div class="value-box">
-                <span class="value ">฿{{ toMillion(annualEstimate()) | numberFomat: '1.0-0' }}M</span>
+                <span class="value ">฿{{ toMillion(annualEstimate()) | numberFomat: '1.0-1' }}M</span>
             </div>
         </div>
         <div class="stat bz">

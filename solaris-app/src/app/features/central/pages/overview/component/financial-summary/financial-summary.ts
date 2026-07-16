@@ -17,20 +17,21 @@ export class FinancialSummary {
   /** expected/target energy month-to-date (kWh) — used for PPA target */
   target = input<ResponseRealtimeModel>();
   /** energy tariff (฿/kWh) — revenue is estimated from this */
-  tariff = input<number>(3.85);
+  tariff = input<number>(1);
+  month_wh = input<ResponseRealtimeModel>();
 
   tooltipSrv = inject(TooltipFormat);
 
   /** revenue today (฿) */
-  revenueToday = computed(() => (this.today()?.Value ?? 0) * this.tariff());
+  revenueToday = computed(() => (this.today()?.Value ?? 0));
   /** revenue month-to-date (฿) */
-  revenueMonth = computed(() => (this.month()?.Value ?? 0) * this.tariff());
+  revenueMonth = computed(() => (this.month()?.Value ?? 0));
   /** annual revenue estimate (฿), projected from MTD revenue */
-  annualEstimate = computed(() => this.revenueMonth() * 12);
+  annualEstimate = computed(() => (this.target()?.Value ?? 0) * this.tariff());
 
   /** progress of MTD revenue vs PPA target (0-100) */
   ppaPercent = computed(() => {
-    const cur = this.month()?.Value ?? 0;
+    const cur = this.month_wh()?.Value ?? 0;
     const tgt = this.target()?.Value ?? 0;
     if (!tgt) {
       return 0;
@@ -40,7 +41,7 @@ export class FinancialSummary {
 
   /** signed diff of MTD revenue vs PPA target (%) */
   ppaDiff = computed(() => {
-    const cur = this.month()?.Value ?? 0;
+    const cur = this.month_wh()?.Value ?? 0;
     const tgt = this.target()?.Value ?? 0;
     if (!tgt) {
       return 0;

@@ -133,7 +133,7 @@ export class Chart implements OnInit, OnDestroy {
     .then(data => {
       return data;
     })
-    .catch( err => console.log(err));
+    .catch(() => {});
     this.responseRealtime.set(realResponse);
     return realResponse;
   }
@@ -144,7 +144,7 @@ export class Chart implements OnInit, OnDestroy {
     .then(data => {
       return data;
     })
-    .catch( err => console.log(err));
+    .catch(() => {});
     this.responseHistorian.set(hisResponse);
     return hisResponse;
   }
@@ -369,22 +369,21 @@ export class Chart implements OnInit, OnDestroy {
       val.push(item);
       return val;
     });
-    
-    //console.log('chartParameter after emitResponse:', this.chartParameter());
+    this.addSyncEvents();
     // Update combined chart if enabled
-    if(!this.isCombinedChart) {
+    if(this.isCombinedChart) {
       this.updateCombinedChart();
     }
   };
 
-  toggleCombineChart(event: Event): void {
-    const checkbox = event.target as HTMLInputElement;
-    this.isCombinedChart = checkbox.checked;
-    
-    if(!this.isCombinedChart) {
+  toggleCombineChart(): void {
+    this.isCombinedChart = !this.isCombinedChart;
+
+    if(this.isCombinedChart) {
       this.updateCombinedChart();
     } else {
       this.combinedChartParameter.set(null);
+      this.addSyncEvents();
     }
   }
 
@@ -437,20 +436,22 @@ export class Chart implements OnInit, OnDestroy {
     this.addSyncEvents();
   }
 
+  // เรียกทุกครั้งที่ chart ถูก (re)create — highchart destroy+recreate ทุก update → container ใหม่ต้องผูก listener ใหม่
+  onChartRebind(): void {
+    this.addSyncEvents();
+  }
+
   private addSyncEvents() {
     this.charts.forEach(cmp => {
-      //console.log(cmp)
-      if (cmp.ref) {
-        // ลบ old event listeners ก่อนเพิ่มตัวใหม่
-        cmp.ref.container.removeEventListener('mousemove', this.syncTooltipBound);
-        cmp.ref.container.removeEventListener('mouseleave', this.hideSyncTooltipBound);
-        
-        // เพิ่ม event listeners ใหม่
-        cmp.ref.container.addEventListener('mousemove', (e) => this.syncTooltip(e, cmp.ref!));
-        cmp.ref.container.addEventListener('mouseleave', () => this.hideTooltips());
-        cmp.ref.container.addEventListener('touchstart', (e) => this.syncTooltip(e, cmp.ref!));
-        cmp.ref.container.addEventListener('touchmove', (e) => this.syncTooltip(e, cmp.ref!));
-        cmp.ref.container.addEventListener('touchend', () => this.hideTooltips());
+      const chart = cmp.ref;
+      // ผูก listener แค่ครั้งเดียวต่อ container. container ที่ถูก recreate = ตัวใหม่ (ไม่มี flag) → ผูกใหม่อัตโนมัติ, กันซ้อนบน container เดิม
+      if (chart && !(chart.container as any).__syncBound) {
+        (chart.container as any).__syncBound = true;
+        chart.container.addEventListener('mousemove', (e) => this.syncTooltip(e, chart));
+        chart.container.addEventListener('mouseleave', () => this.hideTooltips());
+        chart.container.addEventListener('touchstart', (e) => this.syncTooltip(e, chart));
+        chart.container.addEventListener('touchmove', (e) => this.syncTooltip(e, chart));
+        chart.container.addEventListener('touchend', () => this.hideTooltips());
       }
     });
   }
@@ -458,9 +459,6 @@ export class Chart implements OnInit, OnDestroy {
   onLoadingData(event: boolean): void {
     this.isLoadingChart = event;
   }
-
-  private syncTooltipBound = (e: MouseEvent | TouchEvent) => {};
-  private hideSyncTooltipBound = () => {};
 
   private syncTooltip(e: MouseEvent | TouchEvent, sourceChart: Highcharts.Chart) {
     const event = (sourceChart.pointer.normalize(e) as any);
@@ -534,7 +532,6 @@ export class Chart implements OnInit, OnDestroy {
     this.selectedOption = option;
     this.isDropdownOpen = false;
     
-    //console.log('Selected:', option.value);
     
     this.onOptionChange(option.value);
   }

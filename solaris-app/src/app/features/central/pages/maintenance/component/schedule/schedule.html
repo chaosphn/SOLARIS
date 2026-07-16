@@ -30,10 +30,10 @@
       <div class="card-hd">
         <div class="card-title"><span class="acc blue"></span>GANTT — {{ currentMonth }}</div>
         <div class="chart-legend">
-          <div><span class="swatch" style="background:#5BC0EB"></span>Preventive</div>
-          <div><span class="swatch" style="background:#EF9F27"></span>Corrective</div>
-          <div><span class="swatch" style="background:#A78BFA"></span>Inspection</div>
-          <div><span class="swatch" style="background:#DC3545"></span>Emergency</div>
+          <div><span class="swatch" style="background:var(--type-preventive)"></span>Preventive</div>
+          <div><span class="swatch" style="background:var(--type-corrective)"></span>Corrective</div>
+          <div><span class="swatch" style="background:var(--type-inspection)"></span>Inspection</div>
+          <div><span class="swatch" style="background:var(--type-emergency)"></span>Emergency</div>
         </div>
       </div>
 
@@ -49,8 +49,10 @@
               @for (dl of dayLabels; track dl.label) {
                 <span class="gantt-day-lbl" [style.left.%]="dl.leftPct">{{ dl.label }}</span>
               }
-              <span class="gantt-today-lbl" [style.left.%]="todayPct">TODAY</span>
-              <div class="gantt-today" [style.left.%]="todayPct"></div>
+              @if (isThisMonth) {
+                <span class="gantt-today-lbl" [style.left.%]="todayPct">TODAY</span>
+                <div class="gantt-today" [style.left.%]="todayPct"></div>
+              }
             </div>
           </div>
 
@@ -58,10 +60,12 @@
           @for (row of ganttRows; track row.wo.id) {
             <div class="gantt-row bz">
               <div class="gantt-title-col">
-                <span class="gantt-wo-title" [title]="row.wo.title">{{ row.wo.title }}</span>
+                <span class="gantt-wo-title" [class.untitled]="!row.wo.title" [title]="row.wo.title || row.wo.wo_number">{{ row.wo.title || row.wo.wo_number || '(no title)' }}</span>
               </div>
               <div class="gantt-track-col">
-                <div class="gantt-today" [style.left.%]="todayPct"></div>
+                @if (isThisMonth) {
+                  <div class="gantt-today" [style.left.%]="todayPct"></div>
+                }
                 <div class="gantt-bar"
                   [style.left.%]="row.leftPct"
                   [style.width.%]="row.widthPct"
@@ -87,11 +91,11 @@
           <div class="task-list">
             @for (wo of thisWeek; track wo.id) {
               <div class="task-row">
-                <div style="width:50px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--secondary-txt);flex-shrink:0">
+                <div style="width:50px;font-size:12px;color:var(--secondary-txt);flex-shrink:0">
                   {{ wo.due_date | date:'EEE' | uppercase }}
                 </div>
                 <div class="task-info">
-                  <div class="task-name">{{ wo.title }}</div>
+                  <div class="task-name" [class.untitled]="!wo.title">{{ wo.title || wo.wo_number || '(no title)' }}</div>
                   <div class="task-site">{{ wo.plant_id }} · {{ wo.type }}</div>
                 </div>
                 <span class="badge" [ngClass]="wo.type"><span class="dot"></span>{{ wo.priority | titlecase }}</span>
@@ -109,7 +113,7 @@
           <div class="bar-column">
             @for (wo of workOrders().slice(0, 10); track wo.id) {
               <div class="bar-row">
-                <span class="bar-label" style="width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ wo.title }}</span>
+                <span class="bar-label" [class.untitled]="!wo.title" style="width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ wo.title || wo.wo_number || '(no title)' }}</span>
                 <div class="bar-track">
                   <div class="bar-fill"
                     [style.background]="(wo.status === 'completed' || wo.status === 'closed') ? 'var(--status-done)' : 'var(--type-preventive)'"

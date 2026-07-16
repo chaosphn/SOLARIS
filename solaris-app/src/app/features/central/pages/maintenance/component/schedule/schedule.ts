@@ -49,9 +49,16 @@ export class Schedule implements OnInit {
   }
 
   private readonly typeColors: Record<string, string> = {
-    preventive: '#5BC0EB', corrective: '#EF9F27',
-    inspection: '#A78BFA', emergency: '#DC3545',
+    preventive: 'var(--info)', corrective: 'var(--warning)',
+    inspection: 'var(--purple)', emergency: 'var(--danger)',
   };
+
+  // TODAY line โชว์เฉพาะเดือนปัจจุบัน — เดือนเก่า/อนาคตไม่โชว์
+  get isThisMonth(): boolean {
+    const now = new Date();
+    const d = this.date();
+    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+  }
 
   async ngOnInit() {
     //await this.loadData();
@@ -85,7 +92,7 @@ export class Schedule implements OnInit {
       const endMs   = Math.min(dueMs + Math.round(durMs * 0.5), this.monthEnd);
       const leftPct = Math.max(0, (startMs - this.monthStart) / this.monthSpan * 100);
       const widthPct = Math.max(1, Math.min(100 - leftPct, (endMs - startMs) / this.monthSpan * 100));
-      return { wo, leftPct, widthPct, color: this.typeColors[wo.type] ?? '#5BC0EB' };
+      return { wo, leftPct, widthPct, color: this.typeColors[wo.type] ?? 'var(--info)' };
     });
   }
 

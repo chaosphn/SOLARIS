@@ -91,16 +91,12 @@ export class Trend implements OnInit, OnDestroy {
           
           this.date = new Date(stateDate);
           await this.getConfig();
-          this.getAttimeRequest();
-          await this.getAtTimeData();
           this.getHistorianRequest();
           await this.getHistorianData();
         } else {
-          //console.log('xxxx')
           await this.initPage();
         }
       } else {
-        //console.log('yyyy');
         const oldData = await firstValueFrom(
           this.store.select(TrendSelectors.selectTrendHistorianRequests)
         );
@@ -156,7 +152,6 @@ export class Trend implements OnInit, OnDestroy {
       this.storeSub = this.store.select(TrendSelectors.selectTrendState)
         .pipe(take(1)) // เพิ่มบรรทัดนี้
         .subscribe((state: PageStateModel) => {
-          //console.log(state); // เรียกครั้งเดียว
           
           let hasData = false;
           // Check if config exists and load it
@@ -321,7 +316,6 @@ export class Trend implements OnInit, OnDestroy {
     }
     //await this.getAtTimeData();
     if (!this.dataHistorian() || Object.keys(this.dataHistorian()).length === 0 || shouldRefresh) {
-      //console.log(this.dataHistorian(), shouldRefresh)
       await this.getHistorianData();
       this.store.dispatch(TrendActions.loadTrendConfigTimeStamp({ timestamp: new Date() }))
     }
@@ -340,10 +334,8 @@ export class Trend implements OnInit, OnDestroy {
         const minutesDiff = timeDiff / (1000 * 60); // Convert to minutes
         
         if (minutesDiff > 2) {
-          //console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
           resolve(true);
         } else {
-          //console.log(`Data is ${minutesDiff.toFixed(2)} minutes , not refresh`);
           resolve(false);
         }
       });
@@ -409,7 +401,6 @@ export class Trend implements OnInit, OnDestroy {
         });
         const res = await Promise.allSettled(result);
       }
-      //console.log('AtTime Data:', this.dataRealtime());
       this.store.dispatch(TrendActions.loadTrendRealtimeDataSuccess({ data: this.dataRealtime() }));
     }
   }
@@ -417,6 +408,8 @@ export class Trend implements OnInit, OnDestroy {
   async getHistorianData(){
     if (this.requestHistorian() && this.requestHistorian().length > 0) {
       this.isLoading.set(true);
+      this.getAttimeRequest();
+      await this.getAtTimeData();
       const result = this.requestHistorian().map(async(item) => {
         const request = item.Request;
         const response:ResponseHistorianModel[] = await this.http.getHistorian(request);
@@ -436,7 +429,6 @@ export class Trend implements OnInit, OnDestroy {
                   series.push(res);
                 }
               })
-              //console.log(item.Group, series, response);
               let xAxisOptions = this.chartOptions.getXAxisoptions({});
               if(request && request.length > 0 && request[0].Options?.StartTime){
                 xAxisOptions.min = new Date(request[0].Options.StartTime).getTime()+(7*60*60*1000);
@@ -494,7 +486,6 @@ export class Trend implements OnInit, OnDestroy {
 
   async onZoneChanges(event: string){
     this.zoneSelected.update(prev => event);
-    //console.log(this.zoneSelected())
     await this.getMapConfig();
   }
 

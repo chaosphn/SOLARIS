@@ -73,8 +73,30 @@
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 768px) {
   .card-container{
       padding: 0px 0px;
+  }
+
+  .power-info-container {
+  .info-section {
+
+  .label {
+    font-size: 12px;
+  }
+
+  .value {
+    font-size: 18px;
+  }
+
+  .unit {
+    font-size: 12px;
+  }
+
+  .tips {
+    font-size: 12px;
+  }
+
+  }
   }
 }

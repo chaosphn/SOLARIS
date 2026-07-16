@@ -3,9 +3,11 @@
   <!-- Tab header -->
   <div class="maint-header">
     <div class="tabs">
-      <div class="nav-link" [class.active]="activeTab() === 'overview'" (click)="setTab('overview')">
-        <i class="material-icons">grid_view</i>OVERVIEW
-      </div>
+      @if (isAdmin()) {
+        <div class="nav-link" [class.active]="activeTab() === 'overview'" (click)="setTab('overview')">
+          <i class="material-icons">grid_view</i>OVERVIEW
+        </div>
+      }
       <div class="nav-link" [class.active]="activeTab() === 'schedule'" (click)="setTab('schedule')">
         <i class="material-icons">view_timeline</i>SCHEDULE
       </div>

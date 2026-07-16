@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { getNavState } from '../../../../store/selectors/nav.selectors';
 import { firstValueFrom } from 'rxjs';
@@ -27,6 +27,7 @@ export class Maintenance implements OnInit {
   users       = signal<UserDataModel[]>([]);
 
   role = signal<string>('user');
+  isAdmin = computed(() => this.role() === 'administrator');
 
   private store = inject(Store);
   private http = inject(HttpService);
@@ -38,6 +39,10 @@ export class Maintenance implements OnInit {
       this.plantId.set(nav.name);
     }
     this.role.set(this.auth.getRole() ?? 'user');
+    // non-admin: Overview tab ถูกซ่อน → เริ่มที่ Work Orders แทน
+    if (!this.isAdmin() && this.activeTab() === 'overview') {
+      this.activeTab.set('workorders');
+    }
     await this.loadPlants();
     await this.loadUsers();
     if(this.users().length > 0) {

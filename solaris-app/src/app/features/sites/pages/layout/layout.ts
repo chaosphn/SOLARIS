@@ -60,7 +60,6 @@ export class Layout implements OnInit, OnDestroy {
       const normal = invs.filter(x => this.dataRealtime()?.[ 'INV' + x + '_STATUS']?.Value > 799 || this.dataRealtime()?.[ 'INV' + x + '_STATUS']?.Value < 699).length;
       const fault = invs.filter(x => this.dataRealtime?.()[ 'INV' + x + '_STATUS']?.Value < 799 && this.dataRealtime?.()[ 'INV' + x + '_STATUS']?.Value > 699 && this.dataRealtime?.()[ 'INV' + x + '_STATUS']?.Value != 771).length;
       const fcom = invs.filter(x => !this.dataRealtime?.()[ 'INV' + x + '_STATUS']?.Value || this.dataRealtime?.()[ 'INV' + x + '_STATUS']?.Value == 771).length;
-      //console.log(normal, fault, fcom, invs, this.dataRealtime())
       const data: PlantStatusData[] = [
         { label: 'INV NORMAL', count: normal || 0, percentage: (normal/invs.length*100) || 0, color: '#00E396', unit: 'Unit' },
         { label: 'INV FAULT', count: fault || 0, percentage: (fault/invs.length*100) || 0, color: '#FEB019', unit: 'Unit' },
@@ -86,7 +85,6 @@ export class Layout implements OnInit, OnDestroy {
     this.store.dispatch(setDateEnable({ payload: false }));
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {
-      //console.log(state.location)
       this.siteSelected.set(state.location);
       const res = await firstValueFrom(
         this.store.select(getZoneConfig(state.location))
@@ -156,7 +154,6 @@ export class Layout implements OnInit, OnDestroy {
     
     this.getRequest();
     await this.getData();
-    //console.log(this.dataRealtime());
     
     if(this.appInit.config.Timer){
       this.startTimer(this.appInit.config.Timer * 60000);
@@ -352,7 +349,6 @@ export class Layout implements OnInit, OnDestroy {
         const minutesDiff = timeDiff / (1000 * 60); // Convert to minutes
         
         if (minutesDiff > 2) {
-          //console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
           resolve(true);
         } else {
           resolve(false);
@@ -367,11 +363,9 @@ export class Layout implements OnInit, OnDestroy {
         const request = item.Request;
         const response:ResponseRealtimeModel[] = await this.http.getRealtime(request);
         if(response){
-          //console.log('Realtime response for', item.Group, response);
           response.map(data => {
             const conf = this.config().realtimeConfig.find(x => x.Group == item.Group)?.Tags.find(y => y.Tagname == data.Name && !y.Timestamp);
             if (conf) {
-              //console.log('Updating realtime data for', conf.Title, 'with value', data.Value);
               this.dataRealtime.update(val => ({
                 ...val,
                 [conf.Title]: {
@@ -440,7 +434,6 @@ export class Layout implements OnInit, OnDestroy {
                   series.push(res);
                 }
               })
-              //console.log(item.Group, series, response);
               
               // สร้าง chart config object ใหม่
               newVal[item.Group] = {

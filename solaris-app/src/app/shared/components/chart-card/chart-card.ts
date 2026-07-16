@@ -100,7 +100,6 @@ export class ChartCard {
         this.chartItems.update(prev => {
           return {} as ChartParameters;
         });
-        //console.log('YYYYY')
       }
       if(this.fixedMode()){
         this.mode.set(this.fixedMode()!);

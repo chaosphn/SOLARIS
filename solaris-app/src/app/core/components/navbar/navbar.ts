@@ -63,6 +63,7 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
   enableDate = signal<boolean>(false);
   enableSite: string[] = [];
   enablePage = signal<string[]>([]);
+  woBadge = signal<number>(0);
 
   private auth =  inject(AuthService);
   private http =  inject(HttpService);
@@ -86,7 +87,6 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
     });
     this.navStateSubscription = this.navState$.subscribe(state => {
       this.currentNavState.set(state);
-      console.log('NAV STATE:', state);
       // if(!state.name && !state.location && !this.router.url.includes('billing')){
       //   this.router.navigate(['/'])
       // }
@@ -120,25 +120,7 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    console.log(this.router.url)
-    const routPage = this.router.url.split('/');
-    console.log(routPage)
-    switch (routPage.length) {
-      case 3:
-        const pgGroup = this.pageSrv.getPageGroup(routPage[2]);
-        if(pgGroup){
-          console.log(pgGroup)
-          this.store.dispatch(addState({
-            payload: {
-              name: pgGroup.level,
-              location: 'OVERALL'
-            }
-          }));
-        }
-        break;
-      default:
-        break;
-    } 
+    this.initHeadernavState();
     this.user = localStorage.getItem('user') || '---';
     this.role = localStorage.getItem('role') || '---';
     const theme = localStorage.getItem('theme');
@@ -156,9 +138,45 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
     }
     this.getSiteConfig();
     this.getEventSummary();
+    this.loadMyWoCount();
     if(this.appInit.config.Timer){
       this.startTimer(this.appInit.config.Timer * 60000);
     }
+  }
+
+  // นับ WO ที่ assign ให้ตัวเอง เดือนนี้ ที่ยัง active (ไม่นับ closed/cancelled)
+  async loadMyWoCount(){
+    try {
+      const users = await this.http.getUserConfig();
+      const me = Array.isArray(users) ? users.find((u: any) => u.username === this.user) : null;
+      const id = me?._id?.toString();
+      if(!id){
+        this.woBadge.set(0);
+        return;
+      }
+      const ts = new Date();
+      const start = new Date(ts.getFullYear(), ts.getMonth(), 2).toISOString().slice(0, 10);
+      const end = new Date(ts.getFullYear(), ts.getMonth() + 1, 1).toISOString().slice(0, 10);
+      const res = await this.http.getWorkOrdersByAssignee({ start_time: start, end_time: end, assigned_to: id });
+      if(res?.status === 'success' && res.data){
+        const active = res.data.filter((w: any) => w.status !== 'closed' && w.status !== 'cancelled');
+        this.woBadge.set(active.length);
+      } else {
+        this.woBadge.set(0);
+      }
+    } catch (_) {
+      this.woBadge.set(0);
+    }
+  }
+
+  openMyWorkOrders(){
+    this.store.dispatch(addState({
+      payload: {
+        name: 'operation',
+        location: 'ALL'
+      }
+    }));
+    this.router.navigate(['/main/maintenance']);
   }
 
   ngAfterViewInit(): void {
@@ -180,6 +198,25 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
       detail: 'Message Content', 
       life: 3000 
     });
+  }
+
+  initHeadernavState(){
+    const routPage = this.router.url.split('/');
+    switch (routPage.length) {
+      case 3:
+        const pgGroup = this.pageSrv.getPageGroup(routPage[2]);
+        if(pgGroup){
+          this.store.dispatch(addState({
+            payload: {
+              name: pgGroup.level,
+              location: 'ALL'
+            }
+          }));
+        }
+        break;
+      default:
+        break;
+    } 
   }
 
   async getEventSummary(){
@@ -214,22 +251,14 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
       }
       this.siteConfig.set(filterSite);
       this.store.dispatch(setSite({payload: filterSite}));
+      const zonselected = filterSite.zoneList[0];
+      this.zoneList.set(zonselected);
       if(filterSite && filterSite.zoneList.length == 1){
         const zonselected = filterSite.zoneList[0];
         this.zoneList.set(zonselected);
-        // this.store.dispatch(addState({
-        //   payload: {
-        //     name: 'overview',
-        //     location: zonselected.title
-        //   }
-        // }));
+        this.initHeadernavState();
       } else {
-        // this.store.dispatch(addState({
-        //   payload: {
-        //     name: 'overview',
-        //     location: 'overview'
-        //   }
-        // }));
+        this.initHeadernavState();
       }
     }
   }
@@ -237,6 +266,7 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
   startTimer(dueTimer: number) {
     this.timerSubscription = timer(dueTimer, dueTimer).subscribe(x => {
       this.getEventSummary();
+      this.loadMyWoCount();
     });
   }
 
@@ -278,7 +308,6 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getZoneSelected(name: any){
-    ////console.log();
     //const zone = this.store.selectSnapshot(SiteState.getZoneConfig(name));
     //if(zone){
     //  this.zoneList = zone;
@@ -292,9 +321,8 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
     //    locaion: name
     //  });
     //  this.router.navigate(['/main/sitelist'])
-    //  ////console.log(name)
+    //  //
     //}
-    ////console.log(this.zoneList)
   }
 
   zoneTrackBy(index: number, item: ZoneModel) {
@@ -331,7 +359,12 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
         }
       }));
       this.clearPageState();
-      this.router.navigate(['/main/layout'])
+      const routPage = this.router.url.split('/');
+      if(routPage[2] && this.pageSrv.getSitePages().findIndex(x => x.path === routPage[2]) > -1){
+
+      } else {
+        this.router.navigate(['/main/layout'])
+      }
     } else {
       this.clearPageState();
       this.store.dispatch(addState({
@@ -374,6 +407,9 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
 
   toggleNavBarState(){
     this.isHided = !this.isHided;
+    // content กว้างเปลี่ยน แต่ไม่มี window resize → บังคับ chart/component reflow
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 60);
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 320);
   }
 
   getNumber(val: any) {

@@ -32,7 +32,7 @@ export class Piechart implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['statusData'] && !changes['statusData'].firstChange) {
+    if (changes['statusData']) {
       this.initChart();
     }
   }

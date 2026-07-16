@@ -61,7 +61,6 @@ export class Assistant {
       } else {
         this.loading.set(false);
       }
-      //console.log('Sending message:', this.userInput);
       // ทำการส่งข้อความที่นี่
       this.userInput = '';
     }

@@ -85,7 +85,6 @@ export class Diagram implements OnInit, OnDestroy {
   constructor(){
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {
-      //console.log(state.location)
       this.siteSelected.set(state.location);
       const res = await firstValueFrom(
         this.store.select(getZoneConfig(state.location))
@@ -235,11 +234,9 @@ export class Diagram implements OnInit, OnDestroy {
     try {
       const svgSubscription = await this.http.getConfigFile(`assets/site/diagram/svg/svg[${this.siteSelected()}][${this.selectedDiagram().name}].html`);
       if(svgSubscription){
-        //console.log(svgSubscription)
         this.svgTemplate.set(svgSubscription);
         this.updateSvg();
       } else {
-        //console.log(svgSubscription)
         this.svgTemplate.set(`
           <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px; border:1px solid #ddd; border-radius:8px; background:#f9f9f9; color:#333;">
             <h2 style="margin-bottom:10px;">Diagram Not Found</h2>
@@ -248,7 +245,6 @@ export class Diagram implements OnInit, OnDestroy {
         );
       }
     } catch (error: any) {
-      console.log(error)
       if (error.status === 404) {
         this.svgTemplate.set(`<p>Not found works!</p>`);
       } else {
@@ -265,11 +261,9 @@ export class Diagram implements OnInit, OnDestroy {
 
   private updateSvg() {
     if (!this.svgTemplate) {
-      //console.log('No SVG template yet');
       return;
     }
     
-    //console.log('Updating SVG with current values:', this.currentValues);
     
     let processedSvg = this.svgTemplate();
     
@@ -277,7 +271,6 @@ export class Diagram implements OnInit, OnDestroy {
     const matches = processedSvg.match(/\{\{[^}]+\}\}/g);
     
     if (matches) {
-      //console.log('Found placeholders:', matches);
       
       matches.forEach(placeholder => {
         // Extract tag name from placeholder
@@ -290,14 +283,12 @@ export class Diagram implements OnInit, OnDestroy {
         
         let value = this.getReplacementValue(content);
         
-        //console.log(`Replacing ${placeholder} with ${value}`);
         
         // Replace ALL occurrences of this placeholder
         processedSvg = processedSvg.split(placeholder).join(value.toString());
       });
     }
     
-    //console.log('Final processed SVG length:', processedSvg.length);
     
     // Sanitize and update
     this.svgSafe.set(this.sanitizer.bypassSecurityTrustHtml(processedSvg));
@@ -369,7 +360,6 @@ export class Diagram implements OnInit, OnDestroy {
 
   
   private getReplacementValue(expression: string): string {
-    //console.log('Processing expression:', expression);
     
     // Clean the expression
     let cleanExpr = expression
@@ -383,12 +373,10 @@ export class Diagram implements OnInit, OnDestroy {
     const tagName = parts[0];
     const property = parts[1] || 'Value';
     
-    //console.log('Tag:', tagName, 'Property:', property);
     
     // Get value from current data
     if (this.dataRealtime()[tagName]) {
       const tagData: ResponseRealtimeModel = this.dataRealtime()[tagName];
-      //console.log('Found tag data:', tagData);
       
       switch (property) {
         case 'Value':
@@ -465,7 +453,6 @@ export class Diagram implements OnInit, OnDestroy {
     for (let index = 0; result.length <= 20; index++) {
       result = '-' + result + '-';
     }
-    //console.log(result, lng)
     return result;
   }
 
@@ -552,7 +539,6 @@ export class Diagram implements OnInit, OnDestroy {
         const minutesDiff = timeDiff / (1000 * 60); // Convert to minutes
         
         if (minutesDiff > 2) {
-          //console.log(`Data is ${minutesDiff.toFixed(2)} minutes old, will refresh`);
           resolve(true);
         } else {
           resolve(false);

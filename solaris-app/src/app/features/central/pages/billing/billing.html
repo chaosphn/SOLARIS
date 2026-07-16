@@ -99,7 +99,7 @@
                         <div class="summary-row">
 
                             <!-- Billing Status -->
-                            <div class="summary-card">
+                            <div class="summary-card summary-card--status">
                                 <div class="summary-card__title">
                                     <span class="material-icons">list_alt</span>
                                     Billing Status
@@ -111,29 +111,35 @@
                                     </div>
                                     <div class="pill pill--prepared">
                                         <span class="dot dot--prepared"></span>
-                                        <span class="pill__label">Prepared : </span>
+                                        <span class="pill__label">
+                                            <span class="lbl-full">Prepared</span><span class="lbl-short">Prep</span> :
+                                        </span>
                                         <span class="pill__count">{{ billingStatusSummary().counts.prepared }}</span>
                                     </div>
                                     <div class="pill pill--onprogress">
                                         <span class="dot dot--onprogress"></span>
-                                        <span class="pill__label">On progress : </span>
+                                        <span class="pill__label">
+                                            <span class="lbl-full">On progress</span><span class="lbl-short">Prog</span> :
+                                        </span>
                                         <span class="pill__count">{{ billingStatusSummary().counts.onprogress }}</span>
                                     </div>
                                     <div class="pill pill--complete">
                                         <span class="dot dot--complete"></span>
-                                        <span class="pill__label">Complete : </span>
+                                        <span class="pill__label">
+                                            <span class="lbl-full">Complete</span><span class="lbl-short">Done</span> :
+                                        </span>
                                         <span class="pill__count">{{ billingStatusSummary().counts.complete }}</span>
                                     </div>
                                     <div class="pill pill--delay">
                                         <span class="dot dot--delay"></span>
-                                        <span class="pill__label">Delay : </span>
+                                        <span class="pill__label">Delay :</span>
                                         <span class="pill__count">{{ billingStatusSummary().counts.delay }}</span>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Billing Process -->
-                            <div class="summary-card">
+                            <div class="summary-card summary-card--process">
                                 <div class="summary-card__title">
                                     <span class="material-icons">timeline</span>
                                     Billing Process

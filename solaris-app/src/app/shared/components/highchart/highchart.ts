@@ -1,4 +1,4 @@
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, effect, EventEmitter, inject, input, Output } from '@angular/core';
 import type { Chart, Options } from 'highcharts';
 import { isDate } from 'moment';
 import { ChartParameters } from '../../models/highchart.model';
@@ -15,14 +15,19 @@ export class Highchart  {
   chartOptions?: Options;
   ref?: Chart;
   chartParameter = input.required<ChartParameters>({});
+  @Output() chartReady = new EventEmitter<Chart>();
   today = new Date(new Date().setHours(23,59,0,0)).getTime() + 7 * 60 * 60 * 1000;
   yester = new Date(new Date().setHours(0,0,0,0)).getTime() + 7 * 60 * 60 * 1000;
 
   private dateTimeSrv = inject(Datetime);
   constructor() {
     effect(() => {
-      if( this.chartParameter() && this.chartParameter()?.series && this.chartParameter()?.yAxis != undefined  && this.chartParameter()?.chart && this.chartParameter()?.xAxis ){
-        this.init();
+      const p = this.chartParameter();
+      if( p && p.series && p.yAxis != undefined && p.chart && p.xAxis ){
+        // force recreate: ทำลาย chart เดิมก่อน แล้วสร้างใหม่ทั้งอัน (กัน axis label/gridline หายตอน update + CSS var re-resolve)
+        this.chartOptions = undefined;
+        this.ref = undefined;
+        setTimeout(() => this.init(), 0);
       } else {
         this.chartOptions = undefined;
         this.ref = undefined;
@@ -72,6 +77,7 @@ export class Highchart  {
 
   onChartInstance(chart: Chart) {
     this.ref = chart;
+    this.chartReady.emit(chart);
   }
 
   splitName(txt: string, idx: number){

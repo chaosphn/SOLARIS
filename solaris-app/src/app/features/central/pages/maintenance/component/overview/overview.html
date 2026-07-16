@@ -11,7 +11,7 @@
     <!-- ── 4 Metric tiles ── -->
     <div class="row row-4">
       <div class="card metric-card">
-        <div class="card-hd"><div class="card-title"><span class="acc green"></span>SCHEDULED</div></div>
+        <div class="card-hd"><div class="card-title"><span class="acc blue"></span>SCHEDULED</div></div>
         <div class="metric-val">{{ scheduledCount() }}</div>
         <div class="metric-label">open work orders</div>
         <div class="metric-change neutral">draft + open status</div>
@@ -29,7 +29,7 @@
         <div class="metric-change dn"><i class="material-icons">warning</i>past due date</div>
       </div>
       <div class="card metric-card">
-        <div class="card-hd"><div class="card-title"><span class="acc blue"></span>COMPLETED</div></div>
+        <div class="card-hd"><div class="card-title"><span class="acc green"></span>COMPLETED</div></div>
         <div class="metric-val">{{ completedCount() }}</div>
         <div class="metric-label">all-time completed</div>
         <div class="metric-change up">{{ kpis().availability }}% on time</div>
@@ -68,16 +68,12 @@
             <div class="kpi-val">{{ workOrders().length }}<span class="unit">WOs</span></div>
           </div>
           <div class="kpi-row">
-            <div class="kpi-name">Completed</div>
-            <div class="kpi-val good">{{ completedCount() }}<span class="unit">WOs</span></div>
-          </div>
-          <div class="kpi-row">
             <div class="kpi-name">On-time completion</div>
             <div class="kpi-val" [class.good]="kpis().availability >= 80">{{ kpis().availability }}<span class="unit">%</span></div>
           </div>
           <div class="kpi-row">
-            <div class="kpi-name">Overdue</div>
-            <div class="kpi-val" [class.crit]="overdueCount() > 0">{{ overdueCount() }}<span class="unit">WOs</span></div>
+            <div class="kpi-name">Completion Rate</div>
+            <div class="kpi-val">{{ workOrders().length ? (completedCount() / workOrders().length * 100 | number:'1.0-0') : 0 }}<span class="unit">%</span></div>
           </div>
           <div class="kpi-row">
             <div class="kpi-name">Maintenance Schedules</div>
@@ -106,7 +102,7 @@
           }
         </div>
         <div class="chart-legend bz" style="margin-top:8px;justify-content:space-between">
-          <div><span class="swatch" style="background:var(--status-done)"></span>Prev</div>
+          <div><span class="swatch" style="background:var(--type-preventive)"></span>Prev</div>
           <div><span class="swatch" style="background:var(--type-corrective)"></span>Corr</div>
           <div><span class="swatch" style="background:var(--type-inspection)"></span>Insp</div>
           <div><span class="swatch" style="background:var(--status-major)"></span>Emer</div>
@@ -125,27 +121,29 @@
         @if (activeWorkOrders().length === 0) {
           <div class="empty-state"><i class="material-icons">check_circle</i>No active tasks</div>
         } @else {
-          <div class="task-list">
-            @for (wo of activeWorkOrders(); track wo.id) {
-              <div class="task-row clickable" (click)="selectWO.emit(wo.id)">
-                <div class="task-icon" [ngClass]="'t-' + wo.type">
-                  <i class="material-icons">{{ typeIcon(wo.type) }}</i>
-                </div>
-                <div class="task-info">
-                  <div class="task-name">{{ wo.title }}</div>
-                  <div class="task-site">{{ wo.plant_id }} · {{ wo.type | titlecase }}</div>
-                </div>
-                <div class="task-meta">
-                  <span class="badge" [ngClass]="isOverdue(wo) ? 's-overdue' : statusClass(wo.status)">
-                    <span class="dot"></span>
-                    {{ isOverdue(wo) ? 'OVERDUE' : statusLabel(wo.status) }}
-                  </span>
-                  @if (wo.due_date) {
-                    <span class="task-due">Due {{ wo.due_date | date:'d MMM' }}</span>
-                  }
-                </div>
-              </div>
-            }
+          <div class="tablescroll">
+            <table class="task-table">
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>Site</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th class="ta-r">Due</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (wo of activeWorkOrders(); track wo.id) {
+                  <tr class="clickable" (click)="selectWO.emit(wo.id)">
+                    <td class="tt-name" [class.untitled]="!wo.title">{{ wo.title || wo.wo_number || '(no title)' }}</td>
+                    <td class="tt-mut">{{ wo.plant_id }}</td>
+                    <td><span class="badge" [ngClass]="wo.type"><span class="dot"></span>{{ wo.type | titlecase }}</span></td>
+                    <td><span class="badge" [ngClass]="isOverdue(wo) ? 's-overdue' : statusClass(wo.status)"><span class="dot"></span>{{ isOverdue(wo) ? 'OVERDUE' : statusLabel(wo.status) }}</span></td>
+                    <td class="ta-r tt-mut">{{ wo.due_date ? (wo.due_date | date:'d MMM') : '—' }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
           </div>
         }
       </div>

@@ -107,6 +107,31 @@ body {
     margin-block: .5em;
 }
 
+/* Print: show only the work-order report paper */
+@media print {
+  html, body { height: auto !important; overflow: visible !important; background: #fff !important; }
+  body * { visibility: hidden !important; }
+  .wo-report, .wo-report * { visibility: visible !important; }
+  /* backdrop = containing block ของ paper — ห้าม display:none (จะฆ่า subtree) แค่ทำใส */
+  .report-dialog-backdrop {
+    position: absolute !important; inset: 0 !important;
+    background: transparent !important; padding: 0 !important; display: block !important;
+  }
+  .report-dialog, .report-scroll {
+    overflow: visible !important; max-height: none !important;
+    background: transparent !important; border: none !important; box-shadow: none !important;
+    padding: 0 !important; display: block !important;
+  }
+  .report-actions { display: none !important; }
+  .wo-report {
+    position: absolute !important; left: 0 !important; top: 0 !important;
+    margin: 0 !important; width: 100% !important; max-width: none !important;
+    max-height: none !important; overflow: visible !important;
+    box-shadow: none !important; border-radius: 0 !important;
+    padding: 12mm 14mm !important;
+  }
+}
+
 ::-webkit-scrollbar {
     height: 6px;
     width: 4px;

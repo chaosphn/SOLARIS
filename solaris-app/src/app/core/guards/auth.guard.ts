@@ -21,16 +21,13 @@ export class PermissionGuard implements CanActivate {
     const routingUrl = route.url[0].path;
     const userPermissions = this.getUserPermissions(); // ดึงสิทธิ์ของ user
     //const checkToken = localStorage.getItem('token');
-    //console.log(routingUrl, userPermissions, checkToken)
     const rt: any = route;
     const fullUrl: any = rt['_routerState']?.url;
-    //console.log(fullUrl)
     sessionStorage.setItem('navigate', fullUrl);
     
     // if ( userPermissions.length === 0 && checkToken?.length === 0) {
     //   const rt: any = route;
     //   const fullUrl: any = rt['_routerState']?.url;
-    //   console.log(fullUrl)
     //   sessionStorage.setItem('navigate', fullUrl);
     //   //this.router.navigate(['/login']);
     //   return false;

@@ -17,18 +17,20 @@
                 <table class="table bz w-100">
                     <div class="header w-100 bz">
                         @for (item of tableHeader(); track $index) {
-                            <div class="value bz " [style.width]="item.width" >
+                            <div class="value bz" [style.width]="item.width" [class.sorted]="sortKey() === item.name">
                                 <span class="title">{{item.title}}</span>
                                 @if (item.uom) {
                                     <span class="unit">({{item.uom}})</span>
                                 }
-                                <div class="filter-box bz">
-                                    <app-filter-table 
-                                        [text]="item.name"
-                                        [isFilter]="false"
-                                        (resultSort)="sortDatatable($event)">
-                                    </app-filter-table>
-                                </div>
+                                @if (sortKey() === item.name) {
+                                    <i class="material-icons sort-ind">{{ sortType() === 'desc' ? 'arrow_drop_down' : 'arrow_drop_up' }}</i>
+                                }
+                                @if (item.name !== 'NAME') {
+                                    <div class="filter-box bz">
+                                        <i class="material-icons bz" (click)="sortDatatable(item.name, 'desc')">expand_less</i>
+                                        <i class="material-icons bz" (click)="sortDatatable(item.name, 'asc')">expand_more</i>
+                                    </div>
+                                }
                             </div>
                         }
                     </div>
@@ -36,39 +38,65 @@
                         @for (item of tableData(); track $index) {
                             <div class="row w-100 bz">
                                 @for (key of tableHeader(); track $index) {
-                                    <div class="value bz" [style.width]="key.width" [matTooltip]="tooltipSrv.getTooltip(item[key.name])" matTooltipPosition="above">
-                                        @switch (item[key.name]?.Value??'---') {
-                                            @case ('true') {
-                                                <span >
-                                                    @if (key.type == 'bad') {
-                                                        <i class="material-icons st-danger" >
-                                                            sentiment_dissatisfied
-                                                        </i>
-                                                    } @else {
-                                                        <i class="material-icons st-danger" >
-                                                            pause_circle_outline
-                                                        </i>
+                                    @if (key.name === 'NAME') {
+                                        <div class="value bz name-cell" [style.width]="key.width">
+                                            <span>{{ item.NAME?.Value }}</span>
+                                        </div>
+                                    } @else if (key.name === 'LASTSEEN') {
+                                        <div class="value bz" [style.width]="key.width" [ngClass]="getLastSeen(item.LASTSEEN)" [class.sorted]="sortKey() === 'LASTSEEN'">
+                                            <span>{{ item.LASTSEEN | lastseen: date }}</span>
+                                        </div>
+                                    } @else if (key.dataType === 'status') {
+                                        <div class="value bz status-cell" [style.width]="key.width" [class.sorted]="sortKey() === key.name" [matTooltip]="tooltipSrv.getTooltip(item[key.name])" matTooltipPosition="above">
+                                            <span class="status-chip" [ngClass]="'stx-' + decodeStatus(key.name, item[key.name]?.Value).level">{{ decodeStatus(key.name, item[key.name]?.Value).label }}</span>
+                                        </div>
+                                    } @else if (key.dataType === 'alarm') {
+                                        <div class="value bz alarm-cell" [style.width]="key.width" [class.sorted]="sortKey() === key.name">
+                                            @if (decodeAlarm(key.name, item[key.name]?.Value).length === 0) {
+                                                <span class="alarm-ok">OK</span>
+                                            } @else {
+                                                <div class="alarm-list bz">
+                                                    @for (a of decodeAlarm(key.name, item[key.name]?.Value); track $index) {
+                                                        <span class="alarm-item" [ngClass]="alarmLevelClass(a.level)">{{ a.name }}</span>
                                                     }
-                                                </span>
+                                                </div>
                                             }
-                                            @case ('false') {
-                                                <span >
-                                                    @if (key.type == 'bad') {
-                                                        <i class="material-icons st-normal" >
-                                                            sentiment_satisfied
-                                                        </i>
-                                                    } @else {
-                                                        <i class="material-icons st-normal" >
-                                                            play_circle_outline
-                                                        </i>
-                                                    }
-                                                </span>
+                                        </div>
+                                    } @else {
+                                        <div class="value bz" [style.width]="key.width" [class.sorted]="sortKey() === key.name" [matTooltip]="tooltipSrv.getTooltip(item[key.name])" matTooltipPosition="above">
+                                            @switch (item[key.name]?.Value??'---') {
+                                                @case ('true') {
+                                                    <span >
+                                                        @if (key.type == 'bad') {
+                                                            <i class="material-icons st-danger" >
+                                                                sentiment_dissatisfied
+                                                            </i>
+                                                        } @else {
+                                                            <i class="material-icons st-danger" >
+                                                                pause_circle_outline
+                                                            </i>
+                                                        }
+                                                    </span>
+                                                }
+                                                @case ('false') {
+                                                    <span >
+                                                        @if (key.type == 'bad') {
+                                                            <i class="material-icons st-normal" >
+                                                                sentiment_satisfied
+                                                            </i>
+                                                        } @else {
+                                                            <i class="material-icons st-normal" >
+                                                                play_circle_outline
+                                                            </i>
+                                                        }
+                                                    </span>
+                                                }
+                                                @default {
+                                                    <span >{{ item[key.name]?.Value | numberFomat: '1.0-1'}}</span>
+                                                }
                                             }
-                                            @default {
-                                                <span >{{ item[key.name]?.Value | numberFomat: '1.0-1'}}</span>
-                                            }
-                                        }
-                                    </div>
+                                        </div>
+                                    }
                                 }
                             </div>
                         }

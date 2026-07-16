@@ -694,7 +694,6 @@
               "gridLineColor": "var(--chart-brd)",
               "gridLineWidth": 1,
               "max": 1600,
-              "tickInterval": 50,
               "margin": 0,
               "min": 0
             },
@@ -719,7 +718,6 @@
               "lineWidth": 0,
               "gridLineColor": "var(--chart-brd)",
               "gridLineWidth": 0,
-              "tickInterval": 250,
               "margin": 0,
               "min": 0
             }
@@ -866,7 +864,6 @@
               "lineWidth": 0,
               "gridLineColor": "var(--chart-brd)",
               "gridLineWidth": 1,
-              "tickInterval": 10,
               "margin": 0,
               "min": 0
             }

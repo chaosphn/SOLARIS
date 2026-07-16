@@ -66,13 +66,11 @@ export class Reports implements OnInit, OnDestroy {
   constructor(){
     this.navState$ = this.store.select(getNavState);
     this.navSub = this.navState$.subscribe(async (state) => {
-      //console.log(state.location)
       this.siteSelected.set(state.location);
       const res = await firstValueFrom(
         this.store.select(getAllConfig())
       );
       if(res && res[0]){
-        //console.log(res)
         this.siteList.set(res[0].siteList);
       };
     });
@@ -80,7 +78,6 @@ export class Reports implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getConfig();
-    //console.log(this.siteOptions(), this.siteList())
   }
 
   ngOnDestroy(): void {
@@ -121,7 +118,6 @@ export class Reports implements OnInit, OnDestroy {
       default:
         break;
     }
-    //console.log('Selected:', option.value);
   }
 
   toggleDropdown2(event: Event): void {
@@ -134,7 +130,6 @@ export class Reports implements OnInit, OnDestroy {
     this.selectedSite = option;
     this.isDropdownOpen2 = false;
     
-    //console.log('Selected:', option.value);
   }
 
   onDateSelect(event: any) {
