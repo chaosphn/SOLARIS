@@ -14,6 +14,7 @@ export interface PpaStateModel {
     monthlyEnergy: Record<string, (number | null)[]>; // kWh ต่อเดือน (index 0-11 = Jan-Dec ปีปัจจุบัน)
     // SLA ตลอดอายุสัญญา (หลายปี) — โหลดแยกผ่าน ensureSlaHistory() ใช้โดย Tariff Escalation / Financial
     slaByYear: Record<string, Record<number, PlantSlaModel>>; // slaByYear[siteId][year]
+    yearlyEnergy: Record<string, Record<number, number | null>>; // actual kWh รายปี (ปีที่ผ่านมา) — yearlyEnergy[siteId][year]
     slaHistoryTimestamp: Date | null;
     timestamp: Date | null;
 }

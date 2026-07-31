@@ -10,14 +10,14 @@
                 ></app-panel-layout>
                 } @else {
                     <div class="w-100 h-100 d-flex-ct">
-                        <p class="text-secondary">No panel layout data available.</p>
+                        <p class="text-secondary" style="color: var(--secondary-txt);">No panel layout data available.</p>
                     </div>
                 }
             </ng-template>
         </app-card-container>
     </div>
     <div class="powerCard bz" >
-       <app-card-container [title]="'POWER GENARATION'" >
+       <app-card-container [title]="'POWER GENERATION'" >
             <ng-template #container>
                <app-power-consumption
                 [power]="dataRealtime()['POWER']"
@@ -56,7 +56,7 @@
                     [title3]="'AMB'"
                     [title4]="'INSOLATION'"
                     [title5]="'WIND'"
-                    [title6]="'CO₂'"
+                    [title6]="'TOTAL'"
                     [item1]="dataRealtime()['PYRANO']"
                     [item2]="dataRealtime()['PVTEMP']"
                     [item3]="dataRealtime()['AMBTEMP']"

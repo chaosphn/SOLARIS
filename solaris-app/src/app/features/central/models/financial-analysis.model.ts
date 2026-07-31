@@ -3,7 +3,7 @@ import { PlantSlaModel } from '../../../shared/models/masterdata.model';
 import { BillingConfigModel } from './billing.model';
 import { parseContactCost } from './contract.model';
 import { rateForMonth } from './revenue-performance.model';
-import { slaValueForYear } from './tariff-escalation.model';
+import { MONTH_ABBR, slaValueForYear } from './tariff-escalation.model';
 
 export interface WaterfallStep {
   label: string;
@@ -79,6 +79,101 @@ export interface FinancialAnalytics {
 
 const DISCOUNT_RATES = [0.06, 0.08, 0.10, 0.12];
 
+// ─── Yearly contract compare (ตามชีท "Compare" ของลูกค้า) ────────────────────
+
+export interface CompareYearRow {
+  yearNo: number;                 // ปีสัญญา 1..L
+  calYear: number;
+  periodLabel: string;            // ช่วงวันที่ของปีนั้น
+  isCurrent: boolean;
+  isFuture: boolean;
+  actual: number | null;          // kWh (ปีปัจจุบัน = YTD)
+  actualIsYtd: boolean;
+  // Design
+  p50: number | null;
+  p90: number | null;
+  devP50Pct: number | null;       // (actual/p50 − 1)×100
+  devP90Pct: number | null;
+  // EPC contract
+  epcCharge: number | null;       // ฿/kWh
+  epcGuarantee: number | null;    // kWh
+  epcDeviation: number | null;    // actual − guarantee
+  chargeToEpc: number | null;     // ฿ = shortfall × charge (เฉพาะปีที่จบแล้ว)
+  // PPA contract
+  ppaGuaranteed: number | null;   // kWh/ปี
+  ppaMore: boolean | null;        // actual ≥ guaranteed supply
+  ppaExpected: number | null;     // expected consumption kWh/ปี
+  ppaExpectedDev: number | null;  // actual − expected
+  ppaCharge: number | null;       // ฿/kWh
+  // Financial model
+  finYield: number | null;        // kWh
+  finDeviation: number | null;    // actual − financial model yield
+}
+
+/** สร้างแถวเทียบรายปีของ 1 site — Actual vs Design(P50/P90) / EPC / PPA / Financial model */
+export function buildCompareYears(
+  cfg: BillingConfigModel | undefined,
+  slaSite: Record<number, PlantSlaModel> | undefined,
+  yearlySite: Record<number, number | null> | undefined,
+  monthly: (number | null)[] | undefined,
+  now: Date
+): CompareYearRow[] {
+  if (!cfg) { return []; }
+  const parsed = parseContactCost(cfg.contactType, cfg.contactCost, now);
+  if (!parsed?.startDate || !parsed?.endDate) { return []; }
+  const sy = parsed.startDate.getFullYear();
+  const ey = parsed.endDate.getFullYear();
+  const curYear = now.getFullYear();
+
+  const sla = (y: number, f: Parameters<typeof slaValueForYear>[2]) => slaValueForYear(slaSite, y, f);
+  const fmtD = (d: Date) => `${d.getDate()} ${MONTH_ABBR[d.getMonth()]}`;
+
+  const rows: CompareYearRow[] = [];
+  for (let y = sy; y <= ey; y++) {
+    const isCurrent = y === curYear;
+    const isFuture = y > curYear;
+
+    let actual: number | null = null;
+    if (y < curYear) {
+      actual = yearlySite?.[y] ?? null;
+    } else if (isCurrent && monthly) {
+      const has = monthly.some(v => v != null);
+      actual = has ? monthly.reduce((s: number, v) => s + (v ?? 0), 0) : null;
+    }
+
+    const p50 = sla(y, 'p50_yield');
+    const p90 = sla(y, 'p90_yield');
+    const epcCharge = sla(y, 'epc_energy_charge');
+    const epcGuarantee = sla(y, 'epc_yield_guarantee');
+    const ppaGuaranteed = sla(y, 'ppa_guaranteed_supply');
+    const ppaExpected = sla(y, 'ppa_expected_consumption');
+    const ppaCharge = sla(y, 'ppa_energy_charge') ?? (cfg ? rateForMonth(cfg.contactType, cfg.contactCost, y, 6) : null);
+    const finYield = sla(y, 'financial_model_yield');
+
+    const epcDeviation = actual != null && epcGuarantee != null ? actual - epcGuarantee : null;
+    rows.push({
+      yearNo: y - sy + 1, calYear: y,
+      periodLabel: y === sy ? `${fmtD(parsed.startDate)} – 31 Dec` : y === ey ? `1 Jan – ${fmtD(parsed.endDate)}` : `1 Jan – 31 Dec`,
+      isCurrent, isFuture,
+      actual, actualIsYtd: isCurrent && actual != null,
+      p50, p90,
+      devP50Pct: actual != null && p50 ? (actual / p50 - 1) * 100 : null,
+      devP90Pct: actual != null && p90 ? (actual / p90 - 1) * 100 : null,
+      epcCharge, epcGuarantee, epcDeviation,
+      chargeToEpc: y < curYear && epcDeviation != null && epcCharge != null
+        ? (epcDeviation < 0 ? -epcDeviation * epcCharge : 0) : null,
+      ppaGuaranteed,
+      ppaMore: actual != null && ppaGuaranteed != null ? actual >= ppaGuaranteed : null,
+      ppaExpected,
+      ppaExpectedDev: actual != null && ppaExpected != null ? actual - ppaExpected : null,
+      ppaCharge,
+      finYield,
+      finDeviation: actual != null && finYield != null ? actual - finYield : null
+    });
+  }
+  return rows;
+}
+
 /** NPV ของกระแสเงินสด (t = 0..n) ที่ discount rate r */
 export function npvOf(cashflows: number[], r: number): number {
   let sum = 0;
@@ -152,7 +247,7 @@ export function buildFinancialAnalytics(
 
   const rateOf = (cfg: BillingConfigModel | undefined, y: number) =>
     cfg ? rateForMonth(cfg.contactType, cfg.contactCost, y, 6) : null;
-  const warrantyOf = (siteId: string, y: number) => slaValueForYear(slaByYear[siteId], y, 'energy_delivery');
+  const warrantyOf = (siteId: string, y: number) => slaValueForYear(slaByYear[siteId], y, 'ppa_guaranteed_supply');
 
   // ── cashflow ต่อ site (ตามช่วงสัญญาแต่ละ site) ────────────────────────────
   const siteCfs: SiteCashflow[] = contracts.filter(c => c.cfg).map(c => {

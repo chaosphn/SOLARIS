@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { HttpService } from '../../../../../../shared/services/http.service';
 import { sendMessage } from '../../../../../../store/actions/toaster.actions';
 import { PlantInformationModel } from '../../../../../../shared/models/masterdata.model';
+import { validateNumberFields } from '../../../../../../shared/utils/number-validation';
 
 @Component({
   selector: 'app-plant-dialog',
@@ -37,6 +38,7 @@ export class PlantDialog {
       position_lat: undefined,
       position_long: undefined,
       capacity: undefined,
+      capacity_dc: undefined,
       cod: '',
       group: ''
     } as PlantInformationModel;
@@ -54,6 +56,16 @@ export class PlantDialog {
     const p = this.plantData();
     if (!p.siteid || !p.siteid.trim()) {
       this.store.dispatch(sendMessage({ payload: { text: 'Please enter Site ID', type: 'warn' } }));
+      return;
+    }
+    const numberError = validateNumberFields([
+      { label: 'Capacity (MWp)', value: p.capacity },
+      { label: 'Capacity DC (MWp)', value: p.capacity_dc },
+      { label: 'Latitude', value: p.position_lat, min: -90, max: 90 },
+      { label: 'Longitude', value: p.position_long, min: -180, max: 180 }
+    ]);
+    if (numberError) {
+      this.store.dispatch(sendMessage({ payload: { text: numberError, type: 'warn' } }));
       return;
     }
     if (p.id) {
@@ -108,6 +120,7 @@ export class PlantDialog {
       position_lat: this.toNum(p.position_lat),
       position_long: this.toNum(p.position_long),
       capacity: this.toNum(p.capacity),
+      capacity_dc: this.toNum(p.capacity_dc),
       cod: p.cod,
       group: p.group
     };
@@ -120,6 +133,7 @@ export class PlantDialog {
   }
 
   private currentUser(): string | undefined {
-    return localStorage.getItem('username') || undefined;
+    // ตอน login เก็บชื่อผู้ใช้ไว้ที่ key 'user' (ไม่ใช่ 'username')
+    return localStorage.getItem('user') || undefined;
   }
 }

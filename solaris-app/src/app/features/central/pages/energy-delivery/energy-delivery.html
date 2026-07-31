@@ -3,38 +3,38 @@
         <!-- KPI strip -->
         <div class="kpi-strip w-100 bz">
             <div class="k bz" style="border-top-color: #4CAF82">
-                <div class="l">ENERGY ACHIEVEMENT</div>
+                <div class="l">ENERGY ACHIEVEMENT<app-info-hint hint="energy-achievement"></app-info-hint></div>
                 @if (analytics().achievement !== null) {
                     <div class="v" [style.color]="analytics().achievement! >= 100 ? '#4CAF82' : 'tomato'">{{ analytics().achievement | numberFomat: '1.0-1' }}%</div>
                 } @else { <div class="v">---</div> }
                 <div class="d dim">{{ toGWh(analytics().ytdActual) }} / {{ toGWh(analytics().ytdContracted) }} GWh</div>
             </div>
             <div class="k bz" style="border-top-color: #4CAF82">
-                <div class="l">AVAILABILITY</div>
+                <div class="l">AVAILABILITY<app-info-hint hint="availability"></app-info-hint></div>
                 @if (analytics().avgAvai !== null) {
                     <div class="v" [style.color]="(analytics().avgWarrAvai === null || analytics().avgAvai! >= analytics().avgWarrAvai!) ? '#4CAF82' : 'tomato'">{{ analytics().avgAvai | numberFomat: '1.0-1' }}%</div>
                 } @else { <div class="v">---</div> }
                 <div class="d dim">warranty ≥ {{ analytics().avgWarrAvai !== null ? (analytics().avgWarrAvai | numberFomat: '1.0-0') : '--' }}%</div>
             </div>
             <div class="k bz" style="border-top-color: #FBE134">
-                <div class="l">PERFORMANCE (PR)</div>
+                <div class="l">PERFORMANCE (PR)<app-info-hint hint="performance-pr"></app-info-hint></div>
                 @if (analytics().avgPr !== null) {
                     <div class="v y">{{ analytics().avgPr | numberFomat: '1.0-1' }}%</div>
                 } @else { <div class="v">---</div> }
                 <div class="d dim">warranty ≥ {{ analytics().avgWarrPr !== null ? (analytics().avgWarrPr | numberFomat: '1.0-0') : '--' }}%</div>
             </div>
             <div class="k bz">
-                <div class="l">COMPLIANT SITES</div>
+                <div class="l">COMPLIANT SITES<app-info-hint hint="compliant-sites"></app-info-hint></div>
                 <div class="v">{{ analytics().metCount }} / {{ analytics().trackedCount }}</div>
                 <div class="d dim">energy + avail</div>
             </div>
             <div class="k bz" style="border-top-color: #E05D4E">
-                <div class="l">SHORTFALL · YTD</div>
-                <div class="v risk">{{ toGWh(analytics().ytdShortfall) }}<span class="u"> GWh</span></div>
+                <div class="l">SHORTFALL · YTD<app-info-hint hint="shortfall-ytd"></app-info-hint></div>
+                <div class="v risk">{{ toMWh(analytics().ytdShortfall) }}<span class="u"> MWh</span></div>
                 <div class="d dim">{{ analytics().breachCount }} breach</div>
             </div>
             <div class="k bz" style="border-top-color: #E05D4E">
-                <div class="l">PENALTY · YTD</div>
+                <div class="l">PENALTY · YTD<app-info-hint hint="penalty-ytd"></app-info-hint></div>
                 <div class="v risk">฿{{ formatShort(analytics().totalPenalty) }}</div>
                 <div class="d dim">shortfall × tariff</div>
             </div>
@@ -125,7 +125,7 @@
         </div>
     } @else {
         <div class="empty bz">
-            @if (loading()) { Loading delivery data… } @else { No sites with SLA warranty (energy_delivery). }
+            @if (loading()) { Loading delivery data… } @else { No sites with SLA warranty (ppa_guaranteed_supply). }
         </div>
     }
 </div>

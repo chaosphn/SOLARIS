@@ -6,13 +6,14 @@
                     [site]="siteInfomation().name"
                     [location]="siteInfomation().location"
                     [capacity]="siteInfomation().capacity + ' MWp'"
+                    [capacity_dc]="siteInfomation().capacity_dc + ' MWp'"
                     [cod]="siteInfomation().cod"
                 ></app-infomation-card>
             </ng-template>
         </app-card-container>
     </div>
     <div class="powerCard bz">
-        <app-card-container [title]="'POWER GENARATION'">
+        <app-card-container [title]="'POWER GENERATION'">
             <ng-template #container>
                <app-power-consumption
                     [title]="'PR'"
@@ -83,7 +84,7 @@
         </app-card-container>
     </div>
     <div class="solarCard bz">
-        <app-card-container [title]="'SOLAR PROFILE'">
+        <app-card-container [title]="'SOLAR PROFILE'" [expandable]="true">
             <ng-template #container>
                <app-chart-card
                 [name]="'CHART01'"
@@ -96,7 +97,7 @@
         </app-card-container>
     </div>
     <div class="energyCard bz">
-        <app-card-container [title]="'ENERGY SUMMARY'">
+        <app-card-container [title]="'ENERGY SUMMARY'" [expandable]="true">
             <ng-template #container>
                 <app-chart-card
                     [name]="'CHART02'"
@@ -109,7 +110,7 @@
         </app-card-container>
     </div>
     <div class="inverterCard bz">
-        <app-card-container [title]="'INVERTER EVALUATION'">
+        <app-card-container [title]="'INVERTER EVALUATION'" [expandable]="true">
             <ng-template #container>
                 <app-inverter-summary
                     [data]="dataRealtime()"

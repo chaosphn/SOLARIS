@@ -18,27 +18,27 @@
         <!-- summary KPIs -->
         <div class="kpi-strip w-100 bz">
             <div class="k bz" style="border-top-color: #4CAF82">
-                <div class="l">GUARANTEED → ACTUAL</div>
+                <div class="l">GUARANTEED → ACTUAL<app-info-hint hint="guaranteed-actual"></app-info-hint></div>
                 <div class="v">{{ mwh(analytics().summary.totalGuaranteed) }} <span class="mini">→</span> <span class="g">{{ mwh(analytics().summary.totalActual) }}</span> <span class="mini">MWh</span></div>
                 <div class="d" [style.color]="achvColor(analytics().summary.achievement)">achievement {{ pct(analytics().summary.achievement) }}</div>
             </div>
             <div class="k bz" style="border-top-color: #4CAF82">
-                <div class="l">TOTAL AMOUNT</div>
+                <div class="l">TOTAL AMOUNT<app-info-hint hint="total-amount"></app-info-hint></div>
                 <div class="v g">฿{{ baht(analytics().summary.totalAmount) }}</div>
                 <div class="d dim">billed this month</div>
             </div>
             <div class="k bz" style="border-top-color: #E4B61A">
-                <div class="l">SLA COMPLIANT</div>
+                <div class="l">SLA COMPLIANT<app-info-hint hint="sla-compliant"></app-info-hint></div>
                 <div class="v">{{ analytics().summary.compliantSites }} <span class="mini">/ {{ analytics().summary.trackedSites }}</span></div>
                 <div class="d dim">{{ analytics().summary.breachSites }} breach · {{ analytics().summary.warningSites }} warning</div>
             </div>
             <div class="k bz" style="border-top-color: #E05D4E">
-                <div class="l">PENALTY · BONUS</div>
+                <div class="l">PENALTY · BONUS<app-info-hint hint="penalty-bonus"></app-info-hint></div>
                 <div class="v"><span class="r-txt">{{ money(analytics().summary.penaltyTotal) }}</span> <span class="dim">·</span> <span class="g">{{ money(analytics().summary.bonusTotal) }}</span></div>
                 <div class="d" [style.color]="analytics().summary.netSla >= 0 ? '#4CAF82' : '#E05D4E'">net {{ money(analytics().summary.netSla) }}</div>
             </div>
             <div class="k bz" style="border-top-color: #4DA3FF">
-                <div class="l">COMPLETED · OUTSTANDING</div>
+                <div class="l">COMPLETED · OUTSTANDING<app-info-hint hint="completed-outstanding"></app-info-hint></div>
                 <div class="v">{{ analytics().summary.completedCount }}<span class="mini">/{{ analytics().summary.trackedSites }}</span> <span class="dim">·</span> <span class="r-txt">{{ money(analytics().summary.outstanding) }}</span></div>
                 <div class="d dim">{{ analytics().summary.notBilled }} not billed</div>
             </div>

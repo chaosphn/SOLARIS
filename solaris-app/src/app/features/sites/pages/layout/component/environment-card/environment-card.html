@@ -14,13 +14,13 @@
     </div>
     <div class="ws-tile bz">
       <span class="ti-icon" style="background:#38649F"><span class="material-icons">air</span></span>
-      <div class="ti-val">{{ (item5()?.Value | number: '1.0-1') || '---' }}</div>
-      <div class="ti-unit">{{ item5()?.Unit || 'm/s' }} {{ title5() }}</div>
+      <div class="ti-val">{{ (item5()?.Value | number: '1.0-2') || '---' }}</div>
+      <div class="ti-unit">{{ 'm/s' }} {{ title5() }}</div>
     </div>
     <div class="ws-tile bz">
       <span class="ti-icon" style="background:#00E396"><span class="material-icons">co2</span></span>
-      <div class="ti-val">{{ (item6()?.Value / 1000 | number: '1.0-1') || '---' }}</div>
-      <div class="ti-unit">k-ton {{ title6() }}</div>
+      <div class="ti-val">{{ co2().value !== null ? (co2().value | number: '1.0-2') : '---' }}</div>
+      <div class="ti-unit">{{ co2().unit }} {{ title6() }}</div>
     </div>
   </div>
 

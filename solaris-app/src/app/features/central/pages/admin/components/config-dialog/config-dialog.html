@@ -66,7 +66,7 @@
                             ENERGY COST
                         </div>
                         <div class="text-field">
-                            <input type="number" step="0.0001" [(ngModel)]="siteConfig().energyCost" disabled="{{ mode() === 'view' }}" />
+                            <input type="number" min="0" step="0.0001" [(ngModel)]="siteConfig().energyCost" disabled="{{ mode() === 'view' }}" />
                         </div>
                     </div>
                 } -->
@@ -79,7 +79,7 @@
                             ONPEAK ENERGY COST
                         </div>
                         <div class="text-field">
-                            <input type="number" step="0.0001" [(ngModel)]="siteConfig().onpeakCost" disabled="{{ mode() === 'view' }}" />
+                            <input type="number" min="0" step="0.0001" [(ngModel)]="siteConfig().onpeakCost" disabled="{{ mode() === 'view' }}" />
                         </div>
                     </div>
                 }
@@ -91,7 +91,7 @@
                             OFFPEAK ENERGY COST
                         </div>
                         <div class="text-field">
-                            <input type="number" step="0.0001" [(ngModel)]="siteConfig().offpeakCost" disabled="{{ mode() === 'view' }}" />
+                            <input type="number" min="0" step="0.0001" [(ngModel)]="siteConfig().offpeakCost" disabled="{{ mode() === 'view' }}" />
                         </div>
                     </div>
                 } -->
@@ -103,7 +103,7 @@
                         DISCOUNT COST
                     </div>
                     <div class="text-field">
-                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().discountRate" disabled="{{ mode() === 'view' }}" />
+                        <input type="number" min="0" step="0.0001" [(ngModel)]="siteConfig().discountRate" disabled="{{ mode() === 'view' }}" />
                     </div>
                 </div>
 
@@ -113,7 +113,7 @@
                         FT COST
                     </div>
                     <div class="text-field">
-                        <input type="number" step="0.0001" [(ngModel)]="siteConfig().ftRate" disabled="{{ mode() === 'view' }}" />
+                        <input type="number" min="0" step="0.0001" [(ngModel)]="siteConfig().ftRate" disabled="{{ mode() === 'view' }}" />
                     </div>
                 </div>
             </div>
@@ -158,12 +158,12 @@
                                        [disabled]="mode() === 'view'" min="2020" max="2099" placeholder="YYYY" />
                             }
                             @if (siteConfig().meterType !== 'tou') {
-                                <input class="col-cost" type="number" step="0.0001" [(ngModel)]="entry.cost"
+                                <input class="col-cost" type="number" min="0" step="0.0001" [(ngModel)]="entry.cost"
                                        [disabled]="mode() === 'view'" placeholder="0.0000" />
                             } @else {
-                                <input class="col-cost" type="number" step="0.0001" [(ngModel)]="entry.onpeak"
+                                <input class="col-cost" type="number" min="0" step="0.0001" [(ngModel)]="entry.onpeak"
                                        [disabled]="mode() === 'view'" placeholder="0.0000" />
-                                <input class="col-cost" type="number" step="0.0001" [(ngModel)]="entry.offpeak"
+                                <input class="col-cost" type="number" min="0" step="0.0001" [(ngModel)]="entry.offpeak"
                                        [disabled]="mode() === 'view'" placeholder="0.0000" />
                             }
                             @if (mode() !== 'view' && siteConfig().contactType !== 'FLOATING') {
@@ -275,11 +275,23 @@
                         </div> -->
                         <div class="form-group">
                             <label>Validated By (Accounting)</label>
-                            <mat-select multiple [(ngModel)]="siteConfig().receipt_account" class="user-select" disabled="{{ mode() === 'view' }}">
+                            <!-- <mat-select multiple [(ngModel)]="siteConfig().receipt_account" class="user-select" disabled="{{ mode() === 'view' }}">
                                 @for (user of userList(); track user._id) {
                                     <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
                                 }
-                            </mat-select>
+                            </mat-select> -->
+                            <div class="d-flex" style="gap: 8px;">
+                                <mat-select [ngModel]="siteConfig().receipt_account[0]" (ngModelChange)="setSiteInvoiceAccount(0, $event)" class="user-select" [disabled]="mode() === 'view'">
+                                    @for (user of userList(); track user._id) {
+                                        <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                    }
+                                </mat-select>
+                                <mat-select [ngModel]="siteConfig().receipt_account[1]" (ngModelChange)="setSiteInvoiceAccount(1, $event)" class="user-select" [disabled]="mode() === 'view'">
+                                    @for (user of userList(); track user._id) {
+                                        <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                    }
+                                </mat-select>
+                            </div>
                         </div>
                         <div class="icon-group ">
                             <i class="material-icons">arrow_forward</i>

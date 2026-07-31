@@ -109,7 +109,7 @@ export function buildDeliveryReport(
   }
 
   const rows: ReportRow[] = sites.map(s => {
-    const warrEnergy = slaData[s.id]?.energy_delivery ?? null;
+    const warrEnergy = slaData[s.id]?.financial_model_yield ?? null;
     const guaranteed = warrEnergy != null ? warrEnergy / 12 : null;
     const bill = billBySite.get(s.id);
     const actual = bill ? billedEnergy(bill) : null;

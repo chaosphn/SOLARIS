@@ -14,28 +14,26 @@ export class PermissionGuard implements CanActivate {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private initService: AppInitService
+    private initService: AppInitService,
+    private authService: AuthService
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const routingUrl = route.url[0].path;
-    const userPermissions = this.getUserPermissions(); // ดึงสิทธิ์ของ user
-    //const checkToken = localStorage.getItem('token');
     const rt: any = route;
     const fullUrl: any = rt['_routerState']?.url;
-    sessionStorage.setItem('navigate', fullUrl);
-    
-    // if ( userPermissions.length === 0 && checkToken?.length === 0) {
-    //   const rt: any = route;
-    //   const fullUrl: any = rt['_routerState']?.url;
-    //   sessionStorage.setItem('navigate', fullUrl);
-    //   //this.router.navigate(['/login']);
-    //   return false;
-    // }
-    return true;
 
-    
+    if (!this.authService.isLoggedIn()) {
+      sessionStorage.setItem('navigate', fullUrl);
+      this.router.navigate(['/login']);
+      return false;
+    }
+
+    const userPermissions = this.getUserPermissions(); // ดึงสิทธิ์ของ user
+    sessionStorage.setItem('navigate', fullUrl);
+
     if(userPermissions.includes(routingUrl)){
+      sessionStorage.removeItem('navigate');
       return true;
     }
 

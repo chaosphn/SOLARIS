@@ -66,7 +66,9 @@ export interface TariffAnalytics {
 export function slaValueForYear(
   byYear: Record<number, PlantSlaModel> | undefined,
   year: number,
-  field: 'energy_delivery' | 'capex' | 'opex' | 'availability' | 'performance'
+  field: 'ppa_guaranteed_supply' | 'capex' | 'opex' | 'availability' | 'performance'
+       | 'p50_yield' | 'p90_yield' | 'epc_energy_charge' | 'epc_yield_guarantee'
+       | 'ppa_expected_consumption' | 'ppa_energy_charge' | 'financial_model_yield'
 ): number | null {
   if (!byYear) { return null; }
   const years = Object.keys(byYear).map(Number).sort((a, b) => a - b);
@@ -183,7 +185,7 @@ export function buildTariffAnalytics(
   });
 
   // ── blended rate ต่อปี (ถ่วงด้วย warranty energy รายปี) ────────────────────
-  const warrantyOf = (siteId: string, year: number) => slaValueForYear(slaByYear[siteId], year, 'energy_delivery');
+  const warrantyOf = (siteId: string, year: number) => slaValueForYear(slaByYear[siteId], year, 'ppa_guaranteed_supply');
   const blendedByYear: (number | null)[] = years.map(y => {
     let num = 0, den = 0;
     for (const c of contracts) {

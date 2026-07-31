@@ -82,6 +82,7 @@ export class PlantDiagramDialog {
   }
 
   private currentUser(): string | undefined {
-    return localStorage.getItem('username') || undefined;
+    // ตอน login เก็บชื่อผู้ใช้ไว้ที่ key 'user' (ไม่ใช่ 'username')
+    return localStorage.getItem('user') || undefined;
   }
 }

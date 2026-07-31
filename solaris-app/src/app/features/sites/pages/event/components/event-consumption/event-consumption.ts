@@ -128,7 +128,7 @@ export class EventConsumption {
         type: 'line',
         name: 'Event*events',
         data: typeGroups.Info,
-        color: '#10FDD3',
+        color: '#34C08A',
         showInLegend: false,
         marker: {
           enabled: true,

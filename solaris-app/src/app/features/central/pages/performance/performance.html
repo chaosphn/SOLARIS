@@ -17,30 +17,14 @@
                         <span class="summary-label">MAX</span>
                         <span class="summary-value max">{{ energySummary()!.max | number:'1.1-1' }}</span>
                     </div>
+                    <span class="summary-unit">{{ energySummary()!.unit }}</span>
                 </div>
             }
-            <app-card-container [title]="'ENERGY'" >
+            <app-card-container [title]="'ENERGY (' + unitOf('_ENERGY') + ')'" [expandable]="false">
                 <ng-template #container>
                     @if (dataRealtime() && cardProperty()[0]) {
-                        <div class="w-100 h-100 bz d-flex item">
-                            @for (item of sortedEnergySites(); track item.id;) {
-                                <div class="content h-100">
-                                    <app-stack-chart
-                                    [value]="dataRealtime()[item.id+'_ENERGY']?.Value?.toString() || '0'"
-                                    [maxVal]="dataRealtime()[item.id+'_ENERGY']?.Max || 100"
-                                    [unit]="dataRealtime()[item.id+'_ENERGY']?.Unit || ''"
-                                    [activeColor]="cardProperty()[0].activeColor"
-                                    [bgColor]="cardProperty()[0].bgColor"
-                                    [bdRadius]="cardProperty()[0].bdRadius"
-                                    [rangeVal]="cardProperty()[0].rangeVal"
-                                    [label]="item.id"
-                                    [legend]="cardProperty()[0].legend"
-                                    [verLabel]="cardProperty()[0].verleLabel"
-                                    [height]="100"
-                                    ></app-stack-chart>
-
-                                </div>
-                            }
+                        <div class="chart-box w-100 h-100 bz" >
+                            <app-highchart [chartParameter]="energyChart()"></app-highchart>
                         </div>
                     }
                 </ng-template>
@@ -63,30 +47,14 @@
                         <span class="summary-label">MAX</span>
                         <span class="summary-value max">{{ revenueSummary()!.max | number:'1.1-1' }}</span>
                     </div>
+                    <span class="summary-unit">{{ revenueSummary()!.unit }}</span>
                 </div>
             }
-            <app-card-container [title]="'REVENUE'" >
+            <app-card-container [title]="'REVENUE (' + unitOf('_REVENUE') + ')'" >
                 <ng-template #container>
                     @if (dataRealtime() && cardProperty()[1]) {
-                        <div class="w-100 h-100 bz d-flex item">
-                            @for (item of sortedRevenueSites(); track item.id;) {
-                                <div class="content h-100">
-                                    <app-stack-chart
-                                    [value]="dataRealtime()[item.id+'_REVENUE']?.Value?.toString() || '0'"
-                                    [maxVal]="dataRealtime()[item.id+'_REVENUE']?.Max || 100"
-                                    [unit]="dataRealtime()[item.id+'_REVENUE']?.Unit || ''"
-                                    [activeColor]="cardProperty()[1].activeColor"
-                                    [bgColor]="cardProperty()[1].bgColor"
-                                    [bdRadius]="cardProperty()[1].bdRadius"
-                                    [rangeVal]="cardProperty()[1].rangeVal"
-                                    [label]="item.id"
-                                    [legend]="cardProperty()[1].legend"
-                                    [verLabel]="cardProperty()[1].verleLabel"
-                                    [height]="100"
-                                    ></app-stack-chart>
-
-                                </div>
-                            }
+                        <div class="chart-box w-100 h-100 bz">
+                            <app-highchart [chartParameter]="revenueChart()"></app-highchart>
                         </div>
                     }
                 </ng-template>
@@ -94,7 +62,7 @@
         </div>
         <div class="row bz">
             @if (yieldSummary()) {
-                <div class="summary">
+                <div class="summary ">
                     <div class="summary-item">
                         <span class="summary-label">AVG</span>
                         <span class="summary-value" [style.color]="cardProperty()[2]?.activeColor">{{ yieldSummary()!.avg | number:'1.1-1' }}</span>
@@ -109,30 +77,14 @@
                         <span class="summary-label">MAX</span>
                         <span class="summary-value max">{{ yieldSummary()!.max | number:'1.1-1' }}</span>
                     </div>
+                    <span class="summary-unit">{{ yieldSummary()!.unit }}</span>
                 </div>
             }
-            <app-card-container [title]="'YIELD'" >
+            <app-card-container [title]="'YIELD (' + unitOf('_YIELD') + ')'" >
                 <ng-template #container>
                     @if (dataRealtime() && cardProperty()[2]) {
-                        <div class="w-100 h-100 bz d-flex item">
-                            @for (item of sortedYieldSites(); track item.id;) {
-                                <div class="content h-100">
-                                    <app-stack-chart
-                                    [value]="dataRealtime()[item.id+'_YIELD']?.Value?.toString() || '0'"
-                                    [maxVal]="dataRealtime()[item.id+'_YIELD']?.Max || 100"
-                                    [unit]="dataRealtime()[item.id+'_YIELD']?.Unit || ''"
-                                    [activeColor]="cardProperty()[2].activeColor"
-                                    [bgColor]="cardProperty()[2].bgColor"
-                                    [bdRadius]="cardProperty()[2].bdRadius"
-                                    [rangeVal]="cardProperty()[2].rangeVal"
-                                    [label]="item.id"
-                                    [legend]="cardProperty()[2].legend"
-                                    [verLabel]="cardProperty()[2].verleLabel"
-                                    [height]="100"
-                                    ></app-stack-chart>
-
-                                </div>
-                            }
+                        <div class="chart-box w-100 h-100 bz">
+                            <app-highchart [chartParameter]="yieldChart()"></app-highchart>
                         </div>
                     }
                 </ng-template>
@@ -140,7 +92,7 @@
         </div>
         <div class="row bz">
             @if (insoSummary()) {
-                <div class="summary">
+                <div class="summary ">
                     <div class="summary-item">
                         <span class="summary-label">AVG</span>
                         <span class="summary-value" [style.color]="cardProperty()[3]?.activeColor">{{ insoSummary()!.avg | number:'1.1-1' }}</span>
@@ -155,30 +107,14 @@
                         <span class="summary-label">MAX</span>
                         <span class="summary-value max">{{ insoSummary()!.max | number:'1.1-1' }}</span>
                     </div>
+                    <span class="summary-unit">{{ insoSummary()!.unit }}</span>
                 </div>
             }
-            <app-card-container [title]="'INSOLUTION'" >
+            <app-card-container [title]="'INSOLUTION (' + unitOf('_INSO') + ')'" >
                 <ng-template #container>
                     @if (dataRealtime() && cardProperty()[3]) {
-                        <div class="w-100 h-100 bz d-flex item">
-                            @for (item of sortedInsoSites(); track item.id;) {
-                                <div class="content h-100">
-                                    <app-stack-chart
-                                    [value]="dataRealtime()[item.id+'_INSO']?.Value?.toString() || '0'"
-                                    [maxVal]="dataRealtime()[item.id+'_INSO']?.Max || 10"
-                                    [unit]="dataRealtime()[item.id+'_INSO']?.Unit || ''"
-                                    [activeColor]="cardProperty()[3].activeColor"
-                                    [bgColor]="cardProperty()[3].bgColor"
-                                    [bdRadius]="cardProperty()[3].bdRadius"
-                                    [rangeVal]="cardProperty()[3].rangeVal"
-                                    [label]="item.id"
-                                    [legend]="cardProperty()[3].legend"
-                                    [verLabel]="cardProperty()[3].verleLabel"
-                                    [height]="100"
-                                    ></app-stack-chart>
-
-                                </div>
-                            }
+                        <div class="chart-box w-100 h-100 bz">
+                            <app-highchart [chartParameter]="insoChart()"></app-highchart>
                         </div>
                     }
                 </ng-template>
@@ -186,7 +122,7 @@
         </div>
         <div class="row bz">
             @if (prSummary()) {
-                <div class="summary">
+                <div class="summary ">
                     <div class="summary-item">
                         <span class="summary-label">AVG</span>
                         <span class="summary-value" [style.color]="cardProperty()[4]?.activeColor">{{ prSummary()!.avg | number:'1.1-1' }}</span>
@@ -201,30 +137,14 @@
                         <span class="summary-label">MAX</span>
                         <span class="summary-value max">{{ prSummary()!.max | number:'1.1-1' }}</span>
                     </div>
+                    <span class="summary-unit">{{ prSummary()!.unit }}</span>
                 </div>
             }
-            <app-card-container [title]="'PERFORMANCE'" >
+            <app-card-container [title]="'PERFORMANCE (' + unitOf('_PR') + ')'" >
                 <ng-template #container>
                     @if (dataRealtime() && cardProperty()[4]) {
-                        <div class="w-100 h-100 bz d-flex item">
-                            @for (item of sortedPrSites(); track item.id;) {
-                                <div class="content h-100">
-                                    <app-stack-chart
-                                    [value]="dataRealtime()[item.id+'_PR']?.Value?.toString() || '0'"
-                                    [maxVal]="dataRealtime()[item.id+'_PR']?.Max || 100"
-                                    [unit]="dataRealtime()[item.id+'_PR']?.Unit || ''"
-                                    [activeColor]="cardProperty()[4].activeColor"
-                                    [bgColor]="cardProperty()[4].bgColor"
-                                    [bdRadius]="cardProperty()[4].bdRadius"
-                                    [rangeVal]="cardProperty()[4].rangeVal"
-                                    [label]="item.id"
-                                    [legend]="cardProperty()[4].legend"
-                                    [verLabel]="cardProperty()[4].verleLabel"
-                                    [height]="100"
-                                    ></app-stack-chart>
-
-                                </div>
-                            }
+                        <div class="chart-box w-100 h-100 bz">
+                            <app-highchart [chartParameter]="prChart()"></app-highchart>
                         </div>
                     }
                 </ng-template>
@@ -232,7 +152,7 @@
         </div>
         <div class="row bz">
             @if (availabilitySummary()) {
-                <div class="summary">
+                <div class="summary ">
                     <div class="summary-item">
                         <span class="summary-label">AVG</span>
                         <span class="summary-value" [style.color]="cardProperty()[5]?.activeColor">{{ availabilitySummary()!.avg | number:'1.1-1' }}</span>
@@ -247,30 +167,14 @@
                         <span class="summary-label">MAX</span>
                         <span class="summary-value max">{{ availabilitySummary()!.max | number:'1.1-1' }}</span>
                     </div>
+                    <span class="summary-unit">{{ availabilitySummary()!.unit }}</span>
                 </div>
             }
-            <app-card-container [title]="'AVAILABILITY'" >
+            <app-card-container [title]="'AVAILABILITY (' + unitOf('_AVAI') + ')'" >
                 <ng-template #container>
                     @if (dataRealtime() && cardProperty()[5]) {
-                        <div class="w-100 h-100 bz d-flex item">
-                            @for (item of sortedAvailabilitySites(); track item.id;) {
-                                <div class="content h-100">
-                                    <app-stack-chart
-                                    [value]="dataRealtime()[item.id+'_AVAI']?.Value?.toString() || '0'"
-                                    [maxVal]="dataRealtime()[item.id+'_AVAI']?.Max || 100"
-                                    [unit]="dataRealtime()[item.id+'_AVAI']?.Unit || ''"
-                                    [activeColor]="cardProperty()[5].activeColor"
-                                    [bgColor]="cardProperty()[5].bgColor"
-                                    [bdRadius]="cardProperty()[5].bdRadius"
-                                    [rangeVal]="cardProperty()[5].rangeVal"
-                                    [label]="item.id"
-                                    [legend]="cardProperty()[5].legend"
-                                    [verLabel]="cardProperty()[5].verleLabel"
-                                    [height]="100"
-                                    ></app-stack-chart>
-
-                                </div>
-                            }
+                        <div class="chart-box w-100 h-100 bz">
+                            <app-highchart [chartParameter]="availabilityChart()"></app-highchart>
                         </div>
                     }
                 </ng-template>

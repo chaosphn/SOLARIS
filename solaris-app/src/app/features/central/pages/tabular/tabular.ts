@@ -18,6 +18,7 @@ import { getDateState } from '../../../../store/selectors/date.selectors';
 import { setDateEnable } from '../../../../store/actions/date.actions';
 import { TabularConfigModel } from '../../models/tabular.model';
 import { EventSummaryModel } from '../../../sites/models/event.model';
+import { setLastUpdate } from '../../../../store/actions/last-update.actions';
 
 
 @Component({
@@ -595,9 +596,16 @@ export class Tabular implements OnInit, OnDestroy {
   }
 
   startTimer(dueTimer: number) {
-    this.timers = timer(dueTimer, dueTimer).subscribe(x => {
-      this.updateData();
+    // แจ้งเวลาอัปเดตล่าสุดทันทีที่โหลดเสร็จ แล้วแจ้งซ้ำทุกรอบรีเฟรช
+    this.publishLastUpdate(dueTimer);
+    this.timers = timer(dueTimer, dueTimer).subscribe(async x => {
+      await this.updateData();
+      this.publishLastUpdate(dueTimer);
     });
+  }
+
+  private publishLastUpdate(intervalMs: number){
+    this.store.dispatch(setLastUpdate({ payload: { timestamp: new Date(), intervalMs } }));
   }
 
   async updateData(){
@@ -637,6 +645,30 @@ export class Tabular implements OnInit, OnDestroy {
       } else {
         return "seen-now";
       }
+  }
+
+  /** ไซต์ถือว่า ONLINE เมื่อข้อมูลล่าสุดยังไม่เกินเกณฑ์ stale (60 นาที) */
+  getOnlineStatus(seen: string): 'ONLINE' | 'OFFLINE' {
+    return this.isSeenStale(seen) ? 'OFFLINE' : 'ONLINE';
+  }
+
+  /** ระดับ alarm เป็นข้อความสำหรับไฟล์ export */
+  getAlarmLevel(pointSource: string): string {
+    switch(this.getPlantStatus(pointSource)){
+      case 'major':   return 'MAJOR';
+      case 'minor':   return 'MINOR';
+      case 'warning': return 'WARNING';
+      case 'info':    return 'NORMAL';
+      default:        return 'NO DATA';
+    }
+  }
+
+  /** อธิบาย alarm พร้อมเตือนเมื่อไซต์ offline เพราะค่าที่เห็นเป็นค่าค้างจากรอบสุดท้าย */
+  getAlarmTooltip(pointSource: string, seen: string): string {
+    const level = this.getAlarmLevel(pointSource);
+    return this.isSeenStale(seen)
+      ? `${level}`
+      : level;
   }
 
   isSeenStale(item: string): boolean {
@@ -686,17 +718,24 @@ export class Tabular implements OnInit, OnDestroy {
   }
 
   exportCSV(){
-    const headers = ['CODE','SEEN','SITE','LOCATION','CAPACITY (MWp)','POWER (kW)','ENERGY TODAY (MWh)','ENERGY MTD (MWh)','ENERGY YTD (MWh)','PR (%)','AVAI (%)','LOSS (kWh)','YIELD TODAY (kWh/kWp)','YIELD MTD (kWh/kWp)','YIELD YTD (kWh/kWp)','REVENUE TODAY (THB)','REVENUE MTD (THB)','IRR (W/m2)','PVTEMP (C)','AMBTEMP (C)'];
+    const headers = ['CODE','STATUS','ALARM','LAST UPDATE (GMT+7)','SITE','LOCATION','CAPACITY (MWp)','POWER (kW)','ENERGY TODAY (MWh)','ENERGY MTD (MWh)','ENERGY YTD (MWh)','PR (%)','AVAI (%)','LOSS (kWh)','YIELD TODAY (kWh/kWp)','YIELD MTD (kWh/kWp)','YIELD YTD (kWh/kWp)','REVENUE TODAY (THB)','REVENUE MTD (THB)','IRR (W/m2)','PVTEMP (C)','AMBTEMP (C)'];
     const keys = ['Id','SEEN','Name','Province','Capacity','POWER','ENERGY','ENERGYMTD','ENERGYYTD','PR','AVAI','LOSS','TD','MTD','YTD','REV_TD','REV_MTD','IRR','PV','AMB'];
     const lines = [headers.join(',')];
     this.filteredData().forEach(row => {
-      lines.push(keys.map(k => `"${row[k] ?? ''}"`).join(','));
+      const cells = keys.map(k => {
+        // SEEN เป็น timestamp ต้องแปลงเป็นเวลาไทยก่อนเขียนลงไฟล์
+        const value = k === 'SEEN' ? this.dateTimeSrv.toBangkok(row[k]) : row[k];
+        return `"${value ?? ''}"`;
+      });
+      // แทรกสถานะออนไลน์และระดับ alarm ต่อจากคอลัมน์ CODE
+      cells.splice(1, 0, `"${this.getOnlineStatus(row.SEEN)}"`, `"${this.getAlarmLevel(row.Id)}"`);
+      lines.push(cells.join(','));
     });
     const blob = new Blob(['﻿' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `tabular_${new Date().toISOString().slice(0, 19).replaceAll(':', '-')}.csv`;
+    link.download = `tabular_${this.dateTimeSrv.bangkokFileStamp()}.csv`;
     link.click();
     URL.revokeObjectURL(url);
   }

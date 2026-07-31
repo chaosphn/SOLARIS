@@ -1,4 +1,4 @@
-﻿{
+{
     "realtimeConfig": [
       {
         "Group": "power",
@@ -97,9 +97,10 @@
         "Order": 0,
         "Tags": [
           {
-            "Title": "CHART01_IMPORT",
+            "Title": "SOLAR_IMPORT",
             "Tagname": "KKB.PQM01.W",
             "Options": {
+              "Type": "raw",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -107,9 +108,10 @@
             }
           },
           {
-            "Title": "CHART01_IRR",
+            "Title": "SOLAR_IRR",
             "Tagname": "KKB.CALC.PYRANO",
             "Options": {
+              "Type": "raw",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -117,9 +119,10 @@
             }
           },
           {
-            "Title": "CHART01_POWER",
+            "Title": "SOLAR_POWER",
             "Tagname": "KKB.CALC.W",
             "Options": {
+              "Type": "raw",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -136,6 +139,7 @@
             "Title": "PERFORMANCE_PR",
             "Tagname": "KKB.CALC.PR",
             "Options": {
+              "Type": "raw",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -146,6 +150,7 @@
             "Title": "PERFORMANCE_INSO",
             "Tagname": "KKB.CALC.PYRANO",
             "Options": {
+              "Type": "raw",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -156,6 +161,7 @@
             "Title": "PERFORMANCE_CAPACITY",
             "Tagname": "KKB.CALC.CAPACITY",
             "Options": {
+              "Type": "raw",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -166,6 +172,7 @@
             "Title": "PERFORMANCE_AVAI",
             "Tagname": "KKB.CALC.AVAI",
             "Options": {
+              "Type": "raw",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -182,6 +189,7 @@
             "Title": "ENERGY",
             "Tagname": "KKB.CALC.WH_HOUR",
             "Options": {
+              "Type": "raw",
               "Time": "t",
               "Interval": 0,
               "StartTime": "*-7d",
@@ -192,6 +200,7 @@
             "Title": "LOSS",
             "Tagname": "KKB.CALC.WH_LOSS_HOUR",
             "Options": {
+              "Type": "raw",
               "Time": "t",
               "Interval": 0,
               "StartTime": "*-7d",
@@ -202,6 +211,7 @@
             "Title": "EXPECTED",
             "Tagname": "KKB.CALC.WH_EXPECT_HOUR",
             "Options": {
+              "Type": "raw",
               "Time": "t",
               "Interval": 0,
               "StartTime": "*-7d",
@@ -216,8 +226,10 @@
         "Tags": [
           {
             "Title": "INV01",
-            "Tagname": "KKB.INV01.WH_TODAY",
+            "Tagname": "KKB.INV01.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -226,8 +238,10 @@
           },
           {
             "Title": "INV02",
-            "Tagname": "KKB.INV02.WH_TODAY",
+            "Tagname": "KKB.INV02.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -236,8 +250,10 @@
           },
           {
             "Title": "INV03",
-            "Tagname": "KKB.INV03.WH_TODAY",
+            "Tagname": "KKB.INV03.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -246,8 +262,10 @@
           },
           {
             "Title": "INV04",
-            "Tagname": "KKB.INV04.WH_TODAY",
+            "Tagname": "KKB.INV04.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -256,8 +274,10 @@
           },
           {
             "Title": "INV05",
-            "Tagname": "KKB.INV05.WH_TODAY",
+            "Tagname": "KKB.INV05.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -266,8 +286,10 @@
           },
           {
             "Title": "INV06",
-            "Tagname": "KKB.INV06.WH_TODAY",
+            "Tagname": "KKB.INV06.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -276,8 +298,10 @@
           },
           {
             "Title": "INV07",
-            "Tagname": "KKB.INV07.WH_TODAY",
+            "Tagname": "KKB.INV07.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -286,8 +310,10 @@
           },
           {
             "Title": "INV08",
-            "Tagname": "KKB.INV08.WH_TODAY",
+            "Tagname": "KKB.INV08.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -296,8 +322,10 @@
           },
           {
             "Title": "INV09",
-            "Tagname": "KKB.INV09.WH_TODAY",
+            "Tagname": "KKB.INV09.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -306,8 +334,10 @@
           },
           {
             "Title": "INV10",
-            "Tagname": "KKB.INV10.WH_TODAY",
+            "Tagname": "KKB.INV10.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -316,8 +346,10 @@
           },
           {
             "Title": "INV11",
-            "Tagname": "KKB.INV11.WH_TODAY",
+            "Tagname": "KKB.INV11.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -326,8 +358,10 @@
           },
           {
             "Title": "INV12",
-            "Tagname": "KKB.INV12.WH_TODAY",
+            "Tagname": "KKB.INV12.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -336,8 +370,10 @@
           },
           {
             "Title": "INV13",
-            "Tagname": "KKB.INV13.WH_TODAY",
+            "Tagname": "KKB.INV13.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -346,8 +382,10 @@
           },
           {
             "Title": "INV14",
-            "Tagname": "KKB.INV14.WH_TODAY",
+            "Tagname": "KKB.INV14.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -356,8 +394,10 @@
           },
           {
             "Title": "INV15",
-            "Tagname": "KKB.INV15.WH_TODAY",
+            "Tagname": "KKB.INV15.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -366,8 +406,10 @@
           },
           {
             "Title": "INV16",
-            "Tagname": "KKB.INV16.WH_TODAY",
+            "Tagname": "KKB.INV16.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -376,8 +418,10 @@
           },
           {
             "Title": "INV17",
-            "Tagname": "KKB.INV17.WH_TODAY",
+            "Tagname": "KKB.INV17.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -386,8 +430,10 @@
           },
           {
             "Title": "INV18",
-            "Tagname": "KKB.INV18.WH_TODAY",
+            "Tagname": "KKB.INV18.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -396,8 +442,10 @@
           },
           {
             "Title": "INV19",
-            "Tagname": "KKB.INV19.WH_TODAY",
+            "Tagname": "KKB.INV19.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -406,8 +454,10 @@
           },
           {
             "Title": "INV20",
-            "Tagname": "KKB.INV20.WH_TODAY",
+            "Tagname": "KKB.INV20.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -416,8 +466,10 @@
           },
           {
             "Title": "INV21",
-            "Tagname": "KKB.INV21.WH_TODAY",
+            "Tagname": "KKB.INV21.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -426,8 +478,10 @@
           },
           {
             "Title": "INV22",
-            "Tagname": "KKB.INV22.WH_TODAY",
+            "Tagname": "KKB.INV22.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -436,8 +490,10 @@
           },
           {
             "Title": "INV23",
-            "Tagname": "KKB.INV23.WH_TODAY",
+            "Tagname": "KKB.INV23.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -446,8 +502,10 @@
           },
           {
             "Title": "INV24",
-            "Tagname": "KKB.INV24.WH_TODAY",
+            "Tagname": "KKB.INV24.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -456,8 +514,10 @@
           },
           {
             "Title": "INV25",
-            "Tagname": "KKB.INV25.WH_TODAY",
+            "Tagname": "KKB.INV25.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -466,8 +526,10 @@
           },
           {
             "Title": "INV26",
-            "Tagname": "KKB.INV26.WH_TODAY",
+            "Tagname": "KKB.INV26.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -476,8 +538,10 @@
           },
           {
             "Title": "INV27",
-            "Tagname": "KKB.INV27.WH_TODAY",
+            "Tagname": "KKB.INV27.WH",
             "Options": {
+              "Type": "sampling",
+              "TimeSpan": "*/15 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -495,6 +559,7 @@
           {
             "name": "KKB.CALC.PYRANO",
             "title": "PYRANO*W/m2",
+            "time": "d",
             "options": {
               "yAxis": 0,
               "type": "area",
@@ -506,6 +571,7 @@
           {
             "name": "KKB.CALC.W",
             "title": "POWER*kW",
+            "time": "d",
             "options": {
               "yAxis": 1,
               "type": "area",
@@ -517,6 +583,154 @@
           {
             "name": "KKB.PQM01.W",
             "title": "IMPORT*kW",
+            "time": "d",
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#d1FC",
+              "fillOpacity": 0.125,
+              "showInLegend": true
+            }
+          },
+
+          {
+            "name": "KKB.CALC.PYRANO",
+            "title": "PYRANO*W/m2",
+            "time": "w",
+            "dataType": {
+              "type": "plot",
+              "interval": 15
+            },
+            "options": {
+              "yAxis": 0,
+              "type": "area",
+              "color": "#FF9B33",
+              "fillOpacity": 0.125,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.W",
+            "title": "POWER*kW",
+            "time": "w",
+            "dataType": {
+              "type": "plot",
+              "interval": 15
+            },
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#3DB1FC",
+              "fillOpacity": 0.125,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.PQM01.W",
+            "title": "IMPORT*kW",
+            "time": "w",
+            "dataType": {
+              "type": "plot",
+              "interval": 15
+            },
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#d1FC",
+              "fillOpacity": 0.125,
+              "showInLegend": true
+            }
+          },
+
+          {
+            "name": "KKB.CALC.PYRANO",
+            "title": "PYRANO*W/m2",
+            "time": "m",
+            "dataType": {
+              "type": "plot",
+              "interval": 60
+            },
+            "options": {
+              "yAxis": 0,
+              "type": "area",
+              "color": "#FF9B33",
+              "fillOpacity": 0.125,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.W",
+            "title": "POWER*kW",
+            "time": "m",
+            "dataType": {
+              "type": "plot",
+              "interval": 60
+            },
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#3DB1FC",
+              "fillOpacity": 0.125,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.PQM01.W",
+            "title": "IMPORT*kW",
+            "time": "m",
+            "dataType": {
+              "type": "plot",
+              "interval": 60
+            },
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#d1FC",
+              "fillOpacity": 0.125,
+              "showInLegend": true
+            }
+          },
+
+          {
+            "name": "KKB.CALC.PYRANO",
+            "title": "PYRANO*W/m2",
+            "time": "y",
+            "dataType": {
+              "type": "plot",
+              "interval": 360
+            },
+            "options": {
+              "yAxis": 0,
+              "type": "area",
+              "color": "#FF9B33",
+              "fillOpacity": 0.125,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.W",
+            "title": "POWER*kW",
+            "time": "y",
+            "dataType": {
+              "type": "plot",
+              "interval": 360
+            },
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#3DB1FC",
+              "fillOpacity": 0.125,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.PQM01.W",
+            "title": "IMPORT*kW",
+            "time": "y",
+            "dataType": {
+              "type": "plot",
+              "interval": 360
+            },
             "options": {
               "yAxis": 1,
               "type": "area",
@@ -588,7 +802,6 @@
               "gridLineColor": "var(--chart-brd)",
               "gridLineWidth": 1,
               "max": 1600,
-              "tickInterval": 50,
               "margin": 0,
               "min": 0
             },
@@ -613,8 +826,6 @@
               "lineWidth": 0,
               "gridLineColor": "var(--chart-brd)",
               "gridLineWidth": 0,
-              "max": 6000,
-              "tickInterval": 250,
               "margin": 0,
               "min": 0
             }
@@ -655,6 +866,7 @@
           {
             "name": "KKB.CALC.PYRANO",
             "title": "INSOLATION*Wh/m2",
+            "time": "d",
             "options": {
               "yAxis": 0,
               "type": "area",
@@ -666,6 +878,7 @@
           {
             "name": "KKB.CALC.PR",
             "title": "PERFORMANCE*%",
+            "time": "d",
             "options": {
               "yAxis": 1,
               "type": "area",
@@ -677,6 +890,7 @@
           {
             "name": "KKB.CALC.CAPACITY",
             "title": "CAPACITY*%",
+            "time": "d",
             "options": {
               "yAxis": 1,
               "type": "area",
@@ -688,6 +902,202 @@
           {
             "name": "KKB.CALC.AVAI",
             "title": "AVAILABILITY*%",
+            "time": "d",
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#346AE7",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+
+          {
+            "name": "KKB.CALC.PYRANO",
+            "title": "INSOLATION*Wh/m2",
+            "time": "w",
+            "dataType": {
+              "type": "plot",
+              "interval": 15
+            },
+            "options": {
+              "yAxis": 0,
+              "type": "area",
+              "color": "#DEB266",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.PR",
+            "title": "PERFORMANCE*%",
+            "time": "w",
+            "dataType": {
+              "type": "plot",
+              "interval": 15
+            },
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#10FDD3",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.CAPACITY",
+            "title": "CAPACITY*%",
+            "time": "w",
+            "dataType": {
+              "type": "plot",
+              "interval": 15
+            },
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#FF4F52",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.AVAI",
+            "title": "AVAILABILITY*%",
+            "time": "w",
+            "dataType": {
+              "type": "plot",
+              "interval": 15
+            },
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#346AE7",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+
+          {
+            "name": "KKB.CALC.PYRANO",
+            "title": "INSOLATION*Wh/m2",
+            "time": "m",
+            "dataType": {
+              "type": "plot",
+              "interval": 60
+            },
+            "options": {
+              "yAxis": 0,
+              "type": "area",
+              "color": "#DEB266",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.PR",
+            "title": "PERFORMANCE*%",
+            "time": "m",
+            "dataType": {
+              "type": "plot",
+              "interval": 60
+            },
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#10FDD3",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.CAPACITY",
+            "title": "CAPACITY*%",
+            "time": "m",
+            "dataType": {
+              "type": "plot",
+              "interval": 60
+            },
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#FF4F52",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.AVAI",
+            "title": "AVAILABILITY*%",
+            "time": "m",
+            "dataType": {
+              "type": "plot",
+              "interval": 60
+            },
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#346AE7",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+
+          {
+            "name": "KKB.CALC.PYRANO",
+            "title": "INSOLATION*Wh/m2",
+            "time": "y",
+            "dataType": {
+              "type": "plot",
+              "interval": 360
+            },
+            "options": {
+              "yAxis": 0,
+              "type": "area",
+              "color": "#DEB266",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.PR",
+            "title": "PERFORMANCE*%",
+            "time": "y",
+            "dataType": {
+              "type": "plot",
+              "interval": 360
+            },
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#10FDD3",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.CAPACITY",
+            "title": "CAPACITY*%",
+            "time": "y",
+            "dataType": {
+              "type": "plot",
+              "interval": 360
+            },
+            "options": {
+              "yAxis": 1,
+              "type": "area",
+              "color": "#FF4F52",
+              "fillOpacity": 0.025,
+              "showInLegend": true
+            }
+          },
+          {
+            "name": "KKB.CALC.AVAI",
+            "title": "AVAILABILITY*%",
+            "time": "y",
+            "dataType": {
+              "type": "plot",
+              "interval": 360
+            },
             "options": {
               "yAxis": 1,
               "type": "area",
@@ -825,6 +1235,10 @@
             "name": "KKB.CALC.WH_HOUR",
             "title": "PRODUCE*kWh",
             "time": "d",
+            "dataType": {
+              "type": "sampling",
+              "timespan": "0 * * * *"
+            },
             "options": {
               "yAxis": 0,
               "type": "column",
@@ -838,6 +1252,10 @@
             "name": "KKB.CALC.WH_DAY",
             "title": "PRODUCE*kWh",
             "time": "w",
+            "dataType": {
+              "type": "sampling",
+              "timespan": "0 0 * * *"
+            },
             "options": {
               "yAxis": 0,
               "type": "column",
@@ -851,6 +1269,10 @@
             "name": "KKB.CALC.WH_DAY",
             "title": "PRODUCE*kWh",
             "time": "m",
+            "dataType": {
+              "type": "sampling",
+              "timespan": "0 0 * * *"
+            },
             "options": {
               "yAxis": 0,
               "type": "column",
@@ -864,6 +1286,10 @@
             "name": "KKB.CALC.WH_MONTH",
             "title": "PRODUCE*kWh",
             "time": "y",
+            "dataType": {
+              "type": "sampling",
+              "timespan": "0 0 1 * *"
+            },
             "options": {
               "yAxis": 0,
               "type": "column",
@@ -877,6 +1303,10 @@
             "name": "KKB.CALC.WH_LOSS_HOUR",
             "title": "LOSS*kWh",
             "time": "d",
+            "dataType": {
+              "type": "sampling",
+              "timespan": "0 * * * *"
+            },
             "options": {
               "yAxis": 0,
               "type": "column",
@@ -890,6 +1320,10 @@
             "name": "KKB.CALC.WH_LOSS_DAY",
             "title": "LOSS*kWh",
             "time": "w",
+            "dataType": {
+              "type": "sampling",
+              "timespan": "0 0 * * *"
+            },
             "options": {
               "yAxis": 0,
               "type": "column",
@@ -903,6 +1337,10 @@
             "name": "KKB.CALC.WH_LOSS_DAY",
             "title": "LOSS*kWh",
             "time": "m",
+            "dataType": {
+              "type": "sampling",
+              "timespan": "0 0 * * *"
+            },
             "options": {
               "yAxis": 0,
               "type": "column",
@@ -916,6 +1354,10 @@
             "name": "KKB.CALC.WH_LOSS_MONTH",
             "title": "LOSS*kWh",
             "time": "y",
+            "dataType": {
+              "type": "sampling",
+              "timespan": "0 0 1 * *"
+            },
             "options": {
               "yAxis": 0,
               "type": "column",
@@ -929,6 +1371,10 @@
             "name": "KKB.CALC.WH_EXPECT_HOUR",
             "title": "EXPECTED*kWh",
             "time": "d",
+            "dataType": {
+              "type": "sampling",
+              "timespan": "0 * * * *"
+            },
             "options": {
               "yAxis": 1,
               "type": "line",
@@ -941,6 +1387,10 @@
             "name": "KKB.CALC.WH_EXPECT_DAY",
             "title": "EXPECTED*kWh",
             "time": "w",
+            "dataType": {
+              "type": "sampling",
+              "timespan": "0 0 * * *"
+            },
             "options": {
               "yAxis": 1,
               "type": "line",
@@ -953,6 +1403,10 @@
             "name": "KKB.CALC.WH_EXPECT_DAY",
             "title": "EXPECTED*kWh",
             "time": "m",
+            "dataType": {
+              "type": "sampling",
+              "timespan": "0 0 * * *"
+            },
             "options": {
               "yAxis": 1,
               "type": "line",
@@ -965,6 +1419,10 @@
             "name": "KKB.CALC.WH_EXPECT_MONTH",
             "title": "EXPECTED*kWh",
             "time": "y",
+            "dataType": {
+              "type": "sampling",
+              "timespan": "0 0 1 * *"
+            },
             "options": {
               "yAxis": 1,
               "type": "line",

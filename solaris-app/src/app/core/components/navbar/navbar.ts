@@ -1,10 +1,10 @@
 import { Component, inject, OnInit, OnDestroy, signal, AfterViewInit } from '@angular/core';
 import { SiteModel, SiteStateModel, ZoneModel } from '../../../shared/models/config.model';
 import { DateStateModel, NavbarStateModel } from '../../../shared/models/navigate.model';
-import { Observable, Subscription, timer } from 'rxjs';
+import { filter, Observable, Subscription, timer } from 'rxjs';
 import { AuthService } from '../../../shared/services/auth.service';
 import { HttpService } from '../../../shared/services/http.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { AppInitService } from '../../../shared/services/app-init.service';
 import { Store } from '@ngrx/store';
 import { AppStateModule } from '../../../store/app.state';
@@ -27,6 +27,10 @@ import { EventSummaryModel } from '../../../features/sites/models/event.model';
 import { setEventSummary } from '../../../store/actions/event.actions';
 import { getEventSummary } from '../../../store/selectors/event.selectors';
 import { PagesService } from '../../../shared/services/pages.service';
+import { mapPlantsToSiteState } from '../../../shared/utils/plant-mapper';
+import { getLastUpdateState } from '../../../store/selectors/last-update.selectors';
+import { clearLastUpdate } from '../../../store/actions/last-update.actions';
+import { Datetime } from '../../../shared/services/datetime';
 
 
 @Component({
@@ -51,19 +55,23 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
   user: string | undefined = '';
   role: string | undefined = '';
   sub1?: Subscription;
+  lastUpdateSubscription?: Subscription;
+  routerSubscription?: Subscription;
   dateStateSubscription?: Subscription;
   navStateSubscription?: Subscription;
   toastStateSubscription?: Subscription;
   timerSubscription?: Subscription;
   siteName: string = "";
   timers: number = 10;
-  mode = signal<'dark' | 'light'>('dark');
-  logoUrl = signal<string>('assets/images/logo-dark.png');
+  mode = signal<'dark' | 'light'>('light');
+  logoUrl = signal<string>('assets/images/logo-light.png');
   date: Date = new Date();
   enableDate = signal<boolean>(false);
   enableSite: string[] = [];
   enablePage = signal<string[]>([]);
   woBadge = signal<number>(0);
+  lastUpdate = signal<Date | null>(null);
+  lastUpdateIntervalMs = signal<number | null>(null);
 
   private auth =  inject(AuthService);
   private http =  inject(HttpService);
@@ -72,6 +80,7 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
   private appInit =  inject(AppInitService);
   private store = inject(Store);
   private theme = inject(ThemeService);
+  private dateTimeSrv = inject(Datetime);
   private messageService = inject(MessageService);
   private dialog = inject(FloatingDialogService);
 
@@ -117,21 +126,24 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
     this.sub1 = this.eventSummary$.subscribe(data => {
       this.eventSummary.set(data);
     });
+    this.lastUpdateSubscription = this.store.select(getLastUpdateState).subscribe(state => {
+      this.lastUpdate.set(state.timestamp);
+      this.lastUpdateIntervalMs.set(state.intervalMs);
+    });
+    // ล้างเวลาอัปเดตตอนเปลี่ยนหน้า กันค่าของหน้าก่อนค้างอยู่
+    this.routerSubscription = this.router.events
+      .pipe(filter(e => e instanceof NavigationEnd))
+      .subscribe(() => this.store.dispatch(clearLastUpdate()));
   }
 
   ngOnInit(): void {
     this.initHeadernavState();
     this.user = localStorage.getItem('user') || '---';
     this.role = localStorage.getItem('role') || '---';
-    const theme = localStorage.getItem('theme');
-    if(theme){
-      this.mode.set(theme as 'dark' | 'light');
-      this.theme.setTheme(this.mode() as 'dark' | 'light');
-      this.logoUrl.set(this.mode() === 'dark' ? 'assets/images/logo-dark.png' : 'assets/images/logo-light.png');
-    } else {
-      this.mode.set('dark');
-      this.theme.setTheme('dark');
-    }
+    const theme = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
+    this.mode.set(theme);
+    this.theme.setTheme(theme);
+    this.logoUrl.set(theme === 'dark' ? 'assets/images/logo-dark.png' : 'assets/images/logo-light.png');
     const pages = localStorage.getItem('pages');
     if(pages){
       this.enablePage.set(JSON.parse(pages));
@@ -149,6 +161,7 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
     try {
       const users = await this.http.getUserConfig();
       const me = Array.isArray(users) ? users.find((u: any) => u.username === this.user) : null;
+      //)
       const id = me?._id?.toString();
       if(!id){
         this.woBadge.set(0);
@@ -188,6 +201,8 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
     this.navStateSubscription?.unsubscribe();
     this.toastStateSubscription?.unsubscribe();
     this.sub1?.unsubscribe();
+    this.lastUpdateSubscription?.unsubscribe();
+    this.routerSubscription?.unsubscribe();
     this.timerSubscription?.unsubscribe();
   }
 
@@ -209,6 +224,17 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
           this.store.dispatch(addState({
             payload: {
               name: pgGroup.level,
+              location: 'ALL'
+            }
+          }));
+        }
+        break;
+      case 4:
+        const pgGroup2 = this.pageSrv.getPageGroup(routPage[2]);
+        if(pgGroup2){
+          this.store.dispatch(addState({
+            payload: {
+              name: pgGroup2.level,
               location: 'ALL'
             }
           }));
@@ -238,14 +264,25 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
   async getSiteConfig(){
     const storeData = localStorage.getItem('sites');
     const avaiableSites: string[] = storeData ? JSON.parse(storeData) : [];
-    const config: SiteStateModel = await this.http.getConfig2('assets/sitelist.json');
+    let config: SiteStateModel | null = null;
+    try {
+      const res = await this.http.getMasterPlants(false);
+      if(res?.status === 'success' && res.data && res.data.length > 0){
+        config = mapPlantsToSiteState(res.data.sort((a,b) => a.id - b.id));
+      }
+    } catch (_) {
+      config = null;
+    }
+    if(!config){
+      config = await this.http.getConfig2('assets/sitelist.json');
+    }
     if(config){
       const filterSite: SiteStateModel = {
         ...config,
         zoneList: config.zoneList.map(x => {
           return {
             ...x,
-            siteList: x.siteList.filter(y => avaiableSites.includes(y.id))
+            siteList: x.siteList.filter(y => y.enabled && avaiableSites.includes(y.id))
           }
         })
       }
@@ -475,6 +512,27 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
 
   openDialog() {
     this.dialog.open('assistant');
+  }
+
+  /** เวลาอัปเดตล่าสุดของหน้าปัจจุบัน (เวลาไทย) — ว่างเมื่อหน้านั้นไม่ได้รีเฟรชข้อมูล */
+  lastUpdateText(): string {
+    const ts = this.lastUpdate();
+    if(!ts){
+      return '';
+    }
+    return this.dateTimeSrv.toBangkok(ts);
+  }
+
+  /** ข้อความบอกรอบรีเฟรชของหน้าปัจจุบัน ใช้เป็น tooltip */
+  refreshIntervalText(): string {
+    const ms = this.lastUpdateIntervalMs();
+    if(!ms){
+      return 'Auto refresh';
+    }
+    const seconds = Math.round(ms / 1000);
+    return seconds < 60
+      ? `Auto refresh every ${seconds} sec`
+      : `Auto refresh every ${Math.round(seconds / 60)} min`;
   }
 
   checkPageAvailable(page: string): boolean {

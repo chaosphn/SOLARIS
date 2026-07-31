@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container w-100 h-100">
 
   <!-- ── Detail view ── -->
   @if (selectedWO()) {
@@ -194,7 +194,7 @@
                 </div>
                 <div>
                   <label class="field-label">Due Date</label>
-                  <app-date-picker [initdate]="editForm().due_date ?? today" [type]="'day'"
+                  <app-date-picker [initdate]="editForm().due_date ?? today" [type]="'day'" [maxDate]="null"
                     (selectDate)="patchEditForm({due_date: $event})"></app-date-picker>
                 </div>
               </div>
@@ -522,9 +522,9 @@
           {{ chip.label }}
         </button>
       }
-      <div style="margin-left:auto;display:flex;gap:6px">
-        <!-- <button class="btn-outline" (click)="exportList()"><i class="material-icons">download</i>EXPORT</button> -->
-      </div>
+      <!-- <div style="margin-left:auto;display:flex;gap:6px">
+        <button class="btn-outline" (click)="exportList()"><i class="material-icons">download</i>EXPORT</button>
+      </div> -->
     </div>
 
     <!-- WO list card -->
@@ -533,10 +533,12 @@
         <div class="card-title"><span class="acc amber"></span>WORK ORDERS</div>
         <div style="display:flex;align-items:center;gap:10px">
           <span class="card-sub">{{ filteredWOs().length }} of {{ workOrders().length }}</span>
-          <button class="btn-primary" (click)="showForm.set(!showForm())">
-            <i class="material-icons">{{ showForm() ? 'close' : 'add' }}</i>
-            {{ showForm() ? 'CANCEL' : 'NEW WO' }}
-          </button>
+          @if (role() === 'administrator') {
+            <button class="btn-primary" (click)="showForm.set(!showForm())">
+              <i class="material-icons">{{ showForm() ? 'close' : 'add' }}</i>
+              {{ showForm() ? 'CANCEL' : 'NEW WO' }}
+            </button>
+          }
         </div>
       </div>
 
@@ -632,7 +634,7 @@
           </div>
           <div>
             <label class="field-label">Due Date *</label>
-            <app-date-picker [initdate]="form().due_date ?? today" [type]="'day'"
+            <app-date-picker [initdate]="form().due_date ?? today" [type]="'day'" [maxDate]="null"
               (selectDate)="patchForm({due_date: $event})"></app-date-picker>
           </div>
         </div>
@@ -694,8 +696,9 @@
 
         <div class="form-footer">
           <button class="btn-outline" (click)="cancelNewWO()">CANCEL</button>
-          <button class="btn-primary" (click)="submitNewWO()" [disabled]="!form().title">
-            <i class="material-icons">check</i>CREATE WORK ORDER
+          <button class="btn-primary" (click)="submitNewWO()">
+            <i class="material-icons">check</i>
+            <div class="bz">CREATE WORK ORDER</div>
           </button>
         </div>
       </div>

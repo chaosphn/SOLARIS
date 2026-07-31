@@ -4,7 +4,7 @@ import { HttpService } from '../../../../shared/services/http.service';
 import { Store } from '@ngrx/store';
 import { AppInitService } from '../../../../shared/services/app-init.service';
 import { Datetime } from '../../../../shared/services/datetime';
-import { firstValueFrom, Observable, Subscription, timer } from 'rxjs';
+import { firstValueFrom, Observable, Subscription, take, timer } from 'rxjs';
 import { NavbarStateModel } from '../../../../shared/models/navigate.model';
 import { GroupRequestAtTimeModel, GroupRequestHistorianModel, GroupRequestRealtimeModel, RequestAtTimeModel } from '../../../../shared/models/request.model';
 import { DataHistorianModel, DataRealtimeModel, ResponseHistorianModel, ResponseRealtimeModel } from '../../../../shared/models/response.model';
@@ -18,6 +18,7 @@ import { MapConfigModel } from '../../../../shared/models/svg.model';
 import { PlantStatusData } from '../../../../shared/components/piechart/piechart';
 import { setDateEnable } from '../../../../store/actions/date.actions';
 import { ColorRangeModel, PanelConfigModel } from '../../../../shared/models/panel.model';
+import { setLastUpdate } from '../../../../store/actions/last-update.actions';
 
 @Component({
   selector: 'app-layout',
@@ -34,6 +35,8 @@ export class Layout implements OnInit, OnDestroy {
     historianConfig: [],
     chartConfig: []
   });
+
+  loadingRealtimeData = signal<Boolean>(false);
 
   requestRealtime = signal<GroupRequestRealtimeModel[]>([]);
   requestAttime = signal<GroupRequestAtTimeModel[]>([]);
@@ -55,7 +58,7 @@ export class Layout implements OnInit, OnDestroy {
   zoneSelected = signal<string>('overall');
   mapConfig = signal<MapConfigModel>({} as MapConfigModel);
   plantStatusData = computed(() => {
-    if(this.dataRealtime()){
+    if(this.dataRealtime() && this.loadingRealtimeData()){
       const invs = this.config().realtimeConfig.filter(x => x.Group.includes('inverter')).map(x => x.Group.replace('inverter', '')); 
       const normal = invs.filter(x => this.dataRealtime()?.[ 'INV' + x + '_STATUS']?.Value > 799 || this.dataRealtime()?.[ 'INV' + x + '_STATUS']?.Value < 699).length;
       const fault = invs.filter(x => this.dataRealtime?.()[ 'INV' + x + '_STATUS']?.Value < 799 && this.dataRealtime?.()[ 'INV' + x + '_STATUS']?.Value > 699 && this.dataRealtime?.()[ 'INV' + x + '_STATUS']?.Value != 771).length;
@@ -63,7 +66,7 @@ export class Layout implements OnInit, OnDestroy {
       const data: PlantStatusData[] = [
         { label: 'INV NORMAL', count: normal || 0, percentage: (normal/invs.length*100) || 0, color: '#00E396', unit: 'Unit' },
         { label: 'INV FAULT', count: fault || 0, percentage: (fault/invs.length*100) || 0, color: '#FEB019', unit: 'Unit' },
-        { label: 'INV FCOM', count: fcom || 0, percentage: (fcom/invs.length*100) || 0, color: '#FF4F52', unit: 'Unit' }
+        { label: 'INV OFFLINE', count: fcom || 0, percentage: (fcom/invs.length*100) || 0, color: '#FF4F52', unit: 'Unit' }
       ];
       return data;
     } else {
@@ -163,7 +166,11 @@ export class Layout implements OnInit, OnDestroy {
 
   private async loadFromStoreIfExists(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.storeSub = this.store.select(LayoutSelectors.selectLayoutState).subscribe(state => {
+      // take(1) — อ่านค่าจาก store ครั้งเดียวตอนเข้าหน้า ไม่ให้ subscription ค้าง
+      // แล้วเขียนข้อมูลทับทุกครั้งที่มี dispatch ตามมา
+      this.storeSub = this.store.select(LayoutSelectors.selectLayoutState)
+        .pipe(take(1))
+        .subscribe(state => {
         let hasData = false;
         
         // Check if config exists and load it
@@ -383,6 +390,7 @@ export class Layout implements OnInit, OnDestroy {
       if (res) {
         this.store.dispatch(LayoutActions.loadLayoutRealtimeDataSuccess({ data: this.dataRealtime() }));
       }
+      this.loadingRealtimeData.set(true);
     }
   }
 
@@ -473,12 +481,20 @@ export class Layout implements OnInit, OnDestroy {
   }
 
   startTimer(dueTimer: number) {
-    this.timers = timer(dueTimer, dueTimer).subscribe(x => {
-      this.updateData();
+    // แจ้งเวลาอัปเดตล่าสุดทันทีที่โหลดเสร็จ แล้วแจ้งซ้ำทุกรอบรีเฟรช
+    this.publishLastUpdate(dueTimer);
+    this.timers = timer(dueTimer, dueTimer).subscribe(async x => {
+      await this.updateData();
+      this.publishLastUpdate(dueTimer);
     });
   }
 
+  private publishLastUpdate(intervalMs: number){
+    this.store.dispatch(setLastUpdate({ payload: { timestamp: new Date(), intervalMs } }));
+  }
+
   async updateData(){
+    this.loadingRealtimeData.set(false);
     await this.getRealtimeData();
     //await this.getAtTimeData();
     await this.getHistorianData();

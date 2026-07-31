@@ -10,11 +10,11 @@
         },
         {
           "Title": "ENERGY",
-          "Tagname": "KKB.CALC.WH_TODAY"
+          "Tagname": "KKB.CALC.WH_DAY"
         },
         {
           "Title": "YIELD",
-          "Tagname": "KKB.CALC.YIELD_DAY"
+          "Tagname": "KKB.CALC.YIELD"
         },
         {
           "Title": "PR",
@@ -48,7 +48,7 @@
         },
         {
           "Title": "REDUCTION",
-          "Tagname": "KKB.CALC.CARBON_DAY"
+          "Tagname": "OVERALL.CALC.CARBON"
         }
       ]
     },

@@ -107,6 +107,23 @@ body {
     margin-block: .5em;
 }
 
+/* ป้ายชื่อ KPI ที่มีไอคอนอธิบาย ต้องไม่ถูก overflow:hidden ของหน้านั้นตัดไอคอนทิ้ง */
+.l:has(app-info-hint),
+.label:has(app-info-hint) {
+    overflow: visible !important;
+    text-overflow: clip !important;
+}
+
+/* Tooltip อธิบายวิธีคำนวณ (app-info-hint) — ต้องขึ้นบรรทัดใหม่ตาม \n และกว้างพอให้อ่านสูตรได้ */
+.calc-hint-tooltip .mdc-tooltip__surface {
+    white-space: pre-line !important;
+    max-width: 340px !important;
+    text-align: left !important;
+    font-size: 11.5px !important;
+    line-height: 1.5 !important;
+    padding: 8px 10px !important;
+}
+
 /* Print: show only the work-order report paper */
 @media print {
   html, body { height: auto !important; overflow: visible !important; background: #fff !important; }

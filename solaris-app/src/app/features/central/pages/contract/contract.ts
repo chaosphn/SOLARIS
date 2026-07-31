@@ -130,7 +130,7 @@ export class Contract implements OnInit, OnDestroy {
     };
   });
 
-  // สรุป warranty ปีปัจจุบัน: มูลค่ารับประกัน (energy_delivery × tariff), หน่วย warranty,
+  // สรุป warranty ปีปัจจุบัน: มูลค่ารับประกัน (ppa_guaranteed_supply × tariff), หน่วย warranty,
   // หน่วยที่ผลิตจริงปีนี้ (WH_YEAR) และ % delivered
   warrantyYear = computed(() => {
     const sla = this.slaData();
@@ -138,7 +138,7 @@ export class Contract implements OnInit, OnDestroy {
     const rows = this.tableRows().filter(x =>
       x.parsed &&
       x.parsed.currentRate != null &&
-      sla[x.site.id]?.energy_delivery != null
+      sla[x.site.id]?.financial_model_yield != null
     );
 
     let estTotal = 0;         // ฿ รับประกันปีนี้
@@ -146,7 +146,7 @@ export class Contract implements OnInit, OnDestroy {
     let producedEnergy = 0;   // kWh
 
     for (const x of rows) {
-      const energyDelivery = sla[x.site.id].energy_delivery!;
+      const energyDelivery = sla[x.site.id].financial_model_yield!;
       estTotal += energyDelivery * x.parsed!.currentRate!;
       warrantyEnergy += energyDelivery;
       const produced = realtime[`${x.site.id}_WH_YEAR`]?.Value;
@@ -211,6 +211,7 @@ export class Contract implements OnInit, OnDestroy {
       location: plant.location ?? '',
       position: { lat: plant.position_lat ?? 0, lng: plant.position_long ?? 0 },
       capacity: plant.capacity != null ? plant.capacity.toString() : '0',
+      capacity_dc: plant.capacity_dc != null ? plant.capacity_dc.toString() : undefined,
       cod: plant.cod ?? ''
     };
   }

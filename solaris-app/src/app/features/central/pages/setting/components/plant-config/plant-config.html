@@ -15,7 +15,8 @@
             <th>Site ID</th>
             <th>Name</th>
             <th>Company</th>
-            <th>Capacity</th>
+            <th>Capacity AC</th>
+            <th>Capacity DC</th>
             <th>Group</th>
             <th>COD</th>
             <th>Status</th>
@@ -29,6 +30,7 @@
               <td>{{ plant.name }}</td>
               <td>{{ plant.company }}</td>
               <td>{{ plant.capacity }} MWp</td>
+              <td>{{ plant.capacity_dc != null ? plant.capacity_dc + ' MWp' : '---' }}</td>
               <td>{{ plant.group }}</td>
               <td>{{ plant.cod | date: 'dd/MM/yyyy'}}</td>
               <td>

@@ -5,15 +5,14 @@ import { Subscription, timer } from 'rxjs';
 import { SiteModel } from '../../../../shared/models/config.model';
 import { PlantSlaModel } from '../../../../shared/models/masterdata.model';
 import { AppInitService } from '../../../../shared/services/app-init.service';
+import { ChartService } from '../../../../shared/services/chart.service';
+import { ChartParameters } from '../../../../shared/models/highchart.model';
 import { BillingConfigModel } from '../../models/billing.model';
 import { buildSlaAnalytics, MONTH_LABELS } from '../../models/sla-compliance.model';
 import { PpaDataLoader } from '../../services/ppa-data-loader';
 import {
   selectPpaSiteList, selectPpaBillingConfigs, selectPpaSlaData, selectPpaRealtimeData, selectPpaMonthlyEnergy
 } from '../../store/selectors/ppa.selector';
-
-// พิกัด SVG trend
-const TX0 = 40, TX1 = 852, TY0 = 14, TY1 = 160, TVMIN = 88, TVMAX = 112;
 
 @Component({
   selector: 'app-sla-compliance',
@@ -26,6 +25,7 @@ export class SlaCompliance implements OnInit, OnDestroy {
   private store = inject(Store);
   private ppaLoader = inject(PpaDataLoader);
   private appInit = inject(AppInitService);
+  private chartSrv = inject(ChartService);
 
   siteList = toSignal(this.store.select(selectPpaSiteList), { initialValue: [] as SiteModel[] });
   billingConfigs = toSignal(this.store.select(selectPpaBillingConfigs), { initialValue: [] as BillingConfigModel[] });
@@ -42,16 +42,31 @@ export class SlaCompliance implements OnInit, OnDestroy {
     this.siteList(), this.slaData(), this.realtimeData(), this.monthlyEnergy(), this.billingConfigs(), this.date
   ));
 
-  // trend points (SVG)
-  trendPoints = computed(() => {
-    const t = this.analytics().trend;
-    return t.map((v, i) => {
-      const x = TX0 + (TX1 - TX0) * (i / 11);
-      const y = v == null ? null : TY1 - ((Math.min(TVMAX, Math.max(TVMIN, v)) - TVMIN) / (TVMAX - TVMIN)) * (TY1 - TY0);
-      return { x: Math.round(x), y: y == null ? null : Math.round(y), v, month: MONTH_LABELS[i] };
-    });
+  // trend chart (Highcharts)
+  trendChart = computed<ChartParameters>(() => {
+    const a = this.analytics();
+    return {
+      chart: this.chartSrv.getChartOptions({ margin: [10, 12, 30, 50] }),
+      xAxis: { categories: MONTH_LABELS, lineColor: 'var(--chart-brd)', tickColor: 'var(--chart-brd)', labels: { style: { color: 'var(--secondary-txt)', fontSize: '10px' } } } as any,
+      yAxis: [{
+        title: { text: null }, gridLineColor: 'var(--chart-brd)', min: 50, max: 200,
+        labels: { style: { color: 'var(--secondary-txt)', fontSize: '10px' } },
+        plotLines: [
+          { value: 100, color: '#4CAF82', dashStyle: 'Dash', width: 1, zIndex: 3 },
+          { value: a.energyTarget, color: '#E05D4E', dashStyle: 'Dash', width: 1, zIndex: 3 }
+        ]
+      }] as any,
+      legend: { enabled: false } as any,
+      tooltip: {
+        shared: true, backgroundColor: 'var(--chart-tlp)', borderWidth: 0,
+        style: { color: 'var(--primary-txt)', fontSize: '11px' }, valueDecimals: 1, valueSuffix: '%'
+      } as any,
+      plotOptions: { series: { animation: false } } as any,
+      series: [
+        { type: 'spline', name: 'Energy compliance', data: a.trend, color: '#E4B61A', marker: { enabled: true, radius: 3 } }
+      ] as any
+    };
   });
-  trendLine = computed(() => this.trendPoints().filter(p => p.y != null).map(p => `${p.x},${p.y}`).join(' '));
 
   // ───────── lifecycle ─────────
   async ngOnInit(): Promise<void> {

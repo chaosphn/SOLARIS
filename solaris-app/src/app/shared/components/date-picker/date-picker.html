@@ -2,10 +2,11 @@
     @switch (type) {
         @case ('month') {
             <mat-form-field class="date-field">
-                <input 
-                    matInput 
+                <input
+                    matInput
                     [matDatepicker]="monthPicker"
                     [(ngModel)]="selectedDate"
+                    [max]="maxDate"
                     [id]="uniqueId"
                     readonly
                 />
@@ -20,10 +21,11 @@
         }
         @case ('year') {
             <mat-form-field class="date-field">
-                <input 
-                    matInput 
+                <input
+                    matInput
                     [matDatepicker]="yearPicker"
                     [(ngModel)]="selectedDate"
+                    [max]="maxDate"
                     [id]="uniqueId"
                     readonly
                 />
@@ -44,6 +46,7 @@
                         [matDatepicker]="datetimePicker"
                         [(ngModel)]="selectedDate"
                         (dateChange)="onDateSelect($event)"
+                        [max]="maxDate"
                         [id]="uniqueId"
                         readonly
                     />
@@ -69,6 +72,7 @@
                     [matDatepicker]="dayPicker"
                     [(ngModel)]="selectedDate"
                     (dateChange)="onDateSelect($event)"
+                    [max]="maxDate"
                     [id]="uniqueId"
                     readonly
                 />

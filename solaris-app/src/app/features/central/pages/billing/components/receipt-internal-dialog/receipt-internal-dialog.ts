@@ -119,7 +119,7 @@ export class ReceiptInternalDialog implements OnInit {
           timestamp: this.data.timestamp,
           pointsource: this.data.siteId,
           process: 'receipt',
-          type: 'unsigned'
+          type: 'signed'
         }
       );
       if(blob instanceof Blob && blob.size > 0) {

@@ -107,16 +107,16 @@
                                                    [disabled]="userRole() !== 'administrator'" min="2020" max="2099" placeholder="YYYY" />
                                         }
                                         @if (globalConfig().meterType !== 'tou') {
-                                            <input class="col-cost" type="number" step="0.001"
+                                            <input class="col-cost" type="number" min="0" step="0.001"
                                                     [(ngModel)]="entry.cost"
                                                     [disabled]="userRole() !== 'administrator'"
                                                     placeholder="0.000" />
                                         } @else {
-                                            <input class="col-cost" type="number" step="0.001"
+                                            <input class="col-cost" type="number" min="0" step="0.001"
                                                     [(ngModel)]="entry.onpeak"
                                                     [disabled]="userRole() !== 'administrator'"
                                                     placeholder="0.000" />
-                                            <input class="col-cost" type="number" step="0.001"
+                                            <input class="col-cost" type="number" step="0.001" min="0"
                                                     [(ngModel)]="entry.offpeak"
                                                     [disabled]="userRole() !== 'administrator'"
                                                     placeholder="0.000" />
@@ -142,7 +142,7 @@
                                             ENERGY COST
                                         </div>
                                         <div class="text-field">
-                                            <input type="number" step="0.0001" [(ngModel)]="globalConfig().energyCost" />
+                                            <input type="number" min="0" step="0.0001" [(ngModel)]="globalConfig().energyCost" />
                                         </div>
                                     </div>
                                 } -->
@@ -155,7 +155,7 @@
                                             ONPEAK ENERGY COST
                                         </div>
                                         <div class="text-field">
-                                            <input type="number" step="0.0001" [(ngModel)]="globalConfig().onpeakCost" />
+                                            <input type="number" min="0" step="0.0001" [(ngModel)]="globalConfig().onpeakCost" />
                                         </div>
                                     </div>
                                 }
@@ -167,7 +167,7 @@
                                             OFFPEAK ENERGY COST
                                         </div>
                                         <div class="text-field">
-                                            <input type="number" step="0.0001" [(ngModel)]="globalConfig().offpeakCost" />
+                                            <input type="number" min="0" step="0.0001" [(ngModel)]="globalConfig().offpeakCost" />
                                         </div>
                                     </div>
                                 } -->
@@ -179,7 +179,7 @@
                                         DISCOUNT COST
                                     </div>
                                     <div class="text-field">
-                                        <input type="number" step="0.0001" [(ngModel)]="globalConfig().discountRate" />
+                                        <input type="number" min="0" step="0.0001" [(ngModel)]="globalConfig().discountRate" />
                                     </div>
                                 </div>
 
@@ -189,7 +189,7 @@
                                         FT COST
                                     </div>
                                     <div class="text-field">
-                                        <input type="number" step="0.0001" [(ngModel)]="globalConfig().ftRate" />
+                                        <input type="number" min="0" step="0.0001" [(ngModel)]="globalConfig().ftRate" />
                                     </div>
                                 </div>
                                 @if (globalConfig().billingMode === 'auto') {
@@ -314,13 +314,28 @@
                                             <div class="icon-group ">
                                                 <i class="material-icons">arrow_forward</i>
                                             </div> -->
-                                            <div class="form-group">
+                                            <!-- <div class="form-group">
                                                 <label>Validated By (Accounting)</label>
                                                 <mat-select multiple [(ngModel)]="globalConfig().receipt_account" class="user-select">
                                                     @for (user of userList(); track user._id) {
                                                         <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
                                                     }
                                                 </mat-select>
+                                            </div> -->
+                                            <div class="form-group">
+                                                <label>Validated By (Accounting)</label>
+                                                <div class="d-flex" style="gap: 8px;">
+                                                    <mat-select [ngModel]="globalConfig().receipt_account?.[0]" (ngModelChange)="setRecieptAccount(0, $event)" class="user-select">
+                                                        @for (user of userList(); track user._id) {
+                                                            <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                                        }
+                                                    </mat-select>
+                                                    <mat-select [ngModel]="globalConfig().receipt_account?.[1]" (ngModelChange)="setRecieptAccount(1, $event)" class="user-select">
+                                                        @for (user of userList(); track user._id) {
+                                                            <mat-option [value]="user._id">{{ user.username|| user.fullname  }}</mat-option>
+                                                        }
+                                                    </mat-select>
+                                                </div>
                                             </div>
                                             <div class="icon-group ">
                                                 <i class="material-icons">arrow_forward</i>

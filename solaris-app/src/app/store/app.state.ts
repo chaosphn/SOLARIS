@@ -15,6 +15,7 @@ import { diagramReducer } from '../features/sites/store/reducers/diagram.reducer
 import { toastReducer } from './reducers/toaster.reducer';
 import { tabularReducer } from '../features/central/store/reducers/tabular.reducer';
 import { ppaReducer } from '../features/central/store/reducers/ppa.reducer';
+import { lastUpdateReducer } from './reducers/last-update.reducer';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { ppaReducer } from '../features/central/store/reducers/ppa.reducer';
       dashboard: dashboardReducer,
       efficiency: efficiencyReducer,
       diagram: diagramReducer,
-      toast: toastReducer
+      toast: toastReducer,
+      lastUpdate: lastUpdateReducer
     })
     // or for feature module:
     // StoreModule.forFeature('nav', navReducer)

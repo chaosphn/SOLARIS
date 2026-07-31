@@ -122,6 +122,7 @@ export class PpaDataLoader {
     const curYear = now.getFullYear();
 
     const slaByYear: Record<string, Record<number, PlantSlaModel>> = {};
+    let histStart = curYear;   // ปีเริ่มเร็วสุดของ portfolio — ใช้กำหนดช่วงโหลด actual รายปี
 
     // ยิงทีละ site ตามลำดับ
     for (const s of sites) {
@@ -136,6 +137,7 @@ export class PpaDataLoader {
           endYear = parsed.endDate.getFullYear();
         }
       }
+      histStart = Math.min(histStart, startYear);
 
       // start เผื่อ 1 ปี (record ปี Y เก็บ timestamp ต้นปี local = ปลายปี Y-1 UTC เหมือน loadSla)
       const body: FindSlaByDateRequest = {
@@ -159,7 +161,49 @@ export class PpaDataLoader {
     }
 
     this.store.dispatch(PpaActions.setPpaSlaByYear({ slaByYear }));
+    await this.loadYearlyEnergy(sites, histStart, curYear);
     this.store.dispatch(PpaActions.setPpaSlaHistoryTimestamp({ slaHistoryTimestamp: new Date() }));
+  }
+
+  /**
+   * actual energy รายปี (ปีที่ผ่านมาแล้ว) — รวม WH_MONTH 12 เดือนของแต่ละปี
+   * pattern เดียวกับ loadMonthlyEnergy (ปีปัจจุบันหน้าอ่านจาก monthlyEnergy อยู่แล้ว)
+   */
+  private async loadYearlyEnergy(sites: SiteModel[], startYear: number, curYear: number): Promise<void> {
+    const config = await this.getConfig();
+    const group = config.historianConfig.find(g => g.Group === 'monthlyEnergy');
+    const tag = group?.Tags.find(t => t.Title === 'WH_MONTH');
+    if (sites.length === 0 || !tag || startYear >= curYear) {
+      this.store.dispatch(PpaActions.setPpaYearlyEnergy({ yearlyEnergy: {} }));
+      return;
+    }
+
+    const tags = sites.map(s => tag.Tagname.replace('{SITE}', s.id));
+    const period = tag.Options.StartTime || 'BOM';
+
+    const jobs: Promise<void>[] = [];
+    const byYearMonth: Record<number, Record<string, (number | null)[]>> = {};
+    for (let y = startYear; y < curYear; y++) {
+      const energy: Record<string, (number | null)[]> = {};
+      sites.forEach(s => energy[s.id] = new Array(12).fill(null));
+      byYearMonth[y] = energy;
+      for (let m = 0; m < 12; m++) {
+        const ts = this.dateTimeSrv.getTime(period, new Date(y, m, 1));
+        jobs.push(this.fetchMonthEnergy(tags, ts, m, energy));
+      }
+    }
+    await Promise.all(jobs);
+
+    const yearlyEnergy: Record<string, Record<number, number | null>> = {};
+    sites.forEach(s => yearlyEnergy[s.id] = {});
+    for (let y = startYear; y < curYear; y++) {
+      for (const s of sites) {
+        const months = byYearMonth[y][s.id];
+        const has = months.some(v => v != null);
+        yearlyEnergy[s.id][y] = has ? months.reduce((sum: number, v) => sum + (v ?? 0), 0) : null;
+      }
+    }
+    this.store.dispatch(PpaActions.setPpaYearlyEnergy({ yearlyEnergy }));
   }
 
   private async loadRealtime(sites: SiteModel[], config: PageConfigModel): Promise<void> {
@@ -233,6 +277,7 @@ export class PpaDataLoader {
       location: plant.location ?? '',
       position: { lat: plant.position_lat ?? 0, lng: plant.position_long ?? 0 },
       capacity: plant.capacity != null ? plant.capacity.toString() : '0',
+      capacity_dc: plant.capacity_dc != null ? plant.capacity_dc.toString() : undefined,
       cod: plant.cod ?? ''
     };
   }

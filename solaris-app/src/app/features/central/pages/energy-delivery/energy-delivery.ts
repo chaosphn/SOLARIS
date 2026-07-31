@@ -55,15 +55,15 @@ export class EnergyDelivery implements OnInit, OnDestroy {
     const year = this.date.getFullYear();
     const curMonth = this.date.getMonth();
 
-    // site ที่มี warranty (SLA energy_delivery) = มีข้อผูกพันส่งมอบ
-    const tracked = sites.filter(s => sla[s.id]?.energy_delivery != null);
+    // site ที่มี warranty (SLA ppa_guaranteed_supply) = มีข้อผูกพันส่งมอบ
+    const tracked = sites.filter(s => sla[s.id]?.financial_model_yield != null);
 
     // portfolio รายเดือน: actual (kWh) และ contracted (warranty/12)
     const monthlyActual: (number | null)[] = new Array(12).fill(null);
     const monthlyContracted: number[] = new Array(12).fill(0);
     for (let m = 0; m < 12; m++) {
       let contracted = 0;
-      for (const s of tracked) { contracted += sla[s.id].energy_delivery! / 12; }
+      for (const s of tracked) { contracted += sla[s.id].financial_model_yield! / 12; }
       monthlyContracted[m] = contracted;
       if (m <= curMonth) {
         let act = 0, any = false;
@@ -98,7 +98,7 @@ export class EnergyDelivery implements OnInit, OnDestroy {
     let ytdShortfall = 0, ytdPenalty = 0;
     for (const s of tracked) {
       const cfg = configs.find(c => c.siteId === s.id);
-      const contractedM = sla[s.id].energy_delivery! / 12;
+      const contractedM = sla[s.id].financial_model_yield! / 12;
       for (let m = 0; m <= curMonth; m++) {
         const act = energy[s.id]?.[m];
         if (act == null) { continue; }
@@ -112,7 +112,7 @@ export class EnergyDelivery implements OnInit, OnDestroy {
 
     // rows (ครบทุก site, เดือนนี้)
     const rows: SiteComplianceRow[] = sites.map(s => {
-      const contractedAnnual = sla[s.id]?.energy_delivery;
+      const contractedAnnual = sla[s.id]?.financial_model_yield;
       const avai = rt[`${s.id}_AVAI`] ?? null;
       if (contractedAnnual == null) {
         return { siteId: s.id, siteName: s.name, actual: null, contracted: null, achievement: null, availability: avai, availWarranty: null, shortfall: 0, penalty: 0, status: 'none' as const, spark: [] };
@@ -145,7 +145,7 @@ export class EnergyDelivery implements OnInit, OnDestroy {
 
     // heatmap: ครบทุก site เรียงตาม id — ช่องที่ไม่มีค่า = null (n/a เทา)
     const heatmap: HeatmapRow[] = [...sites].map(s => {
-      const contractedAnnual = sla[s.id]?.energy_delivery;
+      const contractedAnnual = sla[s.id]?.financial_model_yield;
       const contractedM = contractedAnnual != null ? contractedAnnual / 12 : null;
       const cells: (number | null)[] = [];
       for (let m = 0; m < 12; m++) {
@@ -235,6 +235,11 @@ export class EnergyDelivery implements OnInit, OnDestroy {
   toGWh(kwh: number | null): string {
     if (kwh == null) { return '---'; }
     return (kwh / 1e6).toFixed(2);
+  }
+
+  toMWh(kwh: number | null): string {
+    if (kwh == null) { return '---'; }
+    return (kwh / 1e3).toFixed(1);
   }
 
   formatShort(value: number | null): string {

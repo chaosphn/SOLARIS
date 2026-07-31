@@ -36,6 +36,37 @@ export class Datetime {
       }
   }
 
+  /**
+   * แปลงเวลาเป็นข้อความโซนกรุงเทพ (UTC+7) สำหรับไฟล์ export และการแสดงผล
+   * คืน '' เมื่อค่าว่างหรือแปลงไม่ได้ เพื่อไม่ให้ไฟล์ export มีคำว่า Invalid Date
+   */
+  toBangkok(date: Date | string | null | undefined, withSeconds: boolean = true): string {
+    if (date === null || date === undefined || date === '' || date === '---') {
+      return '';
+    }
+    const d = date instanceof Date ? date : new Date(date);
+    if (isNaN(d.getTime())) {
+      return '';
+    }
+    const parts = d.toLocaleString('en-GB', {
+      timeZone: 'Asia/Bangkok',
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit',
+      ...(withSeconds ? { second: '2-digit' as const } : {}),
+      hour12: false
+    });
+    // en-GB ให้รูปแบบ dd/MM/yyyy, HH:mm:ss — ตัดคอมมาออกให้อ่านง่ายในไฟล์ CSV
+    return parts.replace(',', '');
+  }
+
+  /** ชื่อไฟล์ export ที่ปลอดภัยกับ Windows: yyyy-MM-dd_HH-mm-ss ตามเวลาไทย */
+  bangkokFileStamp(date: Date = new Date()): string {
+    const t = this.toBangkok(date);          // dd/MM/yyyy HH:mm:ss
+    const [d, time] = t.split(' ');
+    const [dd, mm, yyyy] = d.split('/');
+    return `${yyyy}-${mm}-${dd}_${(time || '').replaceAll(':', '-')}`;
+  }
+
   getDateTime1(date: Date | string): string {
       if (typeof date === 'string') {
           const newDateTime = this.datePipe.transform(new Date(date), 'yyyy-MM-dd HH:mm:ss');
@@ -116,9 +147,9 @@ export class Datetime {
       }
       else if (p === 'eod') {
           const dateTime = date ? new Date(date) : new Date();
-          dateTime.setDate(dateTime.getDate() + 1);
-          dateTime.setHours(0);
-          dateTime.setMinutes(0);
+          dateTime.setDate(dateTime.getDate());
+          dateTime.setHours(23);
+          dateTime.setMinutes(59);
           dateTime.setSeconds(0);
           dateTime.setMilliseconds(0);
           const dtres = this.getDateTime1(dateTime);

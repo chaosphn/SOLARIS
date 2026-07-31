@@ -58,12 +58,12 @@
     padding: 16px;
     //overflow-y: scroll;
     //overflow-x: scroll;
-    max-height: 80vh;
+    max-height: calc(100vh - 186px);
 }
 .ref-box{
     overflow-y: hidden;
     overflow-x: auto;
-    max-height: 80vh;
+    max-height: calc(100vh - 186px);
 }
 .table{
     border-collapse: collapse;
@@ -75,7 +75,7 @@
     .row-group{
         border: 1px solid var(--border-color);
         border-top: none;
-        max-height: 650px;
+        max-height: calc(100vh - 290px);
         overflow-y: auto;
         overflow-x: visible;
         min-width: 100%;

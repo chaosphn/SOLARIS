@@ -1106,10 +1106,10 @@ export class Billing implements OnInit, OnDestroy {
         break;
       case 'payment':
           if(item.payment_status === 'customer_paid' || item.payment_status === 'wait_for_payment'){
-            const userCanApprove = [...globalConfig.receipt_account, ...siteConfig.receipt_account];
-            const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
+            const userCanApprove = siteConfig.receipt_account.length > 0 ? siteConfig.receipt_account[0] : globalConfig.receipt_account[0];
+            const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove === user._id);
             if(hasPrivilege){
-              if(this.userRole() === 'administrator' && !(user && userCanApprove.includes(user._id))){
+              if(this.userRole() === 'administrator' && !(user && userCanApprove === user._id)){
                 this.sendingTextMessage('warn', 'You do not have permission to approve this payment information');
               }
               this.openPaymentConfirmationDialog(row);
@@ -1121,10 +1121,10 @@ export class Billing implements OnInit, OnDestroy {
         break;
       case 'receipt':
         if(item.reciept_status === 'prepared'){
-          const userCanApprove = [...globalConfig.receipt_account, ...siteConfig.receipt_account];
-          const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove.includes(user._id));
+          const userCanApprove = siteConfig.receipt_account.length > 0 ? siteConfig.receipt_account[1] : globalConfig.receipt_account[1];
+          const hasPrivilege = this.userRole() === 'administrator' || (user && userCanApprove === user._id);
           if(hasPrivilege){
-            if(this.userRole() === 'administrator' && !(user && userCanApprove.includes(user._id))){
+            if(this.userRole() === 'administrator' && !(user && userCanApprove === user._id)){
                 this.sendingTextMessage('warn', 'You do not have permission to approve this receipt');
               }
             this.openReceiptInternalDialog(row);

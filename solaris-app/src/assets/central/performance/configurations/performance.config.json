@@ -7,6 +7,10 @@
           {
             "Title": "KKB_ENERGY",
             "Tagname": "KKB.CALC.WH_DAY"
+          },
+          {
+            "Title": "KMD_ENERGY",
+            "Tagname": "KMD.CALC.WH_DAY"
           }
         ]
       },

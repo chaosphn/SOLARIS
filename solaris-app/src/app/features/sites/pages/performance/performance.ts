@@ -4,7 +4,7 @@ import { HttpService } from '../../../../shared/services/http.service';
 import { Store } from '@ngrx/store';
 import { AppInitService } from '../../../../shared/services/app-init.service';
 import { Datetime } from '../../../../shared/services/datetime';
-import { firstValueFrom, Observable, Subscription, timer } from 'rxjs';
+import { firstValueFrom, Observable, Subscription, take, timer } from 'rxjs';
 import { NavbarStateModel } from '../../../../shared/models/navigate.model';
 import { GroupRequestAtTimeModel, GroupRequestHistorianModel, GroupRequestRealtimeModel, RequestAtTimeModel, RequestHistorianModel } from '../../../../shared/models/request.model';
 import { DataHistorianModel, DataRealtimeModel, ResponseHistorianModel, ResponseRealtimeModel } from '../../../../shared/models/response.model';
@@ -18,7 +18,8 @@ import { MapConfigModel } from '../../../../shared/models/svg.model';
 import { PlantStatusData } from '../../../../shared/components/piechart/piechart';
 import { setDateEnable } from '../../../../store/actions/date.actions';
 import { ColorRangeModel, PanelConfigModel } from '../../../../shared/models/panel.model';
-import { ChartPickerModel } from '../../../../shared/components/chart-card/chart-card';
+import { ChartPickerModel, ChartRangeState, isDefaultChartRange } from '../../../../shared/components/chart-card/chart-card';
+import { setLastUpdate } from '../../../../store/actions/last-update.actions';
 
 
 @Component({
@@ -65,12 +66,16 @@ export class Performance implements OnInit, OnDestroy {
   })
 
   loadingChart = signal<string>('');
+  /** ช่วงเวลาที่แต่ละกราฟกำลังแสดงอยู่ key = ชื่อ group เช่น { SOLAR: { start, end, mode } } */
+  chartTimeRange = signal<Record<string, ChartRangeState>>({});
+  /** token ของ request ล่าสุดต่อกราฟ ใช้ทิ้ง response ที่มาช้ากว่าเมื่อกดเปลี่ยนวันรัวๆ */
+  private chartRequestToken: Record<string, number> = {};
   zoneSelected = signal<string>('overall');
   mapConfig = signal<MapConfigModel>({} as MapConfigModel);
   plantStatusData = signal<PlantStatusData[]>([
     { label: 'INV NORMAL', count: 60, percentage: 60, color: '#10FDD3', unit: 'unit' },
     { label: 'INV ERROR', count: 25, percentage: 25, color: '#DEB266', unit: 'unit' },
-    { label: 'INV FCOM', count: 15, percentage: 15, color: '#FF4F52', unit: 'unit' }
+    { label: 'INV OFFLINE', count: 15, percentage: 15, color: '#FF4F52', unit: 'unit' }
   ]);
 
   timers?: Subscription;
@@ -139,6 +144,9 @@ export class Performance implements OnInit, OnDestroy {
     this.dataHistorian.set({});
     this.panelList.set([]);
     this.colorRange.set([]);
+    // เข้าหน้าใหม่/สลับไซต์ ให้กราฟกลับไปเป็นช่วงเริ่มต้น (วันนี้)
+    this.chartTimeRange.set({});
+    this.chartRequestToken = {};
     //this.plantStatusData.set([]);
     //this.store.dispatch(EfficiencyActions.resetEfficiencyState());
   }
@@ -165,7 +173,11 @@ export class Performance implements OnInit, OnDestroy {
 
   private async loadFromStoreIfExists(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.storeSub = this.store.select(EfficiencySelectors.selectEfficiencyState).subscribe(state => {
+      // take(1) สำคัญมาก — ถ้าปล่อยให้ subscription ค้าง ทุก dispatch หลังจากนี้
+      // จะเขียน dataChart ทับด้วยค่าจาก store ทำให้ช่วงเวลาที่ผู้ใช้เลือกบนกราฟหายไป
+      this.storeSub = this.store.select(EfficiencySelectors.selectEfficiencyState)
+        .pipe(take(1))
+        .subscribe(state => {
         let hasData = false;
         
         // Check if config exists and load it
@@ -299,6 +311,9 @@ export class Performance implements OnInit, OnDestroy {
           return {
             Name: x.Tagname,
             Options: {
+              // ส่ง Type/TimeSpan ต่อไปด้วย เพื่อรองรับ config แบบ sampling / plot
+              Type: x.Options.Type,
+              TimeSpan: x.Options.TimeSpan ?? undefined,
               Interval: x.Options.Interval ?? undefined,
               Time: x.Options.Time??'',
               StartTime: x.Options.Time.length > 0 ? '' : this.dateTimeSrv.getTime(x.Options.StartTime),
@@ -408,11 +423,20 @@ export class Performance implements OnInit, OnDestroy {
     }
   }
 
-  async getHistorianData(){
-    if (this.requestHistorian() && this.requestHistorian().length > 0) {
-      const result = this.requestHistorian().map(async(item) => {
+  /**
+   * @param skipCustomRange true = ข้ามกราฟที่ผู้ใช้เลือกช่วงเวลาเอง (ใช้ตอน auto-refresh)
+   *        เพื่อไม่ให้ข้อมูลของวันที่เลือกไว้ถูกข้อมูลวันนี้เขียนทับ
+   */
+  async getHistorianData(skipCustomRange = false){
+    const requests = skipCustomRange
+      ? this.requestHistorian().filter(item => isDefaultChartRange(this.chartTimeRange()[item.Group]))
+      : this.requestHistorian();
+
+    if (requests && requests.length > 0) {
+      const result = requests.map(async(item) => {
         const request = item.Request;
-        const response:ResponseHistorianModel[] = await this.http.getHistorian(request);
+        // ใช้ endpoint รวม (getdata) เพื่อให้รองรับทั้ง raw / sampling / plot ตาม Options.Type
+        const response:ResponseHistorianModel[] = await this.http.getAllHistorianData(request);
         if(response){
           // สร้าง object ใหม่แทนการ update
           this.dataChart.update(val => {
@@ -420,24 +444,41 @@ export class Performance implements OnInit, OnDestroy {
             const newVal = { ...val };
             let conf = this.config().chartConfig.find(x => x.name == item.Group);
             let series: SeriesOptionsType[] | SeriesLineOptions[] | SeriesAreaOptions[] | SeriesColumnOptions[] | any[] = []; 
+            let tooltip = undefined;
             if(conf){
               if(conf?.chartOptions?.xAxis?.categories){
+                let unit = ''
                 const categorie = conf?.chartOptions?.xAxis?.categories || [];
                 let serie = {
                   type: 'column',
                   name: '',
                   data: categorie.map((x: any) => {
-                    const tag = this.config().historianConfig.find(x => x.Group == item.Group)?.Tags.find(y => y.Title == x);
-                    const resData = response.find(d => d.Name == tag?.Tagname)?.records || [];
-                    const value = resData[resData.length - 1];
-                    if(value?.Value){
-                      return value.Value;
+                    let tag = this.config().historianConfig.find(x => x.Group == item.Group)?.Tags.find(y => y.Title == x);
+                    let tagUnit = response.find(d => d.Name == tag?.Tagname)?.Unit;
+                    if(tagUnit){
+                      unit = tagUnit;
+                    }
+                    let resData = response.find(d => d.Name == tag?.Tagname)?.records || [];
+                    let value = resData[resData.length - 1];
+                    let first = resData[0].Value??0;
+                    let last = resData[resData.length - 1].Value??0;
+                    //console.log(tag?.Tagname, first, last)
+                    if(parseFloat(last) - parseFloat(first) > 0){
+                      return parseFloat(last) - parseFloat(first);
                     } else {
                       return 0;
                     };
                   })
                 };
-                series.push(serie)
+                series.push(serie);
+                tooltip = {
+                  shared: false,
+                  backgroundColor: 'var(--chart-tlp)',
+                  borderWidth: 0,
+                  style: { color: 'var(--primary-txt)', fontSize: '11px' },
+                  valueSuffix: unit ? ` ${unit}` : '',
+                  valueDecimals: 2
+                } as any
               } else {
                 conf.tags
                   .filter(x => !x.time || x.time === 'd')
@@ -500,6 +541,23 @@ export class Performance implements OnInit, OnDestroy {
                             }
                           })
                           val = count > 0 ? total / count : 0;
+                        } else if(pl.value && pl.value == 'diffValue'){
+                          // หา average จาก series data
+                          let first = 0;
+                          let last = 0;
+                          series.forEach(s => {
+                            if(s.data && Array.isArray(s.data)){
+                              first = typeof s.data[0] === 'number' ? s.data[0] : 0;
+                              last = typeof s.data[s.data.length - 1] === 'number' ? s.data[s.data.length - 1] : 0;
+                              // s.data.forEach((d: any) => {
+                              //   if(typeof d === 'number'){
+                              //     total += d;
+                              //     count++;
+                              //   }
+                              // });
+                            }
+                          })
+                          val = last - first > 0 ? last - first : 0;
                         }
                         const label = pl.label?.text.replace('{value}', val.toFixed(2));
                         return {
@@ -521,6 +579,7 @@ export class Performance implements OnInit, OnDestroy {
                 }),
                 legend: this.chartOptions.getLegendOptions(conf.chartOptions.legend),
                 plotOptions: this.chartOptions.getPlotOptions(conf.chartOptions.plotOptions),
+                tooltip: tooltip,
                 series: [...series] // Clone array
               };
             }
@@ -551,15 +610,22 @@ export class Performance implements OnInit, OnDestroy {
   }
 
   startTimer(dueTimer: number) {
-    this.timers = timer(dueTimer, dueTimer).subscribe(x => {
-      this.updateData();
+    // แจ้งเวลาอัปเดตล่าสุดทันทีที่โหลดเสร็จ แล้วแจ้งซ้ำทุกรอบรีเฟรช
+    this.publishLastUpdate(dueTimer);
+    this.timers = timer(dueTimer, dueTimer).subscribe(async x => {
+      await this.updateData();
+      this.publishLastUpdate(dueTimer);
     });
+  }
+
+  private publishLastUpdate(intervalMs: number){
+    this.store.dispatch(setLastUpdate({ payload: { timestamp: new Date(), intervalMs } }));
   }
 
   async updateData(){
     await this.getRealtimeData();
     //await this.getAtTimeData();
-    await this.getHistorianData();
+    await this.getHistorianData(true);
   }
 
   async onChartUpdate(data: ChartPickerModel){
@@ -568,6 +634,16 @@ export class Performance implements OnInit, OnDestroy {
     if(findRequest && conf){
       this.loadingChart.set(data.name);
 
+      // จำช่วงเวลาที่กราฟใบนี้เลือกไว้ เพื่อให้ auto-refresh ข้ามกราฟนี้ไป
+      this.chartTimeRange.update(val => ({
+        ...val,
+        [data.name]: { start: data.start, end: data.end, mode: data.mode }
+      }));
+
+      // กดเปลี่ยนวันรัวๆ อาจได้ response ไม่เรียงลำดับ จึงยึดเฉพาะ request ล่าสุดของกราฟนี้
+      const token = Date.now();
+      this.chartRequestToken[data.name] = token;
+
       const filteredTags = conf.tags.filter(x => !x.time || x.time === data.mode);
 
       const req: RequestHistorianModel[] = conf?.chartOptions?.xAxis?.categories
@@ -575,42 +651,67 @@ export class Performance implements OnInit, OnDestroy {
             ...x,
             Options: { ...x.Options, Time: '', StartTime: this.dateTimeSrv.getDateTime1(data.start), EndTime: this.dateTimeSrv.getDateTime1(data.end) }
           }))
-        : filteredTags.map(tag => ({
-            Name: tag.name,
-            Options: {
-              Interval: findRequest.Request.find(r => r.Name === tag.name)?.Options?.Interval,
-              Time: '',
-              StartTime: this.dateTimeSrv.getDateTime1(data.start),
-              EndTime: this.dateTimeSrv.getDateTime1(data.end)
-            }
-          }));
+        : filteredTags.map(tag => {
+            const fallback = findRequest.Request.find(r => r.Name === tag.name)?.Options;
+            return {
+              Name: tag.name,
+              Options: {
+                // อ่าน dataType ของ tag ตามโหมดที่เลือกก่อน (plot/sampling)
+                // ถ้าไม่ได้ตั้งไว้จึงถอยไปใช้ค่าจาก historianConfig
+                Type: tag.dataType?.type ?? fallback?.Type,
+                Interval: tag.dataType?.interval ?? fallback?.Interval,
+                TimeSpan: tag.dataType?.timespan ?? fallback?.TimeSpan,
+                Time: '',
+                StartTime: this.dateTimeSrv.getDateTime1(data.start),
+                EndTime: this.dateTimeSrv.getDateTime1(data.end)
+              }
+            };
+          });
 
-      const response:ResponseHistorianModel[] = await this.http.getHistorian(req);
-      if(response){
+      try {
+      // ใช้ endpoint รวม (getdata) เพื่อให้ dataType ของแต่ละโหมด (plot/sampling) มีผลจริง
+      const response:ResponseHistorianModel[] = await this.http.getAllHistorianData(req);
+      if(response && this.chartRequestToken[data.name] === token){
         // สร้าง object ใหม่แทนการ update
         this.dataChart.update(val => {
           // Clone object เดิมก่อน
           const newVal = { ...val };
-
+          let tooltip = undefined;
           let series: SeriesOptionsType[] | SeriesLineOptions[] | SeriesAreaOptions[] | SeriesColumnOptions[] | any[] = [];
           if(conf){
             if(conf?.chartOptions?.xAxis?.categories){
+              let unit = ''
               const categorie = conf?.chartOptions?.xAxis?.categories || [];
               let serie = {
                 type: 'column',
                 name: '',
                 data: categorie.map((x: any) => {
                   const tag = this.config().historianConfig.find(x => x.Group == data.name)?.Tags.find(y => y.Title == x);
-                  const resData = response.find(d => d.Name == tag?.Tagname)?.records || [];
-                  const value = resData[resData.length - 1];
-                  if(value?.Value){
-                    return parseFloat(value.Value.replaceAll(',', ''));
+                  let tagUnit = response.find(d => d.Name == tag?.Tagname)?.Unit;
+                  if(tagUnit){
+                    unit = tagUnit;
+                  }
+                  let resData = response.find(d => d.Name == tag?.Tagname)?.records || [];
+                  let value = resData[resData.length - 1];
+                  let first = resData[0].Value??0;
+                  let last = resData[resData.length - 1].Value??0;
+                  //console.log(tag?.Tagname, first, last)
+                  if(parseFloat(last) - parseFloat(first) > 0){
+                    return parseFloat(last) - parseFloat(first);
                   } else {
                     return 0;
                   };
                 })
               };
-              series.push(serie)
+              series.push(serie);
+              tooltip = {
+                shared: false,
+                backgroundColor: 'var(--chart-tlp)',
+                borderWidth: 0,
+                style: { color: 'var(--primary-txt)', fontSize: '11px' },
+                valueSuffix: unit ? ` ${unit}` : '',
+                valueDecimals: 2
+              } as any;
             } else {
               filteredTags.forEach((x) => {
                 let data = response.find(d => d.Name == x.name);
@@ -694,6 +795,7 @@ export class Performance implements OnInit, OnDestroy {
               }),
               legend: this.chartOptions.getLegendOptions(conf.chartOptions.legend),
               plotOptions: this.chartOptions.getPlotOptions(conf.chartOptions.plotOptions),
+              tooltip: tooltip,
               series: [...series] // Clone array
             };
           }
@@ -712,7 +814,12 @@ export class Performance implements OnInit, OnDestroy {
           this.responseHistorian.update(val => [...val, data]);
         });
       }
-      this.loadingChart.set('');
+      } finally {
+        // ปลด loading เสมอ ไม่งั้น API พังแล้วกราฟค้าง skeleton ตลอด
+        if(this.chartRequestToken[data.name] === token){
+          this.loadingChart.set('');
+        }
+      }
     }
   }
 

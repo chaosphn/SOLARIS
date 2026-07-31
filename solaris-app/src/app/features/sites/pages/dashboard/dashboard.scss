@@ -9,6 +9,7 @@
         "inverterCard inverterCard inverterCard inverterCard"
     ;
     grid-gap: 16px; 
+    height: 100%;
     max-height: calc(100vh - 106px);
     overflow-y: auto;
 }
@@ -17,9 +18,19 @@
 .powerCard { grid-area: powerCard; }
 .produceCard { grid-area: produceCard; }
 .weatherCard { grid-area: weatherCard; }
+/*
+ * grid item มี min-width/min-height เป็น auto = ยืดตามเนื้อหาข้างใน
+ * ถ้าลูก (เช่น Highcharts ที่ยังไม่ reflow หลังย่อการ์ด) ใหญ่เกินช่อง track จะถูกดันจน layout บาน
+ * บังคับเป็น 0 ให้ช่องคุมขนาดเอง — วางไว้ก่อนกฎรายการ์ดเพื่อให้ min-height ที่ระบุเจาะจงยังชนะ
+ */
+.container > * {
+    min-width: 0;
+    min-height: 0;
+}
+
 .solarCard { grid-area: solarCard; }
 .energyCard { grid-area: energyCard; }
-.inverterCard { grid-area: inverterCard; }
+.inverterCard { grid-area: inverterCard; min-height: 260px; }
 
 
 @media (max-width: 1700px) {

@@ -35,10 +35,10 @@ export class AuthService {
 
     async login(username: string, password: string) {
         try {
-            const result: AuthRespondModel = await this.http.authentication(username, password);
+            const result: AuthRespondModel = await this.http.authenticateUser(username, password);
             if(result && result.Access.Token){
                 localStorage.setItem('token', result.Access.Token);
-                localStorage.setItem('refreshtoken', result?.Access?.RefreshToken??'');
+                sessionStorage.setItem('refreshtoken', result?.Access?.RefreshToken??'');
                 localStorage.setItem('role', result?.Access?.Role??'');
                 localStorage.setItem('user', username);
                 // let pageAccess = result.Access.Pages.map(x => {

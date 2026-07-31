@@ -1,0 +1,31 @@
+.no-data-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 80px;
+    box-sizing: border-box;
+    padding: 8px;
+
+    .nd-icon {
+        font-size: 28px;
+        color: var(--secondary-txt);
+        opacity: 0.55;
+    }
+
+    .nd-text {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--secondary-txt);
+    }
+
+    .nd-hint {
+        font-size: 11px;
+        color: var(--secondary-txt);
+        opacity: 0.75;
+        text-align: center;
+    }
+}

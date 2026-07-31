@@ -6,6 +6,7 @@ import { sendMessage } from '../../../../../../store/actions/toaster.actions';
 import { ConfirmDialog, ConfirmDialogData } from '../../../../../../shared/components/confirm-dialog/confirm-dialog';
 import { PlantInformationModel, PlantSlaModel } from '../../../../../../shared/models/masterdata.model';
 import { SiteModel, SiteStateModel } from '../../../../../../shared/models/config.model';
+import { Datetime } from '../../../../../../shared/services/datetime';
 
 @Component({
   selector: 'app-plant-sla-config',
@@ -51,6 +52,7 @@ export class PlantSlaConfig implements OnInit {
   private store = inject(Store);
   private dialog = inject(MatDialog);
   private service = inject(HttpService);
+  private dateTimeSrv = inject(Datetime);
 
   ngOnInit(): void {
     const role = localStorage.getItem('role');
@@ -61,11 +63,7 @@ export class PlantSlaConfig implements OnInit {
   }
 
   async getSiteConfig(): Promise<void> {
-    const config: SiteStateModel = await this.service.getConfig2('assets/sitelist.json');
-    if (config) {
-      const zonselected = config.zoneList.map(x => x.siteList).flat(1);
-      if (zonselected) this.siteList.set(zonselected);
-    }
+    this.siteList.set(await this.service.getMasterSiteList());
   }
 
   getSiteNameById(siteId: string | null | undefined): string {
@@ -95,11 +93,18 @@ export class PlantSlaConfig implements OnInit {
       id: 0,
       siteid: '',
       timestamp: '',
-      energy_delivery: undefined,
       availability: undefined,
       performance: undefined,
       capex: undefined,
-      opex: undefined
+      opex: undefined,
+      p50_yield: undefined,
+      p90_yield: undefined,
+      epc_energy_charge: undefined,
+      epc_yield_guarantee: undefined,
+      ppa_guaranteed_supply: undefined,
+      ppa_expected_consumption: undefined,
+      ppa_energy_charge: undefined,
+      financial_model_yield: undefined
     } as PlantSlaModel;
   }
 
@@ -107,6 +112,11 @@ export class PlantSlaConfig implements OnInit {
     if (!timestamp) return '';
     const y = new Date(timestamp).getFullYear();
     return Number.isFinite(y) ? String(y) : String(timestamp).slice(0, 4);
+  }
+
+  /** เวลาแก้ไขล่าสุดจาก backend เป็น UTC — แสดงเป็นเวลาไทยให้ผู้ใช้ */
+  formatUpdatedAt(timestamp?: string): string {
+    return this.dateTimeSrv.toBangkok(timestamp) || '---';
   }
 
   openAddSlaModal(): void {

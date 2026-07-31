@@ -1120,6 +1120,46 @@
                 "factor": 1,
                 "groupOrder": 21,
                 "groupName": "STRING VOLTAGE"
+            },
+            {
+                "name": "ALL",
+                "scale": "ALARM",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 21,
+                "groupName": "STATUS & ALARM"
+            },
+            {
+                "name": "DSTATUS",
+                "scale": "STATUS",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 21,
+                "groupName": "STATUS & ALARM"
+            },
+            {
+                "name": "ALARM1",
+                "scale": "ALARM",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 21,
+                "groupName": "STATUS & ALARM"
+            },
+            {
+                "name": "ALARM2",
+                "scale": "ALARM",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 21,
+                "groupName": "STATUS & ALARM"
+            },
+            {
+                "name": "ALARM3",
+                "scale": "ALARM",
+                "dp": 0,
+                "factor": 1,
+                "groupOrder": 21,
+                "groupName": "STATUS & ALARM"
             }
             
         ]
@@ -1347,6 +1387,9 @@
             { "name": "RUNTIME", "scale": "RUNTIME", "uom": "h", "dp": 1, "factor": 1, "groupOrder": 1, "groupName": "AVAILABILITY" },
             { "name": "DOWNTIME", "scale": "DOWNTIME", "uom": "h", "dp": 1, "factor": 1, "groupOrder": 2, "groupName": "AVAILABILITY" },
             { "name": "AVAI", "scale": "AVAI", "uom": "%", "dp": 1, "factor": 1, "groupOrder": 3, "groupName": "AVAILABILITY" },
+            { "name": "AVAI_DAY", "scale": "AVAI", "uom": "%", "dp": 1, "factor": 1, "groupOrder": 3, "groupName": "AVAILABILITY" },
+            { "name": "AVAI_MONTH", "scale": "AVAI", "uom": "%", "dp": 1, "factor": 1, "groupOrder": 3, "groupName": "AVAILABILITY" },
+            { "name": "AVAI_YEAR", "scale": "AVAI", "uom": "%", "dp": 1, "factor": 1, "groupOrder": 3, "groupName": "AVAILABILITY" },
             { "name": "STATUS", "scale": "STATUS", "uom": "", "dp": 0, "factor": 1, "groupOrder": 4, "groupName": "AVAILABILITY" },
             { "name": "WH_LOSS", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 1, "groupName": "LOSS" },
             { "name": "WH_LOSS_HOUR", "scale": "WH", "uom": "kWh", "dp": 0, "factor": 1, "groupOrder": 2, "groupName": "LOSS" },

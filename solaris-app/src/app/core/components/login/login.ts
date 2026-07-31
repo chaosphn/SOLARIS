@@ -30,6 +30,7 @@ export class Login implements OnInit {
   }
 
    async login(): Promise<any> {
+    this.clearContext();
     if(this.form.username != '' && this.form.password != ''){
       try {
         const username = this.form.username?.toString() || '';
@@ -70,6 +71,11 @@ export class Login implements OnInit {
 
   changeClass() {
     this.animateClass = 'invalidcheck';
+  }
+
+  clearContext(){
+    this.animateClass = '';
+    this.invalidText = '       ';
   }
 
  

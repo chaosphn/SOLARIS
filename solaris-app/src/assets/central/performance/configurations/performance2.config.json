@@ -8,6 +8,11 @@
             "Title": "KKB_ENERGY",
             "Timestamp": "BOD",
             "Tagname": "KKB.CALC.WH_DAY"
+          },
+          {
+            "Title": "KMD_ENERGY",
+            "Timestamp": "BOD",
+            "Tagname": "KMD.CALC.WH_DAY"
           }
         ]
       },

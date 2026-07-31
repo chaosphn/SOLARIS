@@ -92,13 +92,7 @@ export class UserConfig implements OnInit {
   }
 
   async getSiteConfig(){
-    const config: SiteStateModel = await this.service.getConfig2('assets/sitelist.json');
-    if(config){
-      const zonselected = config.zoneList.map(x => x.siteList).flat(1);
-      if(zonselected){
-        this.siteList.set(zonselected);
-      }
-    }
+    this.siteList.set(await this.service.getMasterSiteList());
   }
 
   openAddUserModal(): void {

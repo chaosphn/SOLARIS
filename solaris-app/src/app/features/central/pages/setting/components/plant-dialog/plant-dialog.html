@@ -72,18 +72,22 @@
       <div class="form-row">
         <div class="form-group">
           <label for="latInput">Latitude</label>
-          <input id="latInput" type="number" step="any" [(ngModel)]="plantData().position_lat" placeholder="16.3345" class="form-control">
+          <input id="latInput" type="number" min="-90" max="90" step="any" [(ngModel)]="plantData().position_lat" placeholder="16.3345" class="form-control">
         </div>
         <div class="form-group">
           <label for="lngInput">Longitude</label>
-          <input id="lngInput" type="number" step="any" [(ngModel)]="plantData().position_long" placeholder="102.8241" class="form-control">
+          <input id="lngInput" type="number" min="-180" max="180" step="any" [(ngModel)]="plantData().position_long" placeholder="102.8241" class="form-control">
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
           <label for="capacityInput">Capacity (MWp)</label>
-          <input id="capacityInput" type="number" step="any" [(ngModel)]="plantData().capacity" placeholder="4.219" class="form-control">
+          <input id="capacityInput" type="number" min="0" step="any" [(ngModel)]="plantData().capacity" placeholder="4.219" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="capacityDcInput">Capacity DC (MWp)</label>
+          <input id="capacityDcInput" type="number" min="0" step="any" [(ngModel)]="plantData().capacity_dc" placeholder="5.062" class="form-control">
         </div>
         <div class="form-group">
           <label for="codInput">COD</label>

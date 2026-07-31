@@ -3,34 +3,34 @@
         <!-- KPI strip -->
         <div class="kpi-strip w-100 bz">
             <div class="k bz" style="border-top-color: #FBE134">
-                <div class="l">BLENDED TARIFF · NOW</div>
+                <div class="l">BLENDED TARIFF · NOW<app-info-hint hint="blended-tariff-now"></app-info-hint></div>
                 <div class="v y">{{ fmtRate(analytics().blendedNow) }}<span class="u"> ฿/kWh</span></div>
                 <div class="d dim">weighted by warranty energy</div>
             </div>
             <div class="k bz" style="border-top-color: #4DA3FF">
-                <div class="l">NEXT ESCALATION</div>
+                <div class="l">NEXT ESCALATION<app-info-hint hint="next-escalation"></app-info-hint></div>
                 @if (analytics().nextEscalation) {
                     <div class="v">{{ fmtMonthKey(analytics().nextEscalation!.monthKey) }}</div>
                     <div class="d g">{{ analytics().nextEscalation!.siteId }} {{ fmtPct(analytics().nextEscalation!.pct) }} → {{ fmtRate(analytics().nextEscalation!.to) }} ฿</div>
                 } @else { <div class="v">—</div> <div class="d dim">no upcoming step</div> }
             </div>
             <div class="k bz">
-                <div class="l">AVG ANNUAL ESCALATION</div>
+                <div class="l">AVG ANNUAL ESCALATION<app-info-hint hint="avg-annual-escalation"></app-info-hint></div>
                 <div class="v">{{ fmtPct(analytics().avgAnnualEscalationPct) }}<span class="u"> /yr</span></div>
                 <div class="d dim">PPA · CAGR of blended</div>
             </div>
             <div class="k bz">
-                <div class="l">TARIFF RANGE</div>
+                <div class="l">TARIFF RANGE<app-info-hint hint="tariff-range"></app-info-hint></div>
                 <div class="v">{{ fmtRate(analytics().minRate) }}–{{ fmtRate(analytics().maxRate) }}</div>
                 <div class="d dim">฿/kWh across contracts</div>
             </div>
             <div class="k bz" style="border-top-color: #4CAF82">
-                <div class="l">LIFETIME GROWTH</div>
+                <div class="l">LIFETIME GROWTH<app-info-hint hint="lifetime-growth"></app-info-hint></div>
                 <div class="v g">{{ fmtPct(analytics().lifetimeGrowthPct) }}</div>
                 <div class="d dim">first → last period</div>
             </div>
             <div class="k bz">
-                <div class="l">CONTRACT TYPES</div>
+                <div class="l">CONTRACT TYPES<app-info-hint hint="contract-types"></app-info-hint></div>
                 <div class="v">{{ analytics().ppaCount }}<span class="u"> PPA</span> · {{ analytics().floatingCount }}<span class="u"> FLT</span></div>
                 <div class="d dim">escalating vs floating</div>
             </div>

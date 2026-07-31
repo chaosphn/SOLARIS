@@ -24,6 +24,7 @@ export interface PlantInformationModel {
     position_lat?: number;
     position_long?: number;
     capacity?: number;
+    capacity_dc?: number;
     cod?: string;
     group?: string;
     created_at?: string;
@@ -63,11 +64,22 @@ export interface PlantSlaModel {
     id: number;
     siteid: string;
     timestamp: string;
-    energy_delivery?: number;
     availability?: number;
     performance?: number;
     capex?: number;
     opex?: number;
+    // Design
+    p50_yield?: number;
+    p90_yield?: number;
+    // EPC contract
+    epc_energy_charge?: number;
+    epc_yield_guarantee?: number;
+    // PPA contract
+    ppa_guaranteed_supply?: number;
+    ppa_expected_consumption?: number;
+    ppa_energy_charge?: number;
+    // Financial model
+    financial_model_yield?: number;
     created_at?: string;
     updated_at?: string;
     updated_by?: string;

@@ -1,23 +1,10 @@
 <div class="container w-100 h-100 bz">
     @if (data() && property()[0]) {
-        <div class="w-100 h-100 bz d-flex item">
-            @for (item of inverter(); track $index;) {
-                <div class="content h-100">
-                    <app-stack-chart
-                    [value]="data()[item+'_'+selectedInverter()?.prefix]?.Value?.toString() || '0'"
-                    [maxVal]="data()[item+'_'+selectedInverter()?.prefix]?.Max || 0"
-                    [unit]="data()[item+'_'+selectedInverter()?.prefix]?.Unit || ''"
-                    [activeColor]="selectedInverter()?.activeColor"
-                    [bgColor]="selectedInverter()?.bgColor"
-                    [bdRadius]="selectedInverter()?.bdRadius"
-                    [rangeVal]="selectedInverter()?.rangeVal"
-                    [label]="item"
-                    [legend]="selectedInverter()?.legend"
-                    [verLabel]="selectedInverter()?.verleLabel"
-                    [height]="70"
-                    ></app-stack-chart>
-                
-                </div>
+        <div class="chart-box w-100 bz">
+            @if (inverter().length > 0) {
+                <app-highchart [chartParameter]="chart()"></app-highchart>
+            } @else {
+                <app-no-data [message]="'No Inverter'"></app-no-data>
             }
         </div>
         <div class="grade-card">

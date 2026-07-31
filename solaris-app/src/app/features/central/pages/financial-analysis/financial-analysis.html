@@ -4,34 +4,34 @@
         <!-- top strip (portfolio header) -->
         <div class="kpi-strip w-100 bz">
             <div class="k bz" style="border-top-color: #4DA3FF">
-                <div class="l">PPA CONTRACT VALUE</div>
+                <div class="l">PPA CONTRACT VALUE<app-info-hint hint="ppa-contract-value"></app-info-hint></div>
                 <div class="v y">{{ money(analytics().contractValue) }}</div>
                 <div class="d dim">{{ analytics().lifetimeYears }}-year term</div>
             </div>
             <div class="k bz" style="border-top-color: #E4B61A">
-                <div class="l">AVG TARIFF</div>
+                <div class="l">AVG TARIFF<app-info-hint hint="avg-tariff"></app-info-hint></div>
                 <div class="v y">{{ rate(analytics().avgTariff) }} <span class="mini">฿/kWh</span></div>
                 <div class="d dim">FIT + Adder</div>
             </div>
             <div class="k bz" style="border-top-color: #4CAF82">
-                <div class="l">REVENUE YTD</div>
+                <div class="l">REVENUE YTD<app-info-hint hint="revenue-ytd"></app-info-hint></div>
                 <div class="v y">{{ money(analytics().revenueYtd) }}</div>
                 <div class="d" [class.g]="(analytics().revenueYtdVsTargetPct ?? 0) >= 0" [class.r-txt]="(analytics().revenueYtdVsTargetPct ?? 0) < 0">
                     {{ analytics().revenueYtdVsTargetPct !== null ? ((analytics().revenueYtdVsTargetPct! >= 0 ? '▲ ' : '▼ ') + pct(analytics().revenueYtdVsTargetPct) + ' vs target') : 'vs target ---' }}
                 </div>
             </div>
             <div class="k bz" style="border-top-color: #4CAF82">
-                <div class="l">DELIVERY YTD</div>
+                <div class="l">DELIVERY YTD<app-info-hint hint="delivery-ytd"></app-info-hint></div>
                 <div class="v g">{{ pct(analytics().deliveryPct) }}</div>
                 <div class="d dim">actual vs contracted</div>
             </div>
             <div class="k bz" style="border-top-color: #E4B61A">
-                <div class="l">PROJECT IRR</div>
+                <div class="l">PROJECT IRR<app-info-hint hint="project-irr"></app-info-hint></div>
                 <div class="v y">{{ pct(analytics().projectIrr) }}</div>
                 <div class="d dim">vs {{ discountPct }}% hurdle</div>
             </div>
             <div class="k bz">
-                <div class="l">CONTRACT LEFT</div>
+                <div class="l">CONTRACT LEFT<app-info-hint hint="contract-left"></app-info-hint></div>
                 <div class="v">{{ years(analytics().contractLeftYears) }} <span class="mini">yrs</span></div>
                 <div class="d dim">{{ codLabel() }}</div>
             </div>
@@ -39,126 +39,94 @@
 
         @if (!analytics().hasCost) {
             <div class="cost-banner bz">
-                <i>!</i> No CAPEX / OPEX data in SLA — showing revenue side only · NPV / IRR / Payback / LCOE will appear once cost data is available
+                <i>!</i> No CAPEX / OPEX data in SLA — showing revenue side only · Payback / LCOE will appear once cost data is available
             </div>
         }
 
         <div class="fa-grid w-100 bz">
 
-            <!-- Investment Verdict (hero) -->
-            <div class="card area-verdict bz">
-                <div class="eyebrow">Investment Verdict · {{ analytics().lifetimeYears }}-Year PPA</div>
-                <div class="npv-big">{{ money(analytics().npv) }}</div>
-                <div class="npv-sub dim">Net Present Value @ {{ discountPct }}% discount rate</div>
-
-                @if (verdict()) {
-                    <div class="verdict-badge" [ngClass]="'vb-' + verdict()">
-                        @if (verdict() === 'viable') { ✓ VIABLE — IRR {{ pct(analytics().projectIrr) }} above {{ discountPct }}% hurdle }
-                        @else if (verdict() === 'marginal') { MARGINAL — NPV positive but IRR below hurdle }
-                        @else { UNVIABLE — NPV negative }
-                    </div>
-                } @else {
-                    <div class="verdict-badge vb-pending">Awaiting capex/opex data</div>
-                }
-
-                <div class="verdict-irr bz">
-                    <div class="vi-item">
-                        <div class="vi-l dim">PROJECT IRR</div>
-                        <div class="vi-v g">{{ pct(analytics().projectIrr) }}</div>
-                    </div>
-                    <div class="vi-item">
-                        <div class="vi-l dim">EQUITY IRR</div>
-                        <div class="vi-v dim">N/A <span class="mini">needs loan terms</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lifetime Money Flow (horizontal stacked) -->
-            <div class="card area-money bz">
-                <div class="card-head bz">LIFETIME MONEY FLOW <span class="hint">total revenue <b class="y">{{ money(analytics().lifetimeRevenue) }}</b></span></div>
-                @if (analytics().hasCost) {
-                    <div class="flow-stack bz">
-                        @for (s of moneySegments(); track s.key) {
-                            <div class="flow-seg" [style.width.%]="s.widthPct" [style.background]="s.bg" [style.color]="s.fg">
-                                <div class="fs-v">{{ money(s.value) }}</div>
-                                <div class="fs-p">{{ s.pct }}%</div>
-                            </div>
+            <!-- Yearly contract compare (ตามชีท Compare ของลูกค้า) -->
+            <div class="card area-compare bz">
+                <div class="card-head bz">
+                    YIELD &amp; CONTRACT COMPARE <span class="hint">actual vs Design · EPC · PPA · Financial model — per contract year</span>
+                    <div class="site-tabs bz">
+                        @for (s of siteList(); track s.id) {
+                            <button type="button" class="site-tab" [class.on]="s.id === activeSiteId()" (click)="selectedSiteId.set(s.id)">{{ s.id }}</button>
                         }
                     </div>
-                    <div class="flow-legend bz">
-                        @for (s of moneySegments(); track s.key) {
-                            <div class="fl-item">
-                                <span class="fl-sw" [style.background]="s.bg"></span>
-                                <span class="fl-lbl">{{ s.label }}</span>
-                                <span class="fl-note dim">{{ s.note }}</span>
-                            </div>
-                        }
-                    </div>
-                } @else {
-                    <div class="mini-empty dim">Awaiting CAPEX / OPEX</div>
-                }
-            </div>
-
-            <!-- Break-Even Timeline -->
-            <div class="card area-breakeven bz">
-                <div class="card-head bz">BREAK-EVEN TIMELINE</div>
-                @if (analytics().payback !== null) {
-                    <div class="be-head bz">
-                        <span class="be-years y">{{ years(analytics().payback) }} yrs</span>
-                        <span class="dim">· discounted {{ years(analytics().discountedPayback) }} yrs</span>
-                    </div>
-                    <div class="be-track bz">
-                        <div class="be-fill" [style.width.%]="paybackPct()"></div>
-                        <div class="be-marker" [style.left.%]="paybackPct()"></div>
-                    </div>
-                    <div class="be-scale bz">
-                        <span>Y0</span>
-                        <span class="be-mk" [style.left.%]="paybackPct()">▲ {{ years(analytics().payback) }} break-even</span>
-                        <span>Y{{ analytics().lifetimeYears }}</span>
-                    </div>
-                    <div class="be-note dim">Breaks even in year {{ paybackRounded() }} of {{ analytics().lifetimeYears }} — <b class="y">{{ remainingProfitYears() }} yrs of net profit remaining</b></div>
-                } @else {
-                    <div class="mini-empty dim">Awaiting CAPEX / OPEX</div>
-                }
-            </div>
-
-            <!-- Cost vs Revenue per kWh -->
-            <div class="card area-cost bz">
-                <div class="card-head bz">COST vs REVENUE · ฿/kWh</div>
-                <div class="cvr-row bz">
-                    <span class="cvr-l dim">LCOE (cost to produce)</span>
-                    <span class="cvr-v y">{{ rate(analytics().lcoe) }}</span>
                 </div>
-                <div class="cvr-track bz"><div class="cvr-fill" style="background:#E4B61A"
-                    [style.width.%]="analytics().lcoe !== null && analytics().blendedTariffNow ? (analytics().lcoe! / analytics().blendedTariffNow!) * 100 : 0"></div></div>
-                <div class="cvr-row bz" style="margin-top:10px">
-                    <span class="cvr-l dim">PPA Tariff (sale price)</span>
-                    <span class="cvr-v g">{{ rate(analytics().blendedTariffNow) }}</span>
-                </div>
-                <div class="cvr-track bz"><div class="cvr-fill" style="background:#4CAF82;width:100%"></div></div>
-                <div class="cvr-foot dim">Unit margin <span class="g">{{ rate(analytics().lcoeHeadroom) }} ฿</span>
-                    @if (analytics().lcoeRatio !== null) { · ×{{ analytics().lcoeRatio | number:'1.1-1' }} headroom }
-                </div>
-            </div>
 
-            <!-- NPV Sensitivity -->
-            <div class="card area-sens bz">
-                <div class="card-head bz">NPV SENSITIVITY <span class="hint">฿ vs discount rate</span></div>
-                @if (analytics().hasCost) {
-                    <div class="sens-bars bz">
-                        @for (b of sensBars(); track b.rate) {
-                            <div class="sens-col bz">
-                                <div class="sens-val">{{ money(b.npv) }}</div>
-                                <div class="sens-track bz">
-                                    <div class="sens-fill" [class.base]="b.base" [style.height.%]="b.heightPct" [style.background]="b.positive ? (b.base ? '#E4B61A' : '#4CAF82') : '#E05D4E'"></div>
-                                </div>
-                                <div class="sens-lbl" [class.y]="b.base">{{ b.rate }}%</div>
-                            </div>
-                        }
+                @if (compareRows().length > 0) {
+                    <div class="board-scroll bz">
+                        <table class="matrix cmp">
+                            <thead>
+                                <tr class="grp">
+                                    <th rowspan="2" class="c">YEAR</th>
+                                    <th rowspan="2">PERIOD</th>
+                                    <th rowspan="2" class="r sep">ACTUAL YIELD<br><span class="u">kWh</span></th>
+                                    <th colspan="4" class="c sep gh-design">DESIGN</th>
+                                    <th colspan="4" class="c sep gh-epc">EPC CONTRACT</th>
+                                    <th colspan="5" class="c sep gh-ppa">PPA CONTRACT</th>
+                                    <th colspan="2" class="c sep gh-fin">FINANCIAL MODEL</th>
+                                </tr>
+                                <tr class="sub">
+                                    <th class="r sep">P50 <span class="u">kWh</span></th>
+                                    <th class="r">P90 <span class="u">kWh</span></th>
+                                    <th class="r">vs P50</th>
+                                    <th class="r">vs P90</th>
+                                    <th class="r sep">CHARGE <span class="u">฿/kWh</span></th>
+                                    <th class="r">GUARANTEE <span class="u">kWh</span></th>
+                                    <th class="r">DEVIATION <span class="u">kWh</span></th>
+                                    <th class="r">CHARGE TO EPC <span class="u">฿</span></th>
+                                    <th class="r sep">GUARANTEED <span class="u">kWh/yr</span></th>
+                                    <th class="c">STATUS</th>
+                                    <th class="r">EXPECTED <span class="u">kWh/yr</span></th>
+                                    <th class="r">DEVIATION <span class="u">kWh</span></th>
+                                    <th class="r">CHARGE <span class="u">฿/kWh</span></th>
+                                    <th class="r sep">YIELD <span class="u">kWh</span></th>
+                                    <th class="r">DEVIATION <span class="u">kWh</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (r of compareRows(); track r.calYear) {
+                                    <tr class="mr" [class.cur]="r.isCurrent" [class.future]="r.isFuture">
+                                        <td class="c yr">{{ r.yearNo }} <span class="cal dim">{{ r.calYear }}</span></td>
+                                        <td class="dim">{{ r.periodLabel }}</td>
+                                        <td class="r sep act">
+                                            {{ num(r.actual) }}
+                                            @if (r.actualIsYtd) { <span class="ytd">YTD</span> }
+                                        </td>
+                                        <td class="r sep">{{ num(r.p50) }}</td>
+                                        <td class="r">{{ num(r.p90) }}</td>
+                                        <td class="r" [class.g]="(r.devP50Pct ?? 0) > 0 && r.devP50Pct !== null" [class.r-txt]="(r.devP50Pct ?? 0) < 0">{{ signedPct(r.devP50Pct) }}</td>
+                                        <td class="r" [class.g]="(r.devP90Pct ?? 0) > 0 && r.devP90Pct !== null" [class.r-txt]="(r.devP90Pct ?? 0) < 0">{{ signedPct(r.devP90Pct) }}</td>
+                                        <td class="r sep">{{ rate(r.epcCharge) }}</td>
+                                        <td class="r">{{ num(r.epcGuarantee) }}</td>
+                                        <td class="r" [class.g]="(r.epcDeviation ?? 0) > 0" [class.r-txt]="(r.epcDeviation ?? 0) < 0">{{ signed(r.epcDeviation) }}</td>
+                                        <td class="r">
+                                            @if (r.chargeToEpc !== null && r.chargeToEpc > 0) { <span class="r-txt">{{ num(r.chargeToEpc) }}</span> }
+                                            @else if (r.chargeToEpc === 0) { <span class="dim">0</span> }
+                                            @else { <span class="dim">---</span> }
+                                        </td>
+                                        <td class="r sep">{{ num(r.ppaGuaranteed) }}</td>
+                                        <td class="c">
+                                            @if (r.ppaMore === true) { <span class="pill p-ok">MORE</span> }
+                                            @else if (r.ppaMore === false) { <span class="pill p-bad">LESS</span> }
+                                            @else { <span class="dim">---</span> }
+                                        </td>
+                                        <td class="r">{{ num(r.ppaExpected) }}</td>
+                                        <td class="r" [class.g]="(r.ppaExpectedDev ?? 0) > 0" [class.r-txt]="(r.ppaExpectedDev ?? 0) < 0">{{ signed(r.ppaExpectedDev) }}</td>
+                                        <td class="r">{{ rate(r.ppaCharge) }}</td>
+                                        <td class="r sep">{{ num(r.finYield) }}</td>
+                                        <td class="r" [class.g]="(r.finDeviation ?? 0) > 0" [class.r-txt]="(r.finDeviation ?? 0) < 0">{{ signed(r.finDeviation) }}</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="be-note dim">{{ sensNote() }}</div>
+                    <div class="cmp-note dim">Deviation = actual − target · Charge to EPC = shortfall × EPC energy charge (settled per completed year) · current year shown as YTD</div>
                 } @else {
-                    <div class="mini-empty dim">Awaiting CAPEX / OPEX</div>
+                    <div class="mini-empty dim">No actual yield data for this site yet</div>
                 }
             </div>
 

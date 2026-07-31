@@ -9,6 +9,7 @@ const initialState: PpaStateModel = {
   realtimeData: {},
   monthlyEnergy: {},
   slaByYear: {},
+  yearlyEnergy: {},
   slaHistoryTimestamp: null,
   timestamp: null
 };
@@ -22,6 +23,7 @@ export const ppaReducer = createReducer(
   on(PpaActions.setPpaRealtimeData, (state, { realtimeData }) => ({ ...state, realtimeData })),
   on(PpaActions.setPpaMonthlyEnergy, (state, { monthlyEnergy }) => ({ ...state, monthlyEnergy })),
   on(PpaActions.setPpaSlaByYear, (state, { slaByYear }) => ({ ...state, slaByYear })),
+  on(PpaActions.setPpaYearlyEnergy, (state, { yearlyEnergy }) => ({ ...state, yearlyEnergy })),
   on(PpaActions.setPpaSlaHistoryTimestamp, (state, { slaHistoryTimestamp }) => ({ ...state, slaHistoryTimestamp })),
   on(PpaActions.setPpaTimestamp, (state, { timestamp }) => ({ ...state, timestamp })),
   on(PpaActions.resetPpaState, () => initialState)

@@ -6,8 +6,10 @@
                     <div class="item-content w-100 bz" >
                         @if(isLoading() ){
                             <app-skeleton-box></app-skeleton-box>
-                        } @else if(dataChart()['OVERALL']) {
+                        } @else if(hasChartData(dataChart()['OVERALL'])) {
                             <app-highchart [chartParameter]="dataChart()['OVERALL']"></app-highchart>
+                        } @else {
+                            <app-no-data [hint]="'ไม่มีข้อมูลของวันที่เลือก'"></app-no-data>
                         }
                     </div>
                     <div class="summary-content w-100">
@@ -45,8 +47,10 @@
                     <div class="item-content w-100 h-100" >
                         @if(isLoading() ){
                             <app-skeleton-box></app-skeleton-box>
-                        } @else if(dataChart()[item.id]) {
+                        } @else if(hasChartData(dataChart()[item.id])) {
                             <app-highchart [chartParameter]="dataChart()[item.id]"></app-highchart>
+                        } @else {
+                            <app-no-data></app-no-data>
                         }
                     </div>
                     <div class="item-footer w-100 bz">

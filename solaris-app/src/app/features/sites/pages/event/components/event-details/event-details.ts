@@ -77,37 +77,19 @@ export class EventDetails {
     }
 
     const tagNames: string[] = [];
+    const matches = expression.match(/\b(?:ATTIME|REAL|MAX|MIN|SUM|AVG|LAST|FIRST|TIMESTAMP)\s*\([^)]+\)/gi);
 
-    // Patterns for different tag formats:
-    const patterns = [
-      // ATTIME('TAG.NAME','NOW') - for time-based functions
-      /ATTIME\s*\(\s*['"]([^'"]+)['"]/gi,
+    matches?.forEach(match => {
+      const tagName = match
+        .replace(/\s+/g, '')
+        .split('(')[1]
+        .split(')')[0]
+        .split(',')[0]
+        .replaceAll("'", '')
+        .replaceAll('"', '');
 
-      // General quoted tag names with dot notation
-      /['"]([A-Z_][A-Z0-9_]*\.[A-Z0-9_.]+)['"]/gi,
-
-      // Function calls with tag parameters
-      /\w+\s*\(\s*['"]([^'"]+\.[^'"]*)['"]/gi,
-
-      // Tag references in conditions
-      /\b['"]([A-Z_][A-Z0-9_]*\.[A-Z0-9_.]*)['"]\b/gi
-    ];
-
-    patterns.forEach(pattern => {
-      let match;
-      while ((match = pattern.exec(expression)) !== null) {
-        const tagName = match[1];
-
-        // Skip common keywords
-        const keywords = ['NOW', 'TRUE', 'FALSE', 'NULL', 'UNDEFINED', 'ON', 'OFF'];
-        if (!keywords.includes(tagName.toUpperCase())) {
-          // Check if it looks like a valid tag (contains dot and alphanumeric)
-          if (tagName.includes('.') && /[A-Z0-9]/i.test(tagName)) {
-            if (!tagNames.includes(tagName)) {
-              tagNames.push(tagName);
-            }
-          }
-        }
+      if (tagName && !tagNames.includes(tagName)) {
+        tagNames.push(tagName);
       }
     });
 
@@ -181,7 +163,7 @@ export class EventDetails {
     ];
     uniqueMatches.map(x => {
       const expr = x[0];
-      const tag = x[2];
+      const tag = x[2].split(',')[0].trim().replace(/['"]/g, '');
       tagName = tagName.replaceAll(expr, tag);
     });
     return tagName;

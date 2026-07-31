@@ -7,6 +7,7 @@ import { firstValueFrom } from 'rxjs';
 import { getAllConfig } from '../../../../../../store/selectors/site.selectors';
 import { sendMessage } from '../../../../../../store/actions/toaster.actions';
 import { UserDataModel } from '../../../../../../shared/models/user.model';
+import { validateNumberFields } from '../../../../../../shared/utils/number-validation';
 
 interface ContactCostEntry {
   year: number;
@@ -199,6 +200,32 @@ export class ConfigDialog implements OnInit {
       return this.sendMessageToState('warn', 'Site id is un selectd or invalid');
     }
 
+    const cfg = this.siteConfig();
+    const numberError = validateNumberFields([
+      { label: 'Energy cost', value: cfg.energyCost },
+      { label: 'Onpeak cost', value: cfg.onpeakCost },
+      { label: 'Offpeak cost', value: cfg.offpeakCost },
+      { label: 'Discount cost', value: cfg.discountRate },
+      { label: 'Ft cost', value: cfg.ftRate }
+    ]);
+    if (numberError) {
+      return this.sendMessageToState('warn', numberError);
+    }
+
+    const costError = this.contactCostEntries()
+      .map(e => validateNumberFields(
+        cfg.meterType === 'tou'
+          ? [
+              { label: `Onpeak cost (${e.year})`, value: e.onpeak },
+              { label: `Offpeak cost (${e.year})`, value: e.offpeak }
+            ]
+          : [{ label: `Cost (${e.year})`, value: e.cost }]
+      ))
+      .find(msg => !!msg);
+    if (costError) {
+      return this.sendMessageToState('warn', costError);
+    }
+
     const isTou = this.siteConfig().meterType === 'tou';
     const isFloating = this.siteConfig().contactType === 'FLOATING';
 
@@ -259,6 +286,14 @@ export class ConfigDialog implements OnInit {
       const account = [...(config.invoice_account ?? [])];
       account[index] = value;
       return { ...config, invoice_account: account };
+    });
+  }
+
+  setRecieptAccount(index: number, value: string): void {
+    this.siteConfig.update(config => {
+      const account = [...(config.receipt_account ?? [])];
+      account[index] = value;
+      return { ...config, receipt_account: account };
     });
   }
 

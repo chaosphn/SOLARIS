@@ -27,17 +27,7 @@
             <tr class="header ">
                 <th class=" title gray">CODE</th>
                 <th class=" title gray">STATUS</th>
-                <th class=" title gray">
-                    <!-- <div class="filter-box bz">
-                        <app-filter-box [Response]="responseRealtime()"
-                        [text]="''"
-                        ></app-filter-box>
-                    </div> -->
-                    <!-- <i class="material-icons gray" >
-                        visibility
-                    </i> -->
-                    LAST SEEN
-                </th>
+                <th class=" title gray">ALARM</th>
                 <th class=" title gray">SITE</th>
                 <th class=" title gray">LOCATION</th>
                 <th class=" title gray" [class.sorted]="sortKey() === 'Capacity'">CAP. <br> (MWp)
@@ -189,12 +179,16 @@
                 <tr class="row " >
                     <td class=" value gray">{{item.Id}}</td>
                     <td class=" value status">
+                        @if (getOnlineStatus(item.SEEN) === 'ONLINE') {
+                            <span class="online-chip online">ONLINE</span>
+                        } @else {
+                            <span class="online-chip offline">OFFLINE</span>
+                        }
+                    </td>
+                    <td class=" value status"
+                        [class.alarm-stale]="getOnlineStatus(item.SEEN) === 'OFFLINE'"
+                        [matTooltip]="getAlarmTooltip(item.Id, item.SEEN)" matTooltipPosition="above">
                         @switch (getPlantStatus(item.Id)) {
-                            @case ('info') {
-                                <div class="icon-box d-flex-ct st-normal">
-                                    <i class="material-icons" >check</i>
-                                </div>
-                            }
                             @case ('warning'){
                                 <div class="icon-box d-flex-ct st-warning">
                                     <i class="material-icons" >error_outline</i>
@@ -222,7 +216,6 @@
                             }
                         }
                     </td>
-                    <td class=" value" [ngClass]="getLastSeen(item.SEEN)" >{{item.SEEN | lastseen: date}}</td>
                     <td class=" value gray">{{item.Name | uppercase}}</td>
                     <td class=" value gray">{{item.Province | uppercase}}</td>
                     <td class=" value gray" [class.sorted]="sortKey() === 'Capacity'">{{item.Capacity}}</td>
@@ -230,8 +223,8 @@
                     <td class=" value gray" [class.sorted]="sortKey() === 'ENERGY'">{{item.ENERGY | numberFomat: '1.0-0'}}</td>
                     <td class=" value gray" [class.sorted]="sortKey() === 'ENERGYMTD'">{{item.ENERGYMTD | numberFomat: '1.0-0'}}</td>
                     <td class=" value gray" [class.sorted]="sortKey() === 'ENERGYYTD'">{{item.ENERGYYTD | numberFomat: '1.0-0'}}</td>
-                    <td class=" value" [ngClass]="[getValueLevel(item.PR, 80, 60), sortKey() === 'PR' ? 'sorted' : '']">{{item.PR | numberFomat: '1.0-1'}}</td>
-                    <td class=" value" [ngClass]="[getValueLevel(item.AVAI, 97, 90), sortKey() === 'AVAI' ? 'sorted' : '']">{{item.AVAI | numberFomat: '1.0-1'}}</td>
+                    <td class=" value gray" [class.sorted]="sortKey() === 'PR'">{{item.PR | numberFomat: '1.0-1'}}</td>
+                    <td class=" value gray" [class.sorted]="sortKey() === 'AVAI'">{{item.AVAI | numberFomat: '1.0-1'}}</td>
                     <td class=" value gray" [class.sorted]="sortKey() === 'LOSS'">{{item.LOSS | numberFomat: '1.0-0'}}</td>
                     <td class=" value gray" [class.sorted]="sortKey() === 'REV_TD'">{{item.REV_TD | numberFomat: '1.0-0'}}</td>
                     <td class=" value gray" [class.sorted]="sortKey() === 'REV_MTD'">{{item.REV_MTD | numberFomat: '1.0-0'}}</td>

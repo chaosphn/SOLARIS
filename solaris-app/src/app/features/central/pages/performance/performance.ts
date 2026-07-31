@@ -18,6 +18,8 @@ import { MapConfigModel } from '../../../../shared/models/svg.model';
 import { PlantStatusData } from '../../../../shared/components/piechart/piechart';
 import { getDateState } from '../../../../store/selectors/date.selectors';
 import { setDateEnable } from '../../../../store/actions/date.actions';
+import { setLastUpdate } from '../../../../store/actions/last-update.actions';
+import { ChartParameters } from '../../../../shared/models/highchart.model';
 
 @Component({
   selector: 'app-performance',
@@ -79,6 +81,16 @@ export class Performance implements OnInit, OnDestroy {
     });
   }
 
+  /** หน่วยสำรองรายแถว ใช้เมื่อ tag ไม่ได้ส่ง Unit มา */
+  private static readonly UNIT_FALLBACK: Record<string, string> = {
+    '_ENERGY': 'kWh',
+    '_REVENUE': '฿',
+    '_YIELD': 'kWh/kWp',
+    '_INSO': 'kWh/m²',
+    '_PR': '%',
+    '_AVAI': '%'
+  };
+
   private calcSummary(suffix: string) {
     const sites = this.siteList();
     const data  = this.dataRealtime();
@@ -87,11 +99,93 @@ export class Performance implements OnInit, OnDestroy {
       .map(s => parseFloat(data[s.id + suffix]?.Value?.toString() || ''))
       .filter(v => !isNaN(v));
     if (!values.length) return null;
+    const unitFromTag = sites
+      .map(s => data[s.id + suffix]?.Unit)
+      .find(u => !!u);
     return {
       avg:  values.reduce((a, b) => a + b, 0) / values.length,
       min:  Math.min(...values),
       max:  Math.max(...values),
-      unit: data[sites[0].id + suffix]?.Unit || ''
+      unit: unitFromTag || Performance.UNIT_FALLBACK[suffix] || ''
+    };
+  }
+
+  /** หน่วยสำหรับหัวการ์ด — อ่านจาก tag ก่อน ถ้าไม่มีใช้ค่าสำรอง */
+  unitOf(suffix: string): string {
+    const data = this.dataRealtime();
+    const unitFromTag = this.siteList()
+      .map(s => data[s.id + suffix]?.Unit)
+      .find(u => !!u);
+    return unitFromTag || Performance.UNIT_FALLBACK[suffix] || '';
+  }
+
+  /** ทศนิยมที่เหมาะกับแต่ละแถว — ค่าเงิน/พลังงานไม่ต้องมีทศนิยม ส่วน % และ yield เอา 1-2 ตำแหน่ง */
+  private static readonly DECIMALS: Record<string, number> = {
+    '_ENERGY': 0, '_REVENUE': 0, '_YIELD': 2, '_INSO': 2, '_PR': 1, '_AVAI': 1
+  };
+
+  energyChart       = computed(() => this.buildChart('_ENERGY', 0));
+  revenueChart      = computed(() => this.buildChart('_REVENUE', 1));
+  yieldChart        = computed(() => this.buildChart('_YIELD', 2));
+  insoChart         = computed(() => this.buildChart('_INSO', 3));
+  prChart           = computed(() => this.buildChart('_PR', 4));
+  availabilityChart = computed(() => this.buildChart('_AVAI', 5));
+
+  /**
+   * กราฟแท่งเทียบรายไซต์ของหนึ่งตัวชี้วัด เรียงมากไปน้อย
+   * @param suffix ท้าย tag เช่น '_ENERGY'
+   * @param cardIndex ลำดับใน cardProperty ใช้เอาสีประจำแถว
+   */
+  private buildChart(suffix: string, cardIndex: number): ChartParameters {
+    const data = this.dataRealtime();
+    const conf = this.cardProperty()[cardIndex];
+    const color = conf?.activeColor || 'var(--active-txt)';
+    const unit = this.unitOf(suffix);
+    const decimals = Performance.DECIMALS[suffix] ?? 1;
+
+    const items = this.sortSites(suffix).map(site => {
+      const raw = parseFloat(data[site.id + suffix]?.Value?.toString().replaceAll(',', '') ?? '');
+      return { id: site.id, value: isNaN(raw) ? 0 : raw };
+    });
+
+    return {
+      chart: this.chartOptions.getChartOptions({ margin: [14, 10, 34, 52] }),
+      title: { text: undefined } as any,
+      xAxis: {
+        categories: items.map(i => i.id),
+        lineColor: 'var(--chart-brd)',
+        tickColor: 'var(--chart-brd)',
+        labels: {
+          style: { color: 'var(--chart-txt)', fontSize: '10px' },
+          rotation: items.length > 12 ? -45 : 0
+        }
+      } as any,
+      yAxis: [{
+        title: { text: null },
+        gridLineColor: 'var(--chart-brd)',
+        labels: { style: { color: 'var(--chart-txt)', fontSize: '10px' } },
+        tickAmount: 4,
+        min: 0
+      }] as any,
+      legend: { enabled: false } as any,
+      tooltip: {
+        shared: false,
+        backgroundColor: 'var(--chart-tlp)',
+        borderWidth: 0,
+        style: { color: 'var(--primary-txt)', fontSize: '11px' },
+        valueSuffix: unit ? ` ${unit}` : '',
+        valueDecimals: decimals
+      } as any,
+      plotOptions: {
+        column: { borderRadius: 2, pointPadding: 0.06, groupPadding: 0.1, borderWidth: 0 },
+        series: { animation: false }
+      } as any,
+      series: [{
+        type: 'column',
+        name: suffix.replace('_', ''),
+        color,
+        data: items.map(i => i.value)
+      }] as any
     };
   }
   
@@ -325,7 +419,7 @@ export class Performance implements OnInit, OnDestroy {
         if(acc.findIndex(x => x.TimeStamp === ts) < 0){
           acc.push({
             Tags: item.Tags.filter(x => x.Timestamp && x.Timestamp == cur.Timestamp).map(y => y.Tagname),
-            TimeStamp: cur.Timestamp === 'EOD' ? this.dateTimeSrv.getTime(new Date(eod).toISOString()) : ts
+            TimeStamp: ts
           })
         }
         return acc;
@@ -542,9 +636,16 @@ export class Performance implements OnInit, OnDestroy {
   }
 
   startTimer(dueTimer: number) {
-    this.timers = timer(dueTimer, dueTimer).subscribe(x => {
-      this.updateData();
+    // แจ้งเวลาอัปเดตล่าสุดทันทีที่โหลดเสร็จ แล้วแจ้งซ้ำทุกรอบรีเฟรช
+    this.publishLastUpdate(dueTimer);
+    this.timers = timer(dueTimer, dueTimer).subscribe(async x => {
+      await this.updateData();
+      this.publishLastUpdate(dueTimer);
     });
+  }
+
+  private publishLastUpdate(intervalMs: number){
+    this.store.dispatch(setLastUpdate({ payload: { timestamp: new Date(), intervalMs } }));
   }
 
   async updateData(){

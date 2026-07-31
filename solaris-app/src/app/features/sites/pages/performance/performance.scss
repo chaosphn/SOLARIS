@@ -13,6 +13,12 @@
     overflow-y: auto;
 }
 
+/* กัน grid track ยืดตามลูกที่ใหญ่เกินช่อง (เช่น Highcharts ที่ยังไม่ reflow หลังย่อการ์ด) */
+.container > * {
+    min-width: 0;
+    min-height: 0;
+}
+
 .infoCard { grid-area: infoCard; }
 .powerCard { grid-area: powerCard; }
 .produceCard { grid-area: produceCard; }

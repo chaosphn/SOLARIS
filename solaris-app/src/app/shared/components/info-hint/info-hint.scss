@@ -1,0 +1,27 @@
+.info-hint {
+  /* บังคับค่าที่จำเป็นต่อ ligature ของ Material Icons ไม่ให้สไตล์ของหน้าที่ครอบอยู่มากวน */
+  font-family: 'Material Icons' !important;
+  font-size: 14px;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  font-feature-settings: 'liga';
+  line-height: 1;
+
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 4px;
+  flex: 0 0 auto;
+
+  color: var(--secondary-txt);
+  opacity: 0.75;
+  /* ใช้ pointer ไม่ใช่ help — cursor:help เป็นลูกศรติดเครื่องหมายคำถาม ทำให้เข้าใจผิดว่าไอคอนพัง */
+  cursor: pointer;
+  transition: opacity 0.15s, color 0.15s;
+
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+    color: var(--active-txt);
+    outline: none;
+  }
+}

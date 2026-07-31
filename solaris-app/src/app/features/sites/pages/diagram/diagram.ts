@@ -4,7 +4,7 @@ import { HttpService } from '../../../../shared/services/http.service';
 import { Store } from '@ngrx/store';
 import { AppInitService } from '../../../../shared/services/app-init.service';
 import { Datetime } from '../../../../shared/services/datetime';
-import { firstValueFrom, Observable, Subscription, timer } from 'rxjs';
+import { firstValueFrom, Observable, Subscription, take, timer } from 'rxjs';
 import { NavbarStateModel } from '../../../../shared/models/navigate.model';
 import { GroupRequestAtTimeModel, GroupRequestHistorianModel, GroupRequestRealtimeModel, RequestAtTimeModel, RequestHistorianModel } from '../../../../shared/models/request.model';
 import { DataHistorianModel, DataRealtimeModel, ResponseHistorianModel, ResponseRealtimeModel } from '../../../../shared/models/response.model';
@@ -26,7 +26,10 @@ import { sendMessage } from '../../../../store/actions/toaster.actions';
 import { DeviceConfigModel } from '../../../../shared/models/device.model';
 import { InverterDialog } from '../../../../shared/components/inverter-dialog/inverter-dialog';
 import { MeterDialog } from '../../../../shared/components/meter-dialog/meter-dialog';
+import { setLastUpdate } from '../../../../store/actions/last-update.actions';
 
+/** รอบรีเฟรชของหน้า Diagram — ถี่กว่าค่ากลาง config.Timer ตามที่ลูกค้าขอ */
+const REFRESH_INTERVAL_MS = 30 * 1000;
 
 @Component({
   selector: 'app-diagram',
@@ -72,6 +75,7 @@ export class Diagram implements OnInit, OnDestroy {
   svgSub?: Subscription;
   storeSub?: Subscription;
   storeSub2?: Subscription;
+  isFetching = false;
 
   date: Date = new Date();
 
@@ -164,16 +168,18 @@ export class Diagram implements OnInit, OnDestroy {
 
     this.getRequest();
     await this.getData();
-    
-    if(this.appInit.config.Timer){
-      this.startTimer(this.appInit.config.Timer * 60000);
-    }
+
+    this.startTimer(REFRESH_INTERVAL_MS);
 
   }
 
   private async loadFromStoreIfExists(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.storeSub = this.store.select(DiagramSelectors.selectDiagramState).subscribe(state => {
+      // take(1) — อ่านค่าจาก store ครั้งเดียวตอนเข้าหน้า ไม่ให้ subscription ค้าง
+      // แล้วเขียนข้อมูลทับทุกครั้งที่มี dispatch ตามมา
+      this.storeSub = this.store.select(DiagramSelectors.selectDiagramState)
+        .pipe(take(1))
+        .subscribe(state => {
         let hasData = false;
         
         // Check if config exists and load it
@@ -603,14 +609,30 @@ export class Diagram implements OnInit, OnDestroy {
   }
 
   startTimer(dueTimer: number) {
-    this.timers = timer(dueTimer, dueTimer).subscribe(x => {
-      this.updateData();
+    // แจ้งเวลาอัปเดตล่าสุดทันทีที่โหลดเสร็จ แล้วแจ้งซ้ำทุกรอบรีเฟรช
+    this.publishLastUpdate(dueTimer);
+    this.timers = timer(dueTimer, dueTimer).subscribe(async x => {
+      await this.updateData();
+      this.publishLastUpdate(dueTimer);
     });
   }
 
+  private publishLastUpdate(intervalMs: number){
+    this.store.dispatch(setLastUpdate({ payload: { timestamp: new Date(), intervalMs } }));
+  }
+
   async updateData(){
-    await this.getRealtimeData();
-    this.updateSvg();
+    // ข้ามรอบถ้ารอบก่อนยังไม่เสร็จ กัน request กองกันตอน API ช้า
+    if(this.isFetching){
+      return;
+    }
+    this.isFetching = true;
+    try {
+      await this.getRealtimeData();
+      this.updateSvg();
+    } finally {
+      this.isFetching = false;
+    }
     //await this.getAtTimeData();
   }
 

@@ -18,6 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialog, ConfirmDialogData } from '../../../../shared/components/confirm-dialog/confirm-dialog';
 import { UserDataModel } from '../../../../shared/models/user.model';
 import { HolidayRequestModel } from '../../../../shared/models/holiday.model';
+import { validateNumberFields } from '../../../../shared/utils/number-validation';
 
 @Component({
   selector: 'app-admin',
@@ -204,13 +205,38 @@ export class Admin implements OnInit {
   private validateContactCostEntries(entries: ContactCostEntry[], contactType: string): string | null {
     if (contactType === 'PPA') {
       if (entries.length === 0) return 'Please add at least one contract cost entry.';
-      const invalid = entries.some(e => !e.month || e.month < 1 || e.month > 12 || !e.year || e.year < 2000);
-      if (invalid) return 'PPA entries must have a valid month (01–12) and year (≥ 2000).';
+      const invalid = entries.some(e => !e.month || e.month < 1 || e.month > 12 || !e.year || e.year < 2000 || e.year > 2099);
+      if (invalid) return 'PPA entries must have a valid month (01–12) and year (2000–2099).';
     }
     if (contactType === 'FLOATING') {
       if (entries.length !== 12) return 'Floating rate must have exactly 12 monthly entries.';
     }
+    // ค่าเงินทุกช่องในตารางห้ามติดลบ
+    const isTou = this.globalConfig().meterType === 'tou';
+    for (const e of entries) {
+      const costError = validateNumberFields(
+        isTou
+          ? [
+              { label: `Onpeak cost (${e.year})`, value: e.onpeak },
+              { label: `Offpeak cost (${e.year})`, value: e.offpeak }
+            ]
+          : [{ label: `Cost (${e.year})`, value: e.cost }]
+      );
+      if (costError) return costError;
+    }
     return null;
+  }
+
+  /** ตรวจค่าตัวเลขทั้งหมดในฟอร์ม billing setting ก่อนบันทึก */
+  private validateGlobalNumbers(): string | null {
+    const cfg = this.globalConfig();
+    return validateNumberFields([
+      { label: 'Energy cost', value: cfg.energyCost },
+      { label: 'Onpeak cost', value: cfg.onpeakCost },
+      { label: 'Offpeak cost', value: cfg.offpeakCost },
+      { label: 'Discount cost', value: cfg.discountRate },
+      { label: 'Ft cost', value: cfg.ftRate }
+    ]);
   }
 
   addGlobalContactCostEntry(): void {
@@ -298,7 +324,12 @@ export class Admin implements OnInit {
   }
 
   async saveGlobalSettings() {
-  
+
+    const numberError = this.validateGlobalNumbers();
+    if (numberError) {
+      return this.sendMessageToState('warn', numberError);
+    }
+
     // if (this.globalConfig().meterType === 'normal' && !this.globalConfig().energyCost) {
     //   return this.sendMessageToState('warn', 'Please enter the energy cost.');
     // }
@@ -330,8 +361,8 @@ export class Admin implements OnInit {
     }
 
     const receiptUser = this.globalConfig().receipt_account ?? [];
-    if (receiptUser.filter(v => !!v).length < 1) {
-      return this.sendMessageToState('warn', 'Please select at least 1 user for Recorded By (Internal).');
+    if (receiptUser.filter(v => !!v).length < 2) {
+      return this.sendMessageToState('warn', 'Please select 2 users for Recorded By (Internal).');
     }
   
     const isTou = this.globalConfig().meterType === 'tou';
@@ -588,6 +619,14 @@ export class Admin implements OnInit {
       const account = [...(config.invoice_account ?? [])];
       account[index] = value;
       return { ...config, invoice_account: account };
+    });
+  }
+
+  setRecieptAccount(index: number, value: string): void {
+    this.globalConfig.update(config => {
+      const account = [...(config.receipt_account ?? [])];
+      account[index] = value;
+      return { ...config, receipt_account: account };
     });
   }
 

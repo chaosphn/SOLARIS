@@ -81,11 +81,11 @@ export function buildSlaAnalytics(
   const curMonth = now.getMonth();
 
   // site ที่มี warranty energy = มีข้อผูกพัน SLA
-  const tracked = sites.filter(s => slaData[s.id]?.energy_delivery != null);
+  const tracked = sites.filter(s => slaData[s.id]?.financial_model_yield != null);
 
   const rows: SlaSiteRow[] = sites.map(s => {
     const sla = slaData[s.id];
-    const warrEnergy = sla?.energy_delivery ?? null;
+    const warrEnergy = sla?.financial_model_yield ?? null;
     const warrAvai = sla?.availability ?? null;
     const warrPr = sla?.performance ?? null;
     const avai = realtimeData[`${s.id}_AVAI`] ?? null;
@@ -141,7 +141,7 @@ export function buildSlaAnalytics(
   for (let m = 0; m < 12; m++) {
     let act = 0, contracted = 0, any = false;
     for (const s of tracked) {
-      const contractedM = slaData[s.id].energy_delivery! / 12;
+      const contractedM = slaData[s.id].financial_model_yield! / 12;
       contracted += contractedM;
       const v = monthlyEnergy[s.id]?.[m];
       if (m <= curMonth && v != null) { act += v; any = true; }

@@ -19,6 +19,7 @@ import { PlantStatusData } from '../../../../shared/components/piechart/piechart
 import { getDateState } from '../../../../store/selectors/date.selectors';
 import { setDateEnable } from '../../../../store/actions/date.actions';
 import { PageStateModel } from '../../../../shared/models/state.model';
+import { setLastUpdate } from '../../../../store/actions/last-update.actions';
 
 @Component({
   selector: 'app-trend',
@@ -473,9 +474,16 @@ export class Trend implements OnInit, OnDestroy {
   }
 
   startTimer(dueTimer: number) {
-    this.timers = timer(dueTimer, dueTimer).subscribe(x => {
-      this.updateData();
+    // แจ้งเวลาอัปเดตล่าสุดทันทีที่โหลดเสร็จ แล้วแจ้งซ้ำทุกรอบรีเฟรช
+    this.publishLastUpdate(dueTimer);
+    this.timers = timer(dueTimer, dueTimer).subscribe(async x => {
+      await this.updateData();
+      this.publishLastUpdate(dueTimer);
     });
+  }
+
+  private publishLastUpdate(intervalMs: number){
+    this.store.dispatch(setLastUpdate({ payload: { timestamp: new Date(), intervalMs } }));
   }
 
   async updateData(){
@@ -487,6 +495,33 @@ export class Trend implements OnInit, OnDestroy {
   async onZoneChanges(event: string){
     this.zoneSelected.update(prev => event);
     await this.getMapConfig();
+  }
+
+  /** กราฟถือว่ามีข้อมูลก็ต่อเมื่อมีอย่างน้อย 1 จุดที่ไม่ใช่ null/undefined */
+  hasChartData(chart: any): boolean {
+    const series = chart?.series;
+    if(!Array.isArray(series) || series.length === 0){
+      return false;
+    }
+    return series.some((s: any) => {
+      const points = s?.data;
+      if(!Array.isArray(points) || points.length === 0){
+        return false;
+      }
+      return points.some((p: any) => {
+        if(p === null || p === undefined){
+          return false;
+        }
+        // จุดข้อมูลอาจเป็น [x, y] หรือ { y: ... } หรือค่าตัวเลขตรงๆ
+        if(Array.isArray(p)){
+          return p[1] !== null && p[1] !== undefined;
+        }
+        if(typeof p === 'object'){
+          return p.y !== null && p.y !== undefined;
+        }
+        return true;
+      });
+    });
   }
 
 }

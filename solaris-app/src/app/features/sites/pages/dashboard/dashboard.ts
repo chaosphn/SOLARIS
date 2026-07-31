@@ -18,7 +18,8 @@ import { MapConfigModel } from '../../../../shared/models/svg.model';
 import { PlantStatusData } from '../../../../shared/components/piechart/piechart';
 import { setDateEnable } from '../../../../store/actions/date.actions';
 import { ColorRangeModel, PanelConfigModel } from '../../../../shared/models/panel.model';
-import { ChartPickerModel } from '../../../../shared/components/chart-card/chart-card';
+import { ChartPickerModel, ChartRangeState, isDefaultChartRange } from '../../../../shared/components/chart-card/chart-card';
+import { setLastUpdate } from '../../../../store/actions/last-update.actions';
 
 @Component({
   selector: 'app-dashboard',
@@ -65,12 +66,16 @@ export class Dashboard implements OnInit, OnDestroy {
   })
 
   loadingChart = signal<string>('');
+  /** ช่วงเวลาที่แต่ละกราฟกำลังแสดงอยู่ key = ชื่อ group เช่น { CHART01: { start, end, mode } } */
+  chartTimeRange = signal<Record<string, ChartRangeState>>({});
+  /** token ของ request ล่าสุดต่อกราฟ ใช้ทิ้ง response ที่มาช้ากว่าเมื่อกดเปลี่ยนวันรัวๆ */
+  private chartRequestToken: Record<string, number> = {};
   zoneSelected = signal<string>('overall');
   mapConfig = signal<MapConfigModel>({} as MapConfigModel);
   plantStatusData = signal<PlantStatusData[]>([
     { label: 'INV NORMAL', count: 60, percentage: 60, color: '#10FDD3', unit: 'unit' },
     { label: 'INV ERROR', count: 25, percentage: 25, color: '#DEB266', unit: 'unit' },
-    { label: 'INV FCOM', count: 15, percentage: 15, color: '#FF4F52', unit: 'unit' }
+    { label: 'INV OFFLINE', count: 15, percentage: 15, color: '#FF4F52', unit: 'unit' }
   ]);
 
   timers?: Subscription;
@@ -95,7 +100,7 @@ export class Dashboard implements OnInit, OnDestroy {
       };
       this.resetPage();
       await this.initPage();
-    });
+    })
   }
 
   onDateSelect(event: any) {
@@ -127,6 +132,9 @@ export class Dashboard implements OnInit, OnDestroy {
     this.dataHistorian.set({});
     this.panelList.set([]);
     this.colorRange.set([]);
+    // เข้าหน้าใหม่/สลับไซต์ ให้กราฟกลับไปเป็นช่วงเริ่มต้น (วันนี้)
+    this.chartTimeRange.set({});
+    this.chartRequestToken = {};
     //this.plantStatusData.set([]);
     //this.store.dispatch(DashboardActions.resetDashboardState());
   }
@@ -145,10 +153,12 @@ export class Dashboard implements OnInit, OnDestroy {
 
     this.getRequest();
     await this.getData();
-    
+
     if(this.appInit.config.Timer){
       this.startTimer(this.appInit.config.Timer * 60000);
     }
+    // หน้านี้ยังไม่เปิด auto-refresh จึงแจ้งเฉพาะเวลาโหลดข้อมูลครั้งล่าสุด
+    this.publishLastUpdate();
 
   }
 
@@ -276,6 +286,8 @@ export class Dashboard implements OnInit, OnDestroy {
           return {
             Name: x.Tagname,
             Options: {
+              Type: x.Options.Type,
+              TimeSpan: x.Options.TimeSpan ?? undefined,
               Interval: x.Options.Interval ?? undefined,
               Time: x.Options.Time??'',
               StartTime: x.Options.Time.length > 0 ? '' : this.dateTimeSrv.getTime(x.Options.StartTime),
@@ -370,11 +382,19 @@ export class Dashboard implements OnInit, OnDestroy {
     }
   }
 
-  async getHistorianData(){
-    if (this.requestHistorian() && this.requestHistorian().length > 0) {
-      const result = this.requestHistorian().map(async(item) => {
+  /**
+   * @param skipCustomRange true = ข้ามกราฟที่ผู้ใช้เลือกช่วงเวลาเอง (ใช้ตอน auto-refresh)
+   *        เพื่อไม่ให้ข้อมูลของวันที่เลือกไว้ถูกข้อมูลวันนี้เขียนทับ
+   */
+  async getHistorianData(skipCustomRange = false){
+    const requests = skipCustomRange
+      ? this.requestHistorian().filter(item => isDefaultChartRange(this.chartTimeRange()[item.Group]))
+      : this.requestHistorian();
+
+    if (requests && requests.length > 0) {
+      const result = requests.map(async(item) => {
         const request = item.Request;
-        const response:ResponseHistorianModel[] = await this.http.getHistorian(request);
+        const response:ResponseHistorianModel[] = await this.http.getAllHistorianData(request);
         if(response){
           // สร้าง object ใหม่แทนการ update
           this.dataChart.update(val => {
@@ -432,15 +452,22 @@ export class Dashboard implements OnInit, OnDestroy {
   }
 
   startTimer(dueTimer: number) {
-    this.timers = timer(dueTimer, dueTimer).subscribe(x => {
-      this.updateData();
+    // แจ้งเวลาอัปเดตล่าสุดทันทีที่โหลดเสร็จ แล้วแจ้งซ้ำทุกรอบรีเฟรช
+    this.publishLastUpdate(dueTimer);
+    this.timers = timer(dueTimer, dueTimer).subscribe(async x => {
+      await this.updateData();
+      this.publishLastUpdate(dueTimer);
     });
+  }
+
+  private publishLastUpdate(intervalMs?: number){
+    this.store.dispatch(setLastUpdate({ payload: { timestamp: new Date(), intervalMs } }));
   }
 
   async updateData(){
     await this.getRealtimeData();
     //await this.getAtTimeData();
-    await this.getHistorianData();
+    await this.getHistorianData(true);
   }
 
   async onChartUpdate(data: ChartPickerModel){
@@ -449,20 +476,33 @@ export class Dashboard implements OnInit, OnDestroy {
     if(findRequest && conf){
       this.loadingChart.set(data.name);
 
+      // จำช่วงเวลาที่กราฟใบนี้เลือกไว้ เพื่อให้ auto-refresh ข้ามกราฟนี้ไป
+      this.chartTimeRange.update(val => ({
+        ...val,
+        [data.name]: { start: data.start, end: data.end, mode: data.mode }
+      }));
+
+      // กดเปลี่ยนวันรัวๆ อาจได้ response ไม่เรียงลำดับ จึงยึดเฉพาะ request ล่าสุดของกราฟนี้
+      const token = Date.now();
+      this.chartRequestToken[data.name] = token;
+
       const filteredTags = conf.tags.filter(x => !x.time || x.time === data.mode);
 
       const req: RequestHistorianModel[] = filteredTags.map(tag => ({
         Name: tag.name,
         Options: {
-          Interval: findRequest.Request.find(r => r.Name === tag.name)?.Options?.Interval,
+          Type: tag.dataType?.type,
+          Interval: tag.dataType?.interval,
+          TimeSpan: tag.dataType?.timespan,
           Time: '',
           StartTime: this.dateTimeSrv.getDateTime1(data.start),
           EndTime: this.dateTimeSrv.getDateTime1(data.end)
         }
       }));
 
-      const response:ResponseHistorianModel[] = await this.http.getHistorian(req);
-      if(response){
+      try {
+      const response:ResponseHistorianModel[] = await this.http.getAllHistorianData(req);
+      if(response && this.chartRequestToken[data.name] === token){
         // สร้าง object ใหม่แทนการ update
         this.dataChart.update(val => {
           // Clone object เดิมก่อน
@@ -504,9 +544,14 @@ export class Dashboard implements OnInit, OnDestroy {
           this.responseHistorian.update(val => [...val, data]);
         });
       }
-      this.loadingChart.set('');
+      } finally {
+        // ปลด loading เสมอ ไม่งั้น API พังแล้วกราฟค้าง skeleton ตลอด
+        if(this.chartRequestToken[data.name] === token){
+          this.loadingChart.set('');
+        }
+      }
     }
   }
 
-   
+
 }

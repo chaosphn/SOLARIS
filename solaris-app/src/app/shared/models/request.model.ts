@@ -41,7 +41,9 @@ export interface RequestHistorian2Model{
 }
 
 export interface Option{
+    Type?: string;
     Interval?: number;
+    TimeSpan?: string;
     Time: string;
     StartTime: string;
     EndTime: string;

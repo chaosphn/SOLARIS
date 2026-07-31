@@ -1,6 +1,32 @@
 
 <div class="container w-100 h-100">
     <div id="map" class="w-100 h-100"></div>
+
+    @if (mappedSites().length > 0) {
+        <div class="site-nav bz">
+            <button type="button" class="nav-btn" (click)="prevSite()" matTooltip="ไซต์ก่อนหน้า" matTooltipPosition="above">
+                <i class="material-icons">chevron_left</i>
+            </button>
+            <div class="nav-info bz">
+                @if (focusedSite(); as site) {
+                    <span class="nav-name">{{ site.id }} : {{ site.name | uppercase }}</span>
+                    <span class="nav-count">{{ focusIndex() + 1 }} / {{ mappedSites().length }}</span>
+                } @else {
+                    <span class="nav-name dim">ALL SITES</span>
+                    <span class="nav-count">{{ mappedSites().length }} sites</span>
+                }
+            </div>
+            <button type="button" class="nav-btn" (click)="nextSite()" matTooltip="ไซต์ถัดไป" matTooltipPosition="above">
+                <i class="material-icons">chevron_right</i>
+            </button>
+            @if (focusedSite()) {
+                <button type="button" class="nav-btn" (click)="resetFocus()" matTooltip="กลับมุมมองรวม" matTooltipPosition="above">
+                    <i class="material-icons">zoom_out_map</i>
+                </button>
+            }
+        </div>
+    }
+
     <div class="label d-flex">
         <div class="item">
             <div class="dot normal-bg"></div>

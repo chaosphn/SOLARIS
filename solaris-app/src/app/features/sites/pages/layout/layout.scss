@@ -8,8 +8,14 @@
         "layoutCard layoutCard layoutCard layoutCard layoutCard energyCard energyCard energyCard" 
         "layoutCard layoutCard layoutCard layoutCard layoutCard environmentCard environmentCard environmentCard";
     grid-gap: 16px; 
-    max-height: 100vh;
+    max-height: calc(100vh - 106px);
     overflow-y: auto;
+}
+
+/* กัน grid track ยืดตามลูกที่ใหญ่เกินช่อง (เช่น Highcharts ที่ยังไม่ reflow หลังย่อการ์ด) */
+.container > * {
+    min-width: 0;
+    min-height: 0;
 }
 
 .powerCard { grid-area: powerCard; }

@@ -11,6 +11,31 @@ export interface ChartPickerModel{
   mode: 'd' | 'w' | 'm' | 'y';
 }
 
+/** ช่วงเวลาที่กราฟใบหนึ่งกำลังแสดงอยู่ ใช้กันไม่ให้ auto-refresh ทับข้อมูลที่ผู้ใช้เลือกเอง */
+export interface ChartRangeState{
+  start: Date;
+  end: Date;
+  mode: 'd' | 'w' | 'm' | 'y';
+}
+
+/**
+ * กราฟถือเป็นช่วง default เมื่อยังไม่เคยเลือกเอง หรือเลือกเป็นโหมดรายวันของวันนี้
+ * ใช้ตัดสินว่ารอบ auto-refresh ควรดึงข้อมูลกราฟใบนี้ใหม่หรือไม่
+ */
+export function isDefaultChartRange(range: ChartRangeState | undefined): boolean {
+  if(!range){
+    return true;
+  }
+  if(range.mode !== 'd'){
+    return false;
+  }
+  const start = new Date(range.start);
+  const today = new Date();
+  return start.getFullYear() === today.getFullYear()
+      && start.getMonth() === today.getMonth()
+      && start.getDate() === today.getDate();
+}
+
 @Component({
   selector: 'app-chart-card',
   standalone: false,
@@ -214,12 +239,13 @@ export class ChartCard {
         res.end = new Date(dt.setHours(23,59,59,0));
         break;
       case 'w':
-        const dtw = new Date(this.date);
-        const first = dtw.getDate() - dtw.getDay();
-        const last = first + 6;
-        res.start = new Date(dtw.setDate(first));
+        const dtwStart = new Date(this.date);
+        const dtwEnd = new Date(this.date);
+        const first = dtwStart.getDay();
+        const last = first - 6;
+        res.start = new Date(dtwStart.setDate(dtwStart.getDate() - first));
         res.start = new Date(res.start.setHours(0,0,0,0));
-        res.end = new Date(dtw.setDate(last));
+        res.end = new Date(dtwEnd.setDate(dtwEnd.getDate() - last));
         res.end = new Date(res.end.setHours(23,59,59,0));
         break;
       case 'm':

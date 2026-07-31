@@ -23,14 +23,24 @@
     overflow-y: auto;
 }
 
-.summaryCard { grid-area: summaryCard; min-height: 100px; }
-.powerCard { grid-area: powerCard; min-height: 275px; }
+/*
+ * grid item มี min-width/min-height เป็น auto โดยปริยาย = ยืดตามขนาดเนื้อหาข้างใน
+ * ถ้าลูก (เช่น Highcharts ที่ยังไม่ reflow) กว้างเกินช่อง คอลัมน์จะถูกดันจนทั้ง grid บาน
+ * บังคับเป็น 0 เพื่อให้ช่องคุมขนาดเอง เนื้อหาต้องหดตามช่องเสมอ
+ */
+.container > * {
+    min-width: 0;
+    min-height: 0;
+}
+
+.summaryCard { grid-area: summaryCard; min-height: 100px !important; }
+.powerCard { grid-area: powerCard; min-height: 275px !important; }
 .energyCard { grid-area: energyCard; min-height: 275px; }
-.environmentCard { grid-area: environmentCard; min-height: 200px; }
-.statusCard { grid-area: statusCard; min-height: 200px; }
-.produceCard { grid-area: produceCard; min-height: 275px; }
-.sitesCard { grid-area: sitesCard; min-height: 275px; }
-.layoutCard { grid-area: layoutCard; min-height: 783px; }
+.environmentCard { grid-area: environmentCard; min-height: 200px !important; }
+.statusCard { grid-area: statusCard; min-height: 200px !important; }
+.produceCard { grid-area: produceCard; min-height: 275px !important; }
+.sitesCard { grid-area: sitesCard; min-height: 275px !important; }
+.layoutCard { grid-area: layoutCard; min-height: 783px !important; }
 
 .site-card{
     display: flex;

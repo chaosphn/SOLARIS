@@ -50,7 +50,7 @@
         "Tags": [
           {
             "Title": "KKB_EXPECT",
-            "Tagname": "OVERALL.CALC.W_EXPECT",
+            "Tagname": "KKB.CALC.W_EXPECT",
             "Options": {
               "Time": "t",
               "Interval": 0,
@@ -102,7 +102,7 @@
         "name": "OVERALL",
         "tags": [
           {
-            "name": "OVERALL.CALC.W_EXPECT",
+            "name": "KKB.CALC.W_EXPECT",
             "title": "FORCAST*kW",
             "options": {
                 "yAxis": 0,

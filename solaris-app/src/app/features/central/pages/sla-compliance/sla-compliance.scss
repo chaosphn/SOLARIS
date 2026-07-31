@@ -37,14 +37,12 @@
 .sla-grid{
     display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px;
     grid-template-areas:
-        "gauges gauges trend trend trend trend"
-        "scorecard scorecard scorecard scorecard scorecard scorecard"
-        "checklist checklist checklist checklist health health";
+        "gauges gauges trend trend health health"
+        "scorecard scorecard scorecard scorecard scorecard scorecard";
 }
 .area-gauges{ grid-area: gauges; }
 .area-trend{ grid-area: trend; }
 .area-scorecard{ grid-area: scorecard; }
-.area-checklist{ grid-area: checklist; }
 .area-health{ grid-area: health; }
 
 /* gauges */
@@ -57,7 +55,7 @@
 .gcap{ font-size: 10px; margin-top: 3px; }
 
 /* trend */
-.trend-svg{ width: 100%; height: auto; }
+.chart-trend{ flex: 1; min-height: 180px; }
 
 /* scorecard */
 .board-scroll{ overflow-x: auto; max-width: 100%; }
@@ -77,16 +75,6 @@
     &.pill-warning{ background: rgba(228,182,26,0.15); color: var(--active-txt); }
     &.pill-breach{ background: rgba(224,93,78,0.15); color: #E05D4E; }
     &.pill-none{ background: var(--stack-bg); color: var(--secondary-txt); }
-}
-
-/* checklist */
-.check-grid{ 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 7px 20px; 
-}
-.check-item{ display: flex; gap: 8px; align-items: center; font-size: 12px; color: var(--trow-txt);
-    span:first-child{ font-weight: 700; }
 }
 
 /* health */
@@ -109,17 +97,16 @@
     .sla-grid{
         grid-template-areas:
             "gauges gauges trend trend trend trend"
-            "scorecard scorecard scorecard scorecard scorecard scorecard"
-            "checklist checklist checklist health health health";
+            "health health health health health health"
+            "scorecard scorecard scorecard scorecard scorecard scorecard";
     }
 }
 @media (max-width: 1100px) {
     .kpi-strip{ grid-template-columns: repeat(3, 1fr); }
-    .sla-grid{ grid-template-columns: 1fr; grid-template-areas: "gauges" "trend" "scorecard" "checklist" "health"; }
+    .sla-grid{ grid-template-columns: 1fr; grid-template-areas: "gauges" "trend" "health" "scorecard"; }
 }
 @media (max-width: 768px) {
     .container{ padding: 8px; height:calc(100vh - 220px); }
     .kpi-strip{ grid-template-columns: repeat(2, 1fr); }
-    .check-grid{ grid-template-columns: 1fr; }
 }
 

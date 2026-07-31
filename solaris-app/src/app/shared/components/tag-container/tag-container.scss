@@ -211,12 +211,14 @@
         background-color: var(--btn-bg);
         color: var(--btn-color);
         border-radius: 4px;
+        cursor: pointer;
     }
     .clear{
         background-color: var(--primary-bg);
         color: var(--secondary-txt);
         border-radius: 4px;
         border: none;
+        cursor: pointer;
     }
     .submit:hover{
         filter: brightness(125%);

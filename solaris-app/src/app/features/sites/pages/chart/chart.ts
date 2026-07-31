@@ -18,6 +18,7 @@ import { ExportXls } from '../../../../shared/services/export-xls';
 import { Datetime } from '../../../../shared/services/datetime';
 import { getNavState } from '../../../../store/selectors/nav.selectors';
 import { resetTags } from '../../../../store/actions/tags.actions';
+import { setLastUpdate } from '../../../../store/actions/last-update.actions';
 
 @Component({
   selector: 'app-chart',
@@ -150,9 +151,16 @@ export class Chart implements OnInit, OnDestroy {
   }
 
   startTimer(dueTimer: number) {
-    this.timers = timer(dueTimer, dueTimer).subscribe(x => {
-      this.updateData();
+    // แจ้งเวลาอัปเดตล่าสุดทันทีที่โหลดเสร็จ แล้วแจ้งซ้ำทุกรอบรีเฟรช
+    this.publishLastUpdate(dueTimer);
+    this.timers = timer(dueTimer, dueTimer).subscribe(async x => {
+      await this.updateData();
+      this.publishLastUpdate(dueTimer);
     });
+  }
+
+  private publishLastUpdate(intervalMs: number){
+    this.store.dispatch(setLastUpdate({ payload: { timestamp: new Date(), intervalMs } }));
   }
 
   async updateData(){

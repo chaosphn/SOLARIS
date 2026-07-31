@@ -525,7 +525,7 @@ export class ChartService {
       headerFormat: '',
       shadow: false,
       shape: 'rect',
-      backgroundColor: '#2c3239',
+      backgroundColor: 'var(--chart-tlp)',
       // borderColor: 'red',
       // borderRadius: 2,
       // borderWidth: 1

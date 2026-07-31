@@ -21,38 +21,86 @@
         </div>
         <div class="form-group">
           <label for="slaYearInput">Year <span class="req">*</span></label>
-          <input id="slaYearInput" type="number" [value]="year()" (input)="setYear($any($event.target).value)"
+          <input id="slaYearInput" type="number" min="0" [value]="year()" (input)="setYear($any($event.target).value)"
             placeholder="2026" class="form-control">
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="energyInput">Energy Warranty (kWh)</label>
-          <input id="energyInput" type="number" step="any" [(ngModel)]="slaData().energy_delivery" placeholder="0.0" class="form-control">
+          <label for="availInput">Availability (%)</label>
+          <input id="availInput" type="number" min="0" step="any" [(ngModel)]="slaData().availability" placeholder="98.7" class="form-control">
         </div>
         <div class="form-group">
-          <label for="availInput">Availability (%)</label>
-          <input id="availInput" type="number" step="any" [(ngModel)]="slaData().availability" placeholder="98.7" class="form-control">
+          <label for="perfInput">Performance (%)</label>
+          <input id="perfInput" type="number" min="0" step="any" [(ngModel)]="slaData().performance" placeholder="87.3" class="form-control">
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="perfInput">Performance (%)</label>
-          <input id="perfInput" type="number" step="any" [(ngModel)]="slaData().performance" placeholder="87.3" class="form-control">
+          <label for="capexInput">CAPEX (฿)</label>
+          <input id="capexInput" type="number" min="0" step="any" [(ngModel)]="slaData().capex" placeholder="350000000" class="form-control">
         </div>
         <div class="form-group">
-          <label for="capexInput">CAPEX (฿)</label>
-          <input id="capexInput" type="number" step="any" [(ngModel)]="slaData().capex" placeholder="350000000" class="form-control">
+          <label for="opexInput">OPEX (฿/yr)</label>
+          <input id="opexInput" type="number" min="0" step="any" [(ngModel)]="slaData().opex" placeholder="14200000" class="form-control">
         </div>
       </div>
 
+      <div class="form-section-label">Design</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="p50Input">P50 Yield (kWh)</label>
+          <input id="p50Input" type="number" min="0" step="any" [(ngModel)]="slaData().p50_yield" placeholder="0.0" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="p90Input">P90 Yield (kWh)</label>
+          <input id="p90Input" type="number" min="0" step="any" [(ngModel)]="slaData().p90_yield" placeholder="0.0" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-section-label">EPC Contract</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="epcEnergyChargeInput">EPC Energy Charge (฿/kWh)</label>
+          <input id="epcEnergyChargeInput" type="number" min="0" step="any" [(ngModel)]="slaData().epc_energy_charge" placeholder="0.0" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="epcYieldGuaranteeInput">EPC Yield Guarantee (kWh)</label>
+          <input id="epcYieldGuaranteeInput" type="number" min="0" step="any" [(ngModel)]="slaData().epc_yield_guarantee" placeholder="0.0" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-section-label">PPA Contract</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="ppaGuaranteedSupplyInput">PPA Guaranteed Supply (kWh/yr)</label>
+          <input id="ppaGuaranteedSupplyInput" type="number" min="0" step="any" [(ngModel)]="slaData().ppa_guaranteed_supply" placeholder="0.0" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="ppaExpectedConsumptionInput">PPA Expected Consumption (kWh/yr)</label>
+          <input id="ppaExpectedConsumptionInput" type="number" min="0" step="any" [(ngModel)]="slaData().ppa_expected_consumption" placeholder="0.0" class="form-control">
+        </div>
+      </div>
       <div class="form-group">
-        <label for="opexInput">OPEX (฿/yr)</label>
-        <input id="opexInput" type="number" step="any" [(ngModel)]="slaData().opex" placeholder="14200000" class="form-control">
+        <label for="ppaEnergyChargeInput">PPA Energy Charge (฿/kWh)</label>
+        <input id="ppaEnergyChargeInput" type="number" min="0" step="any" [(ngModel)]="slaData().ppa_energy_charge" placeholder="0.0" class="form-control">
+      </div>
+
+      <div class="form-section-label">Financial Model</div>
+      <div class="form-group">
+        <label for="financialModelYieldInput">Financial Model Yield (kWh/yr)</label>
+        <input id="financialModelYieldInput" type="number" min="0" step="any" [(ngModel)]="slaData().financial_model_yield" placeholder="0.0" class="form-control">
       </div>
       </fieldset>
+
+      @if (slaData().updated_at || slaData().updated_by) {
+        <div class="audit-info">
+          <span class="material-icons">history</span>
+          <span>Last update <b>{{ updatedAtText() }}</b> by <b>{{ slaData().updated_by || '---' }}</b></span>
+        </div>
+      }
     </div>
 
     <div class="modal-footer">

@@ -18,10 +18,17 @@ export class PowerConsumsion {
   yield = input<ResponseRealtimeModel>();
   capacity = input<ResponseRealtimeModel>();
   power = input<ResponseRealtimeModel>();
+  /** พลังงานสะสมของวัน — ค่าหลักที่แสดงในวงกลม */
+  energy = input<ResponseRealtimeModel>();
+  /** พลังงานที่ควรได้ของวัน ใช้เป็นฐานคำนวณ % */
+  expected = input<ResponseRealtimeModel>();
 
   getPercentage(){
-    let value = this.power()?.Value??0;
-    let max = this.power()?.Max??100;
-    return (value/max)*100;
+    const value = this.energy()?.Value ?? 0;
+    const target = this.expected()?.Value ?? this.energy()?.Max ?? 0;
+    if(!target){
+      return 0;
+    }
+    return (value / target) * 100;
   }
 }

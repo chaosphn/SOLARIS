@@ -19,6 +19,7 @@ import { PlantStatusData } from '../../../../shared/components/piechart/piechart
 import { setDateEnable } from '../../../../store/actions/date.actions';
 import { EventSummaryModel } from '../../../../features/sites/models/event.model';
 import { getEventSummary } from '../../../../store/selectors/event.selectors';
+import { setLastUpdate } from '../../../../store/actions/last-update.actions';
 
 @Component({
   selector: 'app-overview',
@@ -235,6 +236,9 @@ export class Overview implements OnInit, OnDestroy {
           return {
             Name: x.Tagname,
             Options: {
+              // ส่ง Type/TimeSpan ต่อไปด้วย เพื่อรองรับ config แบบ sampling (เช่น "0 0 1 * *" = ราย 1 ค่าต่อเดือน)
+              Type: x.Options.Type,
+              TimeSpan: x.Options.TimeSpan ?? undefined,
               Interval: x.Options.Interval ?? undefined,
               Time: x.Options.Time??'',
               StartTime: x.Options.Time.length > 0 ? '' : this.dateTimeSrv.getTime(x.Options.StartTime),
@@ -342,11 +346,37 @@ export class Overview implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * ดึงค่า y ทั้งหมดจาก series สำหรับคำนวณ plotLine แบบ maxValue / minValue / averageValue
+   * จุดข้อมูลจาก getSeriesOptions เป็น [timestamp, value] จึงต้องอ่านช่องที่ 1 ไม่ใช่ตัวเลขตรงๆ
+   */
+  private collectSeriesValues(series: any[]): number[] {
+    const values: number[] = [];
+    series.forEach((s: any) => {
+      if(!Array.isArray(s?.data)){
+        return;
+      }
+      s.data.forEach((point: any) => {
+        let y: any = point;
+        if(Array.isArray(point)){
+          y = point[1];
+        } else if(point && typeof point === 'object'){
+          y = point.y;
+        }
+        if(typeof y === 'number' && Number.isFinite(y)){
+          values.push(y);
+        }
+      });
+    });
+    return values;
+  }
+
   async getHistorianData(){
     if (this.requestHistorian() && this.requestHistorian().length > 0) {
       const result = this.requestHistorian().map(async(item) => {
         const request = item.Request;
-        const response:ResponseHistorianModel[] = await this.http.getHistorian(request);
+        // ใช้ endpoint รวม (getdata) เพื่อให้รองรับทั้ง raw / sampling / plot ตาม Options.Type
+        const response:ResponseHistorianModel[] = await this.http.getAllHistorianData(request);
         if(response){
           // สร้าง object ใหม่แทนการ update
           this.dataChart.update(val => {
@@ -372,7 +402,44 @@ export class Overview implements OnInit, OnDestroy {
                 chart: this.chartOptions.getChartOptions(conf.chartOptions.chart),
                 title: this.chartOptions.getTitleOptions(conf.chartOptions.title),
                 xAxis: this.chartOptions.getXAxisoptions(conf.chartOptions.xAxis, start, end),
-                yAxis: this.chartOptions.getYAxisoptions(conf.chartOptions.yAxis),
+                yAxis: this.chartOptions.getYAxisoptions(conf.chartOptions.yAxis).map((yAxisOption, index) => {
+                  if(yAxisOption?.plotLines && yAxisOption.plotLines.length > 0){
+                    const seriesValues = this.collectSeriesValues(series);
+                    let plotLine = yAxisOption.plotLines.map((pl: any) => {
+                        let val = 0;
+                        if(pl.value && pl.value == 'maxValue'){
+                          val = seriesValues.length > 0 ? Math.max(...seriesValues) : 0;
+                        } else if(pl.value && pl.value == 'minValue'){
+                          val = seriesValues.length > 0 ? Math.min(...seriesValues) : 0;
+                        } else if(pl.value && pl.value == 'averageValue'){
+                          val = seriesValues.length > 0
+                            ? seriesValues.reduce((a, b) => a + b, 0) / seriesValues.length
+                            : 0;
+                        } else if(pl.value && pl.value.includes('tagValue')){
+
+                          const tagname: string[] = pl.value.split(':');
+                          const tagValue = this.dataRealtime()[tagname[1]]?.Value ?? 0;
+                          const factor = parseFloat(tagname[2]) ?? 1;
+                          val = (tagValue/factor) || 0;
+                        }
+                        const label = pl.label?.text.replace('{value}', val.toFixed(2));
+                        return {
+                          ...pl,
+                          value: val,
+                          label: {
+                            ...pl.label,
+                            text: label
+                          }
+                        };
+                    });
+                    return {
+                      ...yAxisOption,
+                      plotLines: plotLine
+                    };
+                  } else {
+                    return yAxisOption;
+                  }
+                }),
                 legend: this.chartOptions.getLegendOptions(conf.chartOptions.legend),
                 plotOptions: this.chartOptions.getPlotOptions(conf.chartOptions.plotOptions),
                 series: [...series] // Clone array
@@ -405,9 +472,16 @@ export class Overview implements OnInit, OnDestroy {
   }
 
   startTimer(dueTimer: number) {
-    this.timers = timer(dueTimer, dueTimer).subscribe(x => {
-      this.updateData();
+    // แจ้งเวลาอัปเดตล่าสุดทันทีที่โหลดเสร็จ แล้วแจ้งซ้ำทุกรอบรีเฟรช
+    this.publishLastUpdate(dueTimer);
+    this.timers = timer(dueTimer, dueTimer).subscribe(async x => {
+      await this.updateData();
+      this.publishLastUpdate(dueTimer);
     });
+  }
+
+  private publishLastUpdate(intervalMs: number){
+    this.store.dispatch(setLastUpdate({ payload: { timestamp: new Date(), intervalMs } }));
   }
 
   async updateData(){

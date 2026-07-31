@@ -210,18 +210,18 @@
           </div>
           <div class="form-group">
             <label>Trigger Alarm (Count)</label>
-            <input type="number" [(ngModel)]="newAlarmTag.TriggerCounter" placeholder="0" />
+            <input type="number" min="0" [(ngModel)]="newAlarmTag.TriggerCounter" placeholder="0" />
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
             <label>Group</label>
-            <input type="number" [(ngModel)]="newAlarmTag.Group" placeholder="0" />
+            <input type="number" min="0" [(ngModel)]="newAlarmTag.Group" placeholder="0" />
           </div>
           <div class="form-group">
             <label>Order</label>
-            <input type="number" [(ngModel)]="newAlarmTag.Order" placeholder="0" />
+            <input type="number" min="0" [(ngModel)]="newAlarmTag.Order" placeholder="0" />
           </div>
         </div>
 

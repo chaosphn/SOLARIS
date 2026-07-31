@@ -14,6 +14,8 @@ export class DatePickers implements OnInit, OnChanges {
   @Input() type: 'day' | 'month' | 'year' | 'datetime' = 'day';
   @Input() scale: number = 1;
   @Input() height: number = 40;
+  /** เลือกได้ถึงวันนี้เป็นค่าเริ่มต้น ส่ง null เมื่อหน้านั้นต้องเลือกวันในอนาคตได้ */
+  @Input() maxDate: Date | null = new Date();
   @Output() selectDate = new EventEmitter<Date>();
 
   @ViewChild('container', { static: true }) containerRef!: ElementRef<HTMLDivElement>;

@@ -3,7 +3,7 @@
         <!-- ───────── KPI strip ───────── -->
         <div class="kpi-strip w-100 bz">
             <div class="k bz" style="border-top-color: var(--active-txt)">
-                <div class="l">THIS MONTH</div>
+                <div class="l">MTD REVENUE<app-info-hint hint="mtd-revenue"></app-info-hint></div>
                 <div class="v accent">฿{{ formatShort(analytics().thisMonthActual) }}</div>
                 @if (analytics().thisMonthVar !== null) {
                     <div class="d" [style.color]="analytics().thisMonthVar! >= 0 ? '#4CAF82' : 'tomato'">
@@ -12,19 +12,19 @@
                 } @else { <div class="d dim">no data</div> }
             </div>
             <div class="k bz" style="border-top-color: #4DA3FF">
-                <div class="l">YTD</div>
+                <div class="l">YTD REVENUE<app-info-hint hint="ytd-revenue"></app-info-hint></div>
                 <div class="v blue">฿{{ formatShort(analytics().ytdActual) }}</div>
                 <div class="d dim">plan ฿{{ formatShort(analytics().ytdTarget) }}</div>
             </div>
             <div class="k bz" style="border-top-color: #4CAF82">
-                <div class="l">ACHIEVEMENT</div>
+                <div class="l">ACHIEVEMENT<app-info-hint hint="achievement"></app-info-hint></div>
                 @if (analytics().achievement !== null) {
                     <div class="v" >{{ analytics().achievement | numberFomat: '1.0-1' }}%</div>
                 } @else { <div class="v">---</div> }
                 <div class="d dim">YTD vs plan</div>
             </div>
             <div class="k bz">
-                <div class="l">ANNUAL FORECAST</div>
+                <div class="l">ANNUAL FORECAST<app-info-hint hint="annual-forecast"></app-info-hint></div>
                 <div class="v">฿{{ formatShort(analytics().annualForecast) }}</div>
                 @if (analytics().annualForecastVsPlan !== null) {
                     <div class="d" [style.color]="analytics().annualForecastVsPlan! >= 0 ? '#4CAF82' : 'tomato'">
@@ -33,12 +33,12 @@
                 } @else { <div class="d dim">—</div> }
             </div>
             <div class="k bz" style="border-top-color: #E05D4E">
-                <div class="l">REVENUE AT RISK</div>
+                <div class="l">REVENUE AT RISK<app-info-hint hint="revenue-at-risk"></app-info-hint></div>
                 <div class="v risk">฿{{ formatShort(analytics().lostRev) }}</div>
                 <div class="d dim">{{ analytics().downtimePct | numberFomat: '1.0-1' }}% downtime</div>
             </div>
             <div class="k bz">
-                <div class="l">BLENDED TARIFF</div>
+                <div class="l">BLENDED TARIFF<app-info-hint hint="blended-tariff"></app-info-hint></div>
                 @if (analytics().blendedTariff !== null) {
                     <div class="v">{{ analytics().blendedTariff | numberFomat: '1.0-2' }}</div>
                 } @else { <div class="v">---</div> }

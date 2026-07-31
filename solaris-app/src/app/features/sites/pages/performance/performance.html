@@ -26,7 +26,7 @@
         </app-card-container>
     </div>
     <div class="produceCard bz">
-        <app-card-container [title]="'INVERTER YIELD'">
+        <app-card-container [title]="'INVERTER YIELD'" [expandable]="true">
             <ng-template #container>
                 <app-chart-card
                     [fixedMode]="'d'"
@@ -40,7 +40,7 @@
         </app-card-container>
     </div>
     <div class="solarCard bz">
-        <app-card-container [title]="'SOLAR PROFILE'">
+        <app-card-container [title]="'SOLAR PROFILE'" [expandable]="true">
             <ng-template #container>
                <app-chart-card
                 [name]="'SOLAR'"
@@ -53,7 +53,7 @@
         </app-card-container>
     </div>
     <div class="energyCard bz">
-        <app-card-container [title]="'PERFORMANCE EVALUATION'">
+        <app-card-container [title]="'PERFORMANCE EVALUATION'" [expandable]="true">
             <ng-template #container>
                 <app-chart-card
                     [name]="'PERFORMANCE'"
@@ -66,7 +66,7 @@
         </app-card-container>
     </div>
     <div class="inverterCard bz">
-        <app-card-container [title]="'PRODUCTION ANALYSIS'">
+        <app-card-container [title]="'PRODUCTION ANALYSIS'" [expandable]="true">
             <ng-template #container>
                 <app-chart-card
                     [name]="'PRODUCTION'"

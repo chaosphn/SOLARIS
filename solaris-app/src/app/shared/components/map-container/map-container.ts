@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, input, inject, OnDestroy, signal } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, input, inject, OnDestroy, signal } from '@angular/core';
 import * as L from 'leaflet';
 import { DataRealtimeModel } from '../../models/response.model';
 import { SiteModel } from '../../models/config.model';
@@ -21,8 +21,23 @@ export class MapContainer implements AfterViewInit, OnDestroy {
   private eventSub?: Subscription;
   private eventSummaryData: EventSummaryModel[] = [];
 
+  /** เก็บ marker ต่อไซต์ไว้ เพื่อสั่งเปิด popup จากปุ่ม prev/next ได้ */
+  private markerBySite = new Map<string, L.Marker>();
+  /** ระดับ zoom ตอนกดเลื่อนไปทีละไซต์ — ใกล้พอให้เห็นรายละเอียดรอบโรงไฟฟ้า */
+  private readonly FOCUS_ZOOM = 11;
+
   dataRealtime = input<DataRealtimeModel>();
   siteList = input<SiteModel[]>([]);
+
+  /** เฉพาะไซต์ที่มีพิกัด — ไซต์ไม่มีพิกัดวางบนแผนที่ไม่ได้ */
+  mappedSites = computed<SiteModel[]>(() => (this.siteList() || []).filter(s => !!s.position));
+  /** ไซต์ที่กำลังโฟกัสอยู่ (-1 = ยังไม่เลือก) */
+  focusIndex = signal<number>(-1);
+  focusedSite = computed<SiteModel | null>(() => {
+    const sites = this.mappedSites();
+    const i = this.focusIndex();
+    return i >= 0 && i < sites.length ? sites[i] : null;
+  });
   siteStatus = signal<any>({
     normal: 0,
     warn: 0,
@@ -52,6 +67,7 @@ export class MapContainer implements AfterViewInit, OnDestroy {
       if (!this.map || !sites || sites.length === 0) return;
 
       this.markerLayer.clearLayers();
+      this.markerBySite.clear();
 
       for (const site of sites) {
         if (!site.position) continue;
@@ -118,11 +134,11 @@ export class MapContainer implements AfterViewInit, OnDestroy {
         marker.bindPopup(`
           <div style="
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-width: 280px;
+            min-width: 300px;
           ">
             <div style="
               font-weight: 700;
-              font-size: 16px;
+              font-size: 18px;
               color: var(--primary-txt);
               margin-bottom: 8px;
               border-bottom: 2px solid ${this.getColorByStatus(status)};
@@ -130,7 +146,7 @@ export class MapContainer implements AfterViewInit, OnDestroy {
             ">${site.name}</div>
             
             <div style="
-              font-size: 13px;
+              font-size: 14px;
               color: var(--secondary-txt);
               margin-bottom: 12px;
               display: flex;
@@ -167,7 +183,7 @@ export class MapContainer implements AfterViewInit, OnDestroy {
                   ">bolt</i>
                   <div>Capacity</div>
                 </div>
-                <div style="font-weight: 600; color: var(--primary-txt);">${site.capacity} MW</div>
+                <div style="font-weight: 600; font-size: 15px; color: var(--primary-txt);">${site.capacity} MW</div>
               </div>
               <div style="
                 background: var(--primary-bg);
@@ -190,7 +206,7 @@ export class MapContainer implements AfterViewInit, OnDestroy {
                   font-weight: 700;
                   color: ${this.getColorByStatus(status)};
                   text-transform: uppercase;
-                  font-size: 13px;
+                  font-size: 15px;
                 ">${status}</div>
               </div>
             </div>
@@ -208,7 +224,7 @@ export class MapContainer implements AfterViewInit, OnDestroy {
                 justify-content: space-between;
                 padding: 6px 0;
                 border-bottom: 1px solid var(--border-color);
-                font-size: 13px;
+                font-size: 14px;
               ">
                 <span style="color: var(--secondary-txt);">Power</span>
                 <span style="font-weight: 600; color: var(--primary-txt);">
@@ -220,7 +236,7 @@ export class MapContainer implements AfterViewInit, OnDestroy {
                 justify-content: space-between;
                 padding: 6px 0;
                 border-bottom: 1px solid var(--border-color);
-                font-size: 13px;
+                font-size: 14px;
               ">
                 <span style="color: var(--secondary-txt);">Energy</span>
                 <span style="font-weight: 600; color: var(--primary-txt);">
@@ -231,7 +247,7 @@ export class MapContainer implements AfterViewInit, OnDestroy {
                 display: flex;
                 justify-content: space-between;
                 padding: 6px 0;
-                font-size: 13px;
+                font-size: 14px;
               ">
                 <span style="color: var(--secondary-txt);">PR</span>
                 <span style="font-weight: 600; color: var(--primary-txt);">
@@ -242,11 +258,52 @@ export class MapContainer implements AfterViewInit, OnDestroy {
           </div>
         `);
 
+        this.markerBySite.set(site.id, marker);
         this.markerLayer.addLayer(marker);
       }
 
       this.markerLayer.addTo(this.map);
+
+      // marker ถูกสร้างใหม่ทุกครั้งที่ข้อมูลอัปเดต — เปิด popup ของไซต์ที่โฟกัสอยู่กลับมา
+      // ไม่งั้นรอบ auto-refresh จะปิด popup ที่ผู้ใช้เปิดค้างไว้
+      const focused = this.focusedSite();
+      if (focused) {
+        this.markerBySite.get(focused.id)?.openPopup();
+      }
     });
+  }
+
+  /** เลื่อนไปไซต์ก่อนหน้า (วนกลับไปตัวสุดท้ายเมื่อถึงตัวแรก) */
+  prevSite(): void {
+    const total = this.mappedSites().length;
+    if (total === 0) return;
+    const current = this.focusIndex();
+    this.focusSite(current <= 0 ? total - 1 : current - 1);
+  }
+
+  /** เลื่อนไปไซต์ถัดไป (วนกลับไปตัวแรกเมื่อถึงตัวสุดท้าย) */
+  nextSite(): void {
+    const total = this.mappedSites().length;
+    if (total === 0) return;
+    this.focusSite((this.focusIndex() + 1) % total);
+  }
+
+  /** ซูมไปที่ไซต์ตามลำดับที่ระบุ พร้อมเปิดข้อมูลของไซต์นั้น */
+  private focusSite(index: number): void {
+    const site = this.mappedSites()[index];
+    if (!site || !site.position || !this.map) return;
+
+    this.focusIndex.set(index);
+    this.map.flyTo([site.position.lat, site.position.lng], this.FOCUS_ZOOM, { duration: 0.6 });
+    // รอ animation จบก่อนเปิด popup ไม่งั้น popup จะถูกวางผิดตำแหน่ง
+    setTimeout(() => this.markerBySite.get(site.id)?.openPopup(), 650);
+  }
+
+  /** กลับไปมุมมองรวมทั้งประเทศ */
+  resetFocus(): void {
+    this.focusIndex.set(-1);
+    this.map?.closePopup();
+    this.map?.flyTo([13.7563, 100.5018], 6, { duration: 0.6 });
   }
 
   ngAfterViewInit(): void {

@@ -1,9 +1,9 @@
 <div class="container w-100 h-100 bz d-col-c">
     <div class="progress bz w-100 h-100">
-        <app-circle-progress 
-            [percent]="getPercentage()" 
-            [value]="power()?.Value | numberFomat: '1.0-0'" 
-            [unit]="power()?.Unit??'kW'">
+        <app-circle-progress
+            [percent]="getPercentage()"
+            [value]="energy()?.Value | numberFomat: '1.0-0'"
+            [unit]="energy()?.Unit??'kWh'">
         </app-circle-progress>
     </div>
     <div class="infomation w-100">
@@ -15,11 +15,11 @@
             <div class="unit">kWh/kWp</div>
         </div>
         <div class="box d-col-c bz">
-            <div class="title">PR</div>
+            <div class="title">PEAK</div>
             <div class="value" [matTooltip]="tooltipSrv.getTooltip(performance())" matTooltipPosition="above">
-                {{ performance()?.Value | numberFomat: '1.0-1' }}
+                {{ (power()?.Value > performance()?.Value ? power()?.Value : performance()?.Value) | numberFomat: '1.0-0' }}
             </div>
-            <div class="unit">%</div>
+            <div class="unit">kW</div>
         </div>
         <div class="box d-col-c bz">
             <div class="title">CAPACITY</div>

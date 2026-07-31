@@ -2,17 +2,17 @@
     @if (!selectedSiteId()) {
         <div class="kpi-grid w-100 bz">
             <div class="kpi bz">
-                <div class="label">TOTAL CONTRACT</div>
+                <div class="label">TOTAL CONTRACT<app-info-hint [hint]="'total-contract'"></app-info-hint></div>
                 <div class="value">{{ summary().totalContract }}</div>
                 <div class="sub">PPA {{ summary().ppaCount }} · FLOATING {{ summary().floatingCount }}</div>
             </div>
             <div class="kpi bz">
-                <div class="label">ALL PLANT CAPACITY</div>
+                <div class="label">ALL PLANT CAPACITY<app-info-hint hint="all-plant-capacity"></app-info-hint></div>
                 <div class="value">{{ summary().totalCapacity | numberFomat: '1.0-1' }} <span class="unit">MWp</span></div>
                 <div class="sub">{{ siteList().length }} sites</div>
             </div>
             <div class="kpi accent bz">
-                <div class="label">AVG TARIFF</div>
+                <div class="label">AVG TARIFF<app-info-hint hint="avg-tariff"></app-info-hint></div>
                 @if (summary().avgTariff !== null) {
                     <div class="value highlight">{{ summary().avgTariff | numberFomat: '1.0-2' }} <span class="unit">฿/kWh</span></div>
                 } @else {
@@ -21,7 +21,7 @@
                 <div class="sub">current period</div>
             </div>
             <div class="kpi bz">
-                <div class="label">AVG CONTRACT PROGRESS</div>
+                <div class="label">AVG CONTRACT PROGRESS<app-info-hint hint="avg-contract-progress"></app-info-hint></div>
                 @if (summary().avgProgress !== null) {
                     <div class="value">{{ summary().avgProgress | numberFomat: '1.0-1' }}%</div>
                     <div class="track bz">
@@ -33,7 +33,7 @@
                 }
             </div>
             <div class="kpi good bz">
-                <div class="label">TOTAL REVENUE THIS MONTH</div>
+                <div class="label">TOTAL REVENUE THIS MONTH<app-info-hint hint="total-revenue-month"></app-info-hint></div>
                 @if (summary().totalRevenue !== null) {
                     <div class="value up">฿ {{ summary().totalRevenue | numberFomat: '1.0-0' }}</div>
                 } @else {
@@ -115,11 +115,11 @@
                         <div class="hero-cap">est. value this year · warranty energy × tariff</div>
                         <div class="hero-stats bz">
                             <div class="hs bz">
-                                <div class="l">WARRANTY / YR</div>
+                                <div class="l">WARRANTY / YR<app-info-hint hint="warranty-yr"></app-info-hint></div>
                                 <div class="v">{{ warrantyYear().warrantyEnergy / 1000 | numberFomat: '1.0-0' }}<span class="u"> MWh</span></div>
                             </div>
                             <div class="hs bz">
-                                <div class="l">PRODUCED YTD</div>
+                                <div class="l">PRODUCED YTD<app-info-hint hint="produced-ytd"></app-info-hint></div>
                                 <div class="v">{{ warrantyYear().producedEnergy / 1000 | numberFomat: '1.0-0' }}<span class="u"> MWh</span></div>
                             </div>
                         </div>

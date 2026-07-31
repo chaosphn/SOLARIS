@@ -89,7 +89,7 @@ export class RevenuePerformance implements OnInit, OnDestroy {
       let t = 0;
       for (const s of contracted) {
         const cfg = configs.find(c => c.siteId === s.id)!;
-        const warranty = sla[s.id]?.energy_delivery;
+        const warranty = sla[s.id]?.financial_model_yield;
         const r = rateForMonth(cfg.contactType, cfg.contactCost, year, m);
         if (warranty != null && r != null) {
           t += (warranty / 12) * r;
@@ -115,8 +115,16 @@ export class RevenuePerformance implements OnInit, OnDestroy {
     const achievement = ytdTarget > 0 ? (ytdActual / ytdTarget) * 100 : null;
 
     // forecast: ใช้ achievement ของเดือนที่ "จบแล้ว" (ไม่รวมเดือนปัจจุบันที่ยังไม่ครบ)
-    const doneActual = monthlyActual.slice(0, curMonth).reduce((acc: number, b) => acc + (b ?? 0), 0);
-    const doneTarget = monthlyTarget.slice(0, curMonth).reduce((a, b) => a + b, 0);
+    // เดือนที่ไม่มีข้อมูล actual เลย (null) ไม่นับทั้ง actual และ target — กันไม่ให้ data หายไปฉุด ratio ต่ำผิดๆ
+    let doneActual = 0;
+    let doneTarget = 0;
+    for (let m = 0; m < curMonth; m++) {
+      const a = monthlyActual[m];
+      if (a != null) {
+        doneActual += a;
+        doneTarget += monthlyTarget[m];
+      }
+    }
     const ratio = doneTarget > 0 ? doneActual / doneTarget : 1;
 
     // forecast เฉพาะเดือนอนาคต (m > เดือนปัจจุบัน) = target × สัดส่วน achievement ที่ผ่านมา
@@ -148,7 +156,7 @@ export class RevenuePerformance implements OnInit, OnDestroy {
     for (const s of contracted) {
       const en = energy[s.id]?.[curMonth];
       if (en != null) { actualEnergy += en; }
-      const warranty = sla[s.id]?.energy_delivery;
+      const warranty = sla[s.id]?.financial_model_yield;
       if (warranty != null) { targetEnergy += warranty / 12; }
     }
     const actRev = thisMonthActual ?? 0;
@@ -224,7 +232,7 @@ export class RevenuePerformance implements OnInit, OnDestroy {
       const thisMonth = rev[curMonth];
       const ytd = rev.slice(0, curMonth + 1).reduce((acc: number, b) => acc + (b ?? 0), 0);
       const cfg = configs.find(c => c.siteId === s.id)!;
-      const warranty = sla[s.id]?.energy_delivery;
+      const warranty = sla[s.id]?.financial_model_yield;
       const r = rateForMonth(cfg.contactType, cfg.contactCost, year, curMonth);
       const target = warranty != null && r != null ? (warranty / 12) * r : null;
       const variancePct = thisMonth != null && target != null && target > 0 ? ((thisMonth - target) / target) * 100 : null;
@@ -370,7 +378,7 @@ export class RevenuePerformance implements OnInit, OnDestroy {
     const v = Math.abs(value);
     const sign = value < 0 ? '-' : '';
     if (v >= 1e9) { return sign + (v / 1e9).toFixed(2) + 'B'; }
-    if (v >= 1e6) { const m = v / 1e6; return sign + (m >= 100 ? m.toFixed(0) : m.toFixed(1)) + 'M'; }
+    if (v >= 1e6) { const m = v / 1e6; return sign + (m >= 100 ? m.toFixed(0) : m.toFixed(2)) + 'M'; }
     if (v >= 1e3) { return sign + (v / 1e3).toFixed(0) + 'K'; }
     return sign + v.toFixed(0);
   }

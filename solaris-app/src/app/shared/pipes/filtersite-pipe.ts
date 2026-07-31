@@ -17,7 +17,7 @@ export class FiltersitePipe implements PipeTransform {
     }
     
     const filteredSites = result.filter(site => 
-      site.name.toUpperCase().includes(searchText.toUpperCase())
+      site.name.toUpperCase().includes(searchText.toUpperCase()) || site.id.toUpperCase().includes(searchText.toUpperCase()) || site.location.toUpperCase().includes(searchText.toUpperCase()) || site.project.toUpperCase().includes(searchText.toUpperCase())
     );
     
     return filteredSites.sort((a, b) => 

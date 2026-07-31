@@ -1,8 +1,11 @@
-import { Component, effect, EventEmitter, inject, input, Output } from '@angular/core';
+import { AfterViewInit, Component, effect, ElementRef, EventEmitter, inject, input, OnDestroy, Output, ViewChild } from '@angular/core';
 import type { Chart, Options } from 'highcharts';
 import { isDate } from 'moment';
 import { ChartParameters } from '../../models/highchart.model';
 import { Datetime } from '../../services/datetime';
+
+/** ขนาดต้องเปลี่ยนเกินเท่านี้ถึงจะวาดกราฟใหม่ — กันแกว่งจากเศษ px */
+const RESIZE_THRESHOLD_PX = 3;
 
 @Component({
   selector: 'app-highchart',
@@ -10,14 +13,19 @@ import { Datetime } from '../../services/datetime';
   templateUrl: './highchart.html',
   styleUrl: './highchart.scss'
 })
-export class Highchart  {
-  
+export class Highchart implements AfterViewInit, OnDestroy {
+
   chartOptions?: Options;
   ref?: Chart;
   chartParameter = input.required<ChartParameters>({});
   @Output() chartReady = new EventEmitter<Chart>();
   today = new Date(new Date().setHours(23,59,0,0)).getTime() + 7 * 60 * 60 * 1000;
   yester = new Date(new Date().setHours(0,0,0,0)).getTime() + 7 * 60 * 60 * 1000;
+
+  @ViewChild('chartHost', { static: true }) chartHost?: ElementRef<HTMLElement>;
+  private resizeObserver?: ResizeObserver;
+  private reflowFrame?: number;
+  private lastSize = { w: 0, h: 0 };
 
   private dateTimeSrv = inject(Datetime);
   constructor() {
@@ -33,6 +41,62 @@ export class Highchart  {
         this.ref = undefined;
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    const host = this.chartHost?.nativeElement;
+    if (!host || typeof ResizeObserver === 'undefined') {
+      return;
+    }
+
+    // Highcharts เขียนขนาดเป็น inline px ลงบน container แล้วค้างไว้
+    // ถ้าไม่สั่ง reflow เมื่อกล่องเปลี่ยนขนาด (ขยาย/ย่อการ์ด, ย่อ sidebar, เปลี่ยนขนาดหน้าต่าง)
+    // กราฟจะยังกว้างเท่าเดิมแล้วไปดัน grid track จนหน้าเพี้ยน
+    this.resizeObserver = new ResizeObserver(entries => {
+      const rect = entries[0]?.contentRect;
+      if (!rect) {
+        return;
+      }
+      const w = Math.round(rect.width);
+      const h = Math.round(rect.height);
+
+      // เปลี่ยนไม่ถึงเกณฑ์ = ไม่ต้องวาดใหม่
+      // กันทั้ง loop ตอน Highcharts วาดเสร็จ และการแกว่ง 1-2px ตอน scrollbar โผล่/หาย
+      if (Math.abs(w - this.lastSize.w) < RESIZE_THRESHOLD_PX &&
+          Math.abs(h - this.lastSize.h) < RESIZE_THRESHOLD_PX) {
+        return;
+      }
+      this.lastSize = { w, h };
+
+      // การ์ดถูกซ่อนอยู่ (เช่นสลับแท็บ) — reflow ตอนขนาด 0 จะทำให้กราฟพัง
+      if (w <= 0 || h <= 0) {
+        return;
+      }
+
+      // รอ frame ถัดไปให้ layout นิ่งก่อนค่อยวาดใหม่
+      if (this.reflowFrame) {
+        cancelAnimationFrame(this.reflowFrame);
+      }
+      this.reflowFrame = requestAnimationFrame(() => this.safeReflow());
+    });
+
+    this.resizeObserver.observe(host);
+  }
+
+  ngOnDestroy(): void {
+    if (this.reflowFrame) {
+      cancelAnimationFrame(this.reflowFrame);
+    }
+    this.resizeObserver?.disconnect();
+  }
+
+  /** เรียก reflow แบบกันพลาด — chart อาจถูก destroy ไปแล้วระหว่างรอ frame */
+  private safeReflow(): void {
+    try {
+      this.ref?.reflow();
+    } catch {
+      // chart ถูกทำลายไปแล้ว ปล่อยผ่าน
+    }
   }
 
   addPoint() {

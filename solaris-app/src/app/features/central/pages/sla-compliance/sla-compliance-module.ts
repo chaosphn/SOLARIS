@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SlaComplianceRoutingModule } from './sla-compliance-routing-module';
 import { SlaCompliance } from './sla-compliance';
 import { ShareModule } from '../../../../shared/shared.module';
+import { ChartsModule } from '../../../../shared/chart.module';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { ShareModule } from '../../../../shared/shared.module';
   imports: [
     CommonModule,
     SlaComplianceRoutingModule,
-    ShareModule
+    ShareModule,
+    ChartsModule
   ]
 })
 export class SlaComplianceModule { }

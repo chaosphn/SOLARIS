@@ -20,11 +20,6 @@
             "Tagname": "OVERALL.CALC.WH_MONTH"
           },
           {
-            "Title": "MONTHLY_TARGET",
-            "Timestamp": "BOM",
-            "Tagname": "KKB.CALC.WH_WTY_MONTH"
-          },
-          {
             "Title": "AVAI",
             "Timestamp": "BOD",
             "Tagname": "KKB.CALC.AVAI_DAY"
@@ -71,7 +66,7 @@
           {
             "Title": "WH_TARGET",
             "Timestamp": "BOY",
-            "Tagname": "KKB.CALC.WH_WTY"
+            "Tagname": "KKB.CALC.FINANCIAL_MODEL_YIELD"
           }
         ]
       },
@@ -85,7 +80,11 @@
           },
           {
             "Title": "CAPACITY",
-            "Tagname": "OVERALL.CALC.CAPACITY"
+            "Tagname": "KKB.CALC.CAPACITY"
+          },
+          {
+            "Title": "PEAK",
+            "Tagname": "KKB.CALC.W_PEAK"
           },
           {
             "Title": "YIELD",
@@ -206,17 +205,8 @@
             "Tagname": "OVERALL.CALC.WH_MONTH",
             "Options": {
               "Time": "",
-              "Interval": 0,
-              "StartTime": "BOY",
-              "EndTime": "EOY"
-            }
-          },
-          {
-            "Title": "WARANTY_ENERGY",
-            "Tagname": "KKB.CALC.WH_WTY_MONTH",
-            "Options": {
-              "Time": "",
-              "Interval": 0,
+              "Type": "sampling",
+              "TimeSpan": "0 0 1 * *",
               "StartTime": "BOY",
               "EndTime": "EOY"
             }
@@ -226,7 +216,8 @@
             "Tagname": "OVERALL.CALC.WH_EXPECT_MONTH",
             "Options": {
               "Time": "",
-              "Interval": 0,
+              "Type": "sampling",
+              "TimeSpan": "0 0 1 * *",
               "StartTime": "BOY",
               "EndTime": "EOY"
             }
@@ -239,20 +230,22 @@
         "Tags": [
           {
             "Title": "PERFORMANCE",
-            "Tagname": "KKB.CALC.PR_MONTH",
+            "Tagname": "OVERALL.CALC.PR_MONTH",
             "Options": {
               "Time": "",
-              "Interval": 0,
+              "Type": "sampling",
+              "TimeSpan": "0 0 1 * *",
               "StartTime": "BOY",
               "EndTime": "EOY"
             }
           },
           {
             "Title": "AVAI",
-            "Tagname": "KKB.CALC.AVAI_MONTH",
+            "Tagname": "OVERALL.CALC.AVAI_MONTH",
             "Options": {
               "Time": "",
-              "Interval": 0,
+              "Type": "sampling",
+              "TimeSpan": "0 0 1 * *",
               "StartTime": "BOY",
               "EndTime": "EOY"
             }
@@ -286,19 +279,6 @@
               "color": "#34C08A",
               "borderColor": "#34C08A",
 							"borderRadius": 0,
-              "showInLegend": true
-            }
-          },
-          {
-            "name": "KKB.CALC.WH_WTY_MONTH",
-            "title": "TARGET*kWh",
-            "options": {
-              "yAxis": 0,
-              "type": "line",
-              "color": "#3ddffc",
-              "borderColor": "#3ddffc",
-							"borderRadius": 0,
-              "dashStyle": "Dash",
               "showInLegend": true
             }
           }
@@ -364,7 +344,22 @@
               "gridLineColor": "var(--chart-brd)",
               "gridLineWidth": 0,
               "margin": 0,
-              "min": 0
+              "min": 0,
+              "plotLines": [{
+                "color": "#FF6B6B",
+                "width": 2,
+                "value": "tagValue:WH_TARGET:12",
+                "zIndex": 5,
+                "label": {
+                  "text": "GUARANTEE {value} kWh",
+                  "align": "right",
+                  "style": {
+                    "color": "#FF6B6B",
+                    "fontSize": "10px"
+                  },
+                  "useHTML": true
+                }
+              }]
             }
           ],
           "xAxis": {
@@ -408,7 +403,7 @@
         "name": "CHART03",
         "tags": [
           {
-            "name": "KKB.CALC.AVAI_MONTH",
+            "name": "OVERALL.CALC.AVAI_MONTH",
             "title": "AVAILABILITY*%",
             "options": {
               "yAxis": 0,
@@ -420,7 +415,7 @@
             }
           },
           {
-            "name": "KKB.CALC.PR_MONTH",
+            "name": "OVERALL.CALC.PR_MONTH",
             "title": "PR*%",
             "options": {
               "yAxis": 0,

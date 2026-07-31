@@ -120,6 +120,8 @@ import {
     DeleteDiagramRequest,
     DownloadDiagramRequest,
 } from '../models/masterdata.model';
+import { SiteModel, SiteStateModel } from '../models/config.model';
+import { mapPlantsToSiteList } from '../utils/plant-mapper';
 import {
     CreateInverterSessionRequest,
     DestroyInverterSessionRequest,
@@ -181,6 +183,30 @@ export class HttpService {
         return res;
     }
 
+    async getHisAtTime(requests: RequestHistorianModel[]) {
+        const body = requests;
+        const res: any = await firstValueFrom(
+            this.httpClient.post( this.appLoadService.config.UrlApi + 'gethisattime', body)
+        );
+        return res;
+    }
+
+    async getPlotData(requests: RequestHistorianModel[]) {
+        const body = requests;
+        const res: any = await firstValueFrom(
+            this.httpClient.post( this.appLoadService.config.UrlApi + 'getplotdata', body)
+        );
+        return res;
+    }
+
+    async getAllHistorianData(requests: RequestHistorianModel[]) {
+        const body = requests;
+        const res: any = await firstValueFrom(
+            this.httpClient.post( this.appLoadService.config.UrlApi + 'getdata', body)
+        );
+        return res;
+    }
+
     getConfig(path: string): Promise<any[] | undefined> {
         return this.httpClient.get<any[]>(path).toPromise();
         
@@ -215,7 +241,30 @@ export class HttpService {
         const res = await firstValueFrom(
             this.httpClient.post(this.appLoadService.config.UrlApiAuthen + 'refreshtoken', body)
         );
-        
+
+        return res;
+    }
+
+    async authenticateUser(username: string, password: string) {
+        const body = {
+            user : username,
+            password : password
+        };
+        const res = await firstValueFrom(
+            this.httpClient.post<AuthRespondModel>(this.appLoadService.config.UrlApiAuthen + 'authentication', body)
+        );
+
+        return res;
+    }
+
+    async checkToken(token: string) {
+        const body = {
+            token : token
+        };
+        const res = await firstValueFrom(
+            this.httpClient.post<AuthRespondModel>(this.appLoadService.config.UrlApiAuthen + 'checktoken', body)
+        );
+
         return res;
     }
 
@@ -629,6 +678,17 @@ export class HttpService {
             this.httpClient.post<UserRespondModel>(this.appLoadService.config.UrlApi + 'user/changepassword', body)
         );
         
+        return res;
+    };
+
+    async getUserById(userId: string) {
+        const body = {
+            _id: userId
+        };
+        const res = await firstValueFrom(
+            this.httpClient.post<UserDataModel | UserRespondModel>(this.appLoadService.config.UrlApi + 'user/getbyid', body)
+        );
+
         return res;
     };
 
@@ -1318,6 +1378,18 @@ export class HttpService {
         return await firstValueFrom(
             this.httpClient.get<MasterDataResponse<PlantInformationModel[]>>(url)
         );
+    }
+
+    // ดึง site list จาก master data แปลงเป็น SiteModel[] (fallback ไป sitelist.json ถ้า API ล่ม)
+    async getMasterSiteList(includeDisabled: boolean = false): Promise<SiteModel[]> {
+        try {
+            const res = await this.getMasterPlants(includeDisabled);
+            if (res?.status === 'success' && res.data && res.data.length > 0) {
+                return mapPlantsToSiteList(res.data);
+            }
+        } catch (_) { }
+        const config: SiteStateModel = await this.getConfig2('assets/sitelist.json');
+        return config ? config.zoneList.flatMap(x => x.siteList) : [];
     }
 
     async findPlant(body: FindPlantByIdRequest) {

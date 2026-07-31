@@ -81,6 +81,7 @@ export class PlantConfig implements OnInit {
       position_lat: undefined,
       position_long: undefined,
       capacity: undefined,
+      capacity_dc: undefined,
       cod: '',
       group: ''
     } as PlantInformationModel;

@@ -4,18 +4,64 @@
     border: 1px solid var(--border-color);
     border-radius: 4px;
     box-shadow: 0 3px 12px 0 rgba(20,31,47,0.1), 0 1px 2px 0 rgba(20,31,47,0.12);
+    position: relative;
+    transition: box-shadow 0.2s ease;
     .topic{
         display: flex;
         align-items: center;
+        justify-content: space-between;
         border-left: 4px solid var(--highlight);
         border-left-width: 3px;
-        padding: 0px 10px;
+        padding: 0px 0px 0px 10px;
         span{
             color: var(--primary-txt);
             font-weight: 500;
             font-size: 14px;
         }
+        .expand-btn{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            //padding: 4px;
+            //border-radius: 4px;
+            color: var(--primary-txt);
+            opacity: 0.6;
+            transition: opacity 0.15s ease, background-color 0.15s ease;
+            mat-icon{
+                font-size: 14px;
+                width: 12px;
+                height: 16px;
+            }
+            &:hover{
+                opacity: 1;
+                background-color: rgba(0,0,0,0.06);
+            }
+        }
     }
+
+    &.expanded{
+        position: fixed;
+        top: 5vh;
+        left: 5vw;
+        width: 90vw !important;
+        height: 90vh !important;
+        max-width: 90vw !important;
+        z-index: 1001;
+        box-shadow: 0 12px 40px 0 rgba(20,31,47,0.35), 0 4px 12px 0 rgba(20,31,47,0.25);
+        .content{
+            height: 100% !important;
+        }
+    }
+}
+
+.card-backdrop{
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1001;
 }
 
 @media only screen and (max-width: 500px) {

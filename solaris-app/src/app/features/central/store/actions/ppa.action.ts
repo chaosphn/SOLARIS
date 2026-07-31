@@ -28,6 +28,11 @@ export const setPpaMonthlyEnergy = createAction(
   props<{ monthlyEnergy: Record<string, (number | null)[]> }>()
 );
 
+export const setPpaYearlyEnergy = createAction(
+  '[PPA] Set Yearly Energy',
+  props<{ yearlyEnergy: Record<string, Record<number, number | null>> }>()
+);
+
 export const setPpaSlaByYear = createAction(
   '[PPA] Set SLA By Year',
   props<{ slaByYear: Record<string, Record<number, PlantSlaModel>> }>()

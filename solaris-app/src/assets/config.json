@@ -1,10 +1,11 @@
 
+
 {
-    "UrlApi": "/api/data/",
-    "UrlApiAuthen": "/api/auth/",
-    "UrlApiBilling": "/api/report/",
-    "UrlApiNotification": "/api/event/",
-    "UrlApiMaintenance": "/api/maintenance/",
-    "UrlApiMasterData": "/api/masterdata/",
-    "Timer": 5
+        "UrlApi": "/api/data/",
+        "UrlApiAuthen": "/api/data/",
+        "UrlApiBilling": "/api/report/",
+        "UrlApiNotification": "/api/event/",
+        "UrlApiMaintenance": "/api/maintenance/",
+        "UrlApiMasterData": "/api/masterdata/",
+        "Timer": 2
 }

@@ -2,6 +2,14 @@
     position: relative;
 }
 
+.chart-box{
+    height: 100%;
+    min-height: 200px;
+    max-height: 95%;
+    padding-top: 16px;
+    box-sizing: border-box;
+}
+
 .item{
     align-items: center;
     column-gap: 4px;
@@ -52,6 +60,9 @@
 @media (max-width: 1500px) {
     .container{
         padding-top: 16px;
+    }
+    .chart-box{
+        height: 165px;
     }
     .item{
         align-items: center;

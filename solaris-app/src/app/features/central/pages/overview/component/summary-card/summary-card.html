@@ -28,14 +28,14 @@
                 <div class="value">{{ (month_curr()?.Value >= 0 ? month_curr()?.Value/1000 : 0) | numberFomat: '1.0-1' }}</div>
                 <div class="unit">MWh</div>
             </div>
-            @if (checkValueStatus(month_curr()?.Value, month_prev()?.Value) === 'nodata') {
+            @if (checkValueStatus(month_curr()?.Value, month_prev()?.Value/12) === 'nodata') {
                 <div class="diff" style="color: var(--secondary-txt)">
                     <i class="material-icons bz">remove</i>
                     <div class="message bz">no data</div>
                 </div>
             } @else {
-                <div class="diff" [style.color]="checkValueStatus(month_curr()?.Value, (month_prev()?.Value)) === 'plus' ? '#4CAF82' : 'var(--secondary-txt)'">
-                    <div class="message bz">{{ getTargetPercent(month_curr()?.Value, (month_prev()?.Value)) | numberFomat: '1.0-1' }}% of target</div>
+                <div class="diff" [style.color]="checkValueStatus(month_curr()?.Value, (month_prev()?.Value/12)) === 'plus' ? '#4CAF82' : 'var(--secondary-txt)'">
+                    <div class="message bz">{{ getTargetPercent(month_curr()?.Value, (month_prev()?.Value/12)) | numberFomat: '1.0-1' }}% of target</div>
                 </div>
             }
         </div>
@@ -103,7 +103,7 @@
         <div class="box d-col-st bz">
             <div class="title">CO₂ TODAY</div>
             <div class="value-box" [matTooltip]="tooltipSrv.getTooltip(co2_curr())" matTooltipPosition="above">
-                <div class="value">{{ co2_curr()?.Value | numberFomat: '1.0-0' }}</div>
+                <div class="value">{{ co2_curr()?.Value/1000 | numberFomat: '1.0-2' }}</div>
                 <div class="unit">tCO₂</div>
             </div>
             @if (checkValueStatus(co2_curr()?.Value, co2_prev()?.Value) === 'nodata') {
@@ -113,7 +113,7 @@
                 </div>
             } @else {
                 <div class="diff" [style.color]="'var(--secondary-txt)'">
-                    <div class="message bz">accummulate {{ co2_prev()?.Value | numberFomat: '1.0-0' }}t</div>
+                    <div class="message bz">accummulate {{ co2_prev()?.Value/1000 | numberFomat: '1.0-2' }}t</div>
                 </div>
             }
         </div>

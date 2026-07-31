@@ -29,6 +29,8 @@ import { DataTable } from './components/data-table/data-table';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
 import { SkeletonBox } from './components/skeleton-box/skeleton-box';
+import { NoData } from './components/no-data/no-data';
+import { InfoHint } from './components/info-hint/info-hint';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
@@ -75,6 +77,8 @@ export const MY_DATE_FORMATS = {
     TagContainer,
     DataTable,
     SkeletonBox,
+    NoData,
+    InfoHint,
     TagDialog,
     MapContainer
     // InverterDialog,
@@ -119,6 +123,8 @@ export const MY_DATE_FORMATS = {
     TagContainer,
     DataTable,
     SkeletonBox,
+    NoData,
+    InfoHint,
     TagDialog,
     MapContainer
     // InverterDialog,

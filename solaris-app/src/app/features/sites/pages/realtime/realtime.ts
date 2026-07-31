@@ -19,6 +19,11 @@ import { ColorRangeModel, PanelConfigModel } from '../../../../shared/models/pan
 import { ChartPickerModel } from '../../../../shared/components/chart-card/chart-card';
 import { AliasList, DecodedAlarm, RealtimeDataModel, StatusMapping, TagParameter, TagsConfigList, TagsListConfig } from '../../../../shared/models/realtime.model';
 import { TooltipFormat } from '../../../../shared/services/tooltip-format';
+import { setLastUpdate } from '../../../../store/actions/last-update.actions';
+
+/** รอบรีเฟรชของหน้า Realtime — ถี่กว่าค่ากลาง config.Timer ตามที่ลูกค้าขอ */
+const REFRESH_INTERVAL_MS = 30 * 1000;
+
 @Component({
   selector: 'app-realtime',
   standalone: false,
@@ -66,7 +71,7 @@ export class Realtime implements OnInit, OnDestroy {
           if(i.name === 'NAME' || i.name === 'LASTSEEN'){
             return;
           }
-          const cell = this.responseRealtime().find( d => d.Name.includes( x + '.' + i.name));
+          const cell = this.responseRealtime().find( d => d.Name === this.siteSelected() + '.' + x + '.' + i.name);
           row[i.name] = cell;
           if(cell?.TimeStamp && (!latest || new Date(cell.TimeStamp) > new Date(latest))){
             latest = cell.TimeStamp;
@@ -116,6 +121,7 @@ export class Realtime implements OnInit, OnDestroy {
   navSub?: Subscription;
   storeSub?: Subscription;
   storeSub2?: Subscription;
+  isFetching = false;
 
   date: Date = new Date();
 
@@ -189,9 +195,7 @@ export class Realtime implements OnInit, OnDestroy {
 
     this.getRealtimeRequest();
     await this.getRealtimeData();
-    if(this.appInit.config.Timer){
-      this.startTimer(this.appInit.config.Timer * 60000);
-    }
+    this.startTimer(REFRESH_INTERVAL_MS);
 
   }
 
@@ -238,6 +242,7 @@ export class Realtime implements OnInit, OnDestroy {
       this.tableHeader.update(val => val.concat(tagName));
       this.tableRow.set(eqpName);
     }
+    //console.log(this.tableHeader(), this.tableRow(), this.tableData())
     const request = eqpName?.reduce((acc, cur, index) => {
       let res = tagName?.map(x => this.siteSelected() + '.' + cur + '.' + x.name);
       if(res){
@@ -279,13 +284,31 @@ export class Realtime implements OnInit, OnDestroy {
   }
 
   startTimer(dueTimer: number) {
-    this.timers = timer(dueTimer, dueTimer).subscribe(x => {
-      this.updateData();
+    // แจ้งเวลาอัปเดตล่าสุดทันทีที่โหลดเสร็จ แล้วแจ้งซ้ำทุกรอบรีเฟรช
+    this.publishLastUpdate(dueTimer);
+    this.timers = timer(dueTimer, dueTimer).subscribe(async x => {
+      await this.updateData();
+      this.publishLastUpdate(dueTimer);
     });
   }
 
+  private publishLastUpdate(intervalMs: number){
+    this.store.dispatch(setLastUpdate({ payload: { timestamp: new Date(), intervalMs } }));
+  }
+
   async updateData(){
-    await this.getRealtimeData();
+    // ข้ามรอบถ้ารอบก่อนยังไม่เสร็จ กัน request กองกันตอน API ช้า
+    if(this.isFetching){
+      return;
+    }
+    this.isFetching = true;
+    try {
+      this.responseRealtime.set([]);
+      this.getRealtimeRequest();
+      await this.getRealtimeData();
+    } finally {
+      this.isFetching = false;
+    }
   }
 
   trackByKey = (index: number, item: RealtimeDataModel) => item.group;

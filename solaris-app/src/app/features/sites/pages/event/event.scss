@@ -1,9 +1,10 @@
 .container{
     display: flex;
     flex-direction: column;
-    align-items: stretch;
     row-gap: 16px;
     padding: 16px;
+    height: 100%;
+    overflow-y: auto;
     max-height: calc(100vh - 106px);
 }
 
@@ -29,9 +30,11 @@
 .content{
     display: grid;
     grid-template-columns: 1fr 350px;
+    grid-template-rows: 1fr;
     gap: 16px;
-    overflow-y: auto;
-    height: calc(100vh - 228px);
+    height: 100%;
+    // overflow-y: auto;
+    // height: calc(100vh - 228px);
 }
 
 .data-table{
@@ -223,7 +226,7 @@
 }
 
 .event {
-    color: #10FDD3 !important;
+    color: #34C08A !important;
 }
 
 .warn {
@@ -242,8 +245,8 @@
     overflow-x: auto;
     border-radius: 4px;
     position: relative;
-    height: calc(100vh - 235px);
-    overflow-y: auto;
+    //height: calc(100vh - 235px);
+    //overflow-y: auto;
 
     .table {
         width: 100%;
@@ -416,8 +419,8 @@
         display: grid;
         grid-template-columns: 1fr 300px;
         gap: 16px;
-        overflow-y: auto;
-        height: calc(100vh - 228px);
+        // overflow-y: auto;
+        // height: calc(100vh - 228px);
     }
 }
 
@@ -442,8 +445,8 @@
         grid-template-columns: 1fr;
         max-width: 100%;
         gap: 16px;
-        height: auto;
-        overflow-y: visible;
+        // height: auto;
+        // overflow-y: visible;
     }
 }
 

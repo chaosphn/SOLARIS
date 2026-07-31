@@ -143,27 +143,27 @@ export const routes: Routes = [
             },
             {
                 path: 'delivery',
-                //canActivate: [PermissionGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/energy-delivery/energy-delivery-module').then(m => m.EnergyDeliveryModule)
             },
             {
                 path: 'tariff',
-                //canActivate: [PermissionGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/tariff-escalation/tariff-escalation-module').then(m => m.TariffEscalationModule)
             },
             {
                 path: 'financial',
-                //canActivate: [PermissionGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/financial-analysis/financial-analysis-module').then(m => m.FinancialAnalysisModule)
             },
             {
                 path: 'sla',
-                //canActivate: [PermissionGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/sla-compliance/sla-compliance-module').then(m => m.SlaComplianceModule)
             },
             {
                 path: 'bill-report',
-                //canActivate: [PermissionGuard],
+                canActivate: [PermissionGuard],
                 loadChildren: () => import('./features/central/pages/energy-delivery-report/energy-delivery-report-module').then(m => m.EnergyDeliveryReportModule)
             },
         ]

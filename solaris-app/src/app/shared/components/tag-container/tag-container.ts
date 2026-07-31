@@ -30,6 +30,7 @@ export class TagContainer implements OnChanges, OnDestroy {
   @Output() emitResponse = new EventEmitter();
   @Output() isLoading = new EventEmitter();
   @Output() emitDate = new EventEmitter();
+  @Output() clrTagsStatus = new EventEmitter();
   tagsGroup = signal<GroupTags[]>([]);
 
   private dateTime = inject(Datetime);
@@ -375,6 +376,7 @@ export class TagContainer implements OnChanges, OnDestroy {
       item.equipments.forEach(x => { x.alias?.forEach(d => d.status = false); x.status = false; });
       item.parameters.forEach(x => { x.alias?.forEach(d => d.status = false); x.status = false; });
     })
+    this.clrTagsStatus.emit();
   }
 
 }

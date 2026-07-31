@@ -14,11 +14,17 @@
           <tr>
             <th>Site ID</th>
             <th>Year</th>
-            <th>Energy Delivery</th>
-            <th>Availability</th>
+            <!-- <th>Availability</th>
             <th>Performance</th>
             <th>CAPEX</th>
-            <th>OPEX</th>
+            <th>OPEX</th> -->
+            <th>P50 Yield</th>
+            <th>P90 Yield</th>
+            <th>EPC Yield Guarantee</th>
+            <th>PPA Guaranteed Supply</th>
+            <th>Financial Model Yield</th>
+            <th>Last Update</th>
+            <th>Updated By</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -27,11 +33,17 @@
             <tr>
               <td>{{ getSiteNameById(sla.siteid) }}</td>
               <td>{{ getYear(sla.timestamp) }}</td>
-              <td>{{ sla.energy_delivery | number:'1.0-0'}} kWh</td>
-              <td>{{ sla.availability }} %</td>
+              <!-- <td>{{ sla.availability }} %</td>
               <td>{{ sla.performance }} %</td>
               <td>{{ sla.capex | number:'1.0-0'}} THB</td>
-              <td>{{ sla.opex | number:'1.0-0'}} THB</td>
+              <td>{{ sla.opex | number:'1.0-0'}} THB</td> -->
+              <td>{{ sla.p50_yield | number:'1.0-0'}} kWh</td>
+              <td>{{ sla.p90_yield | number:'1.0-0'}} kWh</td>
+              <td>{{ sla.epc_yield_guarantee | number:'1.0-0'}} kWh</td>
+              <td>{{ sla.ppa_guaranteed_supply | number:'1.0-0'}} kWh</td>
+              <td>{{ sla.financial_model_yield | number:'1.0-0'}} kWh</td>
+              <td class="meta-cell">{{ formatUpdatedAt(sla.updated_at) }}</td>
+              <td class="meta-cell">{{ sla.updated_by || '---' }}</td>
               <td class="action-cell">
                 @if (userRole() === 'administrator') {
                   <button class="action-btn copy-btn" (click)="copySla(sla)" title="Copy to next year">
@@ -53,13 +65,13 @@
           }
           @if (tableRowConfig().length === 0) {
             <tr>
-              <td colspan="8" class="empty-row">No SLA records found</td>
+              <td colspan="10" class="empty-row">No SLA records found</td>
             </tr>
           }
         </tbody>
         <tfoot>
           <tr class="tbl-footer-row">
-            <td colspan="8">
+            <td colspan="10">
               <div class="tbl-footer">
                 <div class="tbl-footer__left">
                   <span class="tbl-footer__label">Rows per page</span>

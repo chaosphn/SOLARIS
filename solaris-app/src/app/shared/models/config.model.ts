@@ -16,6 +16,7 @@ export interface SiteModel{
     location: string;
     position: PositionModel;
     capacity: string;
+    capacity_dc?: string;
     invtype?: string;
     cod: string;
 }
@@ -72,6 +73,8 @@ export interface HistorianConfig{
 
 export interface Option{
     Interval?: number;
+    TimeSpan?: string;
+    Type?: 'raw' | 'sampling' | 'plot';
     Time: string;
     StartTime: string;
     EndTime: string;
@@ -87,7 +90,14 @@ export interface TagsConfig{
     name: string;
     title: string;
     time?: string;
+    dataType?: TagDataTypeConfig;
     options: SeriesOptions;
+}
+
+export interface TagDataTypeConfig{
+    type: 'raw' | 'sampling' | 'plot';
+    interval?: number;
+    timespan?: string;
 }
 
 export interface SeriesOptions{

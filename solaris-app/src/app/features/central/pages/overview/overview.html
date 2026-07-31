@@ -4,7 +4,7 @@
             [today_curr]="dataRealtime()['TODAY'] || {}"
             [today_prev]="dataRealtime()['YESTERDAY'] || {}"
             [month_curr]="dataRealtime()['MONTHLY'] || {}"
-            [month_prev]="dataRealtime()['MONTHLY_TARGET'] || {}"
+            [month_prev]="dataRealtime()['WH_TARGET'] || {}"
             [pr_curr]="dataRealtime()['PR'] || {}"
             [pr_prev]="dataRealtime()['PR_TARGET'] || {}"
             [avai_curr]="dataRealtime()['AVAI'] || {}"
@@ -16,19 +16,21 @@
         ></app-summary-card>
     </div>
     <div class="powerCard bz w-100 h-100">
-        <app-card-container [title]="'POWER GENARATION'">
+        <app-card-container [title]="'ENERGY CONSUMPTION'">
             <ng-template #container>
                 <app-power-consumsion
+                    [energy]="dataRealtime()['TODAY'] || {}"
+                    [expected]="dataRealtime()['TODAY_EXPRECTD'] || {}"
                     [power]="dataRealtime()['POWER'] || {}"
                     [yield]="dataRealtime()['YIELD'] || {}"
-                    [performance]="dataRealtime()['PR'] || {}"
+                    [performance]="dataRealtime()['PEAK'] || {}"
                     [capacity]="dataRealtime()['CAPACITY'] || {}"
                 ></app-power-consumsion>
             </ng-template>
         </app-card-container>
     </div>
     <div class="energyCard bz w-100 h-100">
-        <app-card-container [title]="'Energy production'">
+        <app-card-container [title]="'Energy production'" [expandable]="true">
             <ng-template #container>
                 <!-- <div class="w-100 h-100">
                     <app-energy-consumption
@@ -39,7 +41,7 @@
                         [chartData]="dataChart()['CHART01']"
                     ></app-energy-consumption>
                 </div> -->
-                <div class="chart-box w-100 h-100 bz" style="max-height: 90%; margin-top: 5%;">
+                <div class="chart-box w-100 h-100 bz" style="max-height: 95%; margin-top: 2%;">
                     @if (dataChart() && dataChart()['CHART02']) {
                         <app-highchart [chartParameter]="dataChart()['CHART02']"></app-highchart>
                     }
@@ -51,7 +53,7 @@
         <app-card-container [title]="'Sustainability'">
             <ng-template #container>
                 <app-environment-card
-                    [reduction]="dataRealtime()['TOTAL'] || {}"
+                    [reduction]="dataRealtime()['REDUCTION_TOT'] || {}"
                     [credit]="dataRealtime()['CREDIT'] || {}"
                     [tree]="dataRealtime()['TREE'] || {}"
                     [oil]="dataRealtime()['OIL'] || {}"
@@ -60,7 +62,7 @@
         </app-card-container>
     </div>
     <div class="statusCard bz w-100 h-100">
-        <app-card-container [title]="'PR & AVAILABILITY'">
+        <app-card-container [title]="'PR & AVAILABILITY'" [expandable]="true">
             <ng-template #container>
                 <!-- <div class="w-100 h-100 d-flex-ct">
                     <app-piechart [vertical]="false" [statusData]="plantStatusData()"></app-piechart>
@@ -92,7 +94,7 @@
         </app-card-container>
     </div>
     <div class="sitesCard bz w-100 h-100">
-        <app-card-container [title]="'plant GENARATION'">
+        <app-card-container [title]="'plant GENERATION'">
             <ng-template #container>
                 @if (siteList()) {
                     <div class="site-card w-100 h-100 bz" >

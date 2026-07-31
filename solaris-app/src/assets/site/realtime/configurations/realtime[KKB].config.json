@@ -1658,10 +1658,10 @@
         "name": "WEATHER",
         "equipments": [
             {
-                "name": "WX01"
+                "name": "WX02"
             },
             {
-                "name": "WX02"
+                "name": "WX01"
             }
         ],
         "parameters": [
