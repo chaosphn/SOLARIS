@@ -49,7 +49,7 @@
         width: 90vw !important;
         height: 90vh !important;
         max-width: 90vw !important;
-        z-index: 1001;
+        z-index: 1000;
         box-shadow: 0 12px 40px 0 rgba(20,31,47,0.35), 0 4px 12px 0 rgba(20,31,47,0.25);
         .content{
             height: 100% !important;
@@ -61,7 +61,7 @@
     position: fixed;
     inset: 0;
     background-color: rgba(0,0,0,0.5);
-    z-index: 1001;
+    z-index: 1000;
 }
 
 @media only screen and (max-width: 500px) {

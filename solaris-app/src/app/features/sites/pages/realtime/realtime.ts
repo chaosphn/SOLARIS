@@ -20,6 +20,7 @@ import { ChartPickerModel } from '../../../../shared/components/chart-card/chart
 import { AliasList, DecodedAlarm, RealtimeDataModel, StatusMapping, TagParameter, TagsConfigList, TagsListConfig } from '../../../../shared/models/realtime.model';
 import { TooltipFormat } from '../../../../shared/services/tooltip-format';
 import { setLastUpdate } from '../../../../store/actions/last-update.actions';
+import { isDate } from 'moment';
 
 /** รอบรีเฟรชของหน้า Realtime — ถี่กว่าค่ากลาง config.Timer ตามที่ลูกค้าขอ */
 const REFRESH_INTERVAL_MS = 30 * 1000;
@@ -449,6 +450,34 @@ export class Realtime implements OnInit, OnDestroy {
       return res;
     } else {
       return -1;
+    }
+  }
+
+  getLastSeen2(timestamp: string): unknown {
+    if(timestamp && timestamp !== '---' && isDate(new Date(timestamp))){
+      const nowtinme = new Date();
+      const ts = new Date(timestamp);
+      if(nowtinme > ts ){
+        const time = nowtinme.getTime() - (ts.getTime());
+        const m = time/(60 * 1000);
+        let lastTime: string = "0";
+        switch(true){
+          case m >= 60 && m < 1440:
+            lastTime = parseInt((m/60).toString())+"H";
+            break;
+          case m >= 1440:
+            lastTime = parseInt((m/1440).toString())+"D";
+            break;
+          default:
+            lastTime = parseInt(m.toString())+"M";
+            break;
+        }
+        return lastTime === "0M" ? "now" : lastTime;
+      } else {
+        return "now";
+      }
+    } else {
+      return "---";
     }
   }
    

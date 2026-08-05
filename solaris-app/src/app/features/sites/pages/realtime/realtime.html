@@ -1,5 +1,5 @@
 <div class="container-fluid bz w-100 h-100">
-    <div class="row-grid w-100 h-100 bz ">
+    <div class="row-grid w-100 h-100 bz">
         <div class="row1 w-100 bz">
             @for (item of tagsGroupConfig(); track $index; let i = $index) {
                 <span class="item bz" [ngClass]="item.Status ? 'active bz' : 'item bz'" (click)="selectGroup(item, i)">{{item.Name | uppercase}}</span>
@@ -34,7 +34,7 @@
                             </div>
                         }
                     </div>
-                    <div class="row-group w-100 h-100 bz brd">
+                    <div class="row-group w-100 h-100 bz bz">
                         @for (item of tableData(); track $index) {
                             <div class="row w-100 bz">
                                 @for (key of tableHeader(); track $index) {

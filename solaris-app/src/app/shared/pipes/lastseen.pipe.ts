@@ -9,9 +9,10 @@ export class LastseenPipe implements PipeTransform {
 
   transform(timestamp: string, nowtinme: Date): unknown {
     if(timestamp && timestamp !== '---' && isDate(new Date(timestamp))){
+      const nowtinmes = new Date();
       const ts = new Date(timestamp);
-      if(nowtinme > ts ){
-        const time = nowtinme.getTime() - (ts.getTime());
+      if(nowtinmes > ts ){
+        const time = nowtinmes.getTime() - (ts.getTime());
         const m = time/(60 * 1000);
         let lastTime: string = "0";
         switch(true){

@@ -1,7 +1,7 @@
 {
     "dev": {
         "UrlApi": "http://192.168.101.1:5130/",
-        "UrlApiAuthen": "http://192.168.101.1:4126/",
+        "UrlApiAuthen": "http://192.168.101.1:5130/",
         "UrlApiBilling": "http://192.168.101.1:4040/api/",
         "UrlApiNotification": "http://192.168.101.1:6080/api/",
         "UrlApiMaintenance": "http://192.168.101.1:4080/api/",
@@ -10,7 +10,7 @@
     },
     "prod": {
         "UrlApi": "/api/data/",
-        "UrlApiAuthen": "/api/auth/",
+        "UrlApiAuthen": "/api/data/",
         "UrlApiBilling": "/api/report/",
         "UrlApiNotification": "/api/event/",
         "UrlApiMaintenance": "/api/maintenance/",

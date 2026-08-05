@@ -660,7 +660,7 @@
             },
             {
                 "name": "WH_IMPORT_R1",
-                "title": "WH RATE 1",
+                "title": "WH R.1",
                 "uom": "kWh",
                 "width": "5.25rem",
                 "sheets": [
@@ -671,7 +671,7 @@
             },
             {
                 "name": "WH_IMPORT_R2",
-                "title": "WH RATE 2",
+                "title": "WH R.2",
                 "uom": "kWh",
                 "width": "5.25rem",
                 "sheets": [
@@ -682,7 +682,7 @@
             },
             {
                 "name": "WH_IMPORT_R3",
-                "title": "WH RATE 3",
+                "title": "WH R.3",
                 "uom": "kWh",
                 "width": "5.25rem",
                 "sheets": [
@@ -693,7 +693,7 @@
             },
             {
                 "name": "WH_IMPORT_BILL",
-                "title": "WH BILLING",
+                "title": "WH BILL",
                 "uom": "kWh",
                 "width": "5.25rem",
                 "sheets": [
@@ -704,7 +704,7 @@
             },
             {
                 "name": "WH_IMPORT_BILL_R1",
-                "title": "WH BILLING\nRATE 1",
+                "title": "WH BILL\nR.1",
                 "uom": "kWh",
                 "width": "5.25rem",
                 "sheets": [
@@ -715,7 +715,7 @@
             },
             {
                 "name": "WH_IMPORT_BILL_R2",
-                "title": "WH BILLING\nRATE 2",
+                "title": "WH BILL\nR.2",
                 "uom": "kWh",
                 "width": "5.25rem",
                 "sheets": [
@@ -726,7 +726,95 @@
             },
             {
                 "name": "WH_IMPORT_BILL_R3",
-                "title": "WH BILLING\nRATE 3",
+                "title": "WH BILL\nR.3",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_PREV",
+                "title": "WH PREV",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_PREV_R1",
+                "title": "WH PREV\nR.1",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_PREV_R2",
+                "title": "WH PREV\nR.2",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_PREV_R3",
+                "title": "WH PREV\nR.3",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_CURR",
+                "title": "WH CURR",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_CURR_R1",
+                "title": "WH CURR\nR.1",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_CURR_R2",
+                "title": "WH CURR\nR.2",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "import energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_IMPORT_CURR_R3",
+                "title": "WH CURR\nR.3",
                 "uom": "kWh",
                 "width": "5.25rem",
                 "sheets": [
@@ -748,7 +836,7 @@
             },
             {
                 "name": "WH_EXPORT_R1",
-                "title": "WH RATE 1",
+                "title": "WH R.1",
                 "uom": "kWh",
                 "width": "5.25rem",
                 "sheets": [
@@ -759,7 +847,7 @@
             },
             {
                 "name": "WH_EXPORT_R2",
-                "title": "WH RATE 2",
+                "title": "WH R.2",
                 "uom": "kWh",
                 "width": "5.25rem",
                 "sheets": [
@@ -770,7 +858,7 @@
             },
             {
                 "name": "WH_EXPORT_R3",
-                "title": "WH RATE 3",
+                "title": "WH R.3",
                 "uom": "kWh",
                 "width": "5.25rem",
                 "sheets": [
@@ -781,7 +869,7 @@
             },
             {
                 "name": "WH_EXPORT_BILL",
-                "title": "WH BILLING",
+                "title": "WH BILL",
                 "uom": "kWh",
                 "width": "5.25rem",
                 "sheets": [
@@ -792,7 +880,7 @@
             },
             {
                 "name": "WH_EXPORT_BILL_R1",
-                "title": "WH BILLING\nRATE 1",
+                "title": "WH BILL\nR.1",
                 "uom": "kWh",
                 "width": "5.25rem",
                 "sheets": [
@@ -803,7 +891,7 @@
             },
             {
                 "name": "WH_EXPORT_BILL_R2",
-                "title": "WH BILLING\nRATE 2",
+                "title": "WH BILL\nR.2",
                 "uom": "kWh",
                 "width": "5.25rem",
                 "sheets": [
@@ -814,7 +902,95 @@
             },
             {
                 "name": "WH_EXPORT_BILL_R3",
-                "title": "WH BILLING\nRATE 3",
+                "title": "WH BILL\nR.3",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_PREV",
+                "title": "WH PREV",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_PREV_R1",
+                "title": "WH PREV\nR.1",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_PREV_R2",
+                "title": "WH PREV\nR.2",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_PREV_R3",
+                "title": "WH PREV\nR.3",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_CURR",
+                "title": "WH CURR",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_CURR_R1",
+                "title": "WH CURR\nR.1",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_CURR_R2",
+                "title": "WH CURR\nR.2",
+                "uom": "kWh",
+                "width": "5.25rem",
+                "sheets": [
+                    "export energy"
+                ],
+                "dp": 2,
+                "factor": 1
+            },
+            {
+                "name": "WH_EXPORT_CURR_R3",
+                "title": "WH CURR\nR.3",
                 "uom": "kWh",
                 "width": "5.25rem",
                 "sheets": [

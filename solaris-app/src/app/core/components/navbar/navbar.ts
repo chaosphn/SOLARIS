@@ -154,6 +154,11 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
     if(this.appInit.config.Timer){
       this.startTimer(this.appInit.config.Timer * 60000);
     }
+    // const lastLocation = localStorage.getItem('lastLocation');
+    // if(lastLocation){
+    //   console.log('lastLocation', lastLocation);
+    //   this.changeNavState('operation', lastLocation);
+    // }
   }
 
   // นับ WO ที่ assign ให้ตัวเอง เดือนนี้ ที่ยัง active (ไม่นับ closed/cancelled)
@@ -217,6 +222,7 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
 
   initHeadernavState(){
     const routPage = this.router.url.split('/');
+    const lastLocation = localStorage.getItem('lastLocation');
     switch (routPage.length) {
       case 3:
         const pgGroup = this.pageSrv.getPageGroup(routPage[2]);
@@ -224,7 +230,7 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
           this.store.dispatch(addState({
             payload: {
               name: pgGroup.level,
-              location: 'ALL'
+              location: lastLocation || 'ALL'
             }
           }));
         }
@@ -395,6 +401,7 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
           location: name
         }
       }));
+      localStorage.setItem('lastLocation', name);
       this.clearPageState();
       const routPage = this.router.url.split('/');
       if(routPage[2] && this.pageSrv.getSitePages().findIndex(x => x.path === routPage[2]) > -1){
@@ -410,6 +417,7 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
           location: name
         }
       }));
+      localStorage.setItem('lastLocation', name);
     }
   }
 

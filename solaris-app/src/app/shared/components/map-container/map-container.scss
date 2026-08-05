@@ -16,6 +16,12 @@
   background: var(--card-bg);
 }
 
+.leaflet-top, .leaflet-bottom {
+  position: absolute;
+  z-index: 999 !important;
+  pointer-events: none;
+}
+
 .custom-marker-wrapper {
   width: 20px;
   height: 20px;

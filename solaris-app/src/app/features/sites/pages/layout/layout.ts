@@ -197,6 +197,7 @@ export class Layout implements OnInit, OnDestroy {
         
         // Check if data exists and load it
         if (state.data_realtime && Object.keys(state.data_realtime).length > 0) {
+          this.loadingRealtimeData.set(true);
           this.dataRealtime.set(state.data_realtime);
           hasData = true;
         }

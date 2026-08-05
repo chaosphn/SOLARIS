@@ -1,11 +1,11 @@
 
 
 {
-        "UrlApi": "/api/data/",
-        "UrlApiAuthen": "/api/data/",
-        "UrlApiBilling": "/api/report/",
-        "UrlApiNotification": "/api/event/",
-        "UrlApiMaintenance": "/api/maintenance/",
-        "UrlApiMasterData": "/api/masterdata/",
+        "UrlApi": "http://192.168.101.1:5130/",
+        "UrlApiAuthen": "http://192.168.101.1:5130/",
+        "UrlApiBilling": "http://192.168.101.1:4040/api/",
+        "UrlApiNotification": "http://192.168.101.1:6080/api/",
+        "UrlApiMaintenance": "http://192.168.101.1:4080/api/",
+        "UrlApiMasterData": "http://192.168.101.1:4090/api/",
         "Timer": 2
 }

@@ -68,10 +68,14 @@ export class AuthService {
     }
 
     logout() {
+        const theme = localStorage.getItem('theme');
         localStorage.clear();
         sessionStorage.clear();
-        this.router.navigate(['/login']);
-        //window.location.replace('https://solaris-insight.com/');
+        if (theme) {
+            localStorage.setItem('theme', theme);
+        }
+        //this.router.navigate(['/login']);
+        window.location.replace('https://solaris-insight.com/');
     }
 
     hasRole(role: string): boolean {
