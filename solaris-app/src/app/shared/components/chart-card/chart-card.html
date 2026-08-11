@@ -1,6 +1,6 @@
 <div class="chart-container w-100 h-100 bz">
     <div class="d-flex-sb time-container w-100 bz">
-        <div class="icon-content d-flex">
+        <div class="icon-content d-flex bz">
            @if (loadingImg()) {
             <div class="icon-box d-flex-ct">
                 <i class="material-icons spinner" style="font-size: 16px;" >refresh</i>
@@ -17,8 +17,8 @@
              <i class="material-icons" style="font-size: 16px; margin-left: 8px;" (click)="exportAllToExcel()">save</i>
            }
         </div>
-        <div class="time-content">
-            <div class="datepicker bz">
+        <div class="time-content bz">
+            <div class="datepicker bz ">
                 @switch (mode()) {
                     @case ('d') {
                         <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.7"></app-date-picker>

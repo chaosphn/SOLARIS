@@ -24,6 +24,7 @@
 
 .datepicker{
     height: 40px;
+    //width: 200px;
 }
 
 .time-content{
@@ -90,13 +91,15 @@
 
 @media (max-width: 1500px) {
     .time-container{
-        justify-content: flex-end !important;
+        //justify-content: flex-end !important;
     }
     .icon-content{
-        display: none;
+        //display: none;
+        
     }
     .datepicker{
         overflow-x: hidden;
+        width: 200px;
     }
     .time-box{
         width: 200px;

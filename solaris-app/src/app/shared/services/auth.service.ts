@@ -74,8 +74,8 @@ export class AuthService {
         if (theme) {
             localStorage.setItem('theme', theme);
         }
-        //this.router.navigate(['/login']);
-        window.location.replace('https://solaris-insight.com/');
+        this.router.navigate(['/login']);
+        //window.location.replace('https://solaris-insight.com/');
     }
 
     hasRole(role: string): boolean {

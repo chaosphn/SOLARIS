@@ -533,12 +533,16 @@ export class Performance implements OnInit, OnDestroy {
 
   async getAtTimeData(){
     if (this.requestAttime() && this.requestAttime().length > 0) {
+      const selectedDay = new Date(this.date).setHours(0,0,0,0);
       for await (const req of this.requestAttime()) {
         const result = req.Request.map(async(item) => {
           const request = item;
           const response:ResponseHistorianModel[] = await this.http.getAtTime([request]);
           if(response){
             response.map(data => {
+              // getattime API คืนค่าล่าสุดก่อนเวลาที่ขอถ้าไม่มีข้อมูลตรงวัน ต้องเช็ควันที่ของ record เอง ไม่งั้นค่าเก่าจะโผล่มาแทนที่จะเป็น 0
+              const record = data.records && data.records.length > 0 ? data.records[0] : null;
+              const isSameDay = !!record && new Date(record.TimeStamp).setHours(0,0,0,0) === selectedDay;
               const conf = this.config().realtimeConfig.find(x => x.Group == req.Group)?.Tags.find(y => y.Tagname == data.Name);
               if (conf) {
                 const datas: ResponseRealtimeModel = {
@@ -546,8 +550,8 @@ export class Performance implements OnInit, OnDestroy {
                   Min: data.Min,
                   Max: data.Max,
                   Unit: data.Unit,
-                  Value: data.records ? parseFloat(data.records[0].Value) : 0,
-                  TimeStamp:  data.records ? data.records[0].TimeStamp : '',
+                  Value: isSameDay ? parseFloat(record!.Value) : 0,
+                  TimeStamp: isSameDay ? record!.TimeStamp : '',
                 };
                 this.dataRealtime.update(val => ({
                   ...val,
@@ -560,8 +564,8 @@ export class Performance implements OnInit, OnDestroy {
                     Min: data.Min,
                     Max: data.Max,
                     Unit: data.Unit,
-                    Value: data.records ? parseFloat(data.records[0].Value) : 0,
-                    TimeStamp:  data.records ? data.records[0].TimeStamp : '',
+                    Value: isSameDay ? parseFloat(record!.Value) : 0,
+                    TimeStamp: isSameDay ? record!.TimeStamp : '',
                   };
                   const newVal = [...val, datas];
                   return newVal;

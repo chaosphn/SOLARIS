@@ -89,7 +89,8 @@ export interface EmailConfigModel{
 }
 
 export interface MsTeamConfigModel{
-    webhookUrl: string;
+    accessToken: string;
+    apiUrl: string;
 }
 
 export enum NotificationType{

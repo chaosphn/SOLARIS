@@ -53,8 +53,8 @@
         <app-card-container [title]="'Sustainability'">
             <ng-template #container>
                 <app-environment-card
-                    [reduction]="dataRealtime()['REDUCTION_TOT'] || {}"
-                    [credit]="dataRealtime()['CREDIT'] || {}"
+                    [reduction]="dataRealtime()['TOTAL'] || {}"
+                    [credit]="dataRealtime()['REDUCTION_TOT'] || {}"
                     [tree]="dataRealtime()['TREE'] || {}"
                     [oil]="dataRealtime()['OIL'] || {}"
                 ></app-environment-card>

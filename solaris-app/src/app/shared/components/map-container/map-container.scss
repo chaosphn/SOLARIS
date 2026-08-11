@@ -134,3 +134,10 @@
 .item:last-child{
   border: none;
 }
+
+
+@media screen and (max-width: 768px) {
+  .container{
+    padding: 0 8px;
+  }
+}

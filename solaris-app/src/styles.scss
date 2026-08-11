@@ -96,6 +96,12 @@ body {
   padding: 0;
 }
 
+.leaflet-top, .leaflet-bottom {
+  position: absolute;
+  z-index: 999 !important;
+  pointer-events: none;
+}
+
 ::-webkit-scrollbar-thumb {
     background: var(--border-color) !important;
     border-radius: 100vw;
@@ -147,6 +153,23 @@ body {
     box-shadow: none !important; border-radius: 0 !important;
     padding: 12mm 14mm !important;
   }
+  /* page-break: ห้ามตัดกลาง section/row, header เกาะกับเนื้อหาถัดไป */
+  .wo-report .rp-head,
+  .wo-report .rp-meta-item,
+  .wo-report .rp-cl tr,
+  .wo-report .rp-kv > div,
+  .wo-report .rp-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  .wo-report .rp-section {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  .wo-report .rp-cl { break-inside: auto; }
+  .wo-report .rp-foot { break-inside: avoid !important; page-break-inside: avoid !important; }
 }
 
 ::-webkit-scrollbar {

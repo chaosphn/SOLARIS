@@ -285,8 +285,13 @@
         <!-- MS Teams -->
         @if (newNotiForm.Type === 'msteam') {
           <div class="form-group">
-            <label>Webhook URL</label>
-            <input [(ngModel)]="msteamConfig.webhookUrl" placeholder="https://outlook.office.com/webhook/..." />
+            <label>Access Token</label>
+            <input [(ngModel)]="msteamConfig.accessToken" placeholder="Bearer token from Teams Message portal" />
+          </div>
+          <div class="form-group">
+            <label>API URL (optional)</label>
+            <input [(ngModel)]="msteamConfig.apiUrl" [placeholder]="msteamDefaultApiUrl" />
+            <span class="field-hint">Leave empty to use default: {{ msteamDefaultApiUrl }}</span>
           </div>
         }
 

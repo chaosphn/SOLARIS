@@ -50,7 +50,9 @@ export class NotificationConfig implements OnInit {
     ccAddress: [],
     bccAddress: [],
   };
-  msteamConfig: MsTeamConfigModel = { webhookUrl: '' };
+  msteamConfig: MsTeamConfigModel = { accessToken: '', apiUrl: '' };
+
+  readonly msteamDefaultApiUrl = 'https://teams-message.boonrawd.co.th/api/notify';
 
   // Temp inputs for tag-chip inputs
   newTelegramChatId: string = '';
@@ -161,7 +163,7 @@ export class NotificationConfig implements OnInit {
       ccAddress: [],
       bccAddress: [],
     };
-    this.msteamConfig = { webhookUrl: '' };
+    this.msteamConfig = { accessToken: '', apiUrl: '' };
   }
 
   // ─── Modal ───────────────────────────────────────────────────────────────────
@@ -205,7 +207,7 @@ export class NotificationConfig implements OnInit {
         };
         break;
       case 'msteam':
-        this.msteamConfig = { webhookUrl: cfg.webhookUrl ?? '' };
+        this.msteamConfig = { accessToken: cfg.accessToken ?? '', apiUrl: cfg.apiUrl ?? '' };
         break;
     }
     this.editingIndex = index;

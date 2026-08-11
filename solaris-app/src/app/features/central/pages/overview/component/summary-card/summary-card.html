@@ -12,7 +12,7 @@
                     <div class="message bz">no data</div>
                 </div>
             } @else {
-                <div class="diff" [style.color]="checkValueStatus(today_curr()?.Value, today_prev()?.Value) === 'plus' ? '#4CAF82' : 'tomato'">
+                <div class="diff" [style.color]="checkValueStatus(today_curr()?.Value, today_prev()?.Value) === 'plus' ? '#4CAF82' : 'var(--secondary-txt)'">
                     @if (checkValueStatus(today_curr()?.Value, today_prev()?.Value) === 'plus') {
                         <i class="material-icons bz">arrow_drop_up</i>
                     } @else {
@@ -51,7 +51,7 @@
                     <div class="message bz">no data</div>
                 </div>
             } @else {
-                <div class="diff" [style.color]="checkValueStatus(pr_curr()?.Value, pr_prev()?.Value) === 'plus' ? '#4CAF82' : 'tomato'">
+                <div class="diff" [style.color]="checkValueStatus(pr_curr()?.Value, pr_prev()?.Value) === 'plus' ? '#4CAF82' : 'var(--secondary-txt)'">
                     @if (checkValueStatus(pr_curr()?.Value, pr_prev()?.Value) === 'plus') {
                         <i class="material-icons bz">arrow_drop_up</i>
                     } @else {
@@ -73,7 +73,7 @@
                     <div class="message bz">no data</div>
                 </div>
             } @else {
-                <div class="diff" [style.color]="checkSLA(avai_curr()) === 'pass' ? '#4CAF82' : 'tomato'">
+                <div class="diff" [style.color]="checkSLA(avai_curr()) === 'pass' ? '#4CAF82' : 'var(--secondary-txt)'">
                     <div class="message bz">SLA ≥ {{ avai_prev()?.Value | numberFomat: '1.0-1' }}% {{ checkSLA(avai_curr()) === 'pass' ? '✓' : '✗' }}</div>
                 </div>
             }
@@ -90,7 +90,7 @@
                     <div class="message bz">no data</div>
                 </div>
             } @else {
-                <div class="diff" [style.color]="checkValueStatus(revenue_curr()?.Value, revenue_prev()?.Value) === 'plus' ? '#4CAF82' : 'tomato'">
+                <div class="diff" [style.color]="checkValueStatus(revenue_curr()?.Value, revenue_prev()?.Value) === 'plus' ? '#4CAF82' : 'var(--secondary-txt)'">
                     @if (checkValueStatus(revenue_curr()?.Value, revenue_prev()?.Value) === 'plus') {
                         <i class="material-icons bz">arrow_drop_up</i>
                     } @else {

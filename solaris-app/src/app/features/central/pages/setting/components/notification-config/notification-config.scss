@@ -347,6 +347,12 @@
                 select option { background: var(--primary-bg); }
             }
 
+            .field-hint {
+                font-size: 12px;
+                color: var(--secondary-txt, #888);
+                margin-top: 4px;
+            }
+
             .toggle-group {
                 flex-direction: row !important;
                 align-items: center !important;

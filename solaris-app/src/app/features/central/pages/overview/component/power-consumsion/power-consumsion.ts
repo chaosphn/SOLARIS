@@ -25,7 +25,7 @@ export class PowerConsumsion {
 
   getPercentage(){
     const value = this.energy()?.Value ?? 0;
-    const target = this.expected()?.Value ?? this.energy()?.Max ?? 0;
+    const target = this.energy()?.Max ?? this.expected()?.Value ?? 0;
     if(!target){
       return 0;
     }

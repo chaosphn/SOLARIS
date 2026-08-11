@@ -16,9 +16,17 @@
     </div>
 
     @if (event()?.Type === 'event') {
-        <div class="card-box w-100 bz">
+        <!-- <div class="card-box w-100 bz">
             <div class="title w-100">TIMESTAMP</div>
             <div class="value bz w-100">{{ event()?.StartTime | date: 'dd/MM/yyyy hh:mm:ss' }}</div>
+        </div> -->
+         <div class="card-box w-100 bz">
+            <div class="title w-100">STARTTIME</div>
+            <div class="value bz w-100">{{ event()?.StartTime | date: 'dd/MM/yyyy hh:mm:ss' }}</div>
+        </div>
+        <div class="card-box w-100 bz">
+            <div class="title w-100">ENDTIME</div>
+            <div class="value bz w-100">{{ event()?.EndTime | date: 'dd/MM/yyyy hh:mm:ss' }}</div>
         </div>
     } @else { 
         <div class="card-box w-100 bz">

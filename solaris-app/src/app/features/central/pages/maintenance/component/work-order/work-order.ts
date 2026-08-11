@@ -701,21 +701,46 @@ export class WorkOrder implements OnInit {
     this.pdfLoading.set(true);
     try {
       const canvas = await html2canvas(el, { scale: 2, backgroundColor: '#ffffff', useCORS: true });
-      const img = canvas.toDataURL('image/png');
       const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
       const pw = pdf.internal.pageSize.getWidth();
       const ph = pdf.internal.pageSize.getHeight();
-      const imgH = canvas.height * pw / canvas.width;
-      let heightLeft = imgH;
-      let position = 0;
-      pdf.addImage(img, 'PNG', 0, position, pw, imgH);
-      heightLeft -= ph;
-      while (heightLeft > 0) {
-        position -= ph;
-        pdf.addPage();
-        pdf.addImage(img, 'PNG', 0, position, pw, imgH);
-        heightLeft -= ph;
+      const pageHeightPx = Math.floor(canvas.width * ph / pw);
+
+      // จุดที่ห้ามตัดกลาง (แถว checklist, block, meta item ฯลฯ) — เลื่อน page-break ให้เกาะขอบบนของ element แทน
+      const elRect = el.getBoundingClientRect();
+      const pxPerDomPx = canvas.width / elRect.width;
+      const avoidRanges = Array.from(
+        el.querySelectorAll<HTMLElement>('.rp-head, .rp-meta-item, .rp-cl tr, .rp-kv > div, .rp-block, .rp-section')
+      ).map(node => {
+        const r = node.getBoundingClientRect();
+        return {
+          top: (r.top - elRect.top) * pxPerDomPx,
+          bottom: (r.bottom - elRect.top) * pxPerDomPx,
+        };
+      }).sort((a, b) => a.top - b.top);
+
+      let sy = 0;
+      let firstPage = true;
+      while (sy < canvas.height) {
+        let sliceH = Math.min(pageHeightPx, canvas.height - sy);
+        let boundary = sy + sliceH;
+        if (boundary < canvas.height) {
+          const breaking = avoidRanges.find(r => r.top < boundary && r.bottom > boundary && r.top > sy);
+          if (breaking) sliceH = breaking.top - sy;
+        }
+        if (sliceH < 1) sliceH = Math.min(pageHeightPx, canvas.height - sy);
+
+        const pageCanvas = document.createElement('canvas');
+        pageCanvas.width = canvas.width;
+        pageCanvas.height = sliceH;
+        pageCanvas.getContext('2d')!.drawImage(canvas, 0, sy, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
+
+        if (!firstPage) pdf.addPage();
+        pdf.addImage(pageCanvas.toDataURL('image/png'), 'PNG', 0, 0, pw, sliceH * pw / canvas.width);
+        firstPage = false;
+        sy += sliceH;
       }
+
       pdf.save(`${this.selectedWO()?.wo_number ?? 'work-order'}.pdf`);
     } catch (_) {
     } finally {

@@ -191,7 +191,7 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
     this.store.dispatch(addState({
       payload: {
         name: 'operation',
-        location: 'ALL'
+        location: localStorage.getItem('lastLocation') || 'ALL'
       }
     }));
     this.router.navigate(['/main/maintenance']);
@@ -401,7 +401,7 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
           location: name
         }
       }));
-      localStorage.setItem('lastLocation', name);
+      sessionStorage.setItem('lastLocation', name);
       this.clearPageState();
       const routPage = this.router.url.split('/');
       if(routPage[2] && this.pageSrv.getSitePages().findIndex(x => x.path === routPage[2]) > -1){
@@ -417,7 +417,7 @@ export class Navbar implements OnInit, OnDestroy, AfterViewInit {
           location: name
         }
       }));
-      localStorage.setItem('lastLocation', name);
+      sessionStorage.setItem('lastLocation', name);
     }
   }
 

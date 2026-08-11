@@ -12,9 +12,9 @@
         <app-polygon-card 
         [bgcolor]="'#E2902C'" 
         [data]="credit()"
-        [title]="'CO₂ CREDIT'" 
+        [title]="'CO₂ REDUCTION'" 
         [icon]="'filter_drama'" 
-        [value]="credit()?.Value | numberFomat: '1.0-0'" 
+        [value]="(credit()?.Value/1000) | numberFomat: '1.0-2'" 
         [unit]="'tCO₂'"></app-polygon-card>
     </div>
     <div class="bz d-flex-st">

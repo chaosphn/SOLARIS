@@ -15,6 +15,6 @@
         "UrlApiNotification": "/api/event/",
         "UrlApiMaintenance": "/api/maintenance/",
         "UrlApiMasterData": "/api/masterdata/",
-        "Timer": 5
+        "Timer": 2
     }
 }

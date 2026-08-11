@@ -3,7 +3,7 @@
         <app-circle-progress
             [percent]="getPercentage()"
             [value]="energy()?.Value | numberFomat: '1.0-0'"
-            [unit]="energy()?.Unit??'kWh'">
+            [unit]="energy()?.Unit || 'kWh'">
         </app-circle-progress>
     </div>
     <div class="infomation w-100">
