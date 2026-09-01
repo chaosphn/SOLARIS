@@ -31,6 +31,8 @@ export class WorkOrder implements OnInit {
 
   selectWO     = output<number>();
   exitCloseout = output<void>();
+  // หลัง create/update/delete ให้ parent เป็นคนโหลดใหม่ — work order มีแหล่งเดียว
+  refresh      = output<void>();
 
   workOrders  = signal<WorkOrderModel[]>([]);
   loading     = signal(true);
@@ -156,34 +158,7 @@ export class WorkOrder implements OnInit {
 
   // ── Lifecycle ────────────────────────────────────────────────────────────────
   async ngOnInit() {
-    // await Promise.all([this.loadData(), this.loadPlants(), this.loadUsers()]);
     this.role.set(this.auth.getRole() ?? 'user');
-  }
-
-  async loadPlants() {
-    try {
-      const res = await this.http.getPlants();
-      //if (res.status === 'success' && res.data && res.data.siteList) this.plants.set(res.data.siteList);
-    } catch (_) {}
-  }
-
-  async loadUsers() {
-    try {
-      const res = await this.http.getUserConfig();
-      //if (Array.isArray(res)) this.users.set(res);
-    } catch (_) {}
-  }
-
-  async loadData() {
-    this.loading.set(true);
-    const ts = new Date(this.date());
-    const startOfMonth = new Date(ts.getFullYear(), ts.getMonth(), 2).toISOString().slice(0, 10);
-    const endOfMonth = new Date(ts.getFullYear(), ts.getMonth() + 1, 1).toISOString().slice(0, 10);
-    try {
-      const woRes = await this.http.getWorkOrderByDate({ start_time: startOfMonth, end_time: endOfMonth });
-      if (woRes.status === 'success' && woRes.data) this.workOrders.set(woRes.data);
-    } catch (_) {}
-    this.loading.set(false);
   }
 
   async openDetail(wo: WorkOrderModel) {
@@ -234,7 +209,7 @@ export class WorkOrder implements OnInit {
       const res = await this.http.updateWorkOrder(body);
       if (res.status === 'success') {
         this.selectedWO.update(w => w ? { ...w, ...f, due_date: due_date ?? w.due_date } : w);
-        await this.loadData();
+        this.refresh.emit();
         this.store.dispatch(sendMessage({
           payload: { type: 'success', text: 'Work order updated successfully' }
         }));
@@ -534,7 +509,7 @@ export class WorkOrder implements OnInit {
       const res = await this.http.createWorkOrder(body);
       if (res.status === 'success') {
         this.cancelNewWO();
-        await this.loadData();
+        this.refresh.emit();
         this.store.dispatch(sendMessage({
           payload: { type: 'success', text: 'Work order created successfully' }
         }));
@@ -575,7 +550,7 @@ export class WorkOrder implements OnInit {
       const res = await this.http.updateWorkOrderStatus({ id: wo.id, status });
       if (res.status === 'success') {
         this.selectedWO.update(w => w ? { ...w, status } : w);
-        await this.loadData();
+        this.refresh.emit();
         this.store.dispatch(sendMessage({ payload: { type: 'success', text: 'Work order status updated' } }));
       } else if (res.message) {
         this.store.dispatch(sendMessage({ payload: { type: 'error', text: res.message } }));
@@ -588,7 +563,7 @@ export class WorkOrder implements OnInit {
       const res = await this.http.deleteWorkOrder({ id: wo.id });
       if (res.status === 'success') {
         if (this.selectedWO()?.id === wo.id) this.closeDetail();
-        await this.loadData();
+        this.refresh.emit();
         this.store.dispatch(sendMessage({ payload: { type: 'success', text: 'Work order deleted successfully' } }));
       } else if (res.message) {
         this.store.dispatch(sendMessage({ payload: { type: 'error', text: res.message } }));
@@ -625,7 +600,7 @@ export class WorkOrder implements OnInit {
   }
 
   userDisplayName(u: UserDataModel): string {
-    return u.fullname || `${u.firstName ?? ''} ${u.lastName ?? ''}`.trim() || u.username;
+    return u.username || u.fullname || `${u.firstName ?? ''} ${u.lastName ?? ''}`.trim();
   }
 
   userDisplayNameFromId(id: string | undefined): string {

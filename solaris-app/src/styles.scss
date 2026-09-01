@@ -102,9 +102,17 @@ body {
   pointer-events: none;
 }
 
+::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+
 ::-webkit-scrollbar-thumb {
     background: var(--border-color) !important;
-    border-radius: 100vw;
+    //border-radius: 100vw;
+    height: 10px !important;
+    width: 10px !important;
+    cursor: pointer;
 }
 
 ::-webkit-scrollbar-track {
@@ -170,9 +178,4 @@ body {
   }
   .wo-report .rp-cl { break-inside: auto; }
   .wo-report .rp-foot { break-inside: avoid !important; page-break-inside: avoid !important; }
-}
-
-::-webkit-scrollbar {
-    height: 6px;
-    width: 4px;
 }

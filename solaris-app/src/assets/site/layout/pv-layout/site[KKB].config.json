@@ -11,7 +11,18 @@
           {
             "id": "BX",
             "d": "M656.7 0H454.086H453.676V261.148H523.261V497.737H778.679V468.265H784V259.92H688.628V187.061H736.518V143.263H688.628V31.5967H656.7V0Z",
-            "fill": "#D9D9D9",
+            "fill": "var(--secondary-txt)",
+            "stroke": null,
+            "stroke-width": null
+          },
+          {
+            "id": "SODA_BUILDING",
+            "istext": true,
+            "fontsize": "20",
+            "x": "460",
+            "y": "-10",
+            "fill": "var(--secondary-txt)",
+            "text": "SODA BUILDING",
             "stroke": null,
             "stroke-width": null
           }
@@ -403,7 +414,18 @@
           {
             "id": "BX_2",
             "d": "M228.734 880.271V889.191H739.309V517.766H374.663V510.987H377.161V510.63H371.095V508.667L365.387 512.057V510.273H359.678V510.63H361.462V516.339H226.95L224.452 521.691H222.311L223.738 525.615L220.527 529.54H229.09V550.591H226.593V589.125H218.03V620.166H226.593V664.409H217.673V717.572H226.593V755.749H217.673V790.358H226.236V800.705H228.734V855.295L220.17 855.348V880.271H228.734Z",
-            "fill": "#D9D9D9",
+            "fill": "var(--secondary-txt)",
+            "stroke": null,
+            "stroke-width": null
+          },
+          {
+            "id": "BOTTLING_BUILDING",
+            "istext": true,
+            "fontsize": "20",
+            "x": "235",
+            "y": "510",
+            "fill": "var(--secondary-txt)",
+            "text": "BOTTLING BUILDING",
             "stroke": null,
             "stroke-width": null
           }
@@ -1930,7 +1952,18 @@
           {
             "id": "BX_3",
             "d": "M89.126 376.091H0V472.073H156.313V493.555H151.743V494.012H166.826L169.568 497.211V494.469H180.08V494.012H173.224V325.815H179.623V325.358H169.568V323.073L165.454 326.729V325.358H151.743V325.815H155.856V334.956H89.126V376.091Z",
-            "fill": "#D9D9D9",
+            "fill": "var(--secondary-txt)",
+            "stroke": null,
+            "stroke-width": null
+          },
+          {
+            "id": "WATER_TREATMENT",
+            "istext": true,
+            "fontsize": "20",
+            "x": "0",
+            "y": "320",
+            "fill": "var(--secondary-txt)",
+            "text": "WATER TREATMENT",
             "stroke": null,
             "stroke-width": null
           }
@@ -2060,7 +2093,18 @@
           {
             "id": "BX_4",
             "d": "M441.428 81.3408H357.442V246.314H441.428V81.3408Z",
-            "fill": "#D9D9D9",
+            "fill": "var(--secondary-txt)",
+            "stroke": null,
+            "stroke-width": null
+          },
+          {
+            "id": "YEAST_BUILDING",
+            "istext": true,
+            "fontsize": "20",
+            "x": "290",
+            "y": "70",
+            "fill": "var(--secondary-txt)",
+            "text": "YEAST BUILDING",
             "stroke": null,
             "stroke-width": null
           }
@@ -2246,7 +2290,18 @@
           {
             "id": "BX",
             "d": "M314.002 0H0.633069H0V403.898H107.622V769.812H502.657V724.231H510.887V401.999H363.382V289.313H437.451V221.574H363.382V48.8683H314.002V0Z",
-            "fill": "#D9D9D9",
+            "fill": "var(--secondary-txt)",
+            "stroke": null,
+            "stroke-width": null
+          },
+          {
+            "id": "SODA_BUILDING",
+            "istext": true,
+            "fontsize": "24",
+            "x": "20",
+            "y": "-15",
+            "fill": "var(--secondary-txt)",
+            "text": "SODA BUILDING",
             "stroke": null,
             "stroke-width": null
           }
@@ -2638,7 +2693,18 @@
           {
             "id": "BX",
             "d": "M300.419 178.711H0V502.239H526.888V574.647H511.482V576.188H562.322L571.566 586.972V577.728H607V576.188H583.891V9.24365H605.459V7.70304H571.566V0L557.701 12.3249V7.70304H511.482V9.24365H525.348V40.0558H300.419V178.711Z",
-            "fill": "#D9D9D9",
+            "fill": "var(--secondary-txt)",
+            "stroke": null,
+            "stroke-width": null
+          },
+          {
+            "id": "WATER_TREATMENT",
+            "istext": true,
+            "fontsize": "24",
+            "x": "370",
+            "y": "0",
+            "fill": "var(--secondary-txt)",
+            "text": "WATER TREATMENT",
             "stroke": null,
             "stroke-width": null
           }
@@ -2775,7 +2841,18 @@
           {
             "id": "BX",
             "d": "M304.458 0H0V598.043H304.458V0Z",
-            "fill": "#D9D9D9",
+            "fill": "var(--secondary-txt)",
+            "stroke": null,
+            "stroke-width": null
+          },
+          {
+            "id": "YEAST_BUILDING",
+            "istext": true,
+            "fontsize": "24",
+            "x": "0",
+            "y": "-15",
+            "fill": "var(--secondary-txt)",
+            "text": "YEAST BUILDING",
             "stroke": null,
             "stroke-width": null
           }
@@ -2961,7 +3038,18 @@
           {
             "id": "BX",
             "d": "M24.4268 820.662V840.361H1152V20.093H346.703V5.12175H352.219V4.33379H338.824V0L326.216 7.48564V3.54583H313.609V4.33379H317.549V16.9412H20.487L14.9713 28.7606H10.2435L13.3953 37.4282L6.30369 46.0958H25.2148V92.5855H19.699V177.685H0.787962V246.238H19.699V343.945H0V461.352H19.699V545.664H0V622.096H18.9111V644.947H24.4268V765.505L5.51573 765.621V820.662H24.4268Z",
-            "fill": "#D9D9D9",
+            "fill": "var(--secondary-txt)",
+            "stroke": null,
+            "stroke-width": null
+          },
+          {
+            "id": "BOTTLING_BUILDING",
+            "istext": true,
+            "fontsize": "24",
+            "x": "40",
+            "y": "-10",
+            "fill": "var(--secondary-txt)",
+            "text": "BOTTLING BUILDING",
             "stroke": null,
             "stroke-width": null
           }

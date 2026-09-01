@@ -1,4 +1,10 @@
 <div class="container w-100 h-100 bz">
+    <div class="page-header w-100 bz d-flex-sb">
+        <div class="page-title">PERFORMANCE</div>
+        <div class="datepicker bz">
+            <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
+        </div>
+    </div>
     <div class="row-grid w-100 bz">
         <div class="row bz">
             @if (energySummary()) {

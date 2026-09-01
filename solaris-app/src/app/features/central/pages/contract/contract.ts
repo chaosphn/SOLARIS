@@ -36,10 +36,13 @@ export class Contract implements OnInit, OnDestroy {
       const parsed = config ? parseContactCost(config.contactType, config.contactCost, this.date) : null;
 
       const energyRaw = realtime[`${site.id}_WH_MONTH`]?.Value;
+      const energyRawYear = realtime[`${site.id}_WH_YEAR`]?.Value;
       const energyMtd = typeof energyRaw === 'number' && !isNaN(energyRaw) ? energyRaw : null;
+      const energyYtd = typeof energyRawYear === 'number' && !isNaN(energyRawYear) ? energyRawYear : null;
       const revenueMtd = parsed?.currentRate != null && energyMtd != null ? energyMtd * parsed.currentRate : null;
+      const revenueYtd = parsed?.currentRate != null && energyYtd != null ? energyYtd * parsed.currentRate : null;
 
-      return { site, config, parsed, energyMtd, revenueMtd };
+      return { site, config, parsed, energyMtd, revenueMtd, revenueYtd };
     });
   });
 

@@ -402,6 +402,9 @@ export class ChartService {
         borderColor: item.borderColor,
         borderRadius: (item.borderRadius ?? 0) > 0 ? item.borderRadius : undefined,
         borderWidth: item.borderWidth,
+        // legend ของ series แบบแท่งระบายด้วย color อย่างเดียว ไม่สนขอบ
+        // series ที่ตั้ง color โปร่งจึงต้องบอกสี legend แยก ไม่งั้นกล่องสีจะจางจนมองไม่เห็น
+        legendSymbolColor: item.legendSymbolColor,
         dashStyle: item.dashStyle || undefined,
         data: data.records
           .filter(x => {

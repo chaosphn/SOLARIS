@@ -177,3 +177,47 @@
         }
     }
 }
+/* คำอธิบายสีแท่งของกราฟ Energy production — สีบอกว่าเดือนนั้นถึงหน่วยการันตีแค่ไหน */
+.band-legend{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px 12px;
+    padding: 6px 8px 2px;
+
+    .band-caption{
+        font-size: 10px;
+        color: var(--secondary-txt);
+        white-space: nowrap;
+
+        b{
+            color: var(--primary-txt);
+            font-weight: 600;
+            margin-left: 4px;
+        }
+    }
+
+    .band-items{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 4px 12px;
+    }
+
+    .band-item{
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 10px;
+        color: var(--secondary-txt);
+        white-space: nowrap;
+    }
+
+    .band-dot{
+        width: 9px;
+        height: 9px;
+        border-radius: 2px;
+        flex: 0 0 auto;
+    }
+}

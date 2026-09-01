@@ -259,8 +259,8 @@
         "name": "CHART02",
         "tags": [
           {
-            "name": "OVERALL.CALC.WH_MONTH",
-            "title": "PRODUCE*kWh",
+            "name": "OVERALL.CALC.WH_EXPECT_MONTH",
+            "title": "FORCAST*kWh",
             "options": {
               "yAxis": 0,
               "type": "column",
@@ -271,8 +271,8 @@
             }
           },
           {
-            "name": "OVERALL.CALC.WH_EXPECT_MONTH",
-            "title": "FORCAST*kWh",
+            "name": "OVERALL.CALC.WH_MONTH",
+            "title": "PRODUCE*kWh",
             "options": {
               "yAxis": 0,
               "type": "column",
@@ -283,6 +283,17 @@
             }
           }
         ],
+        "colorBands": {
+          "series": "PRODUCE*kWh",
+          "baseline": "tagValue:WH_TARGET:12",
+          "baselineLabel": "หน่วยการันตีต่อเดือน",
+          "bands": [
+            { "min": 100, "color": "#34C08A", "title": "ถึงการันตี (≥ 100%)" },
+            { "min": 90,  "color": "#9AC74A", "title": "ต่ำกว่าเล็กน้อย (90 – 100%)" },
+            { "min": 75,  "color": "#FF843F", "title": "ต่ำกว่าชัดเจน (75 – 90%)" },
+            { "min": 0,   "color": "#E0463C", "title": "ต่ำกว่ามาก (< 75%)" }
+          ]
+        },
         "chartOptions": {
           "chart": {
             "zooming": {
@@ -388,6 +399,11 @@
             "layout": "vertical"
           },
           "plotOptions": {
+            "column": {
+              "groupPadding": 0.15,
+              "pointPadding": 0.15,
+              "maxPointWidth": 50
+            },
             "series": {
               "lineWidth": 1,
               "marker": {

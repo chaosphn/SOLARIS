@@ -4,6 +4,11 @@
     "opened": false,
     "item": [
       {
+        "value": "all",
+        "label": "All",
+        "icon": "done_all"
+      },
+      {
         "value": "alarm",
         "label": "Alarm",
         "icon": "alarm"
@@ -19,6 +24,11 @@
     "name": "Level",
     "opened": false,
     "item": [
+      {
+        "value": "all",
+        "label": "All",
+        "icon": "done_all"
+      },
       {
         "value": "Info",
         "label": "Info",
@@ -38,27 +48,6 @@
         "value": "Major",
         "label": "Major Error",
         "icon": "dangerous"
-      }
-    ]
-  },
-  {
-    "name": "Equipment",
-    "opened": false,
-    "item": [
-      {
-        "value": "INVERTER",
-        "label": "Inverters",
-        "icon": "construction"
-      },
-      {
-        "value": "POWER METER",
-        "label": "Power Merters",
-        "icon": "construction"
-      },
-      {
-        "value": "WEATHER STATION",
-        "label": "Weather Station",
-        "icon": "construction"
       }
     ]
   }

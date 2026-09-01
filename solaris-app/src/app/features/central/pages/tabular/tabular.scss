@@ -205,7 +205,7 @@
 
     &:hover {
         background: var(--secondary-bg);
-        filter: brightness(110%);
+        //filter: brightness(110%);
     }
     .value{
         padding: 6px;
@@ -264,10 +264,6 @@
 // .row:nth-child(even){
 //     background-color: var(--trow-bg);
 // }
-
-.row:hover{
-    filter: brightness(125%);
-}
 
 @media only screen and (max-width: 1500px) {
 

@@ -32,7 +32,77 @@ export class Events implements OnInit, OnDestroy {
   ];
 
   // dropdown filters ยกเว้น Equipment (แทนด้วย search)
-  filterDropdowns = computed(() => this.config().filter(x => x.name !== 'Equipment'));
+  filterDropdowns = computed(() => {
+    let conf = this.config();
+    if (!conf || conf.length === 0) return [];
+    for (const group of conf) {
+      group.selectedItem = this.selectedOptions[group.name] || undefined;
+      this.selectedOptions[group.name] = group.item[0];
+    }
+    return conf;
+  });
+
+  /**
+   * สีของไอคอนแต่ละค่า เป็นความหมายระดับแอป ไม่ใช่ค่าตั้งของไซต์ จึงเก็บไว้ในโค้ด
+   * ส่วนไอคอนกับป้ายชื่อดึงจาก config เพื่อให้ตารางกับแถบคำอธิบายตรงกันเสมอ
+   */
+  private static readonly ICON_CLASS: { [value: string]: string } = {
+    alarm: 'major',
+    event: 'event',
+    info: 'event',
+    warning: 'warn',
+    minor: 'minor',
+    major: 'major'
+  };
+
+  /** ค่าที่ไม่มีใน config เช่น Type แปลกใหม่ ให้แสดงเป็นเครื่องหมายคำถาม */
+  private static readonly UNKNOWN_ICON: EventIconModel = {
+    value: '', label: 'Other', icon: 'question_mark', cls: 'info'
+  };
+
+  /** แถบคำอธิบายความหมายของไอคอนคอลัมน์ TYPE และ LEVEL */
+  iconLegend = computed<{ name: string; items: EventIconModel[] }[]>(() =>
+    this.config()
+      .filter(group => group.name === 'Type' || group.name === 'Level')
+      .map(group => ({
+        name: group.name,
+        items: group.item.map(option => this.toIconModel(option))
+      }))
+      .filter(group => group.items.length > 0)
+  );
+
+  private toIconModel(option: DropdownOption): EventIconModel {
+    return {
+      value: option.value,
+      label: option.label,
+      icon: option.icon,
+      cls: Events.ICON_CLASS[option.value.toLowerCase()] ?? 'info'
+    };
+  }
+
+  private findIcon(groupName: string, value: string | undefined): EventIconModel | null {
+    if(!value){
+      return null;
+    }
+    const option = this.config()
+      .find(group => group.name === groupName)
+      ?.item.find(x => x.value.toLowerCase() === value.toLowerCase());
+    return option ? this.toIconModel(option) : null;
+  }
+
+  /**
+   * ไอคอนคอลัมน์ TYPE — ค่าที่ไม่รู้จักยังต้องแสดงบางอย่าง จึงมีค่า fallback
+   * ป้ายกำกับใช้ค่าดิบที่ได้มา เพื่อให้เอาเมาส์วางแล้วรู้ว่าเป็นชนิดอะไร ไม่ใช่แค่คำว่า Other
+   */
+  typeIcon(value: string | undefined): EventIconModel {
+    return this.findIcon('Type', value)
+      ?? { ...Events.UNKNOWN_ICON, value: value ?? '', label: value || Events.UNKNOWN_ICON.label };
+  }
+
+  /** ไอคอนคอลัมน์ LEVEL — ค่าที่ไม่รู้จักไม่แสดงอะไร เหมือนพฤติกรรมเดิม */
+  levelIcon(value: string | undefined): EventIconModel | null {
+    return this.findIcon('Level', value);
+  }
 
   siteList = signal<SiteModel[]>([]);
   siteSelected = signal<string>('');
@@ -184,7 +254,7 @@ export class Events implements OnInit, OnDestroy {
     return item;
   }
 
-  selectOption(event: Event, option: DropdownOption, item: DropdownItems) {
+  async selectOption(event: Event, option: DropdownOption, item: DropdownItems) {
     event.stopPropagation();
     item.selectedItem = option;
     item.opened = false;
@@ -194,19 +264,20 @@ export class Events implements OnInit, OnDestroy {
     } else {
       this.selectedOptions[item.name] = option;
     }
+    await this.onSelectEvent();
     return item;
   }
 
   async onStartDateSelect(event: any) {
     this.start = event;
     this.activePreset.set(null);
-    //await this.getAlarmEventData();
+    await this.onSelectEvent();
   }
 
   async onEndDateSelect(event: any) {
     this.end = event;
     this.activePreset.set(null);
-    //await this.getAlarmEventData();
+    await this.onSelectEvent();
   }
 
   onRowSelect(data: EventDataModel){
@@ -234,9 +305,9 @@ export class Events implements OnInit, OnDestroy {
       PointSource: this.siteSelected(),
       StartTime: st,
       EndTime: en,
-      Type: this.selectedOptions['Type']?.value || undefined,
-      Level: this.selectedOptions['Level']?.value || undefined,
-      Assets: this.selectedOptions['Equipment']?.value || undefined,
+      Type: this.selectedOptions['Type']?.value == 'all' ? undefined : this.selectedOptions['Type']?.value || undefined,
+      Level: this.selectedOptions['Level']?.value == 'all' ? undefined : this.selectedOptions['Level']?.value || undefined,
+      Assets: this.selectedOptions['Equipment']?.value == 'all' ? undefined : this.selectedOptions['Equipment']?.value || undefined,
       Equipments: undefined
     };
     this.selectedEvent.set({} as EventDataModel);
@@ -341,4 +412,13 @@ export interface DropdownOption {
   value: string;
   label: string;
   icon: string;
+}
+
+/** ไอคอนหนึ่งตัวพร้อมความหมาย ใช้ทั้งในตารางและแถบคำอธิบาย */
+export interface EventIconModel {
+  value: string;
+  label: string;
+  icon: string;
+  /** คลาสสีตามระดับความรุนแรง */
+  cls: string;
 }

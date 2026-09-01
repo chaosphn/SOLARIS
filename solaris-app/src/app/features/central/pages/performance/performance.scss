@@ -159,3 +159,33 @@
         height: 180px;
     }
 }
+/* แถบหัวหน้าเพจ — ตัวเลือกวันย้ายมาจาก navbar มาอยู่บนสุดของหน้า */
+.page-header{
+    align-items: center;
+    height: 40px;
+    margin-bottom: 12px;
+
+    .page-title{
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: var(--secondary-txt);
+    }
+
+    .datepicker{
+        height: 40px;
+    }
+}
+
+@media (max-width: 600px){
+    .page-header{
+        height: auto;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+
+        .datepicker{
+            width: 100%;
+        }
+    }
+}

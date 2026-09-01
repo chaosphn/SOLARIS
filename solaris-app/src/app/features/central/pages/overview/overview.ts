@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject, OnChanges, OnDestroy, OnInit, signal } from '@angular/core';
-import { GroupHistorianConfigModel, GroupReatimeConfigModel, HistorianConfig, PageConfigModel, RealtimeConfig, SiteModel } from '../../../../shared/models/config.model';
+import { ChartColorBandModel, ChartColorBandsConfig, GroupHistorianConfigModel, GroupReatimeConfigModel, HistorianConfig, PageConfigModel, RealtimeConfig, SiteModel } from '../../../../shared/models/config.model';
 import { HttpService } from '../../../../shared/services/http.service';
 import { Store } from '@ngrx/store';
 import { AppInitService } from '../../../../shared/services/app-init.service';
@@ -45,6 +45,26 @@ export class Overview implements OnInit, OnDestroy {
   responseHistorian = signal<ResponseHistorianModel[]>([]);
 
   dataChart = signal<any>({});
+  /**
+   * คำอธิบายสีของกราฟที่ตั้ง colorBands ไว้ key = ชื่อกลุ่มกราฟ เช่น CHART02
+   * คิดจาก config + ข้อมูลปัจจุบัน จึงยังอยู่ครบแม้กลับเข้าหน้าแล้วใช้ข้อมูลจาก store
+   */
+  chartColorBands = computed<{ [group: string]: { bands: ChartColorBandModel[]; baseline: number; baselineLabel: string } }>(() => {
+    const charts = this.dataChart();
+    const res: { [group: string]: { bands: ChartColorBandModel[]; baseline: number; baselineLabel: string } } = {};
+    this.config().chartConfig.forEach(conf => {
+      if(!conf.colorBands?.bands?.length){
+        return;
+      }
+      const seriesValues = this.collectSeriesValues(charts?.[conf.name]?.series ?? []);
+      res[conf.name] = {
+        bands: conf.colorBands.bands,
+        baseline: this.resolveChartValue(conf.colorBands.baseline, seriesValues),
+        baselineLabel: conf.colorBands.baselineLabel ?? ''
+      };
+    });
+    return res;
+  });
   dataRealtime = signal<DataRealtimeModel>({});
   dataHistorian = signal<DataHistorianModel>({});
 
@@ -371,6 +391,87 @@ export class Overview implements OnInit, OnDestroy {
     return values;
   }
 
+  /**
+   * แปลงค่าเส้นฐานจาก config เป็นตัวเลขจริง
+   * รองรับ 'maxValue' | 'minValue' | 'averageValue' | 'tagValue:<TAG>:<factor>' | ตัวเลขตรงๆ
+   */
+  private resolveChartValue(expr: string | number | undefined, seriesValues: number[]): number {
+    if(typeof expr === 'number'){
+      return Number.isFinite(expr) ? expr : 0;
+    }
+    if(!expr){
+      return 0;
+    }
+    if(expr === 'maxValue'){
+      return seriesValues.length > 0 ? Math.max(...seriesValues) : 0;
+    }
+    if(expr === 'minValue'){
+      return seriesValues.length > 0 ? Math.min(...seriesValues) : 0;
+    }
+    if(expr === 'averageValue'){
+      return seriesValues.length > 0
+        ? seriesValues.reduce((a, b) => a + b, 0) / seriesValues.length
+        : 0;
+    }
+    if(expr.includes('tagValue')){
+      const parts: string[] = expr.split(':');
+      const tagValue = this.dataRealtime()[parts[1]]?.Value ?? 0;
+      const factor = parseFloat(parts[2]);
+      const divisor = Number.isFinite(factor) && factor !== 0 ? factor : 1;
+      return (Number(tagValue) / divisor) || 0;
+    }
+    const parsed = parseFloat(expr);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+
+  /** เลือกสีของแท่งหนึ่งแท่งจากสัดส่วนที่ทำได้เทียบเส้นฐาน */
+  private pickBandColor(percent: number | null, bands: ChartColorBandModel[]): string | undefined {
+    if(percent === null || !Number.isFinite(percent) || !bands?.length){
+      return undefined;
+    }
+    // config ควรเรียงจากช่วงสูงลงต่ำอยู่แล้ว เรียงซ้ำอีกรอบกันกรณีใส่สลับ
+    const sorted = [...bands].sort((a, b) => b.min - a.min);
+    return sorted.find(b => percent >= b.min)?.color ?? sorted[sorted.length - 1]?.color;
+  }
+
+  /**
+   * ระบายสีแท่งของ series ที่ระบุใน colorBands ตามสัดส่วนเทียบเส้นฐาน
+   * Highcharts รับสีรายจุดได้เมื่อ data เป็น object ไม่ใช่ [x, y]
+   */
+  private applyColorBands(series: any[], conf: ChartColorBandsConfig | undefined, baseline: number): any[] {
+    if(!conf || !conf.bands?.length || !(baseline > 0)){
+      return series;
+    }
+    return series.map((serie: any) => {
+      if(serie?.name !== conf.series || !Array.isArray(serie.data)){
+        return serie;
+      }
+      return {
+        ...serie,
+        data: serie.data.map((point: any) => {
+          let x: number | undefined;
+          let y: number | null = null;
+          if(Array.isArray(point)){
+            x = point[0];
+            y = point[1];
+          } else if(point && typeof point === 'object'){
+            x = point.x;
+            y = point.y;
+          } else {
+            y = point;
+          }
+          if(y === null || y === undefined || !Number.isFinite(y)){
+            return point;
+          }
+          const color = this.pickBandColor((y / baseline) * 100, conf.bands);
+          // ต้องทับ borderColor ของ series ด้วย ไม่งั้นแท่งทุกสีจะถูกล้อมด้วยสีเดิมของ series
+          const styled = { y, color, borderColor: color };
+          return x !== undefined ? { x, ...styled } : styled;
+        })
+      };
+    });
+  }
+
   async getHistorianData(){
     if (this.requestHistorian() && this.requestHistorian().length > 0) {
       const result = this.requestHistorian().map(async(item) => {
@@ -398,6 +499,16 @@ export class Overview implements OnInit, OnDestroy {
               const findChartConf = this.config().historianConfig.find(x => x.Group == item.Group)?.Tags.find(y => y.Tagname == response[0]?.Name);
               const start = findChartConf?.Options.StartTime ? this.dateTimeSrv.getTime(findChartConf?.Options.StartTime) : undefined;
               const end = findChartConf?.Options.EndTime ? this.dateTimeSrv.getTime(findChartConf?.Options.EndTime) : undefined;
+
+              // ระบายสีแท่งตามสัดส่วนที่ทำได้เทียบเส้นฐาน (เช่น หน่วยการันตีรายเดือน)
+              const bandConf = conf.colorBands;
+              const bandBaseline = bandConf
+                ? this.resolveChartValue(bandConf.baseline, this.collectSeriesValues(series))
+                : 0;
+              if(bandConf){
+                series = this.applyColorBands(series, bandConf, bandBaseline) as typeof series;
+              }
+
               newVal[item.Group] = {
                 chart: this.chartOptions.getChartOptions(conf.chartOptions.chart),
                 title: this.chartOptions.getTitleOptions(conf.chartOptions.title),
@@ -406,23 +517,8 @@ export class Overview implements OnInit, OnDestroy {
                   if(yAxisOption?.plotLines && yAxisOption.plotLines.length > 0){
                     const seriesValues = this.collectSeriesValues(series);
                     let plotLine = yAxisOption.plotLines.map((pl: any) => {
-                        let val = 0;
-                        if(pl.value && pl.value == 'maxValue'){
-                          val = seriesValues.length > 0 ? Math.max(...seriesValues) : 0;
-                        } else if(pl.value && pl.value == 'minValue'){
-                          val = seriesValues.length > 0 ? Math.min(...seriesValues) : 0;
-                        } else if(pl.value && pl.value == 'averageValue'){
-                          val = seriesValues.length > 0
-                            ? seriesValues.reduce((a, b) => a + b, 0) / seriesValues.length
-                            : 0;
-                        } else if(pl.value && pl.value.includes('tagValue')){
-
-                          const tagname: string[] = pl.value.split(':');
-                          const tagValue = this.dataRealtime()[tagname[1]]?.Value ?? 0;
-                          const factor = parseFloat(tagname[2]) ?? 1;
-                          val = (tagValue/factor) || 0;
-                        }
-                        const label = pl.label?.text.replace('{value}', val.toFixed(2));
+                        const val = this.resolveChartValue(pl.value, seriesValues);
+                        const label = pl.label?.text.replace('{value}', val.toFixed(0));
                         return {
                           ...pl,
                           value: val,

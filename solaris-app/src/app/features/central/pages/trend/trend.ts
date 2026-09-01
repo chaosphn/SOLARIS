@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppInitService } from '../../../../shared/services/app-init.service';
 import { Datetime } from '../../../../shared/services/datetime';
 import { firstValueFrom, Observable, Subscription, take, timer } from 'rxjs';
-import { DateStateModel, NavbarStateModel } from '../../../../shared/models/navigate.model';
+import { NavbarStateModel } from '../../../../shared/models/navigate.model';
 import { GroupRequestAtTimeModel, GroupRequestHistorianModel, GroupRequestRealtimeModel, RequestAtTimeModel } from '../../../../shared/models/request.model';
 import { DataHistorianModel, DataRealtimeModel, ResponseHistorianModel, ResponseRealtimeModel } from '../../../../shared/models/response.model';
 import { ChartService } from '../../../../shared/services/chart.service';
@@ -16,8 +16,8 @@ import { getNavState } from '../../../../store/selectors/nav.selectors';
 import { getZoneConfig } from '../../../../store/selectors/site.selectors';
 import { MapConfigModel } from '../../../../shared/models/svg.model';
 import { PlantStatusData } from '../../../../shared/components/piechart/piechart';
-import { getDateState } from '../../../../store/selectors/date.selectors';
-import { setDateEnable } from '../../../../store/actions/date.actions';
+import { setDate, setDateEnable } from '../../../../store/actions/date.actions';
+import { ChartPickerModel } from '../../../../shared/components/chart-card/chart-card';
 import { PageStateModel } from '../../../../shared/models/state.model';
 import { setLastUpdate } from '../../../../store/actions/last-update.actions';
 
@@ -28,7 +28,6 @@ import { setLastUpdate } from '../../../../store/actions/last-update.actions';
   styleUrl: './trend.scss'
 })
 export class Trend implements OnInit, OnDestroy {
-  dateState$: Observable<DateStateModel>;
   navState$: Observable<NavbarStateModel>;
 
   config = signal<PageConfigModel>({
@@ -55,13 +54,16 @@ export class Trend implements OnInit, OnDestroy {
   mapConfig = signal<MapConfigModel>({} as MapConfigModel);
   
   timers?: Subscription;
-  dateStateSubscription?: Subscription;
   storeSub?: Subscription;
   storeSub2?: Subscription;
 
   date: Date = new Date();
 
-  oldStateDate: Date = new Date(this.date.setHours(0,0,0,0));
+  /** โหมดช่วงเวลาของทั้งหน้า เลือกจากแถบด้านบน */
+  mode = signal<'d' | 'w' | 'm' | 'y'>('d');
+  /** ช่วงเวลาจริงที่ใช้ยิง historian คำนวณจาก date + mode */
+  rangeStart: Date = new Date(new Date().setHours(0,0,0,0));
+  rangeEnd: Date = new Date(new Date().setHours(23,59,59,0));
 
   isLoading = signal<boolean>(false);
   private http = inject(HttpService);
@@ -80,52 +82,118 @@ export class Trend implements OnInit, OnDestroy {
         this.siteList.set(res.siteList);
       }
     });
-    this.dateState$ = this.store.select(getDateState);
-    this.store.dispatch(setDateEnable({ payload: true }));
-    //this.initPage();
-    this.dateStateSubscription = this.dateState$.subscribe(async(state) => {
-      if(this.oldStateDate.getTime() != state.date.getTime()){
-        const stateDate = state.date.setHours(0,0,0,0);
-        const pageDate = this.date.setHours(0,0,0,0);
-        this.oldStateDate = state.date;
-        if(new Date(pageDate).getTime() != new Date(stateDate).getTime()){
-          
-          this.date = new Date(stateDate);
-          await this.getConfig();
-          this.getHistorianRequest();
-          await this.getHistorianData();
-        } else {
-          await this.initPage();
-        }
-      } else {
-        const oldData = await firstValueFrom(
-          this.store.select(TrendSelectors.selectTrendHistorianRequests)
-        );
-        if(oldData && oldData.length > 0){
-          const reqDate = oldData[0].Request[0].Options?.StartTime;
-          if( reqDate 
-            && new Date(reqDate) 
-            && new Date(reqDate).getTime() != new Date(this.date.setHours(0,0,0,0)).getTime()
-          ){
-            this.store.dispatch(TrendActions.resetTrendState());
-          }
-        }
-        await this.initPage();
-      }
-    });
+    // หน้านี้มีตัวเลือกวันของตัวเองด้านบน จึงไม่ใช้ตัวเลือกวันบน navbar
+    this.store.dispatch(setDateEnable({ payload: false }));
+    this.applyRange(false);
+    this.initPage();
   }
 
   ngOnInit(): void {
+  }
+
+  /** ช่วง default ของหน้า = โหมดรายวันของวันนี้ ใช้ตัดสินว่าจะเปิด auto-refresh หรือไม่ */
+  get isDefaultRange(): boolean {
+    if(this.mode() !== 'd'){
+      return false;
+    }
+    const today = new Date();
+    return this.date.getFullYear() === today.getFullYear()
+        && this.date.getMonth() === today.getMonth()
+        && this.date.getDate() === today.getDate();
+  }
+
+  /** คำนวณ rangeStart / rangeEnd จาก date + mode ปัจจุบัน */
+  private applyRange(reload: boolean = true){
+    const res = this.calcRange();
+    this.rangeStart = res.start;
+    this.rangeEnd = res.end;
+    // sync วันที่กับ store เพื่อให้หน้าอื่นที่ใช้วันร่วมกันยังตรงกัน
+    this.store.dispatch(setDate({ payload: new Date(this.rangeStart) }));
+    if(reload){
+      this.reloadRange();
+    }
+  }
+
+  private calcRange(): { start: Date; end: Date } {
+    const res: ChartPickerModel = {
+      name: 'TREND',
+      start: new Date(),
+      end: new Date(),
+      mode: this.mode()
+    };
+    switch(this.mode()){
+      case 'w': {
+        const startDt = new Date(this.date);
+        const endDt = new Date(this.date);
+        const first = startDt.getDay();
+        res.start = new Date(new Date(startDt.setDate(startDt.getDate() - first)).setHours(0,0,0,0));
+        res.end = new Date(new Date(endDt.setDate(endDt.getDate() - (first - 6))).setHours(23,59,59,0));
+        break;
+      }
+      case 'm': {
+        const dt = new Date(new Date(this.date).setHours(0,0,0,0));
+        res.start = new Date(new Date(dt).setDate(1));
+        const next = new Date(new Date(res.start).setMonth(res.start.getMonth() + 1, 1));
+        res.end = new Date(new Date(new Date(next).setDate(0)).setHours(23,59,59,0));
+        break;
+      }
+      case 'y': {
+        const dt = new Date(new Date(this.date).setHours(0,0,0,0));
+        res.start = new Date(new Date(dt).setMonth(0, 1));
+        res.end = new Date(new Date(new Date(dt).setMonth(11, 31)).setHours(23,59,59,0));
+        break;
+      }
+      default: {
+        const dt = new Date(this.date);
+        res.start = new Date(new Date(dt).setHours(0,0,0,0));
+        res.end = new Date(new Date(dt).setHours(23,59,59,0));
+        break;
+      }
+    }
+    return { start: res.start, end: res.end };
+  }
+
+  /** ความละเอียดข้อมูล (นาที) ของแต่ละโหมด ยิ่งช่วงยาวยิ่งต้องหยาบ ไม่งั้นจุดเยอะจนกราฟช้า */
+  private intervalOfMode(): number | undefined {
+    switch(this.mode()){
+      case 'w': return 15;
+      case 'm': return 60;
+      case 'y': return 1440;
+      default: return undefined;   // รายวันใช้ค่าจาก config เดิม
+    }
+  }
+
+  /** เลือกวันจากตัวเลือกวันที่หัวหน้าเพจ */
+  onDateSelect(event: Date){
+    this.date = new Date(event);
+    this.applyRange();
+  }
+
+  /** สลับโหมดช่วงเวลา DAY / WEEK / MONTH / YEAR */
+  setTimeRange(range: 'd' | 'w' | 'm' | 'y'){
+    if(this.mode() === range){
+      return;
+    }
+    this.mode.set(range);
+    this.applyRange();
+  }
+
+  /** โหลดข้อมูลใหม่ตามช่วงเวลาที่เลือก */
+  private async reloadRange(){
+    this.timers?.unsubscribe();
+    await this.getConfig();
+    this.getHistorianRequest();
+    await this.getHistorianData();
+    // เปิด auto-refresh เฉพาะตอนดูช่วง default เท่านั้น กันรีเฟรชทับข้อมูลย้อนหลังที่ผู้ใช้เลือกเอง
+    if(this.isDefaultRange && this.appInit.config.Timer){
+      this.startTimer(this.appInit.config.Timer * 60000);
+    }
   }
 
   ngOnDestroy(): void {
     if(this.timers){
       this.timers.unsubscribe();
     }
-    if(this.dateStateSubscription){
-      this.dateStateSubscription.unsubscribe();
-    }
-    this.store.dispatch(setDateEnable({ payload: false }));
   }
 
   async initPage(){
@@ -142,7 +210,7 @@ export class Trend implements OnInit, OnDestroy {
     this.getRequest();
     await this.getData();
     
-    if(this.appInit.config.Timer){
+    if(this.isDefaultRange && this.appInit.config.Timer){
       this.startTimer(this.appInit.config.Timer * 60000);
     }
   }
@@ -199,7 +267,7 @@ export class Trend implements OnInit, OnDestroy {
 
   async getConfig() {
     try {
-      const path = this.date.getDate() === new Date().getDate() ? 
+      const path = this.isDefaultRange ?
         `assets/central/trend/configurations/trend.config.json` :
         `assets/central/trend/configurations/trend2.config.json` ;
       const config = await this.http.getConfig2(path);
@@ -256,7 +324,7 @@ export class Trend implements OnInit, OnDestroy {
         Group: item.Group,
         Order: item.Order,
         Request: item.Tags.filter(x => x.Timestamp).reduce((acc: RequestAtTimeModel[], cur: RealtimeConfig) => {
-          const timestamp = cur.Timestamp ? this.dateTimeSrv.getTime(cur.Timestamp, this.date) : null;
+          const timestamp = cur.Timestamp ? this.dateTimeSrv.getTime(cur.Timestamp, this.attimeAnchor()) : null;
           const findItem = acc.find(x => x.TimeStamp === timestamp);
           if(findItem){
             findItem.Tags.push(cur.Tagname);
@@ -281,8 +349,9 @@ export class Trend implements OnInit, OnDestroy {
 
   getHistorianRequest(){
     const req: GroupRequestHistorianModel[] = this.config().historianConfig.map((item: GroupHistorianConfigModel) => {
-      const start = new Date(this.date.setHours(0,0,0,0));
-      const end = new Date(this.date.setHours(23,59,59,0));
+      const start = new Date(this.rangeStart);
+      const end = new Date(this.rangeEnd);
+      const interval = this.intervalOfMode();
       return {
         Group: item.Group,
         Order: item.Order,
@@ -290,7 +359,9 @@ export class Trend implements OnInit, OnDestroy {
           return {
             Name: x.Tagname,
             Options: {
-              Interval: x.Options.Interval ?? undefined,
+              // โหมดที่ไม่ใช่รายวันต้องบอก type ให้ backend รู้ว่าเป็นการ plot ตาม interval
+              Type: interval ? 'plot' : undefined,
+              Interval: interval ?? x.Options.Interval ?? undefined,
               Time: '',
               StartTime: this.dateTimeSrv.getDateTime1(start),
               EndTime: this.dateTimeSrv.getDateTime1(end)
@@ -413,7 +484,10 @@ export class Trend implements OnInit, OnDestroy {
       await this.getAtTimeData();
       const result = this.requestHistorian().map(async(item) => {
         const request = item.Request;
-        const response:ResponseHistorianModel[] = await this.http.getHistorian(request);
+        // โหมดรายวันใช้ endpoint เดิม ส่วนโหมดอื่นต้องใช้ getdata เพื่อให้ Type/Interval มีผลจริง
+        const response:ResponseHistorianModel[] = this.intervalOfMode()
+          ? await this.http.getAllHistorianData(request)
+          : await this.http.getHistorian(request);
         if(response){
           // สร้าง object ใหม่แทนการ update
           this.dataChart.update(val => {
@@ -421,6 +495,8 @@ export class Trend implements OnInit, OnDestroy {
             const newVal = { ...val };
             
             let conf = this.config().chartConfig.find(x => x.name == item.Group);
+
+            //console.log('chart config', item.Group, conf);
             let series: SeriesOptionsType[] | SeriesLineOptions[] | SeriesAreaOptions[] | SeriesColumnOptions[] = []; 
             if(conf){
               conf.tags.forEach((x, index) => {                 
@@ -435,7 +511,9 @@ export class Trend implements OnInit, OnDestroy {
                 xAxisOptions.min = new Date(request[0].Options.StartTime).getTime()+(7*60*60*1000);
                 xAxisOptions.max = new Date(request[0].Options.EndTime).getTime()+(7*60*60*1000);
               }
+              xAxisOptions = this.applyAxisMode(xAxisOptions);
               // สร้าง chart config object ใหม่
+              //console.log('chart config', conf.chartOptions.legend);
               newVal[item.Group] = {
                 chart: this.chartOptions.getChartOptions(conf.chartOptions.chart),
                 title: this.chartOptions.getTitleOptions(conf.chartOptions.title),
@@ -495,6 +573,32 @@ export class Trend implements OnInit, OnDestroy {
   async onZoneChanges(event: string){
     this.zoneSelected.update(prev => event);
     await this.getMapConfig();
+  }
+
+  /** วันอ้างอิงของค่า at-time (สรุป ENERGY/PR) = วันสุดท้ายของช่วง แต่ไม่เกินวันนี้ */
+  private attimeAnchor(): Date {
+    const today = new Date();
+    const end = new Date(this.rangeEnd);
+    return end.getTime() > today.getTime() ? today : end;
+  }
+
+  /** ปรับระยะ tick และรูปแบบ label ของแกนเวลาให้เหมาะกับโหมดที่เลือก */
+  private applyAxisMode(xAxis: any): any {
+    if(!xAxis || xAxis.categories){
+      return xAxis;
+    }
+    const preset: Record<string, { tickInterval: number; format: string }> = {
+      d: { tickInterval: 7200000,    format: '{value:%H}' },
+      w: { tickInterval: 86400000,   format: '{value:%a}' },
+      m: { tickInterval: 604800000,  format: '{value:%d}' },
+      y: { tickInterval: 2678400000, format: '{value:%b}' }
+    };
+    const conf = preset[this.mode()] ?? preset['d'];
+    return {
+      ...xAxis,
+      tickInterval: conf.tickInterval,
+      labels: { ...(xAxis.labels ?? {}), format: conf.format }
+    };
   }
 
   /** กราฟถือว่ามีข้อมูลก็ต่อเมื่อมีอย่างน้อย 1 จุดที่ไม่ใช่ null/undefined */

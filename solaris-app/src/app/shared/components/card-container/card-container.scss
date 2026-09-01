@@ -6,6 +6,7 @@
     box-shadow: 0 3px 12px 0 rgba(20,31,47,0.1), 0 1px 2px 0 rgba(20,31,47,0.12);
     position: relative;
     transition: box-shadow 0.2s ease;
+    min-width: 0;
     .topic{
         display: flex;
         align-items: center;
@@ -19,9 +20,12 @@
             font-size: 14px;
         }
         .expand-btn{
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            // display: flex;
+            // align-items: center;
+            // justify-content: center;
+            position: absolute;
+            right: 12px;
+            top: 12px;
             background: transparent;
             border: none;
             cursor: pointer;
@@ -42,6 +46,11 @@
         }
     }
 
+    .content{
+        min-width: 0;
+        overflow: hidden;
+    }
+
     &.expanded{
         position: fixed;
         top: 5vh;
@@ -53,6 +62,11 @@
         box-shadow: 0 12px 40px 0 rgba(20,31,47,0.35), 0 4px 12px 0 rgba(20,31,47,0.25);
         .content{
             height: 100% !important;
+        }
+        // projected content (เช่น .item ใน trend) มี definite height ปกติ
+        // ตอนขยายต้องให้ยืดเต็มจอ ไม่งั้น chart ไม่โตตาม
+        ::ng-deep .item{
+            height: 100%;
         }
     }
 }

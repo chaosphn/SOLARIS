@@ -718,7 +718,7 @@ export class Tabular implements OnInit, OnDestroy {
   }
 
   exportCSV(){
-    const headers = ['CODE','STATUS','ALARM','LAST UPDATE (GMT+7)','SITE','LOCATION','CAPACITY (MWp)','POWER (kW)','ENERGY TODAY (MWh)','ENERGY MTD (MWh)','ENERGY YTD (MWh)','PR (%)','AVAI (%)','LOSS (kWh)','YIELD TODAY (kWh/kWp)','YIELD MTD (kWh/kWp)','YIELD YTD (kWh/kWp)','REVENUE TODAY (THB)','REVENUE MTD (THB)','IRR (W/m2)','PVTEMP (C)','AMBTEMP (C)'];
+    const headers = ['CODE','STATUS','ALARM','LAST UPDATE (GMT+7)','SITE','LOCATION','CAPACITY (MWp)','POWER (kW)','ENERGY TODAY (kWh)','ENERGY MTD (MWh)','ENERGY YTD (MWh)','PR (%)','AVAI (%)','LOSS (kWh)','YIELD TODAY (kWh/kWp)','YIELD MTD (kWh/kWp)','YIELD YTD (kWh/kWp)','REVENUE TODAY (THB)','REVENUE MTD (THB)','IRR (W/m2)','PVTEMP (C)','AMBTEMP (C)'];
     const keys = ['Id','SEEN','Name','Province','Capacity','POWER','ENERGY','ENERGYMTD','ENERGYYTD','PR','AVAI','LOSS','TD','MTD','YTD','REV_TD','REV_MTD','IRR','PV','AMB'];
     const lines = [headers.join(',')];
     this.filteredData().forEach(row => {

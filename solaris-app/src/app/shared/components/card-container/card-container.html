@@ -8,7 +8,7 @@
                 <span>{{title | uppercase}}</span>
             }
             @if (expandable) {
-                <button type="button" class="expand-btn brd" (click)="toggleExpand()" [attr.aria-label]="expanded ? 'ย่อ' : 'ขยาย'">
+                <button type="button" class="expand-btn bz" (click)="toggleExpand()" [attr.aria-label]="expanded ? 'ย่อ' : 'ขยาย'">
                     <mat-icon>{{expanded ? 'close_fullscreen' : 'open_in_full'}}</mat-icon>
                 </button>
             }

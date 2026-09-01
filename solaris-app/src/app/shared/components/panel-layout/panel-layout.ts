@@ -1,7 +1,22 @@
-import { Component, effect, input, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, input, OnInit, signal } from '@angular/core';
 import { ColorRangeModel, PanelConfigModel, PvGroupModel, PvPanelModel } from '../../models/panel.model';
 import { DataRealtimeModel } from '../../models/response.model';
 import { isNumber } from 'highcharts';
+
+/** จำนวนสตริงที่ตกอยู่ในแต่ละช่วงประสิทธิภาพ */
+export interface StringBandCount{
+  title: string;
+  color: string;
+  value: number;
+}
+
+/** หนึ่งแถวของคำอธิบายช่วงสี พร้อมข้อความช่วงและจำนวนสตริงจริง */
+export interface StringBandLegend{
+  title: string;
+  color: string;
+  range: string;
+  count: number;
+}
 
 @Component({
   selector: 'app-panel-layout',
@@ -15,7 +30,7 @@ export class PanelLayout implements OnInit {
   panels = input.required<PanelConfigModel[]>();
   colors = input.required<ColorRangeModel[]>();
   displayPanel: PanelConfigModel = {} as PanelConfigModel;
-  performaceList: any[] = [];
+  performaceList = signal<StringBandCount[]>([]);
   selectedGroup: string = '';
   selectedString: string = '';
   hoverString: string | null = null;
@@ -245,23 +260,29 @@ export class PanelLayout implements OnInit {
     }
   }
 
-  // Helper method to get color data with additional properties for HTML template
-  getColorData() {
-    if (!this.colors()) return [];
-    
-    return this.colors().map((color, index) => {
-      // Mock count data - replace with actual data
-      const counts = [60, 25, 15, 25, 15]; // excellent, good, fair, poor, critical
-      const labels = ['EXCELLENT', 'GOOD', 'FAIR', 'POOR', 'CRITICAL'];
-      
-      return {
-        ...color,
-        range: `${color.maximum} - ${color.minimum} %`,
-        label: labels[index] || color.title,
-        count: counts[index] || 0
-      };
-    });
-  }
+  /**
+   * คำอธิบายช่วงสีของ INVERTER' STRINGS PERFORMANCE
+   * ช่วงบนสุด (maximum ถึง 100) ใช้ ">=" เพราะสตริงที่ดีกว่าค่าเฉลี่ยจะเกิน 100% ได้
+   * ช่วงล่างสุด (minimum = 0) ใช้ "<" เพราะไม่มีค่าติดลบ
+   */
+  colorLegend = computed<StringBandLegend[]>(() => {
+    const counts = this.performaceList();
+    return (this.colors() ?? []).map(color => ({
+      title: color.title,
+      color: color.color,
+      range: color.maximum >= 100
+        ? `≥ ${color.minimum}%`
+        : color.minimum <= 0
+          ? `< ${color.maximum}%`
+          : `${color.minimum} – ${color.maximum}%`,
+      count: counts.find(x => x.title === color.title)?.value ?? 0
+    }));
+  });
+
+  /** จำนวนสตริงทั้งหมดที่นับได้ ใช้ตรวจว่าผลรวมของทุกช่วงครบหรือไม่ */
+  totalStringCount = computed<number>(() =>
+    this.performaceList().reduce((acc, cur) => acc + cur.value, 0)
+  );
 
   // Navigation methods for changing displayPanel
   navigateToPrevious() {
@@ -324,7 +345,7 @@ export class PanelLayout implements OnInit {
         };
       })
     };
-    this.performaceList = this.colors().map(c => {
+    this.performaceList.set(this.colors().map(c => {
       return {
         title: c.title,
         color: c.color,
@@ -345,7 +366,7 @@ export class PanelLayout implements OnInit {
                 && y.percentage < c.maximum 
               ).length
       }
-    });
+    }));
     this.isReady.set(true);
     setTimeout(() => this.getCenterTransform('gbox'), 0);
   };

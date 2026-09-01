@@ -43,7 +43,7 @@
         "Order": 0,
         "Tags": [
           {
-            "Title": "KKB_EXPECT",
+            "Title": "OVERALL_EXPECT",
             "Tagname": "KKB.CALC.W_EXPECT",
             "Options": {
               "Time": "t",
@@ -53,8 +53,8 @@
             }
           },
           {
-            "Title": "KKB_POWER",
-            "Tagname": "KKB.CALC.W",
+            "Title": "OVERALL_POWER",
+            "Tagname": "OVERALL.CALC.W",
             "Options": {
               "Time": "t",
               "Interval": 0,
@@ -68,6 +68,16 @@
         "Group": "KKB",
         "Order": 0,
         "Tags": [
+          {
+            "Title": "KKB_IMPORT",
+            "Tagname": "KKB.PQM01.W",
+            "Options": {
+              "Time": "t",
+              "Interval": 0,
+              "StartTime": "MIDN",
+              "EndTime": "NOW"
+            }
+          },
           {
             "Title": "KKB_POWER",
             "Tagname": "KKB.CALC.W",
@@ -109,7 +119,7 @@
             }
           },
           {
-            "name": "KKB.CALC.W",
+            "name": "OVERALL.CALC.W",
             "title": "ACTUAL*kW",
             "options": {					
               "yAxis": 0,
@@ -247,11 +257,11 @@
         "tags": [
           {
             "name": "KKB.CALC.PYRANO",
-            "title": "PYRANO*W/m²",
+            "title": "IRR*W/m²",
             "options": {
                 "yAxis": 0,
                 "type": "area",
-                "color": "#E4B61A",
+                "color": "#FF9B33",
                 "fillOpacity": 0.125,
                 "showInLegend": true
                 
@@ -259,11 +269,23 @@
           },
           {
             "name": "KKB.CALC.W",
-            "title": "POWER*kW",
+            "title": "SOLAR*kW",
             "options": {					
               "yAxis": 1,
               "type": "area",
-              "color": "#3ddffc",
+              "color": "#3DB1FC",
+              "fillOpacity": 0.125,
+              "showInLegend": true
+                      
+            }
+          },
+          {
+            "name": "KKB.PQM01.W",
+            "title": "PEA*kW",
+            "options": {					
+              "yAxis": 1,
+              "type": "area",
+              "color": "#d1FC",
               "fillOpacity": 0.125,
               "showInLegend": true
                       
@@ -384,7 +406,7 @@
             "verticalAlign": "top",
             "y": -10,
             "layout": "vertical",
-            "itemWidth": 100
+            "itemWidth": 85
           },
           "plotOptions":{
             

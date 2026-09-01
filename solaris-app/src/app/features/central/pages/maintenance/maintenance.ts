@@ -78,7 +78,7 @@ export class Maintenance implements OnInit {
       } else {
         const woRes = await this.http.getWorkOrdersByAssignee({ start_time: startOfMonth, end_time: endOfMonth, assigned_to: userData?._id?.toString() ?? '' });
         if (woRes.status === 'success' && woRes.data) this.workOrders.set(woRes.data);
-      };
+      }
     } catch (_) {}
   }
 

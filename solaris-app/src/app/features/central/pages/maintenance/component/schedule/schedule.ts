@@ -1,5 +1,4 @@
-import { Component, effect, inject, input, Input, OnInit, signal } from '@angular/core';
-import { HttpService } from '../../../../../../shared/services/http.service';
+import { Component, effect, input, Input, OnInit, signal } from '@angular/core';
 import { PlantModel, WorkOrderModel } from '../../../../../../shared/models/maintenance.model';
 import { UserDataModel } from '../../../../../../shared/models/user.model';
 
@@ -25,8 +24,6 @@ export class Schedule implements OnInit {
   date = input<Date>(new Date());
   workOrders = signal<WorkOrderModel[]>([]);
   loading = signal(true);
-
-  private http = inject(HttpService);
 
   constructor() {
     effect(() => {
@@ -61,19 +58,6 @@ export class Schedule implements OnInit {
   }
 
   async ngOnInit() {
-    //await this.loadData();
-  }
-
-  async loadData() {
-    this.loading.set(true);
-    const ts = new Date(this.date());
-    const startOfMonth = new Date(ts.getFullYear(), ts.getMonth(), 2).toISOString().slice(0, 10);
-    const endOfMonth = new Date(ts.getFullYear(), ts.getMonth() + 1, 1).toISOString().slice(0, 10);
-    try {
-      const woRes = await this.http.getWorkOrderByDate({ start_time: startOfMonth, end_time: endOfMonth });
-      if (woRes.status === 'success' && woRes.data) this.workOrders.set(woRes.data);
-    } catch (_) {}
-    this.loading.set(false);
   }
 
   private get monthSpan(): number {

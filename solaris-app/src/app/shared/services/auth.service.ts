@@ -77,9 +77,4 @@ export class AuthService {
         this.router.navigate(['/login']);
         //window.location.replace('https://solaris-insight.com/');
     }
-
-    hasRole(role: string): boolean {
-        const userRoles = ['administrator', 'user'];
-        return userRoles.includes(role);
-    }
 }

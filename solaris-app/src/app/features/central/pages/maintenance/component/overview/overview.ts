@@ -1,5 +1,4 @@
-import { Component, computed, effect, inject, input, Input, OnInit, output, signal } from '@angular/core';
-import { HttpService } from '../../../../../../shared/services/http.service';
+import { Component, computed, effect, input, Input, OnInit, output, signal } from '@angular/core';
 import {
   WorkOrderModel, WorkOrderType,
   MaintenanceScheduleModel,
@@ -26,8 +25,6 @@ export class Overview implements OnInit {
   workOrders = signal<WorkOrderModel[]>([]);
   schedules = signal<MaintenanceScheduleModel[]>([]);
   loading = signal(true);
-
-  private http = inject(HttpService);
 
   constructor() {
     effect(() => {
@@ -109,25 +106,6 @@ export class Overview implements OnInit {
   });
 
   async ngOnInit() {
-    //await this.loadData();
-  }
-
-  async loadData() {
-    this.loading.set(true);
-    const ts = new Date(this.date());
-    const startOfMonth = new Date(ts.getFullYear(), ts.getMonth(), 2).toISOString().slice(0, 10);
-    const endOfMonth = new Date(ts.getFullYear(), ts.getMonth() + 1, 1).toISOString().slice(0, 10);
-    const body = { start_time: startOfMonth, end_time: endOfMonth };
-    try {
-      // const [woRes, schRes] = await Promise.all([
-      //   this.http.getAllWorkOrders(),
-      //   this.http.getAllMaintenanceSchedules(),
-      // ]);
-      const woRes = await this.http.getWorkOrderByDate(body);
-      if (woRes.status === 'success' && woRes.data) this.workOrders.set(woRes.data);
-      //if (schRes.status === 'success' && schRes.data) this.schedules.set(schRes.data);
-    } catch (_) {}
-    this.loading.set(false);
   }
 
   typeIcon(type?: string): string {

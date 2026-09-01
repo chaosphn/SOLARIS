@@ -39,6 +39,7 @@ export interface ContractRowModel{
     parsed: ParsedContractModel | null;
     energyMtd: number | null;
     revenueMtd: number | null;
+    revenueYtd?: number | null;
 }
 
 export interface ContractSummaryModel{

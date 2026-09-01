@@ -229,7 +229,7 @@
             "Tagname": "KKB.INV01.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -241,7 +241,7 @@
             "Tagname": "KKB.INV02.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -253,7 +253,7 @@
             "Tagname": "KKB.INV03.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -265,7 +265,7 @@
             "Tagname": "KKB.INV04.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -277,7 +277,7 @@
             "Tagname": "KKB.INV05.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -289,7 +289,7 @@
             "Tagname": "KKB.INV06.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -301,7 +301,7 @@
             "Tagname": "KKB.INV07.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -313,7 +313,7 @@
             "Tagname": "KKB.INV08.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -325,7 +325,7 @@
             "Tagname": "KKB.INV09.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -337,7 +337,7 @@
             "Tagname": "KKB.INV10.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -349,7 +349,7 @@
             "Tagname": "KKB.INV11.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -361,7 +361,7 @@
             "Tagname": "KKB.INV12.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -373,7 +373,7 @@
             "Tagname": "KKB.INV13.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -385,7 +385,7 @@
             "Tagname": "KKB.INV14.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -397,7 +397,7 @@
             "Tagname": "KKB.INV15.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -409,7 +409,7 @@
             "Tagname": "KKB.INV16.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -421,7 +421,7 @@
             "Tagname": "KKB.INV17.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -433,7 +433,7 @@
             "Tagname": "KKB.INV18.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -445,7 +445,7 @@
             "Tagname": "KKB.INV19.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -457,7 +457,7 @@
             "Tagname": "KKB.INV20.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -469,7 +469,7 @@
             "Tagname": "KKB.INV21.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -481,7 +481,7 @@
             "Tagname": "KKB.INV22.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -493,7 +493,7 @@
             "Tagname": "KKB.INV23.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -505,7 +505,7 @@
             "Tagname": "KKB.INV24.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -517,7 +517,7 @@
             "Tagname": "KKB.INV25.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -529,7 +529,7 @@
             "Tagname": "KKB.INV26.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -541,7 +541,7 @@
             "Tagname": "KKB.INV27.WH",
             "Options": {
               "Type": "sampling",
-              "TimeSpan": "*/15 * * * *",
+              "TimeSpan": "0 * * * *",
               "Time": "t",
               "Interval": 0,
               "StartTime": "MIDN",
@@ -558,7 +558,7 @@
         "tags": [
           {
             "name": "KKB.CALC.PYRANO",
-            "title": "PYRANO*W/m2",
+            "title": "IRR*W/m2",
             "time": "d",
             "options": {
               "yAxis": 0,
@@ -570,7 +570,7 @@
           },
           {
             "name": "KKB.CALC.W",
-            "title": "POWER*kW",
+            "title": "SOLAR*kW",
             "time": "d",
             "options": {
               "yAxis": 1,
@@ -582,7 +582,7 @@
           },
           {
             "name": "KKB.PQM01.W",
-            "title": "IMPORT*kW",
+            "title": "PEA*kW",
             "time": "d",
             "options": {
               "yAxis": 1,

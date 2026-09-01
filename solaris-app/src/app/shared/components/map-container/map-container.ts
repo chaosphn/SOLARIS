@@ -44,7 +44,6 @@ export class MapContainer implements AfterViewInit, OnDestroy {
     alarm: 0,
     offline: 0
   });
-  theme = 'dark';
 
   private store = inject(Store);
 
@@ -322,26 +321,10 @@ export class MapContainer implements AfterViewInit, OnDestroy {
       attributionControl: false,
     });
 
-    const theme = localStorage.getItem('theme');
-    if (theme) {
-      this.theme = theme;
-    }
-
-    if (this.theme === 'dark') {
-      // 🌑 dark theme
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png')
-        .addTo(this.map);
-
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png')
-        .addTo(this.map);
-
-    } else {
-      // 🌞 light theme
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
-        .addTo(this.map);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
-        .addTo(this.map);
-    }
+    // ใช้แผนที่โทนสว่างชุดเดียวทั้งสองธีมของแอป
+    // แผนที่โทนมืดอ่านตำแหน่งโรงไฟฟ้ายากกว่า และหมุดสีสถานะเด่นกว่าบนพื้นสว่างอยู่แล้ว
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+      .addTo(this.map);
 
     this.markerLayer.addTo(this.map);
 

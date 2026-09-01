@@ -605,7 +605,7 @@
         "tags": [
           {
             "name": "KKB.CALC.PYRANO",
-            "title": "IRRADIANCE*W/m²",
+            "title": "IRR*W/m²",
             "time": "d",
             "options": {
               "yAxis": 0,
@@ -617,7 +617,7 @@
           },
           {
             "name": "KKB.CALC.W",
-            "title": "PRODUCE*kW",
+            "title": "SOLAR*kW",
             "time": "d",
             "options": {
               "yAxis": 1,
@@ -629,7 +629,7 @@
           },
           {
             "name": "KKB.PQM01.W",
-            "title": "IMPORT*kW",
+            "title": "PEA*kW",
             "time": "d",
             "options": {
               "yAxis": 1,

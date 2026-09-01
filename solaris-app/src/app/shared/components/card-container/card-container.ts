@@ -27,12 +27,16 @@ export class CardContainer implements OnInit, OnChanges {
 
   toggleExpand(): void {
     this.expanded = !this.expanded;
+    // การ์ดเปลี่ยนขนาด (fixed 90vw <-> grid cell) — บอก Highcharts ให้ reflow
+    // เผื่อกรณี ResizeObserver ใน app-highchart จับไม่ทัน (เช่นตอนย่อกลับ)
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 0);
   }
 
   @HostListener('document:keydown.escape')
   onEscape(): void {
     if (this.expanded) {
       this.expanded = false;
+      setTimeout(() => window.dispatchEvent(new Event('resize')), 0);
     }
   }
 

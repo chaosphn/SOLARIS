@@ -3,8 +3,8 @@
         <svg
             class="w-100 h-100 bz drop-shadow"
             preserveAspectRatio="xMidYMid meet"
-            viewBox="0 0 1234 800"
-            style="perspective: 800px;"
+            viewBox="0 0 1234 850"
+            style="perspective: 850px;"
             fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <g id="gbox"  
@@ -16,17 +16,27 @@
                         [attr.transform]="isSelectedGreoup(item.id) ? 'translate(0, 0)' : ''"
                         >
                         @for (it of item.panel; track $index; let j = $index) {
-                            <path
-                                [attr.id]="it.id"
-                                [attr.d]="it.d" 
-                                [attr.stroke]="getPanelStrokeColor(it.percentage)"
-                                [style]="getProvinceStyle(it.id, item.id, it.percentage)"
-                                (click)="handleProvinceClick(it.id, item.id)"
-                                (mouseenter)="handleProvinceHover(it.id)"
-                                (mouseleave)="handleProvinceHover(null)"
-                            >
-                                <title>{{ getLabel(item.name, it.id) }}</title>
-                            </path>
+                            @if (it.istext) {
+                                <text
+                                    [attr.id]="it.id"
+                                    [attr.fill]="it.fill"
+                                    [attr.font-size]="it.fontsize"
+                                >
+                                    <tspan [attr.x]="it.x" [attr.y]="it.y">{{ it.text }}</tspan>
+                                </text>
+                            } @else {
+                                <path
+                                    [attr.id]="it.id"
+                                    [attr.d]="it.d" 
+                                    [attr.stroke]="getPanelStrokeColor(it.percentage)"
+                                    [style]="getProvinceStyle(it.id, item.id, it.percentage)"
+                                    (click)="handleProvinceClick(it.id, item.id)"
+                                    (mouseenter)="handleProvinceHover(it.id)"
+                                    (mouseleave)="handleProvinceHover(null)"
+                                >
+                                    <title>{{ getLabel(item.name, it.id) }}</title>
+                                </path>
+                            }
                         }
                     </g>
                 }
@@ -117,33 +127,25 @@
             </div>
         </div>
     }
-    @if (getColorData() && getColorData().length > 0) {
+    @if (colorLegend().length > 0) {
         <div class="grade-card">
             <h3 class="grade-title">INVERTER' STRINGS PERFORMANCE</h3>
+            <p class="grade-hint">String current vs. average of its own inverter</p>
             <div class="grade-ranges">
-                @for (color of getColorData(); track $index) {
-                    <div class="grade-range" [style.border-color]="color.color">
-                        <span class="range-text">{{ color.range }}</span>
+                @for (band of colorLegend(); track band.title) {
+                    <div class="grade-range">
+                        <span class="range-dot" [style.background]="band.color"></span>
+                        <span class="range-title">{{ band.title | uppercase }}</span>
+                        <span class="range-text">{{ band.range }}</span>
+                        <span class="range-count">{{ band.count }}</span>
                     </div>
                 }
+            </div>
+            <div class="grade-foot">
+                <span>TOTAL</span>
+                <span class="range-count">{{ totalStringCount() }}</span>
             </div>
         </div>
-        <!-- <div class="summary-card">
-            <div class="summary-header">
-                <div class="summary-indicator"></div>
-                <h3 class="summary-title">STRING SUMMARY</h3>
-            </div>
-            <div class="summary-list">
-                @for (item of performaceList; track $index) {
-                    <div class="summary-item">
-                        <div class="summary-indicator" [style.background-color]="item.color"></div>
-                        <span class="summary-label">{{ item.title }}</span>
-                        <span class="summary-count" [style.color]="item.color">{{ item.value || 0 }}</span>
-                        <span class="summary-unit">String</span>
-                    </div>
-                }
-            </div>
-        </div> -->
     }
 
     <!-- Navigation Buttons -->

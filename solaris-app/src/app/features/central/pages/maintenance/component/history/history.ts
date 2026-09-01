@@ -1,5 +1,4 @@
-import { Component, computed, effect, inject, input, Input, OnInit, signal } from '@angular/core';
-import { HttpService } from '../../../../../../shared/services/http.service';
+import { Component, computed, effect, input, Input, OnInit, signal } from '@angular/core';
 import { MaintenanceLogModel, PlantModel, WorkOrderModel } from '../../../../../../shared/models/maintenance.model';
 import { UserDataModel } from '../../../../../../shared/models/user.model';
 
@@ -25,14 +24,11 @@ export class History implements OnInit {
   filter    = signal<string>('all');
   searchQuery = signal('');
 
-  private http = inject(HttpService);
-
   constructor() {
-    effect(async () => {
+    effect(() => {
       if (this.date() && this.orders().length > 0) {
         this.loading.set(false);
         this.workOrders.set(this.orders());
-        await this.loadData();
       } else {
         this.loading.set(false);
         this.workOrders.set([]);
@@ -69,22 +65,6 @@ export class History implements OnInit {
   });
 
   async ngOnInit() {
-    //await this.loadData();
-  }
-
-  async loadData() {
-    this.loading.set(true);
-    try {
-      const ts = new Date(this.date());
-      const startOfMonth = new Date(ts.getFullYear(), ts.getMonth(), 2).toISOString().slice(0, 19).replace('T', ' ');
-      const endOfMonth = new Date(ts.getFullYear(), ts.getMonth() + 1, 1).toISOString().slice(0, 19).replace('T', ' ');
-      const logRes = await this.http.getMaintenanceLogsByDateRange({
-        start_date: startOfMonth,
-        end_date: endOfMonth
-      });
-      if (logRes.status === 'success' && logRes.data) this.logs.set(logRes.data);
-    } catch (_) {}
-    this.loading.set(false);
   }
 
   dotClass(log: MaintenanceLogModel): string {

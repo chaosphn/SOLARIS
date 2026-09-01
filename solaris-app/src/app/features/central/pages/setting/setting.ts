@@ -1,4 +1,5 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AlarmTag, NotificationConfig, User } from '../../models/billing.model';
 import { ExampleAlarmTags, ExampleNotification, ExampleUsers } from '../../../../mockup/setting';
 import { Store } from '@ngrx/store';
@@ -67,15 +68,19 @@ export class Setting implements OnInit {
   private dialog = inject(FloatingDialogService);
   private service = inject(HttpService);
   private pgService = inject(PagesService);
+  private destroyRef = inject(DestroyRef);
   constructor() {
   }
 
   ngOnInit(): void {
-    this.store.select(getZoneConfig('CENTRAL1')).subscribe(zone => {
-      if (zone) {
-        this.siteList.set(zone.siteList);
-      }
-    });
+    // store.select ไม่ complete เอง — ต้องตัดตอน component ถูกทำลาย ไม่งั้น subscription ค้าง
+    this.store.select(getZoneConfig('CENTRAL1'))
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(zone => {
+        if (zone) {
+          this.siteList.set(zone.siteList);
+        }
+      });
     this.editedTags = ExampleAlarmTags;
     this.notificationConfig = ExampleNotification;
     this.initializeUserData();
@@ -89,7 +94,7 @@ export class Setting implements OnInit {
     const result = await this.service.getUserConfig();
     if (result) {
       this.users = result;
-    };
+    }
     this.availablePages = this.pgService.getPageList();
   }
 

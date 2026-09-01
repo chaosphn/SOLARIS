@@ -17,7 +17,7 @@ import { getZoneConfig } from '../../../../store/selectors/site.selectors';
 import { MapConfigModel } from '../../../../shared/models/svg.model';
 import { PlantStatusData } from '../../../../shared/components/piechart/piechart';
 import { getDateState } from '../../../../store/selectors/date.selectors';
-import { setDateEnable } from '../../../../store/actions/date.actions';
+import { setDate, setDateEnable } from '../../../../store/actions/date.actions';
 import { setLastUpdate } from '../../../../store/actions/last-update.actions';
 import { ChartParameters } from '../../../../shared/models/highchart.model';
 
@@ -238,8 +238,15 @@ export class Performance implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(setDateEnable({ payload: true }));
+    // หน้านี้มีตัวเลือกวันของตัวเองด้านบน จึงไม่ใช้ตัวเลือกวันบน navbar
+    this.store.dispatch(setDateEnable({ payload: false }));
     //this.initPage();
+  }
+
+  /** เลือกวันจากตัวเลือกวันที่อยู่บนหัวหน้าเพจ */
+  onDateSelect(event: Date){
+    this.date = event;
+    this.store.dispatch(setDate({ payload: event }));
   }
 
   ngOnDestroy(): void {

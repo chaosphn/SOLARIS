@@ -19,6 +19,11 @@
         {
           "Title": "PR",
           "Tagname": "KKB.CALC.PR"
+        },
+        {
+          "Title": "WH_TARGET",
+          "Timestamp": "BOY",
+          "Tagname": "KKB.CALC.FINANCIAL_MODEL_YIELD"
         }
       ]
     },
@@ -5249,7 +5254,7 @@
       "tags": [
         {
           "name": "KKB.CALC.PYRANO",
-          "title": "IRRADIANCE*W/m²",
+          "title": "IRR*W/m²",
           "options": {
             "yAxis": 0,
             "type": "area",
@@ -5260,7 +5265,7 @@
         },
         {
           "name": "KKB.CALC.W",
-          "title": "PRODUCE*kW",
+          "title": "SOLAR*kW",
           "options": {
             "yAxis": 1,
             "type": "area",
@@ -5271,7 +5276,7 @@
         },
         {
           "name": "KKB.PQM01.W",
-          "title": "IMPORT*kW",
+          "title": "PEA*kW",
           "options": {
             "yAxis": 1,
             "type": "area",
@@ -5418,6 +5423,17 @@
           }
         }
       ],
+      "colorBands": {
+          "series": "PRODUCE*kWh",
+          "baseline": "tagValue:WH_TARGET:365",
+          "baselineLabel": "หน่วยการันตีต่อเดือน",
+          "bands": [
+            { "min": 100, "color": "#34C08A", "title": "ถึงการันตี (≥ 100%)" },
+            { "min": 90,  "color": "#9AC74A", "title": "ต่ำกว่าเล็กน้อย (90 – 100%)" },
+            { "min": 75,  "color": "#FF843F", "title": "ต่ำกว่าชัดเจน (75 – 90%)" },
+            { "min": 0,   "color": "#E0463C", "title": "ต่ำกว่ามาก (< 75%)" }
+          ]
+        },
       "chartOptions": {
         "chart": {
           "zooming": {
@@ -5479,7 +5495,22 @@
             "gridLineColor": "var(--chart-brd)",
             "gridLineWidth": 0,
             "margin": 0,
-            "min": 0
+            "min": 0,
+            "plotLines": [{
+                "color": "#FF6B6B",
+                "width": 2,
+                "value": "tagValue:WH_TARGET:365",
+                "zIndex": 5,
+                "label": {
+                  "text": "GUARANTEE {value} kWh",
+                  "align": "right",
+                  "style": {
+                    "color": "#FF6B6B",
+                    "fontSize": "10px"
+                  },
+                  "useHTML": true
+                }
+              }]
           }
         ],
         "xAxis": {

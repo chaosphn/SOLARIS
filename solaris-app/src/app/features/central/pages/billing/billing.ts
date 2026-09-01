@@ -44,7 +44,8 @@ export class Billing implements OnInit, OnDestroy {
   billingLog = signal<BillingLogDataModel[]>([]);
   navSub?: Subscription;
   pdfurl = signal<string>('');
-  date: Date = new Date();
+  now = new Date();
+  date: Date = new Date(this.now.setMonth(this.now.getMonth() - 1));
   start: Date = new Date(new Date().setMonth(0));
   end: Date = new Date(new Date().setMonth(11));
   loading = signal<Boolean>(false);
@@ -60,7 +61,11 @@ export class Billing implements OnInit, OnDestroy {
     label: 'Billing',
     icon: 'receipt_long'
   };
-  selectedSite?: DropdownOption;
+  selectedSite?: DropdownOption = {
+    value: 'all',
+    label: 'All Sites',
+    icon: 'factory'
+  };
 
   // Billing summaries and table view models
   private readonly billingStatusKeys: ReadonlyArray<BillingStatusKey> = ['prepared', 'onprogress', 'complete', 'delay'];
@@ -397,6 +402,7 @@ export class Billing implements OnInit, OnDestroy {
     }
     this.getBillingConfigData();
     this.getUserList();
+    this.getBillingStateData();
   }
 
   ngOnDestroy(): void {

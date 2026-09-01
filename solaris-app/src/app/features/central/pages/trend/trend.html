@@ -1,72 +1,112 @@
-<div class="container w-100 bz ">
-    @if (dataChart()) {
-        <div class="main-chart w-100 bz">
-            <app-card-container [title]="'OVERALL GENERATION '" >
-                <ng-template #container>
-                    <div class="item-content w-100 bz" >
-                        @if(isLoading() ){
-                            <app-skeleton-box></app-skeleton-box>
-                        } @else if(hasChartData(dataChart()['OVERALL'])) {
-                            <app-highchart [chartParameter]="dataChart()['OVERALL']"></app-highchart>
-                        } @else {
-                            <app-no-data [hint]="'ไม่มีข้อมูลของวันที่เลือก'"></app-no-data>
-                        }
-                    </div>
-                    <div class="summary-content w-100">
-                        <div class="summary-item w-100 h-100 bz">
-                            <div class="summary-title">ENERGY</div>
-                            <div class="summary-value">{{dataRealtime()['OVERALL_ENERGY']?.Value | numberFomat: '1.0-0'}} kWh</div>
-                        </div>
-                        <div class="summary-item w-100 h-100 bz">
-                            <div class="summary-title">PR</div>
-                            <div class="summary-value">{{dataRealtime()['OVERALL_PR']?.Value | numberFomat: '1.1-1'}} %</div>
-                        </div>
-                        <!-- <div class="summary-item w-100 h-100 bz">
-                            <div class="summary-title">YIELD</div>
-                            <div class="summary-value">{{dataRealtime()['OVERALL_YIELD']?.Value | numberFomat: '1.1-1'}} kWh/kWp</div>
-                        </div> -->
-                        <div class="summary-item w-100 h-100 bz">
-                            <div class="summary-title">AVAILABILITY</div>
-                            <div class="summary-value">{{dataRealtime()['OVERALL_AVAI']?.Value | numberFomat: '1.1-1'}} %</div>
-                        </div>
-                    </div>
-                </ng-template>
-            </app-card-container>
-        </div>
-        <div class="w-100 h-100 bz row-grid" >
-            @for (item of siteList(); track item.id) {
-                <div class="item w-100 h-100 bz bz">
-                    <div class="item-title w-100">
-                        <div class="title-icon">
-                            {{item.id}}
-                        </div>
-                        <div class="title-text">
-                            {{item.name | uppercase}}
-                        </div>
-                    </div>
-                    <div class="item-content w-100 h-100" >
-                        @if(isLoading() ){
-                            <app-skeleton-box></app-skeleton-box>
-                        } @else if(hasChartData(dataChart()[item.id])) {
-                            <app-highchart [chartParameter]="dataChart()[item.id]"></app-highchart>
-                        } @else {
-                            <app-no-data></app-no-data>
-                        }
-                    </div>
-                    <div class="item-footer w-100 bz">
-                        <div class="footer-item1 bz">
-                            <div>ENERGY</div>
-                            <div class="value">{{dataRealtime()[item.id+'_ENERGY']?.Value | numberFomat: '1.0-0'}}</div>
-                            <div>kWh</div>
-                        </div>
-                        <div class="footer-item2 bz">
-                            <div>PR</div>
-                            <div class="value">{{dataRealtime()[item.id+'_PR']?.Value | numberFomat: '1.1-1'}}</div>
-                            <div>%</div>
-                        </div>
-                    </div>
+<div class="container w-100 bz">
+  <div class="page-header w-100 bz d-flex-sb">
+    <div class="page-title">TRENDS</div>
+    <div class="time-content bz">
+      <div class="datepicker bz">
+        @switch (mode()) {
+          @case ('m') {
+            <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'month'" [scale]="0.75"></app-date-picker>
+          }
+          @case ('y') {
+            <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'year'" [scale]="0.75"></app-date-picker>
+          }
+          @default {
+            <app-date-picker [initdate]="date" (selectDate)="onDateSelect($event)" [type]="'day'" [scale]="0.75"></app-date-picker>
+          }
+        }
+      </div>
+      <div class="time-box d-flex bz">
+        <div class="time" [class.active]="mode() === 'd'" (click)="setTimeRange('d')">&bull; DAY</div>
+        <div class="time" [class.active]="mode() === 'w'" (click)="setTimeRange('w')">&bull; WEEK</div>
+        <div class="time" [class.active]="mode() === 'm'" (click)="setTimeRange('m')">&bull; MONTH</div>
+        <div class="time" [class.active]="mode() === 'y'" (click)="setTimeRange('y')">&bull; YEAR</div>
+      </div>
+    </div>
+  </div>
+  @if (dataChart()) {
+    <div class="main-chart w-100 bz">
+      <app-card-container [title]="'OVERALL GENERATION '" [expandable]="true">
+        <ng-template #container>
+          <div class="content w-100 bz">
+            <div class="item-content w-100 h-100 bz">
+              @if (isLoading()) {
+                <app-skeleton-box></app-skeleton-box>
+              } @else if (hasChartData(dataChart()['OVERALL'])) {
+                <app-highchart [chartParameter]="dataChart()['OVERALL']"></app-highchart>
+              } @else {
+                <app-no-data [hint]="'ไม่มีข้อมูลของวันที่เลือก'"></app-no-data>
+              }
+            </div>
+            <div class="summary-content w-100 bz">
+              <div class="summary-item w-100 h-100 bz">
+                <div class="summary-title">ENERGY</div>
+                <div class="summary-value">
+                  {{ dataRealtime()['OVERALL_ENERGY']?.Value | numberFomat: '1.0-0' }} kWh
                 </div>
-            }
-        </div>
-    }
+              </div>
+              <div class="summary-item w-100 h-100 bz">
+                <div class="summary-title">PR</div>
+                <div class="summary-value">
+                  {{ dataRealtime()['OVERALL_PR']?.Value | numberFomat: '1.1-1' }} %
+                </div>
+              </div>
+              <!-- <div class="summary-item w-100 h-100 bz">
+                              <div class="summary-title">YIELD</div>
+                              <div class="summary-value">{{dataRealtime()['OVERALL_YIELD']?.Value | numberFomat: '1.1-1'}} kWh/kWp</div>
+                          </div> -->
+              <div class="summary-item w-100 h-100 bz">
+                <div class="summary-title">AVAILABILITY</div>
+                <div class="summary-value">
+                  {{ dataRealtime()['OVERALL_AVAI']?.Value | numberFomat: '1.1-1' }} %
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </app-card-container>
+    </div>
+    <div class="w-100 bz row-grid">
+      @for (item of siteList(); track item.id) {
+        <app-card-container [expandable]="true">
+          <ng-template #container>
+            <div class="item w-100 bz">
+              <div class="item-title w-100">
+                <div class="title-icon">
+                  {{ item.id }}
+                </div>
+                <div class="title-text">
+                  {{ item.name | uppercase }}
+                </div>
+              </div>
+              <div class="item-content w-100 h-100 bz">
+                @if (isLoading()) {
+                  <app-skeleton-box></app-skeleton-box>
+                } @else if (hasChartData(dataChart()[item.id])) {
+                  <app-highchart [chartParameter]="dataChart()[item.id]"></app-highchart>
+                } @else {
+                  <app-no-data></app-no-data>
+                }
+              </div>
+              <div class="item-footer w-100 bz">
+                <div class="footer-item1 bz">
+                  <div>ENERGY</div>
+                  <div class="value">
+                    {{ dataRealtime()[item.id + '_ENERGY']?.Value | numberFomat: '1.0-0' }}
+                  </div>
+                  <div>kWh</div>
+                </div>
+                <div class="footer-item2 bz">
+                  <div>PR</div>
+                  <div class="value">
+                    {{ dataRealtime()[item.id + '_PR']?.Value | numberFomat: '1.1-1' }}
+                  </div>
+                  <div>%</div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </app-card-container>
+      }
+    </div>
+  }
 </div>

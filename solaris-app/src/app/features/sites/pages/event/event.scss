@@ -476,3 +476,44 @@
     .btn-group{ width: 100%; }
     .btn-group .submit{ flex: 1; }
 }
+/* แถบคำอธิบายความหมายของไอคอนคอลัมน์ TYPE และ LEVEL */
+.icon-legend {
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 20px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-color);
+
+    .legend-group {
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px 12px;
+    }
+
+    .legend-name {
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: var(--secondary-txt);
+    }
+
+    .legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 10px;
+        color: var(--secondary-txt);
+        white-space: nowrap;
+
+        .material-icons {
+            font-size: 15px;
+        }
+    }
+}
+
+@media (max-width: 800px) {
+    .icon-legend {
+        gap: 6px 12px;
+        padding: 8px;
+    }
+}

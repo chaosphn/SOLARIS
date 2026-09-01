@@ -65,6 +65,7 @@
         [orders]="workOrders()"
         (selectWO)="openCloseout($event)"
         (exitCloseout)="exitCloseout()"
+        (refresh)="loadData()"
       ></app-work-order>
     }
 

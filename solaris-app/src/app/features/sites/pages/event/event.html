@@ -79,6 +79,20 @@
     <div class="content w-100 h-100 bz">
         <div class="data-table w-100 h-100 bz">
             <div class="main bz">
+                @if (iconLegend().length > 0) {
+                    <div class="icon-legend d-flex bz">
+                        @for (group of iconLegend(); track group.name) {
+                            <div class="legend-group d-flex">
+                                <span class="legend-name">{{ group.name | uppercase }}</span>
+                                @for (item of group.items; track item.value) {
+                                    <span class="legend-item">
+                                        <i class="material-icons" [ngClass]="item.cls">{{ item.icon }}</i>{{ item.label }}
+                                    </span>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
                 <div class="table-wrapper">
                     <table class="table">
                         <thead>
@@ -97,26 +111,19 @@
                             @for (item of pagedEventList(); track $index) {
                                 <tr (click)="onRowSelect(item)" [ngClass]="{ 'active-event' : item.ID == selectedEvent().ID}">
                                     <td>
-                                        @if(item.Type === "alarm"){
-                                            <i class="material-icons major">alarm</i>
-                                        }  @else if(item.Type === "event"){ 
-                                            <i class="material-icons event">event</i>
-                                        } @else { 
-                                            <i class="material-icons info">question_mark</i>
+                                        @if (typeIcon(item.Type); as t) {
+                                            <div style="display: flex; align-items: center; gap: 4px;">
+                                                <i class="material-icons" [ngClass]="t.cls" [title]="t.label">{{ t.icon }}</i>
+                                                <span class="type-label">{{ t.label }}</span>
+                                            </div>
                                         }
                                     </td>
                                     <td>
-                                        @if(item.Level === "Info"){
-                                            <i class="material-icons event">error_outline</i>
-                                        }  
-                                        @if(item.Level === "Warning") {
-                                            <i class="material-icons warn">warning_amber</i>
-                                        }
-                                        @if(item.Level === "Minor"){
-                                            <i class="material-icons minor">notification_important</i>
-                                        }  
-                                        @if(item.Level === "Major") {
-                                            <i class="material-icons major">dangerous</i>
+                                        @if (levelIcon(item.Level); as l) {
+                                            <div style="display: flex; align-items: center; gap: 4px;">
+                                                <i class="material-icons" [ngClass]="l.cls" [title]="l.label">{{ l.icon }}</i>
+                                                <span class="type-label">{{ l.label }}</span>
+                                            </div>
                                         }
                                     </td>
                                     <td>{{ item.StartTime | date: 'dd/MM/yyyy HH:mm:ss'}}</td>

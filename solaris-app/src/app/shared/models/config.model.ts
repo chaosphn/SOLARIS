@@ -83,7 +83,31 @@ export interface Option{
 export interface ChartConfig{
     name: string;
     tags: TagsConfig[];
-    chartOptions: any
+    chartOptions: any;
+    /** ระบายสีแท่ง/จุดของ series ตามค่าที่เทียบกับเส้นฐาน เช่น เทียบพลังงานรายเดือนกับหน่วยการันตี */
+    colorBands?: ChartColorBandsConfig;
+}
+
+/** เกณฑ์สีของ series หนึ่งชุด อ้างอิงกับค่าฐานที่คำนวณได้ตอน runtime */
+export interface ChartColorBandsConfig{
+    /** title ของ series ที่จะระบายสี ต้องตรงกับ tags[].title */
+    series: string;
+    /**
+     * ค่าฐานที่ใช้เทียบ รองรับรูปแบบเดียวกับ plotLines.value
+     * 'tagValue:<TAG>:<factor>' | 'maxValue' | 'minValue' | 'averageValue' | ตัวเลขตรงๆ
+     */
+    baseline: string | number;
+    /** ป้ายกำกับของค่าฐาน ใช้แสดงในแถบคำอธิบายสี */
+    baselineLabel?: string;
+    /** เรียงจากช่วงสูงสุดลงต่ำสุด ระบบจะหยิบช่วงแรกที่ percent >= min */
+    bands: ChartColorBandModel[];
+}
+
+export interface ChartColorBandModel{
+    /** ขอบล่างของช่วง คิดเป็น % ของค่าฐาน */
+    min: number;
+    color: string;
+    title: string;
 }
 
 export interface TagsConfig{
@@ -113,4 +137,6 @@ export interface SeriesOptions{
     borderColor?: string;
     borderRadius?: number;
     borderWidth?: number;
+    /** สีของกล่องสีใน legend — ใช้เมื่อ color ของ series โปร่งจนมองไม่เห็นใน legend */
+    legendSymbolColor?: string;
 }
