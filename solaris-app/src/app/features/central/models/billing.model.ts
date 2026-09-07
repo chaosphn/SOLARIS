@@ -353,7 +353,7 @@ export interface UpdateReceiptCustomerReviewRequestModel {
 }
 
 // Document download (returns PDF buffer)
-export type BillingDocumentProcessType = 'confirmation' | 'invoice' | 'payment' | 'receipt';
+export type BillingDocumentProcessType = 'confirmation' | 'invoice' | 'payment' | 'receipt' | 'memo';
 export type BillingDocumentType = 'signed' | 'unsigned';
 
 export interface GetBillingDocumentFileRequestModel {

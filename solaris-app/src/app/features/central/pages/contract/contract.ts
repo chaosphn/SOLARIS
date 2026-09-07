@@ -52,30 +52,39 @@ export class Contract implements OnInit, OnDestroy {
 
     const totalCapacity = this.siteList().reduce((acc, site) => acc + (parseFloat(site.capacity) || 0), 0);
 
-    const rates = contracted
-      .map(x => x.parsed!.currentRate)
-      .filter((x): x is number => x != null);
-    const avgTariff = rates.length > 0 ? rates.reduce((a, b) => a + b, 0) / rates.length : null;
-
     // เฉลี่ยเฉพาะสัญญาแบบ schedule (PPA) ที่มีวันสิ้นสุดจริง
-    const ppaProgress = contracted
-      .filter(x => x.parsed!.progressKind === 'contract' && x.parsed!.progress != null)
+    const ppaRows = contracted.filter(x => x.parsed!.progressKind === 'contract');
+    const ppaProgress = ppaRows
+      .filter(x => x.parsed!.progress != null)
       .map(x => x.parsed!.progress!);
     const avgProgress = ppaProgress.length > 0 ? ppaProgress.reduce((a, b) => a + b, 0) / ppaProgress.length : null;
 
-    const revenues = rows
-      .map(x => x.revenueMtd)
+    // สัญญา Floating ไม่มีวันสิ้นสุด จึงไม่นับรวมในปีคงเหลือ
+    const ppaRemaining = ppaRows
+      .map(x => x.parsed!.remainingYears)
       .filter((x): x is number => x != null);
-    const totalRevenue = revenues.length > 0 ? revenues.reduce((a, b) => a + b, 0) : null;
+    const avgRemainingYears = ppaRemaining.length > 0
+      ? ppaRemaining.reduce((a, b) => a + b, 0) / ppaRemaining.length
+      : null;
+
+    // โรงที่ทำรายได้เดือนนี้สูงสุด รายได้คิดจากพลังงาน (WH) ของเดือน × อัตราค่าไฟงวดปัจจุบัน
+    const topRow = rows.reduce<ContractRowModel | null>((best, cur) => {
+      if(cur.revenueMtd == null){
+        return best;
+      }
+      return best?.revenueMtd == null || cur.revenueMtd > best.revenueMtd ? cur : best;
+    }, null);
 
     return {
       totalContract: contracted.length,
       ppaCount: contracted.filter(x => x.parsed!.isSchedule).length,
       floatingCount: contracted.filter(x => !x.parsed!.isSchedule).length,
       totalCapacity,
-      avgTariff,
       avgProgress,
-      totalRevenue
+      avgRemainingYears,
+      maxRevenue: topRow?.revenueMtd ?? null,
+      maxRevenueSite: topRow?.site.id ?? null,
+      maxRevenueEnergy: topRow?.energyMtd ?? null
     };
   });
 

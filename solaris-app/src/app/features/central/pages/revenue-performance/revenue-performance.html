@@ -37,13 +37,6 @@
                 <div class="v risk">฿{{ formatShort(analytics().lostRev) }}</div>
                 <div class="d dim">{{ analytics().downtimePct | numberFomat: '1.0-1' }}% downtime</div>
             </div>
-            <div class="k bz">
-                <div class="l">BLENDED TARIFF<app-info-hint hint="blended-tariff"></app-info-hint></div>
-                @if (analytics().blendedTariff !== null) {
-                    <div class="v">{{ analytics().blendedTariff | numberFomat: '1.0-2' }}</div>
-                } @else { <div class="v">---</div> }
-                <div class="d dim">฿/kWh</div>
-            </div>
         </div>
 
         <!-- ───────── main grid (grid-template-areas) ───────── -->

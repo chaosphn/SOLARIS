@@ -23,32 +23,37 @@
           Documents
         </div>
         <div class="doc-actions">
-          @for (p of ['confirmation','invoice','receipt']; track $index) {
+          @for (p of ['confirmation','invoice','receipt', 'memo']; track $index) {
             <div class="doc-row">
               <div class="doc-row__label">
                 <span class="material-icons">topic</span>
                 {{ p | titlecase }}
               </div>
-              <div class="doc-row__buttons">
+              <div class="doc-row__buttons bz">
                 @if (p === 'payment') {
                   <button class="btn" (click)="viewDocument(p, 'unsigned')" [class.active]="activeProcess()===p && activeType()==='unsigned'">
                     <span class="material-icons">visibility</span>
-                    View document
+                    Document
+                  </button>
+                } @else if (p === 'memo') {
+                  <button class="btn" (click)="viewDocument(p, 'unsigned')" [class.active]="activeProcess()===p && activeType()==='unsigned'">
+                    <span class="material-icons">visibility</span>
+                    Document
                   </button>
                 } @else {
                   <button class="btn" (click)="viewDocument(p, 'unsigned')" [class.active]="activeProcess()===p && activeType()==='unsigned'">
                     <span class="material-icons">visibility</span>
-                    View unsigned
+                    Unsigned
                   </button>
                   <button class="btn" (click)="viewDocument(p, 'signed')" [class.active]="activeProcess()===p && activeType()==='signed'">
                     <span class="material-icons">verified</span>
-                    View signed
+                    Signed
                   </button>
                 }
               </div>
             </div>
           }
-          <div class="file-actions">
+          <div class="file-actions ">
             <button class="file-btn" (click)="downloadDocument()" [disabled]="!pdfUrl() || loadingPdf()">
               <span class="material-icons">download</span>
               Download

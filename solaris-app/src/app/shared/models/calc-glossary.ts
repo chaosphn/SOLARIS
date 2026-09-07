@@ -23,20 +23,15 @@ export const CALC_GLOSSARY: Record<string, CalcHint> = {
     formula: 'ผลรวมกำลังผลิตติดตั้งของทุกไซต์ (MWp)',
     source: 'ค่า Capacity จากหน้า Setting › Plants'
   },
-  'avg-tariff': {
-    label: 'AVG TARIFF',
-    formula: 'ค่าไฟเฉลี่ยของงวดปัจจุบัน = ผลรวมอัตราค่าไฟทุกไซต์ ÷ จำนวนไซต์ที่มีสัญญา',
-    source: 'Contract Cost ของงวดปัจจุบัน (Billing Setting)'
-  },
   'avg-contract-progress': {
     label: 'AVG CONTRACT PROGRESS',
-    formula: 'ความคืบหน้าสัญญาเฉลี่ย · PPA = ระยะเวลาที่ผ่านไป ÷ อายุสัญญาทั้งหมด · Floating = สัดส่วนของรอบปีปัจจุบัน',
+    formula: 'ความคืบหน้าสัญญาเฉลี่ย · PPA = ระยะเวลาที่ผ่านไป ÷ อายุสัญญาทั้งหมด · Floating = สัดส่วนของรอบปีปัจจุบัน · ปีคงเหลือเฉลี่ยนับเฉพาะสัญญาแบบ PPA',
     source: 'วัน COD และอายุสัญญาของแต่ละไซต์'
   },
-  'total-revenue-month': {
-    label: 'TOTAL REVENUE THIS MONTH',
-    formula: 'รายได้เดือนนี้รวมทุกไซต์ = พลังงานสะสมเดือนนี้ (MTD) × อัตราค่าไฟของงวด',
-    source: 'พลังงาน MTD จากมิเตอร์ + Contract Cost'
+  'max-revenue-month': {
+    label: 'MAX REVENUE THIS MONTH',
+    formula: 'รายได้เดือนนี้ของโรงไฟฟ้าที่ทำได้สูงสุด = พลังงานสะสมเดือนนี้ (WH MTD) ของโรงนั้น × อัตราค่าไฟของงวด',
+    source: 'พลังงาน WH MTD จากมิเตอร์ + Contract Cost'
   },
   'warranty-yr': {
     label: 'WARRANTY / YR',

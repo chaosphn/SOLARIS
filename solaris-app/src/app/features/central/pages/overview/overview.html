@@ -46,23 +46,23 @@
                         <app-highchart [chartParameter]="dataChart()['CHART02']"></app-highchart>
                     }
                 </div>
-                @if (chartColorBands()['CHART02']; as band) {
+                <!-- @if (chartColorBands()['CHART02']?.bands) {
                     <div class="band-legend w-100 bz">
                         <span class="band-caption">
-                            สีแท่ง PRODUCE เทียบ{{ band.baselineLabel || 'ค่าฐาน' }}
-                            @if (band.baseline > 0) {
-                                <b>{{ band.baseline | numberFomat: '1.0-0' }} kWh</b>
+                            สีแท่ง PRODUCE เทียบ{{ chartColorBands()['CHART02'].baselineLabel || 'ค่าฐาน' }}
+                            @if (chartColorBands()['CHART02'].baseline > 0) {
+                                <b>{{ chartColorBands()['CHART02'].baseline | numberFomat: '1.0-0' }} kWh</b>
                             }
                         </span>
                         <div class="band-items">
-                            @for (item of band.bands; track item.min) {
+                            @for (item of chartColorBands()['CHART02'].bands; track item.min) {
                                 <span class="band-item">
                                     <i class="band-dot" [style.background]="item.color"></i>{{ item.title }}
                                 </span>
                             }
                         </div>
                     </div>
-                }
+                } -->
             </ng-template>
         </app-card-container>
     </div>

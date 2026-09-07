@@ -63,6 +63,7 @@ export class Overview implements OnInit, OnDestroy {
         baselineLabel: conf.colorBands.baselineLabel ?? ''
       };
     });
+    //console.log('chartColorBands', res);
     return res;
   });
   dataRealtime = signal<DataRealtimeModel>({});

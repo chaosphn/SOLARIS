@@ -10,7 +10,7 @@
 
 .kpi-grid{
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
 }
 
@@ -394,6 +394,12 @@
     .pct{
         font-size: 11px;
         color: var(--primary-txt);
+    }
+    /* ปีคงเหลือของสัญญา แสดงคู่กับ % ให้เห็นว่าเหลืออีกกี่ปีโดยไม่ต้องกดเข้าไปดูรายละเอียด */
+    .pct-sub{
+        font-size: 10px;
+        color: var(--secondary-txt);
+        white-space: nowrap;
     }
 }
 

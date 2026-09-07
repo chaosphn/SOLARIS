@@ -2,11 +2,6 @@
     @if (analytics().hasData) {
         <!-- KPI strip -->
         <div class="kpi-strip w-100 bz">
-            <div class="k bz" style="border-top-color: #FBE134">
-                <div class="l">BLENDED TARIFF · NOW<app-info-hint hint="blended-tariff-now"></app-info-hint></div>
-                <div class="v y">{{ fmtRate(analytics().blendedNow) }}<span class="u"> ฿/kWh</span></div>
-                <div class="d dim">weighted by warranty energy</div>
-            </div>
             <div class="k bz" style="border-top-color: #4DA3FF">
                 <div class="l">NEXT ESCALATION<app-info-hint hint="next-escalation"></app-info-hint></div>
                 @if (analytics().nextEscalation) {

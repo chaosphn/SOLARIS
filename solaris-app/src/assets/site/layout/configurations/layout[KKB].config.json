@@ -5276,7 +5276,7 @@
         },
         {
           "name": "KKB.PQM01.W",
-          "title": "PEA*kW",
+          "title": "FACTORY*kW",
           "options": {
             "yAxis": 1,
             "type": "area",

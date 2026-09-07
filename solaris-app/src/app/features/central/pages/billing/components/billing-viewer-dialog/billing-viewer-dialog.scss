@@ -77,7 +77,6 @@
 .dialog-content {
   flex: 1;
   //padding: 12px 16px;
-  overflow: auto;
   min-height: 0;
   background: var(--main-bg);
 }
@@ -86,6 +85,7 @@
   display: grid;
   grid-template-columns: 1.5fr 1fr;
   //gap: 12px;
+  overflow: auto;
   height: 100%;
 }
 
@@ -124,8 +124,10 @@
 
 // ── Doc rows ──────────────────────────────────────────────────────────────
 .doc-actions {
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 6px;
 }
 
@@ -189,10 +191,9 @@
   }
 
   &.active {
-    background: linear-gradient(135deg, #3a2e00, #2a2200);
-    border-color: var(--color-gd1);
-    color: var(--color-gd1);
-    box-shadow: 0 0 8px rgba(228, 182, 26, 0.2);
+    background: var(--btn-bg);
+    border-color: var(--btn-border);
+    color: var(--btn-color);
   }
 
   &:disabled {
@@ -204,6 +205,7 @@
 
 // ── File action buttons ───────────────────────────────────────────────────
 .file-actions {
+  grid-column: span 2;
   display: flex;
   justify-content: flex-end;
   gap: 8px;
@@ -424,7 +426,7 @@
     }
 
     .panel{
-      width: 95%;
+      width: 100%;
     }
 
     .panel:not(:last-child) {
@@ -450,14 +452,14 @@
         gap: 8px;
 
         &__buttons {
-            width: 90%;
-            justify-content: flex-end;
+            width: 100%;
+            justify-content: center;
         }
     }
 
     .btn {
-        padding: 6px 14px;
-        min-height: 20px;
+      padding: 6px;
+      min-height: 20px;
     }
 
     .file-btn {

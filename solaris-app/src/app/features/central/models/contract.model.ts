@@ -47,9 +47,15 @@ export interface ContractSummaryModel{
     ppaCount: number;
     floatingCount: number;
     totalCapacity: number;
-    avgTariff: number | null;
     avgProgress: number | null;
-    totalRevenue: number | null;
+    /** ปีคงเหลือเฉลี่ยของสัญญาแบบ PPA ใช้คู่กับ avgProgress */
+    avgRemainingYears: number | null;
+    /** รายได้เดือนนี้ของโรงที่ทำได้สูงสุด คิดจากพลังงาน (WH) ของเดือน × อัตราค่าไฟงวดปัจจุบัน */
+    maxRevenue: number | null;
+    /** รหัสโรงไฟฟ้าที่ทำรายได้สูงสุด */
+    maxRevenueSite: string | null;
+    /** พลังงานเดือนนี้ของโรงนั้น ใช้แสดงให้เห็นว่าตัวเลขคิดมาจากอะไร */
+    maxRevenueEnergy: number | null;
 }
 
 const MONTH_LABELS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
